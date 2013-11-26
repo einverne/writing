@@ -1,0 +1,17 @@
+<item name="二" stroke_seq_id="110007-110007-" stroke_seq="横-横-" unit_seq_id="220053-" unit_seq="二字-" code="B6FE" pic="B6FE">   
+	<outline>   
+ 		<stroke name="横" newname="横" id="110007" code="01-D2BB-CDF5-CDF2" sample="一王万" id_old="110012" pic="110007">     
+			<trunpoint x="92" y="132" status="0" smooth="0"/>     
+ 			<trunpoint x="385" y="128" status="0" smooth="0"/>  
+    </stroke>  
+    <stroke name="横"	newname="横" id="110007" code="01-D2BB-CDF5-CDF2" sample="一王万" id_old="110012" pic="110007">  
+    	<trunpoint x="51" y="375" status="0"smooth="0"/>   
+   		<trunpoint x="431" y="376" status="0" smooth="0"/>  
+    </stroke>  
+  </outline>  
+    <view name="独体">     
+      <sub1 num="2" name="横~1/横~1/" idtag="1" idx="0/2"  partname="p234" autoname="p2_054" id="220053" old_id="" code="D4C6-D0A9-C8CA" newname="二字" sample="云些仁" pic="220053" seq_ch="横-横-" seq="110007-110007-"/>  
+  	</view>    
+  <keyview num="1" rely="宽"/>  
+  <structview struct="0/1~" structname=""/>  
+</item>
