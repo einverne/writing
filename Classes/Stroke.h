@@ -8,9 +8,13 @@ using namespace std;
 class Stroke
 {
 public:
+	bool addPoint(CCPoint point);
+
+public:
     Stroke(void);
     ~Stroke(void);
     int pointCount;
+	CCPoint prePoint;
     vector<CCPoint> pointList;
-	vector<CCDrawNode> nodeList;
+	vector<CCDrawNode*> nodeList;
 };

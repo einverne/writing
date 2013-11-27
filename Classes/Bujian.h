@@ -6,6 +6,8 @@ using namespace std;
 class Bujian
 {
 public:
+	bool addStroke(Stroke stro);
+public:
     Bujian(void);
     ~Bujian(void);
     int strokeCount;

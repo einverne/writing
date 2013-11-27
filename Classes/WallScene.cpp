@@ -198,6 +198,12 @@ bool WallScene::init()
     return true;
 }
 
+void WallScene::onEnter(){
+
+
+}
+
+
 bool  WallScene::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
 {
     touchbeginpoint = ccp(pTouch->getLocation().x , pTouch->getLocation().y);
@@ -284,8 +290,6 @@ bool WallScene::isInSprite(CCTouch* pTouch){
     return false;
 }
 
-void WallScene::singleClick(string hanzi){
-    CCLog("singleClick");
-    
+void WallScene::singleClick(string hanzi){    
     CCDirector::sharedDirector()->replaceScene(lianxi::scene(hanzi));
 }

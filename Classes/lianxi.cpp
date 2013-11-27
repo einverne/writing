@@ -2,6 +2,8 @@
 #include "UTF8ToGBK.h"
 #include "WallScene.h"
 #include "Tianzige.h"
+#include "tinyxml.h"
+#include "ReadXML.h"
 
 #define tianzige_draw_tag 1001
 
@@ -24,6 +26,10 @@ bool lianxi::init(){
     this->setTouchEnabled(true);
 
     CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 0, true);
+
+	CCDrawNode* test_node = CCDrawNode::create();
+	this->addChild(test_node,100);
+	test_node->drawSegment(ccp(0,0),ccp(200,200), 5.0, ccc4f(150,150,150,140));
     return true;
 }
 
@@ -91,11 +97,51 @@ void lianxi::onEnter(){
     menu->setPosition(CCPointZero);
     menu->registerWithTouchDispatcher();
 
+	CCLabelTTF* bihuaCount = CCLabelTTF::create(UTF8ToGBK::UTF8TOGBK(string("±Ê»­Êý")).c_str(),"Arial",40);
+	addChild(bihuaCount);
+	bihuaCount->setPosition(tianzige->getPosition()+ccp(-tianzigeSize.width/2-bihuaCount->getContentSize().width/2-50,tianzigeSize.height/2));
+	CCLabelTTF* bihuashuzi = CCLabelTTF::create();
+	addChild(bihuashuzi);
+	bihuashuzi->setPosition(bihuaCount->getPosition()-ccp(0,2*bihuaCount->getContentSize().height));
+
+
     CCLog(hanzi.c_str());
     //luanma
     CCLabelTTF* pHanzi = CCLabelTTF::create(UTF8ToGBK::UTF8TOGBK(hanzi).c_str(),"Arial", 100);
     this->addChild(pHanzi,10);
     pHanzi->setPosition(tianzige->getPosition());
+
+	//read xml show animation of character
+	string xml = CCFileUtils::sharedFileUtils()->fullPathForFilename("xml/¶þ.xml");
+	CReadXML readxml(xml);
+	Character* charac = readxml.getCharacter();
+	int coun = charac->getStrokeCount();
+	string str_coun = std::to_string(coun);
+	bihuashuzi->initWithString(str_coun.c_str(),"Arial",40);
+// 	this->addChild(readxml.getCharacter(),10);
+// 	readxml.getCharacter()->setPosition(ccp(visiableSize.width/2,visiableSize.height/2));
+
+
+	//»­Õý×Ö
+	charac->getBox();
+	charac->prepareDrawNode();
+	vector<Bujian> bujianList = charac->bujianList;
+	vector<Bujian>::iterator iter = bujianList.begin();
+	for (iter;iter != bujianList.end(); ++iter)
+	{
+		Bujian bujian = (Bujian)*iter;
+		vector<Stroke> strokeList = bujian.strokeList;
+		vector<Stroke>::iterator stro_iter = strokeList.begin();
+		for (stro_iter; stro_iter != strokeList.end(); ++stro_iter)
+		{
+			Stroke stroke = (Stroke)*stro_iter;
+			vector<CCDrawNode*> nodeList = stroke.nodeList;	
+			for (vector<CCDrawNode*>::iterator nodeIter = nodeList.begin(); nodeIter != nodeList.end(); ++nodeIter)
+			{
+				this->addChild((CCDrawNode*)*nodeIter,10);
+			}
+		}
+	}
 
 }
 
@@ -126,9 +172,10 @@ void  lianxi::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent){
 // 	dot->drawDot(location,5.0,ccc4f(188, 188, 188, 120));
 // 	//this->addChild(dot,10);
 // 	tianzige->addChild(dot,10);
-	CCDrawNode* node = CCDrawNode::create();
-	node->drawSegment(prePoint,location,1.0,ccc4f(180,180,180,100));
-	prePoint = location;
+		CCDrawNode* node = CCDrawNode::create();
+		addChild(node,10);
+		node->drawSegment(prePoint,location,5.0,ccc4f(180,180,180,100));
+		prePoint = location;
     }
 }
 
