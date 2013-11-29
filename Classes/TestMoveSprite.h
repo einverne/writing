@@ -39,6 +39,10 @@ public:
     void ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent);
 
     void keyBackClicked();
+
+	//测试在可触摸Layer下加popup
+	void popup();
+	void buttonCallback(CCNode* pSender);
 };
 
 #endif

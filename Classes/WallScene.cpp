@@ -195,7 +195,8 @@ bool WallScene::init()
 	CCPoint changepoint=ccp(0,0);
 	touched=false;
 	this->setTouchEnabled(true);
-	CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 0, true);
+	CCDirector::sharedDirector()->getTouchDispatcher()->addStandardDelegate(this,0);
+	//CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 0, true);
 	return true;
 }
 
@@ -205,16 +206,103 @@ void WallScene::onEnter(){
 }
 
 
-bool  WallScene::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
-{
+// bool  WallScene::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
+// {
+// 	popup();
+// 	touchbeginpoint = ccp(pTouch->getLocation().x , pTouch->getLocation().y);
+// 	touched=true;
+// 	beginTime = millisecondNow();
+// 	return true;
+// }
+// void  WallScene::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
+// {
+// 
+// 	long endTime = millisecondNow();
+// 	if (endTime-beginTime < 250 && isMoved==false)
+// 	{
+// 		//single click
+// 		CCPoint touchpoint = pTouch->getLocation();
+// 		//CCLog("Touchpoint %f %f",touchpoint.x,touchpoint.y);
+// 		for (vector<CHanziManage>::iterator iter = hanzilist.begin();iter!=hanzilist.end();++iter)
+// 		{
+// 			CCPoint hanziPos = iter->pos;
+// 			//CCLog("hanziPos %f %f",hanziPos.x,hanziPos.y);
+// 			CCPoint realPos = ccp(hanziPos.x+changepoint.x,hanziPos.y+changepoint.y);
+// 			//CCLog("hanziPos %f %f",hanziPos.x,hanziPos.y);
+// 			CCRect rect = CCRectMake(realPos.x-100,realPos.y-100,200,200);
+// 
+// 			if (rect.containsPoint(touchpoint))
+// 			{
+// 				CCLog(iter->character.c_str());
+// 				this->singleClick(iter->character);
+// 				return;
+// 			}
+// 		}
+// 	}
+// 
+// 	if (endTime-beginTime > 3000)
+// 	{
+// 		popup();
+// 	}
+// 	touched=false;
+// 	isMoved = false;
+// }
+// void  WallScene::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent)
+// {
+// 	isMoved = true;
+// 	CCPoint newpos=ccp(pTouch->getLocation().x , pTouch->getLocation().y);
+// 	CCPoint temppoint=ccp(newpos.x-touchbeginpoint.x, newpos.y-touchbeginpoint.y);
+// 	changepoint =ccp(changepoint.x+temppoint.x, changepoint.y+temppoint.y);
+// 	//CCLog("%f %f",changepoint.x,changepoint.y);
+// 	////////////////
+// 	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+// 
+// 	if(changepoint.y!=0)
+// 		changepoint.y=0;
+// 
+// 	if(changepoint.x>=0)
+// 		changepoint.x=0;
+// 
+// 	if (changepoint.x<=-3000*rescale+visibleSize.width)
+// 		changepoint.x=-3000*rescale+visibleSize.width;
+// 	////////////////
+// 	this->setPosition(changepoint);
+// 	touchbeginpoint = newpos;
+// }
+
+void WallScene::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
+	CCLog("Touches Began~~~");
+	CCTouch* pTouch = (CCTouch*)pTouches->anyObject();
+
 	touchbeginpoint = ccp(pTouch->getLocation().x , pTouch->getLocation().y);
 	touched=true;
 	beginTime = millisecondNow();
-	return true;
-}
-void  WallScene::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
-{
 
+}
+void WallScene::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
+	CCTouch* pTouch = (CCTouch*)pTouches->anyObject();
+	isMoved = true;
+	CCPoint newpos=ccp(pTouch->getLocation().x , pTouch->getLocation().y);
+	CCPoint temppoint=ccp(newpos.x-touchbeginpoint.x, newpos.y-touchbeginpoint.y);
+	changepoint =ccp(changepoint.x+temppoint.x, changepoint.y+temppoint.y);
+	//CCLog("%f %f",changepoint.x,changepoint.y);
+	////////////////
+	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+
+	if(changepoint.y!=0)
+		changepoint.y=0;
+
+	if(changepoint.x>=0)
+		changepoint.x=0;
+
+	if (changepoint.x<=-3000*rescale+visibleSize.width)
+		changepoint.x=-3000*rescale+visibleSize.width;
+	////////////////
+	this->setPosition(changepoint);
+	touchbeginpoint = newpos;
+}
+void WallScene::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
+	CCTouch* pTouch = (CCTouch*)pTouches->anyObject();
 	long endTime = millisecondNow();
 	if (endTime-beginTime < 250 && isMoved==false)
 	{
@@ -240,44 +328,25 @@ void  WallScene::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
 
 	if (endTime-beginTime > 3000)
 	{
-		pop();
+		popup();
 	}
 	touched=false;
 	isMoved = false;
 }
-void  WallScene::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent)
-{
-	isMoved = true;
-	CCPoint newpos=ccp(pTouch->getLocation().x , pTouch->getLocation().y);
-	CCPoint temppoint=ccp(newpos.x-touchbeginpoint.x, newpos.y-touchbeginpoint.y);
-	changepoint =ccp(changepoint.x+temppoint.x, changepoint.y+temppoint.y);
-	//CCLog("%f %f",changepoint.x,changepoint.y);
-	////////////////
-	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
 
-	if(changepoint.y!=0)
-		changepoint.y=0;
 
-	if(changepoint.x>=0)
-		changepoint.x=0;
 
-	if (changepoint.x<=-3000*rescale+visibleSize.width)
-		changepoint.x=-3000*rescale+visibleSize.width;
-	////////////////
-	this->setPosition(changepoint);
-	touchbeginpoint = newpos;
-}
 
 void WallScene::menuCloseCallback(CCObject* pSender)
 {
 	CCDirector::sharedDirector()->end();
 	////
-	this->setTouchEnabled(false);
-	CCDirector::sharedDirector()->getTouchDispatcher()->removeDelegate(this);
+	//this->setTouchEnabled(false);
+	//CCDirector::sharedDirector()->getTouchDispatcher()->removeDelegate(this);
 	////
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-	exit(0);
-#endif
+	// #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+	// 	exit(0);
+	// #endif
 }
 
 bool WallScene::isInSprite(CCTouch* pTouch){
@@ -301,15 +370,16 @@ void WallScene::singleClick(string hanzi){
 	CCDirector::sharedDirector()->replaceScene(lianxi::scene(hanzi));
 }
 
-void WallScene::pop(){
+void WallScene::popup(){
+	CCLog("popup wall");
 	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
 	PopLayer* popL = PopLayer::create("pop/background.png");
-	popL->setContentSize(CCSizeMake(400,400));
+	popL->setContentSize(CCSizeMake(winSize.width*0.75,winSize.height*0.75));
 	popL->setTitle("test");
 	popL->setCallBackFunc(this,callfuncN_selector(WallScene::buttonCallBack));
 	popL->addButton("Button1.png","Button1.png","Y",0);
 	popL->addButton("Button2.png","Button2.png","N",1);
-	this->addChild(popL,100);
+	CCDirector::sharedDirector()->getRunningScene()->addChild(popL,10000);
 }
 
 void WallScene::buttonCallBack(CCNode* pNode){

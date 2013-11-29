@@ -19,24 +19,27 @@ public:
 	bool isMoved;
 	long beginTime;
 
-	// Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
 	virtual bool init();
 	void onEnter();
 
-	// there's no 'id' in cpp, so we recommend returning the class instance pointer
 	static cocos2d::CCScene* scene();
 
-	// a selector callback
 	void menuCloseCallback(CCObject* pSender);
 
-	bool  ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
-	void  ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
-	void  ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent);
+// 	bool  ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
+// 	void  ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
+// 	void  ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent);
+
+	void ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent);
+	void ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent);
+	void ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent);
 
 	// implement the "static node()" method manually
 	CREATE_FUNC(WallScene);
 
-	void pop();
+	//弹出对话框
+	void popup();
+	//对话框回调函数
 	void buttonCallBack(CCNode* pNode);
 
 	//获取当前时间 精确到毫秒数

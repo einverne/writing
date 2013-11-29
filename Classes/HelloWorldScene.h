@@ -35,6 +35,11 @@ public:
     void menuGameWallScene(CCObject* pSender);
     void keyBackClicked();
 
+	//测试弹出框
+	void popup();
+	//弹出框按钮回调函数
+	void buttonCallBack(CCNode* pSender);
+
     const char* getStringFromLua();
     //void sqlite_test();
 
