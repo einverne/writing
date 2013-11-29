@@ -138,11 +138,14 @@ void lianxi::onEnter(){
 			vector<CCDrawNode*> nodeList = stroke.nodeList;	
 			for (vector<CCDrawNode*>::iterator nodeIter = nodeList.begin(); nodeIter != nodeList.end(); ++nodeIter)
 			{
-				this->addChild((CCDrawNode*)*nodeIter,10);
+				tianzige->addChild((CCDrawNode*)*nodeIter,100);
 			}
 		}
 	}
 
+	CCDrawNode* nodet = CCDrawNode::create();
+	nodet->drawSegment(ccp(0,0),ccp(512,512),5,ccc4f(180,180,180,180));
+	tianzige->addChild(nodet,10);
 }
 
 

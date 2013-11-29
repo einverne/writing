@@ -17,6 +17,7 @@ public:
 	Character(void);
 	~Character(void);
 	int bujianCount;
+	int fontSize;
 	vector<Bujian> bujianList;
 private:
 	void transformCoordinate(CCPoint point,float length);

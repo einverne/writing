@@ -4,6 +4,7 @@
 Character::Character(void)
 {
 	bujianCount = 0;
+	fontSize = 512;
 }
 
 
@@ -58,9 +59,16 @@ CCSize Character::getBox(){
 	}
 	float xd = xmax - xmin;
 	float yd = ymax - ymin;
-	
+	float max=0;
+	if (xd>yd)
+	{
+		max=xd;
+	}else{
+		max=yd;
+	}
+
 	//transform coordinate
-	transformCoordinate(ccp(xmin,ymin),fabs(xd-yd));
+	transformCoordinate(ccp(xmin,ymin),max);
 
 	if (xd > yd)
 	{
@@ -72,25 +80,32 @@ CCSize Character::getBox(){
 
 void Character::transformCoordinate(CCPoint point,float length){
 	vector<Bujian>::iterator iter = bujianList.begin();
-	for (iter;iter != bujianList.end(); ++iter)
+	for (int bujiani = 0 ; bujiani < bujianCount ; ++ bujiani)
 	{
-		Bujian bujian = (Bujian)*iter;
+		Bujian bujian = bujianList.at(bujiani);//(Bujian)*iter;
 		vector<Stroke> strokeList = bujian.strokeList;
 		vector<Stroke>::iterator stro_iter = strokeList.begin();
-		for (stro_iter; stro_iter != strokeList.end(); ++stro_iter)
+		for (int strokei = 0; strokei < bujian.strokeCount; ++strokei)
 		{
-			Stroke stroke = (Stroke)*stro_iter;
+			Stroke stroke = strokeList.at(strokei);//(Stroke)*stro_iter;
 			vector<CCPoint> pointList = stroke.pointList;
 			for (int i = 0;i < stroke.pointCount; i++)
 			{
 				CCPoint temppoint = pointList.at(i);
-				temppoint = temppoint - point;
+				//temppoint = temppoint - point;
 				temppoint.y = - temppoint.y;
-				temppoint.y = temppoint.y + length;
-				pointList.erase(pointList.begin()+i);
-				vector<CCPoint>::iterator po_iter = pointList.begin();
-				pointList.insert(po_iter+i,ccp(temppoint.x,temppoint.y));		//坐标转换
-				pointList[i] = ccp(temppoint.x,temppoint.y);
+				//temppoint.y = temppoint.y + length;
+				temppoint.y += fontSize;
+				///////////////////////////////////////////////
+// 				bujianList[bujiani].strokeList[strokei].pointList.erase(pointList.begin()+i);
+// 				vector<CCPoint>::iterator po_iter = bujianList[bujiani].strokeList[strokei].pointList.begin();
+// 				bujianList[bujiani].strokeList[strokei].pointList.insert(po_iter+i,ccp(temppoint.x,temppoint.y));
+				bujianList[bujiani].strokeList[strokei].pointList[i] = ccp(temppoint.x,temppoint.y);
+				///////////////////////////////////////////////
+				//pointList.erase(pointList.begin()+i);
+				//vector<CCPoint>::iterator po_iter = pointList.begin();
+				//pointList.insert(po_iter+i,ccp(temppoint.x,temppoint.y));		//坐标转换
+				//pointList[i] = ccp(temppoint.x,temppoint.y);
 			}
 		}
 	}
@@ -107,28 +122,28 @@ int Character::getStrokeCount(){
 
 void Character::prepareDrawNode(){
 	vector<Bujian>::iterator iter = bujianList.begin();
-	for (iter;iter != bujianList.end(); ++iter)
+	for (int i = 0; i < bujianCount ; ++i)
 	{
 		Bujian bujian = (Bujian)*iter;
 		vector<Stroke> strokeList = bujian.strokeList;
 		vector<Stroke>::iterator stro_iter = strokeList.begin();
-		for (stro_iter; stro_iter != strokeList.end(); ++stro_iter)
+		for (int strokei = 0; strokei < bujian.strokeCount; ++strokei)
 		{
-			Stroke stroke = (Stroke)*stro_iter;
+			Stroke stroke = strokeList[strokei];//(Stroke)*stro_iter;
 			vector<CCPoint> pointList = stroke.pointList;
 			vector<CCDrawNode*> nodeList = stroke.nodeList;
 			vector<CCPoint>::iterator point_iter = pointList.begin();
 			CCPoint prePoint = (CCPoint)(*point_iter);
 			point_iter++;
-			for (point_iter; point_iter != pointList.end() ; ++point_iter)
+			for (int pointi = 1; pointi < stroke.pointCount; ++pointi)
 			{
-				CCPoint point = (CCPoint)*point_iter;
+				CCPoint point = pointList[pointi];//(CCPoint)*point_iter;
 				CCDrawNode* node = CCDrawNode::create();
 				node->drawSegment(prePoint,point,5.0,ccc4f(180,180,180,180));
 				prePoint = point;
-				
-				vector<CCDrawNode*>::iterator nodeIter = nodeList.end();
-				nodeList.insert(nodeIter,node);
+// 				vector<CCDrawNode*>::iterator nodeIter = nodeList.end();
+				//nodeList.insert(nodeIter,node);
+				bujianList[i].strokeList[strokei].nodeList.push_back(node);
 			}
 		}
 	}
