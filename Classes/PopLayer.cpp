@@ -1,5 +1,6 @@
 #include "PopLayer.h"
 
+using namespace std;
 
 PopLayer::PopLayer(void):m__pMenu(NULL)
 	, m_contentPadding(0)
@@ -10,6 +11,7 @@ PopLayer::PopLayer(void):m__pMenu(NULL)
 	, m__s9BackGround(NULL)
 	, m__ltContentText(NULL)
 	, m__ltTitle(NULL)
+	, m__editBox(NULL)
 {
 }
 
@@ -21,6 +23,7 @@ PopLayer::~PopLayer(void)
 	CC_SAFE_RELEASE(m__ltContentText);
 	CC_SAFE_RELEASE(m__ltTitle);
 	CC_SAFE_RELEASE(m__s9BackGround);
+	CC_SAFE_RELEASE(m__editBox);
 }
 
 bool PopLayer::init(){
@@ -29,9 +32,15 @@ bool PopLayer::init(){
 	{
 		CC_BREAK_IF(!CCLayer::init());
 		this->setContentSize(CCSizeZero);
+		// 添加菜单
 		CCMenu* menu = CCMenu::create();
 		menu->setPosition(CCPointZero);
 		setMenuButton(menu);
+
+		//添加输入框
+		CCEditBox* editbox = CCEditBox::create(CCSizeMake(200,400),CCScale9Sprite::create("blue-shooting-stars.png"));
+		setEditBoxHanzi(editbox);
+		//
 		setTouchEnabled(true);
 		bRef = true;
 	} while (0);
@@ -46,11 +55,16 @@ bool PopLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
 	return true;
 }
 
-PopLayer* PopLayer::create(const char* backgroundImage){
+PopLayer* PopLayer::create(const string hanzi,const char* backgroundImage){
 	PopLayer* l = PopLayer::create();
 	l->setSpriteBackGround(CCSprite::create(backgroundImage));
 	l->setSprite9BackGround(CCScale9Sprite::create(backgroundImage));
+	l->setHanzi(hanzi);
 	return l;
+}
+
+void PopLayer::setHanzi(string h){
+	this->hanzi = h;
 }
 
 void PopLayer::setTitle(const char* title, int fontsize){
@@ -145,6 +159,16 @@ void PopLayer::onEnter(){
 		ltf->setDimensions(CCSizeMake(contentSize.width - m_contentPadding * 2, contentSize.height - m_contentPaddingTop));
 		ltf->setHorizontalAlignment(kCCTextAlignmentLeft);
 		this->addChild(ltf);
+	}
+
+	// 添加输入框
+	if (getEditBoxHanzi())
+	{
+		CCEditBox* editbox = getEditBoxHanzi();
+		editbox->setPosition(ccp(winSize.width/2,winSize.height/2));
+		editbox->setTouchPriority(-128);	//设置触摸优先级，越小优先级越高
+		editbox->setPlaceHolder("");
+		this->addChild(editbox);
 	}
 
 	// 弹出效果

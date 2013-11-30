@@ -197,14 +197,16 @@ bool WallScene::init()
 	this->setTouchEnabled(true);
 	CCDirector::sharedDirector()->getTouchDispatcher()->addStandardDelegate(this,0);
 	//CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 0, true);
+
+	
+
 	return true;
 }
 
 void WallScene::onEnter(){
-
+	CCLog("onEnter");
 
 }
-
 
 // bool  WallScene::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
 // {
@@ -276,10 +278,29 @@ void WallScene::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 
 	touchbeginpoint = ccp(pTouch->getLocation().x , pTouch->getLocation().y);
 	touched=true;
+
 	beginTime = millisecondNow();
+	//定时器,直接使用scheduleUpdate无效
+	//this->scheduleUpdate();
+	CCDirector::sharedDirector()->getScheduler()->scheduleSelector(schedule_selector(WallScene::longPressUpdate),this,1.0f,false);
+	for (vector<CHanziManage>::iterator iter = hanzilist.begin();iter!=hanzilist.end();++iter)
+	{
+		CCPoint hanziPos = iter->pos;
+		//CCLog("hanziPos %f %f",hanziPos.x,hanziPos.y);
+		CCPoint realPos = ccp(hanziPos.x+changepoint.x,hanziPos.y+changepoint.y);
+		//CCLog("hanziPos %f %f",hanziPos.x,hanziPos.y);
+		CCRect rect = CCRectMake(realPos.x-100,realPos.y-100,200,200);
+
+		if (rect.containsPoint(touchbeginpoint))
+		{
+			CCLog(iter->character.c_str());
+			selectedHanzi = iter->character;
+		}
+	}
 
 }
 void WallScene::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
+	CCLog("ccTouchesMoved");
 	CCTouch* pTouch = (CCTouch*)pTouches->anyObject();
 	isMoved = true;
 	CCPoint newpos=ccp(pTouch->getLocation().x , pTouch->getLocation().y);
@@ -301,6 +322,7 @@ void WallScene::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
 	this->setPosition(changepoint);
 	touchbeginpoint = newpos;
 }
+
 void WallScene::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 	CCTouch* pTouch = (CCTouch*)pTouches->anyObject();
 	long endTime = millisecondNow();
@@ -326,14 +348,20 @@ void WallScene::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 		}
 	}
 
-	if (endTime-beginTime > 3000)
-	{
-		popup();
-	}
+// 	if (endTime-beginTime > 3000)
+// 	{
+// 		popup();
+// 	}
 	touched=false;
 	isMoved = false;
+
+	//解除定时器
+	CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(WallScene::longPressUpdate),this);
 }
 
+void WallScene::update(float delta){
+	CCLog("update ssss");
+}
 
 
 
@@ -370,10 +398,10 @@ void WallScene::singleClick(string hanzi){
 	CCDirector::sharedDirector()->replaceScene(lianxi::scene(hanzi));
 }
 
-void WallScene::popup(){
+void WallScene::popup(string hanzi){
 	CCLog("popup wall");
 	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
-	PopLayer* popL = PopLayer::create("pop/background.png");
+	PopLayer* popL = PopLayer::create(hanzi,"pop/background.png");
 	popL->setContentSize(CCSizeMake(winSize.width*0.75,winSize.height*0.75));
 	popL->setTitle("test");
 	popL->setCallBackFunc(this,callfuncN_selector(WallScene::buttonCallBack));
@@ -386,5 +414,8 @@ void WallScene::buttonCallBack(CCNode* pNode){
 	CCLog("button call back. tag: %d", pNode->getTag());
 }
 
-
-
+void WallScene::longPressUpdate(float fDelta){
+	CCLog("Update %f",fDelta);
+	
+	popup(selectedHanzi);
+}

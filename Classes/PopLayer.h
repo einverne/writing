@@ -1,6 +1,7 @@
 #include "cocos2d.h"
 #include "cocos-ext.h"
 
+using namespace std;
 using namespace cocos2d;
 using namespace cocos2d::extension;
 #pragma once
@@ -13,7 +14,7 @@ public:
 	virtual bool init();
 	CREATE_FUNC(PopLayer);
 
-	static PopLayer* create(const char* backgroundImage);
+	static PopLayer* create(const string hanzi,const char* backgroundImage);
 
 	virtual void registerWithTouchDispatcher();
 	bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
@@ -24,12 +25,16 @@ public:
 	void setCallBackFunc(CCObject* targer, SEL_CallFuncN callfun);
 
 	bool addButton(const char* normalImage,const char* seletedImage ,const char* title, int tag=0);
+	void setHanzi(string h);
 	virtual void onEnter();
 	virtual void onExit();
 private:
 	void buttonCallback(CCObject* pSender);
 	int m_contentPadding;
 	int m_contentPaddingTop;
+
+	//±£´æºº×Ö
+	string hanzi;
 
 	CCObject* m_callbackListener;
 	SEL_CallFuncN m_callback;
@@ -40,5 +45,6 @@ private:
 	CC_SYNTHESIZE_RETAIN(CCScale9Sprite*, m__s9BackGround, Sprite9BackGround);
 	CC_SYNTHESIZE_RETAIN(CCLabelTTF*, m__ltTitle, LabelTitle);
 	CC_SYNTHESIZE_RETAIN(CCLabelTTF*, m__ltContentText, LabelContentText);
+	CC_SYNTHESIZE_RETAIN(CCEditBox*, m__editBox, EditBoxHanzi);
 };
 

@@ -11,6 +11,7 @@ class WallScene : public CCLayerColor
 {
 public:
 	vector<CHanziManage> hanzilist;
+	string selectedHanzi;
 	float rescale;
 
 	CCPoint touchbeginpoint;
@@ -20,7 +21,7 @@ public:
 	long beginTime;
 
 	virtual bool init();
-	void onEnter();
+	virtual void onEnter();
 
 	static cocos2d::CCScene* scene();
 
@@ -38,9 +39,13 @@ public:
 	CREATE_FUNC(WallScene);
 
 	//弹出对话框
-	void popup();
+	void popup(string hanzi);
 	//对话框回调函数
 	void buttonCallBack(CCNode* pNode);
+
+	virtual void update(float delta);
+	//长按
+	void longPressUpdate(float fDelta);
 
 	//获取当前时间 精确到毫秒数
 	static inline long millisecondNow()

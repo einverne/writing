@@ -136,14 +136,14 @@ void TestMoveSprite::keyBackClicked(){
 	CCDirector::sharedDirector()->replaceScene(HelloWorld::scene());
 }
 void TestMoveSprite::popup(){
-	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
-	PopLayer* popL = PopLayer::create("pop/background.png");
-	popL->setContentSize(CCSizeMake(400,400));
-	popL->setTitle("test");
-	popL->setCallBackFunc(this,callfuncN_selector(TestMoveSprite::buttonCallback));
-	popL->addButton("Button1.png","Button1.png","Y",0);
-	popL->addButton("Button2.png","Button2.png","N",1);
-	this->addChild(popL,100);
+// 	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
+// 	PopLayer* popL = PopLayer::create("pop/background.png");
+// 	popL->setContentSize(CCSizeMake(400,400));
+// 	popL->setTitle("test");
+// 	popL->setCallBackFunc(this,callfuncN_selector(TestMoveSprite::buttonCallback));
+// 	popL->addButton("Button1.png","Button1.png","Y",0);
+// 	popL->addButton("Button2.png","Button2.png","N",1);
+// 	this->addChild(popL,100);
 }
 
 void TestMoveSprite::buttonCallback(CCNode* pSender){

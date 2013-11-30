@@ -171,7 +171,13 @@ bool HelloWorld::init()
 	//     this->addChild(luaLabel,1);
 
 
-	this->scheduleUpdate();
+	//this->scheduleUpdate();
+	CCEditBox* editbox= CCEditBox::create(CCSizeMake(400,400),CCScale9Sprite::create("blue-shooting-stars.png"));
+	addChild(editbox);
+	editbox->setPosition(ccp(visibleSize.width/2,visibleSize.height/2-100));
+	editbox->setPlaceHolder("Editddddd");
+	editbox->setPlaceholderFontColor(ccWHITE);
+	
 	return true;
 
 	/*
@@ -510,14 +516,14 @@ projectilesToDelete->release();
 
 
 void HelloWorld::popup(){
-	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
-	PopLayer* popL = PopLayer::create("pop/background.png");
-	popL->setContentSize(CCSizeMake(400,400));
-	popL->setTitle("test");
-	popL->setCallBackFunc(this,callfuncN_selector(HelloWorld::buttonCallBack));
-	popL->addButton("Button1.png","Button1.png","Y",0);
-	popL->addButton("Button2.png","Button2.png","N",1);
-	this->addChild(popL,100);
+// 	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
+// 	PopLayer* popL = PopLayer::create("pop/background.png");
+// 	popL->setContentSize(CCSizeMake(400,400));
+// 	popL->setTitle("test");
+// 	popL->setCallBackFunc(this,callfuncN_selector(HelloWorld::buttonCallBack));
+// 	popL->addButton("Button1.png","Button1.png","Y",0);
+// 	popL->addButton("Button2.png","Button2.png","N",1);
+// 	this->addChild(popL,100);
 }
 
 void HelloWorld::buttonCallBack(CCNode* pSender){
