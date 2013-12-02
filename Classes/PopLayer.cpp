@@ -1,4 +1,5 @@
 #include "PopLayer.h"
+#include "UTF8ToGBK.h"
 
 using namespace std;
 
@@ -167,7 +168,7 @@ void PopLayer::onEnter(){
 		CCEditBox* editbox = getEditBoxHanzi();
 		editbox->setPosition(ccp(winSize.width/2,winSize.height/2));
 		editbox->setTouchPriority(-128);	//设置触摸优先级，越小优先级越高
-		editbox->setPlaceHolder("");
+		editbox->setPlaceHolder(UTF8ToGBK::UTF8TOGBK(hanzi).c_str());
 		this->addChild(editbox);
 	}
 

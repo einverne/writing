@@ -282,7 +282,7 @@ void WallScene::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 	beginTime = millisecondNow();
 	//定时器,直接使用scheduleUpdate无效
 	//this->scheduleUpdate();
-	CCDirector::sharedDirector()->getScheduler()->scheduleSelector(schedule_selector(WallScene::longPressUpdate),this,1.0f,false);
+	CCDirector::sharedDirector()->getScheduler()->scheduleSelector(schedule_selector(WallScene::longPressUpdate),this,2.5f,false);
 	for (vector<CHanziManage>::iterator iter = hanzilist.begin();iter!=hanzilist.end();++iter)
 	{
 		CCPoint hanziPos = iter->pos;
@@ -417,5 +417,8 @@ void WallScene::buttonCallBack(CCNode* pNode){
 void WallScene::longPressUpdate(float fDelta){
 	CCLog("Update %f",fDelta);
 	
-	popup(selectedHanzi);
+	if (isMoved == false)
+	{
+		popup(selectedHanzi);
+	}
 }
