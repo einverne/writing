@@ -293,7 +293,6 @@ void WallScene::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 
 		if (rect.containsPoint(touchbeginpoint))
 		{
-			CCLog(iter->character.c_str());
 			selectedHanzi = iter->character;
 		}
 	}
@@ -354,6 +353,7 @@ void WallScene::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 // 	}
 	touched=false;
 	isMoved = false;
+	selectedHanzi = "";
 
 	//解除定时器
 	CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(WallScene::longPressUpdate),this);
@@ -401,23 +401,32 @@ void WallScene::singleClick(string hanzi){
 void WallScene::popup(string hanzi){
 	CCLog("popup wall");
 	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
-	PopLayer* popL = PopLayer::create(hanzi,"pop/background.png");
+	popL = PopLayer::create(hanzi,"pop/background.png");
 	popL->setContentSize(CCSizeMake(winSize.width*0.75,winSize.height*0.75));
 	popL->setTitle("test");
 	popL->setCallBackFunc(this,callfuncN_selector(WallScene::buttonCallBack));
 	popL->addButton("Button1.png","Button1.png","Y",0);
 	popL->addButton("Button2.png","Button2.png","N",1);
-	CCDirector::sharedDirector()->getRunningScene()->addChild(popL,10000);
+	CCDirector::sharedDirector()->getRunningScene()->addChild(popL,100);
 }
 
 void WallScene::buttonCallBack(CCNode* pNode){
 	CCLog("button call back. tag: %d", pNode->getTag());
+	if (pNode->getTag() == 0)
+	{
+		//弹出对话框，确认，将汉字写到对应位置
+		const char* h = popL->getHanzi();
+		
+	}else
+	{
+		//弹出对话框，取消，什么都不做
+	}
 }
 
 void WallScene::longPressUpdate(float fDelta){
 	CCLog("Update %f",fDelta);
 	
-	if (isMoved == false)
+	if (isMoved == false && selectedHanzi.length() > 0)
 	{
 		popup(selectedHanzi);
 	}

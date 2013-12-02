@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "HanziManage.h"
+#include "PopLayer.h"
 #include <vector>
 using namespace std;
 USING_NS_CC;
@@ -71,6 +72,9 @@ public:
 
 	bool isInSprite(CCTouch* pTouch);
 	void singleClick(string hanzi);
+
+private:
+	PopLayer* popL;
 };
 
 #endif // __WallScene_H__

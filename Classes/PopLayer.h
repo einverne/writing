@@ -4,6 +4,7 @@
 using namespace std;
 using namespace cocos2d;
 using namespace cocos2d::extension;
+
 #pragma once
 class PopLayer:public CCLayer
 {
@@ -26,6 +27,13 @@ public:
 
 	bool addButton(const char* normalImage,const char* seletedImage ,const char* title, int tag=0);
 	void setHanzi(string h);
+	const char* getHanzi();
+
+// 	virtual void editBoxEditingDidBegin(CCEditBox* editBox);
+// 	virtual void editBoxEditingDidEnd(CCEditBox* editBox);
+// 	virtual void editBoxTextChanged(CCEditBox* editBox, const std::string& text);
+// 	virtual void editBoxReturn(CCEditBox* editBox);
+
 	virtual void onEnter();
 	virtual void onExit();
 private:
