@@ -4,12 +4,12 @@
 #include "Tianzige.h"
 #include "tinyxml.h"
 #include "ReadXML.h"
+#include <sstream>
 
 #define tianzige_draw_tag 1001
 
 lianxi::lianxi(){
-
-
+	output = "";
 }
 
 lianxi::~lianxi(){
@@ -159,11 +159,28 @@ CCScene* lianxi::scene(string hanzi){
 
 bool  lianxi::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
 	prePoint = pTouch->getLocation();
+	CCSprite* tianzige = (CCSprite*)this->getChildByTag(tianzige_draw_tag);
+	CCRect rect = tianzige->boundingBox();
+	if (rect.containsPoint(prePoint))
+	{
+		output += "[[";
+		string temp = convertToString(prePoint.x) + "/" + convertToString(prePoint.y) + ",";
+		output += temp;
+	}
 	return true;
 }
 void  lianxi::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent){
-
+	CCPoint location = pTouch->getLocation();
+	CCSprite* tian = (CCSprite*)getChildByTag(tianzige_draw_tag);
+	CCRect rect = tian->boundingBox();
+	if (rect.containsPoint(location))
+	{
+		string temp = convertToString(location.x) + "/" + convertToString(location.y);
+		output += temp;
+		output += "]]";
+	}
 }
+
 void  lianxi::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent){
 	CCPoint location = pTouch->getLocation();
 
@@ -171,6 +188,9 @@ void  lianxi::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent){
 	CCRect rect = tianzige->boundingBox();
 	if (rect.containsPoint(location))
 	{
+		// 采集点信息
+		string temp = convertToString(location.x) + "/" + convertToString(location.y) + ",";
+		output += temp;
 		// 	CCDrawNode * dot = CCDrawNode::create();
 		// 	dot->drawDot(location,5.0,ccc4f(188, 188, 188, 120));
 		// 	//this->addChild(dot,10);
@@ -194,4 +214,10 @@ void lianxi::menuBack(CCObject* pSender){
 void lianxi::draw(){
 	//     CCLog("Lianxi Draw()");
 	//     ccDrawLine(ccp(0,0),ccp(200,200));
+}
+
+string lianxi::convertToString(float f){
+	ostringstream buff;
+	buff<<f;
+	return buff.str();
 }

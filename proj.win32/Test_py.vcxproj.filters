@@ -7,6 +7,9 @@
     <Filter Include="Classes">
       <UniqueIdentifier>{bb6c862e-70e9-49d9-81b7-3829a6f50471}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\file">
+      <UniqueIdentifier>{827c166e-8c4c-4451-a395-e6b3886326e4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -81,6 +84,9 @@
     <ClCompile Include="..\Classes\PopLayer.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\file\TDInvFileUtils.cpp">
+      <Filter>Classes\file</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -149,6 +155,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\PopLayer.h">
       <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\file\TDInvFileUtils.h">
+      <Filter>Classes\file</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

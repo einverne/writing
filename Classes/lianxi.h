@@ -25,6 +25,8 @@ private:
     string hanzi;
     CCPoint prePoint;
     void menuBack(CCObject* pSender);
+	string convertToString(float f);
+	string output;
 };
 
 #endif
