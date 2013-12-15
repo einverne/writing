@@ -7,7 +7,6 @@ Character::Character(void)
 	fontSize = 512;
 }
 
-
 Character::~Character(void)
 {
 	bujianList.clear();
@@ -147,4 +146,32 @@ void Character::prepareDrawNode(){
 			}
 		}
 	}
+}
+
+/************************************************************************/
+/* 依据传入CCSize，宽度，重新计算，点的坐标值，进行缩放操作，适合田字格大小                                                                     */
+/************************************************************************/
+void Character::resize(CCSize size){
+	float width = size.width;
+	float scale = width/this->fontSize;		//确定缩放比例
+	//重置所有保存点
+	for (int bujiani = 0 ; bujiani < bujianCount; ++ bujiani)
+	{
+		Bujian bujian = bujianList.at(bujiani);
+		vector<Stroke> strokeList = bujian.strokeList;
+		for (int strokei = 0 ;  strokei < bujian.strokeCount; ++strokei)
+		{
+			Stroke stroke = strokeList.at(strokei);
+			//重置stroke首点
+			bujianList[bujiani].strokeList[strokei].prePoint = stroke.prePoint*scale;
+
+			vector<CCPoint> pointList = stroke.pointList;
+			for (int i =0 ; i < stroke.pointCount ; ++ i)
+			{
+				CCPoint temppoint = pointList.at(i);
+				bujianList[bujiani].strokeList[strokei].pointList[i] = temppoint*scale;
+			}
+		}
+	}
+	
 }

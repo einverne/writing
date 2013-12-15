@@ -122,7 +122,7 @@ bool WallScene::init()
 			string tempfilename=imgElement->GetText();
 			string temphanzi=hanziElement->GetText();
 			CCLog("temphanzi %s",temphanzi.c_str());
-//			string GBKhanzi = UTF8ToGBK::UTF8TOGBK(temphanzi);
+			//			string GBKhanzi = UTF8ToGBK::UTF8TOGBK(temphanzi);
 			string temppro=proficiencyElement->GetText();
 
 			//stone sprite
@@ -200,7 +200,7 @@ bool WallScene::init()
 	CCDirector::sharedDirector()->getTouchDispatcher()->addStandardDelegate(this,0);
 	//CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 0, true);
 
-	
+
 
 	return true;
 }
@@ -210,7 +210,7 @@ void WallScene::onEnter(){
 }
 
 void WallScene::onExit(){
-	
+
 }
 
 // bool  WallScene::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
@@ -343,7 +343,7 @@ void WallScene::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 			CCPoint realPos = ccp(hanziPos.x+changepoint.x,hanziPos.y+changepoint.y);
 			//CCLog("hanziPos %f %f",hanziPos.x,hanziPos.y);
 			CCRect rect = CCRectMake(realPos.x-100,realPos.y-100,200,200);
-
+			//在字周围200像素内，判断为点中
 			if (rect.containsPoint(touchpoint))
 			{
 				CCLog(iter->character.c_str());
@@ -353,10 +353,10 @@ void WallScene::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 		}
 	}
 
-// 	if (endTime-beginTime > 3000)
-// 	{
-// 		popup();
-// 	}
+	// 	if (endTime-beginTime > 3000)
+	// 	{
+	// 		popup();
+	// 	}
 	touched=false;
 	isMoved = false;
 	selectedHanzi = "";
@@ -430,7 +430,7 @@ void WallScene::buttonCallBack(CCNode* pNode){
 			{
 				// 将改动的汉字写入到xml文件，saveToFile()
 				const char* h = popL->getHanzi();
-//				string dst(h,strlen(h)+1);
+				//				string dst(h,strlen(h)+1);
 				saveToFile(iter->character, h);
 
 				iter->character = string(popL->getHanzi());
@@ -438,7 +438,7 @@ void WallScene::buttonCallBack(CCNode* pNode){
 				t->setString(popL->getHanzi());
 			}
 		}
-		
+
 
 	}else
 	{
@@ -448,7 +448,7 @@ void WallScene::buttonCallBack(CCNode* pNode){
 
 void WallScene::longPressUpdate(float fDelta){
 	CCLog("Update %f",fDelta);
-	
+
 	if (isMoved == false && selectedHanzi.length() > 0)
 	{
 		popup(selectedHanzi);
@@ -467,7 +467,7 @@ void WallScene::saveToFile(string src,const char* dst){
 	TiXmlElement* stone = data->FirstChildElement();
 	while (stone)
 	{
-		
+
 		TiXmlElement* type = stone->FirstChildElement();
 		string text(type->GetText());
 		string wordbox("wordbox");
@@ -479,10 +479,10 @@ void WallScene::saveToFile(string src,const char* dst){
 			if (text == src)
 			{
 				TiXmlElement* new_hanzi = new TiXmlElement("hanzi");
-// 				string dst_str = GBKToUTF8(dst);
-// 				string dst_ss = DataTool::GB2312ToUTF8(dst);
-// 				CCLog("DST XXXX%s XXXX%s",dst.c_str(),dst_str.c_str());
-// 				const char* temp = dst.c_str();
+				// 				string dst_str = GBKToUTF8(dst);
+				// 				string dst_ss = DataTool::GB2312ToUTF8(dst);
+				// 				CCLog("DST XXXX%s XXXX%s",dst.c_str(),dst_str.c_str());
+				// 				const char* temp = dst.c_str();
 				TiXmlText* newText = new TiXmlText(dst);
 				new_hanzi->InsertEndChild(*newText);
 				stone->RemoveChild(hanzi);

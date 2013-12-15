@@ -12,12 +12,13 @@ public:
 	bool addBujian(Bujian bujian);
 	CCSize getBox();
 	int getStrokeCount();
+	void resize(CCSize size);
 	void prepareDrawNode();
 public:
 	Character(void);
 	~Character(void);
 	int bujianCount;
-	int fontSize;
+	int fontSize;		//ºº×Ö´óÐ¡£¬Ä¬ÈÏ512
 	vector<Bujian> bujianList;
 private:
 	void transformCoordinate(CCPoint point,float length);

@@ -27,9 +27,9 @@ bool lianxi::init(){
 
 	CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 0, true);
 
-	CCDrawNode* test_node = CCDrawNode::create();
-	this->addChild(test_node,100);
-	test_node->drawSegment(ccp(0,0),ccp(200,200), 5.0, ccc4f(150,150,150,140));
+// 	CCDrawNode* test_node = CCDrawNode::create();
+// 	this->addChild(test_node,100);
+// 	test_node->drawSegment(ccp(0,0),ccp(200,200), 5.0, ccc4f(150,150,150,140));
 	return true;
 }
 
@@ -124,6 +124,7 @@ void lianxi::onEnter(){
 
 	//画正字
 	charac->getBox();
+	charac->resize(tianzige->getContentSize());
 	charac->prepareDrawNode();
 	vector<Bujian> bujianList = charac->bujianList;
 	vector<Bujian>::iterator iter = bujianList.begin();
@@ -148,7 +149,9 @@ void lianxi::onEnter(){
 	tianzige->addChild(nodet,10);
 }
 
-
+/************************************************************************/
+/* hanzi 需要练习的汉字                                                                     */
+/************************************************************************/
 CCScene* lianxi::scene(string hanzi){
 	CCScene *scene = CCScene::create();
 	lianxi *layer = lianxi::create();
