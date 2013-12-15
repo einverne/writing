@@ -169,6 +169,7 @@ bool  lianxi::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
 	}
 	return true;
 }
+
 void  lianxi::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent){
 	CCPoint location = pTouch->getLocation();
 	CCSprite* tian = (CCSprite*)getChildByTag(tianzige_draw_tag);

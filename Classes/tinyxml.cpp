@@ -913,14 +913,14 @@ const char* TiXmlElement::GetText() const
 TiXmlDocument::TiXmlDocument() : TiXmlNode( TiXmlNode::TINYXML_DOCUMENT )
 {
 	tabsize = 4;
-	useMicrosoftBOM = false;
+	useMicrosoftBOM = true;
 	ClearError();
 }
 
 TiXmlDocument::TiXmlDocument( const char * documentName ) : TiXmlNode( TiXmlNode::TINYXML_DOCUMENT )
 {
 	tabsize = 4;
-	useMicrosoftBOM = false;
+	useMicrosoftBOM = true;
 	value = documentName;
 	ClearError();
 }
@@ -930,7 +930,7 @@ TiXmlDocument::TiXmlDocument( const char * documentName ) : TiXmlNode( TiXmlNode
 TiXmlDocument::TiXmlDocument( const std::string& documentName ) : TiXmlNode( TiXmlNode::TINYXML_DOCUMENT )
 {
 	tabsize = 4;
-	useMicrosoftBOM = false;
+	useMicrosoftBOM = true;
     value = documentName;
 	ClearError();
 }

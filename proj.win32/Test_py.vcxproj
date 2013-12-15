@@ -147,6 +147,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\tinyxml.cpp" />
     <ClCompile Include="..\Classes\tinyxmlerror.cpp" />
     <ClCompile Include="..\Classes\tinyxmlparser.cpp" />
+    <ClCompile Include="..\Classes\tools\DataTool.cpp" />
     <ClCompile Include="..\Classes\UTF8ToGBK.cpp" />
     <ClCompile Include="..\Classes\WallScene.cpp" />
     <ClCompile Include="main.cpp" />
@@ -172,6 +173,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\Tianzige.h" />
     <ClInclude Include="..\Classes\tinystr.h" />
     <ClInclude Include="..\Classes\tinyxml.h" />
+    <ClInclude Include="..\Classes\tools\DataTool.h" />
     <ClInclude Include="..\Classes\UTF8ToGBK.h" />
     <ClInclude Include="..\Classes\WallScene.h" />
     <ClInclude Include="main.h" />

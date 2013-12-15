@@ -3,6 +3,7 @@
 #include "UTF8ToGBK.h"
 #include "lianxi.h"
 #include "PopLayer.h"
+#include "tools/DataTool.h"
 
 USING_NS_CC;
 
@@ -64,7 +65,7 @@ bool WallScene::init()
 	//1.读取xml文件，确定缩放比例//
 	string myfilename=CCFileUtils::sharedFileUtils()->fullPathForFilename("wall.xml");
 	TiXmlDocument* myDocument = new TiXmlDocument(myfilename.c_str());  
-	myDocument->LoadFile();  
+	myDocument->LoadFile();
 
 	TiXmlElement* rootElement = myDocument->RootElement();  // Class
 	TiXmlElement* metaElement = rootElement->FirstChildElement();  // meta   
@@ -120,7 +121,8 @@ bool WallScene::init()
 
 			string tempfilename=imgElement->GetText();
 			string temphanzi=hanziElement->GetText();
-			string GBKhanzi = UTF8ToGBK::UTF8TOGBK(temphanzi);
+			CCLog("temphanzi %s",temphanzi.c_str());
+//			string GBKhanzi = UTF8ToGBK::UTF8TOGBK(temphanzi);
 			string temppro=proficiencyElement->GetText();
 
 			//stone sprite
@@ -130,7 +132,7 @@ bool WallScene::init()
 			this->addChild(pSprite1, 1);
 
 			//文本框
-			CCLabelTTF* pLabel = CCLabelTTF::create(GBKhanzi.c_str(), "Zapfino", 100);			
+			CCLabelTTF* pLabel = CCLabelTTF::create(temphanzi.c_str(), "Zapfino", 100);			
 			pLabel->setPosition(ccp(origin.x + x, origin.y + y));
 			this->addChild(pLabel, 2);
 
@@ -182,7 +184,7 @@ bool WallScene::init()
 			this->addChild(pSprite2, 1);
 			/////////////
 			stoneElement=stoneElement->NextSiblingElement();
-		}		
+		}	
 	}
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -205,7 +207,10 @@ bool WallScene::init()
 
 void WallScene::onEnter(){
 	CCLog("onEnter");
+}
 
+void WallScene::onExit(){
+	
 }
 
 // bool  WallScene::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
@@ -282,7 +287,7 @@ void WallScene::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 	beginTime = millisecondNow();
 	//定时器,直接使用scheduleUpdate无效
 	//this->scheduleUpdate();
-	CCDirector::sharedDirector()->getScheduler()->scheduleSelector(schedule_selector(WallScene::longPressUpdate),this,2.5f,false);
+	CCDirector::sharedDirector()->getScheduler()->scheduleSelector(schedule_selector(WallScene::longPressUpdate),this,1.5f,false);
 	for (vector<CHanziManage>::iterator iter = hanzilist.begin();iter!=hanzilist.end();++iter)
 	{
 		CCPoint hanziPos = iter->pos;
@@ -294,6 +299,7 @@ void WallScene::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 		if (rect.containsPoint(touchbeginpoint))
 		{
 			selectedHanzi = iter->character;
+			selectedCHanziManageIter = iter;
 		}
 	}
 
@@ -394,7 +400,9 @@ bool WallScene::isInSprite(CCTouch* pTouch){
 	return false;
 }
 
-void WallScene::singleClick(string hanzi){    
+void WallScene::singleClick(string hanzi){
+	//解除schedule,不然可能出现不可预测问题。
+	this->unscheduleAllSelectors();
 	CCDirector::sharedDirector()->replaceScene(lianxi::scene(hanzi));
 }
 
@@ -415,8 +423,23 @@ void WallScene::buttonCallBack(CCNode* pNode){
 	if (pNode->getTag() == 0)
 	{
 		//弹出对话框，确认，将汉字写到对应位置
-		const char* h = popL->getHanzi();
+		//const char* h = popL->getHanzi();
+		for (vector<CHanziManage>::iterator iter = hanzilist.begin(); iter != hanzilist.end(); ++iter)
+		{
+			if (iter == selectedCHanziManageIter)
+			{
+				// 将改动的汉字写入到xml文件，saveToFile()
+				const char* h = popL->getHanzi();
+//				string dst(h,strlen(h)+1);
+				saveToFile(iter->character, h);
+
+				iter->character = string(popL->getHanzi());
+				CCLabelTTF* t = (CCLabelTTF*)iter->textbox;
+				t->setString(popL->getHanzi());
+			}
+		}
 		
+
 	}else
 	{
 		//弹出对话框，取消，什么都不做
@@ -430,4 +453,71 @@ void WallScene::longPressUpdate(float fDelta){
 	{
 		popup(selectedHanzi);
 	}
+}
+
+void WallScene::saveToFile(string src,const char* dst){
+	int i = 0;
+	string myfilename=CCFileUtils::sharedFileUtils()->fullPathForFilename("wall.xml");
+	TiXmlDocument* myDocument = new TiXmlDocument(myfilename.c_str());
+	myDocument->LoadFile();
+
+	TiXmlElement* rootEle = myDocument->RootElement();
+	TiXmlElement* meta = rootEle->FirstChildElement();
+	TiXmlElement* data = meta->NextSiblingElement();
+	TiXmlElement* stone = data->FirstChildElement();
+	while (stone)
+	{
+		
+		TiXmlElement* type = stone->FirstChildElement();
+		string text(type->GetText());
+		string wordbox("wordbox");
+		if (text == wordbox)
+		{
+			TiXmlElement* img = stone->FirstChildElement("img");
+			TiXmlElement* hanzi = stone->FirstChildElement("hanzi");
+			string text(hanzi->GetText());
+			if (text == src)
+			{
+				TiXmlElement* new_hanzi = new TiXmlElement("hanzi");
+// 				string dst_str = GBKToUTF8(dst);
+// 				string dst_ss = DataTool::GB2312ToUTF8(dst);
+// 				CCLog("DST XXXX%s XXXX%s",dst.c_str(),dst_str.c_str());
+// 				const char* temp = dst.c_str();
+				TiXmlText* newText = new TiXmlText(dst);
+				new_hanzi->InsertEndChild(*newText);
+				stone->RemoveChild(hanzi);
+				stone->InsertAfterChild(img,*new_hanzi);
+				break;
+			}
+		}
+		stone = stone->NextSiblingElement();
+	}
+	myDocument->SaveFile("wall.xml");
+
+}
+
+//UTF8、GBK之间的转换
+string WallScene::GBKToUTF8(string gbk)
+{
+	//建立一块内存块
+	char *szOut=new char[gbk.size()+2];
+	//将内存全设为0;
+	memset(szOut,0,gbk.size()+2);
+	//拷贝，相识于Strcpy
+	memcpy(szOut,gbk.c_str(),strlen(gbk.c_str()));
+	char* strGBK = szOut;
+	//映射一个字符串到一个宽字符（unicode）的字符串
+	int len=MultiByteToWideChar(CP_ACP, 0, (LPCSTR)strGBK, -1, NULL,0);
+	unsigned short * wszUtf8 = new unsigned short[len+1];
+	memset(wszUtf8, 0, len * 2 + 2);
+	MultiByteToWideChar(CP_ACP, 0, (LPCSTR)strGBK, -1, (LPWSTR)wszUtf8, len);
+	len = WideCharToMultiByte(CP_UTF8, 0, (LPWSTR)wszUtf8, -1, NULL, 0, NULL, NULL);
+	char *szUtf8=new char[len + 1];
+	memset(szUtf8, 0, len + 1);
+	WideCharToMultiByte (CP_UTF8, 0, (LPWSTR)wszUtf8, -1, szUtf8, len, NULL,NULL);
+	string result=szUtf8;
+	delete[] szUtf8;
+	delete[] wszUtf8;    
+	delete[] szOut;
+	return result;
 }

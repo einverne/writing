@@ -23,6 +23,7 @@ public:
 
 	virtual bool init();
 	virtual void onEnter();
+	virtual void onExit();
 
 	static cocos2d::CCScene* scene();
 
@@ -47,6 +48,9 @@ public:
 	virtual void update(float delta);
 	//长按
 	void longPressUpdate(float fDelta);
+
+	//保存到xml文件
+	void saveToFile(string src,const char* dst);
 
 	//获取当前时间 精确到毫秒数
 	static inline long millisecondNow()
@@ -75,6 +79,8 @@ public:
 
 private:
 	PopLayer* popL;
+	vector<CHanziManage>::iterator selectedCHanziManageIter;
+	string GBKToUTF8(string gbk);
 };
 
 #endif // __WallScene_H__
