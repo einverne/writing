@@ -125,6 +125,9 @@ void lianxi::onEnter(){
 	//画正字
 	charac->getBox();
 	charac->resize(tianzige->getContentSize());
+	//重采样
+	charac->resample();
+
 	charac->prepareDrawNode();
 	vector<Bujian> bujianList = charac->bujianList;
 	vector<Bujian>::iterator iter = bujianList.begin();

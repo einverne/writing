@@ -9,12 +9,15 @@ class Stroke
 {
 public:
 	bool addPoint(CCPoint point);
-
+	float strokeLength();
+	void resample();
+private:
+	float distance(CCPoint p1,CCPoint p2);
 public:
     Stroke(void);
     ~Stroke(void);
     int pointCount;
-	CCPoint prePoint;
+	CCPoint prePoint;		//保存每一笔首点
     vector<CCPoint> pointList;
 	vector<CCDrawNode*> nodeList;
 };

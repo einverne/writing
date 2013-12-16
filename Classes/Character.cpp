@@ -175,3 +175,14 @@ void Character::resize(CCSize size){
 	}
 	
 }
+
+void Character::resample(){
+	for (int bujiani = 0 ; bujiani < bujianCount ; ++ bujiani)
+	{
+		Bujian bujian  = bujianList.at(bujiani);
+		for (int strokei = 0 ; strokei < bujian.strokeCount ; ++ strokei)
+		{
+			bujianList[bujiani].strokeList[strokei].resample();
+		}
+	}
+}

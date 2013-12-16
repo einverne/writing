@@ -13,6 +13,7 @@ public:
 	CCSize getBox();
 	int getStrokeCount();
 	void resize(CCSize size);
+	void resample();
 	void prepareDrawNode();
 public:
 	Character(void);
