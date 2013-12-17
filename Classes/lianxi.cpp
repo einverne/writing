@@ -126,7 +126,7 @@ void lianxi::onEnter(){
 	charac->getBox();
 	charac->resize(tianzige->getContentSize());
 	//ÖØ²ÉÑù
-	//charac->resample();
+	charac->resample();
 
 	charac->prepareDrawNode();
 	vector<Bujian> bujianList = charac->bujianList;

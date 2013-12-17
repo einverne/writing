@@ -9,10 +9,11 @@ class Stroke
 {
 public:
 	bool addPoint(CCPoint point);
-	float strokeLength();
+	float strokeLength();				//一笔的长度
 	void resample();
 private:
-	float distance(CCPoint p1,CCPoint p2);
+	float distance(CCPoint p1,CCPoint p2);		//两点间距离
+	int strokeBox();					//记录一笔包围盒，重采样使用
 public:
     Stroke(void);
     ~Stroke(void);

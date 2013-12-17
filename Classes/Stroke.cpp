@@ -46,18 +46,24 @@ float Stroke::strokeLength(){
 	return length;
 }
 
+int Stroke::strokeBox(){
+	float dx = fabs(pointList.at(0).x-pointList.at(pointList.size()-1).x);
+	float dy = fabs(pointList.at(0).y-pointList.at(pointList.size()-1).y);
+	return dx>dy?dx:dy;
+}
+
 /************************************************************************/
-/* 插值代码，如果只有两点，有问题，待解决，uncheck other comditions*/
+/* 重采样，插值代码，如果只有两点，有问题，待解决，uncheck other comditions*/
 /************************************************************************/
 void Stroke::resample(){
-	int n = 10;
-	float I = strokeLength() / n;
+	int n = strokeBox()/10;			//获取长宽最大像素值
+	float I = strokeLength() / n;   //10个像素一段
 	float D = 0;
 
 	vector<CCPoint> dstpoList;
 	dstpoList.push_back(pointList.at(0));
 
-	for (int i = 1; i < pointCount ; ++i )
+	for (int i = 1; i < pointList.size() ; ++i )
 	{
 		CCPoint p1 = pointList[i-1];
 		CCPoint p2 = pointList[i];
@@ -66,7 +72,9 @@ void Stroke::resample(){
 		if ( (D+dist) >= I)
 		{
 			float qx = p1.x + ((I - D) / dist) * (p2.x - p1.x);
-			float qy = p1.y + ((I - D) / dist) * (p2.y - p2.y);
+			float qy = p1.y + ((I - D) / dist) * (p2.y - p1.y);
+			vector<CCPoint>::iterator it = pointList.begin();
+			pointList.insert(it+i,CCPointMake(qx,qy));
 			dstpoList.push_back(CCPointMake(qx,qy));
 			D = 0.0;
 		}
@@ -80,5 +88,5 @@ void Stroke::resample(){
 		dstpoList.insert(dstpoList.end(),pointList.at(pointList.size()-1));
 	}
 	pointList = dstpoList;
-	pointCount = n;
+	pointCount = pointList.size();
 }
