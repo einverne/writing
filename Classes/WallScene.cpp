@@ -400,10 +400,14 @@ bool WallScene::isInSprite(CCTouch* pTouch){
 	return false;
 }
 
+/************************************************************************/
+/* string hanzi 传给lianxi界面书写                                                                      */
+/************************************************************************/
 void WallScene::singleClick(string hanzi){
 	//解除schedule,不然可能出现不可预测问题。
 	this->unscheduleAllSelectors();
-	CCDirector::sharedDirector()->replaceScene(lianxi::scene(hanzi));
+// 	CCDirector::sharedDirector()->replaceScene(lianxi::scene(hanzi));
+	CCDirector::sharedDirector()->pushScene(lianxi::scene(hanzi));
 }
 
 void WallScene::popup(string hanzi){

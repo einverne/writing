@@ -112,7 +112,7 @@ void lianxi::onEnter(){
 	pHanzi->setPosition(tianzige->getPosition());
 
 	//read xml show animation of character
-	string xml = CCFileUtils::sharedFileUtils()->fullPathForFilename("xml/二.xml");
+	string xml = CCFileUtils::sharedFileUtils()->fullPathForFilename("xml/十.xml");
 	CReadXML readxml(xml);
 	Character* charac = readxml.getCharacter();
 	int coun = charac->getStrokeCount();
@@ -126,7 +126,7 @@ void lianxi::onEnter(){
 	charac->getBox();
 	charac->resize(tianzige->getContentSize());
 	//重采样
-	charac->resample();
+	//charac->resample();
 
 	charac->prepareDrawNode();
 	vector<Bujian> bujianList = charac->bujianList;
@@ -211,11 +211,13 @@ void  lianxi::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent){
 
 void lianxi::keyBackClicked(){
 	CCLog("BBBB");
-	CCDirector::sharedDirector()->replaceScene(WallScene::scene());
+// 	CCDirector::sharedDirector()->replaceScene(WallScene::scene());
+	CCDirector::sharedDirector()->popScene();
 }
 
 void lianxi::menuBack(CCObject* pSender){
-	CCDirector::sharedDirector()->replaceScene(WallScene::scene());
+// 	CCDirector::sharedDirector()->replaceScene(WallScene::scene());
+	CCDirector::sharedDirector()->popScene();
 }
 
 void lianxi::draw(){
