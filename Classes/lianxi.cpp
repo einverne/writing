@@ -112,7 +112,7 @@ void lianxi::onEnter(){
 	pHanzi->setPosition(tianzige->getPosition());
 
 	//read xml show animation of character
-	string xml = CCFileUtils::sharedFileUtils()->fullPathForFilename("xml/Ê®.xml");
+	string xml = CCFileUtils::sharedFileUtils()->fullPathForFilename("xml/°Ë.xml");
 	CReadXML readxml(xml);
 	Character* charac = readxml.getCharacter();
 	int coun = charac->getStrokeCount();
