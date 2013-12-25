@@ -8,7 +8,7 @@
 using namespace std;
 USING_NS_CC;
 
-class WallScene : public CCLayerColor
+class WallScene : public CCLayer
 {
 public:
 	vector<CHanziManage> hanzilist;
@@ -36,6 +36,7 @@ public:
 	void ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent);
 	void ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent);
 	void ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent);
+	void registerWithTouchDispatcher();
 
 	// implement the "static node()" method manually
 	CREATE_FUNC(WallScene);

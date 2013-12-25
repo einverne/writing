@@ -26,6 +26,18 @@ bool lianxi::init(){
 		CCSize visiableSize = CCDirector::sharedDirector()->getVisibleSize();
 		CCSize originSize = CCDirector::sharedDirector()->getVisibleOrigin();
 
+		///////////////////////
+		// add a dog sprite
+		CCPoint ptCenter = CCPointMake(winSize.width/2,winSize.height/2);
+		CCSprite* dog = CCSprite::create("dog.png");
+		dog->setPosition(ptCenter);
+		this->addChild(dog,1000,1000);
+		CCMoveTo* moveTo = CCMoveTo::create(2,CCPointMake(300,500));
+		dog->runAction(moveTo);
+
+
+
+
 		//add wall-head
 		CCSprite* wall_head = CCSprite::create("wall_head.png");
 		this->addChild(wall_head,2);
@@ -140,7 +152,7 @@ bool lianxi::init(){
 
 void lianxi::onEnter(){
 	CCLayer::onEnter();
-	CCLog("onEnter linxian");
+	CCLog("onEnter lixian");
 	
 }
 

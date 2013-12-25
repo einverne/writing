@@ -28,7 +28,7 @@ bool WallScene::init()
 {
 	//////////////////////////////
 	// 1. super init first
-	if ( !CCLayerColor::initWithColor(ccc4(140,131,122,255)) )
+	if ( !CCLayer::init() )
 	{
 		return false;
 	}
@@ -184,7 +184,7 @@ bool WallScene::init()
 			this->addChild(pSprite2, 1);
 			/////////////
 			stoneElement=stoneElement->NextSiblingElement();
-		}	
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -197,20 +197,20 @@ bool WallScene::init()
 	CCPoint changepoint=ccp(0,0);
 	touched=false;
 	this->setTouchEnabled(true);
-	CCDirector::sharedDirector()->getTouchDispatcher()->addStandardDelegate(this,0);
+	//原本如果没有重载register那个函数，需要调用如下两个其中之一
+	//CCDirector::sharedDirector()->getTouchDispatcher()->addStandardDelegate(this,1);
 	//CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 0, true);
-
-
 
 	return true;
 }
 
 void WallScene::onEnter(){
+	CCLayer::onEnter();
 
 }
 
 void WallScene::onExit(){
-
+	CCLayer::onExit();
 }
 
 // bool  WallScene::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
@@ -363,6 +363,10 @@ void WallScene::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 
 	//解除定时器
 	CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(WallScene::longPressUpdate),this);
+}
+
+void WallScene::registerWithTouchDispatcher(){
+	CCDirector::sharedDirector()->getTouchDispatcher()->addStandardDelegate(this,1);
 }
 
 void WallScene::update(float delta){
