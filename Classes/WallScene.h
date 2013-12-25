@@ -76,7 +76,7 @@ public:
 
 	bool isInSprite(CCTouch* pTouch);
 	void singleClick(string hanzi);
-
+	
 private:
 	PopLayer* popL;
 	vector<CHanziManage>::iterator selectedCHanziManageIter;

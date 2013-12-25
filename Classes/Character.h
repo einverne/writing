@@ -15,6 +15,7 @@ public:
 	void resize(CCSize size);
 	void resample();
 	void prepareDrawNode();
+	Stroke getStroke(int no);			//获取第几笔
 public:
 	Character(void);
 	~Character(void);

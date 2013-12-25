@@ -26,6 +26,8 @@ bool TestMoveSprite::init(){
 		CCSprite* dog = CCSprite::create("dog.png");
 		dog->setPosition(ptCenter);
 		this->addChild(dog,0,1000);
+		CCMoveTo* moveTo = CCMoveTo::create(2,CCPointMake(300,500));
+		dog->runAction(moveTo);
 
 		// 1.生成动画需要数据类
 		CCTexture2D* texture = CCTextureCache::sharedTextureCache()->addImage("action_people.png");

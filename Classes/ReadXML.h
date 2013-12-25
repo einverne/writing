@@ -8,7 +8,7 @@ using namespace std;
 class CReadXML
 {
 public:
-	Character* getCharacter();
+	Character getCharacter();
 public:
 	CReadXML(void);
 	CReadXML(string xmlpath);

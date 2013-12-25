@@ -206,7 +206,7 @@ bool WallScene::init()
 }
 
 void WallScene::onEnter(){
-	CCLog("onEnter");
+
 }
 
 void WallScene::onExit(){

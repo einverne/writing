@@ -186,3 +186,31 @@ void Character::resample(){
 		}
 	}
 }
+
+/************************************************************************/
+/* 传入第几笔no                                                                     */
+/************************************************************************/
+Stroke Character::getStroke(int no){
+	int totalStrokeCount = 0;
+	int tag = 0;
+	for (int i = 0; i < this->bujianCount ; ++i)
+	{
+		totalStrokeCount += bujianList[i].strokeCount;
+	}
+	if (no < totalStrokeCount)
+	{
+		//小于全部笔画数
+		for (int j = 0 ; j < this->bujianList.size() ; ++j )
+		{
+			Bujian bujian_temp = bujianList[j];
+			for (int k = 0 ; k < bujian_temp.strokeList.size() ; ++k)
+			{
+				tag++;
+				if (tag == no)
+				{
+					return bujian_temp.strokeList[k];
+				}
+			}
+		}
+	}
+}
