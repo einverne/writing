@@ -90,3 +90,14 @@ void Stroke::resample(){
 	pointList = dstpoList;
 	pointCount = pointList.size();
 }
+
+CCSize Stroke::getRotateAng(){
+	CCPoint lastPoint = pointList[pointList.size()-1];
+	float width = prePoint.x - lastPoint.x;
+	float height = prePoint.y - lastPoint.y;
+	return CCSizeMake(width,height);
+}
+
+CCPoint Stroke::getMidPoint(){
+	return ccpMidpoint(pointList[0],pointList[pointList.size()-1]);
+}
