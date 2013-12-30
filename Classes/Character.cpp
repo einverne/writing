@@ -20,6 +20,8 @@ bool Character::addBujian(Bujian bujian){
 	return true;
 }
 
+//////////////////////////////////////////////////////////////////////////
+//获取包围盒大小
 CCSize Character::getBox(){
 	float xmin=1000000,ymin=1000000;
 	float xmax=0,ymax=0;
@@ -77,6 +79,9 @@ CCSize Character::getBox(){
 	}
 }
 
+//////////////////////////////////////////////////////////////////////////
+// 改变坐标系，将读取的xml坐标系做转换，符合cocos2d-x第一象限坐标系
+//////////////////////////////////////////////////////////////////////////
 void Character::transformCoordinate(CCPoint point,float length){
 	vector<Bujian>::iterator iter = bujianList.begin();
 	for (int bujiani = 0 ; bujiani < bujianCount ; ++ bujiani)
@@ -176,6 +181,7 @@ void Character::resize(CCSize size){
 	
 }
 
+//重采样
 void Character::resample(){
 	for (int bujiani = 0 ; bujiani < bujianCount ; ++ bujiani)
 	{
@@ -188,7 +194,7 @@ void Character::resample(){
 }
 
 /************************************************************************/
-/* 传入第几笔no                                                                     */
+/* 传入第几笔no  笔画从1开始                                                        */
 /************************************************************************/
 Stroke Character::getStroke(int no){
 	int totalStrokeCount = 0;
@@ -197,7 +203,7 @@ Stroke Character::getStroke(int no){
 	{
 		totalStrokeCount += bujianList[i].strokeCount;
 	}
-	if (no < totalStrokeCount)
+	if (no <= totalStrokeCount)
 	{
 		//小于全部笔画数
 		for (int j = 0 ; j < this->bujianList.size() ; ++j )

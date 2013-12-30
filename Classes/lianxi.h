@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "Character.h"
+#include "StrokeNode.h"
 USING_NS_CC;
 using namespace std;
 
@@ -32,16 +33,23 @@ public:
 private:
 	Character charac;
 	Character character;			//store writing character not used yet
+	Character newCharac;
+	CCNode* writing_points_node;
 	vector<CCDrawNode*> writing_stroke;
+	vector<CCPoint> writing_points;			//保存写下来的字点集信息
     string hanzi;
-    CCPoint prePoint;				//store first writing point
+    CCPoint writing_prePoint;				//store first writing point 画连续点时变化
 	CCPoint centerPoint;			//保存手写字，中心点信息
     void menuBack(CCObject* pSender);
 	string convertToString(float f);
 	string output;
-
+	CCSprite* tianzige;
+	CCSprite* tianzige_draw;
 	void DoAnimation();
-	CCPoint centerP(CCPoint p1,CCPoint p2);		//两点中点坐标
+
+	StrokeNode* my_strokenode;
+	vector<StrokeNode*> strokeNodes;
+	int current_writing_stroke;				//当前写第几笔 1,2,3,4....
 };
 
 #endif

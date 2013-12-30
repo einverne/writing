@@ -5,11 +5,14 @@
 #include "tinyxml.h"
 #include "ReadXML.h"
 #include <sstream>
+// #include "Stroke.h"
+#include "StrokeNode.h"
 
 #define tianzige_draw_tag 1001
 
 lianxi::lianxi(){
-	output = "";
+	
+	
 }
 
 lianxi::~lianxi(){
@@ -21,7 +24,8 @@ bool lianxi::init(){
 	{
 		this->setKeypadEnabled(true);
 		this->setTouchEnabled(true);
-
+		output = "";
+		current_writing_stroke = 1;
 		CCSize winSize = CCDirector::sharedDirector()->getWinSize(); 
 		CCSize visiableSize = CCDirector::sharedDirector()->getVisibleSize();
 		CCSize originSize = CCDirector::sharedDirector()->getVisibleOrigin();
@@ -34,9 +38,6 @@ bool lianxi::init(){
 		this->addChild(dog,1000,1000);
 		CCMoveTo* moveTo = CCMoveTo::create(2,CCPointMake(300,500));
 		dog->runAction(moveTo);
-
-
-
 
 		//add wall-head
 		CCSprite* wall_head = CCSprite::create("wall_head.png");
@@ -53,13 +54,13 @@ bool lianxi::init(){
 		wall_tail->setScaleX(visiableSize.width/wall_tail->getContentSize().width);
 
 		//add tianzige
-		CCSprite* tianzige = CCSprite::create("tianzige.png");
+		tianzige = CCSprite::create("tianzige.png");
 		this->addChild(tianzige,1);
 		CCSize tianzigeSize = tianzige->getContentSize();
 		tianzige->setPosition(ccp(visiableSize.width/2,visiableSize.height-headSize.height-tianzigeSize.height/2-50));
 
 
-		CCSprite* tianzige_draw = CCSprite::create("tianzige.png");
+		tianzige_draw = CCSprite::create("tianzige.png");
 		this->addChild(tianzige_draw,1,tianzige_draw_tag);
 		CCSize tianzigeDrawSize = tianzige_draw->getContentSize();
 		tianzige_draw->setPosition(ccp(visiableSize.width/2,tailSize.height+50+tianzigeDrawSize.height/2));
@@ -138,13 +139,29 @@ bool lianxi::init(){
 			for (stro_iter; stro_iter != strokeList.end(); ++stro_iter)
 			{
 				Stroke stroke = (Stroke)*stro_iter;
-				vector<CCDrawNode*> nodeList = stroke.nodeList;	
+				vector<CCDrawNode*> nodeList = stroke.nodeList;
 				for (vector<CCDrawNode*>::iterator nodeIter = nodeList.begin(); nodeIter != nodeList.end(); ++nodeIter)
 				{
-					tianzige->addChild((CCDrawNode*)*nodeIter,100);
+					tianzige->addChild(*nodeIter,100);
 				}
 			}
 		}
+
+		//初始化writingPoints
+		writing_points_node = CCNode::create();
+		this->addChild(writing_points_node,20);
+		writing_points_node->setPosition(ccp(visiableSize.width/2 - 0.5*tianzige->getContentSize().width, visiableSize.height-headSize.height-tianzigeSize.height/2-50 - 0.5*tianzigeSize.height/2));
+		writing_points_node->setContentSize(tianzigeSize);
+// 		writing_points_node->set
+
+
+// 		vector<CCDrawNode*> nodeList = charac.getStroke(1).nodeList;
+// 		CCMoveTo* actionTo = CCMoveTo::create(2,ccp(visiableSize.width/2,visiableSize.height-headSize.height-tianzigeSize.height/2-50));
+// 		for (vector<CCDrawNode*>::const_iterator it = nodeList.begin(); it != nodeList.end(); ++it)
+// 		{
+// 			(*it)->runAction(actionBy);
+// 		}
+
 		return true;
 	}
 	return false;
@@ -153,7 +170,44 @@ bool lianxi::init(){
 void lianxi::onEnter(){
 	CCLayer::onEnter();
 	CCLog("onEnter lixian");
-	
+
+	//将构造的正确汉字放置到手写字区域，并且不显示
+	string xml = CCFileUtils::sharedFileUtils()->fullPathForFilename("xml/八.xml");
+	CReadXML readxml(xml);
+	newCharac = readxml.getCharacter();
+	newCharac.getBox();
+	newCharac.resize(tianzige->getContentSize());
+	newCharac.resample();
+	newCharac.prepareDrawNode();
+
+	Stroke stro = newCharac.getStroke(current_writing_stroke);
+// 	vector<CCDrawNode*> nList = stro.nodeList;
+// 	for (vector<CCDrawNode*>::iterator it = nList.begin(); it != nList.end() ;++it)
+// 	{
+// 		writing_points_node->addChild(*it,50);
+// 		(*it)->setVisible(true);
+// 	}
+
+
+	//测试写好的StrokeNode类
+	/////////////////////////////////////
+
+
+	for (int i = 0 ; i < newCharac.getStrokeCount(); ++i)
+	{
+		Stroke stroi = newCharac.getStroke(i+1);			
+		my_strokenode = StrokeNode::getStrokeNode(stroi);
+		my_strokenode->setVisible(false);
+		strokeNodes.push_back(my_strokenode);
+		this->addChild(my_strokenode,1000);
+		my_strokenode->setPosition(tianzige->getPosition()-ccp(tianzige->getContentSize().width/2,tianzige->getContentSize().height/2));
+
+	}
+	strokeNodes[0]->setVisible(true);
+	//my_strokenode->runAction(CCSequence::create(mb,rb,NULL));
+
+
+
 }
 
 void lianxi::onExit(){
@@ -228,21 +282,31 @@ CCScene* lianxi::scene(string hanzi){
 
 
 void lianxi::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
-	prePoint = ((CCTouch*)pTouches->anyObject())->getLocation();
+	if (current_writing_stroke > charac.getStrokeCount())
+	{
+		return;
+	}
+	writing_prePoint = ((CCTouch*)pTouches->anyObject())->getLocation();
+	writing_points.push_back(writing_prePoint);
 	CCSprite* tianzige = (CCSprite*)this->getChildByTag(tianzige_draw_tag);
 	CCRect rect = tianzige->boundingBox();
-	if (rect.containsPoint(prePoint))
+	if (rect.containsPoint(writing_prePoint))
 	{
 		output += "[[";
-		string temp = convertToString(prePoint.x) + "/" + convertToString(prePoint.y) + ",";
+		string temp = convertToString(writing_prePoint.x) + "/" + convertToString(writing_prePoint.y) + ",";
 		output += temp;
 	}
+	
 }
 
 void lianxi::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
+	if (current_writing_stroke > charac.getStrokeCount())
+	{
+		return;
+	}
 	CCTouch* pTouch = (CCTouch*)pTouches->anyObject();
 	CCPoint location = pTouch->getLocation();
-
+	writing_points.push_back(location);
 	CCSprite* tianzige = (CCSprite*)this->getChildByTag(tianzige_draw_tag);
 	CCRect rect = tianzige->boundingBox();
 	if (rect.containsPoint(location))
@@ -257,13 +321,21 @@ void lianxi::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
 		CCDrawNode* node = CCDrawNode::create();
 		writing_stroke.push_back(node);
 		addChild(node,10);
-		node->drawSegment(prePoint,location,5.0,ccc4f(180,180,180,100));
-		prePoint = location;
+		node->drawSegment(writing_prePoint,location,5.0,ccc4f(180,180,180,100));
+		writing_prePoint = location;
 	}
 }
 
 void lianxi::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
+	if (current_writing_stroke > charac.getStrokeCount())
+	{
+		return;
+	}
 	CCPoint location = ((CCTouch*)pTouches->anyObject())->getLocation();
+	writing_points.push_back(location);	//获取手写出来笔画的中心点 prePoint location
+
+	centerPoint = ccpMidpoint(writing_points[0],location);	//centerP(writing_prePoint,location);
+
 	CCSprite* tian = (CCSprite*)getChildByTag(tianzige_draw_tag);
 	CCRect rect = tian->boundingBox();
 	if (rect.containsPoint(location))
@@ -274,8 +346,38 @@ void lianxi::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 	}
 	CCDirector::sharedDirector()->getScheduler()->scheduleSelector(schedule_selector(lianxi::clearStroke),this,1.0,false);
 
-	//获取手写出来笔画的中心点 prePoint location
-	centerPoint = centerP(prePoint,location);
+	float w = writing_points[0].x - location.x;
+	float h = writing_points[0].y - location.y;
+
+	CCSize writing_size = CCSizeMake(w,h);
+	CCSize z_size = newCharac.getStroke(1).getRotateAng();
+	
+
+	float angle = ccpAngle(ccpFromSize(writing_size),ccpFromSize(z_size));
+	angle = angle*180/3.1415;
+	CCRotateBy* rotateBy = CCRotateBy::create(1,-angle);
+//	writing_points_node->runAction(CCSequence::create(move_down,rotateBy,NULL));
+
+
+
+	my_strokenode = strokeNodes[current_writing_stroke-1];
+	// StrokeNode 实现
+	CCPoint zhengziMidPoint = my_strokenode->convertToWorldSpace(my_strokenode->getMidStrokePoint());
+	CCPoint writingMidPoint = centerPoint;
+	CCPoint dp = writingMidPoint - zhengziMidPoint;
+	CCMoveBy* mb = CCMoveBy::create(1,dp);
+	
+	CCMoveTo* mt = CCMoveTo::create(1,tianzige_draw->getPosition()-ccp(tianzige_draw->getContentSize().width/2,tianzige_draw->getContentSize().height/2));
+	
+	my_strokenode->runAction(CCSequence::create(mb,mt,NULL));
+
+
+	//当前笔画往后+1
+	current_writing_stroke++;
+	if (current_writing_stroke <= charac.getStrokeCount())
+	{
+		strokeNodes[current_writing_stroke-1]->setVisible(true);
+	}
 }
 
 
@@ -311,21 +413,16 @@ void lianxi::clearStroke(float dt){
 	
 	CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(lianxi::clearStroke),this);
 
-	//DoAnimation();
 }
 
 void lianxi::DoAnimation(){
 	//run action
-	Stroke pie = charac.getStroke(1);
-	vector<CCDrawNode*> nodeList = pie.nodeList;
-	CCMoveTo* actionTo = CCMoveTo::create(1,CCPointMake(300,100));
-	for (vector<CCDrawNode*>::const_iterator it = nodeList.begin(); it != nodeList.end(); ++it)
+	Stroke stro = newCharac.getStroke(1);
+	vector<CCDrawNode*> nList = stro.nodeList;
+	for (vector<CCDrawNode*>::iterator it = nList.begin(); it != nList.end() ;++it)
 	{
-		(*it)->runAction(actionTo);
+		(*it)->setVisible(true);
+		CCMoveBy* actionBy = CCMoveBy::create(2,ccp(50,50));
+		(*it)->runAction(actionBy);
 	}
-
-}
-
-CCPoint lianxi::centerP(CCPoint p1,CCPoint p2){
-	return CCPointMake((p1.x+p2.x)/2,(p1.y+p2.y)/2);
 }

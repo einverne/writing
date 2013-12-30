@@ -141,6 +141,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\SecondScene.cpp" />
     <ClCompile Include="..\Classes\Splash.cpp" />
     <ClCompile Include="..\Classes\Stroke.cpp" />
+    <ClCompile Include="..\Classes\StrokeNode.cpp" />
     <ClCompile Include="..\Classes\TestMoveSprite.cpp" />
     <ClCompile Include="..\Classes\Tianzige.cpp" />
     <ClCompile Include="..\Classes\tinystr.cpp" />
@@ -169,6 +170,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\SecondScene.h" />
     <ClInclude Include="..\Classes\Splash.h" />
     <ClInclude Include="..\Classes\Stroke.h" />
+    <ClInclude Include="..\Classes\StrokeNode.h" />
     <ClInclude Include="..\Classes\TestMoveSprite.h" />
     <ClInclude Include="..\Classes\Tianzige.h" />
     <ClInclude Include="..\Classes\tinystr.h" />

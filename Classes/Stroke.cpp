@@ -1,7 +1,6 @@
 #include "Stroke.h"
 
 USING_NS_CC;
-
 #include <cmath>
 
 Stroke::Stroke(void)
@@ -46,17 +45,17 @@ float Stroke::strokeLength(){
 	return length;
 }
 
-int Stroke::strokeBox(){
+int Stroke::getStrokeBox(){
 	float dx = fabs(pointList.at(0).x-pointList.at(pointList.size()-1).x);
 	float dy = fabs(pointList.at(0).y-pointList.at(pointList.size()-1).y);
 	return dx>dy?dx:dy;
 }
 
 /************************************************************************/
-/* 重采样，插值代码，如果只有两点，有问题，待解决，uncheck other comditions*/
+/* 重采样，插值代码
 /************************************************************************/
 void Stroke::resample(){
-	int n = strokeBox()/10;			//获取长宽最大像素值
+	int n = getStrokeBox()/10;			//获取长宽最大像素值
 	float I = strokeLength() / n;   //10个像素一段
 	float D = 0;
 
@@ -101,3 +100,26 @@ CCSize Stroke::getRotateAng(){
 CCPoint Stroke::getMidPoint(){
 	return ccpMidpoint(pointList[0],pointList[pointList.size()-1]);
 }
+
+CCSize Stroke::getSize(){
+	return CCSizeMake(getStrokeBox(),getStrokeBox());
+}
+CCPoint Stroke::getBigPoint(){
+	float tx=0,ty=0;
+	for (vector<CCPoint>::const_iterator it = pointList.begin(); it != pointList.end(); ++it)
+	{
+		CCPoint tmp = (*it);
+		if (tmp.x > tx)
+		{
+			tx = tmp.x;
+		}
+		if (tmp.y > ty)
+		{
+			ty = tmp.y;
+		}
+	}
+	return ccp(tx,ty);
+}
+// StrokeNode* Stroke::getStrokeNode(){
+// 	return 
+/*}*/

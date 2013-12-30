@@ -370,7 +370,7 @@ void WallScene::registerWithTouchDispatcher(){
 }
 
 void WallScene::update(float delta){
-	CCLog("update ssss");
+	CCLog("update");
 }
 
 
