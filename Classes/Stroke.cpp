@@ -9,6 +9,15 @@ Stroke::Stroke(void)
 
 }
 
+Stroke::Stroke(vector<CCPoint> points){
+	if (points.size() > 0)
+	{
+		this->pointList = points;
+		this->pointCount = points.size();
+		this->prePoint = points.at(0);
+	}
+}
+
 
 Stroke::~Stroke(void)
 {

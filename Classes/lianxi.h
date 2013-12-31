@@ -42,6 +42,7 @@ private:
 	CCPoint centerPoint;			//保存手写字，中心点信息
     void menuBack(CCObject* pSender);
 	string convertToString(float f);
+	CCPoint convert512(CCPoint p);					//将坐标转化成512范围内
 	string output;
 	CCSprite* tianzige;
 	CCSprite* tianzige_draw;

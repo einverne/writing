@@ -24,6 +24,7 @@ private:
 	int getStrokeBox();					//记录一笔包围盒，重采样使用
 public:
     Stroke(void);
+	Stroke(vector<CCPoint> points);				//传入一串点，构造一笔
     ~Stroke(void);
     int pointCount;
 	CCPoint prePoint;		//保存每一笔首点

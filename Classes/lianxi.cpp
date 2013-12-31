@@ -292,11 +292,12 @@ void lianxi::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 	CCRect rect = tianzige->boundingBox();
 	if (rect.containsPoint(writing_prePoint))
 	{
-		output += "[[";
-		string temp = convertToString(writing_prePoint.x) + "/" + convertToString(writing_prePoint.y) + ",";
+		CCPoint tmpp = tianzige_draw->convertToNodeSpace(writing_prePoint);
+		tmpp = convert512(tmpp);
+		//output += "[[";
+		string temp = convertToString(tmpp.x) + "/" + convertToString(tmpp.y) + "/";
 		output += temp;
 	}
-	
 }
 
 void lianxi::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
@@ -311,8 +312,10 @@ void lianxi::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
 	CCRect rect = tianzige->boundingBox();
 	if (rect.containsPoint(location))
 	{
+		CCPoint tmpp = tianzige_draw->convertToNodeSpace(location);
+		tmpp = convert512(tmpp);
 		// 采集点信息
-		string temp = convertToString(location.x) + "/" + convertToString(location.y) + ",";
+		string temp = convertToString(tmpp.x) + "/" + convertToString(tmpp.y) + "/";
 		output += temp;
 		// 	CCDrawNode * dot = CCDrawNode::create();
 		// 	dot->drawDot(location,5.0,ccc4f(188, 188, 188, 120));
@@ -340,9 +343,12 @@ void lianxi::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 	CCRect rect = tian->boundingBox();
 	if (rect.containsPoint(location))
 	{
-		string temp = convertToString(location.x) + "/" + convertToString(location.y);
+		CCPoint tmpp = tianzige_draw->convertToNodeSpace(location);
+		tmpp = convert512(tmpp);
+		string temp = convertToString(tmpp.x) + "/" + convertToString(tmpp.y);
 		output += temp;
-		output += "]]";
+		output += "/@";
+		//output += "]]";
 	}
 	CCDirector::sharedDirector()->getScheduler()->scheduleSelector(schedule_selector(lianxi::clearStroke),this,1.0,false);
 
@@ -426,3 +432,14 @@ void lianxi::DoAnimation(){
 		(*it)->runAction(actionBy);
 	}
 }
+
+CCPoint lianxi::convert512(CCPoint p){
+	float tx = p.x;
+	float ty = p.y;
+	CCSize tianzigeSize = tianzige_draw->getContentSize();
+
+	float fx = tx * 512 / tianzigeSize.width;
+	float fy = ty * 512 / tianzigeSize.height;
+	return ccp(fx,-(fy-512));
+}
+
