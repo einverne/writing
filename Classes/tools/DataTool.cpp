@@ -48,3 +48,30 @@ string DataTool::GB2312ToUTF8(string strGBK){
 
 	return strOutUTF8;
 }
+
+
+//UTF8、GBK之间的转换
+string DataTool::GBKToUTF8(string gbk)
+{
+	//建立一块内存块
+	char *szOut=new char[gbk.size()+2];
+	//将内存全设为0;
+	memset(szOut,0,gbk.size()+2);
+	//拷贝，相识于Strcpy
+	memcpy(szOut,gbk.c_str(),strlen(gbk.c_str()));
+	char* strGBK = szOut;
+	//映射一个字符串到一个宽字符（unicode）的字符串
+	int len=MultiByteToWideChar(CP_ACP, 0, (LPCSTR)strGBK, -1, NULL,0);
+	unsigned short * wszUtf8 = new unsigned short[len+1];
+	memset(wszUtf8, 0, len * 2 + 2);
+	MultiByteToWideChar(CP_ACP, 0, (LPCSTR)strGBK, -1, (LPWSTR)wszUtf8, len);
+	len = WideCharToMultiByte(CP_UTF8, 0, (LPWSTR)wszUtf8, -1, NULL, 0, NULL, NULL);
+	char *szUtf8=new char[len + 1];
+	memset(szUtf8, 0, len + 1);
+	WideCharToMultiByte (CP_UTF8, 0, (LPWSTR)wszUtf8, -1, szUtf8, len, NULL,NULL);
+	string result=szUtf8;
+	delete[] szUtf8;
+	delete[] wszUtf8;    
+	delete[] szOut;
+	return result;
+}

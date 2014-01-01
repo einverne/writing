@@ -81,7 +81,6 @@ public:
 private:
 	PopLayer* popL;
 	vector<CHanziManage>::iterator selectedCHanziManageIter;
-	string GBKToUTF8(string gbk);
 };
 
 #endif // __WallScene_H__
