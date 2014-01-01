@@ -15,9 +15,9 @@ extern "C" {
     #include "lauxlib.h"
 };
 
-class HclcData{
+class LuaData{
 public:
-    static HclcData* sharedHD();
+    static LuaData* sharedHD();
 
     //------------  c++ -> lua ------------//
 
@@ -61,12 +61,12 @@ public:
     void callCppFunction(const char* luaFileName);
 
 private:
-    static int cppFunction(lua_State* ls);
+    static int cppFunction(lua_State* ls);			//供lua调用的函数
 
     static bool _isFirst;
-    static HclcData* _shared;
+    static LuaData* _shared;
     const char* getFileFullPath(const char* fileName);
-    ~HclcData();
+    ~LuaData();
 };
 
 #endif /* defined(__CppLua__HclcData__) */
