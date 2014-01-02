@@ -426,7 +426,7 @@ void lianxi::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 	gReader.SetGlobalFunc(Globalpath.c_str());
 	gReader.RunMixedFile(basepath.c_str(),"BaseLib.lua");
 	gReader.RunScriptFile(apipath.c_str(),retStr,"RunAPI.lua");
-
+	gReader.ExitLuaScriptReader();		//ÍË³öLua_State
 
 	int t = atoi(retStr);
 	if (1 == t)
