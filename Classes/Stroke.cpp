@@ -132,3 +132,20 @@ CCPoint Stroke::getBigPoint(){
 // StrokeNode* Stroke::getStrokeNode(){
 // 	return 
 /*}*/
+
+string Stroke::sendOutput(){
+	string ret;
+	for (vector<CCPoint>::const_iterator it = pointList.begin(); it != pointList.end() ; ++it)
+	{
+		CCPoint temp = (*it);
+		ret += convertToString(ceil(temp.x))+ "/" + convertToString(ceil(temp.y)) + "/";
+	}
+	ret += "@";
+	return ret;
+}
+
+string Stroke::convertToString(float f){
+	ostringstream buff;
+	buff<<f;
+	return buff.str();
+}

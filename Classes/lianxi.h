@@ -4,6 +4,8 @@
 #include "cocos2d.h"
 #include "Character.h"
 #include "StrokeNode.h"
+#include "LuaScriptReader.h"
+
 USING_NS_CC;
 using namespace std;
 
@@ -34,6 +36,7 @@ private:
 	Character charac;
 	Character character;			//store writing character not used yet
 	Character newCharac;
+	Character Originccccc;
 	CCNode* writing_points_node;
 	vector<CCDrawNode*> writing_stroke;
 	vector<CCPoint> writing_points;			//保存写下来的字点集信息

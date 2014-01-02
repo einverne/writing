@@ -7,6 +7,7 @@
 #include <sstream>
 // #include "Stroke.h"
 #include "StrokeNode.h"
+#include "tools/DataTool.h"
 
 #define tianzige_draw_tag 1001
 
@@ -162,6 +163,9 @@ bool lianxi::init(){
 // 			(*it)->runAction(actionBy);
 // 		}
 
+		Originccccc = readxml.getCharacter();
+
+
 		return true;
 	}
 	return false;
@@ -290,12 +294,13 @@ void lianxi::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 	writing_points.push_back(writing_prePoint);
 	CCSprite* tianzige = (CCSprite*)this->getChildByTag(tianzige_draw_tag);
 	CCRect rect = tianzige->boundingBox();
+	output = "";
 	if (rect.containsPoint(writing_prePoint))
 	{
 		CCPoint tmpp = tianzige_draw->convertToNodeSpace(writing_prePoint);
 		tmpp = convert512(tmpp);
 		//output += "[[";
-		string temp = convertToString(tmpp.x) + "/" + convertToString(tmpp.y) + "/";
+		string temp = convertToString(ceil(tmpp.x)) + "/" + convertToString(ceil(tmpp.y)) + "/";	
 		output += temp;
 	}
 }
@@ -315,7 +320,7 @@ void lianxi::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
 		CCPoint tmpp = tianzige_draw->convertToNodeSpace(location);
 		tmpp = convert512(tmpp);
 		// 采集点信息
-		string temp = convertToString(tmpp.x) + "/" + convertToString(tmpp.y) + "/";
+		string temp = convertToString(ceil(tmpp.x)) + "/" + convertToString(ceil(tmpp.y)) + "/";
 		output += temp;
 		// 	CCDrawNode * dot = CCDrawNode::create();
 		// 	dot->drawDot(location,5.0,ccc4f(188, 188, 188, 120));
@@ -345,7 +350,7 @@ void lianxi::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 	{
 		CCPoint tmpp = tianzige_draw->convertToNodeSpace(location);
 		tmpp = convert512(tmpp);
-		string temp = convertToString(tmpp.x) + "/" + convertToString(tmpp.y);
+		string temp = convertToString(ceil(tmpp.x)) + "/" + convertToString(ceil(tmpp.y));
 		output += temp;
 		output += "/@";
 		//output += "]]";
@@ -375,20 +380,78 @@ void lianxi::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 	
 	CCMoveTo* mt = CCMoveTo::create(1,tianzige_draw->getPosition()-ccp(tianzige_draw->getContentSize().width/2,tianzige_draw->getContentSize().height/2));
 	
-	my_strokenode->runAction(CCSequence::create(mb,mt,NULL));
 
 
-	//当前笔画往后+1
-	current_writing_stroke++;
-	if (current_writing_stroke <= charac.getStrokeCount())
+
+
+
+
+	//////////////////////////////////////////
+
+	string filepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/WriteZiInfo.lua");
+	string basepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/BaseLib.lua");
+	string gpath = string("lua/ZiList/") + hanzi + string("/funcs.txt");			//字符串拼接 调试技能 ,s8
+	string Globalpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/ZiList/八/funcs.txt");
+	string apipath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/RunAPI.lua");
+	string rulespath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/ZiList/八/rules.txt");
+
+	//产生output
+
+	int curr = 1;
+	string toutput;
+	if (current_writing_stroke > 1)
 	{
-		strokeNodes[current_writing_stroke-1]->setVisible(true);
+		toutput = output;
+		output = "";
 	}
+	while (curr < current_writing_stroke)
+	{
+		output += Originccccc.getStroke(curr).sendOutput();
+		curr ++;
+	}
+	output += toutput;
+	CCLog("output %s",output.c_str());
+
+
+	CLuaScriptReader gReader;
+	gReader.InitLuaScriptReader();
+	char * temp = new char[output.length() + 1];
+	strcpy(temp,output.c_str());
+	gReader.GetWriteZiInfo(temp);			//手写字坐标
+	delete [] temp;
+	char * retStr = new char[50];
+	gReader.GetZiName(hanzi);
+	gReader.SetRulesFunc(rulespath.c_str());
+	gReader.RunScriptFile(filepath.c_str(),"WriteZiInfo.lua");
+	gReader.SetGlobalFunc(Globalpath.c_str());
+	gReader.RunMixedFile(basepath.c_str(),"BaseLib.lua");
+	gReader.RunScriptFile(apipath.c_str(),retStr,"RunAPI.lua");
+
+
+	int t = atoi(retStr);
+	if (1 == t)
+	{
+		CCLog("suitable to lua ");
+		my_strokenode->runAction(CCSequence::create(mb,mt,NULL));
+
+		//当前笔画往后+1
+		CCLog("current_writing_stroke %d",current_writing_stroke);
+		current_writing_stroke++;
+		if (current_writing_stroke <= charac.getStrokeCount())
+		{
+			strokeNodes[current_writing_stroke-1]->setVisible(true);
+		}
+	}else{
+		CCLog("current_writing_stroke %d",current_writing_stroke);
+	}
+
+
+
 }
 
 
 void lianxi::keyBackClicked(){
-	CCLog("BBBB");
+
 // 	CCDirector::sharedDirector()->replaceScene(WallScene::scene());
 	CCDirector::sharedDirector()->popScene();
 }
@@ -409,13 +472,11 @@ string lianxi::convertToString(float f){
 }
 
 void lianxi::clearStroke(float dt){
-	CCLog("clearStroke");
 	for (vector<CCDrawNode*>::const_iterator it = writing_stroke.begin(); it != writing_stroke.end(); ++it )
 	{
 		removeChild(*it);
 	}
 	writing_stroke.clear();
-	CCLog("%d",writing_stroke.size());
 	
 	CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(lianxi::clearStroke),this);
 

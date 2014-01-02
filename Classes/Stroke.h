@@ -18,10 +18,12 @@ public:
 	CCPoint getMidPoint();						//获取一笔中点，简单理解为首点和尾点的中点
 	CCSize getSize();
 	CCPoint getBigPoint();						//获取坐标值最大的点，包围盒最右上角的点
+	string sendOutput();						//产生送给Lua的字符串
 // 	StrokeNode* getStrokeNode();
 private:
 	float distance(CCPoint p1,CCPoint p2);		//两点间距离
 	int getStrokeBox();					//记录一笔包围盒，重采样使用
+	string convertToString(float f);
 public:
     Stroke(void);
 	Stroke(vector<CCPoint> points);				//传入一串点，构造一笔
