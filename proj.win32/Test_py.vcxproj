@@ -136,6 +136,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\HclcData.cpp" />
     <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
     <ClCompile Include="..\Classes\lianxi.cpp" />
+    <ClCompile Include="..\Classes\LuaScriptReader.cpp" />
     <ClCompile Include="..\Classes\PopLayer.cpp" />
     <ClCompile Include="..\Classes\ReadXML.cpp" />
     <ClCompile Include="..\Classes\SecondScene.cpp" />
@@ -165,6 +166,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\HclcData.h" />
     <ClInclude Include="..\Classes\HelloWorldScene.h" />
     <ClInclude Include="..\Classes\lianxi.h" />
+    <ClInclude Include="..\Classes\LuaScriptReader.h" />
     <ClInclude Include="..\Classes\PopLayer.h" />
     <ClInclude Include="..\Classes\ReadXML.h" />
     <ClInclude Include="..\Classes\SecondScene.h" />

@@ -96,6 +96,9 @@
     <ClCompile Include="..\Classes\StrokeNode.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\LuaScriptReader.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -172,6 +175,9 @@
       <Filter>Classes\tools</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\StrokeNode.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\LuaScriptReader.h">
       <Filter>Classes</Filter>
     </ClInclude>
   </ItemGroup>
