@@ -64,7 +64,7 @@ bool HelloWorld::init()
 		this->setTouchEnabled(true);
 	}
 
-	
+
 	// 每秒呼叫 HellowWorld::gameLogic 函数一次
 	//this->schedule( schedule_selector(HelloWorld::gameLogic), 1.0 );
 
@@ -164,11 +164,11 @@ bool HelloWorld::init()
 	this->addChild(pLabel,1);
 
 
-	//     const char* labelstring = this->getStringFromLua();
-	//     CCLabelTTF* luaLabel = CCLabelTTF::create(labelstring,"Arial",18);
-	//     luaLabel->setPosition(ccp(origin.x + luaLabel->getContentSize().width/2 + 10,
-	// 	origin.y + visibleSize.height - luaLabel->getContentSize().height));
-	//     this->addChild(luaLabel,1);
+	const char* labelstring = this->getStringFromLua();
+	CCLabelTTF* luaLabel = CCLabelTTF::create(labelstring,"Arial",18);
+	luaLabel->setPosition(ccp(origin.x + luaLabel->getContentSize().width/2 + 10,
+		origin.y + visibleSize.height - luaLabel->getContentSize().height));
+	this->addChild(luaLabel,1);
 
 
 	//this->scheduleUpdate();
@@ -177,7 +177,7 @@ bool HelloWorld::init()
 	editbox->setPosition(ccp(visibleSize.width/2,visibleSize.height/2-100));
 	editbox->setPlaceHolder("Editddddd");
 	editbox->setPlaceholderFontColor(ccWHITE);
-	
+
 	return true;
 
 	/*
@@ -303,18 +303,21 @@ const char* HelloWorld::getStringFromLua(){
 	//pEngine->executeGlobalFunction("testfunc");
 
 	//http://www.himigame.com/lua-game/1343.html
-	CCLOG("Str = %s",HclcData::sharedHD()->getLuaVarString("Test.lua","luaStr"));
-	CCLOG("Str2 = %s",HclcData::sharedHD()->getLuaVarString("Test.lua","luaStr2"));
-	CCLOG("age = %s",HclcData::sharedHD()->getLuaVarOneOfTable("Test.lua", "luaTable","age"));
-	CCLOG("name = %s",HclcData::sharedHD()->getLuaVarOneOfTable("Test.lua", "luaTable","name"));
-	CCLOG("sex = %s",HclcData::sharedHD()->getLuaVarOneOfTable("Test.lua", "luaTable","sex"));
-	string re = HclcData::sharedHD()->getLuaVarTable("Test.lua", "luaTable");
-	//    CCLOG("Table = %s",);
-	//    CCLOG("Call Lua Function Back: %s",HclcData::sharedHD()->callLuaFunction("Test.lua", "luaLogString"));
+	CCLOG("Str = %s",LuaData::sharedHD()->getLuaVarString("Test.lua","luaStr"));
+	CCLOG("Str2 = %s",LuaData::sharedHD()->getLuaVarString("Test.lua","luaStr2"));
+	CCLOG("age = %s",LuaData::sharedHD()->getLuaVarOneOfTable("Test.lua", "luaTable","age"));
+	CCLOG("name = %s",LuaData::sharedHD()->getLuaVarOneOfTable("Test.lua", "luaTable","name"));
+	CCLOG("sex = %s",LuaData::sharedHD()->getLuaVarOneOfTable("Test.lua", "luaTable","sex"));
+	string re = LuaData::sharedHD()->getLuaVarTable("Test.lua", "luaTable");
 
-	//    HclcData::sharedHD()->callCppFunction("Test.lua");
-	//    HclcData::sharedHD()->callLuaFunction("Test.lua", "call_Cpp");
-	return HclcData::sharedHD()->getLuaVarString("Test.lua","luaStr");
+	CCLOG("Table = %s",re.c_str());
+	const char * te = LuaData::sharedHD()->callLuaFunction("Test.lua", "luaLogString");
+	CCLOG("Call Lua Function Back: %s",te);
+
+	LuaData::sharedHD()->callCppFunction("Test.lua");
+	LuaData::sharedHD()->callLuaFunction("Test.lua", "call_Cpp");
+
+	return LuaData::sharedHD()->getLuaVarString("Test.lua","luaStr");
 }
 
 /*
@@ -516,14 +519,14 @@ projectilesToDelete->release();
 
 
 void HelloWorld::popup(){
-// 	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
-// 	PopLayer* popL = PopLayer::create("pop/background.png");
-// 	popL->setContentSize(CCSizeMake(400,400));
-// 	popL->setTitle("test");
-// 	popL->setCallBackFunc(this,callfuncN_selector(HelloWorld::buttonCallBack));
-// 	popL->addButton("Button1.png","Button1.png","Y",0);
-// 	popL->addButton("Button2.png","Button2.png","N",1);
-// 	this->addChild(popL,100);
+	// 	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
+	// 	PopLayer* popL = PopLayer::create("pop/background.png");
+	// 	popL->setContentSize(CCSizeMake(400,400));
+	// 	popL->setTitle("test");
+	// 	popL->setCallBackFunc(this,callfuncN_selector(HelloWorld::buttonCallBack));
+	// 	popL->addButton("Button1.png","Button1.png","Y",0);
+	// 	popL->addButton("Button2.png","Button2.png","N",1);
+	// 	this->addChild(popL,100);
 }
 
 void HelloWorld::buttonCallBack(CCNode* pSender){

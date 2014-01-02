@@ -1,7 +1,5 @@
 #include "UTF8ToGBK.h"
 
-
-
 UTF8ToGBK::UTF8ToGBK(void)  
 {  
 }  

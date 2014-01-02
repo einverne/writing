@@ -10,7 +10,7 @@ public:
 public:
     Bujian(void);
     ~Bujian(void);
-    int strokeCount;
+    int strokeCount; 
     vector<Stroke> strokeList;
 };
 

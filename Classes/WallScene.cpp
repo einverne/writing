@@ -3,6 +3,7 @@
 #include "UTF8ToGBK.h"
 #include "lianxi.h"
 #include "PopLayer.h"
+#include "tools/DataTool.h"
 
 USING_NS_CC;
 
@@ -27,7 +28,7 @@ bool WallScene::init()
 {
 	//////////////////////////////
 	// 1. super init first
-	if ( !CCLayerColor::initWithColor(ccc4(140,131,122,255)) )
+	if ( !CCLayer::init() )
 	{
 		return false;
 	}
@@ -64,7 +65,7 @@ bool WallScene::init()
 	//1.读取xml文件，确定缩放比例//
 	string myfilename=CCFileUtils::sharedFileUtils()->fullPathForFilename("wall.xml");
 	TiXmlDocument* myDocument = new TiXmlDocument(myfilename.c_str());  
-	myDocument->LoadFile();  
+	myDocument->LoadFile();
 
 	TiXmlElement* rootElement = myDocument->RootElement();  // Class
 	TiXmlElement* metaElement = rootElement->FirstChildElement();  // meta   
@@ -120,7 +121,8 @@ bool WallScene::init()
 
 			string tempfilename=imgElement->GetText();
 			string temphanzi=hanziElement->GetText();
-			string GBKhanzi = UTF8ToGBK::UTF8TOGBK(temphanzi);
+			CCLog("temphanzi %s",temphanzi.c_str());
+			//			string GBKhanzi = UTF8ToGBK::UTF8TOGBK(temphanzi);
 			string temppro=proficiencyElement->GetText();
 
 			//stone sprite
@@ -130,7 +132,7 @@ bool WallScene::init()
 			this->addChild(pSprite1, 1);
 
 			//文本框
-			CCLabelTTF* pLabel = CCLabelTTF::create(GBKhanzi.c_str(), "Zapfino", 100);			
+			CCLabelTTF* pLabel = CCLabelTTF::create(temphanzi.c_str(), "Zapfino", 100);			
 			pLabel->setPosition(ccp(origin.x + x, origin.y + y));
 			this->addChild(pLabel, 2);
 
@@ -182,7 +184,7 @@ bool WallScene::init()
 			this->addChild(pSprite2, 1);
 			/////////////
 			stoneElement=stoneElement->NextSiblingElement();
-		}		
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -195,17 +197,20 @@ bool WallScene::init()
 	CCPoint changepoint=ccp(0,0);
 	touched=false;
 	this->setTouchEnabled(true);
-	CCDirector::sharedDirector()->getTouchDispatcher()->addStandardDelegate(this,0);
+	//原本如果没有重载register那个函数，需要调用如下两个其中之一
+	//CCDirector::sharedDirector()->getTouchDispatcher()->addStandardDelegate(this,1);
 	//CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 0, true);
-
-	
 
 	return true;
 }
 
 void WallScene::onEnter(){
-	CCLog("onEnter");
+	CCLayer::onEnter();
 
+}
+
+void WallScene::onExit(){
+	CCLayer::onExit();
 }
 
 // bool  WallScene::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
@@ -282,7 +287,7 @@ void WallScene::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 	beginTime = millisecondNow();
 	//定时器,直接使用scheduleUpdate无效
 	//this->scheduleUpdate();
-	CCDirector::sharedDirector()->getScheduler()->scheduleSelector(schedule_selector(WallScene::longPressUpdate),this,1.0f,false);
+	CCDirector::sharedDirector()->getScheduler()->scheduleSelector(schedule_selector(WallScene::longPressUpdate),this,1.5f,false);
 	for (vector<CHanziManage>::iterator iter = hanzilist.begin();iter!=hanzilist.end();++iter)
 	{
 		CCPoint hanziPos = iter->pos;
@@ -293,8 +298,8 @@ void WallScene::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 
 		if (rect.containsPoint(touchbeginpoint))
 		{
-			CCLog(iter->character.c_str());
 			selectedHanzi = iter->character;
+			selectedCHanziManageIter = iter;
 		}
 	}
 
@@ -338,7 +343,7 @@ void WallScene::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 			CCPoint realPos = ccp(hanziPos.x+changepoint.x,hanziPos.y+changepoint.y);
 			//CCLog("hanziPos %f %f",hanziPos.x,hanziPos.y);
 			CCRect rect = CCRectMake(realPos.x-100,realPos.y-100,200,200);
-
+			//在字周围200像素内，判断为点中
 			if (rect.containsPoint(touchpoint))
 			{
 				CCLog(iter->character.c_str());
@@ -348,19 +353,24 @@ void WallScene::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 		}
 	}
 
-// 	if (endTime-beginTime > 3000)
-// 	{
-// 		popup();
-// 	}
+	// 	if (endTime-beginTime > 3000)
+	// 	{
+	// 		popup();
+	// 	}
 	touched=false;
 	isMoved = false;
+	selectedHanzi = "";
 
 	//解除定时器
 	CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(WallScene::longPressUpdate),this);
 }
 
+void WallScene::registerWithTouchDispatcher(){
+	CCDirector::sharedDirector()->getTouchDispatcher()->addStandardDelegate(this,1);
+}
+
 void WallScene::update(float delta){
-	CCLog("update ssss");
+	CCLog("update");
 }
 
 
@@ -394,28 +404,103 @@ bool WallScene::isInSprite(CCTouch* pTouch){
 	return false;
 }
 
-void WallScene::singleClick(string hanzi){    
-	CCDirector::sharedDirector()->replaceScene(lianxi::scene(hanzi));
+/************************************************************************/
+/* string hanzi 传给lianxi界面书写                                                                      */
+/************************************************************************/
+void WallScene::singleClick(string hanzi){
+	//解除schedule,不然可能出现不可预测问题。
+	this->unscheduleAllSelectors();
+// 	CCDirector::sharedDirector()->replaceScene(lianxi::scene(hanzi));
+	CCDirector::sharedDirector()->pushScene(lianxi::scene(hanzi));
 }
 
 void WallScene::popup(string hanzi){
 	CCLog("popup wall");
 	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
-	PopLayer* popL = PopLayer::create(hanzi,"pop/background.png");
+	popL = PopLayer::create(hanzi,"pop/background.png");
 	popL->setContentSize(CCSizeMake(winSize.width*0.75,winSize.height*0.75));
 	popL->setTitle("test");
 	popL->setCallBackFunc(this,callfuncN_selector(WallScene::buttonCallBack));
 	popL->addButton("Button1.png","Button1.png","Y",0);
 	popL->addButton("Button2.png","Button2.png","N",1);
-	CCDirector::sharedDirector()->getRunningScene()->addChild(popL,10000);
+	CCDirector::sharedDirector()->getRunningScene()->addChild(popL,100);
 }
 
 void WallScene::buttonCallBack(CCNode* pNode){
 	CCLog("button call back. tag: %d", pNode->getTag());
+	if (pNode->getTag() == 0)
+	{
+		//弹出对话框，确认，将汉字写到对应位置
+		//const char* h = popL->getHanzi();
+		for (vector<CHanziManage>::iterator iter = hanzilist.begin(); iter != hanzilist.end(); ++iter)
+		{
+			if (iter == selectedCHanziManageIter)
+			{
+				// 将改动的汉字写入到xml文件，saveToFile()
+				const char* h = popL->getHanzi();
+				//				string dst(h,strlen(h)+1);
+				saveToFile(iter->character, h);
+
+				iter->character = string(popL->getHanzi());
+				CCLabelTTF* t = (CCLabelTTF*)iter->textbox;
+				t->setString(popL->getHanzi());
+			}
+		}
+
+
+	}else
+	{
+		//弹出对话框，取消，什么都不做
+	}
 }
 
 void WallScene::longPressUpdate(float fDelta){
 	CCLog("Update %f",fDelta);
-	
-	popup(selectedHanzi);
+
+	if (isMoved == false && selectedHanzi.length() > 0)
+	{
+		popup(selectedHanzi);
+	}
 }
+
+void WallScene::saveToFile(string src,const char* dst){
+	int i = 0;
+	string myfilename=CCFileUtils::sharedFileUtils()->fullPathForFilename("wall.xml");
+	TiXmlDocument* myDocument = new TiXmlDocument(myfilename.c_str());
+	myDocument->LoadFile();
+
+	TiXmlElement* rootEle = myDocument->RootElement();
+	TiXmlElement* meta = rootEle->FirstChildElement();
+	TiXmlElement* data = meta->NextSiblingElement();
+	TiXmlElement* stone = data->FirstChildElement();
+	while (stone)
+	{
+
+		TiXmlElement* type = stone->FirstChildElement();
+		string text(type->GetText());
+		string wordbox("wordbox");
+		if (text == wordbox)
+		{
+			TiXmlElement* img = stone->FirstChildElement("img");
+			TiXmlElement* hanzi = stone->FirstChildElement("hanzi");
+			string text(hanzi->GetText());
+			if (text == src)
+			{
+				TiXmlElement* new_hanzi = new TiXmlElement("hanzi");
+				// 				string dst_str = GBKToUTF8(dst);
+				// 				string dst_ss = DataTool::GB2312ToUTF8(dst);
+				// 				CCLog("DST XXXX%s XXXX%s",dst.c_str(),dst_str.c_str());
+				// 				const char* temp = dst.c_str();
+				TiXmlText* newText = new TiXmlText(dst);
+				new_hanzi->InsertEndChild(*newText);
+				stone->RemoveChild(hanzi);
+				stone->InsertAfterChild(img,*new_hanzi);
+				break;
+			}
+		}
+		stone = stone->NextSiblingElement();
+	}
+	myDocument->SaveFile("wall.xml");
+
+}
+

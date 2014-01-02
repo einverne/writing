@@ -1,4 +1,5 @@
 #include "PopLayer.h"
+#include "UTF8ToGBK.h"
 
 using namespace std;
 
@@ -65,6 +66,15 @@ PopLayer* PopLayer::create(const string hanzi,const char* backgroundImage){
 
 void PopLayer::setHanzi(string h){
 	this->hanzi = h;
+}
+const char* PopLayer::getHanzi(){
+	const char* re = "";
+	if (getEditBoxHanzi())
+	{
+		 re = getEditBoxHanzi()->getText();
+		 CCLog("EditBox : %s",getEditBoxHanzi()->getText());
+	}
+	return re;
 }
 
 void PopLayer::setTitle(const char* title, int fontsize){
@@ -167,7 +177,13 @@ void PopLayer::onEnter(){
 		CCEditBox* editbox = getEditBoxHanzi();
 		editbox->setPosition(ccp(winSize.width/2,winSize.height/2));
 		editbox->setTouchPriority(-128);	//设置触摸优先级，越小优先级越高
-		editbox->setPlaceHolder("");
+		editbox->setPlaceHolder(UTF8ToGBK::UTF8TOGBK(hanzi).c_str());
+		editbox->setText(UTF8ToGBK::UTF8TOGBK(hanzi).c_str());
+		editbox->setMaxLength(1);
+		//设置键盘输入模式
+		editbox->setInputMode(kEditBoxInputModeAny);
+		//设置键盘缩回按钮为done
+		editbox->setReturnType(kKeyboardReturnTypeDone);
 		this->addChild(editbox);
 	}
 

@@ -3,11 +3,12 @@
 
 #include "cocos2d.h"
 #include "HanziManage.h"
+#include "PopLayer.h"
 #include <vector>
 using namespace std;
 USING_NS_CC;
 
-class WallScene : public CCLayerColor
+class WallScene : public CCLayer
 {
 public:
 	vector<CHanziManage> hanzilist;
@@ -22,6 +23,7 @@ public:
 
 	virtual bool init();
 	virtual void onEnter();
+	virtual void onExit();
 
 	static cocos2d::CCScene* scene();
 
@@ -34,6 +36,7 @@ public:
 	void ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent);
 	void ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent);
 	void ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent);
+	void registerWithTouchDispatcher();
 
 	// implement the "static node()" method manually
 	CREATE_FUNC(WallScene);
@@ -46,6 +49,9 @@ public:
 	virtual void update(float delta);
 	//长按
 	void longPressUpdate(float fDelta);
+
+	//保存到xml文件
+	void saveToFile(string src,const char* dst);
 
 	//获取当前时间 精确到毫秒数
 	static inline long millisecondNow()
@@ -71,6 +77,10 @@ public:
 
 	bool isInSprite(CCTouch* pTouch);
 	void singleClick(string hanzi);
+	
+private:
+	PopLayer* popL;
+	vector<CHanziManage>::iterator selectedCHanziManageIter;
 };
 
 #endif // __WallScene_H__

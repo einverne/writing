@@ -40,6 +40,6 @@ CReadXML::~CReadXML(void)
 {
 }
 
-Character* CReadXML::getCharacter(){
-	return &character;
+Character CReadXML::getCharacter(){
+	return character;
 }

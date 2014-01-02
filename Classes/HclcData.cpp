@@ -5,17 +5,17 @@
 #include "HclcData.h"
 #include "CCLuaEngine.h"
 
-bool HclcData::_isFirst;
-HclcData* HclcData::_shared;
+bool LuaData::_isFirst;
+LuaData* LuaData::_shared;
 
-HclcData* HclcData::sharedHD(){
+LuaData* LuaData::sharedHD(){
     if(!_isFirst){
-	_shared = new HclcData();
+	_shared = new LuaData();
     }
     return _shared;
 }
 
-const char* HclcData::getLuaVarString(const char* luaFileName,const char* varName){
+const char* LuaData::getLuaVarString(const char* luaFileName,const char* varName){
 
     lua_State* ls = CCLuaEngine::defaultEngine()->getLuaStack()->getLuaState();
 
@@ -44,7 +44,7 @@ const char* HclcData::getLuaVarString(const char* luaFileName,const char* varNam
     return str;
 }
 
-const char* HclcData::getLuaVarOneOfTable(const char* luaFileName,const char* varName,const char* keyName){
+const char* LuaData::getLuaVarOneOfTable(const char* luaFileName,const char* varName,const char* keyName){
  
     lua_State* ls = CCLuaEngine::defaultEngine()->getLuaStack()->getLuaState();
 
@@ -74,7 +74,7 @@ const char* HclcData::getLuaVarOneOfTable(const char* luaFileName,const char* va
 }
 
 
-string HclcData::getLuaVarTable(const char* luaFileName,const char* varName){
+string LuaData::getLuaVarTable(const char* luaFileName,const char* varName){
     lua_State*  ls = CCLuaEngine::defaultEngine()->getLuaStack()->getLuaState();
 
     std::string filefullpath = CCFileUtils::sharedFileUtils()->fullPathForFilename(luaFileName);
@@ -107,7 +107,7 @@ string HclcData::getLuaVarTable(const char* luaFileName,const char* varName){
 }
 
 
-const char* HclcData::callLuaFunction(const char* luaFileName,const char* functionName){
+const char* LuaData::callLuaFunction(const char* luaFileName,const char* functionName){
     lua_State*  ls = CCLuaEngine::defaultEngine()->getLuaStack()->getLuaState();
  
     std::string filefullpath = CCFileUtils::sharedFileUtils()->fullPathForFilename(luaFileName);
@@ -118,24 +118,27 @@ const char* HclcData::callLuaFunction(const char* luaFileName,const char* functi
         return NULL;
     }
  
+	//luaopen_base(ls);	//print
     lua_getglobal(ls, functionName);
  
-    lua_pushstring(ls, "Himi");
+    lua_pushstring(ls, "einverne");
     lua_pushnumber(ls, 23);
     lua_pushboolean(ls, true);
 
-    /*
+//     lua_call(ls, 3, 1);
+	/*
      lua_call
      第一个参数:函数的参数个数
      第二个参数:函数返回值个数
      */
-    lua_call(ls, 3, 1);
+	lua_pcall(ls, 3, 1,0);
     const char* iResult = lua_tostring(ls, -1);
+
     return iResult;
 }
 
 
-void  HclcData::callCppFunction(const char* luaFileName){
+void  LuaData::callCppFunction(const char* luaFileName){
  
     lua_State*  ls = CCLuaEngine::defaultEngine()->getLuaStack()->getLuaState();
  
@@ -153,7 +156,7 @@ void  HclcData::callCppFunction(const char* luaFileName){
     }
 }
  
-int HclcData::cppFunction(lua_State* ls){
+int LuaData::cppFunction(lua_State* ls){
     int luaNum = (int)lua_tonumber(ls, 1);
     int luaStr = (int)lua_tostring(ls, 2);
     CCLOG("Lua调用cpp函数时传来的两个参数： %i  %s",luaNum,luaStr);
@@ -170,11 +173,11 @@ int HclcData::cppFunction(lua_State* ls){
     return 2;
 }
  
-const char* HclcData::getFileFullPath(const char* fileName){
+const char* LuaData::getFileFullPath(const char* fileName){
     return CCFileUtils::sharedFileUtils()->fullPathForFilename(fileName).c_str();
 }
 
-HclcData::~HclcData(){
+LuaData::~LuaData(){
  
     CC_SAFE_DELETE(_shared);
     _shared=NULL;

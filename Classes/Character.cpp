@@ -7,7 +7,6 @@ Character::Character(void)
 	fontSize = 512;
 }
 
-
 Character::~Character(void)
 {
 	bujianList.clear();
@@ -21,6 +20,8 @@ bool Character::addBujian(Bujian bujian){
 	return true;
 }
 
+//////////////////////////////////////////////////////////////////////////
+//获取包围盒大小
 CCSize Character::getBox(){
 	float xmin=1000000,ymin=1000000;
 	float xmax=0,ymax=0;
@@ -78,6 +79,9 @@ CCSize Character::getBox(){
 	}
 }
 
+//////////////////////////////////////////////////////////////////////////
+// 改变坐标系，将读取的xml坐标系做转换，符合cocos2d-x第一象限坐标系
+//////////////////////////////////////////////////////////////////////////
 void Character::transformCoordinate(CCPoint point,float length){
 	vector<Bujian>::iterator iter = bujianList.begin();
 	for (int bujiani = 0 ; bujiani < bujianCount ; ++ bujiani)
@@ -144,6 +148,74 @@ void Character::prepareDrawNode(){
 // 				vector<CCDrawNode*>::iterator nodeIter = nodeList.end();
 				//nodeList.insert(nodeIter,node);
 				bujianList[i].strokeList[strokei].nodeList.push_back(node);
+			}
+		}
+	}
+}
+
+/************************************************************************/
+/* 依据传入CCSize，宽度，重新计算，点的坐标值，进行缩放操作，适合田字格大小                                                                     */
+/************************************************************************/
+void Character::resize(CCSize size){
+	float width = size.width;
+	float scale = width/this->fontSize;		//确定缩放比例
+	//重置所有保存点
+	for (int bujiani = 0 ; bujiani < bujianCount; ++ bujiani)
+	{
+		Bujian bujian = bujianList.at(bujiani);
+		vector<Stroke> strokeList = bujian.strokeList;
+		for (int strokei = 0 ;  strokei < bujian.strokeCount; ++strokei)
+		{
+			Stroke stroke = strokeList.at(strokei);
+			//重置stroke首点
+			bujianList[bujiani].strokeList[strokei].prePoint = stroke.prePoint*scale;
+
+			vector<CCPoint> pointList = stroke.pointList;
+			for (int i =0 ; i < stroke.pointCount ; ++ i)
+			{
+				CCPoint temppoint = pointList.at(i);
+				bujianList[bujiani].strokeList[strokei].pointList[i] = temppoint*scale;
+			}
+		}
+	}
+	
+}
+
+//重采样
+void Character::resample(){
+	for (int bujiani = 0 ; bujiani < bujianCount ; ++ bujiani)
+	{
+		Bujian bujian  = bujianList.at(bujiani);
+		for (int strokei = 0 ; strokei < bujian.strokeCount ; ++ strokei)
+		{
+			bujianList[bujiani].strokeList[strokei].resample();
+		}
+	}
+}
+
+/************************************************************************/
+/* 传入第几笔no  笔画从1开始                                                        */
+/************************************************************************/
+Stroke Character::getStroke(int no){
+	int totalStrokeCount = 0;
+	int tag = 0;
+	for (int i = 0; i < this->bujianCount ; ++i)
+	{
+		totalStrokeCount += bujianList[i].strokeCount;
+	}
+	if (no <= totalStrokeCount)
+	{
+		//小于全部笔画数
+		for (int j = 0 ; j < this->bujianList.size() ; ++j )
+		{
+			Bujian bujian_temp = bujianList[j];
+			for (int k = 0 ; k < bujian_temp.strokeList.size() ; ++k)
+			{
+				tag++;
+				if (tag == no)
+				{
+					return bujian_temp.strokeList[k];
+				}
 			}
 		}
 	}
