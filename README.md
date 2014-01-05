@@ -4,10 +4,10 @@ writing
 writing Chinese
 
 ###已实现
-- 弹出窗口类 设计未全部完成
+- 弹出窗口类PopLayer 设计未全部完成
 - 启动界面Layer，WallSceneLayer，lianxi Layer，简单界面布局
 - 和Lua交互实现： 1. 从Lua文件获取String 2. 从Lua文件获取Table 3.调用Lua全局函数 4. 传参数给Lua函数 5. Lua函数调用static C++函数
-- 
+- 字符编码转换DataTool类
 
 ###设计实现需修改地方
 ####界面设计和事件响应
