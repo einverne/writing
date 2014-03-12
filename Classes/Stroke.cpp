@@ -97,6 +97,7 @@ void Stroke::resample(){
 	}
 	pointList = dstpoList;
 	pointCount = pointList.size();
+	prePoint = pointList[0];
 }
 
 CCSize Stroke::getRotateAng(){

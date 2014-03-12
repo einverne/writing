@@ -11,6 +11,14 @@ using namespace std;
 class Stroke
 {
 public:
+	Stroke(void);
+	Stroke(vector<CCPoint> points);				//传入一串点，构造一笔
+	~Stroke(void);
+	int pointCount;
+	CCPoint prePoint;		//保存每一笔首点
+	vector<CCPoint> pointList;
+	vector<CCDrawNode*> nodeList;
+public:
 	bool addPoint(CCPoint point);
 	float strokeLength();				//一笔的长度
 	void resample();
@@ -24,14 +32,6 @@ private:
 	float distance(CCPoint p1,CCPoint p2);		//两点间距离
 	int getStrokeBox();					//记录一笔包围盒，重采样使用
 	string convertToString(float f);
-public:
-    Stroke(void);
-	Stroke(vector<CCPoint> points);				//传入一串点，构造一笔
-    ~Stroke(void);
-    int pointCount;
-	CCPoint prePoint;		//保存每一笔首点
-    vector<CCPoint> pointList;
-	vector<CCDrawNode*> nodeList;
 };
 
 #endif
