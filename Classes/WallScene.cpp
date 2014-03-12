@@ -4,6 +4,7 @@
 #include "lianxi.h"
 #include "PopLayer.h"
 #include "tools/DataTool.h"
+#include "LianxiScene.h"
 
 USING_NS_CC;
 
@@ -411,7 +412,8 @@ void WallScene::singleClick(string hanzi){
 	//解除schedule,不然可能出现不可预测问题。
 	this->unscheduleAllSelectors();
 // 	CCDirector::sharedDirector()->replaceScene(lianxi::scene(hanzi));
-	CCDirector::sharedDirector()->pushScene(lianxi::scene(hanzi));
+// 	CCDirector::sharedDirector()->pushScene(lianxi::scene(hanzi));
+	CCDirector::sharedDirector()->pushScene(LianxiScene::create(hanzi));
 }
 
 void WallScene::popup(string hanzi){
