@@ -52,7 +52,7 @@ TcharacterDrawnode* TcharacterDrawnode::create(string hz,CCSize showrect){
 }
 
 void TcharacterDrawnode::draw(){
-	CCLog("TcharacterDrawnode::draw");
+	//CCLog("TcharacterDrawnode::draw");
 	vector<StrokeDrawnode*>::iterator iter = strokedrawList.begin();
 	for (iter ; iter != strokedrawList.end(); ++iter)
 	{
