@@ -16,8 +16,22 @@ StrokeDrawnode::StrokeDrawnode(Stroke stro){
 	this->stroke = stro;
 }
 
+StrokeDrawnode* StrokeDrawnode::create(Stroke stro){
+	StrokeDrawnode* pRet = new StrokeDrawnode(stro);
+	if (pRet && pRet->init())
+	{
+		pRet->autorelease();
+		return pRet;
+	}else{
+		delete pRet;
+		pRet = NULL;
+		return NULL;
+	}
+}
+
 StrokeDrawnode::~StrokeDrawnode()
 {
+
 }
 
 void StrokeDrawnode::draw(){

@@ -21,7 +21,8 @@ TcharacterDrawnode::TcharacterDrawnode(string hz,CCSize showrect)
 		vector<Stroke> strokeList = bujian.strokeList;
 		for (int i = 0 ; i < strokeList.size() ; i++)
 		{
-			StrokeDrawnode* strokeDrawnode = new StrokeDrawnode(strokeList.at(i));
+			StrokeDrawnode* strokeDrawnode = StrokeDrawnode::create(strokeList.at(i));
+			strokeDrawnode->retain();
 			this->strokedrawList.push_back(strokeDrawnode);
 		}
 	}

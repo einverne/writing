@@ -12,6 +12,7 @@ public:
 	StrokeDrawnode();
 	StrokeDrawnode(Stroke stro);
 	~StrokeDrawnode();
+	static StrokeDrawnode* create(Stroke stro);
 	Stroke stroke;
 	ccColor4B mcolor;
 	virtual void draw();
