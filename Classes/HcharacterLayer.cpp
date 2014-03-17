@@ -13,6 +13,8 @@ bool HcharacterLayer::init(CCSprite* tianzige_draw){
 	if (CCLayer::init())
 	{
 		this->setSprite(tianzige_draw);
+		this->m_HDrawnode = HcharacterDrawnode::create();
+		this->addChild(m_HDrawnode);
 		return true;
 	}
 	return false;
