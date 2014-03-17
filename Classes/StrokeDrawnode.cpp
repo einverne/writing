@@ -47,3 +47,7 @@ void StrokeDrawnode::draw(){
 		pre = stroke.pointList[i];
 	}
 }
+
+void StrokeDrawnode::addPoint(CCPoint point){
+	this->stroke.addPoint(point);
+}

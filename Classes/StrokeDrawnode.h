@@ -17,6 +17,7 @@ public:
 	ccColor4B mcolor;
 	virtual void draw();
 	int visibleIndex;
+	void addPoint(CCPoint point);
 private:
 
 };
