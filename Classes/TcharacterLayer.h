@@ -13,10 +13,11 @@ public:
 	TcharacterLayer();
 	~TcharacterLayer();
 
-	virtual bool init();
+	virtual bool init(CCSprite* tianzige);
 	virtual void onExit();
 	virtual void onEnter();
-	CREATE_FUNC(TcharacterLayer);
+	//CREATE_FUNC(TcharacterLayer);
+	static TcharacterLayer* create(CCSprite* tianzige);
 	TcharacterDrawnode* m_TDrawnode;
 
 	CC_SYNTHESIZE_RETAIN(CCSprite*,m_sprite,Sprite);

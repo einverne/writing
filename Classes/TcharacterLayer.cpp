@@ -8,14 +8,11 @@ TcharacterLayer::~TcharacterLayer(){
 	CC_SAFE_RELEASE(m_sprite);
 }
 
-bool TcharacterLayer::init(){
+bool TcharacterLayer::init(CCSprite* tianzige){
 	if (CCLayer::init())
 	{
 		CCLog("TcharacterLayer");
-		
-
-		
-		
+		this->setSprite(tianzige);	
 
 		CCSprite* dog = CCSprite::create("dog.png");
 		dog->setPosition(CCPointMake(300,300));
@@ -23,6 +20,20 @@ bool TcharacterLayer::init(){
 		return true;
 	}
 	return false;
+}
+
+TcharacterLayer* TcharacterLayer::create(CCSprite* tianzige){
+	TcharacterLayer* pret = new TcharacterLayer();
+	if (pret && pret->init(tianzige))
+	{
+		pret->autorelease();
+		return pret;
+	}else
+	{
+		delete pret;
+		pret = NULL;
+		return pret;
+	}
 }
 
 void TcharacterLayer::onEnter(){
