@@ -30,26 +30,24 @@ bool LianxiScene::init(){
 	bool bRet = false;
 	do 
 	{
-		
-
-		CC_BREAK_IF(!CCScene::init());
-		touchLayer = TouchLayer::create();
-		CC_BREAK_IF(!touchLayer);
-		this->addChild(touchLayer);
-
 		backgroundLayer = BackgroundLayer::create();
 		CC_BREAK_IF(!backgroundLayer);
 		this->addChild(backgroundLayer);
 
-		TLayer = TcharacterLayer::create();
+		TLayer = TcharacterLayer::create(backgroundLayer->tianzige);
 		CC_BREAK_IF(!TLayer);
-		TLayer->setSprite(backgroundLayer->tianzige);			//将背景层中tianzige传给正字信息图层
+		//TLayer->setSprite(backgroundLayer->tianzige);			将背景层中tianzige传给正字信息图层
 		this->addChild(TLayer);
 
-		HLayer = HcharacterLayer::create();
+		HLayer = HcharacterLayer::create(backgroundLayer->tianzige_draw);
 		CC_BREAK_IF(!HLayer);
 		this->addChild(HLayer);
+		
+		touchLayer = TouchLayer::create(TLayer,HLayer);
+		CC_BREAK_IF(!touchLayer);
+		this->addChild(touchLayer);
 
+		CC_BREAK_IF(!CCScene::init());
 		bRet = true;
 	} while (0);
 	return bRet;
