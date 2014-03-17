@@ -126,6 +126,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
+    <ClCompile Include="..\Classes\BackgroundLayer.cpp" />
     <ClCompile Include="..\Classes\Bujian.cpp" />
     <ClCompile Include="..\Classes\Character.cpp" />
     <ClCompile Include="..\Classes\file\TDInvFileUtils.cpp" />
@@ -133,16 +134,22 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\GameScene.cpp" />
     <ClCompile Include="..\Classes\GameWall.cpp" />
     <ClCompile Include="..\Classes\HanziManage.cpp" />
+    <ClCompile Include="..\Classes\HcharacterDrawnode.cpp" />
+    <ClCompile Include="..\Classes\HcharacterLayer.cpp" />
     <ClCompile Include="..\Classes\HclcData.cpp" />
     <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
     <ClCompile Include="..\Classes\lianxi.cpp" />
+    <ClCompile Include="..\Classes\LianxiScene.cpp" />
     <ClCompile Include="..\Classes\LuaScriptReader.cpp" />
     <ClCompile Include="..\Classes\PopLayer.cpp" />
     <ClCompile Include="..\Classes\ReadXML.cpp" />
     <ClCompile Include="..\Classes\SecondScene.cpp" />
     <ClCompile Include="..\Classes\Splash.cpp" />
     <ClCompile Include="..\Classes\Stroke.cpp" />
+    <ClCompile Include="..\Classes\StrokeDrawnode.cpp" />
     <ClCompile Include="..\Classes\StrokeNode.cpp" />
+    <ClCompile Include="..\Classes\TcharacterDrawnode.cpp" />
+    <ClCompile Include="..\Classes\TcharacterLayer.cpp" />
     <ClCompile Include="..\Classes\TestMoveSprite.cpp" />
     <ClCompile Include="..\Classes\Tianzige.cpp" />
     <ClCompile Include="..\Classes\tinystr.cpp" />
@@ -150,12 +157,14 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\tinyxmlerror.cpp" />
     <ClCompile Include="..\Classes\tinyxmlparser.cpp" />
     <ClCompile Include="..\Classes\tools\DataTool.cpp" />
+    <ClCompile Include="..\Classes\TouchLayer.cpp" />
     <ClCompile Include="..\Classes\UTF8ToGBK.cpp" />
     <ClCompile Include="..\Classes\WallScene.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
+    <ClInclude Include="..\Classes\BackgroundLayer.h" />
     <ClInclude Include="..\Classes\Bujian.h" />
     <ClInclude Include="..\Classes\Character.h" />
     <ClInclude Include="..\Classes\file\TDInvFileUtils.h" />
@@ -163,21 +172,28 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\GameScene.h" />
     <ClInclude Include="..\Classes\GameWall.h" />
     <ClInclude Include="..\Classes\HanziManage.h" />
+    <ClInclude Include="..\Classes\HcharacterDrawnode.h" />
+    <ClInclude Include="..\Classes\HcharacterLayer.h" />
     <ClInclude Include="..\Classes\HclcData.h" />
     <ClInclude Include="..\Classes\HelloWorldScene.h" />
     <ClInclude Include="..\Classes\lianxi.h" />
+    <ClInclude Include="..\Classes\LianxiScene.h" />
     <ClInclude Include="..\Classes\LuaScriptReader.h" />
     <ClInclude Include="..\Classes\PopLayer.h" />
     <ClInclude Include="..\Classes\ReadXML.h" />
     <ClInclude Include="..\Classes\SecondScene.h" />
     <ClInclude Include="..\Classes\Splash.h" />
     <ClInclude Include="..\Classes\Stroke.h" />
+    <ClInclude Include="..\Classes\StrokeDrawnode.h" />
     <ClInclude Include="..\Classes\StrokeNode.h" />
+    <ClInclude Include="..\Classes\TcharacterDrawnode.h" />
+    <ClInclude Include="..\Classes\TcharacterLayer.h" />
     <ClInclude Include="..\Classes\TestMoveSprite.h" />
     <ClInclude Include="..\Classes\Tianzige.h" />
     <ClInclude Include="..\Classes\tinystr.h" />
     <ClInclude Include="..\Classes\tinyxml.h" />
     <ClInclude Include="..\Classes\tools\DataTool.h" />
+    <ClInclude Include="..\Classes\TouchLayer.h" />
     <ClInclude Include="..\Classes\UTF8ToGBK.h" />
     <ClInclude Include="..\Classes\WallScene.h" />
     <ClInclude Include="main.h" />
