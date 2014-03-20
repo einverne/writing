@@ -123,6 +123,9 @@
     <ClCompile Include="..\Classes\HcharacterDrawnode.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\JudgeManager.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -226,6 +229,9 @@
       <Filter>Classes</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\HcharacterDrawnode.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\JudgeManager.h">
       <Filter>Classes</Filter>
     </ClInclude>
   </ItemGroup>

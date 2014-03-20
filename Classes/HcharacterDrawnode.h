@@ -44,6 +44,7 @@ public:
 	//************************************
 	void removeLastStroke();
 
+	vector<StrokeDrawnode*> getStrokeDrawnodeList(){ return this->strokeDrawlist; }
 	vector<StrokeDrawnode*> strokeDrawlist;
 private:
 

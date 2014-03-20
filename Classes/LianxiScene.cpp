@@ -39,7 +39,7 @@ bool LianxiScene::init(){
 		//TLayer->setSprite(backgroundLayer->tianzige);			将背景层中tianzige传给正字信息图层
 		this->addChild(TLayer);
 
-		HLayer = HcharacterLayer::create(backgroundLayer->tianzige_draw);
+		HLayer = HcharacterLayer::create(testCharacter,backgroundLayer->tianzige_draw);
 		CC_BREAK_IF(!HLayer);
 		this->addChild(HLayer);
 		

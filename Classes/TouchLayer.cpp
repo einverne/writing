@@ -50,7 +50,7 @@ void TouchLayer::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 	CCLog("TouchLayer TouchesBegan");
 	CCPoint touchpoint = ((CCTouch*)pTouches->anyObject())->getLocationInView();
 	touchpoint = CCDirector::sharedDirector()->convertToUI(touchpoint);
-	CCLog("x= %f, y= %f",touchpoint.x,touchpoint.y);
+	//CCLog("x= %f, y= %f",touchpoint.x,touchpoint.y);
 	CCSprite* tianzige = Hlayer->getSprite();
 	if (tianzige->boundingBox().containsPoint(touchpoint))
 	{
@@ -64,7 +64,7 @@ void TouchLayer::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 		this->isStartOutside = true;
 		points.clear();
 	}
-	CCLog("isStartOutside = %d, isOutside = %d",isStartOutside,isOutside);
+	//CCLog("isStartOutside = %d, isOutside = %d",isStartOutside,isOutside);
 // 	HcharacterDrawnode* t= Hlayer->m_HDrawnode;
 	
 }
@@ -72,7 +72,7 @@ void TouchLayer::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
 	CCLog("TouchLayer TouchesMoved");
 	CCPoint touchp = ((CCTouch*)pTouches->anyObject())->getLocationInView();
 	touchp = CCDirector::sharedDirector()->convertToUI(touchp);
-	CCLog("x= %f, y= %f",touchp.x,touchp.y);
+	//CCLog("x= %f, y= %f",touchp.x,touchp.y);
 
 	CCSprite* tianzige = Hlayer->getSprite();
 	if (isStartOutside)
@@ -89,8 +89,8 @@ void TouchLayer::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
 		//不再范围内，并且起笔在范围内
 		isOutside = true;
 	}
-	CCLog("x= %f, y= %f",touchp.x,touchp.y);
-	CCLog("isStartOutside = %d, isOutside = %d",isStartOutside,isOutside);
+	//CCLog("x= %f, y= %f",touchp.x,touchp.y);
+	//CCLog("isStartOutside = %d, isOutside = %d",isStartOutside,isOutside);
 }
 void TouchLayer::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 	CCLog("TouchLayer TouchesEnded");
@@ -109,6 +109,11 @@ void TouchLayer::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 		//在范围内，并且起笔在范围内,中途没有出田字格
 		points.push_back(touchp);
 		Hlayer->m_HDrawnode->addPoint(touchp);
+
+		//一笔完成，并且起点，中途，尾点都在范围内，点数据保存在points中
+		Hlayer->judge();			//自动在HcharacterDrawnode中获取点信息
+
+
 		points.clear();
 	}else if (!tianzige->boundingBox().containsPoint(touchp) && isOutside == false)
 	{
@@ -119,8 +124,8 @@ void TouchLayer::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 		Hlayer->m_HDrawnode->removeLastStroke();
 		isOutside = false;
 	}
-	CCLog("x= %f, y= %f",touchp.x,touchp.y);
-	CCLog("isStartOutside = %d, isOutside = %d",isStartOutside,isOutside);
+	//CCLog("x= %f, y= %f",touchp.x,touchp.y);
+	//CCLog("isStartOutside = %d, isOutside = %d",isStartOutside,isOutside);
 	isStartOutside = false;
 	isOutside = false;
 	points.clear();

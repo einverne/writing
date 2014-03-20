@@ -138,6 +138,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\HcharacterLayer.cpp" />
     <ClCompile Include="..\Classes\HclcData.cpp" />
     <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
+    <ClCompile Include="..\Classes\JudgeManager.cpp" />
     <ClCompile Include="..\Classes\lianxi.cpp" />
     <ClCompile Include="..\Classes\LianxiScene.cpp" />
     <ClCompile Include="..\Classes\LuaScriptReader.cpp" />
@@ -176,6 +177,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\HcharacterLayer.h" />
     <ClInclude Include="..\Classes\HclcData.h" />
     <ClInclude Include="..\Classes\HelloWorldScene.h" />
+    <ClInclude Include="..\Classes\JudgeManager.h" />
     <ClInclude Include="..\Classes\lianxi.h" />
     <ClInclude Include="..\Classes\LianxiScene.h" />
     <ClInclude Include="..\Classes\LuaScriptReader.h" />
