@@ -48,6 +48,11 @@ void TouchLayer::onExit(){
 }
 void TouchLayer::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 	CCLog("TouchLayer TouchesBegan");
+	//判断写了几笔 超过笔数就不写
+	if (Hlayer->m_HDrawnode->strokeDrawlist.size() > Tlayer->m_TDrawnode->m_character.getStrokeCount())
+	{
+		return;
+	}
 	CCPoint touchpoint = ((CCTouch*)pTouches->anyObject())->getLocationInView();
 	touchpoint = CCDirector::sharedDirector()->convertToUI(touchpoint);
 	//CCLog("x= %f, y= %f",touchpoint.x,touchpoint.y);
@@ -70,6 +75,10 @@ void TouchLayer::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 }
 void TouchLayer::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
 	CCLog("TouchLayer TouchesMoved");
+	if (Hlayer->m_HDrawnode->strokeDrawlist.size() > Tlayer->m_TDrawnode->m_character.getStrokeCount())
+	{
+		return;
+	}
 	CCPoint touchp = ((CCTouch*)pTouches->anyObject())->getLocationInView();
 	touchp = CCDirector::sharedDirector()->convertToUI(touchp);
 	//CCLog("x= %f, y= %f",touchp.x,touchp.y);
@@ -93,6 +102,10 @@ void TouchLayer::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
 	//CCLog("isStartOutside = %d, isOutside = %d",isStartOutside,isOutside);
 }
 void TouchLayer::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
+	if (Hlayer->m_HDrawnode->strokeDrawlist.size() > Tlayer->m_TDrawnode->m_character.getStrokeCount())
+	{
+		return;
+	}
 	CCLog("TouchLayer TouchesEnded");
 	CCPoint touchp = ((CCTouch*)pTouches->anyObject())->getLocationInView();
 	touchp = CCDirector::sharedDirector()->convertToUI(touchp);
