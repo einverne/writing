@@ -21,7 +21,8 @@ public:
 
 	string hanzi;
 	HcharacterDrawnode* m_HDrawnode;
-
+	CC_SYNTHESIZE_RETAIN(CCLabelTTF*, bihuaCount,bihuaCount);
+	CC_SYNTHESIZE_RETAIN(CCLabelTTF*, duicuo,duicuo);
 	CC_SYNTHESIZE_RETAIN(CCSprite* , m_sprite_draw, Sprite);
 private:
 
