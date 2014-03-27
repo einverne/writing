@@ -5,7 +5,7 @@
 #include "UTF8ToGBK.h"
 
 HcharacterLayer::HcharacterLayer():m_sprite_draw(NULL),
-	bihuaCount(NULL)
+	bihuaCount(NULL),m_HDrawnode(NULL)
 {
 }
 
@@ -13,6 +13,7 @@ HcharacterLayer::~HcharacterLayer()
 {
 	CC_SAFE_RELEASE(m_sprite_draw);
 	CC_SAFE_RELEASE(bihuaCount);
+	CC_SAFE_RELEASE(m_HDrawnode);
 }
 
 bool HcharacterLayer::init(string hanzi,CCSprite* tianzige_draw){
@@ -20,7 +21,7 @@ bool HcharacterLayer::init(string hanzi,CCSprite* tianzige_draw){
 	{
 		this->hanzi = hanzi;
 		this->setSprite(tianzige_draw);
-		this->m_HDrawnode = HcharacterDrawnode::create();
+		this->setm_HDrawnode(HcharacterDrawnode::create());
 		this->addChild(m_HDrawnode);
 
 

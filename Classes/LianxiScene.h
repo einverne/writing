@@ -12,19 +12,22 @@ USING_NS_CC;
 class LianxiScene : public CCScene
 {
 public:
-	LianxiScene();
 	LianxiScene(string hanzi);
 	~LianxiScene();
-	CREATE_FUNC(LianxiScene);
+	//CREATE_FUNC(LianxiScene);
 	static LianxiScene* create(string hanzi);
 	virtual bool init();
 
 	string testCharacter;			//当前正在练习的汉字字符
 
-	BackgroundLayer* backgroundLayer;		//背景图层
-	TouchLayer* touchLayer;			//触摸事件响应层
-	TcharacterLayer* TLayer;			//正字图层
-	HcharacterLayer* HLayer;
+// 	BackgroundLayer* backgroundLayer;		//背景图层
+// 	TouchLayer* touchLayer;			//触摸事件响应层
+// 	TcharacterLayer* TLayer;			//正字图层
+// 	HcharacterLayer* HLayer;
+	CC_SYNTHESIZE_RETAIN(BackgroundLayer*,backgroundLayer,backgroundLayer);
+	CC_SYNTHESIZE_RETAIN(TouchLayer*,touchLayer,touchLayer);
+	CC_SYNTHESIZE_RETAIN(TcharacterLayer*,TLayer,TLayer);
+	CC_SYNTHESIZE_RETAIN(HcharacterLayer*,HLayer,HLayer);
 private:
 
 };

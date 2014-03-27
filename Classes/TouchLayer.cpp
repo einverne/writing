@@ -1,11 +1,14 @@
 #include "TouchLayer.h"
 
-TouchLayer::TouchLayer()
+TouchLayer::TouchLayer():Tlayer(NULL),
+	Hlayer(NULL)
 {
 }
 
 TouchLayer::~TouchLayer()
 {
+	CC_SAFE_RELEASE(Tlayer);
+	CC_SAFE_RELEASE(Hlayer);
 }
 
 bool TouchLayer::init(TcharacterLayer* t,HcharacterLayer* h){
@@ -14,8 +17,8 @@ bool TouchLayer::init(TcharacterLayer* t,HcharacterLayer* h){
 	{
 		this->isOutside = false;
 		this->isStartOutside = false;
-		this->Tlayer = t;
-		this->Hlayer = h;
+		this->setTlayer(t);
+		this->setHlayer(h);
 		this->setTouchEnabled(true);
 		this->setOpacity(0);			//全透明
 		CCDirector::sharedDirector()->getTouchDispatcher()->addStandardDelegate(this,0);	//register touch event
@@ -49,7 +52,7 @@ void TouchLayer::onExit(){
 void TouchLayer::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 	CCLog("TouchLayer TouchesBegan");
 	//判断写了几笔 超过笔数就不写
-	if (Hlayer->m_HDrawnode->strokeDrawlist.size() > Tlayer->m_TDrawnode->m_character.getStrokeCount())
+	if (Hlayer->getm_HDrawnode()->strokeDrawlist.size() > Tlayer->getm_TDrawnode()->m_character.getStrokeCount())
 	{
 		return;
 	}
@@ -62,7 +65,7 @@ void TouchLayer::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 		//在范围内
 		points.push_back(touchpoint);
 		Stroke str(points);
-		Hlayer->m_HDrawnode->addStroke(str);
+		Hlayer->getm_HDrawnode()->addStroke(str);
 	}else
 	{
 		//不在范围内
@@ -70,12 +73,12 @@ void TouchLayer::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 		points.clear();
 	}
 	//CCLog("isStartOutside = %d, isOutside = %d",isStartOutside,isOutside);
-// 	HcharacterDrawnode* t= Hlayer->m_HDrawnode;
+// 	HcharacterDrawnode* t= Hlayer->getm_HDrawnode();
 	
 }
 void TouchLayer::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
 	CCLog("TouchLayer TouchesMoved");
-	if (Hlayer->m_HDrawnode->strokeDrawlist.size() > Tlayer->m_TDrawnode->m_character.getStrokeCount())
+	if (Hlayer->getm_HDrawnode()->strokeDrawlist.size() > Tlayer->getm_TDrawnode()->m_character.getStrokeCount())
 	{
 		return;
 	}
@@ -92,7 +95,7 @@ void TouchLayer::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
 	{
 		//在范围内，并且起笔在范围内
 		points.push_back(touchp);
-		Hlayer->m_HDrawnode->addPoint(touchp);
+		Hlayer->getm_HDrawnode()->addPoint(touchp);
 	}else if(!tianzige->boundingBox().containsPoint(touchp))
 	{
 		//不再范围内，并且起笔在范围内
@@ -102,7 +105,7 @@ void TouchLayer::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
 	//CCLog("isStartOutside = %d, isOutside = %d",isStartOutside,isOutside);
 }
 void TouchLayer::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
-	if (Hlayer->m_HDrawnode->strokeDrawlist.size() > Tlayer->m_TDrawnode->m_character.getStrokeCount())
+	if (Hlayer->getm_HDrawnode()->strokeDrawlist.size() > Tlayer->getm_TDrawnode()->m_character.getStrokeCount())
 	{
 		return;
 	}
@@ -121,7 +124,7 @@ void TouchLayer::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 	{
 		//在范围内，并且起笔在范围内,中途没有出田字格
 		points.push_back(touchp);
-		Hlayer->m_HDrawnode->addPoint(touchp);
+		Hlayer->getm_HDrawnode()->addPoint(touchp);
 
 		//一笔完成，并且起点，中途，尾点都在范围内，点数据保存在points中
 		Hlayer->judge();			//自动在HcharacterDrawnode中获取点信息
@@ -131,10 +134,10 @@ void TouchLayer::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 	}else if (!tianzige->boundingBox().containsPoint(touchp) && isOutside == false)
 	{
 		//不在范围内，中途没出田字格
-		Hlayer->m_HDrawnode->removeLastStroke();
+		Hlayer->getm_HDrawnode()->removeLastStroke();
 	}else if(isOutside == true)
 	{
-		Hlayer->m_HDrawnode->removeLastStroke();
+		Hlayer->getm_HDrawnode()->removeLastStroke();
 		isOutside = false;
 	}
 	//CCLog("x= %f, y= %f",touchp.x,touchp.y);

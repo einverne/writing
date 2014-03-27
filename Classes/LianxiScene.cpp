@@ -1,16 +1,19 @@
 #include "LianxiScene.h"
 
-LianxiScene::LianxiScene()
-{
-}
-
-LianxiScene::LianxiScene(string hanzi)
+LianxiScene::LianxiScene(string hanzi):backgroundLayer(NULL),
+	touchLayer(NULL),
+	TLayer(NULL),
+	HLayer(NULL)
 {
 	this->testCharacter = hanzi;
 }
 
 LianxiScene::~LianxiScene()
 {
+	CC_SAFE_RELEASE(backgroundLayer);
+	CC_SAFE_RELEASE(TLayer);
+	CC_SAFE_RELEASE(HLayer);
+	CC_SAFE_RELEASE(touchLayer);
 }
 
 LianxiScene* LianxiScene::create(string hanzi){
@@ -30,20 +33,20 @@ bool LianxiScene::init(){
 	bool bRet = false;
 	do 
 	{
-		backgroundLayer = BackgroundLayer::create();
+		this->setbackgroundLayer(BackgroundLayer::create());
 		CC_BREAK_IF(!backgroundLayer);
 		this->addChild(backgroundLayer);
 
-		TLayer = TcharacterLayer::create(backgroundLayer->tianzige);
+		this->setTLayer(TcharacterLayer::create(backgroundLayer->tianzige));
 		CC_BREAK_IF(!TLayer);
 		//TLayer->setSprite(backgroundLayer->tianzige);			将背景层中tianzige传给正字信息图层
 		this->addChild(TLayer);
 
-		HLayer = HcharacterLayer::create(testCharacter,backgroundLayer->tianzige_draw);
+		this->setHLayer(HcharacterLayer::create(testCharacter,backgroundLayer->tianzige_draw));
 		CC_BREAK_IF(!HLayer);
 		this->addChild(HLayer);
 		
-		touchLayer = TouchLayer::create(TLayer,HLayer);
+		this->settouchLayer(TouchLayer::create(TLayer,HLayer));
 		CC_BREAK_IF(!touchLayer);
 		this->addChild(touchLayer);
 

@@ -1,11 +1,14 @@
 #include "TcharacterLayer.h"
 
-TcharacterLayer::TcharacterLayer():m_sprite(NULL){
+TcharacterLayer::TcharacterLayer():m_sprite(NULL),
+	m_TDrawnode(NULL)
+{
 
 }
 
 TcharacterLayer::~TcharacterLayer(){
 	CC_SAFE_RELEASE(m_sprite);
+	CC_SAFE_RELEASE(m_TDrawnode);
 }
 
 bool TcharacterLayer::init(CCSprite* tianzige){
@@ -39,7 +42,7 @@ TcharacterLayer* TcharacterLayer::create(CCSprite* tianzige){
 void TcharacterLayer::onEnter(){
 
 	string ba("八");
-	this->m_TDrawnode = TcharacterDrawnode::create(ba,m_sprite->getContentSize());
+	this->setm_TDrawnode(TcharacterDrawnode::create(ba,m_sprite->getContentSize()));
 	this->addChild(m_TDrawnode,2000);
 	//不设置Anchorpoint了，直接做坐标变换
 	m_TDrawnode->setPosition(m_sprite->getPosition()-ccp(m_sprite->getContentSize().width/2,m_sprite->getContentSize().height/2));

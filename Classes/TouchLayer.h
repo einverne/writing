@@ -23,8 +23,8 @@ public:
 	virtual void ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent);
 	virtual void registerWithTouchDispatcher();
 
-	TcharacterLayer* Tlayer;
-	HcharacterLayer* Hlayer;
+	CC_SYNTHESIZE_RETAIN(TcharacterLayer* ,Tlayer,Tlayer);
+	CC_SYNTHESIZE_RETAIN(HcharacterLayer* ,Hlayer,Hlayer);
 private:
 	int index;				//保存当前书写的第几笔
 	int errorType;			//当前书写笔画错误类型
