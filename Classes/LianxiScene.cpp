@@ -10,6 +10,7 @@ LianxiScene::LianxiScene(string hanzi):backgroundLayer(NULL),
 
 LianxiScene::~LianxiScene()
 {
+	CCLog("~~LianxiScene %d",  this->m_uReference);
 	CC_SAFE_RELEASE(backgroundLayer);
 	CC_SAFE_RELEASE(TLayer);
 	CC_SAFE_RELEASE(HLayer);
@@ -23,15 +24,14 @@ LianxiScene* LianxiScene::create(string hanzi){
 		pRet->autorelease();
 		return pRet;
 	}else{
-		delete pRet;
-		pRet = NULL;
+        CC_SAFE_DELETE(pRet);        
 		return NULL;
 	}
 }
 
 bool LianxiScene::init(){
 	bool bRet = false;
-	do 
+	do
 	{
 		this->setbackgroundLayer(BackgroundLayer::create());
 		CC_BREAK_IF(!backgroundLayer);
@@ -50,6 +50,11 @@ bool LianxiScene::init(){
 		CC_BREAK_IF(!touchLayer);
 		this->addChild(touchLayer);
 
+
+		char str[5]= {0};
+		itoa(this->m_uReference,str,10);
+		CCLog("LianxiScene ref:");
+		CCLog(str);
 		CC_BREAK_IF(!CCScene::init());
 		bRet = true;
 	} while (0);
