@@ -364,6 +364,7 @@ void WallScene::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 
 	//解除定时器
 	CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(WallScene::longPressUpdate),this);
+
 }
 
 void WallScene::registerWithTouchDispatcher(){
@@ -426,6 +427,8 @@ void WallScene::popup(string hanzi){
 	popL->addButton("Button1.png","Button1.png","Y",0);
 	popL->addButton("Button2.png","Button2.png","N",1);
 	CCDirector::sharedDirector()->getRunningScene()->addChild(popL,100);
+	//解除定时器
+	CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(WallScene::longPressUpdate),this);
 }
 
 void WallScene::buttonCallBack(CCNode* pNode){
@@ -463,6 +466,8 @@ void WallScene::longPressUpdate(float fDelta){
 	{
 		popup(selectedHanzi);
 	}
+	//解除定时器
+	CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(WallScene::longPressUpdate),this);
 }
 
 void WallScene::saveToFile(string src,const char* dst){
