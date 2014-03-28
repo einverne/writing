@@ -1,8 +1,25 @@
 #include "TcharacterDrawnode.h"
 #include "ReadXML.h"
 
-TcharacterDrawnode::TcharacterDrawnode(string hz,CCSize showrect)
+TcharacterDrawnode::TcharacterDrawnode():strokedrawList(NULL)
 {
+	
+}
+
+TcharacterDrawnode::~TcharacterDrawnode()
+{
+// 	for (int i = 0 ; i < strokedrawList.size(); i++)
+// 	{
+// 		StrokeDrawnode* temp = strokedrawList.back();
+// 		strokedrawList.pop_back();
+// 		temp->release();
+// 	}
+	CC_SAFE_RELEASE(strokedrawList);
+}
+
+bool TcharacterDrawnode::init(string hz,CCSize showrect){
+	strokedrawList = CCArray::create();
+	strokedrawList->retain();
 	string xml = CCFileUtils::sharedFileUtils()->fullPathForFilename("xml/°Ë.xml");
 	CReadXML readxml(xml);
 	this->m_character = readxml.getCharacter();
@@ -21,26 +38,16 @@ TcharacterDrawnode::TcharacterDrawnode(string hz,CCSize showrect)
 		vector<Stroke> strokeList = bujian.strokeList;
 		for (int i = 0 ; i < strokeList.size() ; i++)
 		{
-			StrokeDrawnode* strokeDrawnode = StrokeDrawnode::create(strokeList.at(i));
-			strokeDrawnode->retain();
-			this->strokedrawList.push_back(strokeDrawnode);
+			this->getstrokedrawList()->addObject(StrokeDrawnode::create(strokeList.at(i)));
+			// 			strokeDrawnode->retain();
 		}
 	}
-}
-
-TcharacterDrawnode::~TcharacterDrawnode()
-{
-}
-
-bool TcharacterDrawnode::init(){
-	
-
 	return true;
 }
 
 TcharacterDrawnode* TcharacterDrawnode::create(string hz,CCSize showrect){
-	TcharacterDrawnode* pRet = new TcharacterDrawnode(hz,showrect);
-	if (pRet && pRet->init())
+	TcharacterDrawnode* pRet = new TcharacterDrawnode();
+	if (pRet && pRet->init(hz,showrect))
 	{
 		pRet->autorelease();
 		return pRet;
@@ -54,10 +61,15 @@ TcharacterDrawnode* TcharacterDrawnode::create(string hz,CCSize showrect){
 
 void TcharacterDrawnode::draw(){
 	//CCLog("TcharacterDrawnode::draw");
-	vector<StrokeDrawnode*>::iterator iter = strokedrawList.begin();
-	for (iter ; iter != strokedrawList.end(); ++iter)
-	{
-		StrokeDrawnode* no = (StrokeDrawnode*)*iter;
-		no->draw();
+// 	vector<StrokeDrawnode*>::iterator iter = strokedrawList.begin();
+// 	for (iter ; iter != strokedrawList.end(); ++iter)
+// 	{
+// 		StrokeDrawnode* no = (StrokeDrawnode*)*iter;
+// 		no->draw();
+// 	}
+	CCObject* ob;
+// 	strokedrawList->retain();
+	CCARRAY_FOREACH(strokedrawList,ob){
+		((StrokeDrawnode*)(ob))->draw();
 	}
 }

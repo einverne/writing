@@ -1,4 +1,5 @@
 #include "BackgroundLayer.h"
+#include "WallScene.h"
 
 BackgroundLayer::BackgroundLayer()
 {
@@ -6,6 +7,7 @@ BackgroundLayer::BackgroundLayer()
 
 BackgroundLayer::~BackgroundLayer()
 {
+	CCLog("~~BackgroundLayer %d",  this->m_uReference);
 }
 
 bool BackgroundLayer::init(){
@@ -61,5 +63,6 @@ bool BackgroundLayer::init(){
 }
 
 void BackgroundLayer::menuBack(CCObject* pSender){
-	CCDirector::sharedDirector()->popScene();
+/*	CCDirector::sharedDirector()->popScene();*/
+	CCDirector::sharedDirector()->replaceScene(WallScene::scene());
 }

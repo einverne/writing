@@ -44,8 +44,9 @@ public:
 	//************************************
 	void removeLastStroke();
 
-	vector<StrokeDrawnode*> getStrokeDrawnodeList(){ return this->strokeDrawlist; }
-	vector<StrokeDrawnode*> strokeDrawlist;
+// 	vector<StrokeDrawnode*> getStrokeDrawnodeList(){ return this->strokeDrawlist; }
+// 	vector<StrokeDrawnode*> strokeDrawlist;
+	CC_SYNTHESIZE_RETAIN(CCArray*,strokeDrawlist,StrokeDrawnodeList);
 private:
 
 };

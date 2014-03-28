@@ -413,8 +413,10 @@ void WallScene::singleClick(string hanzi){
 	//解除schedule,不然可能出现不可预测问题。
 	this->unscheduleAllSelectors();
 // 	CCDirector::sharedDirector()->replaceScene(lianxi::scene(hanzi));
+	CCDirector::sharedDirector()->replaceScene(LianxiScene::create(hanzi));
+
 // 	CCDirector::sharedDirector()->pushScene(lianxi::scene(hanzi));
-	CCDirector::sharedDirector()->pushScene(LianxiScene::create(hanzi));
+// 	CCDirector::sharedDirector()->pushScene(LianxiScene::create(hanzi));
 }
 
 void WallScene::popup(string hanzi){

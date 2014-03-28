@@ -1,4 +1,5 @@
 #include "TouchLayer.h"
+#include "LianxiScene.h"
 
 TouchLayer::TouchLayer():Tlayer(NULL),
 	Hlayer(NULL)
@@ -9,6 +10,8 @@ TouchLayer::~TouchLayer()
 {
 	CC_SAFE_RELEASE(Tlayer);
 	CC_SAFE_RELEASE(Hlayer);
+
+	CCLog("destroy %d", this->m_uReference);
 }
 
 bool TouchLayer::init(TcharacterLayer* t,HcharacterLayer* h){
@@ -52,7 +55,10 @@ void TouchLayer::onExit(){
 void TouchLayer::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 	CCLog("TouchLayer TouchesBegan");
 	//判断写了几笔 超过笔数就不写
-	if (Hlayer->getm_HDrawnode()->strokeDrawlist.size() > Tlayer->getm_TDrawnode()->m_character.getStrokeCount())
+	LianxiScene* temp= (LianxiScene*)(this->getParent());
+	
+
+	if (Hlayer->getm_HDrawnode()->getStrokeDrawnodeList()->count() > Tlayer->getm_TDrawnode()->m_character.getStrokeCount())
 	{
 		return;
 	}
@@ -78,7 +84,7 @@ void TouchLayer::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 }
 void TouchLayer::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
 	CCLog("TouchLayer TouchesMoved");
-	if (Hlayer->getm_HDrawnode()->strokeDrawlist.size() > Tlayer->getm_TDrawnode()->m_character.getStrokeCount())
+	if (Hlayer->getm_HDrawnode()->getStrokeDrawnodeList()->count() > Tlayer->getm_TDrawnode()->m_character.getStrokeCount())
 	{
 		return;
 	}
@@ -105,11 +111,15 @@ void TouchLayer::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
 	//CCLog("isStartOutside = %d, isOutside = %d",isStartOutside,isOutside);
 }
 void TouchLayer::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
-	if (Hlayer->getm_HDrawnode()->strokeDrawlist.size() > Tlayer->getm_TDrawnode()->m_character.getStrokeCount())
+	CCLog("TouchLayer TouchesEnded");
+	char str[5]={0};
+	itoa(this->m_uReference,str,10);
+	CCLog("TouchLayer m_uRef:");
+	CCLog(str);
+	if (Hlayer->getm_HDrawnode()->getStrokeDrawnodeList()->count() > Tlayer->getm_TDrawnode()->m_character.getStrokeCount())
 	{
 		return;
 	}
-	CCLog("TouchLayer TouchesEnded");
 	CCPoint touchp = ((CCTouch*)pTouches->anyObject())->getLocationInView();
 	touchp = CCDirector::sharedDirector()->convertToUI(touchp);
 	CCSprite* tianzige = Hlayer->getSprite();

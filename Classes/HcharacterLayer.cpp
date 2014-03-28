@@ -52,11 +52,12 @@ HcharacterLayer* HcharacterLayer::create(string hanzi,CCSprite* tianzige_draw){
 }
 
 void HcharacterLayer::judge(){
-	vector<StrokeDrawnode*> strokes = m_HDrawnode->getStrokeDrawnodeList();
+// 	vector<StrokeDrawnode*> strokes = m_HDrawnode->getStrokeDrawnodeList();
+	CCArray* strokes = m_HDrawnode->getStrokeDrawnodeList();
 	string output = "";
-	for (vector<StrokeDrawnode*>::iterator i = strokes.begin() ; i != strokes.end() ; ++i)
-	{
-		StrokeDrawnode* node = *i;
+	CCObject* ob;
+	CCARRAY_FOREACH(strokes,ob){
+		StrokeDrawnode* node = (StrokeDrawnode*)ob;
 		vector<CCPoint> points = node->stroke.pointList;
 		for (vector<CCPoint>::iterator iter = points.begin(); iter != points.end() ; ++iter)
 		{
@@ -68,6 +69,20 @@ void HcharacterLayer::judge(){
 		}
 		output += "@";
 	}
+// 	for (vector<StrokeDrawnode*>::iterator i = strokes.begin() ; i != strokes.end() ; ++i)
+// 	{
+// 		StrokeDrawnode* node = *i;
+// 		vector<CCPoint> points = node->stroke.pointList;
+// 		for (vector<CCPoint>::iterator iter = points.begin(); iter != points.end() ; ++iter)
+// 		{
+// 			CCPoint temp = *iter;
+// 			temp = m_sprite_draw->convertToNodeSpace(temp);
+// 			temp = convert512(temp);
+// 			string t = floatToString(ceil(temp.x)) + "/" + floatToString(ceil(temp.y)) + "/";
+// 			output += t;	
+// 		}
+// 		output += "@";
+// 	}
 	CCLog("output %s",output.c_str());
 	JudgeManager manager(hanzi);
 	string ret = manager.getResult(output);
@@ -75,12 +90,12 @@ void HcharacterLayer::judge(){
 	{
 		//ÕâÒ»±ÊÐ´´í
 		this->m_HDrawnode->removeLastStroke();
-		bihuaCount->setString((UTF8ToGBK::UTF8TOGBK(string("±Ê»­:")) + to_string(m_HDrawnode->strokeDrawlist.size())).c_str());
+		bihuaCount->setString((UTF8ToGBK::UTF8TOGBK(string("±Ê»­:")) + to_string(m_HDrawnode->getStrokeDrawnodeList()->count())).c_str());
 		duicuo->setString(UTF8ToGBK::UTF8TOGBK(string("´íÎó")).c_str());
 	}else
 	{
 		//Ð´¶Ô
-		bihuaCount->setString((UTF8ToGBK::UTF8TOGBK(string("±Ê»­:")) + to_string(m_HDrawnode->strokeDrawlist.size())).c_str());
+		bihuaCount->setString((UTF8ToGBK::UTF8TOGBK(string("±Ê»­:")) + to_string(m_HDrawnode->getStrokeDrawnodeList()->count())).c_str());
 		duicuo->setString(UTF8ToGBK::UTF8TOGBK(string("ÕýÈ·")).c_str());
 	}
 }

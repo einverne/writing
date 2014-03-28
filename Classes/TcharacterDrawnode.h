@@ -10,17 +10,16 @@ class TcharacterDrawnode : public CCNode
 {
 public:
 	TcharacterDrawnode();
-	TcharacterDrawnode(string hz,CCSize showrect);
 	~TcharacterDrawnode();
 	virtual void draw();
-	virtual bool init();
-	CREATE_FUNC(TcharacterDrawnode);
+	virtual bool init(string hz,CCSize showrect);
+//	CREATE_FUNC(TcharacterDrawnode);
 	static TcharacterDrawnode* create(string hz,CCSize showrect);
 	CCSize showRect;
 	Character m_character;
-	vector<StrokeDrawnode*> strokedrawList;
+// 	vector<StrokeDrawnode*> strokedrawList;
 	int visibleIndex;
-
+	CC_SYNTHESIZE_RETAIN(CCArray*,strokedrawList,strokedrawList);
 private:
 
 };
