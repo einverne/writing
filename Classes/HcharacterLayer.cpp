@@ -5,14 +5,16 @@
 #include "UTF8ToGBK.h"
 
 HcharacterLayer::HcharacterLayer():m_sprite_draw(NULL),
-	bihuaCount(NULL),m_HDrawnode(NULL)
+	bihuaCount(NULL),m_HDrawnode(NULL),duicuo(NULL)
 {
 }
 
 HcharacterLayer::~HcharacterLayer()
 {
+	CCLog("~~HcharacterLayer %d",  this->m_uReference);
 	CC_SAFE_RELEASE(m_sprite_draw);
 	CC_SAFE_RELEASE(bihuaCount);
+	CC_SAFE_RELEASE(duicuo);
 	CC_SAFE_RELEASE(m_HDrawnode);
 }
 
@@ -25,11 +27,11 @@ bool HcharacterLayer::init(string hanzi,CCSprite* tianzige_draw){
 		this->addChild(m_HDrawnode);
 
 
-		bihuaCount = CCLabelTTF::create(UTF8ToGBK::UTF8TOGBK(string("±Ê»­")).c_str(),"Arial",50);
-		this->addChild(bihuaCount,20000);
+		this->setbihuaCount(CCLabelTTF::create(UTF8ToGBK::UTF8TOGBK(string("±Ê»­")).c_str(),"Arial",50));
+		this->addChild(bihuaCount,2000);
 		bihuaCount->setPosition(tianzige_draw->getPosition()+ccp(0,tianzige_draw->getContentSize().height/2 + bihuaCount->getContentSize().height));
 		
-		duicuo = CCLabelTTF::create(UTF8ToGBK::UTF8TOGBK(string("")).c_str(),"Arial",50);
+		this->setduicuo(CCLabelTTF::create(UTF8ToGBK::UTF8TOGBK(string("")).c_str(),"Arial",50));
 		this->addChild(duicuo,2000);
 		duicuo->setPosition(ccp(40,tianzige_draw->getPositionY()));
 		return true;

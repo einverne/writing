@@ -8,10 +8,9 @@ TouchLayer::TouchLayer():Tlayer(NULL),
 
 TouchLayer::~TouchLayer()
 {
+	CCLog("TouchLayer %d", this->m_uReference);
 	CC_SAFE_RELEASE(Tlayer);
 	CC_SAFE_RELEASE(Hlayer);
-
-	CCLog("destroy %d", this->m_uReference);
 }
 
 bool TouchLayer::init(TcharacterLayer* t,HcharacterLayer* h){
