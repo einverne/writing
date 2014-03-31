@@ -31,7 +31,7 @@ bool HcharacterLayer::init(string hanzi,CCSprite* tianzige_draw){
 		this->addChild(bihuaCount,2000);
 		bihuaCount->setPosition(tianzige_draw->getPosition()+ccp(0,tianzige_draw->getContentSize().height/2 + bihuaCount->getContentSize().height));
 		
-		this->setduicuo(CCLabelTTF::create(UTF8ToGBK::UTF8TOGBK(string("")).c_str(),"Arial",50));
+		this->setduicuo(CCLabelTTF::create(UTF8ToGBK::UTF8TOGBK(string("нч")).c_str(),"Arial",50));
 		this->addChild(duicuo,2000);
 		duicuo->setPosition(ccp(40,tianzige_draw->getPositionY()));
 		return true;

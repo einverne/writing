@@ -23,7 +23,7 @@ bool TouchLayer::init(TcharacterLayer* t,HcharacterLayer* h){
 		this->setHlayer(h);
 		this->setTouchEnabled(true);
 		this->setOpacity(0);			//È«Í¸Ã÷
-		CCDirector::sharedDirector()->getTouchDispatcher()->addStandardDelegate(this,0);	//register touch event
+		//CCDirector::sharedDirector()->getTouchDispatcher()->addStandardDelegate(this,0);	//register touch event
 
 
 		return true;
@@ -46,10 +46,10 @@ TouchLayer* TouchLayer::create(TcharacterLayer* t,HcharacterLayer* h){
 }
 
 void TouchLayer::onEnter(){
-
+	CCLayer::onEnter();
 }
 void TouchLayer::onExit(){
-
+	CCLayer::onExit();
 }
 void TouchLayer::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 	CCLog("TouchLayer TouchesBegan");

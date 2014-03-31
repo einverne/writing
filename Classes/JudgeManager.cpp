@@ -7,6 +7,7 @@ JudgeManager::JudgeManager(string hanzi)
 
 JudgeManager::~JudgeManager()
 {
+	CCLog("JudgeManager destroy!");
 }
 string JudgeManager::getResult(string points_output){
 	string filepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/WriteZiInfo.lua");
@@ -20,13 +21,16 @@ string JudgeManager::getResult(string points_output){
 	strcpy(temp,points_output.c_str());
 	gReader.GetWriteZiInfo(temp);
 	delete [] temp;
-	char * retStr = new char[50];
-	gReader.GetZiName(hanzi);
-	gReader.SetRulesFunc(rulespath.c_str());
-	gReader.RunScriptFile(filepath.c_str(),"WriteZiInfo.lua");
-	gReader.SetGlobalFunc(Globalpath.c_str());
-	gReader.RunMixedFile(basepath.c_str(),"BaseLib.lua");
-	gReader.RunScriptFile(apipath.c_str(),retStr,"RunAPI.lua");
-	gReader.ExitLuaScriptReader();
-	return string(retStr);
+ 	char * retStr = new char[50];
+ 	gReader.GetZiName(hanzi);
+ 	gReader.SetRulesFunc(rulespath.c_str());
+ 	gReader.RunScriptFile(filepath.c_str(),"WriteZiInfo.lua");
+ 	gReader.SetGlobalFunc(Globalpath.c_str());
+ 	gReader.RunMixedFile(basepath.c_str(),"BaseLib.lua");
+ 	gReader.RunScriptFile(apipath.c_str(),retStr,"RunAPI.lua");
+ 	gReader.ExitLuaScriptReader();
+	string ret(retStr);
+	delete [] retStr;
+	return ret;
+	//return string("1");
 }

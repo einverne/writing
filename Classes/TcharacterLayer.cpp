@@ -7,6 +7,7 @@ TcharacterLayer::TcharacterLayer():m_sprite(NULL),
 }
 
 TcharacterLayer::~TcharacterLayer(){
+	CCLog("TcharacterLayer red  %d",this->m_uReference);
 	CC_SAFE_RELEASE(m_sprite);
 	CC_SAFE_RELEASE(m_TDrawnode);
 }

@@ -14,6 +14,7 @@ TcharacterDrawnode::~TcharacterDrawnode()
 // 		strokedrawList.pop_back();
 // 		temp->release();
 // 	}
+	CCLog("TcharacterDrawnode ref  %d",this->m_uReference);
 	CC_SAFE_RELEASE(strokedrawList);
 }
 
