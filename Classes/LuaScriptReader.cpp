@@ -22,6 +22,13 @@ int StrokeIndex;					//当前笔画的索引
 // see LuaScriptReader.h for the class definition
 CLuaScriptReader::CLuaScriptReader()
 { 
+	StandardZiInfo[0] = '\0';		//用于接收标准字信息
+	WriteZiInfo[0] = '\0';		//手写字信息
+	Hanzi[0] = '\0';
+	RuleInfo[0] = '\0';		//规则信息
+	GlobalFunc[0] = '\0';		//全局函数信息
+	Rules[0] = '\0';
+
 	m_plua = NULL;
 	return; 
 }
