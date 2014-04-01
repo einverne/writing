@@ -12,7 +12,7 @@ UTF8ToGBK::~UTF8ToGBK(void)
 
 //½«string×ª»»³Éwstring  
 wstring UTF8ToGBK::stringToWstring(const string str)  
-{  
+{
 
 	setlocale(LC_ALL, "chs");   
 	const char* _Source = str.c_str();  

@@ -14,7 +14,7 @@ Character::~Character(void)
 
 bool Character::addBujian(Bujian bujian){
 	
-	vector<Bujian>::const_iterator it = bujianList.end();
+	vector<Bujian>::iterator it = bujianList.end();
 	bujianList.insert(it,bujian);
 	bujianCount++;
 	return true;

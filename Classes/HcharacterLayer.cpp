@@ -2,7 +2,6 @@
 #include "JudgeManager.h"
 #include "StrokeDrawnode.h"
 #include "Stroke.h"
-#include "UTF8ToGBK.h"
 
 HcharacterLayer::HcharacterLayer():m_sprite_draw(NULL),
 	bihuaCount(NULL),m_HDrawnode(NULL),duicuo(NULL)
@@ -27,11 +26,11 @@ bool HcharacterLayer::init(string hanzi,CCSprite* tianzige_draw){
 		this->addChild(m_HDrawnode);
 
 
-		this->setbihuaCount(CCLabelTTF::create(UTF8ToGBK::UTF8TOGBK(string("±Ê»­")).c_str(),"Arial",50));
+		this->setbihuaCount(CCLabelTTF::create("bihua","Arial",50));
 		this->addChild(bihuaCount,2000);
 		bihuaCount->setPosition(tianzige_draw->getPosition()+ccp(0,tianzige_draw->getContentSize().height/2 + bihuaCount->getContentSize().height));
 		
-		this->setduicuo(CCLabelTTF::create(UTF8ToGBK::UTF8TOGBK(string("ÎÞ")).c_str(),"Arial",50));
+		this->setduicuo(CCLabelTTF::create("wu","Arial",50));
 		this->addChild(duicuo,2000);
 		duicuo->setPosition(ccp(40,tianzige_draw->getPositionY()));
 		return true;
@@ -92,13 +91,19 @@ void HcharacterLayer::judge(){
 	{
 		//ÕâÒ»±ÊÐ´´í
 		this->m_HDrawnode->removeLastStroke();
-		bihuaCount->setString((UTF8ToGBK::UTF8TOGBK(string("±Ê»­:")) + to_string(m_HDrawnode->getStrokeDrawnodeList()->count())).c_str());
-		duicuo->setString(UTF8ToGBK::UTF8TOGBK(string("´íÎó")).c_str());
+		int t = m_HDrawnode->getStrokeDrawnodeList()->count();
+		ostringstream ostr;
+		ostr << t;
+		bihuaCount->setString(ostr.str().c_str());
+		duicuo->setString("Cuowu");
 	}else
 	{
 		//Ð´¶Ô
-		bihuaCount->setString((UTF8ToGBK::UTF8TOGBK(string("±Ê»­:")) + to_string(m_HDrawnode->getStrokeDrawnodeList()->count())).c_str());
-		duicuo->setString(UTF8ToGBK::UTF8TOGBK(string("ÕýÈ·")).c_str());
+		int t=m_HDrawnode->getStrokeDrawnodeList()->count();
+		ostringstream ostr;
+		ostr << t;
+		bihuaCount->setString(ostr.str().c_str());
+		duicuo->setString("zhengque");
 	}
 }
 

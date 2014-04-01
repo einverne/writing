@@ -50,11 +50,8 @@ bool LianxiScene::init(){
 		CC_BREAK_IF(!touchLayer);
 		this->addChild(touchLayer);
 
+		CCLog("LianxiScene ref: %d",this->m_uReference);
 
-		char str[5]= {0};
-		itoa(this->m_uReference,str,10);
-		CCLog("LianxiScene ref:");
-		CCLog(str);
 		CC_BREAK_IF(!CCScene::init());
 		bRet = true;
 	} while (0);

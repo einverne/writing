@@ -33,7 +33,7 @@ bool Stroke::addPoint(CCPoint point){
 	{
 		prePoint = point;
 	}
-	vector<CCPoint>::const_iterator it = pointList.end();
+	vector<CCPoint>::iterator it = pointList.end();
 	this->pointList.insert(it,point);
 
 	return true;

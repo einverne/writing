@@ -1,6 +1,5 @@
 #include "WallScene.h"
 #include "tinyxml.h" 
-#include "UTF8ToGBK.h"
 #include "lianxi.h"
 #include "PopLayer.h"
 #include "tools/DataTool.h"
@@ -144,7 +143,7 @@ bool WallScene::init()
 			temphanziManage.filename=tempfilename;
 			temphanziManage.proficiency=atoi(temppro.c_str());
 
-			vector<CHanziManage>::const_iterator it = hanzilist.end(); 
+			vector<CHanziManage>::iterator it = hanzilist.end(); 
 			hanzilist.insert(it,temphanziManage);
 			stoneElement=stoneElement->NextSiblingElement();
 

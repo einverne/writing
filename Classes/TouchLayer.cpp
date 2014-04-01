@@ -111,10 +111,7 @@ void TouchLayer::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
 }
 void TouchLayer::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 	CCLog("TouchLayer TouchesEnded");
-	char str[5]={0};
-	itoa(this->m_uReference,str,10);
-	CCLog("TouchLayer m_uRef:");
-	CCLog(str);
+	CCLog("TouchLayer m_uRef: %d",this->m_uReference);
 	if (Hlayer->getm_HDrawnode()->getStrokeDrawnodeList()->count() > Tlayer->getm_TDrawnode()->m_character.getStrokeCount())
 	{
 		return;
