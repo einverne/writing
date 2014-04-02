@@ -45,10 +45,9 @@ end
 
 
 --#####元函数实现#####--
---所有操作索引从1开始
-function GetBH( idx)
-	idx = idx + 1
-	local bh = WriteHZ.strokes[idx]
+--所有操作索引从0开始
+function GetBH( idx )
+	local bh = WriteHZ.strokes[idx + 1]
 	return bh
 end
 
@@ -67,29 +66,169 @@ function GetEndPoint(bh)
 	return point
 end
 
---获取笔段
-function GetBDByBH(bh,bdIdx)
-	return bh.BDSet[bdIdx]
-end
-
---获取拐点
-function GetInflectionPoint(bh,idx)
-	local point = WZEnv.POINT:new()
-	local tmpPt = bh.ptSet[bh.InflectionPoint[idx]]
-	point.x = tmpPt.x
-	point.y = tmpPt.y
+--获得中点
+function	GetMidPoint ( bh )
+ 	local point = WZEnv.POINT:new()
+	local len= #bh.ptSet
+	local tmpIdx = math.floor ( len / 2 )
+	point.x = bh.ptSet[tmpIdx].x
+	point.y = bh.ptSet[tmpIdx].y
 	return point
 end
 
---获得笔画拐点的个数
-function GetInflectionPtNum (bh)
-	return #bh.InflectionPoint
+
+--获得点的横纵坐标
+function GetPointX ( pt )
+	return pt.x
 end
 
---获取笔段数量
- function GetBDNum(bh)
-	return #bh.BDSet
- end
+function GetPointY ( pt )
+	return pt.y
+end
+
+
+
+--获取某一笔段 笔段索引从1开始
+function GetBDByBH(bh,bdIdx)
+	local bd = WZEnv.BD:new()
+	local preIdx = 1
+	if (bdIdx ~= 1) then
+		preIdx = bh.InflectionPoint[bdIdx - 1]
+	end
+	local postIdx = bh.InflectionPoint[bdIdx]
+	local bdPtSet = {}
+	for i = preIdx, postIdx do
+		bd.ptSet[#bd.ptSet + 1] = bh.ptSet[i]
+	end
+	return bd
+end
+
+
+--计算curIdx对应的角度
+function Cal_Angle(prePt,curPt,postPt)
+	local vecX = {}
+	local vecY = {}
+	vecX.x = prePt.x - curPt.x
+	vecX.y = prePt.y - curPt.y
+	vecY.x = postPt.x - curPt.x
+	vecY.y = postPt.y - curPt.y
+	disX = math.sqrt(vecX.x*vecX.x + vecX.y*vecX.y)
+	disY = math.sqrt(vecY.x*vecY.x + vecY.y*vecY.y)
+	cosXY = ( vecX.x*vecY.x + vecX.y*vecY.y )/(disX*disY)
+	return math.acos(cosXY)
+end
+
+
+--获得笔画拐点的个数
+function GetTurningPtNum(bh,BDNum)
+	local n_step = 5			--lua索引从1开始
+	if( #bh.ptSet <2*n_step+1) then
+		return nil
+	end
+	local n_curIdx = n_step+1
+	local n_preIdx = 1
+	local n_postIdx = 2*n_step+1
+	local angleArr = {}
+	--计算点对应的角度
+	for i = n_curIdx,(#bh.ptSet)-n_step do
+		local ele = {}
+		local angle = Cal_Angle(bh.ptSet[n_preIdx],bh.ptSet[i],bh.ptSet[n_postIdx])
+		ele.pos = i
+		ele.angle = angle
+		table.insert(angleArr,ele)
+		n_preIdx = n_preIdx + 1
+		n_postIdx = n_postIdx + 1
+	end
+	--把角度按照从小到大排序
+	table.sort(angleArr,function(a,b) return a.angle < b.angle end)
+	local nCandidateNum = #angleArr
+
+	local CInflectionPts = {}		--存储候选拐点的索引
+	--选出了最多BDNum+1个拐点，存储在CInflectionPts中
+	local f_angleThres = 12/18*3.14;
+	for p = 1,nCandidateNum do
+		local cFlag = false
+		for q = 1,#CInflectionPts do
+			if( math.abs(angleArr[p].pos - CInflectionPts[q]) < n_step) then
+				cFlag = true
+			end
+		end
+
+		if (cFlag == false) then
+			if(angleArr[p].angle < f_angleThres) then
+				CInflectionPts[#CInflectionPts+1] = angleArr[p].pos
+			end
+		end
+	end
+
+	--从CInflectionPts中继续选出最终拐点，
+	--这样主要是为了屏蔽笔画尖端的抖动，减小拐点检测的误差
+	local n_prePos
+	local n_postPos
+	table.sort(CInflectionPts)
+
+--如果选出的拐点数目为0，直接返回，此时CInflectionPts是空的
+	if(#CInflectionPts <= 0) then
+		return 0
+	end
+	--如果拐点数目比标准少，将拐点数组赋值，返回
+	if (#CInflectionPts < BDNum - 1) then
+		bh.InflectionPoint = CInflectionPts
+		return #CInflectionPts
+	end
+
+   --如果拐点数目大于或者等于标准值
+	if (#CInflectionPts >= BDNum-1) then
+		--如果多出一个拐点，伪拐点一定是在第一个或者最后一个，分别计算其距离首位点的距离
+		local pos1 = CInflectionPts[1]
+		local pos2 = CInflectionPts[#CInflectionPts]
+		local spt = bh.ptSet[1]
+		local ept = bh.ptSet[#bh.ptSet]
+		local dis1 = math.sqrt( math.pow(bh.ptSet[pos1].x - spt.x,2) + math.pow(bh.ptSet[pos1].y - spt.y,2))
+		local dis2 = math.sqrt( math.pow(bh.ptSet[pos2].x - ept.x,2) + math.pow(bh.ptSet[pos2].y - ept.y,2))
+		--1.如果第一个拐点是抖动点
+		if( dis1 < 5 ) then
+			n_prePos = CInflectionPts[1]
+			n_postPos = #bh.ptSet
+			--把抖笔段从笔画中删除
+			for i = 1, n_prePos-1 do
+				table.remove(bh.ptSet,1)
+			end
+
+			--从拐点数组中删除该拐点
+			table.remove(CInflectionPts,1)
+
+			--移动拐点索引数组中索引的位置
+			if ( #CInflectionPts > 0 ) then
+				for i = 1,#CInflectionPts do
+					 CInflectionPts[i] = CInflectionPts[i] - n_prePos + 1
+				end
+			end
+		end
+		--2.如果最后一个拐点是抖动点
+		if (dis2 < 5) then
+			n_prePos = 1
+			n_postPos = CInflectionPts[#CInflectionPts]
+			--从拐点表格中删除该拐点
+			table.remove(CInflectionPts,#CInflectionPts)
+			--删除抖笔段
+			for i = #bh.ptSet,n_postPos+1,-1 do
+				table.remove(bh.ptSet,i)
+			end
+		end
+		bh.InflectionPoint = CInflectionPts
+		return #CInflectionPts
+	end
+end
+
+
+--获得笔画的拐点 索引从0开始
+function GetTurningPt(bh,index)
+	local ptIdx = bh.InflectionPoint[index + 1]
+	return bh.ptSet[ptIdx]
+end
+
+
 
  --获得两点间距离
  function GetDistance(pt1,pt2)
@@ -97,23 +236,58 @@ end
 	return dis
  end
 
- function GetBHLen ( bh )
-	local nbd = GetBDNum ( bh)
-	local bhlen = 0
-	--print (nbd)
-	for i = 1, nbd do
-		local tmpbd = WZEnv.BD:new()
-		tmpbd = bh.BDSet[i]
-		local tmpspt = GetStartPoint ( tmpbd )
-		local tmpept = GetEndPoint ( tmpbd )
-		--print (tmpspt.x .. "xx" .. tmpspt.y)
-		--print (tmpept.x .. "xx" .. tmpept.y )
 
-		local bdlen = GetDistance ( tmpspt,tmpept )
-		bhlen = bhlen + bdlen
-	end
-	return bhlen
+
+ function GetBDNum(bh)
+	 local tnum = GetTurningPtNum(bh)
+	 local bdnum = tnum + 1
+	 return bdnum
  end
+
+
+ function GetBHLen ( bh )
+
+ end
+
+--[[
+--boolean number string table {GeoType} function
+function trace(var)
+	local varType = type(var)
+	if(varType == "boolean") then
+		print("boolean:")
+		print(var)
+	elseif(varType == "number") then
+		print("number:")
+		print(var)
+	elseif(varType == "string") then
+		print("string:")
+		print(var)
+	elseif(varType == "function") then
+		print("function:")
+		print(var)
+	elseif(varType == "table") then
+		if(var.GeoType == nil) then
+			print("table:")
+			print(var)
+		elseif(var.GeoType == "KBH") then
+			print("KBH:")
+			print("start point: "..var.ptSet[1].x,var.ptSet[1].y)
+			print("end point: "..var.ptSet[#var.ptSet].x,var.ptSet[#var.ptSet].y)
+		elseif(var.GeoType == "KPOINT") then
+			print("KPOINT:")
+			print(var.x,var.y)
+		elseif(var.GeoType == "KBD") then
+			print("KBD:")
+			print("start point: "..var.ptSet[1].x,var.ptSet[1].y)
+			print("end point: "..var.ptSet[#var.ptSet].x,var.ptSet[#var.ptSet].y)
+		elseif(var.GeoType == "KRECT") then
+			print("KRECT:")
+			print("left: "..var.Edges.left..", right: "..var.Edges.left..", top: "..var.Edges.top..", bottom: "..var.Edges.bottom)
+		end
+	end
+end
+]]--
+
 
 function trace(var)
 	retInfoStr = ""
@@ -128,7 +302,6 @@ function trace(var)
 			retInfoStr = retInfoStr .. "\r\n"
 			retInfoStr = retInfoStr .. "end point: "..var.ptSet[#var.ptSet].x..","..var.ptSet[#var.ptSet].y
 			retInfoStr = retInfoStr .. "\r\n"
-			allInfoStr = allInfoStr .. retInfoStr
 			end
 	end
 	if (varType == "number") then
@@ -138,54 +311,35 @@ function trace(var)
 end
 
 
---获得中点
-function	GetMidPoint ( bh )
- 	local point = WZEnv.POINT:new()
-	local len= #bh.ptSet
-	local tmpIdx = math.floor ( len / 2 )
-	point.x = bh.ptSet[tmpIdx].x
-	point.y = bh.ptSet[tmpIdx].y
-	return point
+
+--获得经过点pt1 pt2的直线方程ax+by+c = 0 返回数组linevar中依次是系数a b c
+function GetLine(pt1,pt2)
+	local linevar = {}
+	linevar[1] = pt2.y - pt1.y
+	linevar[2] = pt1.x - pt2.x
+	linevar[3] = pt1.y*pt2.x - pt2.y*pt1.x
+	return linevar
 end
 
---获得点的横纵坐标
-function GetPointX ( pt )
-	return pt.x
-end
-
-function GetPointY ( pt )
-	return pt.y
-end
-
---对于稀疏bd 的插值
---[[function base_Interplotation ( bd )
-	local resultBD =
-	local ptSize = #bd.ptSet
-	for i =1 ,ptSize do
-		local pt1 = bd.ptSet[i]
-		local pt2 = bd.ptSet[i+1]
-		local lengthX = pt2.x - pt1.x
-		local lengthY = pt2.y - pt2.y
-		local maxLength = 0
-		if (math.abs (lengthX) > math.abs (lengthY)) then
-			maxLength = lengthX
-			else
-				maxLength = lengthY
-			end
-		local increaseX = lengthX / maxLength
-		local increaseY = lengthY / maxLength
-		local startX = pt1.x
-		local startY = pt1.y
-		for j = 1, j <maxLength
-			local point = WZEnv.POINT:new()
-			point.x = startX
-			point.y = startY
-
-		end
+--判断点是否在直线下边
+function Point2LineDown(pt,line)
+	local a,b,c = line[1],line[2],line[3]
+	local result = a*pt.x + b*pt.y + c
+	if (result < 0) then
+		return true
 	end
+	return false
 end
-]]
 
+--判断点是否在直线的上边
+function Point2LineUp(pt,line)
+	local a,b,c = line[1],line[2],line[3]
+	local result = a*pt.x + b*pt.y + c
+	if (result > 0) then
+		return true
+	end
+	return false
+end
 
 --boolean 判断横是否平
 function HorFlat ( bh,threshold )
@@ -362,5 +516,72 @@ function GetVPoint(bh,pt)
 		end
 	end
 	return bh.ptSet[minPtIndex]
+end
+
+
+--获得两个笔画的交点  如果有交点 返回该交点
+--							  如果没有交点  返回nil
+function GetJoint(bh1, bh2)
+	local disThreshold = 3
+	local minDis = 256
+	local index1 = 1
+	local index2 = 1
+	for i = 1,#bh1.ptSet do
+		for j = 1,#bh2.ptSet do
+			local pt1 = bh1.ptSet[i]
+			local pt2 = bh2.ptSet[j]
+			local tmpDis = GetDistance(pt1,pt2)
+			if (tmpDis < minDis) then
+				index1 = i
+				index2 = j
+				minDis = tmpDis
+			end
+		end
+	end
+	if (minDis > disThreshold) then
+		return nil
+	end
+	local pts = bh1.ptSet[index1]
+	local pte = bh2.ptSet[index2]
+	local jpt = {}
+	jpt.x = (pts.x + pte.x) / 2
+	jpt.y = (pte.x + pte.y) / 2
+	return  jpt
+end
+
+
+
+--pt 到ax + by + c = 0的距离
+function Cal_Point2LineDis( pt, a, b, c)
+	local x = pt.x
+	local y = pt.y
+	local m = math.abs(a*x+b*y+c)
+	local n = 	math.sqrt(a*a+b*b)
+	local dis = m/n
+	return dis
+end
+
+--判断pt在直线ax+by+c=0的方位
+function Cal_Direction(pt, a, b,c)
+	local x = pt.x
+	local y = pt.y
+	local dir = a*x+b*y+c
+	return dir
+end
+
+
+--获得笔画到直线ax + by + c = 0距离最短的点
+function GetFarthestPt2Line(bh,a,b,c)
+	local maxDis = 0
+	local index = 1
+	for i = 1,#bh.ptSet do
+		local pt = bh.ptSet[i]
+		local dis = Cal_Point2LineDis(pt,a,b,c)
+		if (dis > maxDis) then
+			maxDis = dis
+			index = i
+		end
+	end
+	return bh.ptSet[index]
 end
 
