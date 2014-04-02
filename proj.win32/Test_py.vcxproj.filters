@@ -13,6 +13,12 @@
     <Filter Include="Classes\tools">
       <UniqueIdentifier>{8d6c32b0-6383-4c2e-b697-244c398e4917}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\sqlite">
+      <UniqueIdentifier>{2ffdfeb0-d678-45f2-b110-6f96e047adf2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Entity">
+      <UniqueIdentifier>{377dafb3-c67c-4e94-ab81-ed51e79ff77b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -126,6 +132,12 @@
     <ClCompile Include="..\Classes\JudgeManager.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\SqliteHelper.cpp">
+      <Filter>Classes\sqlite</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\CharacterEntity.cpp">
+      <Filter>Classes\Entity</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -233,6 +245,12 @@
     </ClInclude>
     <ClInclude Include="..\Classes\JudgeManager.h">
       <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SqliteHelper.h">
+      <Filter>Classes\sqlite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\CharacterEntity.h">
+      <Filter>Classes\Entity</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,5 @@
 #include "TcharacterLayer.h"
+#include "LianxiScene.h"
 
 TcharacterLayer::TcharacterLayer():m_sprite(NULL),
 	m_TDrawnode(NULL)
@@ -42,7 +43,8 @@ TcharacterLayer* TcharacterLayer::create(CCSprite* tianzige){
 
 void TcharacterLayer::onEnter(){
 
-	string ba("八");
+// 	string ba("八");
+	string ba = ((LianxiScene*)this->getParent())->testCharacter;
 	this->setm_TDrawnode(TcharacterDrawnode::create(ba,m_sprite->getContentSize()));
 	this->addChild(m_TDrawnode,2000);
 	//不设置Anchorpoint了，直接做坐标变换

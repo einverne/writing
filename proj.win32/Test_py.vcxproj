@@ -129,6 +129,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\BackgroundLayer.cpp" />
     <ClCompile Include="..\Classes\Bujian.cpp" />
     <ClCompile Include="..\Classes\Character.cpp" />
+    <ClCompile Include="..\Classes\CharacterEntity.cpp" />
     <ClCompile Include="..\Classes\file\TDInvFileUtils.cpp" />
     <ClCompile Include="..\Classes\GameOverScene.cpp" />
     <ClCompile Include="..\Classes\GameScene.cpp" />
@@ -146,6 +147,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\ReadXML.cpp" />
     <ClCompile Include="..\Classes\SecondScene.cpp" />
     <ClCompile Include="..\Classes\Splash.cpp" />
+    <ClCompile Include="..\Classes\SqliteHelper.cpp" />
     <ClCompile Include="..\Classes\Stroke.cpp" />
     <ClCompile Include="..\Classes\StrokeDrawnode.cpp" />
     <ClCompile Include="..\Classes\StrokeNode.cpp" />
@@ -168,6 +170,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\BackgroundLayer.h" />
     <ClInclude Include="..\Classes\Bujian.h" />
     <ClInclude Include="..\Classes\Character.h" />
+    <ClInclude Include="..\Classes\CharacterEntity.h" />
     <ClInclude Include="..\Classes\file\TDInvFileUtils.h" />
     <ClInclude Include="..\Classes\GameOverScene.h" />
     <ClInclude Include="..\Classes\GameScene.h" />
@@ -185,6 +188,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\ReadXML.h" />
     <ClInclude Include="..\Classes\SecondScene.h" />
     <ClInclude Include="..\Classes\Splash.h" />
+    <ClInclude Include="..\Classes\SqliteHelper.h" />
     <ClInclude Include="..\Classes\Stroke.h" />
     <ClInclude Include="..\Classes\StrokeDrawnode.h" />
     <ClInclude Include="..\Classes\StrokeNode.h" />

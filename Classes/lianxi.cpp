@@ -113,7 +113,7 @@ bool lianxi::init(){
 		pHanzi->setPosition(tianzige->getPosition());
 
 		//read xml show animation of character
-		string xml = CCFileUtils::sharedFileUtils()->fullPathForFilename("xml/八.xml");
+		string xml = CCFileUtils::sharedFileUtils()->fullPathForFilename("xml/ba.xml");
 		CReadXML readxml(xml);
 		charac = readxml.getCharacter();
 		int coun = charac.getStrokeCount();
@@ -176,7 +176,7 @@ void lianxi::onEnter(){
 	CCLog("onEnter lixian");
 
 	//将构造的正确汉字放置到手写字区域，并且不显示
-	string xml = CCFileUtils::sharedFileUtils()->fullPathForFilename("xml/八.xml");
+	string xml = CCFileUtils::sharedFileUtils()->fullPathForFilename("xml/ba.xml");
 	CReadXML readxml(xml);
 	newCharac = readxml.getCharacter();
 	newCharac.getBox();
@@ -391,9 +391,9 @@ void lianxi::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 	string filepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/WriteZiInfo.lua");
 	string basepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/BaseLib.lua");
 	string gpath = string("lua/ZiList/") + hanzi + string("/funcs.txt");			//字符串拼接 调试技能 ,s8
-	string Globalpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/ZiList/八/funcs.txt");
+	string Globalpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/ZiList/ba/funcs.txt");
 	string apipath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/RunAPI.lua");
-	string rulespath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/ZiList/八/rules.txt");
+	string rulespath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/ZiList/ba/rules.txt");
 
 	//产生output
 

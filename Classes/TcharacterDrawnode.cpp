@@ -1,5 +1,8 @@
 #include "TcharacterDrawnode.h"
 #include "ReadXML.h"
+#include "SqliteHelper.h"
+#include "UTF8ToGBK.h"
+#include "CharacterEntity.h"
 
 TcharacterDrawnode::TcharacterDrawnode():strokedrawList(NULL)
 {
@@ -19,9 +22,24 @@ TcharacterDrawnode::~TcharacterDrawnode()
 }
 
 bool TcharacterDrawnode::init(string hz,CCSize showrect){
+	CCLog("TcharacterDrawnode init()");
+	string dbpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("test.db");
+	SqliteHelper::initDB(dbpath.c_str());
+// 	string createsql = "create table user (id integer,username test,password text,word text)";
+// 	SqliteHelper::createTable(createsql,"user");
+
+// 	string insertsql = "insert into table_test values(4,'"+UTF8ToGBK::UTF8TOGBK("ºÃ")+"')";
+// 	SqliteHelper::insertData(insertsql);
+
+	string sql = "select * from table_test where name='"+hz+"'";
+	CharacterEntity* p = new CharacterEntity();
+	SqliteHelper::getDataInfo(sql,p);
+	SqliteHelper::closeDB();
 	strokedrawList = CCArray::create();
 	strokedrawList->retain();
-	string xml = CCFileUtils::sharedFileUtils()->fullPathForFilename("xml/°Ë.xml");
+	string filepath = "lua/ZiList/"+to_string(p->getID()->getValue())+"/xml.xml";
+	string xml = CCFileUtils::sharedFileUtils()->fullPathForFilename(filepath.c_str());
+// 	string xml(p->getXML()->getCString());
 	CReadXML readxml(xml);
 	this->m_character = readxml.getCharacter();
 	this->showRect = showrect;
