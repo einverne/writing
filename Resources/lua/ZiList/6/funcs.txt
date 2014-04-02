@@ -1,0 +1,107 @@
+function  IsPie(bh)
+
+local spt = GetStartPoint(bh)
+local ept = GetEndPoint(bh)
+if (spt.x < ept.x or spt.y >ept.y) then 
+    return false
+end
+
+for i = 2 ,#bh.ptSet do 
+    local prept = bh.ptSet[i-1]
+    local curpt = bh.ptSet[i]
+    if (prept.y > curpt.y ) then 
+        return false
+    end
+end
+return true
+
+end
+
+
+
+
+function  IsNa(bh)
+
+local spt = GetStartPoint(bh)
+local ept = GetEndPoint(bh)
+if (spt.x > ept.x or spt.y >ept.y) then 
+    return false
+end
+
+for i = 2,#bh.ptSet do 
+    local prept = bh.ptSet[i-1]
+    local curpt = bh.ptSet[i]
+    if (prept.y > curpt.y) then 
+        return false
+    end
+end
+
+local ProjectionX = {}
+local ProjectionY = {}
+local firstX = bh.ptSet[1].x
+local firstY = bh.ptSet[1].y
+ProjectionX[firstX] = 1 
+ProjectionY[firstY] = 1 
+local totalPtNum = #bh.ptSet
+for i = 2, #bh.ptSet do 
+    local prePt = bh.ptSet[i-1]
+    local curPt = bh.ptSet[i]
+    if (curPt.x  == prePt.x) then 
+        ProjectionX[prePt.x] = ProjectionX[prePt.x] + 1
+    else
+        ProjectionX[curPt.x] = 1
+    end
+    if (curPt.y  == prePt.y) then 
+        ProjectionY[prePt.y] = ProjectionY[prePt.y] + 1
+    else
+        ProjectionY[curPt.y] = 1
+    end
+end
+for k ,v in pairs (ProjectionX) do 
+    if (v > totalPtNum/4 ) then
+        return false
+    end
+end
+
+for k ,v in pairs (ProjectionY) do 
+    if (v > totalPtNum/4 ) then 
+        return false
+    end
+end
+return true
+
+end
+
+
+
+
+function BH2BHXiangJiao(bh1,bh2)
+	local threshold = 10
+	local jpt = GetJoint(bh1,bh2)
+	if (jpt == nil )then
+		return false
+	end
+	print (jpt.x,jpt.y)
+	local spt1 = GetStartPoint(bh1)
+	local ept1 = GetEndPoint(bh1)
+	local spt2 = GetStartPoint(bh2)
+	local ept2 = GetEndPoint(bh2)
+	local dis10 = GetDistance(spt1,jpt)
+	local dis11 = GetDistance(ept1,jpt)
+	local dis20 = GetDistance(spt2,jpt)
+	local dis21 = GetDistance(ept2,jpt)
+	print (dis10,dis11,dis20,dis21)
+	if (dis10 < threshold) then
+		return false
+	end
+	if (dis11 < threshold) then
+		return false
+	end
+	if (dis20 < threshold) then
+		return false
+	end
+	if (dis21 < threshold) then
+		return false
+	end
+	return true
+end

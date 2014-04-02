@@ -1,0 +1,21 @@
+//##begin
+//##0:110007:----------------------------------
+bh0 = GetBH(0);
+if (IsHeng(bh0) == false) then
+trace("0")
+return
+end
+trace("1")
+//##1:110003:----------------------------------
+bh1 = GetBH(1);
+if(IsShu(bh1) == false) then
+trace ("0");
+return
+end
+
+if (BH2BHXiangJiao(bh0,bh1) == false) then
+trace ("0");
+return
+end
+trace("1")
+//##end

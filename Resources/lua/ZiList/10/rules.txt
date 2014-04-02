@@ -1,0 +1,30 @@
+//##begin
+//##0:110034:----------------------------------
+local bh0 = GetBH(0)
+if (IsShuGou(bh0) == false) then 
+trace("0")
+return
+end
+trace("1")
+//##1:110009:----------------------------------
+local bh1 = GetBH(1)
+if (IsPie(bh1) == false) then 
+trace("0")
+return
+end
+local spt1 = GetStartPoint(bh1)
+local spt0 = GetStartPoint(bh0)
+if (spt0.x < spt1.x) then 
+trace("0")
+return
+end
+
+trace("1")
+//##2:110004:----------------------------------
+local bh2 = GetBH(2)
+if (IsDian(bh2)== false) then 
+trace("0")
+return
+end
+trace("1")
+//##end

@@ -1,0 +1,13 @@
+//##begin
+
+//##0:110007:----------------------------------
+local bh0 = GetBH(0)
+if (IsHeng(bh0) == false) then 
+trace("0")
+return
+end
+trace("1")
+
+//##end
+
+

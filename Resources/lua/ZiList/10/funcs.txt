@@ -1,0 +1,65 @@
+function  IsPie(bh)
+
+local spt = GetStartPoint(bh)
+local ept = GetEndPoint(bh)
+if (spt.x < ept.x or spt.y >ept.y) then 
+    return false
+end
+
+for i = 2 ,#bh.ptSet do 
+    local prept = bh.ptSet[i-1]
+    local curpt = bh.ptSet[i]
+    if (prept.y > curpt.y ) then 
+        return false
+    end
+end
+return true
+
+end
+
+
+
+function  IsShuGou(bh)
+
+local gdnum = GetTurningPtNum(bh,2)
+if (gdnum ~= 1) then 
+    return false
+end
+
+local startpt = bh.ptSet[1]
+local endpt = bh.ptSet[#bh.ptSet]
+
+if( endpt.y < startpt.y ) then
+    return false
+end
+local slope = ( endpt.x - startpt.x ) / ( endpt.y - startpt.y )
+local angel = math.deg ( math.atan(slope))
+local angelInter
+local angelFloat
+angelInter,angelFloat = math.modf (angel)
+if (angelFloat > 0.5) then
+    angelInter = angelInter + 1
+end
+if (math.abs (angelInter )>= 15) then
+   return false
+end
+
+return true
+
+end
+
+
+
+function  IsDian(bh)
+
+local spt = GetStartPoint(bh)
+local ept = GetEndPoint(bh)
+local dis = GetDistance(spt,ept)
+if (dis < 20 ) then 
+return true
+end
+return false 
+
+end
+
+
