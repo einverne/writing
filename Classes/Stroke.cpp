@@ -130,6 +130,14 @@ CCPoint Stroke::getBigPoint(){
 	}
 	return ccp(tx,ty);
 }
+
+void Stroke::addEveryPoint(CCPoint point){
+	for (int i = 0 ; i < pointList.size(); ++i)
+	{
+		pointList[i] = pointList[i] + point;
+	}
+}
+
 // StrokeNode* Stroke::getStrokeNode(){
 // 	return 
 /*}*/

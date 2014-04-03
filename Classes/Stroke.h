@@ -27,6 +27,15 @@ public:
 	CCSize getSize();
 	CCPoint getBigPoint();						//获取坐标值最大的点，包围盒最右上角的点
 	string sendOutput();						//产生送给Lua的字符串
+	//************************************
+	// Method:    addEveryPoint 给pointList中每个point加上一个point值
+	// FullName:  Stroke::addEveryPoint
+	// Access:    public 
+	// Returns:   void
+	// Qualifier:
+	// Parameter: CCPoint point
+	//************************************
+	void addEveryPoint(CCPoint point);			//每个点加一个点
 // 	StrokeNode* getStrokeNode();
 private:
 	float distance(CCPoint p1,CCPoint p2);		//两点间距离
