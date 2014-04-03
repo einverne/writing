@@ -57,7 +57,7 @@ void TouchLayer::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 	LianxiScene* temp= (LianxiScene*)(this->getParent());
 	
 
-	if (Hlayer->getm_HDrawnode()->getStrokeDrawnodeList()->count() > Tlayer->getm_TDrawnode()->m_character.getStrokeCount())
+	if (Hlayer->getm_HDrawnode()->getStrokeDrawnodeList()->count() > Tlayer->getm_TDrawnode()->getCharacter().getStrokeCount())
 	{
 		return;
 	}
@@ -83,7 +83,7 @@ void TouchLayer::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 }
 void TouchLayer::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
 	CCLog("TouchLayer TouchesMoved");
-	if (Hlayer->getm_HDrawnode()->getStrokeDrawnodeList()->count() > Tlayer->getm_TDrawnode()->m_character.getStrokeCount())
+	if (Hlayer->getm_HDrawnode()->getStrokeDrawnodeList()->count() > Tlayer->getm_TDrawnode()->getCharacter().getStrokeCount())
 	{
 		return;
 	}
@@ -112,7 +112,7 @@ void TouchLayer::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
 void TouchLayer::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 	CCLog("TouchLayer TouchesEnded");
 	CCLog("TouchLayer m_uRef: %d",this->m_uReference);
-	if (Hlayer->getm_HDrawnode()->getStrokeDrawnodeList()->count() > Tlayer->getm_TDrawnode()->m_character.getStrokeCount())
+	if (Hlayer->getm_HDrawnode()->getStrokeDrawnodeList()->count() > Tlayer->getm_TDrawnode()->getCharacter().getStrokeCount())
 	{
 		return;
 	}

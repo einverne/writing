@@ -15,13 +15,14 @@ public:
 	virtual bool init(string hz,CCSize showrect);
 //	CREATE_FUNC(TcharacterDrawnode);
 	static TcharacterDrawnode* create(string hz,CCSize showrect);
-	CCSize showRect;
-	Character m_character;
+
 // 	vector<StrokeDrawnode*> strokedrawList;
 	int visibleIndex;
 	CC_SYNTHESIZE_RETAIN(CCArray*,strokedrawList,strokedrawList);
+	Character getCharacter(){return m_character;}
 private:
-
+	CCSize showRect;
+	Character m_character;			//根据汉字读取字符xml文件，构造Character
 };
 
 
