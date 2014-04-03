@@ -16,6 +16,14 @@ StrokeDrawnode::StrokeDrawnode(Stroke stro){
 	this->stroke = stro;
 }
 
+void StrokeDrawnode::onEnter(){
+	CCNode::onEnter();
+}
+
+void StrokeDrawnode::onExit(){
+	CCNode::onExit();
+}
+
 StrokeDrawnode* StrokeDrawnode::create(Stroke stro){
 	StrokeDrawnode* pRet = new StrokeDrawnode(stro);
 	if (pRet && pRet->init())
