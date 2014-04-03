@@ -13,6 +13,10 @@ public:
 	~HcharacterDrawnode();
 	CREATE_FUNC(HcharacterDrawnode);
 	virtual bool init();
+	//节点开始进入触发  
+	virtual void onEnter();
+	//节点退出触发  
+	virtual void onExit();
 	virtual void draw();
 
 	//************************************
@@ -43,6 +47,18 @@ public:
 	// Qualifier:
 	//************************************
 	void removeLastStroke();
+
+
+	//************************************
+	// Method:    changeStroke 
+	// FullName:  HcharacterDrawnode::changeStroke
+	// Access:    public 
+	// Returns:   void
+	// Qualifier:
+	// Parameter: int index 第几笔，从0开始
+	// Parameter: Stroke s 将num笔替换成传入的stroke
+	//************************************
+	void changeStroke(int index,Stroke s);
 
 // 	vector<StrokeDrawnode*> getStrokeDrawnodeList(){ return this->strokeDrawlist; }
 // 	vector<StrokeDrawnode*> strokeDrawlist;
