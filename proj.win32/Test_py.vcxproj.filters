@@ -19,6 +19,9 @@
     <Filter Include="Classes\Entity">
       <UniqueIdentifier>{377dafb3-c67c-4e94-ab81-ed51e79ff77b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\action">
+      <UniqueIdentifier>{5d72d496-4157-4d38-b593-e5bff2d1b572}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -138,6 +141,12 @@
     <ClCompile Include="..\Classes\CharacterEntity.cpp">
       <Filter>Classes\Entity</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\MoveToRightPlace.cpp">
+      <Filter>Classes\action</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\TagData.cpp">
+      <Filter>Classes\Entity</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -250,6 +259,12 @@
       <Filter>Classes\sqlite</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\CharacterEntity.h">
+      <Filter>Classes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MoveToRightPlace.h">
+      <Filter>Classes\action</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\TagData.h">
       <Filter>Classes\Entity</Filter>
     </ClInclude>
   </ItemGroup>

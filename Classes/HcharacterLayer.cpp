@@ -2,6 +2,15 @@
 #include "JudgeManager.h"
 #include "StrokeDrawnode.h"
 #include "Stroke.h"
+#include "MoveToRightPlace.h"
+#include "TcharacterLayer.h"
+typedef enum layers
+{
+	kBgLayerTag,
+	kHLayerTag,
+	kTLayerTag,
+	kTouchLayerTag
+};
 
 HcharacterLayer::HcharacterLayer():m_sprite_draw(NULL),
 	bihuaCount(NULL),m_HDrawnode(NULL),duicuo(NULL)
@@ -23,8 +32,8 @@ bool HcharacterLayer::init(string hanzi,CCSprite* tianzige_draw){
 		this->hanzi = hanzi;
 		this->setSprite(tianzige_draw);
 		this->setm_HDrawnode(HcharacterDrawnode::create());
+// 		m_HDrawnode->setPosition(m_sprite_draw->getPosition()-ccp(m_sprite_draw->getContentSize().width/2,m_sprite_draw->getContentSize().height/2));
 		this->addChild(m_HDrawnode);
-
 
 		this->setbihuaCount(CCLabelTTF::create("bihua","Arial",50));
 		this->addChild(bihuaCount,2000);
@@ -104,6 +113,13 @@ void HcharacterLayer::judge(){
 		ostr << t;
 		bihuaCount->setString(ostr.str().c_str());
 		duicuo->setString("zhengque");
+
+		TcharacterLayer* layer = (TcharacterLayer*)this->getParent()->getChildByTag(kTLayerTag);		//get TcharacterLayer
+		Stroke temp = layer->getm_TDrawnode()->getCharacter().getStroke(t);								//get No. stroke
+		CCPoint deltpoint = this->m_sprite_draw->getPosition()-ccp(m_sprite_draw->getContentSize().width/2,m_sprite_draw->getContentSize().height/2);
+		temp.addEveryPoint(deltpoint);
+		MoveToRightPlace* place = MoveToRightPlace::create(t-1,temp);
+		m_HDrawnode->runAction(place);
 	}
 }
 
@@ -121,9 +137,9 @@ string HcharacterLayer::floatToString(float f){
 }
 
 void HcharacterLayer::onEnter(){
-
+	CCLayer::onEnter();
 }
 
 void HcharacterLayer::onExit(){
-
+	CCLayer::onEnter();
 }
