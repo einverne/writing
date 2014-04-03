@@ -1,4 +1,12 @@
 #include "LianxiScene.h"
+#include "TagData.h"
+typedef enum layers
+{
+	kBgLayerTag,
+	kHLayerTag,
+	kTLayerTag,
+	kTouchLayerTag
+};
 
 LianxiScene::LianxiScene(string hanzi):backgroundLayer(NULL),
 	touchLayer(NULL),
@@ -35,19 +43,23 @@ bool LianxiScene::init(){
 	{
 		this->setbackgroundLayer(BackgroundLayer::create());
 		CC_BREAK_IF(!backgroundLayer);
+		backgroundLayer->setTag(kBgLayerTag);
 		this->addChild(backgroundLayer);
 
 		this->setTLayer(TcharacterLayer::create(backgroundLayer->tianzige));
 		CC_BREAK_IF(!TLayer);
+		TLayer->setTag(kTLayerTag);
 		//TLayer->setSprite(backgroundLayer->tianzige);			将背景层中tianzige传给正字信息图层
 		this->addChild(TLayer);
 
 		this->setHLayer(HcharacterLayer::create(testCharacter,backgroundLayer->tianzige_draw));
 		CC_BREAK_IF(!HLayer);
+		HLayer->setTag(kHLayerTag);
 		this->addChild(HLayer);
 		
 		this->settouchLayer(TouchLayer::create(TLayer,HLayer));
 		CC_BREAK_IF(!touchLayer);
+		touchLayer->setTag(kTouchLayerTag);
 		this->addChild(touchLayer);
 
 		CCLog("LianxiScene ref: %d",this->m_uReference);
