@@ -126,7 +126,7 @@ void HcharacterLayer::judge(){
 // 		CCPoint deltpoint = this->m_sprite_draw->getPosition()-ccp(m_sprite_draw->getContentSize().width/2,m_sprite_draw->getContentSize().height/2);
 // 		temp.addEveryPoint(deltpoint);
 // 		MoveToRightPlace* place = MoveToRightPlace::create(t-1,temp);
-		MoveToRightPlaceInterval* place = MoveToRightPlaceInterval::create(15,t-1,temp);
+		MoveToRightPlaceInterval* place = MoveToRightPlaceInterval::create(2,t-1,temp);
 		m_HDrawnode->runAction(place);
 	}
 }

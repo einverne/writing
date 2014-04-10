@@ -2,23 +2,22 @@
 
 //##0:110007:----------------------------------
 local bh0 = GetBH(0)
-if (IsHeng(bh0) == false) then 
+if (IsHeng(bh0,bl) == false) then 
 trace("0")
-return
-end
+else
 trace("1")
-//##1:110007:----------------------------------
-local bh1 = GetBH(1)
-if (IsHeng(bh1) == false) then 
-trace("0")
-return
 end
 
-if(BH2BHXiangJiao(bh0,bh1)== false) then 
-    trace("0")
-return
-end
+//##1:110007:----------------------------------
+local bh1 = GetBH(1)
+if (IsHeng(bh1,bl) == false) then 
+trace("0")
+else
 trace("1")
+end
+
+
+
 //##end
 
 

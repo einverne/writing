@@ -88,14 +88,18 @@ end
 
 
 
---获取某一笔段 笔段索引从1开始
+--获取某一笔段 笔段索引从0开始
 function GetBDByBH(bh,bdIdx)
 	local bd = WZEnv.BD:new()
 	local preIdx = 1
-	if (bdIdx ~= 1) then
-		preIdx = bh.InflectionPoint[bdIdx - 1]
+	local postIdx = #bh.ptSet
+	if (bdIdx ~= 0) then
+		preIdx = bh.InflectionPoint[bdIdx ]
 	end
-	local postIdx = bh.InflectionPoint[bdIdx]
+
+	if (bdIdx < #bh.InflectionPoint) then
+	   postIdx = bh.InflectionPoint[bdIdx + 1]
+	end
 	local bdPtSet = {}
 	for i = preIdx, postIdx do
 		bd.ptSet[#bd.ptSet + 1] = bh.ptSet[i]
@@ -116,6 +120,17 @@ function Cal_Angle(prePt,curPt,postPt)
 	disY = math.sqrt(vecY.x*vecY.x + vecY.y*vecY.y)
 	cosXY = ( vecX.x*vecY.x + vecX.y*vecY.y )/(disX*disY)
 	return math.acos(cosXY)
+end
+
+
+function sortingFun(a,b)
+	if b.angle < a.angle then
+			return false
+	elseif b.angle > a.angle then
+			return true
+	else
+			return false
+	end
 end
 
 
@@ -140,7 +155,7 @@ function GetTurningPtNum(bh,BDNum)
 		n_postIdx = n_postIdx + 1
 	end
 	--把角度按照从小到大排序
-	table.sort(angleArr,function(a,b) return a.angle < b.angle end)
+	table.sort(angleArr,sortingFun)
 	local nCandidateNum = #angleArr
 
 	local CInflectionPts = {}		--存储候选拐点的索引
@@ -341,69 +356,7 @@ function Point2LineUp(pt,line)
 	return false
 end
 
---boolean 判断横是否平
-function HorFlat ( bh,threshold )
-	if (threshold == nil) then
-		return nil
-	end
-	if ( bh.GeoType ~= "KBD" and bh.GeoType ~= "KBH") then
-		return nil
-	end
-	if ( type (threshold) ~= "number" ) then
-	end
-	local startpt = WZEnv.POINT:new()
-	local endpt = WZEnv.POINT:new()
-	startpt = bh.ptSet[1]
-	endpt = bh.ptSet[#bh.ptSet]
-	local slope = (startpt.y - endpt.y) / (endpt.x - startpt.x)
-	--lua中反正切函数返回的本身就是角度而不是弧度。注意与C++中的区别
-	local angel = math.deg ( math.atan(slope))
-	local angelInter
-	local angelFloat
-	angelInter,angelFloat = math.modf (angel)
-	if (angelFloat > 0.5) then
-		angelInter = angelInter + 1
-	elseif (angelFloat < -0.5) then
-		angelInter = angelInter - 1
-	end
-	if (math.abs (angelInter )>= threshold) then
-		return false
-		else
-		return true
-	end
-end
 
---boolean 判断竖是否直 bh/bd
-function VerFlat ( bh,threshold )
-	if (threshold == nil) then
-	return nil
-	end
-	if ( bh.GeoType ~= "KBD" and bh.GeoType ~= "KBH") then
-	return nil
-	end
-	local startpt = WZEnv.POINT:new()
-	local endpt = WZEnv.POINT:new()
-	startpt = bh.ptSet[1]
-	endpt = bh.ptSet[#bh.ptSet]
-	if( endpt.y - startpt.y == 0) then
-		return nil
-	end
-	local slope = ( endpt.x - startpt.x ) / ( endpt.y - startpt.y )
-	local angel = math.deg ( math.atan(slope))
-	local angelInter
-	local angelFloat
-	angelInter,angelFloat = math.modf (angel)
-	if (angelFloat > 0.5) then
-		angelInter = angelInter + 1
-	elseif (angelFloat < -0.5) then
-		angelInter = angelInter - 1
-	end
-	if (math.abs (angelInter )>= threshold) then
-		return 0
-		else
-		return 1
-	end
-end
 
 --获得最左面的点 bh/bd
 function GetLeftMostPoint ( bh )
@@ -570,8 +523,9 @@ function Cal_Direction(pt, a, b,c)
 end
 
 
---获得笔画到直线ax + by + c = 0距离最短的点
-function GetFarthestPt2Line(bh,a,b,c)
+--获得笔画到直线 line ax + by + c = 0距离最远的距离
+function GetFarthestPt2Line(bh,line)
+	local a,b,c = line[1],line[2],line[3]
 	local maxDis = 0
 	local index = 1
 	for i = 1,#bh.ptSet do
@@ -582,6 +536,5 @@ function GetFarthestPt2Line(bh,a,b,c)
 			index = i
 		end
 	end
-	return bh.ptSet[index]
+	return maxDis
 end
-

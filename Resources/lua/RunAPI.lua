@@ -47,7 +47,6 @@ end
 
 --#########################	处理手写字信息		 ########################################
 local WriteZiStr = GetWriteInfoFromC()	--外部接口
---local WriteZiStr = [[28/61/28/61/29/61/30/61/32/61/34/61/36/60/41/60/46/60/52/60/58/60/64/60/70/60/74/60/77/60/79/59/80/59/80/58/80/58/@57/31/57/32/57/36/57/40/56/44/55/52/55/58/55/65/55/70/55/74/55/78/55/80/56/82/57/83/57/84/57/85/57/86/57/86/57/88/57/89/57/90/57/90/@]]
 local WZ = require("WriteZiInfo")
 local writeHZ = WZ.WriteHZ:new()
 writeHZ:initialize(WriteZiStr)
@@ -97,16 +96,23 @@ for i = 1,#ZiRuleList do
 end
 
 
+
 baseFuncs = require("BaseLib")
 baseFuncs.setWriteZiInfo(writeHZ)
 baseFuncs.setWZEnv(WZ)
 
+--此处需要在外部C代码增加接口
+--local strokeLevel =  GetStrokeLevelFromC()
+
 function RunZiRule(bhNum)
 	local header = [[setmetatable(baseFuncs,{__index= _G})
 	setfenv(1,baseFuncs)]] .."\n"
-	local pre = header .."\n" .."local bhNum ="..tostring (bhNum) .."\n"
+	local pre = header .."\n" .."local bhNum ="..tostring (bhNum) .."\n".."local bl = 3"
 	local allzirule = table.concat(NewZiRuleArr)
 	local result = pre.."\n"..allzirule
+
+
+
 	f = loadstring(result)
 	f()
 end

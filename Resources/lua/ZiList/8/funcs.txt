@@ -1,44 +1,44 @@
-function  IsHeng(bh)
-  
+function  IsHeng(bh,bl)
+if (bl < 1) then return end
     local startpt = GetStartPoint(bh)
     local endpt = GetEndPoint(bh)
-
-    
-    endpt = bh.ptSet[#bh.ptSet]
-	 if(startpt.x > endpt.x) then
-		return false
-	 end
+    if(startpt.x > endpt.x) then      
+       return false
+    end
+   
     local slope = (startpt.y - endpt.y) / (endpt.x - startpt.x)
-    local angel = math.deg ( math.atan(slope))
-    
+    local angel = math.deg ( math.atan(slope))   
     local angelInter
     local angelFloat
     angelInter,angelFloat = math.modf (angel)
     if (angelFloat > 0.5) then
-        angelInter = angelInter + 1
+    angelInter = angelInter + 1
     end
-  
-    if (math.abs (angelInter )>= 25) then
+    
+    if (math.abs (angelInter )>= 25) then      
         return false
     end
-	 return true
-
-
+   
+    local line = GetLine(startpt,endpt) 
+    local dis = GetFarthestPt2Line(bh,line)   
+    if( dis > 10) then 
+        return false 
+    end
+    if (bl < 2) then return end    
+    if(math.abs(angelInter) >= 15) then 
+        return false
+    end
+    return true
 
 
 end
 
 
-function  IsShu(bh)
-local gdnum = GetTurningPtNum(bh,1)
-if (gdnum ~= 0) then 
-    return false
-end
-
+function  IsShu(bh,bl)
+if (bl < 1) then return end
 local startpt = bh.ptSet[1]
 local endpt = bh.ptSet[#bh.ptSet]
-
-if( endpt.y < startpt.y ) then
+if( endpt.y < startpt.y ) then 
     return false
 end
 local slope = ( endpt.x - startpt.x ) / ( endpt.y - startpt.y )
@@ -53,6 +53,23 @@ if (math.abs (angelInter )>= 15) then
    return false
 end
 
+local line = GetLine(startpt,endpt) 
+local dis = GetFarthestPt2Line(bh,line)
+if( dis > 10) then 
+   return false 
+end
+
+if (bl < 2) then return end 
+
+if (math.abs (angelInter )>= 10) then 
+    return false
+end
+
+
+if (bl < 3) then return end
+
+if (dis > 5) then return  false end
+
 for i = 2, #bh.ptSet-3 do 
     local prept = bh.ptSet[i-1]
     local curpt = bh.ptSet[i]
@@ -65,37 +82,4 @@ return true
 
 end
 
-
-
-
-function BH2BHXiangJiao(bh1,bh2)
-	local threshold = 10
-	local jpt = GetJoint(bh1,bh2)
-	if (jpt == nil )then
-		return false
-	end
-	print (jpt.x,jpt.y)
-	local spt1 = GetStartPoint(bh1)
-	local ept1 = GetEndPoint(bh1)
-	local spt2 = GetStartPoint(bh2)
-	local ept2 = GetEndPoint(bh2)
-	local dis10 = GetDistance(spt1,jpt)
-	local dis11 = GetDistance(ept1,jpt)
-	local dis20 = GetDistance(spt2,jpt)
-	local dis21 = GetDistance(ept2,jpt)
-	print (dis10,dis11,dis20,dis21)
-	if (dis10 < threshold) then
-		return false
-	end
-	if (dis11 < threshold) then
-		return false
-	end
-	if (dis20 < threshold) then
-		return false
-	end
-	if (dis21 < threshold) then
-		return false
-	end
-	return true
-end
 

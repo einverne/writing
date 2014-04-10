@@ -1,20 +1,19 @@
 //##begin
 //##0:110009:----------------------------------
 local bh0 = GetBH(0)
-if(IsPie(bh0)== false)then 
+if(IsPie(bh0,bl)== false)then 
 trace("0")
-return
-end
+else
 trace("1")
-
+end
 
 //##1:110014:----------------------------------
 local bh1 = GetBH(1)
-
-if (IsNa(bh1)== false) then 
+if (IsNa(bh1,bl)== false) then 
 trace("0")
-return
+else
+trace("1")
 end
-trace("1");
+
 
 //##end

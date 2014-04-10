@@ -1,87 +1,26 @@
 //##begin
 //##0:110007:----------------------------------
 local bh0 = GetBH(0)
-if (IsHeng(bh0) ==  false) then 
+if (IsHeng(bh0,bl) ==  false) then 
 trace("0")
-return
-end
+else
 trace("1")
+end
+
 //##1:110003:----------------------------------
 local bh1 = GetBH(1)
-if (IsShu(bh1) ==  false) then 
+if (IsShu(bh1,bl) ==  false) then 
 trace("0")
-return
-end
+else
 trace("1")
-if(BH2BHXiangJie(bh0,bh1) == false) then 
-trace("0")
-return
 end
-trace("1")
+
 //##2:110004:----------------------------------
 local bh2 = GetBH(2)
-if (IsDian(bh2) ==  false) then 
+if (IsDian(bh2,bl) ==  false) then 
 trace("0")
-return
-end
-local spt1 = GetStartPoint(bh1)
-local spt2 = GetStartPoint(bh2)
-if (spt2.x < spt1.x) then 
-trace("0")
-return
-end
+else
 trace("1")
+end
 
 //##end
-
-function BH2BHXiangJie(bh1,bh2)
-	local threshold = 10
-	local jpt = GetJoint(bh1,bh2)
-	local spt1 = GetStartPoint(bh1)
-	local ept1 = GetEndPoint(bh1)
-	local spt2 = GetStartPoint(bh2)
-	local ept2 = GetStartPoint(bh2)
-	if (jpt ~= nil) then
-		local dis10 = GetDistance(spt1,jpt)
-		local dis11 = GetDistance(ept1,jpt)
-		local dis20 = GetDistance(spt2,jpt)
-		local dis21 = GetDistance(ept2,jpt)
-		if (dis10 <threshold) then
-			return true
-		end
-		if (dis11 < threshold) then
-			return true
-		end
-		if (dis20 < threshold) then
-			return true
-		end
-		if (dis21 < threshold) then
-			return true
-		end
-
-	end
-	if (jpt == nil) then
-		local vpt02 = GetVPoint(bh2,spt1)
-		local dis02 = GetDistance(vpt02,spt1)
-		local vpt12 = GetVPoint(bh2,ept1)
-		local dis12 = GetVPoint(vpt12,ept1)
-		local vpt01 = GetVPoint(bh1,spt2)
-		local dis01 = GetDistance(vpt01,spt2)
-		local vpt11 = GetVPoint(bh1,ept2)
-		local dis11 = GetDistance(vpt11,ept2)
-		if (dis02 < threshold) then
-			return true
-		end
-		if (dis12 < threshold) then
-			return true
-		end
-		if (dis01 < threshold) then
-			return true
-		end
-		if (dis11 < threshold) then
-			return true
-		end
-
-	end
-	return false
-end

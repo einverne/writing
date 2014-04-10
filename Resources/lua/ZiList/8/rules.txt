@@ -1,35 +1,32 @@
 //##begin
 //##0:110007:----------------------------------
 local bh0 = GetBH(0)
-if(IsHeng(bh0)== false) then 
+if(IsHeng(bh0,bl)== false) then 
 trace("0")
-return
-end
+else
 trace("1")
+end
 //##1:110007:----------------------------------
 local bh1 = GetBH(1)
-if(IsHeng(bh1) == false) then 
+if(IsHeng(bh1,bl) == false) then 
 trace("0")
-return
-end
+else
 trace("1")
+end
 //##2:110003:----------------------------------
 local bh2 = GetBH(2)
-if(IsShu(bh2)== false)then 
+if(IsShu(bh2,bl)== false)then 
 trace("0")
-return
+else
+trace("1")
 end
 
-if(BH2BHXiangJiao(bh1,bh2)== false) then
-trace("0")
-return
-end
-trace("1")
 //##3:110007:----------------------------------
 local bh3 = GetBH(3)
-if (IsHeng(bh3) == false) then 
+if (IsHeng(bh3,bl) == false) then 
 trace("0")
-return
-end
+else
 trace("1")
+end
+
 //##end

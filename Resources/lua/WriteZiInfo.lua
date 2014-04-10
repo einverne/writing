@@ -28,13 +28,6 @@ RECT = { GeoType = "KRECT", BHIdxSet = {}, Edges = {left = -1, right = -1, top =
 --strokes = {bh1,bh2,bh3}
 WriteHZ = { strokeNum = 0, strokes = {}, strokeStrings = {}  }
 
---##### 设定标准正字信息 begin#####--
-local stdHZStruct = nil
-function setStdHZ(stdHZ)
-	stdHZStruct = stdHZ
-end
-
-
 --split 函数，sep是待切分字符串，sign为分割字符
 function string:split(sep,sign)
 	local sep, fields = sep or "\t", {}
@@ -98,241 +91,7 @@ function sortingFun(a,b)
 	end
 end
 
-function BH:getStrokeBDNum(bh)
 
-	local n_step = 5			--lua索引从1开始
-	local n_curIdx = n_step+1
-	local n_preIdx = 1
-	local n_postIdx = 2*n_step+1
-	local angleArr = {}
-	--计算点对应的角度
-	for i = n_curIdx,(#self.ptSet)-n_step do
-		local ele = {}
-		local angle = self:calAngle(n_preIdx,i,n_postIdx)
-		ele.pos = i
-		ele.angle = angle
-		table.insert(angleArr,ele)
-		n_preIdx = n_preIdx+1
-		n_postIdx= n_postIdx+1
-	end
-	--把角度按照从小到大排序
-	table.sort(angleArr,sortingFun)
-
-	local nCandidateNum = #angleArr;
-	if(nCandidateNum == 0) then
-		return 1
-	end
-	local CInflectionPts = {}		--存储候选拐点的索引
-
-
-	local f_angleThres = 12/18*3.14;
-	for p = 1,nCandidateNum do
-		local cFlag = false
-		for q = 1,#CInflectionPts do
-			if( math.abs(angleArr[p].pos - CInflectionPts[q]) < n_step) then
-				cFlag = true
-			end
-		end
-		if (cFlag == false) then
-			if(angleArr[p].angle < f_angleThres) then
-				CInflectionPts[#CInflectionPts+1] = angleArr[p].pos
-			end
-		end
-	end
-
-	if ( #CInflectionPts <= 1 ) then
-		return #CInflectionPts+1
-	end
-
-	table.sort(CInflectionPts)
-
-	return #CInflectionPts+1
-
-end
-
-
-
---计算笔画拐点
-function BH:CalInflectionPoint(BDNum)
-	local n_step = 5			--lua索引从1开始
-	if( #self.ptSet <2*n_step+1) then
-		return
-	end
-	local n_curIdx = n_step+1
-	local n_preIdx = 1
-	local n_postIdx = 2*n_step+1
-	local angleArr = {}
-	--计算点对应的角度
-	for i = n_curIdx,(#self.ptSet)-n_step do
-		local ele = {}
-		local angle = self:calAngle(n_preIdx,i,n_postIdx)
-		ele.pos = i
-		ele.angle = angle
-		table.insert(angleArr,ele)
-		n_preIdx = n_preIdx+1
-		n_postIdx= n_postIdx+1
-	end
-	--把角度按照从小到大排序
-	table.sort(angleArr,sortingFun)
-	local nCandidateNum = (BDNum-1)*10;
-	if(nCandidateNum > #angleArr ) then
-		nCandidateNum = #angleArr
-	end
-	local CInflectionPts = {}		--存储候选拐点的索引
-	--选出了最多BDNum+1个拐点，存储在CInflectionPts中
-	local f_angleThres = 12/18*3.14;
-	for p = 1,nCandidateNum do
-		local cFlag = false
-		for q = 1,#CInflectionPts do
-			if( math.abs(angleArr[p].pos - CInflectionPts[q]) < n_step) then
-				cFlag = true
-			end
-		end
-		if (cFlag == false) then
-			if(angleArr[p].angle < f_angleThres) then
-				CInflectionPts[#CInflectionPts+1] = angleArr[p].pos
-			end
-			if(#CInflectionPts == BDNum+1) then
-				break
-			end
-		end
-	end
-
-	--如果上一步CInflectionPts 选出的拐点数量小于(BDnum -1), then select again
-	if( #CInflectionPts < BDNum-1) then
-		for i = 1,#CInflectionPts do --	清空
-			CInflectionPts[i] = nil
-		end
-		for p = 1,nCandidateNum do
-			local cFlag = false
-			for q = 1,#CInflectionPts do
-				if( math.abs(angleArr[p].pos - CInflectionPts[q]) < n_step) then
-					cFlag = true
-				end
-			end
-			if (cFlag == false) then
-				CInflectionPts[#CInflectionPts+1] = angleArr[p].pos
-				if(#CInflectionPts == BDNum-1) then
-					break
-				end
-			end
-		end
-	end
-	--从CInflectionPts中继续选出最终拐点，
-	--这样主要是为了屏蔽笔画尖端的抖动，减小拐点检测的误差
-	local n_prePos
-	local n_postPos
-	table.sort(CInflectionPts)
-
-	if(#CInflectionPts <= 0) then
-		return
-	end
-
-	if(#CInflectionPts == BDNum-1) then
-		n_prePos = 1
-		n_postPos = #self.ptSet
-		self.InflectionPoint = CInflectionPts
-	elseif(#CInflectionPts == BDNum) then
-		local pos1 = CInflectionPts[1]
-		local pos2 = CInflectionPts[#CInflectionPts]
-		local diff1 = pos1 - 1
-		local diff2 = #self.ptSet - pos2
-		if(diff1 > diff2) then
-			n_prePos = 1
-			n_postPos = CInflectionPts[#CInflectionPts]
-			table.remove(CInflectionPts,#CInflectionPts)
-		else
-			n_prePos = CInflectionPts[1]
-			n_postPos = #self.ptSet
-			table.remove(CInflectionPts,1)
-		end
-		self.InflectionPoint = CInflectionPts
-	elseif(#CInflectionPts == BDNum+1) then
-		n_prePos = CInflectionPts[1]
-		n_postPos = CInflectionPts[#CInflectionPts]
-		table.remove(CInflectionPts,1)
-		table.remove(CInflectionPts,#CInflectionPts)
-		self.InflectionPoint = CInflectionPts
-	else
-		n_prePos = 1
-		n_postPos = #self.ptSet
-		self.InflectionPoint = CInflectionPts
-	end
-	--清除笔画两端可能的抖动点
-	self:clearEndPoints(n_prePos,n_postPos)
-end
-
-
-
-
---计算curIdx对应的角度
-function BH:calAngle(preIdx, curIdx, postIdx)
-	local prePt = self.ptSet[preIdx]
-	local curPt = self.ptSet[curIdx]
-	local postPt = self.ptSet[postIdx]
-	local vecX = {}
-	local vecY = {}
-	vecX.x = prePt.x - curPt.x
-	vecX.y = prePt.y - curPt.y
-	vecY.x = postPt.x - curPt.x
-	vecY.y = postPt.y - curPt.y
-	disX = math.sqrt(vecX.x*vecX.x + vecX.y*vecX.y)
-	disY = math.sqrt(vecY.x*vecY.x + vecY.y*vecY.y)
-	cosXY = ( vecX.x*vecY.x + vecX.y*vecY.y )/(disX*disY)
-	return math.acos(cosXY)
-end
-
---清除笔画两端可能有的抖动
-function BH:clearEndPoints(n_prePos, n_postPos)
-	--先从ptset中清除，再移动拐点数组的位置
-	if (n_prePos == 1 and n_postPos == #self.ptSet) then
-		return
-	end
-	if n_postPos ~= #self.ptSet then
-		local postPoint = self.ptSet[n_postPos]
-		local lastPoint = self.ptSet[#self.ptSet]
-		local postDis = math.sqrt(math.pow(lastPoint.x - postPoint.x,2) + math.pow(lastPoint.y - postPoint.y,2))
-		if postDis < 15 then
-		for i = #self.ptSet,n_postPos+1,-1 do
-			table.remove(self.ptSet,i)
-			end
-		end
-	end
-	if n_prePos ~= 1 then
-		local prePoint = self.ptSet[n_prePos]
-		local firstPoint = self.ptSet[1]
-		local preDis = math.sqrt(math.pow(prePoint.x - firstPoint.x,2) + math.pow(prePoint.y - firstPoint.y,2))
-		if predis < 15 then
-			for i = 1, n_prePos-1 do
-			table.remove(self.ptSet,1)
-			end
-			--移动拐点索引数组中索引的位置
-			for i = 1,#self.InflectionPoint do
-				self.InflectionPoint[i] = self.InflectionPoint[i] - n_prePos+1
-			end
-		end
-	end
-end
-
---根据拐点信息构造笔段
-function BH:initBDSet()
-	local prepos = 1
-	for i = 1, #self.InflectionPoint do
-		local curpos = self.InflectionPoint[i]
-		local bd = BD:new()
-		for j = prepos, curpos do
-			bd.ptSet[#bd.ptSet+1] = self.ptSet[j]
-		end
-		self.BDSet[#self.BDSet+1] = bd
-		prepos = self.InflectionPoint[i]+1
-	end
-	local bd = BD:new()
-	for i = prepos, #self.ptSet do
-		bd.ptSet[#bd.ptSet+1] = self.ptSet[i]
-	end
-	self.BDSet[#self.BDSet+1] = bd
-end
---##### 笔画 end#####--
 
 --#####矩形框 begin#####--
 
@@ -351,7 +110,6 @@ end
 
 
 --#####手写字 begin#####--
-
 function WriteHZ:new()
 	local o = o or {}
 	o.strokes = {}
@@ -360,8 +118,6 @@ function WriteHZ:new()
 	self.__index = self
 	return o
 end
-
-
 
 
 --------对手写字笔画应该先进行点密度的调整再进行归一化
@@ -469,11 +225,12 @@ end
 	m_nUpMargine = 0
 
 --计算整个字的放缩比例
-function calZoomRatio (strokeStrsArr,zoomRatio,xOffset,yOffset)
+function calZoomRatio (strokeStrsArr)
 	local n_minLeft = 0
 	local n_maxRight = 0
 	local n_minUp = 0
 	local n_maxDown = 0
+	local zoomRatio,xOffset,yOffset = 1,0,0
 	local onestroke = {}
 	for j = 1,#strokeStrsArr do
 		onestroke = strokeStrsArr[j]
@@ -500,6 +257,7 @@ function calZoomRatio (strokeStrsArr,zoomRatio,xOffset,yOffset)
 	end
 	local n_preWidth = n_maxRight - n_minLeft
 	local n_preHeight = n_maxDown - n_minUp
+
 	if (n_preWidth == 0 and n_preHeight == 0) then
 		zoomRatio = 1.0
 		xOffset = m_norWidth/2  -n_minLeft
@@ -509,10 +267,12 @@ function calZoomRatio (strokeStrsArr,zoomRatio,xOffset,yOffset)
 		yOffset = (n_preWidth - n_preHeight) / 2 - n_minUp
 		zoomRatio = m_norWidth / n_preWidth
 	else
+
 		xOffset = ( n_preHeight - n_preWidth )/2 - n_minLeft
 		yOffset = -n_minUp
 		zoomRatio =  m_norHeight /n_preHeight
 	end
+	return xOffset,yOffset,zoomRatio
 end
 
 
@@ -523,6 +283,7 @@ function WriteHZ:Normailize(strokeStrs)
 	local yOffset = 0
 	local strokeStrsArr = {}
 
+
 	--midPtSet 是经过放缩后中间点集 每一笔的所有点集组成一个小table
 	local midPtSet = {}
 
@@ -531,7 +292,7 @@ function WriteHZ:Normailize(strokeStrs)
 	end
 
 	--1.先进行整个字大小的放缩
-	calZoomRatio(strokeStrsArr,zoomRatio,xOffset,yOffset)
+	local xOffset,yOffset,zoomRatio = calZoomRatio(strokeStrsArr)
 	for i = 1 ,#strokeStrsArr do
 		local onestrokePtSet = {}
 		local ptset = {}
@@ -561,12 +322,10 @@ end
 --------对手写字笔画应该先进行点密度的调整再进行归一化
 
 function WriteHZ:initialize(str)
-	local strokeStrs = {}
-	strokeStrs = str:split(str,"@")
-	local dstStrokes = {}
-	dstStrokes = self:Normailize(strokeStrs)
-	self:initStrokeStrs(dstStrokes )
-	self:initStrokeNum(#dstStrokes )
+	local strokeStrs  = {}
+	strokeStrs  = str:split(str,"@")
+	self:initStrokeStrs(strokeStrs)
+	self:initStrokeNum(#strokeStrs)
 end
 
 --初始化手写字笔画个数信息
@@ -577,17 +336,8 @@ end
 
 --初始化手写字点集信息
 function WriteHZ:initStrokeStrs( strokeStrs )
-	local Strs = {}
-	for i = 1,#strokeStrs do
-		local onestroke = ""
-		for j = 1,#strokeStrs[i] do
-			onestroke = onestroke .. strokeStrs[i][j].x .. "/"..strokeStrs[i][j].y .. "/"
-		end
-		Strs[#Strs+1] = onestroke
-	end
-
-	for i = 1,#Strs do
-		self.strokeStrings[#self.strokeStrings+1] = Strs[i]
+	for _,v in pairs(strokeStrs) do
+		self.strokeStrings[#self.strokeStrings+1] = v
 	end
 	self:initStrokes()
 end
@@ -599,13 +349,6 @@ function WriteHZ:initStrokes()
 		local str = self.strokeStrings[i]
 		local onestroke = BH:new()
 		onestroke:splitPoints(str)
-
-		--手写字笔段数目的读取不应该从标准字信息中取
-		--local curStrokeBDNum = stdHZStruct:getStrokeBDNumByIdx(i)
-		local curStrokeBDNum = onestroke:getStrokeBDNum(onestroke)
-		--计算拐点和初始化笔段
-		onestroke:CalInflectionPoint(curStrokeBDNum)
-		onestroke:initBDSet()
 		self.strokes[#self.strokes+1] = onestroke
 	end
 end

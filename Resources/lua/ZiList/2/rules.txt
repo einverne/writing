@@ -2,11 +2,12 @@
 
 //##0:110007:----------------------------------
 local bh0 = GetBH(0)
-if (IsHeng(bh0) == false) then 
+if (IsHeng(bh0,bl) == false) then 
 trace("0")
-return
-end
+else
 trace("1")
+end
+
 
 //##end
 
