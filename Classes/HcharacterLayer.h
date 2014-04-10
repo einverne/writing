@@ -15,6 +15,14 @@ public:
 	virtual bool init(string hanzi,CCSprite* tianzige_draw);
 	virtual void onExit();
 	virtual void onEnter();
+	//************************************
+	// Method:    convert512 转换成512*512 并将坐标原点放置到左上角
+	// FullName:  HcharacterLayer::convert512
+	// Access:    public 
+	// Returns:   cocos2d::CCPoint
+	// Qualifier:
+	// Parameter: CCPoint p
+	//************************************
 	CCPoint convert512(CCPoint p);
 	string floatToString(float f);
 	void judge();

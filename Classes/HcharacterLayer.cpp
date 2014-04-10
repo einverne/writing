@@ -72,7 +72,12 @@ void HcharacterLayer::judge(){
 		for (vector<CCPoint>::iterator iter = points.begin(); iter != points.end() ; ++iter)
 		{
 			CCPoint temp = *iter;
-			temp = m_sprite_draw->convertToNodeSpace(temp);
+			CCLog("HcharacterLayer::judge x=%f y=%f",temp.x,temp.y);
+// 			temp = m_sprite_draw->convertToNodeSpace(temp);
+			CCPoint deltap = m_sprite_draw->getPosition()-ccp(m_sprite_draw->getContentSize().width/2,m_sprite_draw->getContentSize().height/2);
+			temp = temp - deltap;
+			CCLog("HcharacterLayer::judge convertToNodeSpace x=%f y=%f",temp.x,temp.y);
+
 			temp = convert512(temp);
 			string t = floatToString(ceil(temp.x)) + "/" + floatToString(ceil(temp.y)) + "/";
 			output += t;	
