@@ -60,9 +60,9 @@ int Stroke::getStrokeBox(){
 	return dx>dy?dx:dy;
 }
 
-void Stroke::resample(){
-	int n = getStrokeBox()/10;			//获取长宽最大像素值
-	float I = strokeLength() / n;		//10个像素一段
+void Stroke::resample(int n){
+// 	int n = getStrokeBox()/10;			//获取长宽最大像素值
+	float I = strokeLength() / (n-1);		//10个像素一段
 	float D = 0;
 
 	vector<CCPoint> dstpoList;

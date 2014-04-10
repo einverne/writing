@@ -18,16 +18,35 @@ public:
 	vector<CCPoint> pointList;
 	vector<CCDrawNode*> nodeList;
 public:
-	bool addPoint(CCPoint point);
-	float strokeLength();				//一笔的长度
 	//************************************
-	// Method:    resample 重采样，插值代码
+	// Method:    addPoint 添加一个点
+	// FullName:  Stroke::addPoint
+	// Access:    public 
+	// Returns:   bool
+	// Qualifier:
+	// Parameter: CCPoint point
+	//************************************
+	bool addPoint(CCPoint point);
+
+	//************************************
+	// Method:    strokeLength //一笔的长度
+	// FullName:  Stroke::strokeLength
+	// Access:    public 
+	// Returns:   float
+	// Qualifier:
+	//************************************
+	float strokeLength();
+
+	//************************************
+	// Method:    resample 重采样，插值代码 x轴方向每10px一段
 	// FullName:  Stroke::resample
 	// Access:    public 
 	// Returns:   void
 	// Qualifier:
+	// Parameter: int n
 	//************************************
-	void resample();
+	void resample(int n = 20);
+
 	CCSize getRotateAng();						//获取尾点到首点的向量
 	CCPoint getMidPoint();						//获取一笔中点，简单理解为首点和尾点的中点
 	CCSize getSize();
