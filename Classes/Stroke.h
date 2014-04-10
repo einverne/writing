@@ -7,7 +7,6 @@
 USING_NS_CC;
 using namespace std;
 
-#pragma once
 class Stroke
 {
 public:

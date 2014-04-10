@@ -13,9 +13,6 @@ public:
 	StrokeDrawnode(Stroke stro);
 	~StrokeDrawnode();
 	static StrokeDrawnode* create(Stroke stro);
-	Stroke stroke;
-	ccColor4B mcolor;
-
 	//节点开始进入触发  
 	virtual void onEnter();
 	//节点退出触发
@@ -24,8 +21,10 @@ public:
 	virtual void draw();
 	int visibleIndex;
 	void addPoint(CCPoint point);
+	Stroke getStroke(){return stroke;}
 private:
-
+	Stroke stroke;
+	ccColor4B mcolor;
 };
 
 
