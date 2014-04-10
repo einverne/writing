@@ -60,6 +60,16 @@ public:
 	//************************************
 	void changeStroke(int index,Stroke s);
 
+	//************************************
+	// Method:    getStroke 获取第几笔 从1开始
+	// FullName:  HcharacterDrawnode::getStroke
+	// Access:    public 
+	// Returns:   Stroke
+	// Qualifier:
+	// Parameter: int index
+	//************************************
+	Stroke getStroke(int index);
+
 // 	vector<StrokeDrawnode*> getStrokeDrawnodeList(){ return this->strokeDrawlist; }
 // 	vector<StrokeDrawnode*> strokeDrawlist;
 	CC_SYNTHESIZE_RETAIN(CCArray*,strokeDrawlist,StrokeDrawnodeList);

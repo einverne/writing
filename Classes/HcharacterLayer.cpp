@@ -4,6 +4,8 @@
 #include "Stroke.h"
 #include "MoveToRightPlace.h"
 #include "TcharacterLayer.h"
+#include "MoveToRightPlaceInterval.h"
+
 typedef enum layers
 {
 	kBgLayerTag,
@@ -68,7 +70,7 @@ void HcharacterLayer::judge(){
 	CCObject* ob;
 	CCARRAY_FOREACH(strokes,ob){
 		StrokeDrawnode* node = (StrokeDrawnode*)ob;
-		vector<CCPoint> points = node->stroke.pointList;
+		vector<CCPoint> points = node->getStroke().pointList;
 		for (vector<CCPoint>::iterator iter = points.begin(); iter != points.end() ; ++iter)
 		{
 			CCPoint temp = *iter;
@@ -123,7 +125,8 @@ void HcharacterLayer::judge(){
 		Stroke temp = layer->getm_TDrawnode()->getCharacter().getStroke(t);								//get No. stroke
 // 		CCPoint deltpoint = this->m_sprite_draw->getPosition()-ccp(m_sprite_draw->getContentSize().width/2,m_sprite_draw->getContentSize().height/2);
 // 		temp.addEveryPoint(deltpoint);
-		MoveToRightPlace* place = MoveToRightPlace::create(t-1,temp);
+// 		MoveToRightPlace* place = MoveToRightPlace::create(t-1,temp);
+		MoveToRightPlaceInterval* place = MoveToRightPlaceInterval::create(15,t-1,temp);
 		m_HDrawnode->runAction(place);
 	}
 }

@@ -147,6 +147,9 @@
     <ClCompile Include="..\Classes\TagData.cpp">
       <Filter>Classes\Entity</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\MoveToRightPlaceInterval.cpp">
+      <Filter>Classes\action</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -266,6 +269,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\TagData.h">
       <Filter>Classes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MoveToRightPlaceInterval.h">
+      <Filter>Classes\action</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

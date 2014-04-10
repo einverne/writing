@@ -62,3 +62,7 @@ void HcharacterDrawnode::changeStroke(int index,Stroke s){
 // 	temp->setPosition(tianzige->getPosition()-ccp(tianzige->getContentSize().width/2,tianzige->getContentSize().height/2));
 	strokeDrawlist->replaceObjectAtIndex(index,temp);
 }
+
+Stroke HcharacterDrawnode::getStroke(int index){
+	return ((StrokeDrawnode*)strokeDrawlist->objectAtIndex(index))->getStroke();
+}

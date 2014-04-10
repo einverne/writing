@@ -17,14 +17,15 @@ public:
 	virtual void onEnter();
 	//节点退出触发
 	virtual void onExit();
-
 	virtual void draw();
-	int visibleIndex;
+
 	void addPoint(CCPoint point);
 	Stroke getStroke(){return stroke;}
 private:
 	Stroke stroke;
 	ccColor4B mcolor;
+	int visibleIndex;
+
 };
 
 
