@@ -32,7 +32,7 @@ bool HcharacterLayer::init(string hanzi,CCSprite* tianzige_draw){
 		this->hanzi = hanzi;
 		this->setSprite(tianzige_draw);
 		this->setm_HDrawnode(HcharacterDrawnode::create());
-// 		m_HDrawnode->setPosition(m_sprite_draw->getPosition()-ccp(m_sprite_draw->getContentSize().width/2,m_sprite_draw->getContentSize().height/2));
+		m_HDrawnode->setPosition(m_sprite_draw->getPosition()-ccp(m_sprite_draw->getContentSize().width/2,m_sprite_draw->getContentSize().height/2));
 		this->addChild(m_HDrawnode);
 
 		this->setbihuaCount(CCLabelTTF::create("bihua","Arial",50));
@@ -74,8 +74,8 @@ void HcharacterLayer::judge(){
 			CCPoint temp = *iter;
 			CCLog("HcharacterLayer::judge x=%f y=%f",temp.x,temp.y);
 // 			temp = m_sprite_draw->convertToNodeSpace(temp);
-			CCPoint deltap = m_sprite_draw->getPosition()-ccp(m_sprite_draw->getContentSize().width/2,m_sprite_draw->getContentSize().height/2);
-			temp = temp - deltap;
+// 			CCPoint deltap = m_sprite_draw->getPosition()-ccp(m_sprite_draw->getContentSize().width/2,m_sprite_draw->getContentSize().height/2);
+// 			temp = temp - deltap;
 			CCLog("HcharacterLayer::judge convertToNodeSpace x=%f y=%f",temp.x,temp.y);
 
 			temp = convert512(temp);
@@ -121,8 +121,8 @@ void HcharacterLayer::judge(){
 
 		TcharacterLayer* layer = (TcharacterLayer*)this->getParent()->getChildByTag(kTLayerTag);		//get TcharacterLayer
 		Stroke temp = layer->getm_TDrawnode()->getCharacter().getStroke(t);								//get No. stroke
-		CCPoint deltpoint = this->m_sprite_draw->getPosition()-ccp(m_sprite_draw->getContentSize().width/2,m_sprite_draw->getContentSize().height/2);
-		temp.addEveryPoint(deltpoint);
+// 		CCPoint deltpoint = this->m_sprite_draw->getPosition()-ccp(m_sprite_draw->getContentSize().width/2,m_sprite_draw->getContentSize().height/2);
+// 		temp.addEveryPoint(deltpoint);
 		MoveToRightPlace* place = MoveToRightPlace::create(t-1,temp);
 		m_HDrawnode->runAction(place);
 	}

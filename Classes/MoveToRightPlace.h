@@ -10,6 +10,15 @@ class MoveToRightPlace : public CCActionInstant
 public:
 	MoveToRightPlace();
 	~MoveToRightPlace();
+	//************************************
+	// Method:    create
+	// FullName:  MoveToRightPlace::create
+	// Access:    public static 
+	// Returns:   MoveToRightPlace*
+	// Qualifier:
+	// Parameter: int index 第几笔
+	// Parameter: Stroke s 正确的笔画
+	//************************************
 	static MoveToRightPlace* create(int index,Stroke s);
 	CCObject* copyWithZone(CCZone* pZone);
 	void update(float time);

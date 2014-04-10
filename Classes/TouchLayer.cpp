@@ -53,21 +53,24 @@ void TouchLayer::onExit(){
 }
 void TouchLayer::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 	CCLog("TouchLayer TouchesBegan");
-	//判断写了几笔 超过笔数就不写
 	LianxiScene* temp= (LianxiScene*)(this->getParent());
 	
+	//判断写了几笔 超过笔数就不写
 
 	if (Hlayer->getm_HDrawnode()->getStrokeDrawnodeList()->count() > Tlayer->getm_TDrawnode()->getCharacter().getStrokeCount())
 	{
 		return;
 	}
 	CCPoint touchpoint = ((CCTouch*)pTouches->anyObject())->getLocationInView();
+	CCLog("TouchLayer::ccTouchesBegan getLocationInView x= %f, y= %f",touchpoint.x,touchpoint.y);
 	touchpoint = CCDirector::sharedDirector()->convertToUI(touchpoint);
-	//CCLog("x= %f, y= %f",touchpoint.x,touchpoint.y);
+	CCLog("TouchLayer::ccTouchesBegan convertToUI x= %f, y= %f",touchpoint.x,touchpoint.y);
 	CCSprite* tianzige = Hlayer->getSprite();
 	if (tianzige->boundingBox().containsPoint(touchpoint))
 	{
 		//在范围内
+		touchpoint = tianzige->convertToNodeSpace(touchpoint);
+		CCLog("TouchLayer::ccTouchesBegan convertToNodeSpace x= %f, y= %f",touchpoint.x,touchpoint.y);
 		points.push_back(touchpoint);
 		Stroke str(points);
 		Hlayer->getm_HDrawnode()->addStroke(str);
@@ -99,6 +102,7 @@ void TouchLayer::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
 	if (tianzige->boundingBox().containsPoint(touchp))
 	{
 		//在范围内，并且起笔在范围内
+		touchp = tianzige->convertToNodeSpace(touchp);
 		points.push_back(touchp);
 		Hlayer->getm_HDrawnode()->addPoint(touchp);
 	}else if(!tianzige->boundingBox().containsPoint(touchp))
@@ -129,6 +133,7 @@ void TouchLayer::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 	if (tianzige->boundingBox().containsPoint(touchp) && isOutside == false)
 	{
 		//在范围内，并且起笔在范围内,中途没有出田字格
+		touchp = tianzige->convertToNodeSpace(touchp);
 		points.push_back(touchp);
 		Hlayer->getm_HDrawnode()->addPoint(touchp);
 
