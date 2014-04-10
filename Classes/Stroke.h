@@ -21,6 +21,13 @@ public:
 public:
 	bool addPoint(CCPoint point);
 	float strokeLength();				//一笔的长度
+	//************************************
+	// Method:    resample 重采样，插值代码
+	// FullName:  Stroke::resample
+	// Access:    public 
+	// Returns:   void
+	// Qualifier:
+	//************************************
 	void resample();
 	CCSize getRotateAng();						//获取尾点到首点的向量
 	CCPoint getMidPoint();						//获取一笔中点，简单理解为首点和尾点的中点
