@@ -1,7 +1,6 @@
 #include "JudgeManager.h"
 #include "SqliteHelper.h"
 #include "CharacterEntity.h"
-#include "UTF8ToGBK.h"
 
 JudgeManager::JudgeManager(string hanzi)
 {
@@ -19,7 +18,9 @@ string JudgeManager::getResult(string points_output){
 	CharacterEntity* p = new CharacterEntity();
 	SqliteHelper::getDataInfo(sql,p);
 	SqliteHelper::closeDB();
-	string path = "lua/ZiList/"+to_string(p->getID()->getValue());
+	stringstream ss;
+	ss << p->getID()->getValue();
+	string path = "lua/ZiList/"+ ss.str();
 
 	string filepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/WriteZiInfo.lua");
 	string Globalpath = CCFileUtils::sharedFileUtils()->fullPathForFilename(string(path+"/funcs.txt").c_str());

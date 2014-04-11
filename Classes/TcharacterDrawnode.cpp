@@ -1,7 +1,6 @@
 #include "TcharacterDrawnode.h"
 #include "ReadXML.h"
 #include "SqliteHelper.h"
-#include "UTF8ToGBK.h"
 #include "CharacterEntity.h"
 
 TcharacterDrawnode::TcharacterDrawnode():strokedrawList(NULL)
@@ -37,7 +36,9 @@ bool TcharacterDrawnode::init(string hz,CCSize showrect){
 	SqliteHelper::closeDB();
 	strokedrawList = CCArray::create();
 	strokedrawList->retain();
-	string filepath = "lua/ZiList/"+to_string(p->getID()->getValue())+"/xml.xml";
+	stringstream ss;
+	ss << p->getID()->getValue();
+	string filepath = "lua/ZiList/"+ss.str()+"/xml.xml";
 	string xml = CCFileUtils::sharedFileUtils()->fullPathForFilename(filepath.c_str());
 // 	string xml(p->getXML()->getCString());
 	CReadXML readxml(xml);
