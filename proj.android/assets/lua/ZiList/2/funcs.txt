@@ -1,0 +1,36 @@
+function  IsHeng(bh,bl)
+if (bl < 1) then return end
+    local startpt = GetStartPoint(bh)
+    local endpt = GetEndPoint(bh)
+    if(startpt.x > endpt.x) then      
+       return false
+    end
+   
+    local slope = (startpt.y - endpt.y) / (endpt.x - startpt.x)
+    local angel = math.deg ( math.atan(slope))   
+    local angelInter
+    local angelFloat
+    angelInter,angelFloat = math.modf (angel)
+    if (angelFloat > 0.5) then
+    angelInter = angelInter + 1
+    end
+    
+    if (math.abs (angelInter )>= 25) then      
+        return false
+    end
+   
+    local line = GetLine(startpt,endpt) 
+    local dis = GetFarthestPt2Line(bh,line)   
+    if( dis > 10) then 
+        return false 
+    end
+    if (bl < 2) then return end    
+    if(math.abs(angelInter) >= 15) then 
+        return false
+    end
+    return true
+
+
+end
+
+

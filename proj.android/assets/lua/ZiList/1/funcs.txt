@@ -1,0 +1,58 @@
+function  IsPie(bh,bl)
+if ( bl < 1 ) then  return false end
+local spt = GetStartPoint(bh)
+local ept = GetEndPoint(bh)
+if (spt.x < ept.x or spt.y >ept.y) then 
+    return false
+end
+local gdnum = GetTurningPtNum(bh,1)
+if ( gdnum > 0 ) then 
+return false
+end
+
+if ( bl < 2 ) then  return end
+local line = GetLine(spt,ept) 
+local dis = GetFarthestPt2Line(bh,line)
+if( dis < 5) then    
+   return false 
+end
+
+if ( bl < 3 ) then return end
+for i = 2 ,#bh.ptSet do 
+    local prept = bh.ptSet[i-1]
+    local curpt = bh.ptSet[i]
+    if (prept.y > curpt.y ) then 
+        return false     
+    end
+end
+return true
+
+
+end
+
+
+function  IsNa(bh,bl)
+if (bl < 1) then return  end
+local spt = GetStartPoint(bh)
+local ept = GetEndPoint(bh)
+if (spt.x > ept.x or spt.y >ept.y) then 
+    return false
+end
+local gdnum = GetTurningPtNum(bh,1)
+if (gdnum > 0) then
+return false
+end
+
+
+if (bl < 2) then return  end    
+local line = GetLine(spt,ept) 
+local dis = GetFarthestPt2Line(bh,line)
+if( dis < 5) then 
+   return false 
+end
+
+return true
+
+end
+
+
