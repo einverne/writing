@@ -32,8 +32,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     // create a scene. it's an autorelease object
 // 	CCScene *pScene = TestMoveSprite::scene();
-//     CCScene* pScene = Splash::scene();
-    CCScene* pScene = WallScene::scene();
+     CCScene* pScene = Splash::scene();
+//    CCScene* pScene = WallScene::scene();
 
     // run
     pDirector->runWithScene(pScene);

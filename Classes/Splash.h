@@ -5,8 +5,7 @@
 #pragma once
 USING_NS_CC;
 
-class Splash :
-    public cocos2d::CCLayer
+class Splash : public CCLayer
 {
 public:
     Splash(void);

@@ -64,8 +64,11 @@ bool WallScene::init()
 	//添加地图：
 	//1.读取xml文件，确定缩放比例//
 	string myfilename=CCFileUtils::sharedFileUtils()->fullPathForFilename("wall.xml");
-	TiXmlDocument* myDocument = new TiXmlDocument(myfilename.c_str());  
-	myDocument->LoadFile();
+	unsigned long size = 0;
+	char* pFileContent = (char*)CCFileUtils::sharedFileUtils()->getFileData(myfilename.c_str(),"r",&size);
+	TiXmlDocument* myDocument = new TiXmlDocument();
+	myDocument->Parse(pFileContent,0,TIXML_ENCODING_UTF8);
+	//myDocument->LoadFile();
 
 	TiXmlElement* rootElement = myDocument->RootElement();  // Class
 	TiXmlElement* metaElement = rootElement->FirstChildElement();  // meta   
@@ -126,13 +129,14 @@ bool WallScene::init()
 			string temppro=proficiencyElement->GetText();
 
 			//stone sprite
-			CCSprite* pSprite1 = CCSprite::create(tempfilename.c_str());    
-			pSprite1->setScale(rescale);
-			pSprite1->setPosition(ccp(origin.x+x, origin.y+y));
-			this->addChild(pSprite1, 1);
+			CCLog("tempfilename %s",tempfilename.c_str());
+//			CCSprite* pSprite1 = CCSprite::create(tempfilename.c_str());
+//			pSprite1->setScale(rescale);
+//			pSprite1->setPosition(ccp(origin.x+x, origin.y+y));
+//			this->addChild(pSprite1, 1);
 
 			//文本框
-			CCLabelTTF* pLabel = CCLabelTTF::create(temphanzi.c_str(), "Zapfino", 100);			
+			CCLabelTTF* pLabel = CCLabelTTF::create(temphanzi.c_str(), "Zapfino", 100);
 			pLabel->setPosition(ccp(origin.x + x, origin.y + y));
 			this->addChild(pLabel, 2);
 
@@ -178,10 +182,10 @@ bool WallScene::init()
 
 			//stone sprite
 			string tempfilename=imgElement->GetText();
-			CCSprite* pSprite2 = CCSprite::create(tempfilename.c_str());    
-			pSprite2->setScale(rescale);
-			pSprite2->setPosition(ccp(origin.x+x, origin.y+y));
-			this->addChild(pSprite2, 1);
+//			CCSprite* pSprite2 = CCSprite::create(tempfilename.c_str());
+//			pSprite2->setScale(rescale);
+//			pSprite2->setPosition(ccp(origin.x+x, origin.y+y));
+//			this->addChild(pSprite2, 1);
 			/////////////
 			stoneElement=stoneElement->NextSiblingElement();
 		}
