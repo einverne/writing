@@ -23,7 +23,24 @@ TcharacterDrawnode::~TcharacterDrawnode()
 bool TcharacterDrawnode::init(string hz,CCSize showrect){
 	CCLog("TcharacterDrawnode init()");
 	string dbpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("test.db");
-	SqliteHelper::initDB(dbpath.c_str());
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	unsigned long size = 0;
+	char* pFileContent = (char*)CCFileUtils::sharedFileUtils()->getFileData(dbpath.c_str(),"rb",&size);
+	CCLog("file %s",pFileContent);
+	string path = CCFileUtils::sharedFileUtils()->getWritablePath()+"test.db";
+	FILE* file = fopen(path.c_str(),"w");
+	if (file != NULL)
+	{
+		CCLog("file not NULL");
+		file = fopen(path.c_str(),"wb");
+		fwrite(pFileContent,size,1,file);
+		CC_SAFE_DELETE_ARRAY(pFileContent);
+	}else{
+		CCLog("file NULL");
+	}
+	fclose(file);
+#endif
+	SqliteHelper::initDB(path.c_str());
 // 	string createsql = "create table user (id integer,username test,password text,word text)";
 // 	SqliteHelper::createTable(createsql,"user");
 
@@ -44,7 +61,6 @@ bool TcharacterDrawnode::init(string hz,CCSize showrect){
 	CReadXML readxml(xml);
 	this->m_character = readxml.getCharacter();
 	this->showRect = showrect;
-
 
 	this->m_character.getBox();
 	this->m_character.resize(showRect);
