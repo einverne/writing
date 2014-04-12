@@ -14,8 +14,11 @@ CReadXML::CReadXML(void)
 
 CReadXML::CReadXML(string xmlpath)
 {
-	TiXmlDocument* document = new TiXmlDocument(xmlpath.c_str());
-	document->LoadFile();
+	unsigned long size = 0;
+	char* pFileContent = (char*)CCFileUtils::sharedFileUtils()->getFileData(xmlpath.c_str(),"r",&size);
+	TiXmlDocument* document = new TiXmlDocument();
+	document->Parse(pFileContent,0,TIXML_ENCODING_UTF8);
+//	document->LoadFile();
 	TiXmlElement* rootElement = document->RootElement();
 	TiXmlElement* outlineElement = rootElement->FirstChildElement();
 	TiXmlElement* strokeElement = outlineElement->FirstChildElement();
