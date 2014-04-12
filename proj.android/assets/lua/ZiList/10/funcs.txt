@@ -1,4 +1,4 @@
-function  IsPie(bh,bl)
+﻿function  IsPie(bh,bl)
 if ( bl < 1 ) then  return false end
 local spt = GetStartPoint(bh)
 local ept = GetEndPoint(bh)

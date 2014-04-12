@@ -1,4 +1,4 @@
-//##begin
+﻿//##begin
 //##0:110007:----------------------------------
 bh0 = GetBH(0);
 if (IsHeng(bh0,bl) == false) then

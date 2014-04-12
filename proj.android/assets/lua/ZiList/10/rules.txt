@@ -1,4 +1,4 @@
-//##begin
+﻿//##begin
 //##0:110034:----------------------------------
 local bh0 = GetBH(0)
 if (IsShuGou(bh0,bl) == false) then 
