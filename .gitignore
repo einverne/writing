@@ -20,6 +20,8 @@ proj.ios/
 proj.mac/
 proj.win32/Debug.win32/
 
+proj.android/libs/*
+
 # Enable "build/" folder in the NuGet Packages folder since NuGet packages use it for MSBuild targets
 !packages/*/build/
 
