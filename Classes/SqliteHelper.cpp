@@ -11,7 +11,9 @@ void SqliteHelper::initDB(const char* db){
 	result = sqlite3_open(db,&pDB);
 	if (result != SQLITE_OK)
 	{
-		CCLog("打开数据库失败，错误码:%d ，错误原因:%s\n" , result, errMsg );
+		CCLog("open sqlite failed,打开数据库失败，错误码error:%d ，错误原因reason:%s\n" , result, errMsg );
+	}else{
+		CCLog("open sqlite success~ no:%d",result);
 	}
 }
 
@@ -116,11 +118,12 @@ int loadRecord( void * para, int n_column, char ** column_value, char ** column_
 	((CharacterEntity*)para)->setName(ccs(column_value[1]));
 	((CharacterEntity*)para)->setXML(ccs(column_value[2]));
 	return 0;
-} 
+}
 //获取一条记录的信息 其中的pSend是一个实体类我们以后可以自定义一个继承了CCObject的类来代替他保存数据库中取出来的数据
 void SqliteHelper::getDataInfo( string sql,CCObject *pSend )
 {
-	sqlite3_exec( pDB, sql.c_str() , loadRecord, pSend, &errMsg ); 
+	int ret = sqlite3_exec( pDB, sql.c_str() , loadRecord, pSend, &errMsg );
+	CCLog("return no:%d error:%s",ret,errMsg);
 }
 
 //关闭数据库
