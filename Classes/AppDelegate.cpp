@@ -30,6 +30,11 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // set FPS. the default value is 1.0/60 if you don't call this
     pDirector->setAnimationInterval(1.0 / 60);
 
+//    int i = 0;
+//    CCFileUtils *fileUtils = CCFileUtils::sharedFileUtils();
+//    std::vector<std::string> searchPaths = fileUtils->getSearchPaths();
+//    searchPaths.insert(searchPaths.begin() + i++, "withword");
+//    fileUtils->setSearchPaths(searchPaths);
     // create a scene. it's an autorelease object
 // 	CCScene *pScene = TestMoveSprite::scene();
      CCScene* pScene = Splash::scene();
