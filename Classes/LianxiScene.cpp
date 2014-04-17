@@ -1,5 +1,5 @@
 #include "LianxiScene.h"
-#include "TagData.h"
+
 typedef enum layers
 {
 	kBgLayerTag,

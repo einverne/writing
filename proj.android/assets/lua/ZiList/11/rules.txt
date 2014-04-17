@@ -1,4 +1,4 @@
-//##begin
+﻿//##begin
 //##0:110009:----------------------------------
 local bh0 = GetBH(0)
 if (IsPie(bh0,bl) == false) then 

@@ -1,4 +1,4 @@
-function  IsHeng(bh,bl)
+﻿function  IsHeng(bh,bl)
 if (bl < 1) then return end
     local startpt = GetStartPoint(bh)
     local endpt = GetEndPoint(bh)

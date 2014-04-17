@@ -130,10 +130,10 @@ bool WallScene::init()
 
 			//stone sprite
 			CCLog("tempfilename %s",tempfilename.c_str());
-//			CCSprite* pSprite1 = CCSprite::create(tempfilename.c_str());
-//			pSprite1->setScale(rescale);
-//			pSprite1->setPosition(ccp(origin.x+x, origin.y+y));
-//			this->addChild(pSprite1, 1);
+			CCSprite* pSprite1 = CCSprite::create(tempfilename.c_str());
+			pSprite1->setScale(rescale);
+			pSprite1->setPosition(ccp(origin.x+x, origin.y+y));
+			this->addChild(pSprite1, 1);
 
 			//нд╠╬©Р
 			CCLabelTTF* pLabel = CCLabelTTF::create(temphanzi.c_str(), "Zapfino", 100);
@@ -182,10 +182,10 @@ bool WallScene::init()
 
 			//stone sprite
 			string tempfilename=imgElement->GetText();
-//			CCSprite* pSprite2 = CCSprite::create(tempfilename.c_str());
-//			pSprite2->setScale(rescale);
-//			pSprite2->setPosition(ccp(origin.x+x, origin.y+y));
-//			this->addChild(pSprite2, 1);
+			CCSprite* pSprite2 = CCSprite::create(tempfilename.c_str());
+			pSprite2->setScale(rescale);
+			pSprite2->setPosition(ccp(origin.x+x, origin.y+y));
+			this->addChild(pSprite2, 1);
 			/////////////
 			stoneElement=stoneElement->NextSiblingElement();
 		}

@@ -1,4 +1,4 @@
-function  IsPie(bh)
+﻿function  IsPie(bh)
 local spt = GetStartPoint(bh)
 local ept = GetEndPoint(bh)
 if (spt.x < ept.x or spt.y >ept.y) then 

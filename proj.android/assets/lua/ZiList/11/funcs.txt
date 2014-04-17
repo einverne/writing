@@ -1,4 +1,4 @@
-function  IsShu(bh,bl)
+﻿function  IsShu(bh,bl)
 if (bl < 1) then return end
 local startpt = bh.ptSet[1]
 local endpt = bh.ptSet[#bh.ptSet]
