@@ -33,7 +33,7 @@ public:
 	bool RunScriptFile(const char *filename,char *name);//运行buff中lua文件
 	bool RunScriptFile(const char *filename,char* ret_string,char *name);//运行buff中lua文件,带返回值	
 	bool GetSourceCode(char *sourcecode);
-	bool GetWriteZiInfo(char *wz);
+	bool GetWriteZiInfo(const char *wz);
 	bool GetStandardZiInfo(char stdinfo[]);
 	bool GetRunType(int level, int step);
 	bool GetUnitIndex(int idx);

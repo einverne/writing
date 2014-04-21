@@ -265,7 +265,7 @@ bool CLuaScriptReader::GetSourceCode(char *code){
 	return true;
 }
 
-bool CLuaScriptReader::GetWriteZiInfo(char* wz){
+bool CLuaScriptReader::GetWriteZiInfo(const char* wz){
 	strcpy(WriteZiInfo,wz);
 	return true;
 }
