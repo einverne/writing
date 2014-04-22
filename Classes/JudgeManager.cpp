@@ -12,8 +12,12 @@ JudgeManager::~JudgeManager()
 	CCLog("JudgeManager destroy!");
 }
 string JudgeManager::getResult(string points_output){
-//	string dbpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("test.db");
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+	string dbpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("test.db");
+#endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	string dbpath = CCFileUtils::sharedFileUtils()->getWritablePath()+"test.db";
+#endif
 	SqliteHelper::initDB(dbpath.c_str());
 	string sql = "select * from table_test where name='"+hanzi+"'";
 	CharacterEntity* p = new CharacterEntity();
@@ -35,10 +39,11 @@ string JudgeManager::getResult(string points_output){
 //	strcpy(temp,points_output.c_str());
 //	gReader.GetWriteZiInfo(temp);
 //	delete [] temp;
+
 	gReader.GetWriteZiInfo(points_output.c_str());
  	char * retStr = new char[50];
  	gReader.GetZiName(hanzi);
- 	gReader.SetRulesFunc(rulespath.c_str());
+ 	gReader.SetRulesFunc(rulespath.c_str());				//将每个字的rule规则传给Lua
  	gReader.RunScriptFile(filepath.c_str(),"WriteZiInfo.lua");
  	gReader.SetGlobalFunc(Globalpath.c_str());
  	gReader.RunMixedFile(basepath.c_str(),"BaseLib.lua");
@@ -48,5 +53,5 @@ string JudgeManager::getResult(string points_output){
 	string ret(retStr);
 	delete [] retStr;
 	return ret;
-	//return string("1");
+	return string("1");
 }
