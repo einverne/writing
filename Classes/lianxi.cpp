@@ -417,10 +417,10 @@ void lianxi::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 	gReader.InitLuaScriptReader();
 	char * temp = new char[output.length() + 1];
 	strcpy(temp,output.c_str());
-	gReader.GetWriteZiInfo(temp);			//手写字坐标
+	gReader.SetWriteZiInfo(temp);			//手写字坐标
 	delete [] temp;
 	char * retStr = new char[50];
-	gReader.GetZiName(hanzi);
+	gReader.SetZiName(hanzi);
 	gReader.SetRulesFunc(rulespath.c_str());
 	gReader.RunScriptFile(filepath.c_str(),"WriteZiInfo.lua");
 	gReader.SetGlobalFunc(Globalpath.c_str());

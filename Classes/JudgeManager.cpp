@@ -40,9 +40,9 @@ string JudgeManager::getResult(string points_output){
 //	gReader.GetWriteZiInfo(temp);
 //	delete [] temp;
 
-	gReader.GetWriteZiInfo(points_output.c_str());
+	gReader.SetWriteZiInfo(points_output.c_str());
  	char * retStr = new char[50];
- 	gReader.GetZiName(hanzi);
+ 	gReader.SetZiName(hanzi);
  	gReader.SetRulesFunc(rulespath.c_str());				//将每个字的rule规则传给Lua
  	gReader.RunScriptFile(filepath.c_str(),"WriteZiInfo.lua");
  	gReader.SetGlobalFunc(Globalpath.c_str());

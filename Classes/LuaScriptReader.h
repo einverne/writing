@@ -29,12 +29,12 @@ protected:
 public:
 	bool InitLuaScriptReader();	//初始化lua及lua的底层库
 	void ExitLuaScriptReader();	//释放lua
-	bool RunScriptBuffer(char *buff,char *name);	//运行buff中的lua代码,不带返回值
-	bool RunScriptBuffer(char *buff,char* ret_string,char *name); //运行buff中lua代码，带返回值
+	bool RunScriptBuffer(const char *buff,char *name);	//运行buff中的lua代码,不带返回值
+	bool RunScriptBuffer(const char *buff,char* ret_string,char *name); //运行buff中lua代码，带返回值
 	bool RunScriptFile(const char *filename,char *name);//运行buff中lua文件
 	bool RunScriptFile(const char *filename,char* ret_string,char *name);//运行buff中lua文件,带返回值	
 	bool GetSourceCode(char *sourcecode);
-	bool GetWriteZiInfo(const char *wz);
+	bool SetWriteZiInfo(const char *wz);
 	bool GetStandardZiInfo(char stdinfo[]);
 	bool GetRunType(int level, int step);
 	bool GetUnitIndex(int idx);
@@ -45,7 +45,7 @@ public:
 	bool RunMixedFile(const char *filename,char *name);
 	bool Print2File(char* buff,char*file);
 
-	void GetZiName(string hanzi);
+	void SetZiName(string hanzi);
 };
 
 

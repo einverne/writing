@@ -136,7 +136,7 @@ void CLuaScriptReader::ExitLuaScriptReader(){
 
 
 
-bool CLuaScriptReader::RunScriptBuffer(char *buff,char *name){
+bool CLuaScriptReader::RunScriptBuffer(const char *buff,char *name){
 	int error = 0;
 	char callname[256] = "";
 
@@ -150,16 +150,16 @@ bool CLuaScriptReader::RunScriptBuffer(char *buff,char *name){
 	error = luaL_loadbuffer(m_plua, buff, strlen(buff),callname) || lua_pcall(m_plua, 0, 0, 0);
 	if (error){
 		fprintf(stderr, "%s", lua_tostring(m_plua, -1));
-		CCLog("luaL_loadbuffer error : %s",lua_tostring(m_plua,-1));
+		CCLog("luaL_loadbuffer2 error : %s",lua_tostring(m_plua,-1));
 		lua_pop(m_plua, 1);
 	}else{
-		CCLog("luaL_loadbuffer success");
+		CCLog("luaL_loadbuffer2 success");
 	}
 	return true;
 }
 
 
-bool CLuaScriptReader::RunScriptBuffer(char *buff,char* ret_string,char *name){
+bool CLuaScriptReader::RunScriptBuffer(const char *buff,char* ret_string,char *name){
 	int error = 0;
 	char callname[256] = "";
 	//*ret_string = 0;
@@ -173,11 +173,11 @@ bool CLuaScriptReader::RunScriptBuffer(char *buff,char* ret_string,char *name){
 
 	if (error){
 		fprintf(stderr, "%s", lua_tostring(m_plua, -1));
-		CCLog("%s",lua_tostring(m_plua,-1));
+		CCLog("luaL_loadbuffer3 %s",lua_tostring(m_plua,-1));
 		lua_pop(m_plua, 1);
 	}else{
  		sprintf(ret_string, "%s", lua_tostring(m_plua, -1));
-		CCLog("%s",lua_tostring(m_plua,-1));
+		CCLog("luaL_loadbuffer3 %s",lua_tostring(m_plua,-1));
 	}
 	return true;
 }
@@ -197,9 +197,10 @@ void CLuaScriptReader::SetGlobalFunc(const char * filename){
 	}
 #endif
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-		unsigned long size;
-		char* temp = (char*)CCFileUtils::sharedFileUtils()->getFileData(filename,"r",&size);
-		strcpy(GlobalFunc,temp);
+		unsigned long int size =0;
+		unsigned char* temp = CCFileUtils::sharedFileUtils()->getFileData(filename,"r",&size);
+		CCString* ccStr = CCString::createWithData(temp,size);
+		strcpy(GlobalFunc,ccStr->getCString());
 		CCLog("GlobalFunc %s",GlobalFunc);
 #endif
 	return;
@@ -220,9 +221,10 @@ void CLuaScriptReader::SetRulesFunc(const char* filename){
 	}
 #endif
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-	unsigned long size;
-	char* temp = (char*)CCFileUtils::sharedFileUtils()->getFileData(filename,"r",&size);
-	strcpy(Rules,temp);
+	unsigned long int size = 0;
+	unsigned char* temp = CCFileUtils::sharedFileUtils()->getFileData(filename,"r",&size);
+	CCString* ccStr = CCString::createWithData(temp,size);
+	strcpy(Rules,ccStr->getCString());
 	CCLog("Rules %s",Rules);
 #endif
 	return;
@@ -256,7 +258,7 @@ bool CLuaScriptReader::RunMixedFile(const char *filename,char *name)
 	}
 	fclose(fpFile);
 	strcat(filebuff,"\n");
-	strcat(filebuff,GlobalFunc);
+	//strcat(filebuff,GlobalFunc);
 	Print2File(filebuff,"mixed.txt");
 	RunScriptBuffer(filebuff,callname);
 #endif
@@ -295,10 +297,12 @@ bool CLuaScriptReader::RunScriptFile(const char *filename,char* ret_string,char 
 	RunScriptBuffer(filebuff,ret_string,name);
 #endif
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-	char* filebuff = new char[MAX_LUA_FILE_LEN];
-	unsigned long size;
-	filebuff = (char*)CCFileUtils::sharedFileUtils()->getFileData(filename,"r",&size);
-	RunScriptBuffer(filebuff,ret_string,name);
+	//char* filebuff = new char[MAX_LUA_FILE_LEN];
+	unsigned long int size = 0;
+	unsigned char* filebuff = CCFileUtils::sharedFileUtils()->getFileData(filename,"r",&size);
+	CCString* ccStr = CCString::createWithData(filebuff,size);
+	CCLog("filebuff %s",ccStr->getCString());
+	RunScriptBuffer(ccStr->getCString(),ret_string,name);
 	delete[] filebuff;
 #endif
 	return true;
@@ -323,11 +327,12 @@ bool CLuaScriptReader::RunScriptFile(const char *filename,char *name){
 	RunScriptBuffer(filebuff,name);
 #endif
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-	char* filebuff = new char[MAX_LUA_FILE_LEN];
-	unsigned long size;
-	filebuff = (char*)CCFileUtils::sharedFileUtils()->getFileData(filename,"r",&size);
-	CCLog("filebuff %s",filebuff);
-	RunScriptBuffer(filebuff,name);
+	//char* filebuff = new char[MAX_LUA_FILE_LEN];
+	unsigned long int size = 0;
+	unsigned char* filebuff = CCFileUtils::sharedFileUtils()->getFileData(filename,"r",&size);
+	CCString* ccStr = CCString::createWithData(filebuff,size);
+	CCLog("filebuff %s",ccStr->getCString());
+	RunScriptBuffer(ccStr->getCString(),name);
 	delete[] filebuff;
 #endif
 	return true;
@@ -339,12 +344,15 @@ bool CLuaScriptReader::GetSourceCode(char *code){
 	return true;
 }
 
-bool CLuaScriptReader::GetWriteZiInfo(const char* wz){
+bool CLuaScriptReader::SetWriteZiInfo(const char* wz){
 	strcpy(WriteZiInfo,wz);
+	CCLog("WriteZiInfo %s",WriteZiInfo);
 	return true;
 }
-void CLuaScriptReader::GetZiName(string hanzi){
+void CLuaScriptReader::SetZiName(string hanzi){
 	strcpy(Hanzi,hanzi.c_str());
+	CCLog("Hanzi %s",Hanzi);
+	return;
 }
 
 bool CLuaScriptReader::GetStandardZiInfo(char *stdInfo){
