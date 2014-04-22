@@ -22,6 +22,7 @@ extern "C"{
 class  CLuaScriptReader {
 public:
 	CLuaScriptReader(void);
+	~CLuaScriptReader();
 protected:
 	lua_State *m_plua;
 	string sourcecode;
@@ -33,7 +34,7 @@ public:
 	bool RunScriptFile(const char *filename,char *name);//运行buff中lua文件
 	bool RunScriptFile(const char *filename,char* ret_string,char *name);//运行buff中lua文件,带返回值	
 	bool GetSourceCode(char *sourcecode);
-	bool GetWriteZiInfo(char *wz);
+	bool GetWriteZiInfo(const char *wz);
 	bool GetStandardZiInfo(char stdinfo[]);
 	bool GetRunType(int level, int step);
 	bool GetUnitIndex(int idx);
@@ -45,7 +46,6 @@ public:
 	bool Print2File(char* buff,char*file);
 
 	void GetZiName(string hanzi);
-	// TODO: add your methods here.
 };
 
 
