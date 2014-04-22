@@ -27,12 +27,12 @@ bool TcharacterDrawnode::init(string hz,CCSize showrect){
 	unsigned long size = 0;
 	char* pFileContent = (char*)CCFileUtils::sharedFileUtils()->getFileData(dbpath.c_str(),"rb",&size);
 	CCLog("file %s",pFileContent);
-	string path = CCFileUtils::sharedFileUtils()->getWritablePath()+"test.db";
-	FILE* file = fopen(path.c_str(),"w");
+	dbpath = CCFileUtils::sharedFileUtils()->getWritablePath()+"test.db";
+	FILE* file = fopen(dbpath.c_str(),"w");
 	if (file != NULL)
 	{
 		CCLog("file not NULL");
-		file = fopen(path.c_str(),"wb");
+		file = fopen(dbpath.c_str(),"wb");
 		fwrite(pFileContent,size,1,file);
 		CC_SAFE_DELETE_ARRAY(pFileContent);
 	}else{
@@ -40,7 +40,7 @@ bool TcharacterDrawnode::init(string hz,CCSize showrect){
 	}
 	fclose(file);
 #endif
-	SqliteHelper::initDB(path.c_str());
+	SqliteHelper::initDB(dbpath.c_str());
 // 	string createsql = "create table user (id integer,username test,password text,word text)";
 // 	SqliteHelper::createTable(createsql,"user");
 
