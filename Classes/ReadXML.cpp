@@ -14,11 +14,16 @@ CReadXML::CReadXML(void)
 
 CReadXML::CReadXML(string xmlpath)
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	unsigned long size = 0;
 	char* pFileContent = (char*)CCFileUtils::sharedFileUtils()->getFileData(xmlpath.c_str(),"r",&size);
 	TiXmlDocument* document = new TiXmlDocument();
 	document->Parse(pFileContent,0,TIXML_ENCODING_UTF8);
-//	document->LoadFile();
+#endif
+#if CC_TARGET_PLATFORM ==  CC_PLATFORM_WIN32
+	TiXmlDocument* document = new TiXmlDocument(xmlpath.c_str());
+	document->LoadFile();
+#endif
 	TiXmlElement* rootElement = document->RootElement();
 	TiXmlElement* outlineElement = rootElement->FirstChildElement();
 	TiXmlElement* strokeElement = outlineElement->FirstChildElement();
