@@ -16,12 +16,12 @@ TcharacterDrawnode::~TcharacterDrawnode()
 // 		strokedrawList.pop_back();
 // 		temp->release();
 // 	}
-	CCLog("TcharacterDrawnode ref  %d",this->m_uReference);
+// 	CCLog("TcharacterDrawnode ref  %d",this->m_uReference);
 	CC_SAFE_RELEASE(strokedrawList);
 }
 
 bool TcharacterDrawnode::init(string hz,CCSize showrect){
-	CCLog("TcharacterDrawnode init()");
+// 	CCLog("TcharacterDrawnode init()");
 	string dbpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("test.db");
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	unsigned long size = 0;
@@ -53,12 +53,13 @@ bool TcharacterDrawnode::init(string hz,CCSize showrect){
 	SqliteHelper::closeDB();
 	strokedrawList = CCArray::create();
 	strokedrawList->retain();
-	stringstream ss;
-	ss << p->getID()->getValue();
-	string filepath = "lua/ZiList/"+ss.str()+"/xml.xml";
-	string xml = CCFileUtils::sharedFileUtils()->fullPathForFilename(filepath.c_str());
+// 	stringstream ss;
+// 	ss << p->getID()->getValue();
+// 	string filepath = "lua/ZiList/"+ss.str()+"/xml.xml";
+// 	string xml = CCFileUtils::sharedFileUtils()->fullPathForFilename(filepath.c_str());
 // 	string xml(p->getXML()->getCString());
-	CReadXML readxml(xml);
+/*	CReadXML readxml(xml);*/
+	CReadXML readxml(p->getXML()->getCString());
 	this->m_character = readxml.getCharacter();
 	this->showRect = showrect;
 
@@ -104,7 +105,6 @@ void TcharacterDrawnode::draw(){
 // 		no->draw();
 // 	}
 	CCObject* ob;
-// 	strokedrawList->retain();
 	CCARRAY_FOREACH(strokedrawList,ob){
 		((StrokeDrawnode*)(ob))->draw();
 	}
