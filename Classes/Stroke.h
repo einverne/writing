@@ -11,40 +11,36 @@ class Stroke
 {
 public:
 	Stroke(void);
-	Stroke(vector<CCPoint> points);				//传入一串点，构造一笔
+	/**
+	* create a stroke with a group of points
+	* @param points
+	* @return
+	*/
+	Stroke(vector<CCPoint> points);
 	~Stroke(void);
 	int pointCount;
 	CCPoint prePoint;		//保存每一笔首点
 	vector<CCPoint> pointList;
 	vector<CCDrawNode*> nodeList;
 public:
-	//************************************
-	// Method:    addPoint 添加一个点
-	// FullName:  Stroke::addPoint
-	// Access:    public 
-	// Returns:   bool
-	// Qualifier:
-	// Parameter: CCPoint point
-	//************************************
+	/**
+	* add a point to stroke
+	* @param point
+	* @return
+	*/
 	bool addPoint(CCPoint point);
 
-	//************************************
-	// Method:    strokeLength //一笔的长度
-	// FullName:  Stroke::strokeLength
-	// Access:    public 
-	// Returns:   float
-	// Qualifier:
-	//************************************
+	/**
+	* length of a stroke:sum of each distance between two points
+	* @return
+	*/
 	float strokeLength();
 
-	//************************************
-	// Method:    resample 重采样，插值代码 x轴方向每10px一段
-	// FullName:  Stroke::resample
-	// Access:    public 
-	// Returns:   void
-	// Qualifier:
-	// Parameter: int n
-	//************************************
+	/**
+	* 重采样，插值代码 x轴方向每10px一段
+	* @param n 默认为20，可以自由设定
+	* @return
+	*/
 	void resample(int n = 20);
 
 	CCSize getRotateAng();						//获取尾点到首点的向量
@@ -52,14 +48,12 @@ public:
 	CCSize getSize();
 	CCPoint getBigPoint();						//获取坐标值最大的点，包围盒最右上角的点
 	string sendOutput();						//产生送给Lua的字符串
-	//************************************
-	// Method:    addEveryPoint 给pointList中每个point加上一个point值
-	// FullName:  Stroke::addEveryPoint
-	// Access:    public 
-	// Returns:   void
-	// Qualifier:
-	// Parameter: CCPoint point
-	//************************************
+
+	/**
+	* 给pointList中每个point加上一个point值
+	* @param point
+	* @return
+	*/
 	void addEveryPoint(CCPoint point);			//每个点加一个点
 // 	StrokeNode* getStrokeNode();
 private:
