@@ -4,14 +4,6 @@ StrokeDrawnode::StrokeDrawnode()
 {
 }
 
-//************************************
-// Method:    StrokeDrawnode
-// FullName:  StrokeDrawnode::StrokeDrawnode
-// Access:    public 
-// Returns:   
-// Qualifier:
-// Parameter: Stroke stro 传入一笔，构造一笔Node
-//************************************
 StrokeDrawnode::StrokeDrawnode(Stroke stro){
 	this->stroke = stro;
 }
