@@ -156,6 +156,9 @@
     <ClCompile Include="..\Classes\tinyxml2.cpp">
       <Filter>Classes\xml</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\RightZiAnimationAction.cpp">
+      <Filter>Classes\action</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -281,6 +284,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\tinyxml2.h">
       <Filter>Classes\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\RightZiAnimationAction.h">
+      <Filter>Classes\action</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
