@@ -258,7 +258,7 @@ bool CLuaScriptReader::RunMixedFile(const char *filename,char *name)
 	}
 	fclose(fpFile);
 	strcat(filebuff,"\n");
-	//strcat(filebuff,GlobalFunc);
+	strcat(filebuff,GlobalFunc);
 	Print2File(filebuff,"mixed.txt");
 	RunScriptBuffer(filebuff,callname);
 #endif
