@@ -88,9 +88,9 @@ if (spt.x > ept.x or spt.y >ept.y) then
 return false
 end
 
---if (dis > 50 ) then 
---return false
---end
+if (dis > 150 ) then 
+return false
+end
 
 return true 
 
