@@ -146,7 +146,7 @@ bool CLuaScriptReader::RunScriptBuffer(const char *buff,char *name){
 	}else{
 		strcpy(callname,name);
 	}
-	CCLog("RunScriptBuffer buff:%s name:%s",buff,name);
+// 	CCLog("RunScriptBuffer buff:%s name:%s",buff,name);
 	error = luaL_loadbuffer(m_plua, buff, strlen(buff),callname) || lua_pcall(m_plua, 0, 0, 0);
 	if (error){
 		fprintf(stderr, "%s", lua_tostring(m_plua, -1));
@@ -201,7 +201,7 @@ void CLuaScriptReader::SetGlobalFunc(const char * filename){
 		unsigned char* temp = CCFileUtils::sharedFileUtils()->getFileData(filename,"r",&size);
 		CCString* ccStr = CCString::createWithData(temp,size);
 		strcpy(GlobalFunc,ccStr->getCString());
-		CCLog("GlobalFunc %s",GlobalFunc);
+// 		CCLog("GlobalFunc %s",GlobalFunc);
 #endif
 	return;
 }
@@ -301,7 +301,7 @@ bool CLuaScriptReader::RunScriptFile(const char *filename,char* ret_string,char 
 	unsigned long int size = 0;
 	unsigned char* filebuff = CCFileUtils::sharedFileUtils()->getFileData(filename,"r",&size);
 	CCString* ccStr = CCString::createWithData(filebuff,size);
-	CCLog("filebuff %s",ccStr->getCString());
+// 	CCLog("filebuff %s",ccStr->getCString());
 	RunScriptBuffer(ccStr->getCString(),ret_string,name);
 	delete[] filebuff;
 #endif
@@ -331,7 +331,7 @@ bool CLuaScriptReader::RunScriptFile(const char *filename,char *name){
 	unsigned long int size = 0;
 	unsigned char* filebuff = CCFileUtils::sharedFileUtils()->getFileData(filename,"r",&size);
 	CCString* ccStr = CCString::createWithData(filebuff,size);
-	CCLog("filebuff %s",ccStr->getCString());
+// 	CCLog("filebuff %s",ccStr->getCString());
 	RunScriptBuffer(ccStr->getCString(),name);
 	delete[] filebuff;
 #endif
@@ -346,12 +346,12 @@ bool CLuaScriptReader::GetSourceCode(char *code){
 
 bool CLuaScriptReader::SetWriteZiInfo(const char* wz){
 	strcpy(WriteZiInfo,wz);
-	CCLog("WriteZiInfo %s",WriteZiInfo);
+// 	CCLog("WriteZiInfo %s",WriteZiInfo);
 	return true;
 }
 void CLuaScriptReader::SetZiName(string hanzi){
 	strcpy(Hanzi,hanzi.c_str());
-	CCLog("Hanzi %s",Hanzi);
+// 	CCLog("Hanzi %s",Hanzi);
 	return;
 }
 
@@ -391,11 +391,11 @@ bool CLuaScriptReader::Print2File(char* str, char*filename)
 	FILE* file = fopen(path.c_str(),"w");
 	if (file != NULL)
 	{
-		CCLog("file not NULL");
+// 		CCLog("CLuaScriptReader::Print2File file not NULL");
 		file = fopen(path.c_str(),"wb");
 		fwrite(str,strlen(str),1,file);
 	}else{
-		CCLog("file NULL");
+// 		CCLog("CLuaScriptReader::Print2File file NULL");
 	}
 	fclose(file);
 #endif
