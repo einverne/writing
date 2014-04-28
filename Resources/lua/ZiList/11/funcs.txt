@@ -91,7 +91,7 @@ if (spt.x > ept.x or spt.y >ept.y) then
 return false
 end
 
-if (dis > 150 ) then 
+if (dis > 500 ) then 
 return false
 end
 
