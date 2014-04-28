@@ -1,10 +1,10 @@
 #include "StrokeDrawnode.h"
 
-StrokeDrawnode::StrokeDrawnode()
+StrokeDrawnode::StrokeDrawnode():visibleIndex(-1)
 {
 }
 
-StrokeDrawnode::StrokeDrawnode(Stroke stro){
+StrokeDrawnode::StrokeDrawnode(Stroke stro):visibleIndex(-1){
 	this->stroke = stro;
 }
 
@@ -40,11 +40,22 @@ void StrokeDrawnode::draw(){
 	glLineWidth(6.0f);					//笔画粗细
 	ccDrawColor4F(0,0,0,1);				//笔画颜色
 // 	glEnable(GL_LINE_SMOOTH);
-	CCPoint pre = stroke.pointList[0];					//直接拿了pointList第一个值
-	for (int i = 1; i< stroke.pointCount; i++)
+	if (visibleIndex == -1)
 	{
-		ccDrawLine(pre,stroke.pointList[i]);
-		pre = stroke.pointList[i];
+		CCPoint pre = stroke.pointList[0];					//直接拿了pointList第一个值
+		for (int i = 1; i< stroke.pointCount; i++)
+		{
+			ccDrawLine(pre,stroke.pointList[i]);
+			pre = stroke.pointList[i];
+		}
+	}else
+	{
+		CCPoint pre = stroke.pointList[0];					//直接拿了pointList第一个值
+		for (int i = 1; i< stroke.pointCount && i < visibleIndex; i++)
+		{
+			ccDrawLine(pre,stroke.pointList[i]);
+			pre = stroke.pointList[i];
+		}
 	}
 // 	glDisable(GL_LINE_SMOOTH);
 }
