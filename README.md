@@ -3,24 +3,55 @@ writing
 
 writing Chinese
 
-###ÒÑÊµÏÖ
-- µ¯³ö´°¿ÚÀàPopLayer Éè¼ÆÎ´È«²¿Íê³É
-- Æô¶¯½çÃæLayer£¬WallSceneLayer£¬lianxi Layer£¬¼òµ¥½çÃæ²¼¾Ö
-- ºÍLua½»»¥ÊµÏÖ£º 1. ´ÓLuaÎÄ¼ş»ñÈ¡String 2. ´ÓLuaÎÄ¼ş»ñÈ¡Table 3.µ÷ÓÃLuaÈ«¾Öº¯Êı 4. ´«²ÎÊı¸øLuaº¯Êı 5. Luaº¯Êıµ÷ÓÃstatic C++º¯Êı
-- ×Ö·û±àÂë×ª»»DataToolÀà
+###å·²å®ç°
+ - ç•Œé¢Layerå’ŒScene
+     - Splash å¼€åœºç•Œé¢
+     - WallScene æ±‰å­—ç –å¢™ç•Œé¢
+     - LianxiScene ç»ƒä¹ ç•Œé¢
+         - BackgroundLayer èƒŒæ™¯å±‚
+         - TouchLayer è§¦æ‘¸å“åº”å±‚
+         - TcharacterLayer æ­£å­—ä¿¡æ¯æ˜¾ç¤ºå±‚
+         - HcharacterLayer æ‰‹å†™æ±‰å­—æ˜¾ç¤ºå±‚
+ - å¼¹å‡ºçª—å£ç±»PopLayer,ç”¨æˆ·åˆ›å»ºå¼¹å‡ºçª—å£
+    - static PopLayer\* create(const string hanzi,const char\* backgroundImage);
+    - bool addButton(const char\* normalImage,const char* seletedImage ,const char\* title, int tag=0);
+    - void setTitle(const char\* title, int fontsize = 20);
+    - void setCallBackFunc(CCObject\* targer, SEL_CallFuncN callfun);
+ - å’ŒLuaäº¤äº’å®ç°ï¼ŒCLuaScriptReaderç±»å®ç°
+     - ä»Luaæ–‡ä»¶è·å–String 
+     - ä»Luaæ–‡ä»¶è·å–Table 
+     - è°ƒç”¨Luaå…¨å±€å‡½æ•° 
+     - ä¼ å‚æ•°ç»™Luaå‡½æ•° 
+     - Luaå‡½æ•°è°ƒç”¨static C++å‡½æ•°
+     - **è¿è¡ŒLuaä»£ç å¹¶è·å–è¿è¡Œç»“æœ**
+ - å­—ç¬¦ç¼–ç è½¬æ¢ï¼Œäº‹å®ä¸ŠåæœŸå› ä¸ºæ‰€æœ‰å­—ç¬¦ç¼–ç éƒ½æŒ‰ç…§UTF-8ä¿å­˜å’Œè¯»å–ï¼Œæ‰€ä»¥ä¸å­˜åœ¨å­—ç¬¦ç¼–ç è½¬æ¢çš„é—®é¢˜ï¼Œå¹¶ä¸”Androidå¹¶ä¸æ”¯æŒä¹‹å‰æ‰€å†™çš„UTF8TOGBKç±»ï¼Œæ‰€ä»¥æ”¾å¼ƒä½¿ç”¨ã€‚
+ - å’ŒSqliteæ•°æ®åº“äº¤äº’ç±»SqliteHelper
+    - ç”¨æ¥åˆ›å»ºä¸€ä¸ªdbæ•°æ®åº“ dbä¸ºæ•°æ®åº“çš„åå­—
+	    - static void initDB(const char* db);
+	- ç”¨æ¥åˆ¤æ–­è¡¨æ ¼æ˜¯å¦å­˜åœ¨
+    	- static bool tableIsExist(string name);
+	- ç”¨æ¥åˆ›å»ºä¸€ä¸ªè¡¨åä¸ºnameçš„è¡¨æ ¼ï¼Œåˆ›å»ºæ—¶ä¼šå…ˆåŒ¹é…æ—¶å¦æœ‰è¯¥è¡¨çš„å­˜åœ¨å¦‚æœå­˜åœ¨åˆ™ä¸åˆ›å»º
+	    - static void createTable(string sql,string name);
+	- ç”¨æ¥åˆ é™¤ä¸€å¼ è¡¨åä¸ºnameçš„è¡¨æ ¼ï¼Œåˆ é™¤æ—¶ä¼šå…ˆåŒ¹é…æ˜¯å¦æœ‰è¯¥è¡¨çš„å­˜åœ¨å¦‚æœä¸å­˜åœ¨åˆ™ä¸æ‰§è¡Œåˆ é™¤æ“ä½œ
+	    - static void deleteTable(string sql,string name);
+	- ç”¨æ¥å‘è¡¨ä¸­æ’å…¥ä¸€æ¡æ•°æ®
+	    - static void insertData(string sql);
+	- ç”¨æ¥å‘è¡¨ä¸­åˆ é™¤ä¸€æ¡æ•°æ®
+	    - static void deleteData(string sql);
+	- ç”¨æ¥å‘è¡¨ä¸­ä¿®æ”¹ä¸€æ¡æ•°æ®
+	    - static void updateData(string sql);
+	- è·å–ä¸€ä¸ªè®°å½•çš„æ¡æ•°
+	    - static int getDataCount(string sql);
+	- è¯»å–ä¸€æ¡è®°å½•çš„ä¿¡æ¯
+	    - static void getDataInfo(string sql,CCObject* pSend);
+	- å…³é—­æ‰“å¼€çš„æ•°æ®åº“
+	    - static void closeDB();
+ - è¯»å–æ­£å­—XMLä¿¡æ¯å¹¶è§£æä¿å­˜åˆ°Characterä¸­ ReadXMLç±»ï¼Œå€ŸåŠ©tinyxmlåº“å®ç°
+    - CReadXML(string xmlpath);       //ä¼ å…¥xmlè·¯å¾„è§£æ
+    - CReadXML(const char* xmlcontent);         //ä¼ å…¥xmlå­—ç¬¦ä¸²å¹¶è§£æ
 
-###Éè¼ÆÊµÏÖĞèĞŞ¸ÄµØ·½
-####½çÃæÉè¼ÆºÍÊÂ¼şÏìÓ¦
-ÔÚÁ·Ï°½çÃæ×Ü¾õµÃÓ¦¸Ã½«²¼¾ÖºÍÊÂ¼şÏìÓ¦·Ö¿ª£¬·Ö¿ªÁ½¸öLayer´¦Àí£¬µ«ÊÇ¼øÓÚ²»Çå³şmultiLayer¼ä½»»¥£¬²»Çå³şÊµÏÖ¹ı³Ì
-ËÆºõÓ¦¸Ã½«Ìï×Ö¸ñµ¥¶À°ü×°³ÉÎªCCNode×Ô¶¨ÒåÀà£¬µ¥¶ÀÔÚ´ËÀàÖĞ´¦ÀíÌï×Ö¸ñÕı×Ö¼°ÊÖĞ´×Ö´¦ÀíÂß¼­
-Í¬ÀíÊÖĞ´×Ö¶¯»­Ğ§¹ûÒ²Ó¦¸ÃÔÚCCNode×Ô¶¨ÒåÀàÖĞÊµÏÖ¡£
-####Lua½»»¥
-Lua½»»¥»¹ÓĞÒ»Ğ©ÎÊÌâ£¬Ó¦¸Ã½«º¯Êı¸ü½øÒ»²½µÄ·â×°³ÉÀà£¬ËäÈ»ÏÖÔÚÄÜ¹»Ê¹ÓÃµÄÀàÒÑ¾­ÓĞÁËHclcData(LuaData),CLuaScriptReader£¬µ«ÊÇÕûÌåÌõÀí²»ÊÇºÜÇå³ş¡£
-
-
-
-
-###Âé·³Ö®´¦
-- ÓÉÓÚÎÒÃÇµÄxmlÕı×ÖĞÅÏ¢×ø±êÏµÎÊÌâ£¬ÒıÈë½øÀ´Ö®ºó×ø±ê±ä»»·±¶à¡£ÔÚÕı×Ö±Ê»­Ğı×ªºÍËõ·Å²Ù×÷Ê±ÎŞ·¨¼æ¹Ë
-- ¶¯»­µÄ´¦Àí¹ı³Ì
-- ×Ö²¿¼ş±Ê»­Èı¼¶µÄ´¦Àí¹ı³Ì£¬Ä¿Ç°Ö»ÊÇÕë¶Ô¼òµ¥×Ö£¬Èç¹ûÉæ¼°µ½²¿¼ş£¬²»Çå³şÊÇ·ñĞèÒª¸Ä¶¯Ä³Ğ©´úÂë¡£
+###è®¾è®¡å®ç°ä¿®æ”¹çš„åœ°æ–¹
+####ç•Œé¢è®¾è®¡å’Œäº‹ä»¶å“åº”
+åœ¨ç»ƒä¹ ç•Œé¢å°†å¸ƒå±€å’Œäº‹ä»¶å“åº”åˆ†å¼€ï¼Œåˆ†å¼€å››ä¸ªLayerå¤„ç†
+ä¼¼ä¹åº”è¯¥å°†ç”°å­—æ ¼å•ç‹¬åŒ…è£…æˆä¸ºCCNodeè‡ªå®šä¹‰ç±»ï¼Œå•ç‹¬åœ¨æ­¤ç±»ä¸­å¤„ç†ç”°å­—æ ¼æ­£å­—åŠæ‰‹å†™å­—å¤„ç†é€»è¾‘
+åŒç†æ‰‹å†™å­—åŠ¨ç”»æ•ˆæœä¹Ÿåº”è¯¥åœ¨CCNodeè‡ªå®šä¹‰ç±»ä¸­å®ç°ã€‚
