@@ -34,7 +34,7 @@ public:
 	CC_SYNTHESIZE_RETAIN(CCLabelTTF*, duicuo,duicuo);
 	CC_SYNTHESIZE_RETAIN(CCSprite* , m_sprite_draw, Sprite);
 private:
-
+	void rewrite(CCObject* pSender);
 };
 
 

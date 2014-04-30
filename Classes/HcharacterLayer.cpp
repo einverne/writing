@@ -44,6 +44,20 @@ bool HcharacterLayer::init(string hanzi,CCSprite* tianzige_draw){
 		this->setduicuo(CCLabelTTF::create("wu","Arial",50));
 		this->addChild(duicuo,2000);
 		duicuo->setPosition(ccp(40,tianzige_draw->getPositionY()));
+
+
+		CCPoint tianzige_draw_position = getSprite()->getPosition();
+		CCSize tianzige_draw_size = getSprite()->getContentSize();
+
+		CCMenuItemImage* rewrite = CCMenuItemImage::create("rewrite.png",
+			"rewrite.png",
+			this,
+			menu_selector(HcharacterLayer::rewrite));
+		CCPoint rewrite_position = ccp(tianzige_draw_position.x + tianzige_draw_size.width/2+20+rewrite->getContentSize().width/2,tianzige_draw_position.y+tianzige_draw_size.height/2-rewrite->getContentSize().height/2);
+		rewrite->setPosition(rewrite_position);
+		CCMenu* menu = CCMenu::create(rewrite,NULL);
+		menu->setPosition(CCPointZero);
+		this->addChild(menu,2000);
 		return true;
 	}
 	return false;
@@ -150,4 +164,8 @@ void HcharacterLayer::onEnter(){
 
 void HcharacterLayer::onExit(){
 	CCLayer::onEnter();
+}
+
+void HcharacterLayer::rewrite(CCObject* pSender){
+	CCLog("HcharacterLayer::rewrite");
 }
