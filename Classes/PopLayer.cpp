@@ -176,8 +176,8 @@ void PopLayer::onEnter(){
 		CCEditBox* editbox = getEditBoxHanzi();
 		editbox->setPosition(ccp(winSize.width/2,winSize.height/2));
 		editbox->setTouchPriority(-128);	//设置触摸优先级，越小优先级越高
-		editbox->setPlaceHolder("hanzi");
-		editbox->setText("hanzi");
+		editbox->setPlaceHolder(hanzi.c_str());
+		editbox->setText(hanzi.c_str());
 		editbox->setMaxLength(1);
 		//设置键盘输入模式
 		editbox->setInputMode(kEditBoxInputModeAny);
@@ -195,7 +195,6 @@ void PopLayer::onEnter(){
 }
 
 void PopLayer::onExit(){
-
-	CCLog("popup on exit.");
 	CCLayer::onExit();
+	CCLog("popup on exit.");
 }
