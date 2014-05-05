@@ -10,7 +10,7 @@
             <y>135 px</y>
             <w>277 px</w>
             <h>278 px</h>
-            <img>withword\stone_0.png</img>
+            <img>withword/stone_0.png</img>
             <hanzi>人</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -20,7 +20,7 @@
             <y>0 px</y>
             <w>203 px</w>
             <h>263 px</h>
-            <img>noword\stone_1.png</img>
+            <img>noword/stone_1.png</img>
         </stone>
         <stone>
             <type>nouse</type>
@@ -28,7 +28,7 @@
             <y>271 px</y>
             <w>195 px</w>
             <h>256 px</h>
-            <img>noword\stone_2.png</img>
+            <img>noword/stone_2.png</img>
         </stone>
         <stone>
             <type>wordbox</type>
@@ -36,7 +36,7 @@
             <y>506 px</y>
             <w>237 px</w>
             <h>244 px</h>
-            <img>withword\stone_3.png</img>
+            <img>withword/stone_3.png</img>
             <hanzi>寸</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -46,7 +46,7 @@
             <y>719 px</y>
             <w>210 px</w>
             <h>296 px</h>
-            <img>noword\stone_4.png</img>
+            <img>noword/stone_4.png</img>
         </stone>
         <stone>
             <type>wordbox</type>
@@ -54,7 +54,7 @@
             <y>980 px</y>
             <w>226 px</w>
             <h>302 px</h>
-            <img>withword\stone_5.png</img>
+            <img>withword/stone_5.png</img>
             <hanzi>凶</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -64,7 +64,7 @@
             <y>1235 px</y>
             <w>176 px</w>
             <h>265 px</h>
-            <img>noword\stone_6.png</img>
+            <img>noword/stone_6.png</img>
         </stone>
         <stone>
             <type>nouse</type>
@@ -72,7 +72,7 @@
             <y>55 px</y>
             <w>88 px</w>
             <h>89 px</h>
-            <img>noword\stone_7.png</img>
+            <img>noword/stone_7.png</img>
         </stone>
         <stone>
             <type>wordbox</type>
@@ -80,7 +80,7 @@
             <y>301 px</y>
             <w>278 px</w>
             <h>327 px</h>
-            <img>withword\stone_9.png</img>
+            <img>withword/stone_9.png</img>
             <hanzi>八</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -90,7 +90,7 @@
             <y>624 px</y>
             <w>263 px</w>
             <h>213 px</h>
-            <img>withword\stone_10.png</img>
+            <img>withword/stone_10.png</img>
             <hanzi>小</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -100,7 +100,7 @@
             <y>825 px</y>
             <w>281 px</w>
             <h>299 px</h>
-            <img>withword\stone_11.png</img>
+            <img>withword/stone_11.png</img>
             <hanzi>大</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -110,7 +110,7 @@
             <y>1117 px</y>
             <w>243 px</w>
             <h>221 px</h>
-            <img>withword\stone_12.png</img>
+            <img>withword/stone_12.png</img>
             <hanzi>十</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -120,7 +120,7 @@
             <y>1273 px</y>
             <w>81 px</w>
             <h>83 px</h>
-            <img>noword\stone_13.png</img>
+            <img>noword/stone_13.png</img>
         </stone>
         <stone>
             <type>nouse</type>
@@ -128,7 +128,7 @@
             <y>1339 px</y>
             <w>293 px</w>
             <h>161 px</h>
-            <img>noword\stone_14.png</img>
+            <img>noword/stone_14.png</img>
         </stone>
         <stone>
             <type>nouse</type>
@@ -136,7 +136,7 @@
             <y>0 px</y>
             <w>343 px</w>
             <h>231 px</h>
-            <img>noword\stone_15.png</img>
+            <img>noword/stone_15.png</img>
         </stone>
         <stone>
             <type>wordbox</type>
@@ -144,7 +144,7 @@
             <y>175 px</y>
             <w>252 px</w>
             <h>268 px</h>
-            <img>withword\stone_16.png</img>
+            <img>withword/stone_16.png</img>
             <hanzi>一</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -154,7 +154,7 @@
             <y>438 px</y>
             <w>72 px</w>
             <h>84 px</h>
-            <img>noword\stone_17.png</img>
+            <img>noword/stone_17.png</img>
         </stone>
         <stone>
             <type>wordbox</type>
@@ -162,7 +162,7 @@
             <y>526 px</y>
             <w>308 px</w>
             <h>317 px</h>
-            <img>withword\stone_18.png</img>
+            <img>withword/stone_18.png</img>
             <hanzi>二</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -172,7 +172,7 @@
             <y>769 px</y>
             <w>86 px</w>
             <h>104 px</h>
-            <img>noword\stone_19.png</img>
+            <img>noword/stone_19.png</img>
         </stone>
         <stone>
             <type>wordbox</type>
@@ -180,7 +180,7 @@
             <y>843 px</y>
             <w>252 px</w>
             <h>259 px</h>
-            <img>withword\stone_20.png</img>
+            <img>withword/stone_20.png</img>
             <hanzi>下</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -190,7 +190,7 @@
             <y>1081 px</y>
             <w>203 px</w>
             <h>224 px</h>
-            <img>withword\stone_21.png</img>
+            <img>withword/stone_21.png</img>
             <hanzi>王</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -200,7 +200,7 @@
             <y>1310 px</y>
             <w>47 px</w>
             <h>90 px</h>
-            <img>noword\stone_22.png</img>
+            <img>noword/stone_22.png</img>
         </stone>
         <stone>
             <type>wordbox</type>
@@ -208,7 +208,7 @@
             <y>1251 px</y>
             <w>374 px</w>
             <h>249 px</h>
-            <img>withword\stone_23.png</img>
+            <img>withword/stone_23.png</img>
             <hanzi>t</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -218,7 +218,7 @@
             <y>0 px</y>
             <w>349 px</w>
             <h>79 px</h>
-            <img>noword\stone_24.png</img>
+            <img>noword/stone_24.png</img>
         </stone>
         <stone>
             <type>nouse</type>
@@ -226,7 +226,7 @@
             <y>61 px</y>
             <w>45 px</w>
             <h>67 px</h>
-            <img>noword\stone_25.png</img>
+            <img>noword/stone_25.png</img>
         </stone>
         <stone>
             <type>wordbox</type>
@@ -234,7 +234,7 @@
             <y>77 px</y>
             <w>285 px</w>
             <h>293 px</h>
-            <img>withword\stone_26.png</img>
+            <img>withword/stone_26.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -244,7 +244,7 @@
             <y>351 px</y>
             <w>267 px</w>
             <h>231 px</h>
-            <img>withword\stone_27.png</img>
+            <img>withword/stone_27.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -254,7 +254,7 @@
             <y>567 px</y>
             <w>83 px</w>
             <h>107 px</h>
-            <img>noword\stone_28.png</img>
+            <img>noword/stone_28.png</img>
         </stone>
         <stone>
             <type>wordbox</type>
@@ -262,7 +262,7 @@
             <y>654 px</y>
             <w>331 px</w>
             <h>351 px</h>
-            <img>withword\stone_29.png</img>
+            <img>withword/stone_29.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -272,7 +272,7 @@
             <y>984 px</y>
             <w>290 px</w>
             <h>305 px</h>
-            <img>withword\stone_30.png</img>
+            <img>withword/stone_30.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -282,7 +282,7 @@
             <y>1288 px</y>
             <w>63 px</w>
             <h>86 px</h>
-            <img>noword\stone_31.png</img>
+            <img>noword/stone_31.png</img>
         </stone>
         <stone>
             <type>nouse</type>
@@ -290,7 +290,7 @@
             <y>1386 px</y>
             <w>196 px</w>
             <h>114 px</h>
-            <img>noword\stone_32.png</img>
+            <img>noword/stone_32.png</img>
         </stone>
         <stone>
             <type>wordbox</type>
@@ -298,7 +298,7 @@
             <y>0 px</y>
             <w>243 px</w>
             <h>305 px</h>
-            <img>withword\stone_33.png</img>
+            <img>withword/stone_33.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -308,7 +308,7 @@
             <y>246 px</y>
             <w>278 px</w>
             <h>308 px</h>
-            <img>withword\stone_34.png</img>
+            <img>withword/stone_34.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -318,7 +318,7 @@
             <y>489 px</y>
             <w>346 px</w>
             <h>312 px</h>
-            <img>withword\stone_35.png</img>
+            <img>withword/stone_35.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -328,7 +328,7 @@
             <y>788 px</y>
             <w>291 px</w>
             <h>304 px</h>
-            <img>withword\stone_36.png</img>
+            <img>withword/stone_36.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -338,7 +338,7 @@
             <y>974 px</y>
             <w>109 px</w>
             <h>116 px</h>
-            <img>noword\stone_37.png</img>
+            <img>noword/stone_37.png</img>
         </stone>
         <stone>
             <type>wordbox</type>
@@ -346,7 +346,7 @@
             <y>1075 px</y>
             <w>284 px</w>
             <h>336 px</h>
-            <img>withword\stone_38.png</img>
+            <img>withword/stone_38.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -356,7 +356,7 @@
             <y>0 px</y>
             <w>283 px</w>
             <h>172 px</h>
-            <img>withword\stone_39.png</img>
+            <img>withword/stone_39.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -366,7 +366,7 @@
             <y>159 px</y>
             <w>234 px</w>
             <h>262 px</h>
-            <img>withword\stone_40.png</img>
+            <img>withword/stone_40.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -376,7 +376,7 @@
             <y>287 px</y>
             <w>49 px</w>
             <h>60 px</h>
-            <img>noword\stone_41.png</img>
+            <img>noword/stone_41.png</img>
         </stone>
         <stone>
             <type>wordbox</type>
@@ -384,7 +384,7 @@
             <y>353 px</y>
             <w>194 px</w>
             <h>208 px</h>
-            <img>withword\stone_42.png</img>
+            <img>withword/stone_42.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -394,7 +394,7 @@
             <y>564 px</y>
             <w>359 px</w>
             <h>331 px</h>
-            <img>withword\stone_43.png</img>
+            <img>withword/stone_43.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -404,7 +404,7 @@
             <y>899 px</y>
             <w>62 px</w>
             <h>43 px</h>
-            <img>noword\stone_44.png</img>
+            <img>noword/stone_44.png</img>
         </stone>
         <stone>
             <type>wordbox</type>
@@ -412,7 +412,7 @@
             <y>950 px</y>
             <w>350 px</w>
             <h>392 px</h>
-            <img>withword\stone_45.png</img>
+            <img>withword/stone_45.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -422,7 +422,7 @@
             <y>1289 px</y>
             <w>337 px</w>
             <h>211 px</h>
-            <img>withword\stone_46.png</img>
+            <img>withword/stone_46.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -432,7 +432,7 @@
             <y>0 px</y>
             <w>239 px</w>
             <h>110 px</h>
-            <img>noword\stone_47.png</img>
+            <img>noword/stone_47.png</img>
         </stone>
         <stone>
             <type>nouse</type>
@@ -440,7 +440,7 @@
             <y>102 px</y>
             <w>69 px</w>
             <h>55 px</h>
-            <img>noword\stone_48.png</img>
+            <img>noword/stone_48.png</img>
         </stone>
         <stone>
             <type>wordbox</type>
@@ -448,7 +448,7 @@
             <y>100 px</y>
             <w>253 px</w>
             <h>344 px</h>
-            <img>withword\stone_49.png</img>
+            <img>withword/stone_49.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -458,7 +458,7 @@
             <y>390 px</y>
             <w>259 px</w>
             <h>226 px</h>
-            <img>withword\stone_50.png</img>
+            <img>withword/stone_50.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -468,7 +468,7 @@
             <y>756 px</y>
             <w>230 px</w>
             <h>447 px</h>
-            <img>withword\stone_51.png</img>
+            <img>withword/stone_51.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -478,7 +478,7 @@
             <y>1207 px</y>
             <w>233 px</w>
             <h>293 px</h>
-            <img>withword\stone_52.png</img>
+            <img>withword/stone_52.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -488,7 +488,7 @@
             <y>0 px</y>
             <w>326 px</w>
             <h>178 px</h>
-            <img>withword\stone_53.png</img>
+            <img>withword/stone_53.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -498,7 +498,7 @@
             <y>169 px</y>
             <w>200 px</w>
             <h>292 px</h>
-            <img>withword\stone_54.png</img>
+            <img>withword/stone_54.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -508,7 +508,7 @@
             <y>439 px</y>
             <w>50 px</w>
             <h>111 px</h>
-            <img>noword\stone_55.png</img>
+            <img>noword/stone_55.png</img>
         </stone>
         <stone>
             <type>wordbox</type>
@@ -516,7 +516,7 @@
             <y>466 px</y>
             <w>319 px</w>
             <h>374 px</h>
-            <img>withword\stone_56.png</img>
+            <img>withword/stone_56.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -526,7 +526,7 @@
             <y>829 px</y>
             <w>163 px</w>
             <h>199 px</h>
-            <img>withword\stone_57.png</img>
+            <img>withword/stone_57.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -536,7 +536,7 @@
             <y>1026 px</y>
             <w>240 px</w>
             <h>347 px</h>
-            <img>withword\stone_58.png</img>
+            <img>withword/stone_58.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -546,7 +546,7 @@
             <y>1189 px</y>
             <w>38 px</w>
             <h>92 px</h>
-            <img>noword\stone_59.png</img>
+            <img>noword/stone_59.png</img>
         </stone>
         <stone>
             <type>wordbox</type>
@@ -554,7 +554,7 @@
             <y>1343 px</y>
             <w>312 px</w>
             <h>157 px</h>
-            <img>withword\stone_60.png</img>
+            <img>withword/stone_60.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -564,7 +564,7 @@
             <y>137 px</y>
             <w>83 px</w>
             <h>81 px</h>
-            <img>noword\stone_61.png</img>
+            <img>noword/stone_61.png</img>
         </stone>
         <stone>
             <type>nouse</type>
@@ -572,7 +572,7 @@
             <y>427 px</y>
             <w>90 px</w>
             <h>47 px</h>
-            <img>noword\stone_62.png</img>
+            <img>noword/stone_62.png</img>
         </stone>
         <stone>
             <type>wordbox</type>
@@ -580,7 +580,7 @@
             <y>0 px</y>
             <w>302 px</w>
             <h>226 px</h>
-            <img>withword\stone_63.png</img>
+            <img>withword/stone_63.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -590,7 +590,7 @@
             <y>201 px</y>
             <w>221 px</w>
             <h>243 px</h>
-            <img>withword\stone_64.png</img>
+            <img>withword/stone_64.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -600,7 +600,7 @@
             <y>412 px</y>
             <w>224 px</w>
             <h>203 px</h>
-            <img>withword\stone_65.png</img>
+            <img>withword/stone_65.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -610,7 +610,7 @@
             <y>615 px</y>
             <w>305 px</w>
             <h>290 px</h>
-            <img>withword\stone_66.png</img>
+            <img>withword/stone_66.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -620,7 +620,7 @@
             <y>819 px</y>
             <w>86 px</w>
             <h>63 px</h>
-            <img>noword\stone_67.png</img>
+            <img>noword/stone_67.png</img>
         </stone>
         <stone>
             <type>wordbox</type>
@@ -628,7 +628,7 @@
             <y>867 px</y>
             <w>336 px</w>
             <h>284 px</h>
-            <img>withword\stone_68.png</img>
+            <img>withword/stone_68.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -638,7 +638,7 @@
             <y>1132 px</y>
             <w>392 px</w>
             <h>340 px</h>
-            <img>withword\stone_69.png</img>
+            <img>withword/stone_69.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -648,7 +648,7 @@
             <y>0 px</y>
             <w>296 px</w>
             <h>210 px</h>
-            <img>withword\stone_70.png</img>
+            <img>withword/stone_70.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -658,7 +658,7 @@
             <y>160 px</y>
             <w>299 px</w>
             <h>281 px</h>
-            <img>withword\stone_71.png</img>
+            <img>withword/stone_71.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -668,7 +668,7 @@
             <y>431 px</y>
             <w>259 px</w>
             <h>252 px</h>
-            <img>withword\stone_72.png</img>
+            <img>withword/stone_72.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -678,7 +678,7 @@
             <y>657 px</y>
             <w>351 px</w>
             <h>331 px</h>
-            <img>withword\stone_73.png</img>
+            <img>withword/stone_73.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -688,7 +688,7 @@
             <y>891 px</y>
             <w>116 px</w>
             <h>109 px</h>
-            <img>noword\stone_74.png</img>
+            <img>noword/stone_74.png</img>
         </stone>
         <stone>
             <type>wordbox</type>
@@ -696,7 +696,7 @@
             <y>968 px</y>
             <w>304 px</w>
             <h>291 px</h>
-            <img>withword\stone_75.png</img>
+            <img>withword/stone_75.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -706,7 +706,7 @@
             <y>1352 px</y>
             <w>424 px</w>
             <h>148 px</h>
-            <img>noword\stone_76.png</img>
+            <img>noword/stone_76.png</img>
         </stone>
         <stone>
             <type>nouse</type>
@@ -714,7 +714,7 @@
             <y>1274 px</y>
             <w>43 px</w>
             <h>62 px</h>
-            <img>noword\stone_77.png</img>
+            <img>noword/stone_77.png</img>
         </stone>
         <stone>
             <type>wordbox</type>
@@ -722,7 +722,7 @@
             <y>0 px</y>
             <w>244 px</w>
             <h>237 px</h>
-            <img>withword\stone_78.png</img>
+            <img>withword/stone_78.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -732,7 +732,7 @@
             <y>183 px</y>
             <w>213 px</w>
             <h>263 px</h>
-            <img>withword\stone_79.png</img>
+            <img>withword/stone_79.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -742,7 +742,7 @@
             <y>378 px</y>
             <w>104 px</w>
             <h>86 px</h>
-            <img>noword\stone_80.png</img>
+            <img>noword/stone_80.png</img>
         </stone>
         <stone>
             <type>wordbox</type>
@@ -750,7 +750,7 @@
             <y>446 px</y>
             <w>317 px</w>
             <h>308 px</h>
-            <img>withword\stone_81.png</img>
+            <img>withword/stone_81.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -760,7 +760,7 @@
             <y>753 px</y>
             <w>107 px</w>
             <h>83 px</h>
-            <img>noword\stone_82.png</img>
+            <img>noword/stone_82.png</img>
         </stone>
         <stone>
             <type>wordbox</type>
@@ -768,7 +768,7 @@
             <y>839 px</y>
             <w>312 px</w>
             <h>346 px</h>
-            <img>withword\stone_83.png</img>
+            <img>withword/stone_83.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -778,7 +778,7 @@
             <y>1185 px</y>
             <w>331 px</w>
             <h>315 px</h>
-            <img>withword\stone_84.png</img>
+            <img>withword/stone_84.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -788,7 +788,7 @@
             <y>0 px</y>
             <w>256 px</w>
             <h>195 px</h>
-            <img>noword\stone_85.png</img>
+            <img>noword/stone_85.png</img>
         </stone>
         <stone>
             <type>wordbox</type>
@@ -796,7 +796,7 @@
             <y>202 px</y>
             <w>327 px</w>
             <h>278 px</h>
-            <img>withword\stone_86.png</img>
+            <img>withword/stone_86.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -806,7 +806,7 @@
             <y>482 px</y>
             <w>84 px</w>
             <h>72 px</h>
-            <img>noword\stone_87.png</img>
+            <img>noword/stone_87.png</img>
         </stone>
         <stone>
             <type>wordbox</type>
@@ -814,7 +814,7 @@
             <y>558 px</y>
             <w>231 px</w>
             <h>267 px</h>
-            <img>withword\stone_88.png</img>
+            <img>withword/stone_88.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -824,7 +824,7 @@
             <y>794 px</y>
             <w>308 px</w>
             <h>278 px</h>
-            <img>withword\stone_89.png</img>
+            <img>withword/stone_89.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -834,7 +834,7 @@
             <y>1072 px</y>
             <w>208 px</w>
             <h>194 px</h>
-            <img>withword\stone_90.png</img>
+            <img>withword/stone_90.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -844,7 +844,7 @@
             <y>1269 px</y>
             <w>226 px</w>
             <h>231 px</h>
-            <img>withword\stone_91.png</img>
+            <img>withword/stone_91.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -854,7 +854,7 @@
             <y>0 px</y>
             <w>159 px</w>
             <h>165 px</h>
-            <img>noword\stone_92.png</img>
+            <img>noword/stone_92.png</img>
         </stone>
         <stone>
             <type>wordbox</type>
@@ -862,7 +862,7 @@
             <y>59 px</y>
             <w>278 px</w>
             <h>278 px</h>
-            <img>withword\stone_93.png</img>
+            <img>withword/stone_93.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -872,7 +872,7 @@
             <y>340 px</y>
             <w>268 px</w>
             <h>252 px</h>
-            <img>withword\stone_94.png</img>
+            <img>withword/stone_94.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -882,7 +882,7 @@
             <y>179 px</y>
             <w>40 px</w>
             <h>88 px</h>
-            <img>noword\stone_95.png</img>
+            <img>noword/stone_95.png</img>
         </stone>
         <stone>
             <type>nouse</type>
@@ -890,7 +890,7 @@
             <y>262 px</y>
             <w>127 px</w>
             <h>294 px</h>
-            <img>noword\stone_96.png</img>
+            <img>noword/stone_96.png</img>
         </stone>
         <stone>
             <type>nouse</type>
@@ -898,7 +898,7 @@
             <y>557 px</y>
             <w>24 px</w>
             <h>39 px</h>
-            <img>noword\stone_97.png</img>
+            <img>noword/stone_97.png</img>
         </stone>
         <stone>
             <type>wordbox</type>
@@ -906,7 +906,7 @@
             <y>565 px</y>
             <w>266 px</w>
             <h>285 px</h>
-            <img>withword\stone_98.png</img>
+            <img>withword/stone_98.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -916,7 +916,7 @@
             <y>854 px</y>
             <w>201 px</w>
             <h>243 px</h>
-            <img>withword\stone_99.png</img>
+            <img>withword/stone_99.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -926,7 +926,7 @@
             <y>1050 px</y>
             <w>60 px</w>
             <h>49 px</h>
-            <img>noword\stone_100.png</img>
+            <img>noword/stone_100.png</img>
         </stone>
         <stone>
             <type>wordbox</type>
@@ -934,7 +934,7 @@
             <y>1094 px</y>
             <w>262 px</w>
             <h>234 px</h>
-            <img>withword\stone_101.png</img>
+            <img>withword/stone_101.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -944,7 +944,7 @@
             <y>1313 px</y>
             <w>322 px</w>
             <h>187 px</h>
-            <img>withword\stone_102.png</img>
+            <img>withword/stone_102.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
@@ -954,7 +954,7 @@
             <y>1075 px</y>
             <w>68 px</w>
             <h>239 px</h>
-            <img>noword\stone_103.png</img>
+            <img>noword/stone_103.png</img>
         </stone>
         <stone>
             <type>nouse</type>
@@ -962,7 +962,7 @@
             <y>1315 px</y>
             <w>53 px</w>
             <h>69 px</h>
-            <img>noword\stone_104.png</img>
+            <img>noword/stone_104.png</img>
         </stone>
     </data>
 </xml>
