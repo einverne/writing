@@ -428,7 +428,7 @@ void WallScene::singleClick(string hanzi){
 }
 
 void WallScene::popup(string hanzi){
-	CCLog("popup wall");
+// 	CCLog("popup wall");
 	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
 	popL = PopLayer::create(hanzi,"pop/background.png");
 	popL->setContentSize(CCSizeMake(winSize.width*0.75,winSize.height*0.75));

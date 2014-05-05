@@ -303,7 +303,7 @@ bool CLuaScriptReader::RunScriptFile(const char *filename,char* ret_string,char 
 	CCString* ccStr = CCString::createWithData(filebuff,size);
 // 	CCLog("filebuff %s",ccStr->getCString());
 	RunScriptBuffer(ccStr->getCString(),ret_string,name);
-	delete[] filebuff;
+//	delete[] filebuff;
 #endif
 	return true;
 }
@@ -333,7 +333,7 @@ bool CLuaScriptReader::RunScriptFile(const char *filename,char *name){
 	CCString* ccStr = CCString::createWithData(filebuff,size);
 // 	CCLog("filebuff %s",ccStr->getCString());
 	RunScriptBuffer(ccStr->getCString(),name);
-	delete[] filebuff;
+//	delete[] filebuff;
 #endif
 	return true;
 }

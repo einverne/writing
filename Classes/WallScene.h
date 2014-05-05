@@ -41,7 +41,11 @@ public:
 	// implement the "static node()" method manually
 	CREATE_FUNC(WallScene);
 
-	//弹出对话框
+	/**
+	* 弹出对话框
+	* @param hanzi
+	* @return
+	*/
 	void popup(string hanzi);
 	//对话框回调函数
 	void buttonCallBack(CCNode* pNode);
