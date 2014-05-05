@@ -39,7 +39,22 @@ bool Splash::init(){
     startButton->setPosition(ccp(winSize.width/2,startButton->getContentSize().height/2+100));
     this->addChild(startButton);
 
-
+    string xmlpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("wall.xml");
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    unsigned long int size = 0 ;
+    char* pFile = (char*)CCFileUtils::sharedFileUtils()->getFileData(xmlpath.c_str(),"rb",&size);
+	xmlpath = CCFileUtils::sharedFileUtils()->getWritablePath()+"wall.xml";
+	FILE* file = fopen(xmlpath.c_str(),"w");
+	if (file != NULL) {
+		CCLog("XMLFile not NULL");
+		file = fopen(xmlpath.c_str(),"wb");
+		fwrite(pFile,size,1,file);
+		CC_SAFE_DELETE_ARRAY(pFile);
+	}else {
+		CCLog("XMLFile NULL");
+	}
+	fclose(file);
+#endif
     return true;
 }
 

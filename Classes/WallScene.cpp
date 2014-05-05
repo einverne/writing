@@ -65,6 +65,7 @@ bool WallScene::init()
 	//1.读取xml文件，确定缩放比例//
 	string myfilename=CCFileUtils::sharedFileUtils()->fullPathForFilename("wall.xml");
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	myfilename = CCFileUtils::sharedFileUtils()->getWritablePath()+"wall.xml";
 	unsigned long size = 0;
 	char* pFileContent = (char*)CCFileUtils::sharedFileUtils()->getFileData(myfilename.c_str(),"r",&size);
 	TiXmlDocument* myDocument = new TiXmlDocument();
@@ -482,7 +483,12 @@ void WallScene::longPressUpdate(float fDelta){
 
 void WallScene::saveToFile(string src,const char* dst){
 	int i = 0;
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 	string myfilename=CCFileUtils::sharedFileUtils()->fullPathForFilename("wall.xml");
+#endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	string myfilename = CCFileUtils::sharedFileUtils()->getWritablePath()+"wall.xml";
+#endif
 	TiXmlDocument* myDocument = new TiXmlDocument(myfilename.c_str());
 	myDocument->LoadFile();
 

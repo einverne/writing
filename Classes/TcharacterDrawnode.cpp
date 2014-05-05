@@ -24,7 +24,7 @@ bool TcharacterDrawnode::init(string hz,CCSize showrect){
 // 	CCLog("TcharacterDrawnode init()");
 	string dbpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("test.db");
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-	unsigned long size = 0;
+	unsigned long int size = 0;
 	char* pFileContent = (char*)CCFileUtils::sharedFileUtils()->getFileData(dbpath.c_str(),"rb",&size);
 	CCLog("file %s",pFileContent);
 	dbpath = CCFileUtils::sharedFileUtils()->getWritablePath()+"test.db";
