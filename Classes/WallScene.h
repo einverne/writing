@@ -24,6 +24,7 @@ public:
 	virtual bool init();
 	virtual void onEnter();
 	virtual void onExit();
+	virtual void keyBackClicked();
 
 	static cocos2d::CCScene* scene();
 
@@ -49,6 +50,12 @@ public:
 	void popup(string hanzi);
 	//对话框回调函数
 	void buttonCallBack(CCNode* pNode);
+
+	/**
+	 * 是否退出
+	 * @param pNode
+	 */
+	void isExit(CCNode* pNode);
 
 	virtual void update(float delta);
 	//长按

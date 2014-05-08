@@ -14,6 +14,7 @@ bool BackgroundLayer::init(){
 	if (CCLayer::init())
 	{
 		CCLog("Background init");
+		this->setKeypadEnabled(true);
 		//add background picture
 		CCSize winSize = CCDirector::sharedDirector()->getWinSize(); 
 		CCSize visiableSize = CCDirector::sharedDirector()->getVisibleSize();
@@ -42,7 +43,7 @@ bool BackgroundLayer::init(){
 		CCMenuItemLabel* menuLabel = CCMenuItemLabel::create(back,this,menu_selector(BackgroundLayer::menuBack));
 		CCMenu* menu = CCMenu::create(menuLabel,NULL);
 		this->addChild(menu,20);
-		menuLabel->setPosition(ccp(back->getContentSize().width/2+100,back->getContentSize().height+30));
+		menuLabel->setPosition(ccp(winSize.width - back->getContentSize().width/2 - 100,back->getContentSize().height+30));
 		menu->setPosition(CCPointZero);
 
 
@@ -64,5 +65,9 @@ bool BackgroundLayer::init(){
 
 void BackgroundLayer::menuBack(CCObject* pSender){
 /*	CCDirector::sharedDirector()->popScene();*/
+	CCDirector::sharedDirector()->replaceScene(WallScene::scene());
+}
+
+void BackgroundLayer::keyBackClicked(){
 	CCDirector::sharedDirector()->replaceScene(WallScene::scene());
 }

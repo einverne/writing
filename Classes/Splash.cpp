@@ -35,9 +35,9 @@ bool Splash::init(){
     bg->setScaleY(winSize.height/bgSize.height);
 
     //add start Button
-    CCSprite* startButton = CCSprite::create("Button1.png");
-    startButton->setPosition(ccp(winSize.width/2,startButton->getContentSize().height/2+100));
-    this->addChild(startButton);
+//    CCSprite* startButton = CCSprite::create("Button1.png");
+//    startButton->setPosition(ccp(winSize.width/2,startButton->getContentSize().height/2+100));
+//    this->addChild(startButton);
 
     string xmlpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("wall.xml");
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID

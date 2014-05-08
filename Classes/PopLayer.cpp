@@ -37,10 +37,6 @@ bool PopLayer::init(){
 		menu->setPosition(CCPointZero);
 		setMenuButton(menu);
 
-		//添加输入框
-		CCEditBox* editbox = CCEditBox::create(CCSizeMake(200,400),CCScale9Sprite::create("blue-shooting-stars.png"));
-		setEditBoxHanzi(editbox);
-		//
 		setTouchEnabled(true);
 		bRef = true;
 	} while (0);
@@ -53,6 +49,13 @@ void PopLayer::registerWithTouchDispatcher(){
 
 bool PopLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
 	return true;
+}
+
+PopLayer* PopLayer::create(const char* backgroundImage){
+	PopLayer* l = PopLayer::create();
+	l->setSpriteBackGround(CCSprite::create(backgroundImage));
+	l->setSprite9BackGround(CCScale9Sprite::create(backgroundImage));
+	return l;
 }
 
 PopLayer* PopLayer::create(const string hanzi,const char* backgroundImage){
@@ -86,6 +89,12 @@ void PopLayer::setContentText(const char* text, int fontsize, int padding , int 
 	setLabelContentText(ltf);
 	m_contentPadding = padding;
 	m_contentPaddingTop = paddingTop;
+}
+
+void PopLayer::setEditBox(){
+	//添加输入框
+	CCEditBox* editbox = CCEditBox::create(CCSizeMake(200,100),CCScale9Sprite::create("HelloWorld.png"));
+	setEditBoxHanzi(editbox);
 }
 
 void PopLayer::setCallBackFunc(CCObject* targer, SEL_CallFuncN callfun){

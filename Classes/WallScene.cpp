@@ -7,6 +7,8 @@
 
 USING_NS_CC;
 
+#define TAG_LAYER_EXIT 1001
+
 //////////////////////////////////////////
 CCScene* WallScene::scene()
 {
@@ -207,6 +209,7 @@ bool WallScene::init()
 	CCPoint changepoint=ccp(0,0);
 	touched=false;
 	this->setTouchEnabled(true);
+	this->setKeypadEnabled(true);			//android back key
 	//原本如果没有重载register那个函数，需要调用如下两个其中之一
 	//CCDirector::sharedDirector()->getTouchDispatcher()->addStandardDelegate(this,1);
 	//CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 0, true);
@@ -434,6 +437,7 @@ void WallScene::popup(string hanzi){
 	popL = PopLayer::create(hanzi,"pop/background.png");
 	popL->setContentSize(CCSizeMake(winSize.width*0.75,winSize.height*0.75));
 	popL->setTitle("test");
+	popL->setEditBox();
 	popL->setCallBackFunc(this,callfuncN_selector(WallScene::buttonCallBack));
 	popL->addButton("Button1.png","Button1.png","Y",0);
 	popL->addButton("Button2.png","Button2.png","N",1);
@@ -527,3 +531,27 @@ void WallScene::saveToFile(string src,const char* dst){
 
 }
 
+void WallScene::keyBackClicked(){
+	CCLog("WallScene::keyBackClicked");
+	if (CCDirector::sharedDirector()->getRunningScene()->getChildByTag(TAG_LAYER_EXIT) == NULL) {
+		CCLog("WallScene::NULL");
+		CCSize winSize = CCDirector::sharedDirector()->getWinSize();
+		PopLayer* exitDialog = PopLayer::create("pop/background.png");
+		exitDialog->setContentSize(CCSizeMake(winSize.width*0.8,winSize.height*0.5));
+		exitDialog->setTitle("Exit",50);
+		exitDialog->setContentText("Are you sure to exit app!",60,100,150);
+		exitDialog->setCallBackFunc(this,callfuncN_selector(WallScene::isExit));
+		exitDialog->addButton("Button1.png","Button1.png","Y",0);
+		exitDialog->addButton("Button2.png","Button2.png","N",1);
+		CCDirector::sharedDirector()->getRunningScene()->addChild(exitDialog,100,TAG_LAYER_EXIT);
+	}
+}
+
+void WallScene::isExit(CCNode* pNode){
+	if (pNode->getTag() == 0) {
+		//if click Y , end app
+		CCDirector::sharedDirector()->end();
+	}else {
+		CCDirector::sharedDirector()->getRunningScene()->removeChildByTag(TAG_LAYER_EXIT);
+	}
+}

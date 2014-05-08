@@ -16,6 +16,13 @@ public:
 	CREATE_FUNC(PopLayer);
 
 	/**
+	 * create a PopLayer just with backgroundImage
+	 * @param backgroundImage
+	 * @return
+	 */
+	static PopLayer* create(const char* backgroundImage);
+
+	/**
 	* create a PopLayer with hanzi and backgroundImage
 	* @param hanzi
 	* @param backgroundImage
@@ -43,6 +50,9 @@ public:
 	* @return
 	*/
 	void setContentText(const char* text, int fontsize = 20,int padding = 50, int paddingTop = 100);
+
+
+	void setEditBox();
 
 	/**
 	* 
