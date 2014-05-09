@@ -43,11 +43,23 @@ public:
 	* @return
 	*/
 	Stroke getStroke(){return stroke;}
+
+	/**
+	* …Ë÷√visibleIndex
+	* @param vi
+	* @return
+	*/
+	void setVisibleIndex(int vi);
+
+	/**
+	* ∑µªÿvisibleIndex
+	* @return
+	*/
+	int getVisibleIndex()	{ return visibleIndex; }
 private:
 	Stroke stroke;					//store points in a stroke
 	ccColor4B mcolor;				//color if this stroke:have not used yet
 	int visibleIndex;				//if visibleIndex == -1 then draw all points else draw visibleIndex points
-
 };
 
 

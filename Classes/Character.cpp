@@ -93,7 +93,7 @@ void Character::transformCoordinate(CCPoint point,float length){
 		{
 			Stroke stroke = strokeList.at(strokei);//(Stroke)*stro_iter;
 			vector<CCPoint> pointList = stroke.pointList;
-			for (int i = 0;i < stroke.pointCount; i++)
+			for (int i = 0;i < stroke.getPointsCount(); i++)
 			{
 				CCPoint temppoint = pointList.at(i);
 				//temppoint = temppoint - point;
@@ -139,7 +139,7 @@ void Character::prepareDrawNode(){
 			vector<CCPoint>::iterator point_iter = pointList.begin();
 			CCPoint prePoint = (CCPoint)(*point_iter);
 			point_iter++;
-			for (int pointi = 1; pointi < stroke.pointCount; ++pointi)
+			for (int pointi = 1; pointi < stroke.getPointsCount(); ++pointi)
 			{
 				CCPoint point = pointList[pointi];//(CCPoint)*point_iter;
 				CCDrawNode* node = CCDrawNode::create();
@@ -171,7 +171,7 @@ void Character::resize(CCSize size){
 			bujianList[bujiani].strokeList[strokei].prePoint = stroke.prePoint*scale;
 
 			vector<CCPoint> pointList = stroke.pointList;
-			for (int i =0 ; i < stroke.pointCount ; ++ i)
+			for (int i =0 ; i < stroke.getPointsCount() ; ++ i)
 			{
 				CCPoint temppoint = pointList.at(i);
 				bujianList[bujiani].strokeList[strokei].pointList[i] = temppoint*scale;

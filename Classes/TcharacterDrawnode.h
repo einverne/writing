@@ -43,6 +43,15 @@ public:
 	*/
 	Character getCharacter(){return m_character;}
 
+	/**
+	 * get all strokes points count for animation
+	 * @return
+	 */
+	int getPointsCount();
+
+	void setVisibleIndex(int vi);
+	int getVisibleIndex()    { return visibleIndex; }
+
 	CC_SYNTHESIZE_RETAIN(CCArray*,strokedrawList,strokedrawList);
 private:
 	CCSize showRect;				//根据传入的显示范围定义显示范围

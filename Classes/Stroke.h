@@ -18,11 +18,16 @@ public:
 	*/
 	Stroke(vector<CCPoint> points);
 	~Stroke(void);
-	int pointCount;
 	CCPoint prePoint;		//保存每一笔首点
 	vector<CCPoint> pointList;
 	vector<CCDrawNode*> nodeList;
 public:
+	/**
+	 * 获取点数量
+	 * @return
+	 */
+	int getPointsCount();
+
 	/**
 	* add a point to stroke
 	* @param point
@@ -57,6 +62,8 @@ public:
 	void addEveryPoint(CCPoint point);			//每个点加一个点
 // 	StrokeNode* getStrokeNode();
 private:
+	int pointCount;
+
 	float distance(CCPoint p1,CCPoint p2);		//两点间距离
 	int getStrokeBox();					//记录一笔包围盒，重采样使用
 	string convertToString(float f);

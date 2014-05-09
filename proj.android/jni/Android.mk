@@ -37,6 +37,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/MoveToRightPlaceInterval.cpp \
                    ../../Classes/SqliteHelper.cpp \
                    ../../Classes/CharacterEntity.cpp \
+                   ../../Classes/RightZiAnimationAction.cpp \
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes\
 

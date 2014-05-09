@@ -3,7 +3,8 @@
 #include "SqliteHelper.h"
 #include "CharacterEntity.h"
 
-TcharacterDrawnode::TcharacterDrawnode():strokedrawList(NULL)
+TcharacterDrawnode::TcharacterDrawnode():strokedrawList(NULL),
+	visibleIndex(-1)
 {
 	
 }
@@ -104,8 +105,38 @@ void TcharacterDrawnode::draw(){
 // 		StrokeDrawnode* no = (StrokeDrawnode*)*iter;
 // 		no->draw();
 // 	}
+// 	if (visibleStroke == -1) {
+// 
+// 	} else {
+// 		CCObject* ob;
+// 		int i = 0;
+// 		CCARRAY_FOREACH(strokedrawList,ob){
+// 			if (i >= visibleStroke) {
+// 				return;
+// 			}
+// 			((StrokeDrawnode*)(ob))->draw();
+// 		}
+// 	}
 	CCObject* ob;
 	CCARRAY_FOREACH(strokedrawList,ob){
 		((StrokeDrawnode*)(ob))->draw();
+	}
+}
+
+int TcharacterDrawnode::getPointsCount(){
+	CCObject* ob;
+	int count = 0;
+	CCARRAY_FOREACH(strokedrawList,ob){
+		count += ((StrokeDrawnode*)(ob))->getStroke().getPointsCount();
+	}
+	return count;
+}
+
+void TcharacterDrawnode::setVisibleIndex(int vi){
+	if (vi >= getstrokedrawList()->count())
+	{
+		this->visibleIndex = getstrokedrawList()->count();
+	}else{
+		this->visibleIndex = vi;
 	}
 }

@@ -11,6 +11,7 @@ USING_NS_CC;
 class WallScene : public CCLayer
 {
 public:
+	~WallScene();
 	vector<CHanziManage> hanzilist;
 	string selectedHanzi;
 	float rescale;
@@ -34,10 +35,10 @@ public:
 // 	void  ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
 // 	void  ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent);
 
-	void ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent);
-	void ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent);
-	void ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent);
-	void registerWithTouchDispatcher();
+	virtual void ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent);
+	virtual void ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent);
+	virtual void ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent);
+	virtual void registerWithTouchDispatcher();
 
 	// implement the "static node()" method manually
 	CREATE_FUNC(WallScene);

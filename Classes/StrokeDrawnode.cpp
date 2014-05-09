@@ -43,7 +43,7 @@ void StrokeDrawnode::draw(){
 	if (visibleIndex == -1)
 	{
 		CCPoint pre = stroke.pointList[0];					//直接拿了pointList第一个值
-		for (int i = 1; i< stroke.pointCount; i++)
+		for (int i = 1; i< stroke.getPointsCount(); i++)
 		{
 			ccDrawLine(pre,stroke.pointList[i]);
 			pre = stroke.pointList[i];
@@ -51,7 +51,7 @@ void StrokeDrawnode::draw(){
 	}else
 	{
 		CCPoint pre = stroke.pointList[0];					//直接拿了pointList第一个值
-		for (int i = 1; i< stroke.pointCount && i < visibleIndex; i++)
+		for (int i = 1; i< stroke.getPointsCount() && i < visibleIndex; i++)
 		{
 			ccDrawLine(pre,stroke.pointList[i]);
 			pre = stroke.pointList[i];
@@ -62,4 +62,13 @@ void StrokeDrawnode::draw(){
 
 void StrokeDrawnode::addPoint(CCPoint point){
 	this->stroke.addPoint(point);
+}
+
+void StrokeDrawnode::setVisibleIndex(int vi){
+	if (vi >= stroke.getPointsCount())
+	{
+		this->visibleIndex = stroke.getPointsCount();
+	}else{
+		this->visibleIndex = vi;
+	}
 }

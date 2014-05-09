@@ -8,12 +8,13 @@ class RightZiAnimationAction : public CCActionInterval
 public:
 	RightZiAnimationAction();
 	~RightZiAnimationAction();
-	static RightZiAnimationAction* create(float duration,CCArray* strokelist);
+	static RightZiAnimationAction* create(float duration);
 	virtual void update(float time);
-	bool init(float duration,CCArray* strokelist);
-	
+	bool init(float duration);
+	void startWithTarget(CCNode *pTarget);
+
 private:
-	CCArray* strokes;
+
 };
 
 
