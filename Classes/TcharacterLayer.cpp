@@ -74,6 +74,6 @@ void TcharacterLayer::onExit(){
 
 void TcharacterLayer::refresh(CCObject* pSender){
 	CCLog("TcharacterLayer::refresh");
-	RightZiAnimationAction* animation = RightZiAnimationAction::create(1.0);
+	RightZiAnimationAction* animation = RightZiAnimationAction::create(2.0);
 	m_TDrawnode->runAction(animation);
 }

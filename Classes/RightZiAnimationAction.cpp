@@ -45,6 +45,7 @@ void RightZiAnimationAction::update(float time){
 	CCArray* temp = tnode->getstrokedrawList();
 	CCObject* it = NULL;
 	int count = tnode->getPointsCount();
+	int c = count / (this->m_fDuration*60);
 	CCARRAY_FOREACH(temp,it){
 		StrokeDrawnode* snode = (StrokeDrawnode*)it;
 		if (snode->getVisibleIndex() >= snode->getStroke().getPointsCount())
@@ -55,7 +56,6 @@ void RightZiAnimationAction::update(float time){
 		if (snode->getVisibleIndex()  >= snode->getStroke().getPointsCount())
 		{
 			tnode->setVisibleIndex(tnode->getVisibleIndex()+1);
-			
 		}
 		break;
 	}
