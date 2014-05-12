@@ -46,18 +46,18 @@ bool HcharacterLayer::init(string hanzi,CCSprite* tianzige_draw){
 		duicuo->setPosition(ccp(40,tianzige_draw->getPositionY()));
 
 
-// 		CCPoint tianzige_draw_position = getSprite()->getPosition();
-// 		CCSize tianzige_draw_size = getSprite()->getContentSize();
-// 
-// 		CCMenuItemImage* rewriteButton = CCMenuItemImage::create("rewrite.png",
-// 			"rewrite.png",
-// 			this,
-// 			menu_selector(HcharacterLayer::rewrite));
-// 		CCPoint rewrite_position = ccp(tianzige_draw_position.x + tianzige_draw_size.width/2+20+rewriteButton->getContentSize().width/2,tianzige_draw_position.y+tianzige_draw_size.height/2-rewriteButton->getContentSize().height/2);
-// 		rewriteButton->setPosition(rewrite_position);
-// 		CCMenu* menu = CCMenu::create(rewriteButton,NULL);
-// 		menu->setPosition(0,0);
-// 		this->addChild(menu,200);
+		CCPoint tianzige_draw_position = getSprite()->getPosition();
+		CCSize tianzige_draw_size = getSprite()->getContentSize();
+
+		CCMenuItemImage* rewriteButton = CCMenuItemImage::create("rewrite.png",
+			"rewrite.png",
+			this,
+			menu_selector(HcharacterLayer::rewrite));
+		CCPoint rewrite_position = ccp(tianzige_draw_position.x + tianzige_draw_size.width/2+20+rewriteButton->getContentSize().width/2,tianzige_draw_position.y+tianzige_draw_size.height/2-rewriteButton->getContentSize().height/2);
+		rewriteButton->setPosition(rewrite_position);
+		CCMenu* menu = CCMenu::create(rewriteButton,NULL);
+		menu->setPosition(0,0);
+		this->addChild(menu,200);
 		return true;
 	}
 	return false;

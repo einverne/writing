@@ -65,9 +65,13 @@ bool BackgroundLayer::init(){
 
 void BackgroundLayer::menuBack(CCObject* pSender){
 /*	CCDirector::sharedDirector()->popScene();*/
+	this->unscheduleAllSelectors();
+	CCDirector::sharedDirector()->getTouchDispatcher()->removeAllDelegates();
 	CCDirector::sharedDirector()->replaceScene(WallScene::scene());
 }
 
 void BackgroundLayer::keyBackClicked(){
+	this->unscheduleAllSelectors();
+	CCDirector::sharedDirector()->getTouchDispatcher()->removeAllDelegates();
 	CCDirector::sharedDirector()->replaceScene(WallScene::scene());
 }

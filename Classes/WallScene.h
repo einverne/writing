@@ -11,7 +11,6 @@ USING_NS_CC;
 class WallScene : public CCLayer
 {
 public:
-	~WallScene();
 	vector<CHanziManage> hanzilist;
 	string selectedHanzi;
 	float rescale;
