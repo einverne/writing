@@ -3,7 +3,7 @@
 #include "RightZiAnimationAction.h"
 
 TcharacterLayer::TcharacterLayer():m_sprite(NULL),
-	m_TDrawnode(NULL)
+	m_TDrawnode(NULL),isPause(false)
 {
 
 }
@@ -75,5 +75,17 @@ void TcharacterLayer::onExit(){
 void TcharacterLayer::refresh(CCObject* pSender){
 	CCLog("TcharacterLayer::refresh");
 	RightZiAnimationAction* animation = RightZiAnimationAction::create(2.0);
-	m_TDrawnode->runAction(animation);
+	if (m_TDrawnode->getActionManager()->numberOfRunningActionsInTarget(m_TDrawnode) <= 0)
+	{
+		m_TDrawnode->runAction(animation);
+	}else if(!isPause)
+	{
+		this->getActionManager()->pauseTarget(m_TDrawnode);
+		isPause = true;
+	}else if (isPause)
+	{
+		this->getActionManager()->resumeTarget(m_TDrawnode);
+		isPause = false;
+	}
+
 }

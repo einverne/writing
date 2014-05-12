@@ -295,6 +295,7 @@ void WallScene::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 	CCTouch* pTouch = (CCTouch*)pTouches->anyObject();
 
 	touchbeginpoint = ccp(pTouch->getLocation().x , pTouch->getLocation().y);
+	prePoint = touchbeginpoint;
 	touched=true;
 
 	beginTime = millisecondNow();
@@ -344,7 +345,10 @@ void WallScene::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
 void WallScene::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 	CCTouch* pTouch = (CCTouch*)pTouches->anyObject();
 	long endTime = millisecondNow();
-	if (endTime-beginTime < 250 && isMoved==false)
+	float length = ccpDistance(prePoint,pTouch->getLocation());
+	CCLog("length:%f  %f",length,endTime-beginTime);
+
+	if (endTime-beginTime < 1000 && length <= 50)
 	{
 		//single click
 		CCPoint touchpoint = pTouch->getLocation();

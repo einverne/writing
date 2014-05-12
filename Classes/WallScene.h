@@ -16,6 +16,7 @@ public:
 	float rescale;
 
 	CCPoint touchbeginpoint;
+	CCPoint prePoint;
 	CCPoint changepoint;
 	bool touched;
 	bool isMoved;

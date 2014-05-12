@@ -22,6 +22,8 @@ public:
 	void refresh(CCObject* pSender);
 	CC_SYNTHESIZE_RETAIN(TcharacterDrawnode*, m_TDrawnode,m_TDrawnode);
 	CC_SYNTHESIZE_RETAIN(CCSprite*,m_sprite,Sprite);
+private:
+	bool isPause;
 };
 
 
