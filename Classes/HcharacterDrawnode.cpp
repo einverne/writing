@@ -7,6 +7,7 @@ HcharacterDrawnode::HcharacterDrawnode():strokeDrawlist(NULL)
 
 HcharacterDrawnode::~HcharacterDrawnode()
 {
+	getStrokeDrawnodeList()->release();
 	CC_SAFE_RELEASE(strokeDrawlist);
 }
 
@@ -21,6 +22,7 @@ void HcharacterDrawnode::onExit(){
 
 bool HcharacterDrawnode::init(){
 	this->setStrokeDrawnodeList(CCArray::create());
+	getStrokeDrawnodeList()->retain();
 	return true;
 }
 
@@ -31,14 +33,14 @@ void HcharacterDrawnode::draw(){
 // 		(*iter)->draw();
 // 	}
 	CCObject* ob;
-	CCARRAY_FOREACH(strokeDrawlist,ob){
+	CCARRAY_FOREACH(getStrokeDrawnodeList(),ob){
 		((StrokeDrawnode*)(ob))->draw();
 	}
 }
 
 void HcharacterDrawnode::addPoint(CCPoint point){
 // 	(strokeDrawlist.at(strokeDrawlist.size()-1))->addPoint(point);
-	StrokeDrawnode* t = (StrokeDrawnode*)(strokeDrawlist->objectAtIndex(strokeDrawlist->count()-1));
+	StrokeDrawnode* t = (StrokeDrawnode*)(getStrokeDrawnodeList()->objectAtIndex(getStrokeDrawnodeList()->count()-1));
 	t->addPoint(point);
 }
 
@@ -46,13 +48,13 @@ void HcharacterDrawnode::addStroke(Stroke s){
 // 	StrokeDrawnode* drawnode = StrokeDrawnode::create(s);
 // 	this->strokeDrawlist.push_back(drawnode);
 // 	drawnode->retain();
-	strokeDrawlist->addObject(StrokeDrawnode::create(s));
+	getStrokeDrawnodeList()->addObject(StrokeDrawnode::create(s));
 }
 
 void HcharacterDrawnode::removeLastStroke(){
 // 	(strokeDrawlist.at(strokeDrawlist.size()-1))->release();
 // 	this->strokeDrawlist.pop_back();
-	strokeDrawlist->removeLastObject();
+	getStrokeDrawnodeList()->removeLastObject();
 }
 
 void HcharacterDrawnode::changeStroke(int index,Stroke s){
@@ -60,9 +62,17 @@ void HcharacterDrawnode::changeStroke(int index,Stroke s){
 // 	HcharacterLayer* layer = (HcharacterLayer*)this->getParent();
 // 	CCSprite* tianzige = (CCSprite*)layer->getSprite();
 // 	temp->setPosition(tianzige->getPosition()-ccp(tianzige->getContentSize().width/2,tianzige->getContentSize().height/2));
-	strokeDrawlist->replaceObjectAtIndex(index,temp);
+	getStrokeDrawnodeList()->replaceObjectAtIndex(index,temp);
 }
 
 Stroke HcharacterDrawnode::getStroke(int index){
-	return ((StrokeDrawnode*)strokeDrawlist->objectAtIndex(index))->getStroke();
+	return ((StrokeDrawnode*)getStrokeDrawnodeList()->objectAtIndex(index))->getStroke();
+}
+
+void HcharacterDrawnode::rewrite(){
+	CCLog("rewrite:	");
+	while (getStrokeDrawnodeList()->lastObject() != NULL)
+	{
+		getStrokeDrawnodeList()->removeLastObject(true);
+	}
 }

@@ -120,8 +120,8 @@ void HcharacterLayer::judge(){
 	if (ret == "0\r\n")
 	{
 		//ÕâÒ»±ÊÐ´´í
-		this->m_HDrawnode->removeLastStroke();
-		int t = m_HDrawnode->getStrokeDrawnodeList()->count();
+		this->getm_HDrawnode()->removeLastStroke();
+		int t = getm_HDrawnode()->getStrokeDrawnodeList()->count();
 		ostringstream ostr;
 		ostr << t;
 		bihuaCount->setString(ostr.str().c_str());
@@ -129,7 +129,7 @@ void HcharacterLayer::judge(){
 	}else
 	{
 		//Ð´¶Ô
-		int t=m_HDrawnode->getStrokeDrawnodeList()->count();
+		int t=getm_HDrawnode()->getStrokeDrawnodeList()->count();
 		ostringstream ostr;
 		ostr << t;
 		bihuaCount->setString(ostr.str().c_str());
@@ -140,7 +140,7 @@ void HcharacterLayer::judge(){
 // 		CCPoint deltpoint = this->m_sprite_draw->getPosition()-ccp(m_sprite_draw->getContentSize().width/2,m_sprite_draw->getContentSize().height/2);
 // 		temp.addEveryPoint(deltpoint);
 // 		MoveToRightPlace* place = MoveToRightPlace::create(t-1,temp);
-		MoveToRightPlaceInterval* place = MoveToRightPlaceInterval::create(2,t-1,temp);
+		MoveToRightPlaceInterval* place = MoveToRightPlaceInterval::create(1,t-1,temp);
 		m_HDrawnode->runAction(place);
 	}
 }
@@ -168,4 +168,10 @@ void HcharacterLayer::onExit(){
 
 void HcharacterLayer::rewrite(CCObject* pSender){
 	CCLog("HcharacterLayer::rewrite");
+	if (this->getActionManager()->numberOfRunningActionsInTarget(getm_HDrawnode()) <= 0)
+	{
+		this->getm_HDrawnode()->rewrite();
+		this->getbihuaCount()->setString("0");
+		this->getduicuo()->setString("");
+	}
 }
