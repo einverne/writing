@@ -1,5 +1,4 @@
 #include "Splash.h"
-#include "GameWall.h"
 #include "WallScene.h"
 
 USING_NS_CC;

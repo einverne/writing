@@ -1,6 +1,5 @@
 #include "WallScene.h"
 #include "tinyxml.h" 
-#include "lianxi.h"
 #include "PopLayer.h"
 #include "tools/DataTool.h"
 #include "LianxiScene.h"
@@ -144,7 +143,7 @@ bool WallScene::init()
 			this->addChild(pSprite1, 1);
 
 			//нд╠╬©Р
-			CCLabelTTF* pLabel = CCLabelTTF::create(temphanzi.c_str(), "Zapfino", 100);
+			CCLabelTTF* pLabel = CCLabelTTF::create(temphanzi.c_str(), "XingShu", 100);
 			pLabel->setPosition(ccp(origin.x + x, origin.y + y));
 			this->addChild(pLabel, 2);
 
@@ -321,7 +320,10 @@ void WallScene::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 void WallScene::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
 	CCLog("ccTouchesMoved");
 	CCTouch* pTouch = (CCTouch*)pTouches->anyObject();
-	isMoved = true;
+	if (ccpDistance(prePoint,pTouch->getLocation()) > 50)
+	{
+		isMoved = true;
+	}
 	CCPoint newpos=ccp(pTouch->getLocation().x , pTouch->getLocation().y);
 	CCPoint temppoint=ccp(newpos.x-touchbeginpoint.x, newpos.y-touchbeginpoint.y);
 	changepoint =ccp(changepoint.x+temppoint.x, changepoint.y+temppoint.y);

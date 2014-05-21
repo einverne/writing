@@ -80,12 +80,12 @@ const char* PopLayer::getHanzi(){
 }
 
 void PopLayer::setTitle(const char* title, int fontsize){
-	CCLabelTTF* ltfTitle = CCLabelTTF::create(title,"",fontsize);
+	CCLabelTTF* ltfTitle = CCLabelTTF::create(title,"XingShu",fontsize);
 	setLabelTitle(ltfTitle);
 }
 
 void PopLayer::setContentText(const char* text, int fontsize, int padding , int paddingTop){
-	CCLabelTTF* ltf = CCLabelTTF::create(text, "", fontsize);
+	CCLabelTTF* ltf = CCLabelTTF::create(text, "XingShu", fontsize);
 	setLabelContentText(ltf);
 	m_contentPadding = padding;
 	m_contentPaddingTop = paddingTop;
@@ -112,7 +112,7 @@ bool PopLayer::addButton(const char* normalImage,const char* selectedImage ,cons
 
 	// 添加文字说明并设置位置
 	CCSize imenu = menuImage->getContentSize();
-	CCLabelTTF* ttf = CCLabelTTF::create(title, "", 20);
+	CCLabelTTF* ttf = CCLabelTTF::create(title, "XingShu", 20);
 	ttf->setColor(ccc3(0, 0, 0));
 	ttf->setPosition(ccp(imenu.width / 2, imenu.height / 2));
 	menuImage->addChild(ttf);

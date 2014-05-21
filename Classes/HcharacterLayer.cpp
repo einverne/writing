@@ -37,11 +37,11 @@ bool HcharacterLayer::init(string hanzi,CCSprite* tianzige_draw){
 		m_HDrawnode->setPosition(m_sprite_draw->getPosition()-ccp(m_sprite_draw->getContentSize().width/2,m_sprite_draw->getContentSize().height/2));
 		this->addChild(m_HDrawnode);
 
-		this->setbihuaCount(CCLabelTTF::create("bihua","Arial",50));
+		this->setbihuaCount(CCLabelTTF::create("bihua","Marker Felt",50));
 		this->addChild(bihuaCount,2000);
 		bihuaCount->setPosition(tianzige_draw->getPosition()+ccp(0,tianzige_draw->getContentSize().height/2 + bihuaCount->getContentSize().height));
 		
-		this->setduicuo(CCLabelTTF::create("wu","Arial",50));
+		this->setduicuo(CCLabelTTF::create("wu","Marker Felt",50));
 		this->addChild(duicuo,2000);
 		duicuo->setPosition(ccp(40,tianzige_draw->getPositionY()));
 
