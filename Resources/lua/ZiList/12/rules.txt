@@ -1,0 +1,30 @@
+//##begin
+//##0:110003:----------------------------------
+local bh0 = GetBH(0)
+if(IsShu(bh0,bl) == true) then 
+trace("1")
+else 
+trace("0")
+end
+//##1:110018:----------------------------------
+local bh1 = GetBH(1)
+if(IsHengZhe(bh1,bl)==true) then
+trace("1")
+else
+trace("0")
+end
+//##2:110009:----------------------------------
+local bh2 = GetBH(2)
+if(IsPie(bh2,bl) ==true) then 
+trace("1")
+else
+trace("0")
+end
+//##3:110004:----------------------------------
+local bh3 = GetBH(3)
+if(IsDian(bh3,bl) == true) then 
+trace("1")
+else
+trace("0")
+end
+//##end

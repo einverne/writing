@@ -1,4 +1,4 @@
-function  IsPie(bh,bl)
+function IsPie(bh,bl)
 if ( bl < 1 ) then  return false end
 local spt = GetStartPoint(bh)
 local ept = GetEndPoint(bh)
@@ -30,8 +30,7 @@ return true
 
 end
 
-
-function  IsNa(bh,bl)
+function IsNa(bh,bl)
 if (bl < 1) then return  end
 local spt = GetStartPoint(bh)
 local ept = GetEndPoint(bh)
@@ -54,5 +53,3 @@ end
 return true
 
 end
-
-

@@ -37,10 +37,6 @@ bool PopLayer::init(){
 		menu->setPosition(CCPointZero);
 		setMenuButton(menu);
 
-		//添加输入框
-		CCEditBox* editbox = CCEditBox::create(CCSizeMake(200,400),CCScale9Sprite::create("blue-shooting-stars.png"));
-		setEditBoxHanzi(editbox);
-		//
 		setTouchEnabled(true);
 		bRef = true;
 	} while (0);
@@ -53,6 +49,13 @@ void PopLayer::registerWithTouchDispatcher(){
 
 bool PopLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){
 	return true;
+}
+
+PopLayer* PopLayer::create(const char* backgroundImage){
+	PopLayer* l = PopLayer::create();
+	l->setSpriteBackGround(CCSprite::create(backgroundImage));
+	l->setSprite9BackGround(CCScale9Sprite::create(backgroundImage));
+	return l;
 }
 
 PopLayer* PopLayer::create(const string hanzi,const char* backgroundImage){
@@ -77,15 +80,21 @@ const char* PopLayer::getHanzi(){
 }
 
 void PopLayer::setTitle(const char* title, int fontsize){
-	CCLabelTTF* ltfTitle = CCLabelTTF::create(title,"",fontsize);
+	CCLabelTTF* ltfTitle = CCLabelTTF::create(title,"XingShu",fontsize);
 	setLabelTitle(ltfTitle);
 }
 
 void PopLayer::setContentText(const char* text, int fontsize, int padding , int paddingTop){
-	CCLabelTTF* ltf = CCLabelTTF::create(text, "", fontsize);
+	CCLabelTTF* ltf = CCLabelTTF::create(text, "XingShu", fontsize);
 	setLabelContentText(ltf);
 	m_contentPadding = padding;
 	m_contentPaddingTop = paddingTop;
+}
+
+void PopLayer::setEditBox(){
+	//添加输入框
+	CCEditBox* editbox = CCEditBox::create(CCSizeMake(200,100),CCScale9Sprite::create("HelloWorld.png"));
+	setEditBoxHanzi(editbox);
 }
 
 void PopLayer::setCallBackFunc(CCObject* targer, SEL_CallFuncN callfun){
@@ -103,7 +112,7 @@ bool PopLayer::addButton(const char* normalImage,const char* selectedImage ,cons
 
 	// 添加文字说明并设置位置
 	CCSize imenu = menuImage->getContentSize();
-	CCLabelTTF* ttf = CCLabelTTF::create(title, "", 20);
+	CCLabelTTF* ttf = CCLabelTTF::create(title, "XingShu", 20);
 	ttf->setColor(ccc3(0, 0, 0));
 	ttf->setPosition(ccp(imenu.width / 2, imenu.height / 2));
 	menuImage->addChild(ttf);
@@ -176,8 +185,8 @@ void PopLayer::onEnter(){
 		CCEditBox* editbox = getEditBoxHanzi();
 		editbox->setPosition(ccp(winSize.width/2,winSize.height/2));
 		editbox->setTouchPriority(-128);	//设置触摸优先级，越小优先级越高
-		editbox->setPlaceHolder("hanzi");
-		editbox->setText("hanzi");
+		editbox->setPlaceHolder(hanzi.c_str());
+		editbox->setText(hanzi.c_str());
 		editbox->setMaxLength(1);
 		//设置键盘输入模式
 		editbox->setInputMode(kEditBoxInputModeAny);
@@ -195,7 +204,6 @@ void PopLayer::onEnter(){
 }
 
 void PopLayer::onExit(){
-
-	CCLog("popup on exit.");
 	CCLayer::onExit();
+	CCLog("popup on exit.");
 }

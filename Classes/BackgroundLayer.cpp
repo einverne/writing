@@ -14,6 +14,7 @@ bool BackgroundLayer::init(){
 	if (CCLayer::init())
 	{
 		CCLog("Background init");
+		this->setKeypadEnabled(true);
 		//add background picture
 		CCSize winSize = CCDirector::sharedDirector()->getWinSize(); 
 		CCSize visiableSize = CCDirector::sharedDirector()->getVisibleSize();
@@ -38,11 +39,16 @@ bool BackgroundLayer::init(){
 		bg->setScaleX(visiableSize.width/bg->getContentSize().width);
 		bg->setScaleY((visiableSize.height-headSize.height-tailSize.height)/bg->getContentSize().height);
 
-		CCLabelTTF* back = CCLabelTTF::create("BACK","Arial",25);
-		CCMenuItemLabel* menuLabel = CCMenuItemLabel::create(back,this,menu_selector(BackgroundLayer::menuBack));
-		CCMenu* menu = CCMenu::create(menuLabel,NULL);
+// 		CCLabelTTF* back = CCLabelTTF::create("BACK","Arial",25);
+		CCMenuItemImage* back = CCMenuItemImage::create("back_1.png",
+			"back_2.png",
+			this,
+			menu_selector(BackgroundLayer::menuBack));
+// 		CCMenuItemLabel* menuLabel = CCMenuItemLabel::create(back,this,menu_selector(BackgroundLayer::menuBack));
+		CCMenu* menu = CCMenu::create(back,NULL);
 		this->addChild(menu,20);
-		menuLabel->setPosition(ccp(back->getContentSize().width/2+100,back->getContentSize().height+30));
+// 		back->setPosition(ccp(winSize.width - back->getContentSize().width/2 - 100,back->getContentSize().height+30));
+		back->setPosition(ccp(winSize.width - back->getContentSize().width/2 ,back->getContentSize().height/2));
 		menu->setPosition(CCPointZero);
 
 
@@ -64,5 +70,13 @@ bool BackgroundLayer::init(){
 
 void BackgroundLayer::menuBack(CCObject* pSender){
 /*	CCDirector::sharedDirector()->popScene();*/
+	this->unscheduleAllSelectors();
+	CCDirector::sharedDirector()->getTouchDispatcher()->removeAllDelegates();
+	CCDirector::sharedDirector()->replaceScene(WallScene::scene());
+}
+
+void BackgroundLayer::keyBackClicked(){
+	this->unscheduleAllSelectors();
+	CCDirector::sharedDirector()->getTouchDispatcher()->removeAllDelegates();
 	CCDirector::sharedDirector()->replaceScene(WallScene::scene());
 }

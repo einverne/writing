@@ -14,7 +14,7 @@ TouchLayer::~TouchLayer()
 }
 
 bool TouchLayer::init(TcharacterLayer* t,HcharacterLayer* h){
-	CCLog("TouchLayer init()");
+//	CCLog("TouchLayer init()");
 	if (CCLayerColor::initWithColor(ccc4(255,255,255,255)))
 	{
 		this->isOutside = false;
@@ -65,6 +65,7 @@ void TouchLayer::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 	CCLog("TouchLayer::ccTouchesBegan getLocationInView x= %f, y= %f",touchpoint.x,touchpoint.y);
 	touchpoint = CCDirector::sharedDirector()->convertToUI(touchpoint);
 	CCLog("TouchLayer::ccTouchesBegan convertToUI x= %f, y= %f",touchpoint.x,touchpoint.y);
+	this->beginPoint = touchpoint;
 	CCSprite* tianzige = Hlayer->getSprite();
 	if (tianzige->boundingBox().containsPoint(touchpoint))
 	{
@@ -114,8 +115,7 @@ void TouchLayer::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
 	//CCLog("isStartOutside = %d, isOutside = %d",isStartOutside,isOutside);
 }
 void TouchLayer::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
-	CCLog("TouchLayer TouchesEnded");
-	CCLog("TouchLayer m_uRef: %d",this->m_uReference);
+	CCLog("TouchLayer TouchesEnded m_uRef: %d",this->m_uReference);
 	if (Hlayer->getm_HDrawnode()->getStrokeDrawnodeList()->count() > Tlayer->getm_TDrawnode()->getCharacter().getStrokeCount())
 	{
 		return;
@@ -123,6 +123,17 @@ void TouchLayer::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 	CCPoint touchp = ((CCTouch*)pTouches->anyObject())->getLocationInView();
 	touchp = CCDirector::sharedDirector()->convertToUI(touchp);
 	CCSprite* tianzige = Hlayer->getSprite();
+	if (this->beginPoint.equals(touchp) && tianzige->boundingBox().containsPoint(touchp))
+	{
+		Hlayer->getm_HDrawnode()->removeLastStroke();
+	}
+	if (this->beginPoint.equals(touchp))
+	{
+		isStartOutside = false;
+		isOutside = false;
+		points.clear();
+		return;
+	}
 	if (isStartOutside)
 	{
 		isStartOutside = false;

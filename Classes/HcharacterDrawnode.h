@@ -70,6 +70,8 @@ public:
 	//************************************
 	Stroke getStroke(int index);
 
+	void rewrite();
+
 // 	vector<StrokeDrawnode*> getStrokeDrawnodeList(){ return this->strokeDrawlist; }
 // 	vector<StrokeDrawnode*> strokeDrawlist;
 	CC_SYNTHESIZE_RETAIN(CCArray*,strokeDrawlist,StrokeDrawnodeList);

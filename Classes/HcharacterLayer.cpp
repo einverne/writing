@@ -37,13 +37,27 @@ bool HcharacterLayer::init(string hanzi,CCSprite* tianzige_draw){
 		m_HDrawnode->setPosition(m_sprite_draw->getPosition()-ccp(m_sprite_draw->getContentSize().width/2,m_sprite_draw->getContentSize().height/2));
 		this->addChild(m_HDrawnode);
 
-		this->setbihuaCount(CCLabelTTF::create("bihua","Arial",50));
+		this->setbihuaCount(CCLabelTTF::create("bihua","Marker Felt",50));
 		this->addChild(bihuaCount,2000);
 		bihuaCount->setPosition(tianzige_draw->getPosition()+ccp(0,tianzige_draw->getContentSize().height/2 + bihuaCount->getContentSize().height));
 		
-		this->setduicuo(CCLabelTTF::create("wu","Arial",50));
+		this->setduicuo(CCLabelTTF::create("wu","Marker Felt",50));
 		this->addChild(duicuo,2000);
 		duicuo->setPosition(ccp(40,tianzige_draw->getPositionY()));
+
+
+		CCPoint tianzige_draw_position = getSprite()->getPosition();
+		CCSize tianzige_draw_size = getSprite()->getContentSize();
+
+		CCMenuItemImage* rewriteButton = CCMenuItemImage::create("rewrite.png",
+			"rewrite.png",
+			this,
+			menu_selector(HcharacterLayer::rewrite));
+		CCPoint rewrite_position = ccp(tianzige_draw_position.x + tianzige_draw_size.width/2+20+rewriteButton->getContentSize().width/2,tianzige_draw_position.y+tianzige_draw_size.height/2-rewriteButton->getContentSize().height/2);
+		rewriteButton->setPosition(rewrite_position);
+		CCMenu* menu = CCMenu::create(rewriteButton,NULL);
+		menu->setPosition(0,0);
+		this->addChild(menu,200);
 		return true;
 	}
 	return false;
@@ -106,8 +120,8 @@ void HcharacterLayer::judge(){
 	if (ret == "0\r\n")
 	{
 		//ÕâÒ»±ÊÐ´´í
-		this->m_HDrawnode->removeLastStroke();
-		int t = m_HDrawnode->getStrokeDrawnodeList()->count();
+		this->getm_HDrawnode()->removeLastStroke();
+		int t = getm_HDrawnode()->getStrokeDrawnodeList()->count();
 		ostringstream ostr;
 		ostr << t;
 		bihuaCount->setString(ostr.str().c_str());
@@ -115,7 +129,7 @@ void HcharacterLayer::judge(){
 	}else
 	{
 		//Ð´¶Ô
-		int t=m_HDrawnode->getStrokeDrawnodeList()->count();
+		int t=getm_HDrawnode()->getStrokeDrawnodeList()->count();
 		ostringstream ostr;
 		ostr << t;
 		bihuaCount->setString(ostr.str().c_str());
@@ -126,7 +140,7 @@ void HcharacterLayer::judge(){
 // 		CCPoint deltpoint = this->m_sprite_draw->getPosition()-ccp(m_sprite_draw->getContentSize().width/2,m_sprite_draw->getContentSize().height/2);
 // 		temp.addEveryPoint(deltpoint);
 // 		MoveToRightPlace* place = MoveToRightPlace::create(t-1,temp);
-		MoveToRightPlaceInterval* place = MoveToRightPlaceInterval::create(2,t-1,temp);
+		MoveToRightPlaceInterval* place = MoveToRightPlaceInterval::create(1,t-1,temp);
 		m_HDrawnode->runAction(place);
 	}
 }
@@ -150,4 +164,14 @@ void HcharacterLayer::onEnter(){
 
 void HcharacterLayer::onExit(){
 	CCLayer::onEnter();
+}
+
+void HcharacterLayer::rewrite(CCObject* pSender){
+	CCLog("HcharacterLayer::rewrite");
+	if (this->getActionManager()->numberOfRunningActionsInTarget(getm_HDrawnode()) <= 0)
+	{
+		this->getm_HDrawnode()->rewrite();
+		this->getbihuaCount()->setString("0");
+		this->getduicuo()->setString("");
+	}
 }

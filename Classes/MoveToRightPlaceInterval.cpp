@@ -48,8 +48,8 @@ bool MoveToRightPlaceInterval::init(float duration,int index,Stroke s){
 }
 
 void MoveToRightPlaceInterval::update(float time){
-	CCLog("MoveToRightPlaceInterval::update time = %f",time);
-	CCActionInterval::update(time);
+// 	CCLog("MoveToRightPlaceInterval::update time = %f",time);
+// 	CCActionInterval::update(time);
 	Stroke stro = ((HcharacterDrawnode*)m_pTarget)->getStroke(index);
 	stro.resample();
 	for (int i = 0; i < this->m_stroke.pointList.size() ; i++)

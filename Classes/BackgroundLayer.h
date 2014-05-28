@@ -11,6 +11,7 @@ public:
 	BackgroundLayer();
 	~BackgroundLayer();
 	virtual bool init();
+	virtual void keyBackClicked();
 	CREATE_FUNC(BackgroundLayer);
 	CCSprite* tianzige;
 	CCSprite* tianzige_draw;

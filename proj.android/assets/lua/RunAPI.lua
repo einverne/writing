@@ -1,4 +1,4 @@
-﻿local math = math
+local math = math
 strokeRuleNode = {index = 0, codes = ""}
 unitRuleNode = {index = 0, zistrokeRules = {}}
 
@@ -107,7 +107,7 @@ baseFuncs.setWZEnv(WZ)
 function RunZiRule(bhNum)
 	local header = [[setmetatable(baseFuncs,{__index= _G})
 	setfenv(1,baseFuncs)]] .."\n"
-	local pre = header .."\n" .."local bhNum ="..tostring (bhNum) .."\n".."local bl = 3"
+	local pre = header .."\n" .."local bhNum ="..tostring (bhNum) .."\n".."local bl = 1"
 	local allzirule = table.concat(NewZiRuleArr)
 	local result = pre.."\n"..allzirule
 

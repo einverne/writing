@@ -15,16 +15,61 @@ public:
 	virtual bool init();
 	CREATE_FUNC(PopLayer);
 
+	/**
+	 * create a PopLayer just with backgroundImage
+	 * @param backgroundImage
+	 * @return
+	 */
+	static PopLayer* create(const char* backgroundImage);
+
+	/**
+	* create a PopLayer with hanzi and backgroundImage
+	* @param hanzi
+	* @param backgroundImage
+	* @return
+	*/
 	static PopLayer* create(const string hanzi,const char* backgroundImage);
 
 	virtual void registerWithTouchDispatcher();
 	bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
 
+	/**
+	* setTitle
+	* @param title
+	* @param fontsize default fontsize = 20
+	* @return
+	*/
 	void setTitle(const char* title, int fontsize = 20);
+
+	/**
+	* setContentText
+	* @param text
+	* @param fontsize
+	* @param padding
+	* @param paddingTop
+	* @return
+	*/
 	void setContentText(const char* text, int fontsize = 20,int padding = 50, int paddingTop = 100);
 
+
+	void setEditBox();
+
+	/**
+	* 
+	* @param targer
+	* @param callfun
+	* @return
+	*/
 	void setCallBackFunc(CCObject* targer, SEL_CallFuncN callfun);
 
+	/**
+	* add Button
+	* @param normalImage
+	* @param seletedImage
+	* @param title
+	* @param tag
+	* @return
+	*/
 	bool addButton(const char* normalImage,const char* seletedImage ,const char* title, int tag=0);
 	void setHanzi(string h);
 	const char* getHanzi();

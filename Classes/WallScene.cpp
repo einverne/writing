@@ -1,11 +1,12 @@
 #include "WallScene.h"
 #include "tinyxml.h" 
-#include "lianxi.h"
 #include "PopLayer.h"
 #include "tools/DataTool.h"
 #include "LianxiScene.h"
 
 USING_NS_CC;
+
+#define TAG_LAYER_EXIT 1001
 
 //////////////////////////////////////////
 CCScene* WallScene::scene()
@@ -63,14 +64,15 @@ bool WallScene::init()
 	//////////////////////////////////////////////////////////////////////////////
 	//添加地图：
 	//1.读取xml文件，确定缩放比例//
-	string myfilename=CCFileUtils::sharedFileUtils()->fullPathForFilename("wall.xml");
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	string myfilename = CCFileUtils::sharedFileUtils()->getWritablePath()+"wall.xml";
 	unsigned long size = 0;
 	char* pFileContent = (char*)CCFileUtils::sharedFileUtils()->getFileData(myfilename.c_str(),"r",&size);
 	TiXmlDocument* myDocument = new TiXmlDocument();
 	myDocument->Parse(pFileContent,0,TIXML_ENCODING_UTF8);
 #endif
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+	string myfilename=CCFileUtils::sharedFileUtils()->fullPathForFilename("wall.xml");
 	TiXmlDocument* myDocument = new TiXmlDocument(myfilename.c_str());
 	myDocument->LoadFile();
 #endif
@@ -141,7 +143,7 @@ bool WallScene::init()
 			this->addChild(pSprite1, 1);
 
 			//文本框
-			CCLabelTTF* pLabel = CCLabelTTF::create(temphanzi.c_str(), "Zapfino", 100);
+			CCLabelTTF* pLabel = CCLabelTTF::create(temphanzi.c_str(), "XingShu", 100);
 			pLabel->setPosition(ccp(origin.x + x, origin.y + y));
 			this->addChild(pLabel, 2);
 
@@ -206,6 +208,7 @@ bool WallScene::init()
 	CCPoint changepoint=ccp(0,0);
 	touched=false;
 	this->setTouchEnabled(true);
+	this->setKeypadEnabled(true);			//android back key
 	//原本如果没有重载register那个函数，需要调用如下两个其中之一
 	//CCDirector::sharedDirector()->getTouchDispatcher()->addStandardDelegate(this,1);
 	//CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 0, true);
@@ -291,6 +294,7 @@ void WallScene::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 	CCTouch* pTouch = (CCTouch*)pTouches->anyObject();
 
 	touchbeginpoint = ccp(pTouch->getLocation().x , pTouch->getLocation().y);
+	prePoint = touchbeginpoint;
 	touched=true;
 
 	beginTime = millisecondNow();
@@ -316,7 +320,10 @@ void WallScene::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 void WallScene::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
 	CCLog("ccTouchesMoved");
 	CCTouch* pTouch = (CCTouch*)pTouches->anyObject();
-	isMoved = true;
+	if (ccpDistance(prePoint,pTouch->getLocation()) > 50)
+	{
+		isMoved = true;
+	}
 	CCPoint newpos=ccp(pTouch->getLocation().x , pTouch->getLocation().y);
 	CCPoint temppoint=ccp(newpos.x-touchbeginpoint.x, newpos.y-touchbeginpoint.y);
 	changepoint =ccp(changepoint.x+temppoint.x, changepoint.y+temppoint.y);
@@ -340,7 +347,10 @@ void WallScene::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
 void WallScene::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 	CCTouch* pTouch = (CCTouch*)pTouches->anyObject();
 	long endTime = millisecondNow();
-	if (endTime-beginTime < 250 && isMoved==false)
+	float length = ccpDistance(prePoint,pTouch->getLocation());
+	CCLog("length:%f  %f",length,endTime-beginTime);
+
+	if (endTime-beginTime < 1000 && length <= 50)
 	{
 		//single click
 		CCPoint touchpoint = pTouch->getLocation();
@@ -421,6 +431,7 @@ void WallScene::singleClick(string hanzi){
 	//解除schedule,不然可能出现不可预测问题。
 	this->unscheduleAllSelectors();
 // 	CCDirector::sharedDirector()->replaceScene(lianxi::scene(hanzi));
+	CCDirector::sharedDirector()->getTouchDispatcher()->removeAllDelegates();
 	CCDirector::sharedDirector()->replaceScene(LianxiScene::create(hanzi));
 
 // 	CCDirector::sharedDirector()->pushScene(lianxi::scene(hanzi));
@@ -428,14 +439,15 @@ void WallScene::singleClick(string hanzi){
 }
 
 void WallScene::popup(string hanzi){
-	CCLog("popup wall");
+// 	CCLog("popup wall");
 	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
 	popL = PopLayer::create(hanzi,"pop/background.png");
 	popL->setContentSize(CCSizeMake(winSize.width*0.75,winSize.height*0.75));
 	popL->setTitle("test");
+	popL->setEditBox();
 	popL->setCallBackFunc(this,callfuncN_selector(WallScene::buttonCallBack));
-	popL->addButton("Button1.png","Button1.png","Y",0);
-	popL->addButton("Button2.png","Button2.png","N",1);
+	popL->addButton("sure.png","sure.png","Y",0);
+	popL->addButton("cancer.png","cancer.png","N",1);
 	CCDirector::sharedDirector()->getRunningScene()->addChild(popL,100);
 	//解除定时器
 	CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(WallScene::longPressUpdate),this);
@@ -482,7 +494,12 @@ void WallScene::longPressUpdate(float fDelta){
 
 void WallScene::saveToFile(string src,const char* dst){
 	int i = 0;
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 	string myfilename=CCFileUtils::sharedFileUtils()->fullPathForFilename("wall.xml");
+#endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	string myfilename = CCFileUtils::sharedFileUtils()->getWritablePath()+"wall.xml";
+#endif
 	TiXmlDocument* myDocument = new TiXmlDocument(myfilename.c_str());
 	myDocument->LoadFile();
 
@@ -517,7 +534,30 @@ void WallScene::saveToFile(string src,const char* dst){
 		}
 		stone = stone->NextSiblingElement();
 	}
-	myDocument->SaveFile("wall.xml");
-
+	bool ret = myDocument->SaveFile(myfilename.c_str());
 }
 
+void WallScene::keyBackClicked(){
+	CCLog("WallScene::keyBackClicked");
+	if (CCDirector::sharedDirector()->getRunningScene()->getChildByTag(TAG_LAYER_EXIT) == NULL) {
+		CCLog("WallScene::NULL");
+		CCSize winSize = CCDirector::sharedDirector()->getWinSize();
+		PopLayer* exitDialog = PopLayer::create("pop/background.png");
+		exitDialog->setContentSize(CCSizeMake(winSize.width*0.8,winSize.height*0.5));
+		exitDialog->setTitle("Exit",50);
+		exitDialog->setContentText("Are you sure to exit app!",60,100,150);
+		exitDialog->setCallBackFunc(this,callfuncN_selector(WallScene::isExit));
+		exitDialog->addButton("sure.png","sure.png","Y",0);
+		exitDialog->addButton("cancer.png","cancer.png","N",1);
+		CCDirector::sharedDirector()->getRunningScene()->addChild(exitDialog,100,TAG_LAYER_EXIT);
+	}
+}
+
+void WallScene::isExit(CCNode* pNode){
+	if (pNode->getTag() == 0) {
+		//if click Y , end app
+		CCDirector::sharedDirector()->end();
+	}else {
+		CCDirector::sharedDirector()->getRunningScene()->removeChildByTag(TAG_LAYER_EXIT);
+	}
+}

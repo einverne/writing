@@ -16,6 +16,7 @@ public:
 	float rescale;
 
 	CCPoint touchbeginpoint;
+	CCPoint prePoint;
 	CCPoint changepoint;
 	bool touched;
 	bool isMoved;
@@ -24,6 +25,7 @@ public:
 	virtual bool init();
 	virtual void onEnter();
 	virtual void onExit();
+	virtual void keyBackClicked();
 
 	static cocos2d::CCScene* scene();
 
@@ -33,18 +35,28 @@ public:
 // 	void  ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
 // 	void  ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent);
 
-	void ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent);
-	void ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent);
-	void ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent);
-	void registerWithTouchDispatcher();
+	virtual void ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent);
+	virtual void ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent);
+	virtual void ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent);
+	virtual void registerWithTouchDispatcher();
 
 	// implement the "static node()" method manually
 	CREATE_FUNC(WallScene);
 
-	//弹出对话框
+	/**
+	* 弹出对话框
+	* @param hanzi
+	* @return
+	*/
 	void popup(string hanzi);
 	//对话框回调函数
 	void buttonCallBack(CCNode* pNode);
+
+	/**
+	 * 是否退出
+	 * @param pNode
+	 */
+	void isExit(CCNode* pNode);
 
 	virtual void update(float delta);
 	//长按

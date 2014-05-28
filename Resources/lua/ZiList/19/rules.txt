@@ -1,0 +1,23 @@
+//##begin
+//##0:110003:----------------------------------
+local bh0 = GetBH(0)
+if (IsShu(bh0,bl) == false) then 
+trace("0")
+else
+trace("1")
+end
+//##1:110001:----------------------------------
+local bh1 = GetBH(1)
+if(IsShuZhe(bh1,bl) == false) then 
+trace("0")
+else
+trace("1")
+end
+//##2:110003:----------------------------------
+local bh2 = GetBH(2)
+if(IsShu(bh2,bl) == false) then 
+trace("1")
+else
+trace("0")
+end
+//##end
