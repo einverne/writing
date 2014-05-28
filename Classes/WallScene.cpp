@@ -64,15 +64,15 @@ bool WallScene::init()
 	//////////////////////////////////////////////////////////////////////////////
 	//添加地图：
 	//1.读取xml文件，确定缩放比例//
-	string myfilename=CCFileUtils::sharedFileUtils()->fullPathForFilename("wall.xml");
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-	myfilename = CCFileUtils::sharedFileUtils()->getWritablePath()+"wall.xml";
+	string myfilename = CCFileUtils::sharedFileUtils()->getWritablePath()+"wall.xml";
 	unsigned long size = 0;
 	char* pFileContent = (char*)CCFileUtils::sharedFileUtils()->getFileData(myfilename.c_str(),"r",&size);
 	TiXmlDocument* myDocument = new TiXmlDocument();
 	myDocument->Parse(pFileContent,0,TIXML_ENCODING_UTF8);
 #endif
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+	string myfilename=CCFileUtils::sharedFileUtils()->fullPathForFilename("wall.xml");
 	TiXmlDocument* myDocument = new TiXmlDocument(myfilename.c_str());
 	myDocument->LoadFile();
 #endif
@@ -534,8 +534,7 @@ void WallScene::saveToFile(string src,const char* dst){
 		}
 		stone = stone->NextSiblingElement();
 	}
-	myDocument->SaveFile("wall.xml");
-
+	bool ret = myDocument->SaveFile(myfilename.c_str());
 }
 
 void WallScene::keyBackClicked(){
