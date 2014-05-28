@@ -348,7 +348,7 @@ void WallScene::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 	CCTouch* pTouch = (CCTouch*)pTouches->anyObject();
 	long endTime = millisecondNow();
 	float length = ccpDistance(prePoint,pTouch->getLocation());
-	CCLog("length:%f  %f",length,endTime-beginTime);
+// 	CCLog("length:%f  %f",length,endTime-beginTime);
 
 	if (endTime-beginTime < 1000 && length <= 50)
 	{
@@ -429,10 +429,14 @@ bool WallScene::isInSprite(CCTouch* pTouch){
 /************************************************************************/
 void WallScene::singleClick(string hanzi){
 	//解除schedule,不然可能出现不可预测问题。
-	this->unscheduleAllSelectors();
+	
 // 	CCDirector::sharedDirector()->replaceScene(lianxi::scene(hanzi));
-	CCDirector::sharedDirector()->getTouchDispatcher()->removeAllDelegates();
-	CCDirector::sharedDirector()->replaceScene(LianxiScene::create(hanzi));
+	if (hanzi != "a")
+	{
+		this->unscheduleAllSelectors();
+		CCDirector::sharedDirector()->getTouchDispatcher()->removeAllDelegates();
+		CCDirector::sharedDirector()->replaceScene(LianxiScene::create(hanzi));
+	}
 
 // 	CCDirector::sharedDirector()->pushScene(lianxi::scene(hanzi));
 // 	CCDirector::sharedDirector()->pushScene(LianxiScene::create(hanzi));
