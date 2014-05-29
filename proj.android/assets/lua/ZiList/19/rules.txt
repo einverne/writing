@@ -16,8 +16,8 @@ end
 //##2:110003:----------------------------------
 local bh2 = GetBH(2)
 if(IsShu(bh2,bl) == false) then 
-trace("1")
-else
 trace("0")
+else
+trace("1")
 end
 //##end
