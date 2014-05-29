@@ -1,0 +1,34 @@
+//##begin
+//##0:110009:----------------------------------
+local bh0 = GetBH(0)
+if(IsPie(bh0,bl) == false) then
+trace("0")
+else
+trace("1")
+end
+
+//##1:110014:----------------------------------
+local bh1 = GetBH(1)
+if(IsNa(bh1,bl) == false)then
+trace("0")
+else
+trace("1")
+end
+
+//##2:110009:----------------------------------
+local bh2 = GetBH(2)
+if(IsPie(bh0,bl) == false) then
+trace("0")
+else
+trace("1")
+end
+
+//##3:110003:----------------------------------
+local bh3 = GetBH(3)
+if(IsShu(bh3,bl) == false) then
+trace("0")
+else
+trace("1")
+end
+
+//##end
