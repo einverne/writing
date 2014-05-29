@@ -1,4 +1,4 @@
-﻿<xml>
+<xml>
     <meta>
         <height>1500</height>
         <width>3000</width>
@@ -367,7 +367,7 @@
             <w>234 px</w>
             <h>262 px</h>
             <img>withword/stone_40.png</img>
-            <hanzi>a</hanzi>
+            <hanzi>壮</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
         <stone>
@@ -385,7 +385,7 @@
             <w>194 px</w>
             <h>208 px</h>
             <img>withword/stone_42.png</img>
-            <hanzi>a</hanzi>
+            <hanzi>上</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
         <stone>
@@ -395,7 +395,7 @@
             <w>359 px</w>
             <h>331 px</h>
             <img>withword/stone_43.png</img>
-            <hanzi>a</hanzi>
+            <hanzi>且</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
         <stone>
@@ -413,7 +413,7 @@
             <w>350 px</w>
             <h>392 px</h>
             <img>withword/stone_45.png</img>
-            <hanzi>a</hanzi>
+            <hanzi>千</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
         <stone>
@@ -423,7 +423,7 @@
             <w>337 px</w>
             <h>211 px</h>
             <img>withword/stone_46.png</img>
-            <hanzi>a</hanzi>
+            <hanzi>口</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
         <stone>
@@ -449,7 +449,7 @@
             <w>253 px</w>
             <h>344 px</h>
             <img>withword/stone_49.png</img>
-            <hanzi>a</hanzi>
+            <hanzi>可</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
         <stone>
@@ -459,7 +459,7 @@
             <w>259 px</w>
             <h>226 px</h>
             <img>withword/stone_50.png</img>
-            <hanzi>a</hanzi>
+            <hanzi>刊</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
         <stone>
@@ -469,7 +469,7 @@
             <w>230 px</w>
             <h>447 px</h>
             <img>withword/stone_51.png</img>
-            <hanzi>a</hanzi>
+            <hanzi>开</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
         <stone>
@@ -479,7 +479,7 @@
             <w>233 px</w>
             <h>293 px</h>
             <img>withword/stone_52.png</img>
-            <hanzi>a</hanzi>
+            <hanzi>介</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
         <stone>
@@ -489,7 +489,7 @@
             <w>326 px</w>
             <h>178 px</h>
             <img>withword/stone_53.png</img>
-            <hanzi>a</hanzi>
+            <hanzi>古</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
         <stone>
