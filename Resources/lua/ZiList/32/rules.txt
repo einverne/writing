@@ -1,0 +1,24 @@
+//##begin
+//##0:110006:----------------------------------
+local bh0 = GetBH(0)
+if(IsHengZhe2(bh0,bl) == false) then
+trace("0")
+else
+trace("1")
+end
+//##1:110031:----------------------------------
+local bh1 = GetBH(1)
+if(IsShuZheZheGou(bh1,bl)== false)then
+trace("0")
+else
+trace("1")
+end
+//##2:110007:----------------------------------
+local bh2 = GetBH(2)
+if(IsHeng(bh2,bl) == false) then
+trace("0")
+else
+trace("1")
+end
+
+//##end
