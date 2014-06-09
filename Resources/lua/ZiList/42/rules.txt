@@ -1,0 +1,38 @@
+//##begin
+//##0:110004:----------------------------------
+local bh0 = GetBH(0)
+if(IsDian(bh0,bl) == false) then
+trace("0")
+else
+trace("1")
+end
+//##1:110011:----------------------------------
+local bh1 = GetBH(1)
+if(IsZuoDian(bh1,bl) == false) then
+trace("0")
+else
+trace("1")
+end
+
+//##2:110005:----------------------------------
+local bh2 = GetBH(2)
+if(IsHengGou(bh2,bl) == false) then
+trace("0")
+else
+trace("1")
+end
+//##3:110009:----------------------------------
+local bh3 = GetBH(3)
+if(IsPie(bh3,bl) == false) then
+trace("0")
+else
+trace("1")
+end
+//##4:110002:----------------------------------
+local bh4 = GetBH(4)
+if(IsShuWanGou(bh4,bl) == false) then
+trace("0")
+else
+trace("1")
+end
+//##end
