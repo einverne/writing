@@ -1,0 +1,86 @@
+//##begin
+//##0:110003:----------------------------------
+local bh0 = GetBH(0)
+if(IsShu(bh0,bl) == false) then 
+trace("0")
+else
+trace("1")
+end
+//##1:110018:----------------------------------
+local bh1 = GetBH(1)
+if(IsHengZhe(bh1,bl) == false) then
+trace("0")
+else
+trace("1")
+end
+//##2:110007:----------------------------------
+local bh2 = GetBH(2)
+if(IsHeng(bh2,bl) == false) then
+trace("0")
+else
+trace("1")
+end
+//##3:110007:----------------------------------
+local bh3 = GetBH(3)
+if(IsHeng(bh3,bl) == false) then
+trace("0")
+else
+trace("1")
+end
+//##4:110007:----------------------------------
+local bh4 = GetBH(4)
+if(IsHeng(bh4,bl) == false) then
+trace("0")
+else
+trace("1")
+end
+//##5:110029:----------------------------------
+local bh5 = GetBH(5)
+if(IsShuZheZhe(bh5,bl) == false) then
+trace("0")
+else
+trace("1")
+end
+//##6:110007:----------------------------------
+local bh6 = GetBH(6)
+if(IsHeng(bh6,bl) == false) then
+trace("0")
+else
+trace("1")
+end
+//##7:110009:----------------------------------
+local bh7 = GetBH(7)
+if(IsPie(bh7,bl) == false) then
+trace("0")
+else
+trace("1")
+end
+//##8:110003:----------------------------------
+local bh8 = GetBH(8)
+if(IsShu(bh8,bl) == false) then
+trace("0")
+else
+trace("1")
+end
+//##9:110007:----------------------------------
+local bh9 = GetBH(9)
+if(IsHeng(bh9,bl) == false) then
+trace("0")
+else
+trace("1")
+end
+//##10:110003:----------------------------------
+local bh10 = GetBH(10)
+if(IsShu(bh10,bl) == false) then
+trace("0")
+else
+trace("1")
+end
+//##11:110018:----------------------------------
+local bh11 = GetBH(11)
+if(IsHengZhe(bh11,bl) == false) then
+trace("0")
+else
+trace("1")
+end
+//##end
