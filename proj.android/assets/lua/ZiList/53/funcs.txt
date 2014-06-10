@@ -1,0 +1,129 @@
+function  IsShuWanGou(bh,bl)
+if(bl < 1 ) then return false end
+local spt = GetStartPoint(bh)
+local ept = GetEndPoint(bh)
+if(spt.x > ept.x or spt.y > ept.y) then
+return false
+end
+
+local gnum = GetTurningPtNum(bh,3)
+if(gnum < 1) then
+return false
+end
+
+local tpt0 = GetTurningPt(bh,0)
+local line = GetLine(spt,ept)
+if(Point2LineDown(tpt0,line) == false) then
+return false
+end
+
+return true
+end
+
+
+function  IsHeng(bh,bl)
+if (bl < 1) then return end
+    local startpt = GetStartPoint(bh)
+    local endpt = GetEndPoint(bh)
+    if(startpt.x > endpt.x) then    
+       return false
+    end
+   
+    local slope = (startpt.y - endpt.y) / (endpt.x - startpt.x)
+    local angel = math.deg ( math.atan(slope))   
+    local angelInter
+    local angelFloat
+    angelInter,angelFloat = math.modf (angel)
+    if (angelFloat > 0.5) then
+    angelInter = angelInter + 1
+    end
+    
+    if (math.abs (angelInter )>= 25) then      
+        return false
+    end
+   
+    local line = GetLine(startpt,endpt) 
+    local dis = GetFarthestPt2Line(bh,line)  
+     
+    if( dis > 10) then 
+        return false 
+    end
+    if (bl < 2) then return end    
+    if(math.abs(angelInter) >= 15) then 
+        return false
+    end
+    return true
+
+end
+
+
+function  IsPie(bh,bl)
+if ( bl < 1 ) then  return false end
+local spt = GetStartPoint(bh)
+local ept = GetEndPoint(bh)
+if (spt.x < ept.x or spt.y >ept.y) then 
+    return false
+end
+       
+if ( bl < 2 ) then   return  end
+
+local line = GetLine(spt,ept) 
+local dis = GetFarthestPt2Line(bh,line)
+if( dis < 5) then    
+   return false 
+end
+
+if ( bl < 3 ) then return end
+for i = 2 ,#bh.ptSet do 
+    local prept = bh.ptSet[i-1]
+    local curpt = bh.ptSet[i]
+    if (prept.y > curpt.y ) then 
+        return false     
+    end
+end
+
+return true
+
+end
+
+
+function  IsShuTi(bh,bl)
+if(bl < 1) then return end
+local spt = GetStartPoint(bh)
+local ept = GetEndPoint(bh)
+if (spt.x > ept.x or spt.y > ept.y ) then
+return false
+end
+
+local gnum = GetTurningPtNum(bh,2)
+if (gnum ~= 1) then
+return false
+end
+
+local tpt = GetTurningPt(bh,0)
+if (tpt.y < spt.y or tpt.x > ept.x)then
+return false
+end
+
+
+
+local slope1 = ( tpt.x - spt.x ) / ( tpt.y - spt.y )
+local angel = math.deg ( math.atan(slope1))
+local angelInter
+local angelFloat
+angelInter,angelFloat = math.modf (angel)
+
+if (angelInter <- 10 or angelInter > 20) then 
+return false
+end
+
+return true
+
+
+
+
+
+
+end
+
+
