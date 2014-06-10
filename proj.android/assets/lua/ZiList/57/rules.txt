@@ -1,0 +1,26 @@
+//##begin
+//##0:110035:----------------------------------
+local bh0 = GetBH(0)
+if(IsHengZheGou(bh0,bl) == false) then
+trace("0")
+else
+trace("1")
+end
+//##1:110004:----------------------------------
+local bh1 = GetBH(1)
+if(IsDian(bh1,bl) == false) then
+trace("0")
+else
+trace("1")
+end
+
+//##2:110010:----------------------------------
+local bh2 = GetBH(2)
+if(IsTi(bh2,bl) == false) then
+trace("0")
+else
+trace("1")
+end
+
+
+//##end

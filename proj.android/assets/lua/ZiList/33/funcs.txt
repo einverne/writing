@@ -3,7 +3,6 @@ if (bl < 1) then return end
 local startpt = bh.ptSet[1]
 local endpt = bh.ptSet[#bh.ptSet]
 if( endpt.y < startpt.y ) then 
-    trace("err1")
     return false
 end
 local slope = ( endpt.x - startpt.x ) / ( endpt.y - startpt.y )
@@ -15,8 +14,6 @@ if (angelFloat > 0.5) then
     angelInter = angelInter + 1
 end
 if (math.abs (angelInter )>= 15) then
-   trace(angelInter)
-   trace("err2")
    return false
 end
 
@@ -44,6 +41,57 @@ for i = 2, #bh.ptSet-3 do
     end
 end
 return true
+
+end
+
+
+function  IsDian(bh,bl)
+if (bl < 1) then return end
+
+local spt = GetStartPoint(bh)
+local ept = GetEndPoint(bh)
+
+if (spt.x > ept.x or spt.y >ept.y) then 
+return false
+end
+
+
+return true 
+end
+
+
+function  IsHeng(bh,bl)
+if (bl < 1) then return end
+    local startpt = GetStartPoint(bh)
+    local endpt = GetEndPoint(bh)
+    if(startpt.x > endpt.x) then    
+       return false
+    end
+   
+    local slope = (startpt.y - endpt.y) / (endpt.x - startpt.x)
+    local angel = math.deg ( math.atan(slope))   
+    local angelInter
+    local angelFloat
+    angelInter,angelFloat = math.modf (angel)
+    if (angelFloat > 0.5) then
+    angelInter = angelInter + 1
+    end
+    
+    if (math.abs (angelInter )>= 25) then      
+        return false
+    end
+   
+    local line = GetLine(startpt,endpt) 
+    local dis = GetFarthestPt2Line(bh,line)  
+     
+    if( dis > 10) then 
+        return false 
+    end
+    if (bl < 2) then return end    
+    if(math.abs(angelInter) >= 15) then 
+        return false
+    end
+    return true
 
 end
 
@@ -78,16 +126,38 @@ return true
 end
 
 
-function  IsNa(bh,bl)
-if (bl < 1) then return end
+function  IsShuZhePie(bh,bl)
+if(bl < 1) then return end
 local spt = GetStartPoint(bh)
 local ept = GetEndPoint(bh)
-if (spt.x > ept.x or spt.y >ept.y) then 
+if (spt.x > ept.x or spt.y >ept.y) then
 return false
 end
 
-return true 
+local gnum = GetTurningPtNum(bh,3)
+if (gnum ~= 2) then
+return false
+end
 
+local tpt1 = GetTurningPt(bh,0)
+local tpt2 = GetTurningPt(bh,1)
+
+if (tpt1.y < spt.y) then
+return false
+end
+
+if (tpt1.x > tpt2.x) then
+return false
+end
+
+if (tpt2.y >ept.y) then
+return false
+end
+
+if(tpt2.x < ept.x) then
+return false
+end
+return true
 end
 
 

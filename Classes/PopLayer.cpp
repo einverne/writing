@@ -115,7 +115,7 @@ bool PopLayer::addButton(const char* normalImage,const char* selectedImage ,cons
 	CCLabelTTF* ttf = CCLabelTTF::create(title, "XingShu", 20);
 	ttf->setColor(ccc3(0, 0, 0));
 	ttf->setPosition(ccp(imenu.width / 2, imenu.height / 2));
-	menuImage->addChild(ttf);
+	//menuImage->addChild(ttf);
 
 	getMenuButton()->addChild(menuImage);
 	return true;

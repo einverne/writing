@@ -450,8 +450,8 @@ void WallScene::popup(string hanzi){
 	popL->setTitle("test");
 	popL->setEditBox();
 	popL->setCallBackFunc(this,callfuncN_selector(WallScene::buttonCallBack));
-	popL->addButton("sure.png","sure.png","Y",0);
-	popL->addButton("cancer.png","cancer.png","N",1);
+	popL->addButton("sure_up.png","sure_down.png","Y",0);
+	popL->addButton("cancer_up.png","cancer_down.png","N",1);
 	CCDirector::sharedDirector()->getRunningScene()->addChild(popL,100);
 	//½â³ý¶¨Ê±Æ÷
 	CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(WallScene::longPressUpdate),this);
@@ -551,8 +551,8 @@ void WallScene::keyBackClicked(){
 		exitDialog->setTitle("Exit",50);
 		exitDialog->setContentText("Are you sure to exit app!",60,100,150);
 		exitDialog->setCallBackFunc(this,callfuncN_selector(WallScene::isExit));
-		exitDialog->addButton("sure.png","sure.png","Y",0);
-		exitDialog->addButton("cancer.png","cancer.png","N",1);
+		exitDialog->addButton("sure_up.png","sure_down.png","Y",0);
+		exitDialog->addButton("cancer_up.png","cancer_down.png","N",1);
 		CCDirector::sharedDirector()->getRunningScene()->addChild(exitDialog,100,TAG_LAYER_EXIT);
 	}
 }
