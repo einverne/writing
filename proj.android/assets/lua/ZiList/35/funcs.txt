@@ -79,13 +79,11 @@ local spt = GetStartPoint(bh)
 local ept = GetEndPoint(bh)
 local gnum = GetTurningPtNum(bh,3)
 
-if (gnum ~=2) then
+if (gnum < 1) then
 return false
 end
 
 local tpt1 = GetTurningPt(bh,0)
-local tpt2 = GetTurningPt(bh,1)
-
 
 local slope = ( tpt1.x - spt.x ) / ( tpt1.y - spt.y )
 local angel = math.deg ( math.atan(slope))
@@ -99,20 +97,11 @@ end
 if (math.abs (angelInter )<= 45) then
    return false
 end
-
-
-local slope2 = (tpt2.x - tpt1.y)/(tpt2.y - tpt1.y)
-local angel2 = math.deg( math.atan(slope2))
-if (math.abs(angel2) >45) then
+if(tpt1.x < ept.x or tpt1.y > ept.y) then
 return false
 end
-
-
-if (ept.x > tpt2.x or ept.y > tpt2.y)then
-return false
-end
-
 return true
+
 
 end
 
