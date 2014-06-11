@@ -3,8 +3,13 @@ if (bl < 1) then return end
 
 local spt = GetStartPoint(bh)
 local ept = GetEndPoint(bh)
+local dis = GetDistance(spt,ept)
 
 if (spt.x > ept.x or spt.y >ept.y) then 
+return false
+end
+
+if (dis > 150 ) then 
 return false
 end
 

@@ -538,30 +538,3 @@ function GetFarthestPt2Line(bh,line)
 	end
 	return maxDis
 end
-
---获得笔画到直线line  ax + by + c = 0的
-function GetBHTrend(bh,line)
-	local a,b,c = line[1],line[2],line[3]
-	local trendArray = {}
-	trendArray[#trendArray + 1 ] = 0   --第一个tag初始化为0
-	local preDis = 0
-	--1 表示后面的
-	for i = 2,#bh.ptSet do
-		local curPt = bh.ptSet[i]
-		local curDis = Cal_Point2LineDis(curPt,a,b,c)
-		if(curDis > preDis) then
-			if (trendArray[#trendArray] == 0 )then
-				trendArray[#trendArray + 1] = 1
-			end
-		end
-		if (curDis < preDis) then
-			if(trendArray[#trendArray] == 1) then
-				trendArray[#trendArray + 1] = 0
-			end
-		end
-		preDis = curDis
-	end
-	return trendArray
-end
-
-
