@@ -207,6 +207,7 @@ void CLuaScriptReader::SetGlobalFunc(const char * filename){
 }
 
 void CLuaScriptReader::SetRulesFunc(const char* filename){
+	CCLog("SetRulesFunc(const char* filename)");
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 	FILE* fpFile = fopen(filename,"r");
 	if (fpFile == NULL)
@@ -228,6 +229,17 @@ void CLuaScriptReader::SetRulesFunc(const char* filename){
 	CCLog("Rules %s",Rules);
 #endif
 	return;
+}
+
+void CLuaScriptReader::SetRulesFunc(CCString* rules){
+	CCLog("SetRulesFunc(CCString* rules)");
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+	strcpy(Rules,rules->getCString());
+#endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	strcpy(Rules,rules->getCString());
+	CCLog("Rules %s",Rules);
+#endif
 }
 
 
