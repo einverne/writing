@@ -9,7 +9,10 @@
 // defined with this macro as being exported.
 
 #include <string>
+#include <cocos2d.h>
 using namespace std;
+USING_NS_CC;
+
 
 extern "C"{
 	#include "lua.h"
@@ -102,6 +105,12 @@ public:
 	*/
 	void SetRulesFunc(const char* filename);
 	
+	/**
+	 *
+	 * @param rules
+	 */
+	void SetRulesFunc(CCString* rules);
+
 	/**
 	* 
 	* @param filename

@@ -27,12 +27,13 @@ string JudgeManager::getResult(string points_output){
 	ss << p->getID()->getValue();
 	string path = "lua/ZiList/"+ ss.str();
 	CCLog("path %s",path.c_str());
+	CCLog("rules %s",p->getRules()->getCString());
 
 	string filepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/WriteZiInfo.lua");
 	string Globalpath = CCFileUtils::sharedFileUtils()->fullPathForFilename(string(path+"/funcs.txt").c_str());
 	string basepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/BaseLib.lua");
 	string apipath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/RunAPI.lua");
-	string rulespath = CCFileUtils::sharedFileUtils()->fullPathForFilename(string(path+"/rules.txt").c_str());
+//	string rulespath = CCFileUtils::sharedFileUtils()->fullPathForFilename(string(path+"/rules.txt").c_str());
 
 	gReader.InitLuaScriptReader();
 //	char* temp = new char[points_output.length() + 1];
@@ -43,7 +44,9 @@ string JudgeManager::getResult(string points_output){
 	gReader.SetWriteZiInfo(points_output.c_str());
  	char * retStr = new char[50];
  	gReader.SetZiName(hanzi);
- 	gReader.SetRulesFunc(rulespath.c_str());				//将每个字的rule规则传给Lua
+// 	gReader.SetRulesFunc(rulespath.c_str());				//将每个字的rule规则传给Lua
+
+ 	gReader.SetRulesFunc(p->getRules());
  	gReader.RunScriptFile(filepath.c_str(),"WriteZiInfo.lua");
  	gReader.SetGlobalFunc(Globalpath.c_str());
  	gReader.RunMixedFile(basepath.c_str(),"BaseLib.lua");
@@ -53,5 +56,5 @@ string JudgeManager::getResult(string points_output){
 	string ret(retStr);
 	delete [] retStr;
 	return ret;
-	return string("1");
+
 }

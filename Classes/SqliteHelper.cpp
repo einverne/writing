@@ -113,10 +113,11 @@ int SqliteHelper::getDataCount( string sql )
 int loadRecord( void * para, int n_column, char ** column_value, char ** column_name ) 
 { 
 // 	CCLog("ID=%s,name=%s,password=%s,word=%s",column_value[0],column_value[1],column_value[2],column_value[3]);
-	CCLog("ID=%s name=%s",column_value[0],column_value[1]);
+	CCLog("ID=%s name=%s rules=%s",column_value[0],column_value[1],column_value[3]);
 	((CharacterEntity*)para)->setID(CCInteger::create(atoi(column_value[0])));
 	((CharacterEntity*)para)->setName(ccs(column_value[1]));
 	((CharacterEntity*)para)->setXML(ccs(column_value[2]));
+	((CharacterEntity*)para)->setRules(ccs(column_value[3]));
 	return 0;
 }
 //获取一条记录的信息 其中的pSend是一个实体类我们以后可以自定义一个继承了CCObject的类来代替他保存数据库中取出来的数据
