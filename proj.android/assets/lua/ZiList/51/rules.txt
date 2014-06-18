@@ -36,7 +36,7 @@ trace("1")
 end
 //##5:110007:----------------------------------
 local bh5 = GetBH(5)
-if(IsShuGou(bh5,bl) == false) then
+if(IsHeng(bh5,bl) == false) then
 trace("0")
 else
 trace("1")
