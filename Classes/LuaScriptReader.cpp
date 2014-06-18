@@ -206,6 +206,10 @@ void CLuaScriptReader::SetGlobalFunc(const char * filename){
 	return;
 }
 
+void CLuaScriptReader::SetGlobalFunc(string funcs){
+	strcpy(GlobalFunc,funcs.c_str());
+}
+
 void CLuaScriptReader::SetRulesFunc(const char* filename){
 	CCLog("SetRulesFunc(const char* filename)");
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32

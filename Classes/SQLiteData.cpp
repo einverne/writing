@@ -38,6 +38,23 @@ void SQLiteData::getHanziData(string hz,CCObject* p){
 
 string SQLiteData::getstrokeFunc(string strokeID){
 	string dbpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_info.db");
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	unsigned long int size = 0;
+	char* pFileContent = (char*)CCFileUtils::sharedFileUtils()->getFileData(dbpath.c_str(),"rb",&size);
+	CCLog("file %s",pFileContent);
+	dbpath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_info.db";
+	FILE* file = fopen(dbpath.c_str(),"w");
+	if (file != NULL)
+	{
+		CCLog("file not NULL");
+		file = fopen(dbpath.c_str(),"wb");
+		fwrite(pFileContent,size,1,file);
+		CC_SAFE_DELETE_ARRAY(pFileContent);
+	}else{
+		CCLog("file NULL");
+	}
+	fclose(file);
+#endif
 	SqliteHelper::initDB(dbpath.c_str());
 	string sql = "select * from strokeFunc where strokeID ='"+strokeID+"'";
 	strokeFunc* ret = new strokeFunc();

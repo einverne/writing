@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "LuaScriptReader.h"
+#include "CharacterEntity.h"
 USING_NS_CC;
 
 class JudgeManager
@@ -15,7 +16,8 @@ public:
 	CLuaScriptReader gReader;
 	string hanzi;
 private:
-
+	string funcs;
+	CharacterEntity* p;
 };
 
 

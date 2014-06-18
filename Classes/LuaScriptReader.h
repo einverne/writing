@@ -97,6 +97,9 @@ public:
 	* @return
 	*/
 	void SetGlobalFunc(const char * filename);
+
+	
+	void SetGlobalFunc(string funcs);
 	
 	/**
 	* read file and copy string to Rules
