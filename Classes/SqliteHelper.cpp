@@ -1,5 +1,6 @@
 #include "SqliteHelper.h"
 #include "CharacterEntity.h"
+#include "strokeFunc.h"
 
 sqlite3 *pDB = NULL;//数据库指针 
 char * errMsg = NULL;//错误信息 
@@ -13,7 +14,7 @@ void SqliteHelper::initDB(const char* db){
 	{
 		CCLog("open sqlite failed,打开数据库失败，错误码error:%d ，错误原因reason:%s\n" , result, errMsg );
 	}else{
-		CCLog("open sqlite success~ no:%d",result);
+		CCLog("open sqlite success~ 代码:%d",result);
 	}
 }
 
@@ -104,16 +105,16 @@ int loadRecordCount( void * para, int n_column, char ** column_value, char ** co
 //@示例语句  取得表格字段的语句string sqlsssss = "select * from user";
 int SqliteHelper::getDataCount( string sql )
 {
-	int count=0; 
-	sqlite3_exec( pDB, sql.c_str() ,     loadRecordCount, &count, &errMsg );
+	int count=0;
+	sqlite3_exec( pDB, sql.c_str() , loadRecordCount, &count, &errMsg );
 	return count;
 }
 
 //getDataInfo的回调函数
-int loadRecord( void * para, int n_column, char ** column_value, char ** column_name ) 
+int loadRecord( void * para, int n_column, char ** column_value, char ** column_name)
 { 
 // 	CCLog("ID=%s,name=%s,password=%s,word=%s",column_value[0],column_value[1],column_value[2],column_value[3]);
-	CCLog("ID=%s name=%s rules=%s",column_value[0],column_value[1],column_value[3]);
+	CCLog("ID=%s name=%s rules=%s %s",column_value[0],column_value[1],column_value[3],column_name[2]);
 	((CharacterEntity*)para)->setID(CCInteger::create(atoi(column_value[0])));
 	((CharacterEntity*)para)->setName(ccs(column_value[1]));
 	((CharacterEntity*)para)->setXML(ccs(column_value[2]));
@@ -124,11 +125,46 @@ int loadRecord( void * para, int n_column, char ** column_value, char ** column_
 void SqliteHelper::getDataInfo( string sql,CCObject *pSend )
 {
 	int ret = sqlite3_exec( pDB, sql.c_str() , loadRecord, pSend, &errMsg );
-	CCLog("return no:%d error:%s",ret,errMsg);
+	CCLog("return getDataInfo 错误代码:%d error:%s",ret,errMsg);
+}
+
+int loadziRecord(void * para, int n_column, char ** column_value, char ** column_name){
+	((CharacterEntity*)para)->setID(CCInteger::create(atoi(column_value[0])));		//ID
+	((CharacterEntity*)para)->setName(ccs(column_value[1]));						//ziName
+	((CharacterEntity*)para)->setSEQ(ccs(column_value[2]));							//strokeIDSeq
+	CCLog("%s",column_value[2]);
+	((CharacterEntity*)para)->setRules(ccs(column_value[3]));						//rules
+	((CharacterEntity*)para)->setXML(ccs(column_value[4]));							//xml
+	return 0;
+}
+
+void SqliteHelper::getZiDataInfo(string sql,CCObject* p){
+	int ret = sqlite3_exec(pDB , sql.c_str() , loadziRecord , p,&errMsg);
+	CCLog("getZiDataInfo 错误代码:%d error:%s",ret,errMsg);
+
+}
+
+int getFuncBody(void * para, int n_column, char ** column_value, char ** column_name){
+	CCLog("getFuncBody: %s",column_value[2]);
+	((strokeFunc*)para)->setFunc(ccs(column_value[2]));
+	return 0;
+}
+
+void SqliteHelper::getstrokeFunc(string sql,CCObject* funcbody){
+	int ret = sqlite3_exec(pDB,sql.c_str(),getFuncBody,funcbody,&errMsg);
+	CCLog("getstrokeFunc 错误代码:%d error:%s",ret,errMsg);
+
 }
 
 //关闭数据库
 void SqliteHelper::closeDB()
 {
-	sqlite3_close(pDB); 
+	result = sqlite3_close(pDB); 
+	if (result == SQLITE_OK)
+	{
+		CCLog("数据库关闭成功！");
+	}else
+	{
+		CCLog("数据库关闭失败！");
+	}
 }

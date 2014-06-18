@@ -135,6 +135,12 @@
     <ClCompile Include="..\Classes\RightZiAnimationAction.cpp">
       <Filter>Classes\action</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\SQLiteData.cpp">
+      <Filter>Classes\sqlite</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\strokeFunc.cpp">
+      <Filter>Classes\Entity</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -239,6 +245,12 @@
     </ClInclude>
     <ClInclude Include="..\Classes\RightZiAnimationAction.h">
       <Filter>Classes\action</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SQLiteData.h">
+      <Filter>Classes\sqlite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\strokeFunc.h">
+      <Filter>Classes\Entity</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

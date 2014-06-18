@@ -25,6 +25,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/Stroke.cpp \
                    ../../Classes/StrokeDrawnode.cpp \
                    ../../Classes/StrokeNode.cpp \
+                   ../../Classes/SQLiteData.cpp \
                    ../../Classes/TcharacterDrawnode.cpp \
                    ../../Classes/TcharacterLayer.cpp \
                    ../../Classes/TouchLayer.cpp \

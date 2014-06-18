@@ -1,6 +1,10 @@
 #include "JudgeManager.h"
 #include "SqliteHelper.h"
 #include "CharacterEntity.h"
+#include "SQLiteData.h"
+
+#include <algorithm>
+using namespace std;
 
 JudgeManager::JudgeManager(string hanzi)
 {
@@ -11,18 +15,37 @@ JudgeManager::~JudgeManager()
 {
 	CCLog("JudgeManager destroy!");
 }
+
+
+vector<string> splitStrokeSeq(string seq){
+	string::size_type pos1,pos2;
+	vector<string> strvec;
+	pos2 = seq.find('-');
+	pos1 = 0;
+	while (string::npos != pos2)
+	{
+		strvec.push_back(seq.substr(pos1,pos2-pos1));
+		pos1 = pos2 +1;
+		pos2 = seq.find('-',pos1);
+	}
+// 	strvec.push_back(seq.substr(pos1));
+	return strvec;
+}
+
 string JudgeManager::getResult(string points_output){
-#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
-	string dbpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("test.db");
-#endif
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-	string dbpath = CCFileUtils::sharedFileUtils()->getWritablePath()+"test.db";
-#endif
-	SqliteHelper::initDB(dbpath.c_str());
-	string sql = "select * from table_test where name='"+hanzi+"'";
+// #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+// 	string dbpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("test.db");
+// #endif
+// #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+// 	string dbpath = CCFileUtils::sharedFileUtils()->getWritablePath()+"test.db";
+// #endif
+// 	SqliteHelper::initDB(dbpath.c_str());
+// 	string sql = "select * from table_test where name='"+hanzi+"'";
+// 	CharacterEntity* p = new CharacterEntity();
+// 	SqliteHelper::getDataInfo(sql,p);
+// 	SqliteHelper::closeDB();
 	CharacterEntity* p = new CharacterEntity();
-	SqliteHelper::getDataInfo(sql,p);
-	SqliteHelper::closeDB();
+	SQLiteData::getHanziData(hanzi,p);
 	stringstream ss;
 	ss << p->getID()->getValue();
 	string path = "lua/ZiList/"+ ss.str();
@@ -35,16 +58,25 @@ string JudgeManager::getResult(string points_output){
 	string apipath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/RunAPI.lua");
 //	string rulespath = CCFileUtils::sharedFileUtils()->fullPathForFilename(string(path+"/rules.txt").c_str());
 
-	gReader.InitLuaScriptReader();
-//	char* temp = new char[points_output.length() + 1];
-//	strcpy(temp,points_output.c_str());
-//	gReader.GetWriteZiInfo(temp);
-//	delete [] temp;
+	CCString* temp = p->getSEQ();
+	CCLog("seq %s",temp->getCString());
+	string str(temp->getCString());
+	vector<string> strvec = splitStrokeSeq(str);
+	//去重
+	std::sort(strvec.begin(),strvec.end());
+	strvec.erase(std::unique(strvec.begin(),strvec.end()),strvec.end());
+	vector<string>::iterator iter = strvec.begin(),iter2 = strvec.end();
+	string funcs;
+	while (iter != iter2)
+	{
+		funcs += SQLiteData::getstrokeFunc(*iter);
+		iter ++;
+	}
 
+	gReader.InitLuaScriptReader();
 	gReader.SetWriteZiInfo(points_output.c_str());
  	char * retStr = new char[50];
  	gReader.SetZiName(hanzi);
-// 	gReader.SetRulesFunc(rulespath.c_str());				//将每个字的rule规则传给Lua
 
  	gReader.SetRulesFunc(p->getRules());
  	gReader.RunScriptFile(filepath.c_str(),"WriteZiInfo.lua");
@@ -52,7 +84,7 @@ string JudgeManager::getResult(string points_output){
  	gReader.RunMixedFile(basepath.c_str(),"BaseLib.lua");
  	gReader.RunScriptFile(apipath.c_str(),retStr,"RunAPI.lua");
  	gReader.ExitLuaScriptReader();
- 	CCLog("retStr %s",retStr);
+ 	CCLog("retStr after judge %s",retStr);
 	string ret(retStr);
 	delete [] retStr;
 	return ret;

@@ -28,6 +28,12 @@ public:
 	//读取一条记录的信息
 	static void getDataInfo(string sql,CCObject* pSend);
 
+	//读取ziData表中一条数据
+	static void getZiDataInfo(string sql,CCObject* p);
+
+	//读取strokeFunc表中一条数据
+	static void getstrokeFunc(string sql,CCObject* funcbody);
+
 	//关闭打开的数据库
 	static void closeDB();
 private:
