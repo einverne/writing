@@ -12,6 +12,7 @@ public:
 	~SQLiteData();
 	static void getHanziData(string hz,CCObject* p);
 	static string getstrokeFunc(string strokeID);
+	static vector<string> splitStrokeSeq(string seq);
 };
 
 

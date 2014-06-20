@@ -1,4 +1,8 @@
 #include "LianxiScene.h"
+#include "CharacterEntity.h"
+#include "SQLiteData.h"
+#include <algorithm>
+using namespace std;
 
 typedef enum layers
 {
@@ -14,6 +18,7 @@ LianxiScene::LianxiScene(string hanzi):backgroundLayer(NULL),
 	HLayer(NULL)
 {
 	this->testCharacter = hanzi;
+	p = new CharacterEntity();
 }
 
 LianxiScene::~LianxiScene()
@@ -67,5 +72,23 @@ bool LianxiScene::init(){
 		CC_BREAK_IF(!CCScene::init());
 		bRet = true;
 	} while (0);
+
+	SQLiteData::getHanziData(this->testCharacter,p);
+	CCString* temp = p->getSEQ();
+	CCLog("seq %s",temp->getCString());
+	string str(temp->getCString());
+	vector<string> strvec = SQLiteData::splitStrokeSeq(str);
+	//ШЅжи
+	std::sort(strvec.begin(),strvec.end());
+	strvec.erase(std::unique(strvec.begin(),strvec.end()),strvec.end());
+	vector<string>::iterator iter = strvec.begin(),iter2 = strvec.end();
+
+	while (iter != iter2)
+	{
+		funcs += SQLiteData::getstrokeFunc(*iter);
+		funcs += "\n";
+		iter ++;
+	}
+
 	return bRet;
 }

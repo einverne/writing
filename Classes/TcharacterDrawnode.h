@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include "Character.h"
 #include "StrokeDrawnode.h"
+#include "CharacterEntity.h"
 USING_NS_CC;
 
 /************************************************************************/
@@ -25,14 +26,14 @@ public:
 	* @param showrect
 	* @return
 	*/
-	virtual bool init(string hz,CCSize showrect);
+	virtual bool init(string hz,CCSize showrect,CharacterEntity* p);
 	/**
 	* 用汉字和显示区域创建TcharacterDrawnode
 	* @param hz
 	* @param showrect
 	* @return
 	*/
-	static TcharacterDrawnode* create(string hz,CCSize showrect);
+	static TcharacterDrawnode* create(string hz,CCSize showrect,CharacterEntity* p);
 
 //	CREATE_FUNC(TcharacterDrawnode);
 // 	vector<StrokeDrawnode*> strokedrawList;

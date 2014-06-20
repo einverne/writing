@@ -275,7 +275,7 @@ bool CLuaScriptReader::RunMixedFile(const char *filename,char *name)
 	fclose(fpFile);
 	strcat(filebuff,"\n");
 	strcat(filebuff,GlobalFunc);
-	Print2File(filebuff,"mixed.txt");
+	//Print2File(filebuff,"mixed.txt");
 	RunScriptBuffer(filebuff,callname);
 #endif
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
@@ -284,9 +284,9 @@ bool CLuaScriptReader::RunMixedFile(const char *filename,char *name)
 	//	strcat(filebuff,"\n");
 	CCString* ccStr = CCString::createWithData(filebuff,size);
 	char* filebuff1 = (char*)ccStr->getCString();
-	strcat(filebuff1,"\r\n");
+	strcat(filebuff1,"\n");
 	strcat(filebuff1,GlobalFunc);
-	Print2File(filebuff1,"mixed.txt");
+	//Print2File(filebuff1,"mixed.txt");
 	RunScriptBuffer(filebuff1,callname);
 //	delete [] filebuff;
 #endif

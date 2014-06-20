@@ -11,24 +11,26 @@ SQLiteData::~SQLiteData()
 {
 }
 
+vector<string> SQLiteData::splitStrokeSeq(string seq){
+	string::size_type pos1,pos2;
+	vector<string> strvec;
+	pos2 = seq.find('-');
+	pos1 = 0;
+	while (string::npos != pos2)
+	{
+		strvec.push_back(seq.substr(pos1,pos2-pos1));
+		pos1 = pos2 +1;
+		pos2 = seq.find('-',pos1);
+	}
+	// 	strvec.push_back(seq.substr(pos1));
+	return strvec;
+}
+
+
 void SQLiteData::getHanziData(string hz,CCObject* p){
 	string dbpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_info.db");
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-	unsigned long int size = 0;
-	char* pFileContent = (char*)CCFileUtils::sharedFileUtils()->getFileData(dbpath.c_str(),"rb",&size);
-	CCLog("file %s",pFileContent);
 	dbpath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_info.db";
-	FILE* file = fopen(dbpath.c_str(),"w");
-	if (file != NULL)
-	{
-		CCLog("file not NULL");
-		file = fopen(dbpath.c_str(),"wb");
-		fwrite(pFileContent,size,1,file);
-		CC_SAFE_DELETE_ARRAY(pFileContent);
-	}else{
-		CCLog("file NULL");
-	}
-	fclose(file);
 #endif
 	SqliteHelper::initDB(dbpath.c_str());
 	string sql = "select * from ziData where ziName ='"+hz+"'";
@@ -37,23 +39,10 @@ void SQLiteData::getHanziData(string hz,CCObject* p){
 }
 
 string SQLiteData::getstrokeFunc(string strokeID){
+	CCLog("SQLiteData::getstrokeFunc %s",strokeID.c_str());
 	string dbpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_info.db");
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-	unsigned long int size = 0;
-	char* pFileContent = (char*)CCFileUtils::sharedFileUtils()->getFileData(dbpath.c_str(),"rb",&size);
-	CCLog("file %s",pFileContent);
 	dbpath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_info.db";
-	FILE* file = fopen(dbpath.c_str(),"w");
-	if (file != NULL)
-	{
-		CCLog("file not NULL");
-		file = fopen(dbpath.c_str(),"wb");
-		fwrite(pFileContent,size,1,file);
-		CC_SAFE_DELETE_ARRAY(pFileContent);
-	}else{
-		CCLog("file NULL");
-	}
-	fclose(file);
 #endif
 	SqliteHelper::initDB(dbpath.c_str());
 	string sql = "select * from strokeFunc where strokeID ='"+strokeID+"'";

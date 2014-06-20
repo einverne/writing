@@ -22,9 +22,10 @@ TcharacterDrawnode::~TcharacterDrawnode()
 	CC_SAFE_RELEASE(strokedrawList);
 }
 
-bool TcharacterDrawnode::init(string hz,CCSize showrect){
-	CharacterEntity* p = new CharacterEntity();
-	SQLiteData::getHanziData(hz,p);
+bool TcharacterDrawnode::init(string hz,CCSize showrect,CharacterEntity* p){
+// 	CharacterEntity* p = new CharacterEntity();
+// 	SQLiteData::getHanziData(hz,p);
+
 // 	string dbpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("test.db");
 // #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 // 	unsigned long int size = 0;
@@ -74,9 +75,9 @@ bool TcharacterDrawnode::init(string hz,CCSize showrect){
 	return true;
 }
 
-TcharacterDrawnode* TcharacterDrawnode::create(string hz,CCSize showrect){
+TcharacterDrawnode* TcharacterDrawnode::create(string hz,CCSize showrect,CharacterEntity* p){
 	TcharacterDrawnode* pRet = new TcharacterDrawnode();
-	if (pRet && pRet->init(hz,showrect))
+	if (pRet && pRet->init(hz,showrect,p))
 	{
 		pRet->autorelease();
 		return pRet;
