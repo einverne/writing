@@ -7,7 +7,7 @@ BackgroundLayer::BackgroundLayer()
 
 BackgroundLayer::~BackgroundLayer()
 {
-	CCLog("~~BackgroundLayer %d",  this->m_uReference);
+	CCLog("~BackgroundLayer %d",  this->m_uReference);
 }
 
 bool BackgroundLayer::init(){

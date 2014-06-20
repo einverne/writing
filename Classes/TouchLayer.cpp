@@ -8,7 +8,7 @@ TouchLayer::TouchLayer():Tlayer(NULL),
 
 TouchLayer::~TouchLayer()
 {
-	CCLog("TouchLayer %d", this->m_uReference);
+	CCLog("~TouchLayer %d", this->m_uReference);
 	CC_SAFE_RELEASE(Tlayer);
 	CC_SAFE_RELEASE(Hlayer);
 }

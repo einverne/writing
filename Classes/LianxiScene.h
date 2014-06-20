@@ -19,7 +19,7 @@ public:
 	virtual bool init();
 
 	string testCharacter;			//µ±Ç°ÕýÔÚÁ·Ï°µÄºº×Ö×Ö·û
-	CharacterEntity* p;
+//	CharacterEntity* p;
 	string funcs;
 
 // 	BackgroundLayer* backgroundLayer;		//±³¾°Í¼²ã
@@ -30,6 +30,7 @@ public:
 	CC_SYNTHESIZE_RETAIN(TouchLayer*,touchLayer,touchLayer);
 	CC_SYNTHESIZE_RETAIN(TcharacterLayer*,TLayer,TLayer);
 	CC_SYNTHESIZE_RETAIN(HcharacterLayer*,HLayer,HLayer);
+	CC_SYNTHESIZE_RETAIN(CharacterEntity*,p,CharacterP);
 private:
 
 };

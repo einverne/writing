@@ -15,10 +15,11 @@ typedef enum layers
 LianxiScene::LianxiScene(string hanzi):backgroundLayer(NULL),
 	touchLayer(NULL),
 	TLayer(NULL),
-	HLayer(NULL)
+	HLayer(NULL),
+	p(NULL)
 {
 	this->testCharacter = hanzi;
-	p = new CharacterEntity();
+//	p = new CharacterEntity();
 }
 
 LianxiScene::~LianxiScene()
@@ -28,6 +29,7 @@ LianxiScene::~LianxiScene()
 	CC_SAFE_RELEASE(TLayer);
 	CC_SAFE_RELEASE(HLayer);
 	CC_SAFE_RELEASE(touchLayer);
+	CC_SAFE_RELEASE(p);
 }
 
 LianxiScene* LianxiScene::create(string hanzi){

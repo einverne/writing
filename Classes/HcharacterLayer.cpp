@@ -22,7 +22,7 @@ HcharacterLayer::HcharacterLayer():m_sprite_draw(NULL),
 
 HcharacterLayer::~HcharacterLayer()
 {
-	CCLog("~~HcharacterLayer %d",  this->m_uReference);
+	CCLog("~HcharacterLayer %d",  this->m_uReference);
 	CC_SAFE_RELEASE(m_sprite_draw);
 	CC_SAFE_RELEASE(bihuaCount);
 	CC_SAFE_RELEASE(duicuo);
