@@ -19,7 +19,6 @@ public:
 	virtual bool init();
 
 	string testCharacter;			//当前正在练习的汉字字符
-//	CharacterEntity* p;
 	string funcs;
 
 // 	BackgroundLayer* backgroundLayer;		//背景图层

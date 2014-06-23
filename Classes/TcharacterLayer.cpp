@@ -61,7 +61,7 @@ void TcharacterLayer::onEnter(){
 	CCLayer::onEnter();
 // 	string ba("八");
 	string LianxiHanzi = ((LianxiScene*)this->getParent())->testCharacter;
-	CharacterEntity* p = ((LianxiScene*)this->getParent())->p;
+	CharacterEntity* p = ((LianxiScene*)this->getParent())->getCharacterP();
 	this->setm_TDrawnode(TcharacterDrawnode::create(LianxiHanzi, m_sprite->getContentSize(), p));
 	this->addChild(m_TDrawnode,2000);
 	//不设置Anchorpoint了，直接做坐标变换

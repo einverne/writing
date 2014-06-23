@@ -69,6 +69,7 @@ bool LianxiScene::init(){
 		touchLayer->setTag(kTouchLayerTag);
 		this->addChild(touchLayer);
 
+		this->setCharacterP(new CharacterEntity());
 		CCLog("LianxiScene ref: %d",this->m_uReference);
 
 		CC_BREAK_IF(!CCScene::init());
