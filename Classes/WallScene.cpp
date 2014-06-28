@@ -202,6 +202,7 @@ bool WallScene::init()
 	CCSprite* pSprite = CCSprite::create("wall.JPG");
 	CCSize spriteSize = pSprite->getContentSize();
 	pSprite->setPosition(ccp(spriteSize.width/2,spriteSize.height/2));
+	pSprite->setScale(15);
 	this->addChild(pSprite, 0);
 
 	//×¢²á´¥ÃşÊÂ¼ş
