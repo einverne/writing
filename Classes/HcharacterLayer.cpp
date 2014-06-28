@@ -115,7 +115,7 @@ void HcharacterLayer::judge(){
 
 			temp = convert512(temp);
 			string t = floatToString(ceil(temp.x)) + "/" + floatToString(ceil(temp.y)) + "/";
-			output += t;	
+			output += t;
 		}
 		output += "@";
 	}
@@ -142,11 +142,8 @@ void HcharacterLayer::judge(){
 		ostringstream ostr;
 		ostr << t;
 		bihuaCount->setString(ostr.str().c_str());
-		getInfoSprite()->setVisible(true);
-		getInfoSprite()->setTexture(CCTextureCache::sharedTextureCache()->addImage("right.png"));
-		CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect(RIGHT_EFFECT_FILE);
-
-
+		
+		
 		TcharacterLayer* layer = (TcharacterLayer*)this->getParent()->getChildByTag(kTLayerTag);		//get TcharacterLayer
 		Stroke temp = layer->getm_TDrawnode()->getCharacter().getStroke(t);								//get No. stroke
 // 		CCPoint deltpoint = this->m_sprite_draw->getPosition()-ccp(m_sprite_draw->getContentSize().width/2,m_sprite_draw->getContentSize().height/2);
@@ -154,6 +151,14 @@ void HcharacterLayer::judge(){
 // 		MoveToRightPlace* place = MoveToRightPlace::create(t-1,temp);
 		MoveToRightPlaceInterval* place = MoveToRightPlaceInterval::create(1,t-1,temp);
 		m_HDrawnode->runAction(place);
+
+
+		if ( t == layer->getm_TDrawnode()->getCharacter().getStrokeCount())
+		{
+			getInfoSprite()->setVisible(true);
+			getInfoSprite()->setTexture(CCTextureCache::sharedTextureCache()->addImage("right.png"));
+			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect(RIGHT_EFFECT_FILE);
+		}
 	}
 }
 
