@@ -19,6 +19,7 @@ public:
 	virtual bool init();
 
 	string testCharacter;			//当前正在练习的汉字字符
+	string funcs;
 
 // 	BackgroundLayer* backgroundLayer;		//背景图层
 // 	TouchLayer* touchLayer;			//触摸事件响应层
@@ -28,6 +29,7 @@ public:
 	CC_SYNTHESIZE_RETAIN(TouchLayer*,touchLayer,touchLayer);
 	CC_SYNTHESIZE_RETAIN(TcharacterLayer*,TLayer,TLayer);
 	CC_SYNTHESIZE_RETAIN(HcharacterLayer*,HLayer,HLayer);
+	CC_SYNTHESIZE_RETAIN(CharacterEntity*,p,CharacterP);
 private:
 
 };

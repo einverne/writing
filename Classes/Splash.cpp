@@ -61,8 +61,29 @@ bool Splash::init(){
 			CCLog("XMLFile NULL");
 		}
 		fclose(file);
+
+
+		string dbpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_info.db");
+
+		char* pFileContent = (char*)CCFileUtils::sharedFileUtils()->getFileData(dbpath.c_str(),"rb",&size);
+		CCLog("file %s",pFileContent);
+		dbpath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_info.db";
+		FILE* file1 = fopen(dbpath.c_str(),"w");
+		if (file1 != NULL)
+		{
+			CCLog("file not NULL");
+			file1 = fopen(dbpath.c_str(),"wb");
+			fwrite(pFileContent,size,1,file1);
+			CC_SAFE_DELETE_ARRAY(pFileContent);
+		}else{
+			CCLog("file NULL");
+		}
+		fclose(file1);
+
     }
 #endif
+
+
     return true;
 }
 

@@ -7,48 +7,9 @@
 using namespace std;
 
 
-vector<string> splitStrokeSeq(string seq){
-	string::size_type pos1,pos2;
-	vector<string> strvec;
-	pos2 = seq.find('-');
-	pos1 = 0;
-	while (string::npos != pos2)
-	{
-		strvec.push_back(seq.substr(pos1,pos2-pos1));
-		pos1 = pos2 +1;
-		pos2 = seq.find('-',pos1);
-	}
-// 	strvec.push_back(seq.substr(pos1));
-	return strvec;
-}
-
-JudgeManager::JudgeManager(string hanzi)
+JudgeManager::JudgeManager()
 {
-	this->hanzi = hanzi;
 
-	p = new CharacterEntity();
-	SQLiteData::getHanziData(hanzi,p);
-	stringstream ss;
-	ss << p->getID()->getValue();
-	string path = "lua/ZiList/"+ ss.str();
-	CCLog("path %s",path.c_str());
-	CCLog("rules %s",p->getRules()->getCString());
-
-
-	CCString* temp = p->getSEQ();
-	CCLog("seq %s",temp->getCString());
-	string str(temp->getCString());
-	vector<string> strvec = splitStrokeSeq(str);
-	//ШЅжи
-	std::sort(strvec.begin(),strvec.end());
-	strvec.erase(std::unique(strvec.begin(),strvec.end()),strvec.end());
-	vector<string>::iterator iter = strvec.begin(),iter2 = strvec.end();
-
-	while (iter != iter2)
-	{
-		funcs += SQLiteData::getstrokeFunc(*iter);
-		iter ++;
-	}
 }
 
 JudgeManager::~JudgeManager()
@@ -58,7 +19,7 @@ JudgeManager::~JudgeManager()
 
 
 
-string JudgeManager::getResult(string points_output){
+string JudgeManager::getResult(string hanzi,string points_output,CharacterEntity* p, string funcs){
 // #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 // 	string dbpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("test.db");
 // #endif
@@ -70,10 +31,13 @@ string JudgeManager::getResult(string points_output){
 // 	CharacterEntity* p = new CharacterEntity();
 // 	SqliteHelper::getDataInfo(sql,p);
 // 	SqliteHelper::closeDB();
+	CCLog("JudgeManager %s",funcs.c_str());
 
 	string filepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/WriteZiInfo.lua");
 	string basepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/BaseLib.lua");
 	string apipath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/RunAPI.lua");
+
+	CLuaScriptReader gReader;
 
 	gReader.InitLuaScriptReader();
 	gReader.SetWriteZiInfo(points_output.c_str());

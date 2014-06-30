@@ -1,6 +1,7 @@
 #include "TcharacterLayer.h"
 #include "LianxiScene.h"
 #include "RightZiAnimationAction.h"
+#include "CharacterEntity.h"
 
 TcharacterLayer::TcharacterLayer():m_sprite(NULL),
 	m_TDrawnode(NULL),isPause(false)
@@ -9,7 +10,7 @@ TcharacterLayer::TcharacterLayer():m_sprite(NULL),
 }
 
 TcharacterLayer::~TcharacterLayer(){
-	CCLog("TcharacterLayer red  %d",this->m_uReference);
+	CCLog("~TcharacterLayer %d",this->m_uReference);
 	CC_SAFE_RELEASE(m_sprite);
 	CC_SAFE_RELEASE(m_TDrawnode);
 }
@@ -59,8 +60,9 @@ TcharacterLayer* TcharacterLayer::create(CCSprite* tianzige){
 void TcharacterLayer::onEnter(){
 	CCLayer::onEnter();
 // 	string ba("八");
-	string ba = ((LianxiScene*)this->getParent())->testCharacter;
-	this->setm_TDrawnode(TcharacterDrawnode::create(ba,m_sprite->getContentSize()));
+	string LianxiHanzi = ((LianxiScene*)this->getParent())->testCharacter;
+	CharacterEntity* p = ((LianxiScene*)this->getParent())->getCharacterP();
+	this->setm_TDrawnode(TcharacterDrawnode::create(LianxiHanzi, m_sprite->getContentSize(), p));
 	this->addChild(m_TDrawnode,2000);
 	//不设置Anchorpoint了，直接做坐标变换
 	m_TDrawnode->setPosition(m_sprite->getPosition()-ccp(m_sprite->getContentSize().width/2,m_sprite->getContentSize().height/2));
@@ -74,7 +76,7 @@ void TcharacterLayer::onExit(){
 
 void TcharacterLayer::refresh(CCObject* pSender){
 	CCLog("TcharacterLayer::refresh");
-	RightZiAnimationAction* animation = RightZiAnimationAction::create(2.0);
+	RightZiAnimationAction* animation = RightZiAnimationAction::create(5.0);
 	if (m_TDrawnode->getActionManager()->numberOfRunningActionsInTarget(m_TDrawnode) <= 0)
 	{
 		m_TDrawnode->runAction(animation);

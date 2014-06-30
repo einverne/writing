@@ -12,9 +12,9 @@ void SqliteHelper::initDB(const char* db){
 	result = sqlite3_open(db,&pDB);
 	if (result != SQLITE_OK)
 	{
-		CCLog("open sqlite failed,打开数据库失败，错误码error:%d ，错误原因reason:%s\n" , result, errMsg );
+		CCLog("open sqlite failed,error:%d ，error reason:%s\n" , result, errMsg );
 	}else{
-		CCLog("open sqlite success~ 代码:%d",result);
+		CCLog("open sqlite success~ code:%d",result);
 	}
 }
 
@@ -114,7 +114,7 @@ int SqliteHelper::getDataCount( string sql )
 int loadRecord( void * para, int n_column, char ** column_value, char ** column_name)
 { 
 // 	CCLog("ID=%s,name=%s,password=%s,word=%s",column_value[0],column_value[1],column_value[2],column_value[3]);
-	CCLog("ID=%s name=%s rules=%s %s",column_value[0],column_value[1],column_value[3],column_name[2]);
+	CCLog("ID=%s name=%s",column_value[0],column_value[1]);
 	((CharacterEntity*)para)->setID(CCInteger::create(atoi(column_value[0])));
 	((CharacterEntity*)para)->setName(ccs(column_value[1]));
 	((CharacterEntity*)para)->setXML(ccs(column_value[2]));
@@ -125,7 +125,7 @@ int loadRecord( void * para, int n_column, char ** column_value, char ** column_
 void SqliteHelper::getDataInfo( string sql,CCObject *pSend )
 {
 	int ret = sqlite3_exec( pDB, sql.c_str() , loadRecord, pSend, &errMsg );
-	CCLog("return getDataInfo 错误代码:%d error:%s",ret,errMsg);
+	CCLog("return getDataInfo error code:%d error:%s",ret,errMsg);
 }
 
 int loadziRecord(void * para, int n_column, char ** column_value, char ** column_name){
@@ -140,19 +140,19 @@ int loadziRecord(void * para, int n_column, char ** column_value, char ** column
 
 void SqliteHelper::getZiDataInfo(string sql,CCObject* p){
 	int ret = sqlite3_exec(pDB , sql.c_str() , loadziRecord , p,&errMsg);
-	CCLog("getZiDataInfo 错误代码:%d error:%s",ret,errMsg);
+	CCLog("getZiDataInfo error code:%d error:%s",ret,errMsg);
 
 }
 
 int getFuncBody(void * para, int n_column, char ** column_value, char ** column_name){
-	CCLog("getFuncBody: %s",column_value[2]);
+	CCLog("getFuncBody");
 	((strokeFunc*)para)->setFunc(ccs(column_value[2]));
 	return 0;
 }
 
 void SqliteHelper::getstrokeFunc(string sql,CCObject* funcbody){
 	int ret = sqlite3_exec(pDB,sql.c_str(),getFuncBody,funcbody,&errMsg);
-	CCLog("getstrokeFunc 错误代码:%d error:%s",ret,errMsg);
+	CCLog("getstrokeFunc error code:%d error:%s",ret,errMsg);
 
 }
 

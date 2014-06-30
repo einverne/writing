@@ -5,19 +5,15 @@
 #include "LuaScriptReader.h"
 #include "CharacterEntity.h"
 USING_NS_CC;
+using namespace std;
 
 class JudgeManager
 {
 public:
-	JudgeManager(string hanzi);
+	JudgeManager();
 	~JudgeManager();
-	string getResult(string points_output);
+	static string getResult(string hanzi , string points_output,CharacterEntity* p, string funcs);
 
-	CLuaScriptReader gReader;
-	string hanzi;
-private:
-	string funcs;
-	CharacterEntity* p;
 };
 
 
