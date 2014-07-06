@@ -1,7 +1,7 @@
 -----------------------------------------
---Ôªº¯Êı¿â
---TODO·µ»Ø×Ö·û´®£º×îÖÕ·µ»ØÒ»¸ö×Ö·û´®£¬¸ø½çÃæ²ãÊ¹ÓÃ
---TODO Ô­º¯ÊıÒì³£´¦Àí£¬°üÀ¨ÀàĞÍÅĞ¶Ï£¬±ß½çÅĞ¶ÏµÈµÈ
+--å…ƒå‡½æ•°åº“
+--TODOè¿”å›å­—ç¬¦ä¸²ï¼šæœ€ç»ˆè¿”å›ä¸€ä¸ªå­—ç¬¦ä¸²ï¼Œç»™ç•Œé¢å±‚ä½¿ç”¨
+--TODO åŸå‡½æ•°å¼‚å¸¸å¤„ç†ï¼ŒåŒ…æ‹¬ç±»å‹åˆ¤æ–­ï¼Œè¾¹ç•Œåˆ¤æ–­ç­‰ç­‰
 -----------------------------------------
 
 local print = print
@@ -17,11 +17,11 @@ local HZStruct = nil
 local RunRule = nil
 local WZEnv = nil
 
---´úÂëÔËĞĞ½á¹û·µ»ØĞÅÏ¢
+--ä»£ç è¿è¡Œç»“æœè¿”å›ä¿¡æ¯
 allInfoStr = ""
 retInfoStr = ""
 
---#####ÔËĞĞ»·¾³ÉèÖÃº¯Êı#####--
+--#####è¿è¡Œç¯å¢ƒè®¾ç½®å‡½æ•°#####--
 function clearRetInfoStr()
 	retInfoStr = ""
 end
@@ -44,14 +44,14 @@ function setWZEnv(env)
 end
 
 
---#####Ôªº¯ÊıÊµÏÖ#####--
---ËùÓĞ²Ù×÷Ë÷Òı´Ó0¿ªÊ¼
+--#####å…ƒå‡½æ•°å®ç°#####--
+--æ‰€æœ‰æ“ä½œç´¢å¼•ä»0å¼€å§‹
 function GetBH( idx )
 	local bh = WriteHZ.strokes[idx + 1]
 	return bh
 end
 
---²ÎÊıÎªbd»òbh¶¼¿É
+--å‚æ•°ä¸ºbdæˆ–bhéƒ½å¯
 function GetStartPoint(bh)
 	local point = WZEnv.POINT:new()
 	point.x = bh.ptSet[1].x
@@ -66,7 +66,7 @@ function GetEndPoint(bh)
 	return point
 end
 
---»ñµÃÖĞµã
+--è·å¾—ä¸­ç‚¹
 function	GetMidPoint ( bh )
  	local point = WZEnv.POINT:new()
 	local len= #bh.ptSet
@@ -77,7 +77,7 @@ function	GetMidPoint ( bh )
 end
 
 
---»ñµÃµãµÄºá×İ×ø±ê
+--è·å¾—ç‚¹çš„æ¨ªçºµåæ ‡
 function GetPointX ( pt )
 	return pt.x
 end
@@ -88,7 +88,7 @@ end
 
 
 
---»ñÈ¡Ä³Ò»±Ê¶Î ±Ê¶ÎË÷Òı´Ó0¿ªÊ¼
+--è·å–æŸä¸€ç¬”æ®µ ç¬”æ®µç´¢å¼•ä»0å¼€å§‹
 function GetBDByBH(bh,bdIdx)
 	local bd = WZEnv.BD:new()
 	local preIdx = 1
@@ -108,7 +108,7 @@ function GetBDByBH(bh,bdIdx)
 end
 
 
---¼ÆËãcurIdx¶ÔÓ¦µÄ½Ç¶È
+--è®¡ç®—curIdxå¯¹åº”çš„è§’åº¦
 function Cal_Angle(prePt,curPt,postPt)
 	local vecX = {}
 	local vecY = {}
@@ -134,9 +134,9 @@ function sortingFun(a,b)
 end
 
 
---»ñµÃ±Ê»­¹ÕµãµÄ¸öÊı
+--è·å¾—ç¬”ç”»æ‹ç‚¹çš„ä¸ªæ•°
 function GetTurningPtNum(bh,BDNum)
-	local n_step = 5			--luaË÷Òı´Ó1¿ªÊ¼
+	local n_step = 5			--luaç´¢å¼•ä»1å¼€å§‹
 	if( #bh.ptSet <2*n_step+1) then
 		return nil
 	end
@@ -144,7 +144,7 @@ function GetTurningPtNum(bh,BDNum)
 	local n_preIdx = 1
 	local n_postIdx = 2*n_step+1
 	local angleArr = {}
-	--¼ÆËãµã¶ÔÓ¦µÄ½Ç¶È
+	--è®¡ç®—ç‚¹å¯¹åº”çš„è§’åº¦
 	for i = n_curIdx,(#bh.ptSet)-n_step do
 		local ele = {}
 		local angle = Cal_Angle(bh.ptSet[n_preIdx],bh.ptSet[i],bh.ptSet[n_postIdx])
@@ -154,12 +154,12 @@ function GetTurningPtNum(bh,BDNum)
 		n_preIdx = n_preIdx + 1
 		n_postIdx = n_postIdx + 1
 	end
-	--°Ñ½Ç¶È°´ÕÕ´ÓĞ¡µ½´óÅÅĞò
+	--æŠŠè§’åº¦æŒ‰ç…§ä»å°åˆ°å¤§æ’åº
 	table.sort(angleArr,sortingFun)
 	local nCandidateNum = #angleArr
 
-	local CInflectionPts = {}		--´æ´¢ºòÑ¡¹ÕµãµÄË÷Òı
-	--Ñ¡³öÁË×î¶àBDNum+1¸ö¹Õµã£¬´æ´¢ÔÚCInflectionPtsÖĞ
+	local CInflectionPts = {}		--å­˜å‚¨å€™é€‰æ‹ç‚¹çš„ç´¢å¼•
+	--é€‰å‡ºäº†æœ€å¤šBDNum+1ä¸ªæ‹ç‚¹ï¼Œå­˜å‚¨åœ¨CInflectionPtsä¸­
 	local f_angleThres = 12/18*3.14;
 	for p = 1,nCandidateNum do
 		local cFlag = false
@@ -176,57 +176,57 @@ function GetTurningPtNum(bh,BDNum)
 		end
 	end
 
-	--´ÓCInflectionPtsÖĞ¼ÌĞøÑ¡³ö×îÖÕ¹Õµã£¬
-	--ÕâÑùÖ÷ÒªÊÇÎªÁËÆÁ±Î±Ê»­¼â¶ËµÄ¶¶¶¯£¬¼õĞ¡¹Õµã¼ì²âµÄÎó²î
+	--ä»CInflectionPtsä¸­ç»§ç»­é€‰å‡ºæœ€ç»ˆæ‹ç‚¹ï¼Œ
+	--è¿™æ ·ä¸»è¦æ˜¯ä¸ºäº†å±è”½ç¬”ç”»å°–ç«¯çš„æŠ–åŠ¨ï¼Œå‡å°æ‹ç‚¹æ£€æµ‹çš„è¯¯å·®
 	local n_prePos
 	local n_postPos
 	table.sort(CInflectionPts)
 
---Èç¹ûÑ¡³öµÄ¹ÕµãÊıÄ¿Îª0£¬Ö±½Ó·µ»Ø£¬´ËÊ±CInflectionPtsÊÇ¿ÕµÄ
+--å¦‚æœé€‰å‡ºçš„æ‹ç‚¹æ•°ç›®ä¸º0ï¼Œç›´æ¥è¿”å›ï¼Œæ­¤æ—¶CInflectionPtsæ˜¯ç©ºçš„
 	if(#CInflectionPts <= 0) then
 		return 0
 	end
-	--Èç¹û¹ÕµãÊıÄ¿±È±ê×¼ÉÙ£¬½«¹ÕµãÊı×é¸³Öµ£¬·µ»Ø
+	--å¦‚æœæ‹ç‚¹æ•°ç›®æ¯”æ ‡å‡†å°‘ï¼Œå°†æ‹ç‚¹æ•°ç»„èµ‹å€¼ï¼Œè¿”å›
 	if (#CInflectionPts < BDNum - 1) then
 		bh.InflectionPoint = CInflectionPts
 		return #CInflectionPts
 	end
 
-   --Èç¹û¹ÕµãÊıÄ¿´óÓÚ»òÕßµÈÓÚ±ê×¼Öµ
+   --å¦‚æœæ‹ç‚¹æ•°ç›®å¤§äºæˆ–è€…ç­‰äºæ ‡å‡†å€¼
 	if (#CInflectionPts >= BDNum-1) then
-		--Èç¹û¶à³öÒ»¸ö¹Õµã£¬Î±¹ÕµãÒ»¶¨ÊÇÔÚµÚÒ»¸ö»òÕß×îºóÒ»¸ö£¬·Ö±ğ¼ÆËãÆä¾àÀëÊ×Î»µãµÄ¾àÀë
+		--å¦‚æœå¤šå‡ºä¸€ä¸ªæ‹ç‚¹ï¼Œä¼ªæ‹ç‚¹ä¸€å®šæ˜¯åœ¨ç¬¬ä¸€ä¸ªæˆ–è€…æœ€åä¸€ä¸ªï¼Œåˆ†åˆ«è®¡ç®—å…¶è·ç¦»é¦–ä½ç‚¹çš„è·ç¦»
 		local pos1 = CInflectionPts[1]
 		local pos2 = CInflectionPts[#CInflectionPts]
 		local spt = bh.ptSet[1]
 		local ept = bh.ptSet[#bh.ptSet]
 		local dis1 = math.sqrt( math.pow(bh.ptSet[pos1].x - spt.x,2) + math.pow(bh.ptSet[pos1].y - spt.y,2))
 		local dis2 = math.sqrt( math.pow(bh.ptSet[pos2].x - ept.x,2) + math.pow(bh.ptSet[pos2].y - ept.y,2))
-		--1.Èç¹ûµÚÒ»¸ö¹ÕµãÊÇ¶¶¶¯µã
+		--1.å¦‚æœç¬¬ä¸€ä¸ªæ‹ç‚¹æ˜¯æŠ–åŠ¨ç‚¹
 		if( dis1 < 5 ) then
 			n_prePos = CInflectionPts[1]
 			n_postPos = #bh.ptSet
-			--°Ñ¶¶±Ê¶Î´Ó±Ê»­ÖĞÉ¾³ı
+			--æŠŠæŠ–ç¬”æ®µä»ç¬”ç”»ä¸­åˆ é™¤
 			for i = 1, n_prePos-1 do
 				table.remove(bh.ptSet,1)
 			end
 
-			--´Ó¹ÕµãÊı×éÖĞÉ¾³ı¸Ã¹Õµã
+			--ä»æ‹ç‚¹æ•°ç»„ä¸­åˆ é™¤è¯¥æ‹ç‚¹
 			table.remove(CInflectionPts,1)
 
-			--ÒÆ¶¯¹ÕµãË÷ÒıÊı×éÖĞË÷ÒıµÄÎ»ÖÃ
+			--ç§»åŠ¨æ‹ç‚¹ç´¢å¼•æ•°ç»„ä¸­ç´¢å¼•çš„ä½ç½®
 			if ( #CInflectionPts > 0 ) then
 				for i = 1,#CInflectionPts do
 					 CInflectionPts[i] = CInflectionPts[i] - n_prePos + 1
 				end
 			end
 		end
-		--2.Èç¹û×îºóÒ»¸ö¹ÕµãÊÇ¶¶¶¯µã
+		--2.å¦‚æœæœ€åä¸€ä¸ªæ‹ç‚¹æ˜¯æŠ–åŠ¨ç‚¹
 		if (dis2 < 5) then
 			n_prePos = 1
 			n_postPos = CInflectionPts[#CInflectionPts]
-			--´Ó¹Õµã±í¸ñÖĞÉ¾³ı¸Ã¹Õµã
+			--ä»æ‹ç‚¹è¡¨æ ¼ä¸­åˆ é™¤è¯¥æ‹ç‚¹
 			table.remove(CInflectionPts,#CInflectionPts)
-			--É¾³ı¶¶±Ê¶Î
+			--åˆ é™¤æŠ–ç¬”æ®µ
 			for i = #bh.ptSet,n_postPos+1,-1 do
 				table.remove(bh.ptSet,i)
 			end
@@ -237,7 +237,7 @@ function GetTurningPtNum(bh,BDNum)
 end
 
 
---»ñµÃ±Ê»­µÄ¹Õµã Ë÷Òı´Ó0¿ªÊ¼
+--è·å¾—ç¬”ç”»çš„æ‹ç‚¹ ç´¢å¼•ä»0å¼€å§‹
 function GetTurningPt(bh,index)
 	local ptIdx = bh.InflectionPoint[index + 1]
 	return bh.ptSet[ptIdx]
@@ -245,7 +245,7 @@ end
 
 
 
- --»ñµÃÁ½µã¼ä¾àÀë
+ --è·å¾—ä¸¤ç‚¹é—´è·ç¦»
  function GetDistance(pt1,pt2)
 	local dis = math.sqrt( math.pow(pt1.x - pt2.x,2) + math.pow(pt1.y - pt2.y,2))
 	return dis
@@ -327,7 +327,7 @@ end
 
 
 
---»ñµÃ¾­¹ıµãpt1 pt2µÄÖ±Ïß·½³Ìax+by+c = 0 ·µ»ØÊı×élinevarÖĞÒÀ´ÎÊÇÏµÊıa b c
+--è·å¾—ç»è¿‡ç‚¹pt1 pt2çš„ç›´çº¿æ–¹ç¨‹ax+by+c = 0 è¿”å›æ•°ç»„linevarä¸­ä¾æ¬¡æ˜¯ç³»æ•°a b c
 function GetLine(pt1,pt2)
 	local linevar = {}
 	linevar[1] = pt2.y - pt1.y
@@ -336,7 +336,7 @@ function GetLine(pt1,pt2)
 	return linevar
 end
 
---ÅĞ¶ÏµãÊÇ·ñÔÚÖ±ÏßÏÂ±ß
+--åˆ¤æ–­ç‚¹æ˜¯å¦åœ¨ç›´çº¿ä¸‹è¾¹
 function Point2LineDown(pt,line)
 	local a,b,c = line[1],line[2],line[3]
 	local result = a*pt.x + b*pt.y + c
@@ -346,7 +346,7 @@ function Point2LineDown(pt,line)
 	return false
 end
 
---ÅĞ¶ÏµãÊÇ·ñÔÚÖ±ÏßµÄÉÏ±ß
+--åˆ¤æ–­ç‚¹æ˜¯å¦åœ¨ç›´çº¿çš„ä¸Šè¾¹
 function Point2LineUp(pt,line)
 	local a,b,c = line[1],line[2],line[3]
 	local result = a*pt.x + b*pt.y + c
@@ -358,7 +358,7 @@ end
 
 
 
---»ñµÃ×î×óÃæµÄµã bh/bd
+--è·å¾—æœ€å·¦é¢çš„ç‚¹ bh/bd
 function GetLeftMostPoint ( bh )
 	if ( bh == nil ) then
 		return nil
@@ -384,7 +384,7 @@ function GetLeftMostPoint ( bh )
 	return pt
 end
 
---»ñµÃ×îÓÒÃæµÄµã bh/bd
+--è·å¾—æœ€å³é¢çš„ç‚¹ bh/bd
 function GetRightMostPoint ( bh )
 	if ( bh == nil ) then
 		return nil
@@ -410,7 +410,7 @@ function GetRightMostPoint ( bh )
 	return pt
 end
 
---»ñµÃ×îÉÏ·½µÄµã
+--è·å¾—æœ€ä¸Šæ–¹çš„ç‚¹
 function GetTopMostPoint ( bh )
 	if ( bh == nil ) then
 		return nil
@@ -433,7 +433,7 @@ function GetTopMostPoint ( bh )
 	return pt
 end
 
---»ñµÃ×îÏÂ·½µÄµã bd/bd
+--è·å¾—æœ€ä¸‹æ–¹çš„ç‚¹ bd/bd
 function GetBottomMostPoint ( bh )
 	if ( bh == nil ) then
 		return nil
@@ -457,7 +457,7 @@ function GetBottomMostPoint ( bh )
 	return pt
 end
 
---»ñµÃbhÉÏÀëpt×î½üµÄµã
+--è·å¾—bhä¸Šç¦»ptæœ€è¿‘çš„ç‚¹
 function GetVPoint(bh,pt)
 	local minPtIndex = 0
 	local minDis = GetDistance(pt,bh.ptSet[1])
@@ -472,8 +472,8 @@ function GetVPoint(bh,pt)
 end
 
 
---»ñµÃÁ½¸ö±Ê»­µÄ½»µã  Èç¹ûÓĞ½»µã ·µ»Ø¸Ã½»µã
---							  Èç¹ûÃ»ÓĞ½»µã  ·µ»Ønil
+--è·å¾—ä¸¤ä¸ªç¬”ç”»çš„äº¤ç‚¹  å¦‚æœæœ‰äº¤ç‚¹ è¿”å›è¯¥äº¤ç‚¹
+--							  å¦‚æœæ²¡æœ‰äº¤ç‚¹  è¿”å›nil
 function GetJoint(bh1, bh2)
 	local disThreshold = 3
 	local minDis = 256
@@ -504,7 +504,7 @@ end
 
 
 
---pt µ½ax + by + c = 0µÄ¾àÀë
+--pt åˆ°ax + by + c = 0çš„è·ç¦»
 function Cal_Point2LineDis( pt, a, b, c)
 	local x = pt.x
 	local y = pt.y
@@ -514,7 +514,7 @@ function Cal_Point2LineDis( pt, a, b, c)
 	return dis
 end
 
---ÅĞ¶ÏptÔÚÖ±Ïßax+by+c=0µÄ·½Î»
+--åˆ¤æ–­ptåœ¨ç›´çº¿ax+by+c=0çš„æ–¹ä½
 function Cal_Direction(pt, a, b,c)
 	local x = pt.x
 	local y = pt.y
@@ -523,7 +523,7 @@ function Cal_Direction(pt, a, b,c)
 end
 
 
---»ñµÃ±Ê»­µ½Ö±Ïß line ax + by + c = 0¾àÀë×îÔ¶µÄ¾àÀë
+--è·å¾—ç¬”ç”»åˆ°ç›´çº¿ line ax + by + c = 0è·ç¦»æœ€è¿œçš„è·ç¦»
 function GetFarthestPt2Line(bh,line)
 	local a,b,c = line[1],line[2],line[3]
 	local maxDis = 0
@@ -538,3 +538,31 @@ function GetFarthestPt2Line(bh,line)
 	end
 	return maxDis
 end
+
+
+
+--è·å¾—ç¬”ç”»åˆ°ç›´çº¿line  ax + by + c = 0çš„
+function GetBHTrend(bh,line)
+	local a,b,c = line[1],line[2],line[3]
+	local trendArray = {}
+	trendArray[#trendArray + 1 ] = 0   --ç¬¬ä¸€ä¸ªtagåˆå§‹åŒ–ä¸º0
+	local preDis = 0
+	--1 è¡¨ç¤ºåé¢çš„
+	for i = 2,#bh.ptSet do
+		local curPt = bh.ptSet[i]
+		local curDis = Cal_Point2LineDis(curPt,a,b,c)
+		if(curDis > preDis) then
+			if (trendArray[#trendArray] == 0 )then
+				trendArray[#trendArray + 1] = 1
+			end
+		end
+		if (curDis < preDis) then
+			if(trendArray[#trendArray] == 1) then
+				trendArray[#trendArray + 1] = 0
+			end
+		end
+		preDis = curDis
+	end
+	return trendArray
+end
+

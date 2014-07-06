@@ -152,7 +152,7 @@ int getFuncBody(void * para, int n_column, char ** column_value, char ** column_
 
 void SqliteHelper::getstrokeFunc(string sql,CCObject* funcbody){
 	int ret = sqlite3_exec(pDB,sql.c_str(),getFuncBody,funcbody,&errMsg);
-	CCLog("getstrokeFunc error code:%d error:%s",ret,errMsg);
+	CCLog("SqliteHelper::getstrokeFunc error code:%d error:%s",ret,errMsg);
 
 }
 
@@ -162,9 +162,9 @@ void SqliteHelper::closeDB()
 	result = sqlite3_close(pDB); 
 	if (result == SQLITE_OK)
 	{
-		CCLog("数据库关闭成功！");
+		CCLog("close database succeed");
 	}else
 	{
-		CCLog("数据库关闭失败！");
+		CCLog("close database failed");
 	}
 }

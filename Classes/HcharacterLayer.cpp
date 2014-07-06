@@ -153,7 +153,7 @@ void HcharacterLayer::judge(){
 		m_HDrawnode->runAction(place);
 
 
-		if ( t == layer->getm_TDrawnode()->getCharacter().getStrokeCount())
+		if ( t >= layer->getm_TDrawnode()->getCharacter().getStrokeCount())
 		{
 			getInfoSprite()->setVisible(true);
 			getInfoSprite()->setTexture(CCTextureCache::sharedTextureCache()->addImage("right.png"));

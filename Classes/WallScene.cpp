@@ -131,12 +131,12 @@ bool WallScene::init()
 
 			string tempfilename=imgElement->GetText();
 			string temphanzi=hanziElement->GetText();
-			CCLog("temphanzi %s",temphanzi.c_str());
+			//CCLog("temphanzi %s",temphanzi.c_str());
 			//			string GBKhanzi = UTF8ToGBK::UTF8TOGBK(temphanzi);
 			string temppro=proficiencyElement->GetText();
 
 			//stone sprite
-			CCLog("tempfilename %s",tempfilename.c_str());
+			//CCLog("tempfilename %s",tempfilename.c_str());
 			CCSprite* pSprite1 = CCSprite::create(tempfilename.c_str());
 			pSprite1->setScale(rescale);
 			pSprite1->setPosition(ccp(origin.x+x, origin.y+y));

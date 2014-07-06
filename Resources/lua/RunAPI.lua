@@ -3,7 +3,7 @@ strokeRuleNode = {index = 0, codes = ""}
 unitRuleNode = {index = 0, zistrokeRules = {}}
 
 Pass2CStr = ""
---########################			¸¨Öúº¯Êı				#############################
+--########################			è¾…åŠ©å‡½æ•°				#############################
 function string:split(sep,sign)
 	local sep, fields = sep or "\t", {}
 	local pattern = string.format("([^"..sign.."]+)", sep)
@@ -32,7 +32,7 @@ function trim(s)
 	return (string.gsub(s,"^%s*(.-)%s*$","%1"))
 end
 
---¶ÁÎÄ¼ş²Ù×÷
+--è¯»æ–‡ä»¶æ“ä½œ
 function ReadFile(filename)
 file = io.open(filename,"r")
 local totalStr = ""
@@ -42,26 +42,26 @@ end
 file:close()
 return totalStr
 end
---#########################			¸¨Öúº¯Êı			#######################################
+--#########################			è¾…åŠ©å‡½æ•°			#######################################
 
 
---#########################	´¦ÀíÊÖĞ´×ÖĞÅÏ¢		 ########################################
-local WriteZiStr = GetWriteInfoFromC()	--Íâ²¿½Ó¿Ú
+--#########################	å¤„ç†æ‰‹å†™å­—ä¿¡æ¯		 ########################################
+local WriteZiStr = GetWriteInfoFromC()	--å¤–éƒ¨æ¥å£
 local WZ = require("WriteZiInfo")
 local writeHZ = WZ.WriteHZ:new()
 writeHZ:initialize(WriteZiStr)
---#########################	´¦ÀíÊÖĞ´×ÖĞÅÏ¢		 ########################################
+--#########################	å¤„ç†æ‰‹å†™å­—ä¿¡æ¯		 ########################################
 
 
---Ö»ĞèÒª×Ö¼¶±ğµÄ´úÂë¼´¿É
---#########################	×°ÔØ´úÂë		 ########################################
---local ZiName = GetZiNameFromC()				--Íâ²¿½Ó¿Ú
+--åªéœ€è¦å­—çº§åˆ«çš„ä»£ç å³å¯
+--#########################	è£…è½½ä»£ç 		 ########################################
+--local ZiName = GetZiNameFromC()				--å¤–éƒ¨æ¥å£
 --local filepath = "ZiList\\"..ZiName.."\\rules.txt"
 --local RuleStr = ReadFile(filepath)
 --local strZiRule = RuleStr
 local strZiRule = GetRulesFromC();
 
---×°ÔØ×Ö¼¶±ğ¹æÔò 	ZiRuleList = {{index = 1 , codes = "..."},{index = 2 , codes = "..."},{index = 3 , codes = "..."},...}
+--è£…è½½å­—çº§åˆ«è§„åˆ™ 	ZiRuleList = {{index = 1 , codes = "..."},{index = 2 , codes = "..."},{index = 3 , codes = "..."},...}
 strZiRule  = string.gsub(strZiRule , "//##begin", "" )
 strZiRule  = string.gsub(strZiRule , "//##end", "" )
 strZiRule  = string.gsub(strZiRule , "//##", "//##--" )
@@ -80,7 +80,7 @@ for i = 1,#tmpZiRuleList do
 end
 
 
---¸ø¸÷¸ö±Ê»­Ôö¼Ó±Ê»­ÊıÄ¿ÅĞ¶ÏÓï¾ä
+--ç»™å„ä¸ªç¬”ç”»å¢åŠ ç¬”ç”»æ•°ç›®åˆ¤æ–­è¯­å¥
 local NewZiRuleArr = {}
 local str1 = "if(bhNum == "
 local str2 = ") then ".."\n"
@@ -101,7 +101,7 @@ baseFuncs = require("BaseLib")
 baseFuncs.setWriteZiInfo(writeHZ)
 baseFuncs.setWZEnv(WZ)
 
---´Ë´¦ĞèÒªÔÚÍâ²¿C´úÂëÔö¼Ó½Ó¿Ú
+--æ­¤å¤„éœ€è¦åœ¨å¤–éƒ¨Cä»£ç å¢åŠ æ¥å£
 --local strokeLevel =  GetStrokeLevelFromC()
 
 function RunZiRule(bhNum)
