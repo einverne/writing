@@ -141,6 +141,9 @@
     <ClCompile Include="..\Classes\strokeFunc.cpp">
       <Filter>Classes\Entity</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\MainScene.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -251,6 +254,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\strokeFunc.h">
       <Filter>Classes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MainScene.h">
+      <Filter>Classes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

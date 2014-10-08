@@ -138,6 +138,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\JudgeManager.cpp" />
     <ClCompile Include="..\Classes\LianxiScene.cpp" />
     <ClCompile Include="..\Classes\LuaScriptReader.cpp" />
+    <ClCompile Include="..\Classes\MainScene.cpp" />
     <ClCompile Include="..\Classes\MoveToRightPlace.cpp" />
     <ClCompile Include="..\Classes\MoveToRightPlaceInterval.cpp" />
     <ClCompile Include="..\Classes\PopLayer.cpp" />
@@ -178,6 +179,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\JudgeManager.h" />
     <ClInclude Include="..\Classes\LianxiScene.h" />
     <ClInclude Include="..\Classes\LuaScriptReader.h" />
+    <ClInclude Include="..\Classes\MainScene.h" />
     <ClInclude Include="..\Classes\MoveToRightPlace.h" />
     <ClInclude Include="..\Classes\MoveToRightPlaceInterval.h" />
     <ClInclude Include="..\Classes\PopLayer.h" />

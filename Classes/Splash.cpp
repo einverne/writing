@@ -1,5 +1,6 @@
 #include "Splash.h"
 #include "WallScene.h"
+#include "MainScene.h"
 
 USING_NS_CC;
 Splash::Splash(void)
@@ -21,7 +22,7 @@ CCScene* Splash::scene(){
 bool Splash::init(){
     if (!CCLayer::init())
     {
-	return false;
+		return false;
     }
 
     CCSize winSize = CCDirector::sharedDirector()->getWinSize();
@@ -105,5 +106,5 @@ void Splash::onExitTransitionDidStart(){
 
 void Splash::finishSplash(float dt){
     
-    CCDirector::sharedDirector()->replaceScene(WallScene::scene());
+    CCDirector::sharedDirector()->replaceScene(MainScene::scene());
 }
