@@ -1,5 +1,6 @@
 #include "MainScene.h"
 #include "WallScene.h"
+#include "tools/DataTool.h"
 
 using namespace std;
 #include "stdlib.h"
@@ -48,9 +49,8 @@ bool MainScene::init(){
 	CCArray* array = CCArray::create();
 	for (int i = 0; i < 8 ; i++)
 	{
-		stringstream s;
-		s << i+1;
-		CCLabelTTF* label = CCLabelTTF::create(s.str().c_str(),"Arial",50);
+		string s = DataTool::intTostring(i);
+		CCLabelTTF* label = CCLabelTTF::create(s.c_str(),"Arial",50);
 		CCMenuItemImage* p = CCMenuItemImage::create(
 			"main_button.png",
 			"main_button_2.png",
