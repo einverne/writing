@@ -2,6 +2,7 @@
 #include "WallScene.h"
 
 using namespace std;
+#include "stdlib.h"
 USING_NS_CC;
 #define TAG_LAYER_EXIT 1001
 
@@ -47,7 +48,9 @@ bool MainScene::init(){
 	CCArray* array = CCArray::create();
 	for (int i = 0; i < 8 ; i++)
 	{
-		CCLabelTTF* label = CCLabelTTF::create(std::to_string(i+1).c_str(),"Arial",50);
+		stringstream s;
+		s << i+1;
+		CCLabelTTF* label = CCLabelTTF::create(s.str().c_str(),"Arial",50);
 		CCMenuItemImage* p = CCMenuItemImage::create(
 			"main_button.png",
 			"main_button_2.png",
