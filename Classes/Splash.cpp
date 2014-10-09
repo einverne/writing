@@ -91,7 +91,7 @@ bool Splash::init(){
 void Splash::onEnter(){
     CCLayer::onEnter();
     CCLog("onEnter");
-    this->scheduleOnce(schedule_selector(Splash::finishSplash),0.1f);
+    this->scheduleOnce(schedule_selector(Splash::finishSplash),0.4f);
 }
 
 void Splash::onExit(){

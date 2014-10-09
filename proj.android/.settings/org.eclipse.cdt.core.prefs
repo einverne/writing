@@ -1,6 +1,6 @@
 eclipse.preferences.version=1
 environment/project/0.756827735/NDK_MODULE_PATH/delimiter=;
-environment/project/0.756827735/NDK_MODULE_PATH/operation=append
-environment/project/0.756827735/NDK_MODULE_PATH/value=e\:\\graduation_project\\cocos2d-x-2.1.5;e\:\\graduation_project\\cocos2d-x-2.1.5\\cocos2dx\\platform\\third_party\\android\\prebuilt\\
+environment/project/0.756827735/NDK_MODULE_PATH/operation=replace
+environment/project/0.756827735/NDK_MODULE_PATH/value=D\:\\graduation_project\\cocos2d-x-2.1.5;D\:\\graduation_project\\cocos2d-x-2.1.5\\cocos2dx\\platform\\third_party\\android\\prebuilt\\
 environment/project/0.756827735/append=true
 environment/project/0.756827735/appendContributed=true

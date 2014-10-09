@@ -7,12 +7,12 @@
 USING_NS_CC;
 
 
-char StandardZiInfo[1024] = "";		//用于接收标准字信息
-char WriteZiInfo[1024*10] = "";		//手写字信息
+char StandardZiInfo[10240] = "";		//用于接收标准字信息
+char WriteZiInfo[1024*100] = "";		//手写字信息
 char Hanzi[50] = "";
-char RuleInfo[1024*10] = "";		//规则信息
-char GlobalFunc[1024*10] = "";		//全局函数信息
-char Rules[1024*10] = "";
+char RuleInfo[1024*100] = "";		//规则信息
+char GlobalFunc[1024*100] = "";		//全局函数信息
+char Rules[1024*100] = "";
 // char* StandardZiInfo = new char[1024];
 // char* WriteZiInfo = new char[1024*10];
 // char* Hanzi = new char[50];
