@@ -1,4 +1,4 @@
-#include "WallScene.h"
+#include "WallSingleScene.h"
 #include "tinyxml.h" 
 #include "PopLayer.h"
 #include "tools/DataTool.h"
@@ -10,13 +10,13 @@ USING_NS_CC;
 #define TAG_LAYER_EXIT 1001
 
 //////////////////////////////////////////
-CCScene* WallScene::scene()
+CCScene* WallSingleScene::scene()
 {
 	// 'scene' is an autorelease object
 	CCScene *scene = CCScene::create();
 
 	// 'layer' is an autorelease object
-	WallScene *layer = WallScene::create();
+	WallSingleScene *layer = WallSingleScene::create();
 
 	// add layer as a child to scene
 	scene->addChild(layer);
@@ -26,7 +26,7 @@ CCScene* WallScene::scene()
 }
 
 // on "init" you need to initialize your instance
-bool WallScene::init()
+bool WallSingleScene::init()
 {
 	//////////////////////////////
 	// 1. super init first
@@ -40,6 +40,13 @@ bool WallScene::init()
 
 	isMoved = false;
 	touched = false;
+
+	CCLog("WallSingleScene:init()");
+	CCSprite* wall_tail = CCSprite::create("wall_tail.png");
+	this->addChild(wall_tail,2);
+	CCSize tailSize = wall_tail->getContentSize();
+	wall_tail->setPosition(ccp(visibleSize.width/2,wall_tail->getContentSize().height/2));
+	wall_tail->setScaleX(visibleSize.width/wall_tail->getContentSize().width);
 
 	/////////////////////////////
 	// 2. add a menu item with "X" image, which is clicked to quit the program
@@ -87,7 +94,8 @@ bool WallScene::init()
 	string mwidth=widthElement->GetText(); 
 	int width=atoi(mwidth.c_str());
 
-	rescale=visibleSize.height/(float)height;
+	rescale=(visibleSize.height - wall_tail->getContentSize().height)/(float)height;
+	float width_rescale = visibleSize.width/(float)width;
 	//////////////
 	TiXmlElement* dataElement = metaElement->NextSiblingElement();  // data
 	TiXmlElement* stoneElement = dataElement->FirstChildElement();  // stone
@@ -125,10 +133,11 @@ bool WallScene::init()
 			y=height-y-h/2;
 
 			//缩放；
-			x*=rescale;
+			x*=width_rescale;
 			y*=rescale;
-			w*=rescale;
+			w*=width_rescale;
 			h*=rescale;
+			y += wall_tail->getContentSize().height;
 
 			string tempfilename=imgElement->GetText();
 			string temphanzi=hanziElement->GetText();
@@ -139,7 +148,8 @@ bool WallScene::init()
 			//stone sprite
 			//CCLog("tempfilename %s",tempfilename.c_str());
 			CCSprite* pSprite1 = CCSprite::create(tempfilename.c_str());
-			pSprite1->setScale(rescale);
+			pSprite1->setScaleY(rescale);
+			pSprite1->setScaleX(width_rescale);
 			pSprite1->setPosition(ccp(origin.x+x, origin.y+y));
 			this->addChild(pSprite1, 1);
 
@@ -183,15 +193,17 @@ bool WallScene::init()
 			y=height-y-h/2;
 
 			//缩放；
-			x*=rescale;
+			x*=width_rescale;
 			y*=rescale;
-			w*=rescale;
+			w*=width_rescale;
 			h*=rescale;
+			y += wall_tail->getContentSize().height;
 
 			//stone sprite
 			string tempfilename=imgElement->GetText();
 			CCSprite* pSprite2 = CCSprite::create(tempfilename.c_str());
-			pSprite2->setScale(rescale);
+			pSprite2->setScaleY(rescale);
+			pSprite2->setScaleX(width_rescale);
 			pSprite2->setPosition(ccp(origin.x+x, origin.y+y));
 			this->addChild(pSprite2, 1);
 			/////////////
@@ -218,12 +230,12 @@ bool WallScene::init()
 	return true;
 }
 
-void WallScene::onEnter(){
+void WallSingleScene::onEnter(){
 	CCLayer::onEnter();
 
 }
 
-void WallScene::onExit(){
+void WallSingleScene::onExit(){
 	CCLayer::onExit();
 }
 
@@ -291,7 +303,7 @@ void WallScene::onExit(){
 // 	touchbeginpoint = newpos;
 // }
 
-void WallScene::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
+void WallSingleScene::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 	CCLog("Touches Began~~~");
 	CCTouch* pTouch = (CCTouch*)pTouches->anyObject();
 
@@ -302,7 +314,7 @@ void WallScene::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 	beginTime = millisecondNow();
 	//定时器,直接使用scheduleUpdate无效
 	//this->scheduleUpdate();
-	CCDirector::sharedDirector()->getScheduler()->scheduleSelector(schedule_selector(WallScene::longPressUpdate),this,1.5f,false);
+	CCDirector::sharedDirector()->getScheduler()->scheduleSelector(schedule_selector(WallSingleScene::longPressUpdate),this,1.5f,false);
 	for (vector<CHanziManage>::iterator iter = hanzilist.begin();iter!=hanzilist.end();++iter)
 	{
 		CCPoint hanziPos = iter->pos;
@@ -319,7 +331,7 @@ void WallScene::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 	}
 
 }
-void WallScene::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
+void WallSingleScene::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
 	CCLog("ccTouchesMoved");
 	CCTouch* pTouch = (CCTouch*)pTouches->anyObject();
 	if (ccpDistance(prePoint,pTouch->getLocation()) > 50)
@@ -339,14 +351,14 @@ void WallScene::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
 	if(changepoint.x>=0)
 		changepoint.x=0;
 
-	if (changepoint.x<=-3000*rescale+visibleSize.width)
-		changepoint.x=-3000*rescale+visibleSize.width;
+	if (changepoint.x<=-900*rescale+visibleSize.width)
+		changepoint.x=-900*rescale+visibleSize.width;
 	////////////////
-	this->setPosition(changepoint);
+	//this->setPosition(changepoint);
 	touchbeginpoint = newpos;
 }
 
-void WallScene::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
+void WallSingleScene::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 	CCTouch* pTouch = (CCTouch*)pTouches->anyObject();
 	long endTime = millisecondNow();
 	float length = ccpDistance(prePoint,pTouch->getLocation());
@@ -379,21 +391,21 @@ void WallScene::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 	selectedHanzi = "";
 
 	//解除定时器
-	CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(WallScene::longPressUpdate),this);
+	CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(WallSingleScene::longPressUpdate),this);
 
 }
 
-void WallScene::registerWithTouchDispatcher(){
+void WallSingleScene::registerWithTouchDispatcher(){
 	CCDirector::sharedDirector()->getTouchDispatcher()->addStandardDelegate(this,1);
 }
 
-void WallScene::update(float delta){
+void WallSingleScene::update(float delta){
 	CCLog("update");
 }
 
 
 
-void WallScene::menuCloseCallback(CCObject* pSender)
+void WallSingleScene::menuCloseCallback(CCObject* pSender)
 {
 	CCDirector::sharedDirector()->end();
 	////
@@ -405,7 +417,7 @@ void WallScene::menuCloseCallback(CCObject* pSender)
 	// #endif
 }
 
-bool WallScene::isInSprite(CCTouch* pTouch){
+bool WallSingleScene::isInSprite(CCTouch* pTouch){
 	// 返回当前触摸位置在OpenGL坐标 
 	CCPoint touchPoint=pTouch->getLocation();
 	// 将世界坐标转换为当前父View的本地坐标系
@@ -425,7 +437,7 @@ bool WallScene::isInSprite(CCTouch* pTouch){
 /************************************************************************/
 /* string hanzi 传给lianxi界面书写                                                                      */
 /************************************************************************/
-void WallScene::singleClick(string hanzi){
+void WallSingleScene::singleClick(string hanzi){
 	//解除schedule,不然可能出现不可预测问题。
 	
 // 	CCDirector::sharedDirector()->replaceScene(lianxi::scene(hanzi));
@@ -440,22 +452,22 @@ void WallScene::singleClick(string hanzi){
 // 	CCDirector::sharedDirector()->pushScene(LianxiScene::create(hanzi));
 }
 
-void WallScene::popup(string hanzi){
+void WallSingleScene::popup(string hanzi){
 // 	CCLog("popup wall");
 	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
 	popL = PopLayer::create(hanzi,"pop/background.png");
 	popL->setContentSize(CCSizeMake(winSize.width*0.75,winSize.height*0.75));
 	popL->setTitle("test");
 	popL->setEditBox();
-	popL->setCallBackFunc(this,callfuncN_selector(WallScene::buttonCallBack));
+	popL->setCallBackFunc(this,callfuncN_selector(WallSingleScene::buttonCallBack));
 	popL->addButton("sure_up.png","sure_down.png","Y",0);
 	popL->addButton("cancer_up.png","cancer_down.png","N",1);
 	CCDirector::sharedDirector()->getRunningScene()->addChild(popL,100);
 	//解除定时器
-	CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(WallScene::longPressUpdate),this);
+	CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(WallSingleScene::longPressUpdate),this);
 }
 
-void WallScene::buttonCallBack(CCNode* pNode){
+void WallSingleScene::buttonCallBack(CCNode* pNode){
 	CCLog("button call back. tag: %d", pNode->getTag());
 	if (pNode->getTag() == 0)
 	{
@@ -483,7 +495,7 @@ void WallScene::buttonCallBack(CCNode* pNode){
 	}
 }
 
-void WallScene::longPressUpdate(float fDelta){
+void WallSingleScene::longPressUpdate(float fDelta){
 	CCLog("Update %f",fDelta);
 
 	if (isMoved == false && selectedHanzi.length() > 0)
@@ -491,10 +503,10 @@ void WallScene::longPressUpdate(float fDelta){
 		popup(selectedHanzi);
 	}
 	//解除定时器
-	CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(WallScene::longPressUpdate),this);
+	CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(WallSingleScene::longPressUpdate),this);
 }
 
-void WallScene::saveToFile(string src,const char* dst){
+void WallSingleScene::saveToFile(string src,const char* dst){
 	int i = 0;
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 	string myfilename=CCFileUtils::sharedFileUtils()->fullPathForFilename("wall.xml");
@@ -539,23 +551,23 @@ void WallScene::saveToFile(string src,const char* dst){
 	bool ret = myDocument->SaveFile(myfilename.c_str());
 }
 
-void WallScene::keyBackClicked(){
-	CCLog("WallScene::keyBackClicked");
+void WallSingleScene::keyBackClicked(){
+	CCLog("WallSingleScene::keyBackClicked");
 	if (CCDirector::sharedDirector()->getRunningScene()->getChildByTag(TAG_LAYER_EXIT) == NULL) {
-		CCLog("WallScene::NULL");
+		CCLog("WallSingleScene::NULL");
 		CCSize winSize = CCDirector::sharedDirector()->getWinSize();
 		PopLayer* exitDialog = PopLayer::create("pop/background.png");
 		exitDialog->setContentSize(CCSizeMake(winSize.width*0.8,winSize.height*0.5));
 		exitDialog->setTitle("back",50);
 		exitDialog->setContentText("back",60,100,150);
-		exitDialog->setCallBackFunc(this,callfuncN_selector(WallScene::backtoMainScene));
+		exitDialog->setCallBackFunc(this,callfuncN_selector(WallSingleScene::backtoMainScene));
 		exitDialog->addButton("sure_up.png","sure_down.png","Y",0);
 		exitDialog->addButton("cancer_up.png","cancer_down.png","N",1);
 		CCDirector::sharedDirector()->getRunningScene()->addChild(exitDialog,100,TAG_LAYER_EXIT);
 	}
 }
 
-void WallScene::backtoMainScene(CCNode* pNode){
+void WallSingleScene::backtoMainScene(CCNode* pNode){
 	if (pNode->getTag() == 0)
 	{
 		CCDirector::sharedDirector()->replaceScene(MainScene::scene());

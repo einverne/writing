@@ -1,5 +1,5 @@
 #include "BackgroundLayer.h"
-#include "WallScene.h"
+#include "WallSingleScene.h"
 
 BackgroundLayer::BackgroundLayer()
 {
@@ -72,11 +72,11 @@ void BackgroundLayer::menuBack(CCObject* pSender){
 /*	CCDirector::sharedDirector()->popScene();*/
 	this->unscheduleAllSelectors();
 	CCDirector::sharedDirector()->getTouchDispatcher()->removeAllDelegates();
-	CCDirector::sharedDirector()->replaceScene(WallScene::scene());
+	CCDirector::sharedDirector()->replaceScene(WallSingleScene::scene());
 }
 
 void BackgroundLayer::keyBackClicked(){
 	this->unscheduleAllSelectors();
 	CCDirector::sharedDirector()->getTouchDispatcher()->removeAllDelegates();
-	CCDirector::sharedDirector()->replaceScene(WallScene::scene());
+	CCDirector::sharedDirector()->replaceScene(WallSingleScene::scene());
 }

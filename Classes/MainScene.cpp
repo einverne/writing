@@ -1,5 +1,5 @@
 #include "MainScene.h"
-#include "WallScene.h"
+#include "WallSingleScene.h"
 #include "tools/DataTool.h"
 
 using namespace std;
@@ -95,7 +95,7 @@ void MainScene::keyBackClicked(){
 }
 
 void MainScene::menuSelected(CCObject* pSender){
-	CCDirector::sharedDirector()->replaceScene(WallScene::scene());
+	CCDirector::sharedDirector()->replaceScene(WallSingleScene::scene());
 }
 
 void MainScene::isExit(CCNode* pNode){

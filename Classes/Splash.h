@@ -19,8 +19,9 @@ public:
     void onEnter();
     void onExit();
     void onExitTransitionDidStart();
-
+private:
     void finishSplash(float dt);
+	void initDB();
 };
 
 #endif

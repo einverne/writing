@@ -1,5 +1,5 @@
-#ifndef __WallScene_H__
-#define __WallScene_H__
+#ifndef __WallSingleScene_H__
+#define __WallSingleScene_H__
 
 #include "cocos2d.h"
 #include "HanziManage.h"
@@ -8,19 +8,14 @@
 using namespace std;
 USING_NS_CC;
 
-class WallScene : public CCLayer
+class WallSingleScene : public CCLayer
 {
 public:
 	vector<CHanziManage> hanzilist;
 	string selectedHanzi;
 	float rescale;
 
-	CCPoint touchbeginpoint;
-	CCPoint prePoint;
-	CCPoint changepoint;
-	bool touched;
-	bool isMoved;
-	long beginTime;
+
 
 	virtual bool init();
 	virtual void onEnter();
@@ -37,7 +32,7 @@ public:
 	virtual void registerWithTouchDispatcher();
 
 	// implement the "static node()" method manually
-	CREATE_FUNC(WallScene);
+	CREATE_FUNC(WallSingleScene);
 
 	/**
 	* µ¯³ö¶Ô»°¿ò
@@ -70,6 +65,13 @@ private:
 	void backtoMainScene(CCNode* pNode);
 	PopLayer* popL;
 	vector<CHanziManage>::iterator selectedCHanziManageIter;
+
+	CCPoint touchbeginpoint;
+	CCPoint prePoint;
+	CCPoint changepoint;
+	bool touched;
+	bool isMoved;
+	long beginTime;
 };
 
-#endif // __WallScene_H__
+#endif // __WallSingleScene_H__

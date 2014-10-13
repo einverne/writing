@@ -163,6 +163,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\TouchLayer.cpp" />
     <ClCompile Include="..\Classes\UTF8ToGBK.cpp" />
     <ClCompile Include="..\Classes\WallScene.cpp" />
+    <ClCompile Include="..\Classes\WallSingleScene.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -202,6 +203,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\TouchLayer.h" />
     <ClInclude Include="..\Classes\UTF8ToGBK.h" />
     <ClInclude Include="..\Classes\WallScene.h" />
+    <ClInclude Include="..\Classes\WallSingleScene.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
