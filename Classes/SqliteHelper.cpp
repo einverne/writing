@@ -1,6 +1,7 @@
 #include "SqliteHelper.h"
 #include "CharacterEntity.h"
 #include "strokeFunc.h"
+#include "CharacterExtend.h"
 
 sqlite3 *pDB = NULL;//数据库指针 
 char * errMsg = NULL;//错误信息 
@@ -142,6 +143,21 @@ void SqliteHelper::getZiDataInfo(string sql,CCObject* p){
 	int ret = sqlite3_exec(pDB , sql.c_str() , loadziRecord , p,&errMsg);
 	CCLog("getZiDataInfo error code:%d error:%s",ret,errMsg);
 
+}
+
+int loadziR(void * para, int n_column, char ** column_value, char ** column_name){
+	((CharacterExtend*)para)->setID(CCInteger::create(atoi(column_value[0])));		//ID
+	((CharacterExtend*)para)->setName(ccs(column_value[1]));						//ziName
+	((CharacterExtend*)para)->setSEQ(ccs(column_value[2]));							//strokeIDSeq
+	CCLog("%s",column_value[2]);
+	((CharacterExtend*)para)->setruleLoose(ccs(column_value[3]));						//ruleLoose
+	((CharacterExtend*)para)->setRuleTight(ccs(column_value[4]));
+	((CharacterExtend*)para)->setXML(ccs(column_value[5]));							//xml
+	return 0;
+}
+
+void SqliteHelper::getZiDataInfoExtend(string sql,CCObject* p){
+	int ret = sqlite3_exec(pDB, sql.c_str(), loadziR, p ,&errMsg);
 }
 
 int getFuncBody(void * para, int n_column, char ** column_value, char ** column_name){

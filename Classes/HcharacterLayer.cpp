@@ -97,7 +97,6 @@ HcharacterLayer* HcharacterLayer::create(string hanzi,CCSprite* tianzige_draw){
 }
 
 void HcharacterLayer::judge(){
-// 	vector<StrokeDrawnode*> strokes = m_HDrawnode->getStrokeDrawnodeList();
 	CCArray* strokes = m_HDrawnode->getStrokeDrawnodeList();
 	string output = "";
 	CCObject* ob;

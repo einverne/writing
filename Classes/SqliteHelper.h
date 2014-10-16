@@ -31,6 +31,9 @@ public:
 	//读取ziData表中一条数据
 	static void getZiDataInfo(string sql,CCObject* p);
 
+	//松紧规则读取
+	static void getZiDataInfoExtend(string sql,CCObject* p);
+
 	//读取strokeFunc表中一条数据
 	static void getstrokeFunc(string sql,CCObject* funcbody);
 

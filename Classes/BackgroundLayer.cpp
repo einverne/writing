@@ -7,7 +7,7 @@ BackgroundLayer::BackgroundLayer()
 
 BackgroundLayer::~BackgroundLayer()
 {
-	CCLog("~BackgroundLayer %d",  this->m_uReference);
+//	CCLog("~BackgroundLayer %d",  this->m_uReference);
 }
 
 bool BackgroundLayer::init(){
@@ -39,15 +39,12 @@ bool BackgroundLayer::init(){
 		bg->setScaleX(visiableSize.width/bg->getContentSize().width);
 		bg->setScaleY((visiableSize.height-headSize.height-tailSize.height)/bg->getContentSize().height);
 
-// 		CCLabelTTF* back = CCLabelTTF::create("BACK","Arial",25);
 		CCMenuItemImage* back = CCMenuItemImage::create("back_1.png",
 			"back_2.png",
 			this,
 			menu_selector(BackgroundLayer::menuBack));
-// 		CCMenuItemLabel* menuLabel = CCMenuItemLabel::create(back,this,menu_selector(BackgroundLayer::menuBack));
 		CCMenu* menu = CCMenu::create(back,NULL);
 		this->addChild(menu,20);
-// 		back->setPosition(ccp(winSize.width - back->getContentSize().width/2 - 100,back->getContentSize().height+30));
 		back->setPosition(ccp(winSize.width - back->getContentSize().width/2 ,back->getContentSize().height/2));
 		menu->setPosition(CCPointZero);
 

@@ -64,8 +64,8 @@ bool Splash::init(){
 		fclose(file);
 
 
-		initDB();
-
+		initDB("character_info.db");
+		initDB("character_judge.db");
     }
 #endif
 
@@ -73,13 +73,13 @@ bool Splash::init(){
     return true;
 }
 
-void initDB(){
+void initDB(string db_name){
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-	string dbpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_info.db");
+	string dbpath = CCFileUtils::sharedFileUtils()->fullPathForFilename(db_name.c_str());
 
 	char* pFileContent = (char*)CCFileUtils::sharedFileUtils()->getFileData(dbpath.c_str(),"rb",&size);
 	CCLog("file %s",pFileContent);
-	dbpath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_info.db";
+	dbpath = CCFileUtils::sharedFileUtils()->getWritablePath()+db_name;
 	FILE* file1 = fopen(dbpath.c_str(),"w");
 	if (file1 != NULL)
 	{
@@ -96,13 +96,13 @@ void initDB(){
 
 void Splash::onEnter(){
     CCLayer::onEnter();
-    CCLog("onEnter");
+//    CCLog("onEnter");
     this->scheduleOnce(schedule_selector(Splash::finishSplash),0.4f);
 }
 
 void Splash::onExit(){
     CCLayer::onExit();
-    CCLog("onExit");
+//    CCLog("onExit");
 }
 
 void Splash::onExitTransitionDidStart(){

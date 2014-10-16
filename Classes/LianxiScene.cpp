@@ -16,9 +16,10 @@ LianxiScene::LianxiScene(string hanzi):backgroundLayer(NULL),
 	touchLayer(NULL),
 	TLayer(NULL),
 	HLayer(NULL),
-	p(NULL)
+	p(NULL),
+	ext_p(NULL)
 {
-	this->testCharacter = hanzi;
+	this->CurrentCharacter = hanzi;
 //	p = new CharacterEntity();
 }
 
@@ -30,6 +31,7 @@ LianxiScene::~LianxiScene()
 	CC_SAFE_RELEASE(HLayer);
 	CC_SAFE_RELEASE(touchLayer);
 	CC_SAFE_RELEASE(p);
+	CC_SAFE_RELEASE(ext_p);
 }
 
 LianxiScene* LianxiScene::create(string hanzi){
@@ -59,7 +61,7 @@ bool LianxiScene::init(){
 		//TLayer->setSprite(backgroundLayer->tianzige);			将背景层中tianzige传给正字信息图层
 		this->addChild(TLayer);
 
-		this->setHLayer(HcharacterLayer::create(testCharacter,backgroundLayer->tianzige_draw));
+		this->setHLayer(HcharacterLayer::create(CurrentCharacter,backgroundLayer->tianzige_draw));
 		CC_BREAK_IF(!HLayer);
 		HLayer->setTag(kHLayerTag);
 		this->addChild(HLayer);
@@ -70,13 +72,14 @@ bool LianxiScene::init(){
 		this->addChild(touchLayer);
 
 		this->setCharacterP(new CharacterEntity());
-		CCLog("LianxiScene ref: %d",this->m_uReference);
+//		CCLog("LianxiScene ref: %d",this->m_uReference);
+		this->setCharacterExt(new CharacterExtend());
 
 		CC_BREAK_IF(!CCScene::init());
 		bRet = true;
 	} while (0);
 
-	SQLiteData::getHanziData(this->testCharacter,p);
+	SQLiteData::getHanziData(this->CurrentCharacter,p);
 	CCString* temp = p->getSEQ();
 	CCLog("seq %s",temp->getCString());
 	string str(temp->getCString());
@@ -92,6 +95,9 @@ bool LianxiScene::init(){
 		funcs += "\n";
 		iter ++;
 	}
+
+	SQLiteData::getHanziDataExtend(this->CurrentCharacter,ext_p);
+
 
 	return bRet;
 }

@@ -1,4 +1,4 @@
-<xml>
+﻿<xml>
     <meta>
         <height>1500</height>
         <width>910</width>
@@ -11,7 +11,7 @@
             <w>277 px</w>
             <h>278 px</h>
             <img>withword\stone_0.png</img>
-            <hanzi>人</hanzi>
+            <hanzi>十</hanzi>
             <proficiency>0.0</proficiency>
         </stone>
         <stone>
@@ -315,7 +315,7 @@
             <w>70 px</w>
             <h>146 px</h>
             <img>noword\stone_35.png</img>
-        </stone>       
+        </stone>
         <stone>
             <type>nouse</type>
             <x>867 px</x>
@@ -323,6 +323,6 @@
             <w>42 px</w>
             <h>256 px</h>
             <img>noword\stone_38.png</img>
-        </stone>       
+        </stone>
     </data>
 </xml>

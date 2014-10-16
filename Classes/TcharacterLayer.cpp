@@ -60,7 +60,7 @@ TcharacterLayer* TcharacterLayer::create(CCSprite* tianzige){
 void TcharacterLayer::onEnter(){
 	CCLayer::onEnter();
 // 	string ba("°Ë");
-	string LianxiHanzi = ((LianxiScene*)this->getParent())->testCharacter;
+	string LianxiHanzi = ((LianxiScene*)this->getParent())->CurrentCharacter;
 	CharacterEntity* p = ((LianxiScene*)this->getParent())->getCharacterP();
 	this->setm_TDrawnode(TcharacterDrawnode::create(LianxiHanzi, m_sprite->getContentSize(), p));
 	this->addChild(m_TDrawnode,2000);

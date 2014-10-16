@@ -48,6 +48,16 @@ bool WallSingleScene::init()
 	wall_tail->setPosition(ccp(visibleSize.width/2,wall_tail->getContentSize().height/2));
 	wall_tail->setScaleX(visibleSize.width/wall_tail->getContentSize().width);
 
+
+	CCMenuItemImage* ceshi_button = CCMenuItemImage::create("ceshi_1.png",
+		"ceshi_2.png",
+		this,
+		menu_selector(WallSingleScene::ceshi));
+	CCMenu* menu = CCMenu::create(ceshi_button,NULL);
+	this->addChild(menu,20);
+	ceshi_button->setPosition(ccp(visibleSize.width - ceshi_button->getContentSize().width/2 ,ceshi_button->getContentSize().height/2));
+	menu->setPosition(CCPointZero);
+
 	/////////////////////////////
 	// 2. add a menu item with "X" image, which is clicked to quit the program
 	//    you may modify it.
@@ -574,4 +584,9 @@ void WallSingleScene::backtoMainScene(CCNode* pNode){
 	}else{
 		CCDirector::sharedDirector()->getRunningScene()->removeChildByTag(TAG_LAYER_EXIT);
 	}
+}
+
+void WallSingleScene::ceshi(CCObject* pSender){
+	CCLog("WallSingleScene::ceshi clicked");
+
 }

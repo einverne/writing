@@ -14,7 +14,6 @@ TouchLayer::~TouchLayer()
 }
 
 bool TouchLayer::init(TcharacterLayer* t,HcharacterLayer* h){
-//	CCLog("TouchLayer init()");
 	if (CCLayerColor::initWithColor(ccc4(255,255,255,255)))
 	{
 		this->isOutside = false;
@@ -23,8 +22,6 @@ bool TouchLayer::init(TcharacterLayer* t,HcharacterLayer* h){
 		this->setHlayer(h);
 		this->setTouchEnabled(true);
 		this->setOpacity(0);			//È«Í¸Ã÷
-		//CCDirector::sharedDirector()->getTouchDispatcher()->addStandardDelegate(this,0);	//register touch event
-
 
 		return true;
 	}
@@ -83,10 +80,9 @@ void TouchLayer::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 		this->isStartOutside = true;
 		points.clear();
 	}
-	//CCLog("isStartOutside = %d, isOutside = %d",isStartOutside,isOutside);
-// 	HcharacterDrawnode* t= Hlayer->getm_HDrawnode();
 	
 }
+
 void TouchLayer::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
 	CCLog("TouchLayer TouchesMoved");
 	if (Hlayer->getm_HDrawnode()->getStrokeDrawnodeList()->count() > Tlayer->getm_TDrawnode()->getCharacter().getStrokeCount())

@@ -1,6 +1,7 @@
 #include "DataTool.h"
 
 using namespace std;
+USING_NS_CC;
 
 DataTool::DataTool(void)
 {
@@ -80,4 +81,37 @@ string DataTool::intTostring(int a){
 	stringstream s;
 	s << a;
 	return s.str();
+}
+
+void DataTool::storeToFile(char* str,char* filename){
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	unsigned long size = 0;
+	string finame(filename);
+	string path = CCFileUtils::sharedFileUtils()->getWritablePath()+finame;
+	FILE* file = fopen(path.c_str(),"w");
+	if (file != NULL)
+	{
+		file = fopen(path.c_str(),"wb");
+		fwrite(str,strlen(str),1,file);
+	}else{
+		// 		CCLog("CLuaScriptReader::Print2File file NULL");
+	}
+	fclose(file);
+#endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+	FILE * pFile;
+
+	pFile = fopen (filename, "wb" );
+	fwrite (str, strlen(str), 1 , pFile );
+	fclose (pFile);
+#endif
+}
+
+string DataTool::readFromFile(char* filename){
+	string ret;
+	string filepath = CCFileUtils::sharedFileUtils()->fullPathForFilename(filename);
+	unsigned long size = 0;
+	char* filecontent = (char*)CCFileUtils::sharedFileUtils()->getFileData(filepath.c_str(),"r",&size);
+	ret = filecontent;
+	return ret;
 }

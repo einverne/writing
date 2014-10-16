@@ -6,6 +6,7 @@
 #include "BackgroundLayer.h"
 #include "TcharacterLayer.h"
 #include "HcharacterLayer.h"
+#include "CharacterExtend.h"
 USING_NS_CC;
 
 
@@ -18,7 +19,7 @@ public:
 	static LianxiScene* create(string hanzi);
 	virtual bool init();
 
-	string testCharacter;			//当前正在练习的汉字字符
+	string CurrentCharacter;			//当前正在练习的汉字字符
 	string funcs;
 
 // 	BackgroundLayer* backgroundLayer;		//背景图层
@@ -30,6 +31,7 @@ public:
 	CC_SYNTHESIZE_RETAIN(TcharacterLayer*,TLayer,TLayer);
 	CC_SYNTHESIZE_RETAIN(HcharacterLayer*,HLayer,HLayer);
 	CC_SYNTHESIZE_RETAIN(CharacterEntity*,p,CharacterP);
+	CC_SYNTHESIZE_RETAIN(CharacterExtend*,ext_p,CharacterExt);
 private:
 
 };

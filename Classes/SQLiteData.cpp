@@ -2,6 +2,7 @@
 #include "SqliteHelper.h"
 #include "CharacterEntity.h"
 #include "strokeFunc.h"
+#include "CharacterExtend.h"
 
 SQLiteData::SQLiteData()
 {
@@ -50,4 +51,15 @@ string SQLiteData::getstrokeFunc(string strokeID){
 	SqliteHelper::getstrokeFunc(sql,ret);
 	SqliteHelper::closeDB();
 	return string(ret->getFunc()->getCString());
+}
+
+void SQLiteData::getHanziDataExtend(string hz,CCObject* p){
+	string dbpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_judge.db");
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	dbpath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_judge.db";
+#endif
+	SqliteHelper::initDB(dbpath.c_str());
+	string sql = "select * from ziData where ziName ='"+hz+"'";
+	SqliteHelper::getZiDataInfo(sql,p);
+	SqliteHelper::closeDB();
 }

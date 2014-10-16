@@ -130,6 +130,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\Bujian.cpp" />
     <ClCompile Include="..\Classes\Character.cpp" />
     <ClCompile Include="..\Classes\CharacterEntity.cpp" />
+    <ClCompile Include="..\Classes\CharacterExtend.cpp" />
     <ClCompile Include="..\Classes\file\TDInvFileUtils.cpp" />
     <ClCompile Include="..\Classes\HanziManage.cpp" />
     <ClCompile Include="..\Classes\HcharacterDrawnode.cpp" />
@@ -172,6 +173,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\Bujian.h" />
     <ClInclude Include="..\Classes\Character.h" />
     <ClInclude Include="..\Classes\CharacterEntity.h" />
+    <ClInclude Include="..\Classes\CharacterExtend.h" />
     <ClInclude Include="..\Classes\file\TDInvFileUtils.h" />
     <ClInclude Include="..\Classes\HanziManage.h" />
     <ClInclude Include="..\Classes\HcharacterDrawnode.h" />

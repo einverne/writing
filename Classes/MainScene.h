@@ -20,6 +20,8 @@ public:
 private:
 	void menuSelected(CCObject* pSender);
 	void isExit(CCNode* pNode);
+	void Setting(CCObject* pSender);
+	void settingCallBack(CCNode* pNode);
 };
 
 

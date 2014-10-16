@@ -72,6 +72,11 @@ private:
 	bool touched;
 	bool isMoved;
 	long beginTime;
+
+	/*
+		≤‚ ‘∞¥≈•œÏ”¶∫Ø ˝
+	*/
+	void ceshi(CCObject* pSender);
 };
 
 #endif // __WallSingleScene_H__
