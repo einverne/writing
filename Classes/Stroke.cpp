@@ -139,9 +139,6 @@ void Stroke::addEveryPoint(CCPoint point){
 	}
 }
 
-// StrokeNode* Stroke::getStrokeNode(){
-// 	return 
-/*}*/
 
 string Stroke::sendOutput(){
 	string ret;

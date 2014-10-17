@@ -12,6 +12,7 @@ function string:split(sep,sign)
 	return fields
 end
 
+
 function superSplit(szFullString, szSeparator)
 	local nFindStartIndex = 1
 	local nSplitIndex = 1
@@ -29,11 +30,13 @@ function superSplit(szFullString, szSeparator)
 	return nSplitArray
 end
 
+
 function trim(s)
 	return (string.gsub(s,"^%s*(.-)%s*$","%1"))
 end
 
 --#########################			辅助函数			#######################################
+
 
 
 --#########################	处理手写字信息		 ########################################
@@ -47,8 +50,6 @@ writeHZ:initialize(WriteZiStr)
 
 --#########################	处理标准字信息		 ########################################
 local StandardZiInfo = GetStandardZiInfoFromC()---接口2
---local StandardZiInfo = [[51/216/420/216/@234/51/234/431/@]]
-
 local SZ = require("StandardZiInfo")
 local stdHZ = SZ.StdHZ:new()
 stdHZ:initialize(StandardZiInfo)
@@ -59,6 +60,10 @@ stdHZ:initialize(StandardZiInfo)
 
 --获得规则代码
 local strZiRule = GetRulesFromC();---接口3 注意在外面要判断是取松规则还是紧规则
+--接口4 注意根据松评判或者紧评判给出相应的strokelevel
+local strokeLevel =  GetStrokeLevelFromC()
+
+
 --装载字级别规则 	ZiRuleList = {{index = 1 , codes = "..."},{index = 2 , codes = "..."},{index = 3 , codes = "..."},...}
 strZiRule  = string.gsub(strZiRule , "//##begin", "" )
 strZiRule  = string.gsub(strZiRule , "//##end", "" )
@@ -90,9 +95,13 @@ for i = 1,#ZiRuleList do
 		newBH = "local bh"..tostring (i - 2) .. " = GetBH(" ..tostring(i - 2) .. ") "
 	end
 	newRule  = newRule  .. newBH .. ZiRuleList[i].codes.."\n"
+	if (strokeLevel == '2') then
+		local retInfo = "local retInfo = tostring(bflag) .. tostring(pflag)".."\n".."trace(retInfo)".."\n"
+		newRule  =  newRule ..retInfo..str3
+	else
+		newRule =  newRule..str3
+	end
 
-	local retInfo = "local retInfo = tostring(bflag) .. tostring(pflag)".."\n".."trace(retInfo)".."\n"
-	newRule  =  newRule ..retInfo..str3
 	NewZiRuleArr[#NewZiRuleArr+1] = newRule
 
 end
@@ -105,8 +114,7 @@ baseFuncs.setWZEnv(WZ)
 --设置标准字结构体
 baseFuncs.setStdHZ(stdHZ)
 
---接口4 注意根据松评判或者紧评判给出相应的strokelevel
-local strokeLevel =  GetStrokeLevelFromC()
+
 
 function RunZiRule(bhNum)
 	local header = [[setmetatable(baseFuncs,{__index= _G})
@@ -114,14 +122,7 @@ function RunZiRule(bhNum)
 	local pre = header .."\n" .."local bhNum ="..tostring (bhNum) .."\n".."local bl = "..tostring(strokeLevel).."\n".."local bflag = 1".."\n".."local pflag = 1".."\n"
 	local allzirule = table.concat(NewZiRuleArr)
 	local result = pre.."\n"..allzirule
-
-
-
-	--print ("=============")
-	--print(result)
-	--print("==============")
-
-
+	--Pass2CStr = result
 	f = loadstring(result)
 	f()
 end

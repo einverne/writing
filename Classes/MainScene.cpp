@@ -106,7 +106,7 @@ void MainScene::keyBackClicked(){
 }
 
 void MainScene::menuSelected(CCObject* pSender){
-	CCDirector::sharedDirector()->replaceScene(WallSingleScene::scene());
+	CCDirector::sharedDirector()->replaceScene(WallSingleScene::scene("wall_1.xml"));
 }
 
 void MainScene::isExit(CCNode* pNode){
@@ -137,8 +137,8 @@ void MainScene::Setting(CCObject* pSender){
 void MainScene::settingCallBack(CCNode* pNode){
 	if (pNode->getTag() == 0) {
 		//if click Y , end app	将设置写入配置文件 tight
-		DataTool::storeToFile("1","setting.xml");
+		DataTool::storeToFile("2","setting.xml");
 	}else {
-		DataTool::storeToFile("0","setting.xml");
+		DataTool::storeToFile("1","setting.xml");
 	}
 }

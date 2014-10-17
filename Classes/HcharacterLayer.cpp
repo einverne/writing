@@ -71,8 +71,6 @@ bool HcharacterLayer::init(string hanzi,CCSprite* tianzige_draw){
 		menu->setPosition(0,0);
 		this->addChild(menu,200);
 
-
-
 		CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect(RIGHT_EFFECT_FILE);
 		CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect(WRONG_EFFECT_FILE);
 		CocosDenshion::SimpleAudioEngine::sharedEngine()->setEffectsVolume(0.5);
@@ -120,43 +118,76 @@ void HcharacterLayer::judge(){
 	}
 
 	CCLog("output %s",output.c_str());
-	CharacterEntity* p =  ((LianxiScene*)this->getParent())->getCharacterP();
+// 	CharacterEntity* p =  ((LianxiScene*)this->getParent())->getCharacterP();
+	CharacterExtend* p = ((LianxiScene*)this->getParent())->getCharacterExt();
+// 	string funcs = ((LianxiScene*)this->getParent())->funcs;
+//	string ret = JudgeManager::getResult(hanzi,output,p,funcs);
 	string funcs = ((LianxiScene*)this->getParent())->funcs;
-	string ret = JudgeManager::getResult(hanzi,output,p,funcs);
-	if (ret == "0\r\n")
+	string points = ((LianxiScene*)this->getParent())->getTLayer()->getm_TDrawnode()->getCharacterStandardInfo();
+	string ret = JudgeManager::getResult(hanzi,output,points,p,funcs);
+	if (ret.length() == 3)
 	{
-		//这一笔写错
-		this->getm_HDrawnode()->removeLastStroke();
-		int t = getm_HDrawnode()->getStrokeDrawnodeList()->count();
-		ostringstream ostr;
-		ostr << t;
-		bihuaCount->setString(ostr.str().c_str());
-		getInfoSprite()->setVisible(true);
-		getInfoSprite()->setTexture(CCTextureCache::sharedTextureCache()->addImage("wrong.png"));
-		CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect(WRONG_EFFECT_FILE);
-	}else
-	{
-		//写对
-		int t=getm_HDrawnode()->getStrokeDrawnodeList()->count();
-		ostringstream ostr;
-		ostr << t;
-		bihuaCount->setString(ostr.str().c_str());
-		
-		
-		TcharacterLayer* layer = (TcharacterLayer*)this->getParent()->getChildByTag(kTLayerTag);		//get TcharacterLayer
-		Stroke temp = layer->getm_TDrawnode()->getCharacter().getStroke(t);								//get No. stroke
-// 		CCPoint deltpoint = this->m_sprite_draw->getPosition()-ccp(m_sprite_draw->getContentSize().width/2,m_sprite_draw->getContentSize().height/2);
-// 		temp.addEveryPoint(deltpoint);
-// 		MoveToRightPlace* place = MoveToRightPlace::create(t-1,temp);
-		MoveToRightPlaceInterval* place = MoveToRightPlaceInterval::create(1,t-1,temp);
-		m_HDrawnode->runAction(place);
-
-
-		if ( t >= layer->getm_TDrawnode()->getCharacter().getStrokeCount())
+		if (ret.at(0) == '0')
 		{
+			//这一笔写错
+			this->getm_HDrawnode()->removeLastStroke();
+			int t = getm_HDrawnode()->getStrokeDrawnodeList()->count();
+			ostringstream ostr;
+			ostr << t;
+			bihuaCount->setString(ostr.str().c_str());
 			getInfoSprite()->setVisible(true);
-			getInfoSprite()->setTexture(CCTextureCache::sharedTextureCache()->addImage("right.png"));
-			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect(RIGHT_EFFECT_FILE);
+			getInfoSprite()->setTexture(CCTextureCache::sharedTextureCache()->addImage("wrong.png"));
+			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect(WRONG_EFFECT_FILE);
+		}else if(ret.at(1) == '1'){
+			//写对
+			int t=getm_HDrawnode()->getStrokeDrawnodeList()->count();
+			ostringstream ostr;
+			ostr << t;
+			bihuaCount->setString(ostr.str().c_str());
+
+			TcharacterLayer* layer = (TcharacterLayer*)this->getParent()->getChildByTag(kTLayerTag);		//get TcharacterLayer
+			Stroke temp = layer->getm_TDrawnode()->getCharacter().getStroke(t);								//get No. stroke
+			MoveToRightPlaceInterval* place = MoveToRightPlaceInterval::create(1,t-1,temp);
+			m_HDrawnode->runAction(place);
+
+			if ( t >= layer->getm_TDrawnode()->getCharacter().getStrokeCount())
+			{
+				getInfoSprite()->setVisible(true);
+				getInfoSprite()->setTexture(CCTextureCache::sharedTextureCache()->addImage("right.png"));
+				CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect(RIGHT_EFFECT_FILE);
+			}
+		}
+	}else if(ret.length() == 4){
+		if (ret.at(0) == '0' || ret.at(1) == '0')
+		{
+			//这一笔写错 或者 位置不对
+			this->getm_HDrawnode()->removeLastStroke();
+			int t = getm_HDrawnode()->getStrokeDrawnodeList()->count();
+			ostringstream ostr;
+			ostr << t;
+			bihuaCount->setString(ostr.str().c_str());
+			getInfoSprite()->setVisible(true);
+			getInfoSprite()->setTexture(CCTextureCache::sharedTextureCache()->addImage("wrong.png"));
+			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect(WRONG_EFFECT_FILE);
+		}else if(ret.at(1) == '1' && ret.at(0) == '1')
+		{
+			//写对
+			int t=getm_HDrawnode()->getStrokeDrawnodeList()->count();
+			ostringstream ostr;
+			ostr << t;
+			bihuaCount->setString(ostr.str().c_str());
+
+			TcharacterLayer* layer = (TcharacterLayer*)this->getParent()->getChildByTag(kTLayerTag);		//get TcharacterLayer
+			Stroke temp = layer->getm_TDrawnode()->getCharacter().getStroke(t);								//get No. stroke
+			MoveToRightPlaceInterval* place = MoveToRightPlaceInterval::create(1,t-1,temp);
+			m_HDrawnode->runAction(place);
+
+			if ( t >= layer->getm_TDrawnode()->getCharacter().getStrokeCount())
+			{
+				getInfoSprite()->setVisible(true);
+				getInfoSprite()->setTexture(CCTextureCache::sharedTextureCache()->addImage("right.png"));
+				CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect(RIGHT_EFFECT_FILE);
+			}
 		}
 	}
 }

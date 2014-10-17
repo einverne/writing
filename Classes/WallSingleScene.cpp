@@ -10,13 +10,13 @@ USING_NS_CC;
 #define TAG_LAYER_EXIT 1001
 
 //////////////////////////////////////////
-CCScene* WallSingleScene::scene()
+CCScene* WallSingleScene::scene(string filename)
 {
 	// 'scene' is an autorelease object
 	CCScene *scene = CCScene::create();
 
 	// 'layer' is an autorelease object
-	WallSingleScene *layer = WallSingleScene::create();
+	WallSingleScene *layer = WallSingleScene::create(filename);
 
 	// add layer as a child to scene
 	scene->addChild(layer);
@@ -25,8 +25,21 @@ CCScene* WallSingleScene::scene()
 	return scene;
 }
 
+WallSingleScene* WallSingleScene::create(string wallxmlname){
+	WallSingleScene* pret = new WallSingleScene();
+	if (pret && pret->init(wallxmlname))
+	{
+		pret->autorelease();
+		return pret;
+	}else{
+		delete pret;
+		pret = NULL;
+		return pret;
+	}
+}
+
 // on "init" you need to initialize your instance
-bool WallSingleScene::init()
+bool WallSingleScene::init(string xmlfilename)
 {
 	//////////////////////////////
 	// 1. super init first
@@ -35,6 +48,7 @@ bool WallSingleScene::init()
 		return false;
 	}
 
+	wallXmlName = xmlfilename;
 	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
 	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
 
@@ -58,39 +72,15 @@ bool WallSingleScene::init()
 	ceshi_button->setPosition(ccp(visibleSize.width - ceshi_button->getContentSize().width/2 ,ceshi_button->getContentSize().height/2));
 	menu->setPosition(CCPointZero);
 
-	/////////////////////////////
-	// 2. add a menu item with "X" image, which is clicked to quit the program
-	//    you may modify it.
-
-	// add a "close" icon to exit the progress. it's an autorelease object
-	//     CCMenuItemImage *pCloseItem = CCMenuItemImage::create(
-	// 	"CloseNormal.png",
-	// 	"CloseSelected.png",
-	// 	this,
-	// 	menu_selector(WallScene::menuCloseCallback));
-	// 
-	//     pCloseItem->setPosition(ccp(origin.x + visibleSize.width - pCloseItem->getContentSize().width/2 ,
-	// 	origin.y + pCloseItem->getContentSize().height/2));
-	// 
-	//     // create menu, it's an autorelease object
-	//     CCMenu* pMenu = CCMenu::create(pCloseItem, NULL);
-	//     pMenu->setPosition(CCPointZero);
-	//     this->addChild(pMenu, 3);
-
-	/////////////////////////////
-	// 3. add your codes below...
-	//////////////////////////////////////////////////////////////////////////////
-	//添加地图：
-	//1.读取xml文件，确定缩放比例//
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-	string myfilename = CCFileUtils::sharedFileUtils()->getWritablePath()+"wall.xml";
+	string myfilename = CCFileUtils::sharedFileUtils()->getWritablePath()+"wall/wall_1.xml";
 	unsigned long size = 0;
 	char* pFileContent = (char*)CCFileUtils::sharedFileUtils()->getFileData(myfilename.c_str(),"r",&size);
 	TiXmlDocument* myDocument = new TiXmlDocument();
 	myDocument->Parse(pFileContent,0,TIXML_ENCODING_UTF8);
 #endif
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
-	string myfilename=CCFileUtils::sharedFileUtils()->fullPathForFilename("wall.xml");
+	string myfilename=CCFileUtils::sharedFileUtils()->fullPathForFilename("wall/wall_1.xml");
 	TiXmlDocument* myDocument = new TiXmlDocument(myfilename.c_str());
 	myDocument->LoadFile();
 #endif

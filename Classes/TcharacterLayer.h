@@ -16,7 +16,6 @@ public:
 	virtual bool init(CCSprite* tianzige);
 	virtual void onExit();
 	virtual void onEnter();
-	//CREATE_FUNC(TcharacterLayer);
 	static TcharacterLayer* create(CCSprite* tianzige);
 	
 	void refresh(CCObject* pSender);

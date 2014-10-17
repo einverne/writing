@@ -15,14 +15,12 @@ public:
 	string selectedHanzi;
 	float rescale;
 
-
-
-	virtual bool init();
+	virtual bool init(string xmlfilename);
 	virtual void onEnter();
 	virtual void onExit();
 	virtual void keyBackClicked();
 
-	static cocos2d::CCScene* scene();
+	static cocos2d::CCScene* scene(string filename);
 
 	void menuCloseCallback(CCObject* pSender);
 
@@ -32,7 +30,8 @@ public:
 	virtual void registerWithTouchDispatcher();
 
 	// implement the "static node()" method manually
-	CREATE_FUNC(WallSingleScene);
+//	CREATE_FUNC(WallSingleScene);
+	static WallSingleScene* create(string wallxmlname);
 
 	/**
 	* 弹出对话框
@@ -73,6 +72,7 @@ private:
 	bool isMoved;
 	long beginTime;
 
+	string wallXmlName;
 	/*
 		测试按钮响应函数
 	*/

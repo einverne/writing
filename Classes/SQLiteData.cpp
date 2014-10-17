@@ -41,9 +41,9 @@ void SQLiteData::getHanziData(string hz,CCObject* p){
 
 string SQLiteData::getstrokeFunc(string strokeID){
 	CCLog("SQLiteData::getstrokeFunc %s",strokeID.c_str());
-	string dbpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_info.db");
+	string dbpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_judge.db");
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-	dbpath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_info.db";
+	dbpath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_judge.db";
 #endif
 	SqliteHelper::initDB(dbpath.c_str());
 	string sql = "select * from strokeFunc where strokeID ='"+strokeID+"'";
@@ -60,6 +60,6 @@ void SQLiteData::getHanziDataExtend(string hz,CCObject* p){
 #endif
 	SqliteHelper::initDB(dbpath.c_str());
 	string sql = "select * from ziData where ziName ='"+hz+"'";
-	SqliteHelper::getZiDataInfo(sql,p);
+	SqliteHelper::getZiDataInfoExtend(sql,p);
 	SqliteHelper::closeDB();
 }

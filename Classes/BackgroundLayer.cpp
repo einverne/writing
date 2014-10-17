@@ -69,11 +69,11 @@ void BackgroundLayer::menuBack(CCObject* pSender){
 /*	CCDirector::sharedDirector()->popScene();*/
 	this->unscheduleAllSelectors();
 	CCDirector::sharedDirector()->getTouchDispatcher()->removeAllDelegates();
-	CCDirector::sharedDirector()->replaceScene(WallSingleScene::scene());
+	CCDirector::sharedDirector()->replaceScene(WallSingleScene::scene("wall_1.xml"));
 }
 
 void BackgroundLayer::keyBackClicked(){
 	this->unscheduleAllSelectors();
 	CCDirector::sharedDirector()->getTouchDispatcher()->removeAllDelegates();
-	CCDirector::sharedDirector()->replaceScene(WallSingleScene::scene());
+	CCDirector::sharedDirector()->replaceScene(WallSingleScene::scene("wall_1.xml"));
 }

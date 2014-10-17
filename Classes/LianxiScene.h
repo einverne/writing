@@ -15,12 +15,11 @@ class LianxiScene : public CCScene
 public:
 	LianxiScene(string hanzi);
 	~LianxiScene();
-	//CREATE_FUNC(LianxiScene);
 	static LianxiScene* create(string hanzi);
 	virtual bool init();
 
 	string CurrentCharacter;			//当前正在练习的汉字字符
-	string funcs;
+	string funcs;						//当前汉字需要使用到数据中笔画lua评判规则
 
 // 	BackgroundLayer* backgroundLayer;		//背景图层
 // 	TouchLayer* touchLayer;			//触摸事件响应层
@@ -30,7 +29,7 @@ public:
 	CC_SYNTHESIZE_RETAIN(TouchLayer*,touchLayer,touchLayer);
 	CC_SYNTHESIZE_RETAIN(TcharacterLayer*,TLayer,TLayer);
 	CC_SYNTHESIZE_RETAIN(HcharacterLayer*,HLayer,HLayer);
-	CC_SYNTHESIZE_RETAIN(CharacterEntity*,p,CharacterP);
+//	CC_SYNTHESIZE_RETAIN(CharacterEntity*,p,CharacterP);
 	CC_SYNTHESIZE_RETAIN(CharacterExtend*,ext_p,CharacterExt);
 private:
 

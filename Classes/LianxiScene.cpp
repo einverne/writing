@@ -16,7 +16,7 @@ LianxiScene::LianxiScene(string hanzi):backgroundLayer(NULL),
 	touchLayer(NULL),
 	TLayer(NULL),
 	HLayer(NULL),
-	p(NULL),
+//	p(NULL),
 	ext_p(NULL)
 {
 	this->CurrentCharacter = hanzi;
@@ -30,7 +30,7 @@ LianxiScene::~LianxiScene()
 	CC_SAFE_RELEASE(TLayer);
 	CC_SAFE_RELEASE(HLayer);
 	CC_SAFE_RELEASE(touchLayer);
-	CC_SAFE_RELEASE(p);
+//	CC_SAFE_RELEASE(p);
 	CC_SAFE_RELEASE(ext_p);
 }
 
@@ -71,7 +71,7 @@ bool LianxiScene::init(){
 		touchLayer->setTag(kTouchLayerTag);
 		this->addChild(touchLayer);
 
-		this->setCharacterP(new CharacterEntity());
+//		this->setCharacterP(new CharacterEntity());
 //		CCLog("LianxiScene ref: %d",this->m_uReference);
 		this->setCharacterExt(new CharacterExtend());
 
@@ -79,8 +79,10 @@ bool LianxiScene::init(){
 		bRet = true;
 	} while (0);
 
-	SQLiteData::getHanziData(this->CurrentCharacter,p);
-	CCString* temp = p->getSEQ();
+//	SQLiteData::getHanziData(this->CurrentCharacter,p);
+	SQLiteData::getHanziDataExtend(this->CurrentCharacter,ext_p);
+
+	CCString* temp = ext_p->getSEQ();
 	CCLog("seq %s",temp->getCString());
 	string str(temp->getCString());
 	vector<string> strvec = SQLiteData::splitStrokeSeq(str);
@@ -96,7 +98,6 @@ bool LianxiScene::init(){
 		iter ++;
 	}
 
-	SQLiteData::getHanziDataExtend(this->CurrentCharacter,ext_p);
 
 
 	return bRet;

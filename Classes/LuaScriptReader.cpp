@@ -13,6 +13,7 @@ char Hanzi[50] = "";
 char RuleInfo[1024*100] = "";		//规则信息
 char GlobalFunc[1024*100] = "";		//全局函数信息
 char Rules[1024*100] = "";
+char Level[10] = "";
 // char* StandardZiInfo = new char[1024];
 // char* WriteZiInfo = new char[1024*10];
 // char* Hanzi = new char[50];
@@ -40,7 +41,7 @@ CLuaScriptReader::CLuaScriptReader()
 	RuleInfo[0] = '\0';		//规则信息
 	GlobalFunc[0] = '\0';		//全局函数信息
 	Rules[0] = '\0';
-
+ 	Level[0] = '\0';
 	m_plua = NULL;
 	return; 
 }
@@ -100,8 +101,14 @@ int GetZiNameFromC(lua_State *plua){
 	lua_pushstring(plua, Hanzi);
 	return 1;
 }
+
 int GetRulesFromC(lua_State *plua){
 	lua_pushstring(plua, Rules);
+	return 1;
+}
+
+int GetStrokeLevelFromC(lua_State *plua){
+	lua_pushstring(plua, Level);
 	return 1;
 }
 
@@ -120,7 +127,7 @@ bool CLuaScriptReader::InitLuaScriptReader(){
 		lua_register(m_plua,"GetGlobalFuncFromC",GetGlobalFuncFromC);
 		lua_register(m_plua,"GetZiNameFromC",GetZiNameFromC);
 		lua_register(m_plua,"GetRulesFromC",GetRulesFromC);
-
+		lua_register(m_plua,"GetStrokeLevelFromC",GetStrokeLevelFromC);
 	}
 	return true;
 }
@@ -287,8 +294,6 @@ bool CLuaScriptReader::RunMixedFile(const char *filename,char *name)
 }
 
 
-
-
 bool CLuaScriptReader::RunScriptFile(const char *filename,char* ret_string,char *name){
 	if( m_plua == NULL || ret_string == NULL || filename == NULL ) return false;
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
@@ -313,7 +318,6 @@ bool CLuaScriptReader::RunScriptFile(const char *filename,char* ret_string,char 
 #endif
 	return true;
 }
-
 
 
 bool CLuaScriptReader::RunScriptFile(const char *filename,char *name){
@@ -356,8 +360,14 @@ void CLuaScriptReader::SetZiName(string hanzi){
 	return;
 }
 
-bool CLuaScriptReader::GetStandardZiInfo(char *stdInfo){
-	strcpy(StandardZiInfo,stdInfo);
+void CLuaScriptReader::setLevel(string level){
+	strcpy(Level,level.c_str());
+	return;
+}
+
+
+bool CLuaScriptReader::GetStandardZiInfo(string stdinfo){
+	strcpy(StandardZiInfo,stdinfo.c_str());
 	return true;
 }
 

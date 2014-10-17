@@ -21,10 +21,6 @@ bool TcharacterLayer::init(CCSprite* tianzige){
 		CCLog("TcharacterLayer");
 		this->setSprite(tianzige);	
 
-// 		CCSprite* dog = CCSprite::create("dog.png");
-// 		dog->setPosition(CCPointMake(300,300));
-// 		this->addChild(dog,1000,1000);
-
  		CCPoint tiangzige_position = this->getSprite()->getPosition();
  		CCSize tianzige_size = this->getSprite()->getContentSize();
 
@@ -59,9 +55,9 @@ TcharacterLayer* TcharacterLayer::create(CCSprite* tianzige){
 
 void TcharacterLayer::onEnter(){
 	CCLayer::onEnter();
-// 	string ba("八");
 	string LianxiHanzi = ((LianxiScene*)this->getParent())->CurrentCharacter;
-	CharacterEntity* p = ((LianxiScene*)this->getParent())->getCharacterP();
+//	CharacterEntity* p = ((LianxiScene*)this->getParent())->getCharacterP();
+	CharacterExtend* p = ((LianxiScene*)this->getParent())->getCharacterExt();
 	this->setm_TDrawnode(TcharacterDrawnode::create(LianxiHanzi, m_sprite->getContentSize(), p));
 	this->addChild(m_TDrawnode,2000);
 	//不设置Anchorpoint了，直接做坐标变换

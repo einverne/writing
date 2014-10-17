@@ -111,7 +111,10 @@ string DataTool::readFromFile(char* filename){
 	string ret;
 	string filepath = CCFileUtils::sharedFileUtils()->fullPathForFilename(filename);
 	unsigned long size = 0;
-	char* filecontent = (char*)CCFileUtils::sharedFileUtils()->getFileData(filepath.c_str(),"r",&size);
-	ret = filecontent;
+	unsigned char* filecontent = (unsigned char*)CCFileUtils::sharedFileUtils()->getFileData(filepath.c_str(),"r",&size);
+	//read file must add two lines
+	CCString* cstr = CCString::createWithData(filecontent,size);
+	const char* re = cstr->getCString();
+	ret = re;
 	return ret;
 }

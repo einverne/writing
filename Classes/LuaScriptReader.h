@@ -85,7 +85,7 @@ public:
 	*/
 	bool SetWriteZiInfo(const char *wz);
 
-	bool GetStandardZiInfo(char stdinfo[]);
+	bool GetStandardZiInfo(string stdinfo);
 	bool GetRunType(int level, int step);
 	bool GetUnitIndex(int idx);
 	bool GetStrokeIndex(int idx);
@@ -136,6 +136,9 @@ public:
 	* @return
 	*/
 	void SetZiName(string hanzi);
+
+
+	void setLevel(string level);
 };
 
 
