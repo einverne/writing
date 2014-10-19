@@ -73,14 +73,15 @@ bool WallSingleScene::init(string xmlfilename)
 	menu->setPosition(CCPointZero);
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-	string myfilename = CCFileUtils::sharedFileUtils()->getWritablePath()+"wall/wall_1.xml";
+	string myfilename = CCFileUtils::sharedFileUtils()->getWritablePath()+"wall/"+wallXmlName;
 	unsigned long size = 0;
 	char* pFileContent = (char*)CCFileUtils::sharedFileUtils()->getFileData(myfilename.c_str(),"r",&size);
 	TiXmlDocument* myDocument = new TiXmlDocument();
 	myDocument->Parse(pFileContent,0,TIXML_ENCODING_UTF8);
 #endif
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
-	string myfilename=CCFileUtils::sharedFileUtils()->fullPathForFilename("wall/wall_1.xml");
+	string str_filename = "wall/" + wallXmlName;
+	string myfilename=CCFileUtils::sharedFileUtils()->fullPathForFilename(str_filename.c_str());
 	TiXmlDocument* myDocument = new TiXmlDocument(myfilename.c_str());
 	myDocument->LoadFile();
 #endif

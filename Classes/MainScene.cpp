@@ -38,6 +38,19 @@ bool MainScene::init(){
 	bg->setScaleX(winSize.width/bgsize.width);
 	bg->setScaleY(winSize.height/bgsize.height);
 
+	CCLayer* container_layer = CCLayer::create();
+	CCSprite* sp = CCSprite::create("main_button.png");
+	float lay_height = (sp->getContentSize().height+50)*20;
+	container_layer->setContentSize(CCSizeMake(winSize.width,lay_height));
+
+	
+	CCSize scrollview_size = winSize;
+	m_pScrollView = CCScrollView::create(scrollview_size , container_layer);
+	m_pScrollView->setDirection(kCCScrollViewDirectionVertical);
+	m_pScrollView->setPosition(CCPointZero);
+	addChild(m_pScrollView);
+	m_pScrollView->setContentOffset(ccp(0 , -(container_layer->getContentSize().height-winSize.height)));
+
 	CCMenuItemImage* setting_btn = CCMenuItemImage::create("setting.png",
 		"setting.png",
 		this,
@@ -48,19 +61,20 @@ bool MainScene::init(){
 	m->setPosition(CCPointZero);
 	addChild(m,2);
 
-	CCPoint menu_position[8] = {ccp(winSize.width/4,winSize.height/5*4),
-		ccp(winSize.width/4*3,winSize.height/5*4),
-		ccp(winSize.width/4,winSize.height/5*3),
-		ccp(winSize.width/4*3,winSize.height/5*3),
-		ccp(winSize.width/4,winSize.height/5*2),
-		ccp(winSize.width/4*3,winSize.height/5*2),
-		ccp(winSize.width/4,winSize.height/5*1),
-		ccp(winSize.width/4*3,winSize.height/5*1),
-	};
+// 	CCPoint menu_position[8] = {ccp(winSize.width/4,winSize.height/5*4),
+// 		ccp(winSize.width/4*3,winSize.height/5*4),
+// 		ccp(winSize.width/4,winSize.height/5*3),
+// 		ccp(winSize.width/4*3,winSize.height/5*3),
+// 		ccp(winSize.width/4,winSize.height/5*2),
+// 		ccp(winSize.width/4*3,winSize.height/5*2),
+// 		ccp(winSize.width/4,winSize.height/5*1),
+// 		ccp(winSize.width/4*3,winSize.height/5*1),
+// 	};
+
 	CCArray* array = CCArray::create();
-	for (int i = 0; i < 8 ; i++)
+	for (int i = 0; i < 20 ; i++)
 	{
-		string s = DataTool::intTostring(i);
+		string s = DataTool::intTostring(i+1);
 		CCLabelTTF* label = CCLabelTTF::create(s.c_str(),"Arial",50);
 		CCMenuItemImage* p = CCMenuItemImage::create(
 			"main_button.png",
@@ -68,14 +82,17 @@ bool MainScene::init(){
 			this,
 			menu_selector(MainScene::menuSelected)
 			);
-		p->setPosition(menu_position[i]);
-		label->setPosition(menu_position[i]);
+		p->setUserObject(CCString::create(s));
+		CCPoint position = ccp(winSize.width/2,container_layer->getContentSize().height-(2*i+1)*(25+p->getContentSize().height/2));
+		p->setPosition(position);
+		label->setPosition(position);
 		array->addObject(p);
-		addChild(label,2);
+		container_layer->addChild(label,2);
 	}
 	CCMenu* menu = CCMenu::createWithArray(array);
-	addChild(menu,1);
+	container_layer->addChild(menu,1);
 	menu->setPosition(CCPointZero);
+
 
 	return true;
 }
@@ -106,7 +123,11 @@ void MainScene::keyBackClicked(){
 }
 
 void MainScene::menuSelected(CCObject* pSender){
-	CCDirector::sharedDirector()->replaceScene(WallSingleScene::scene("wall_1.xml"));
+	CCMenuItemImage* menuItemImag = (CCMenuItemImage*)pSender;
+	CCString* text = (CCString*)menuItemImag->getUserObject();
+	string number = text->getCString();
+	string wallfilename = "wall_"+number+".xml";
+	CCDirector::sharedDirector()->replaceScene(WallSingleScene::scene(wallfilename));
 }
 
 void MainScene::isExit(CCNode* pNode){
@@ -141,4 +162,12 @@ void MainScene::settingCallBack(CCNode* pNode){
 	}else {
 		DataTool::storeToFile("1","setting.xml");
 	}
+}
+
+void MainScene::scrollViewDidScroll(CCScrollView* view){
+
+}
+
+void MainScene::scrollViewDidZoom(CCScrollView* view){
+
 }
