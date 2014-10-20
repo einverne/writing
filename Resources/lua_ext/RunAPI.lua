@@ -122,7 +122,6 @@ function RunZiRule(bhNum)
 	local pre = header .."\n" .."local bhNum ="..tostring (bhNum) .."\n".."local bl = "..tostring(strokeLevel).."\n".."local bflag = 1".."\n".."local pflag = 1".."\n"
 	local allzirule = table.concat(NewZiRuleArr)
 	local result = pre.."\n"..allzirule
-	--Pass2CStr = result
 	f = loadstring(result)
 	f()
 end

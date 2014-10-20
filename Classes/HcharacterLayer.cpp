@@ -7,6 +7,8 @@
 #include "MoveToRightPlaceInterval.h"
 #include "LianxiScene.h"
 #include "SimpleAudioEngine.h"
+#include "MyToast.h"
+#include "tools\DataTool.h"
 
 typedef enum layers
 {
@@ -130,6 +132,7 @@ void HcharacterLayer::judge(){
 		if (ret.at(0) == '0')
 		{
 			//这一笔写错
+			MyToast::showToast(this,DataTool::getChinese("stroke_wrong"),2);
 			this->getm_HDrawnode()->removeLastStroke();
 			int t = getm_HDrawnode()->getStrokeDrawnodeList()->count();
 			ostringstream ostr;
@@ -138,8 +141,10 @@ void HcharacterLayer::judge(){
 			getInfoSprite()->setVisible(true);
 			getInfoSprite()->setTexture(CCTextureCache::sharedTextureCache()->addImage("wrong.png"));
 			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect(WRONG_EFFECT_FILE);
-		}else if(ret.at(1) == '1'){
+		}else if(ret.at(0) == '1'){
 			//写对
+			MyToast::showToast(this,DataTool::getChinese("stroke_right"),2);
+
 			int t=getm_HDrawnode()->getStrokeDrawnodeList()->count();
 			ostringstream ostr;
 			ostr << t;
@@ -160,6 +165,8 @@ void HcharacterLayer::judge(){
 	}else if(ret.length() == 4){
 		if (ret.at(0) == '0' || ret.at(1) == '0')
 		{
+			MyToast::showToast(this,DataTool::getChinese("position_wrong"),2);
+
 			//这一笔写错 或者 位置不对
 			this->getm_HDrawnode()->removeLastStroke();
 			int t = getm_HDrawnode()->getStrokeDrawnodeList()->count();
@@ -172,6 +179,8 @@ void HcharacterLayer::judge(){
 		}else if(ret.at(1) == '1' && ret.at(0) == '1')
 		{
 			//写对
+			MyToast::showToast(this,DataTool::getChinese("position_right"),2);
+
 			int t=getm_HDrawnode()->getStrokeDrawnodeList()->count();
 			ostringstream ostr;
 			ostr << t;

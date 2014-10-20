@@ -118,3 +118,9 @@ string DataTool::readFromFile(char* filename){
 	ret = re;
 	return ret;
 }
+
+string DataTool::getChinese(string key){
+	CCDictionary* strings = CCDictionary::createWithContentsOfFile("fonts/chinese.xml");
+	string strChinese = ((CCString*)strings->objectForKey(key))->m_sString;
+	return strChinese;
+}

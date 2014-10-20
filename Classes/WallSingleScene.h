@@ -59,6 +59,7 @@ public:
 
 	bool isInSprite(CCTouch* pTouch);
 	void singleClick(string hanzi);
+	string getwallXmlName()	{ return wallXmlName; }
 	
 private:
 	void backtoMainScene(CCNode* pNode);
@@ -72,11 +73,14 @@ private:
 	bool isMoved;
 	long beginTime;
 
+	// xml 文件名
 	string wallXmlName;
 	/*
 		测试按钮响应函数
 	*/
 	void ceshi(CCObject* pSender);
+
+	vector<string> hanzis;
 };
 
 #endif // __WallSingleScene_H__

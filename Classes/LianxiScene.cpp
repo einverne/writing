@@ -16,9 +16,22 @@ LianxiScene::LianxiScene(string hanzi):backgroundLayer(NULL),
 	touchLayer(NULL),
 	TLayer(NULL),
 	HLayer(NULL),
+	//	p(NULL),
+	ext_p(NULL)
+{
+	this->CurrentCharacter = hanzi;
+	//	p = new CharacterEntity();
+}
+
+LianxiScene::LianxiScene(string wallfilename,vector<string> hanzis,string hanzi):backgroundLayer(NULL),
+	touchLayer(NULL),
+	TLayer(NULL),
+	HLayer(NULL),
 //	p(NULL),
 	ext_p(NULL)
 {
+	this->wallXmlFileName = wallfilename;
+	this->hanziList = hanzis;
 	this->CurrentCharacter = hanzi;
 //	p = new CharacterEntity();
 }
@@ -41,6 +54,18 @@ LianxiScene* LianxiScene::create(string hanzi){
 		pRet->autorelease();
 		return pRet;
 	}else{
+		CC_SAFE_DELETE(pRet);        
+		return NULL;
+	}
+}
+
+LianxiScene* LianxiScene::create(string wallfilename,vector<string> hanzis,string hanzi){
+	LianxiScene* pRet = new LianxiScene(wallfilename,hanzis,hanzi);
+	if (pRet && pRet->init())
+	{
+		pRet->autorelease();
+		return pRet;
+	}else{
         CC_SAFE_DELETE(pRet);        
 		return NULL;
 	}
@@ -58,7 +83,6 @@ bool LianxiScene::init(){
 		this->setTLayer(TcharacterLayer::create(backgroundLayer->tianzige));
 		CC_BREAK_IF(!TLayer);
 		TLayer->setTag(kTLayerTag);
-		//TLayer->setSprite(backgroundLayer->tianzige);			将背景层中tianzige传给正字信息图层
 		this->addChild(TLayer);
 
 		this->setHLayer(HcharacterLayer::create(CurrentCharacter,backgroundLayer->tianzige_draw));
@@ -101,4 +125,8 @@ bool LianxiScene::init(){
 
 
 	return bRet;
+}
+
+void LianxiScene::nextCharacter(){
+	
 }

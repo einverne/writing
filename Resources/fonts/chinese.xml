@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<plist version="1.0">  
+<dict>  
+    <key>chinese</key>  
+    <string>关卡</string>  
+	<key>stroke_wrong</key>
+	<string>笔画错误</string>
+	<key>stroke_right</key>
+	<string>笔画正确</string>
+	<key>position_wrong</key>
+	<string>位置错误</string>
+	<key>position_wrong</key>
+	<string>位置错误</string>
+</dict>  
+</plist>  

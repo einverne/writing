@@ -155,6 +155,8 @@ bool WallSingleScene::init(string xmlfilename)
 			this->addChild(pSprite1, 1);
 
 			//文本框
+			hanzis.push_back(temphanzi);
+
 			CCLabelTTF* pLabel = CCLabelTTF::create(temphanzi.c_str(), "XingShu", 100);
 			pLabel->setPosition(ccp(origin.x + x, origin.y + y));
 			this->addChild(pLabel, 2);
@@ -441,16 +443,13 @@ bool WallSingleScene::isInSprite(CCTouch* pTouch){
 void WallSingleScene::singleClick(string hanzi){
 	//解除schedule,不然可能出现不可预测问题。
 	
-// 	CCDirector::sharedDirector()->replaceScene(lianxi::scene(hanzi));
 	if (hanzi != "a")
 	{
 		this->unscheduleAllSelectors();
 		CCDirector::sharedDirector()->getTouchDispatcher()->removeAllDelegates();
-		CCDirector::sharedDirector()->replaceScene(LianxiScene::create(hanzi));
+		CCDirector::sharedDirector()->replaceScene(LianxiScene::create(wallXmlName,hanzis,hanzi));
 	}
 
-// 	CCDirector::sharedDirector()->pushScene(lianxi::scene(hanzi));
-// 	CCDirector::sharedDirector()->pushScene(LianxiScene::create(hanzi));
 }
 
 void WallSingleScene::popup(string hanzi){

@@ -1,5 +1,6 @@
 #include "BackgroundLayer.h"
 #include "WallSingleScene.h"
+#include "LianxiScene.h"
 
 BackgroundLayer::BackgroundLayer()
 {
@@ -54,26 +55,39 @@ bool BackgroundLayer::init(){
 		this->addChild(tianzige,1);
 		CCSize tianzigeSize = tianzige->getContentSize();
 		tianzige->setPosition(ccp(visiableSize.width/2,visiableSize.height-headSize.height-tianzigeSize.height/2-50));
-		//tianzige->setAnchorPoint(ccp(0, 0));
 
 
 		tianzige_draw = CCSprite::create("tianzige.png");
 		this->addChild(tianzige_draw,1,1);
 		CCSize tianzigeDrawSize = tianzige_draw->getContentSize();
 		tianzige_draw->setPosition(ccp(visiableSize.width/2,tailSize.height+50+tianzigeDrawSize.height/2));
+
+		CCMenuItemImage* next = CCMenuItemImage::create("dog.png",
+			"dog.png",
+			this,
+			menu_selector(BackgroundLayer::menuNext));
+		next->setPosition(ccp(winSize.width - next->getContentSize().width/2-50,winSize.height/2));
+		menu->addChild(next);
+
 	}
 	return true;
 }
 
 void BackgroundLayer::menuBack(CCObject* pSender){
-/*	CCDirector::sharedDirector()->popScene();*/
 	this->unscheduleAllSelectors();
 	CCDirector::sharedDirector()->getTouchDispatcher()->removeAllDelegates();
-	CCDirector::sharedDirector()->replaceScene(WallSingleScene::scene("wall_1.xml"));
+	string filename = ((LianxiScene*)this->getParent())->getwallXmlFileName();
+	CCDirector::sharedDirector()->replaceScene(WallSingleScene::scene(filename));
 }
 
 void BackgroundLayer::keyBackClicked(){
 	this->unscheduleAllSelectors();
 	CCDirector::sharedDirector()->getTouchDispatcher()->removeAllDelegates();
-	CCDirector::sharedDirector()->replaceScene(WallSingleScene::scene("wall_1.xml"));
+	string filename = ((LianxiScene*)this->getParent())->getwallXmlFileName();
+	CCDirector::sharedDirector()->replaceScene(WallSingleScene::scene(filename));
+}
+
+void BackgroundLayer::menuNext(CCObject* pSender){
+	CCLog("next");
+	((LianxiScene*)this->getParent())->nextCharacter();
 }

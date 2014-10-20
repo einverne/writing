@@ -10,7 +10,6 @@ class HcharacterLayer : public CCLayer
 public:
 	HcharacterLayer();
 	~HcharacterLayer();
-	//CREATE_FUNC(HcharacterLayer);
 	static HcharacterLayer* create(string hanzi,CCSprite* tianzige_draw);
 	virtual bool init(string hanzi,CCSprite* tianzige_draw);
 	virtual void onExit();
@@ -27,7 +26,6 @@ public:
 	string floatToString(float f);
 	void judge();
 
-	string hanzi;
 // 	HcharacterDrawnode* m_HDrawnode;
 	CC_SYNTHESIZE_RETAIN(HcharacterDrawnode*,m_HDrawnode,m_HDrawnode);
 	CC_SYNTHESIZE_RETAIN(CCLabelTTF*, bihuaCount,bihuaCount);
@@ -35,6 +33,7 @@ public:
 	CC_SYNTHESIZE_RETAIN(CCSprite* , m_sprite_info, InfoSprite);
 private:
 	void rewrite(CCObject* pSender);
+	string hanzi;
 };
 
 

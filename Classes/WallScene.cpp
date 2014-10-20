@@ -436,8 +436,6 @@ void WallScene::singleClick(string hanzi){
 		CCDirector::sharedDirector()->replaceScene(LianxiScene::create(hanzi));
 	}
 
-// 	CCDirector::sharedDirector()->pushScene(lianxi::scene(hanzi));
-// 	CCDirector::sharedDirector()->pushScene(LianxiScene::create(hanzi));
 }
 
 void WallScene::popup(string hanzi){
