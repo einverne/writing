@@ -4,6 +4,7 @@
 #include "tools/DataTool.h"
 #include "LianxiScene.h"
 #include "MainScene.h"
+#include "MyToast.h"
 
 USING_NS_CC;
 
@@ -73,7 +74,7 @@ bool WallSingleScene::init(string xmlfilename)
 	menu->setPosition(CCPointZero);
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-	string myfilename = CCFileUtils::sharedFileUtils()->getWritablePath()+"wall/"+wallXmlName;
+	string myfilename = CCFileUtils::sharedFileUtils()->getWritablePath()+wallXmlName;
 	unsigned long size = 0;
 	char* pFileContent = (char*)CCFileUtils::sharedFileUtils()->getFileData(myfilename.c_str(),"r",&size);
 	TiXmlDocument* myDocument = new TiXmlDocument();
@@ -578,5 +579,6 @@ void WallSingleScene::backtoMainScene(CCNode* pNode){
 
 void WallSingleScene::ceshi(CCObject* pSender){
 	CCLog("WallSingleScene::ceshi clicked");
+	MyToast::showToast(this,DataTool::getChinese("stroke_wrong"),2);
 
 }

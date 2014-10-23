@@ -170,6 +170,7 @@ bool CLuaScriptReader::RunScriptBuffer(const char *buff,char* ret_string,char *n
 	int error = 0;
 	char callname[256] = "";
 	//*ret_string = 0;
+	CCLog("CLuaScriptReader::RunScriptBuffer");
 	if( m_plua == NULL || buff == NULL || ret_string == NULL ) return false;
 	if( name == NULL ){
 		strcpy(callname,"noname");
@@ -177,7 +178,7 @@ bool CLuaScriptReader::RunScriptBuffer(const char *buff,char* ret_string,char *n
 		strcpy(callname,name);
 	}
 	error = luaL_loadbuffer(m_plua, buff, strlen(buff),callname) || lua_pcall(m_plua, 0, 1, 0);
-
+	CCLog("CLuaScriptReader::RunScriptBuffer 2");
 	if (error){
 		fprintf(stderr, "%s", lua_tostring(m_plua, -1));
 		CCLog("luaL_loadbuffer3 %s",lua_tostring(m_plua,-1));
@@ -312,7 +313,9 @@ bool CLuaScriptReader::RunScriptFile(const char *filename,char* ret_string,char 
 #endif
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	unsigned long int size = 0;
-	unsigned char* filebuff = CCFileUtils::sharedFileUtils()->getFileData(filename,"r",&size);
+	CCLog("filepath name %s",filename);
+	unsigned char* filebuff = CCFileUtils::sharedFileUtils()->getFileData(filename,"rb",&size);
+	CCLog("RunScriptFile Android : %s",filebuff);
 	CCString* ccStr = CCString::createWithData(filebuff,size);
 	RunScriptBuffer(ccStr->getCString(),ret_string,name);
 #endif

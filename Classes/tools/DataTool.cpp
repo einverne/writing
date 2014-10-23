@@ -109,7 +109,12 @@ void DataTool::storeToFile(char* str,char* filename){
 
 string DataTool::readFromFile(char* filename){
 	string ret;
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	string filepath = CCFileUtils::sharedFileUtils()->getWritablePath()+filename;
+#endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 	string filepath = CCFileUtils::sharedFileUtils()->fullPathForFilename(filename);
+#endif
 	unsigned long size = 0;
 	unsigned char* filecontent = (unsigned char*)CCFileUtils::sharedFileUtils()->getFileData(filepath.c_str(),"r",&size);
 	//read file must add two lines

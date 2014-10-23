@@ -9,7 +9,7 @@
 	<string>笔画正确</string>
 	<key>position_wrong</key>
 	<string>位置错误</string>
-	<key>position_wrong</key>
-	<string>位置错误</string>
+	<key>position_right</key>
+	<string>位置正确</string>
 </dict>  
 </plist>  

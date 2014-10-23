@@ -127,28 +127,30 @@ void HcharacterLayer::judge(){
 	string funcs = ((LianxiScene*)this->getParent())->funcs;
 	string points = ((LianxiScene*)this->getParent())->getTLayer()->getm_TDrawnode()->getCharacterStandardInfo();
 	string ret = JudgeManager::getResult(hanzi,output,points,p,funcs);
+	CCLog("Hcharacterlay: ret : %s %d",ret.c_str(),ret.length());
 	if (ret.length() == 3)
 	{
 		if (ret.at(0) == '0')
 		{
 			//这一笔写错
+			CCLog("this is wrong begin");
+
 			MyToast::showToast(this,DataTool::getChinese("stroke_wrong"),2);
 			this->getm_HDrawnode()->removeLastStroke();
 			int t = getm_HDrawnode()->getStrokeDrawnodeList()->count();
-			ostringstream ostr;
-			ostr << t;
-			bihuaCount->setString(ostr.str().c_str());
+			bihuaCount->setString(DataTool::intTostring(t).c_str());
 			getInfoSprite()->setVisible(true);
 			getInfoSprite()->setTexture(CCTextureCache::sharedTextureCache()->addImage("wrong.png"));
 			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect(WRONG_EFFECT_FILE);
+			CCLog("this is wrong");
 		}else if(ret.at(0) == '1'){
 			//写对
+			CCLog("this is right start");
 			MyToast::showToast(this,DataTool::getChinese("stroke_right"),2);
 
-			int t=getm_HDrawnode()->getStrokeDrawnodeList()->count();
-			ostringstream ostr;
-			ostr << t;
-			bihuaCount->setString(ostr.str().c_str());
+			int t = getm_HDrawnode()->getStrokeDrawnodeList()->count();
+			bihuaCount->setString(DataTool::intTostring(t).c_str());
+			CCLog("this is right start 1");
 
 			TcharacterLayer* layer = (TcharacterLayer*)this->getParent()->getChildByTag(kTLayerTag);		//get TcharacterLayer
 			Stroke temp = layer->getm_TDrawnode()->getCharacter().getStroke(t);								//get No. stroke
@@ -161,10 +163,13 @@ void HcharacterLayer::judge(){
 				getInfoSprite()->setTexture(CCTextureCache::sharedTextureCache()->addImage("right.png"));
 				CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect(RIGHT_EFFECT_FILE);
 			}
+			CCLog("this is right");
 		}
 	}else if(ret.length() == 4){
 		if (ret.at(0) == '0' || ret.at(1) == '0')
 		{
+			CCLog("xxxx); is wrong begin");
+
 			MyToast::showToast(this,DataTool::getChinese("position_wrong"),2);
 
 			//这一笔写错 或者 位置不对
@@ -176,15 +181,16 @@ void HcharacterLayer::judge(){
 			getInfoSprite()->setVisible(true);
 			getInfoSprite()->setTexture(CCTextureCache::sharedTextureCache()->addImage("wrong.png"));
 			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect(WRONG_EFFECT_FILE);
+			CCLog("xxxx); is wrong");
 		}else if(ret.at(1) == '1' && ret.at(0) == '1')
 		{
 			//写对
+			CCLog("11begin ");
 			MyToast::showToast(this,DataTool::getChinese("position_right"),2);
 
 			int t=getm_HDrawnode()->getStrokeDrawnodeList()->count();
-			ostringstream ostr;
-			ostr << t;
-			bihuaCount->setString(ostr.str().c_str());
+			string st_t = DataTool::intTostring(t);
+			bihuaCount->setString(st_t.c_str());
 
 			TcharacterLayer* layer = (TcharacterLayer*)this->getParent()->getChildByTag(kTLayerTag);		//get TcharacterLayer
 			Stroke temp = layer->getm_TDrawnode()->getCharacter().getStroke(t);								//get No. stroke
@@ -197,8 +203,10 @@ void HcharacterLayer::judge(){
 				getInfoSprite()->setTexture(CCTextureCache::sharedTextureCache()->addImage("right.png"));
 				CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect(RIGHT_EFFECT_FILE);
 			}
+			CCLog("11 end");
 		}
 	}
+	CCLog("endend");
 }
 
 CCPoint HcharacterLayer::convert512(CCPoint p){

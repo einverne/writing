@@ -23,6 +23,7 @@ public:
 private:
     void finishSplash(float dt);
 	void initDB(string db_name);
+	void initXML(string xmlfile);
 };
 
 #endif

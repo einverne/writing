@@ -20,6 +20,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/LianxiScene.cpp \
                    ../../Classes/LuaScriptReader.cpp \
                    ../../Classes/MainScene.cpp \
+                   ../../Classes/MyToast.cpp \
                    ../../Classes/PopLayer.cpp \
                    ../../Classes/ReadXML.cpp \
                    ../../Classes/Splash.cpp \
@@ -32,6 +33,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/TcharacterLayer.cpp \
                    ../../Classes/TouchLayer.cpp \
                    ../../Classes/WallScene.cpp \
+                   ../../Classes/WallSingleScene.cpp \
                    ../../Classes/tinystr.cpp \
                    ../../Classes/tinyxml.cpp \
                    ../../Classes/tinyxmlerror.cpp \
@@ -39,6 +41,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/MoveToRightPlaceInterval.cpp \
                    ../../Classes/SqliteHelper.cpp \
                    ../../Classes/CharacterEntity.cpp \
+                   ../../Classes/CharacterExtend.cpp \
                    ../../Classes/RightZiAnimationAction.cpp \
                    ../../Classes/tools/DataTool.cpp \
 
@@ -54,8 +57,8 @@ LOCAL_WHOLE_STATIC_LIBRARIES += cocos_lua_static
 
 include $(BUILD_SHARED_LIBRARY)
 
-$(call import-add-path,D:\graduation_project\cocos2d-x-2.1.5)
-$(call import-add-path,D:\graduation_project\cocos2d-x-2.1.5\cocos2dx\platform\third_party\android\prebuilt\)
+$(call import-add-path,E:\graduation_project\cocos2d-x-2.1.5)
+$(call import-add-path,E:\graduation_project\cocos2d-x-2.1.5\cocos2dx\platform\third_party\android\prebuilt\)
 $(call import-module,cocos2dx)
 $(call import-module,cocos2dx/platform/third_party/android/prebuilt/libcurl)
 $(call import-module,CocosDenshion/android)

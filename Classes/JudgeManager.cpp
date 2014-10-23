@@ -68,7 +68,6 @@ string JudgeManager::getResult(string hanzi , string points_output, string all_p
 	//ËÉ½ô¹æÔò
 	string r = DataTool::readFromFile("setting.xml");
 	gReader.setLevel(r);
-	/*gReader.setStandardZiInfo(all_points);*/
 	if (r.compare("1") == 0)
 	{
 		gReader.SetRulesFunc(p->getruleLoose());
@@ -76,14 +75,20 @@ string JudgeManager::getResult(string hanzi , string points_output, string all_p
 		gReader.SetRulesFunc(p->getRuleTight());
 	}
 
+	CCLog("WriteZiInfo");
 	gReader.RunScriptFile(filepath.c_str(),"WriteZiInfo.lua");
+	CCLog("StandardZiInfo");
 	gReader.RunScriptFile(standardpath.c_str(),"StandardZiInfo.lua");
+	CCLog("setGlobalFunc");
 	gReader.SetGlobalFunc(funcs);
+	CCLog("baselib");
 	gReader.RunMixedFile(basepath.c_str(),"BaseLib.lua");
+	CCLog("runapi");
 	gReader.RunScriptFile(apipath.c_str(),retStr,"RunAPI.lua");
+	CCLog("ExitLuaScriptReader");
 	gReader.ExitLuaScriptReader();
 	CCLog("retStr after judge %s",retStr);
-	string ret(retStr);
-	delete [] retStr;
+	string ret = retStr;
+	//delete [] retStr;
 	return ret;
 }
