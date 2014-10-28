@@ -5,6 +5,7 @@
 #include "LianxiScene.h"
 #include "MainScene.h"
 #include "MyToast.h"
+#include "CeshiScene.h"
 
 USING_NS_CC;
 
@@ -49,7 +50,7 @@ bool WallSingleScene::init(string xmlfilename)
 		return false;
 	}
 
-	wallXmlName = xmlfilename;
+	wallXMLCurrent = xmlfilename;
 	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
 	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
 
@@ -74,14 +75,14 @@ bool WallSingleScene::init(string xmlfilename)
 	menu->setPosition(CCPointZero);
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-	string myfilename = CCFileUtils::sharedFileUtils()->getWritablePath()+wallXmlName;
+	string myfilename = CCFileUtils::sharedFileUtils()->getWritablePath()+wallXMLCurrent;
 	unsigned long size = 0;
 	char* pFileContent = (char*)CCFileUtils::sharedFileUtils()->getFileData(myfilename.c_str(),"r",&size);
 	TiXmlDocument* myDocument = new TiXmlDocument();
 	myDocument->Parse(pFileContent,0,TIXML_ENCODING_UTF8);
 #endif
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
-	string str_filename = "wall/" + wallXmlName;
+	string str_filename = "wall/" + wallXMLCurrent;
 	string myfilename=CCFileUtils::sharedFileUtils()->fullPathForFilename(str_filename.c_str());
 	TiXmlDocument* myDocument = new TiXmlDocument(myfilename.c_str());
 	myDocument->LoadFile();
@@ -448,7 +449,7 @@ void WallSingleScene::singleClick(string hanzi){
 	{
 		this->unscheduleAllSelectors();
 		CCDirector::sharedDirector()->getTouchDispatcher()->removeAllDelegates();
-		CCDirector::sharedDirector()->replaceScene(LianxiScene::create(wallXmlName,hanzis,hanzi));
+		CCDirector::sharedDirector()->pushScene(LianxiScene::create(hanzis,hanzi));
 	}
 
 }
@@ -507,13 +508,20 @@ void WallSingleScene::longPressUpdate(float fDelta){
 	CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(WallSingleScene::longPressUpdate),this);
 }
 
+/**
+	src 原字
+	dst 目标字
+	将原字替换成目标字，替换xml文件中查找到的第一个字
+*/
 void WallSingleScene::saveToFile(string src,const char* dst){
 	int i = 0;
+
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
-	string myfilename=CCFileUtils::sharedFileUtils()->fullPathForFilename("wall.xml");
+	string wallpath = "wall/" + wallXMLCurrent;
+	string myfilename=CCFileUtils::sharedFileUtils()->fullPathForFilename(wallpath.c_str());
 #endif
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-	string myfilename = CCFileUtils::sharedFileUtils()->getWritablePath()+"wall.xml";
+	string myfilename = CCFileUtils::sharedFileUtils()->getWritablePath()+wallXMLCurrent;
 #endif
 	TiXmlDocument* myDocument = new TiXmlDocument(myfilename.c_str());
 	myDocument->LoadFile();
@@ -579,6 +587,8 @@ void WallSingleScene::backtoMainScene(CCNode* pNode){
 
 void WallSingleScene::ceshi(CCObject* pSender){
 	CCLog("WallSingleScene::ceshi clicked");
-	MyToast::showToast(this,DataTool::getChinese("stroke_wrong"),2);
+// 	MyToast::showToast(this,DataTool::getChinese("stroke_wrong"),2);
 
+	CeshiScene* scene = CeshiScene::create(wallXMLCurrent,hanzis);
+	CCDirector::sharedDirector()->replaceScene(scene);
 }

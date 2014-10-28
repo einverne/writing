@@ -59,7 +59,7 @@ public:
 
 	bool isInSprite(CCTouch* pTouch);
 	void singleClick(string hanzi);
-	string getwallXmlName()	{ return wallXmlName; }
+	string getwallXmlName()	{ return wallXMLCurrent; }
 	
 private:
 	void backtoMainScene(CCNode* pNode);
@@ -74,7 +74,7 @@ private:
 	long beginTime;
 
 	// xml 文件名
-	string wallXmlName;
+	string wallXMLCurrent;
 	/*
 		测试按钮响应函数
 	*/
