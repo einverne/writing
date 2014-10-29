@@ -1,4 +1,4 @@
---·â×°±ê×¼Õı×ÖµÄĞÅÏ¢
+--å°è£…æ ‡å‡†æ­£å­—çš„ä¿¡æ¯
 
 
 
@@ -17,7 +17,7 @@ POINT = { GeoType = "KPOINT", x = 0, y = 0}
 BH = { GeoType = "KBH", ptSet = {}, InflectionPoint = {}, }
 StdHZ = { strokeNum = 0, strokes = {}, strokeStrings = {}  }
 
---split º¯Êı£¬sepÊÇ´ıÇĞ·Ö×Ö·û´®£¬signÎª·Ö¸î×Ö·û
+--split å‡½æ•°ï¼Œsepæ˜¯å¾…åˆ‡åˆ†å­—ç¬¦ä¸²ï¼Œsignä¸ºåˆ†å‰²å­—ç¬¦
 function string:split(sep,sign)
 	local sep, fields = sep or "\t", {}
 	local pattern = string.format("([^"..sign.."]+)", sep)
@@ -26,18 +26,18 @@ function string:split(sep,sign)
 end
 
 
---##### Éè¶¨±ê×¼Õı×ÖĞÅÏ¢ end#####--
+--##### è®¾å®šæ ‡å‡†æ­£å­—ä¿¡æ¯ end#####--
 
---##### µã begin#####--
+--##### ç‚¹ begin#####--
 function POINT:new(o)
 	local o = o or {}
 	setmetatable(o,self)
 	self.__index = self
 	return o
 end
---##### µã end#####--
+--##### ç‚¹ end#####--
 
---##### ±Ê»­begin#####--
+--##### ç¬”ç”»begin#####--
 function BH:new(o)
 	local o = o or {}
 	o.ptSet = {}
@@ -48,7 +48,7 @@ function BH:new(o)
 	return o
 end
 
---½«µã¼¯×Ö·û´®·Ö¸î£¬²¢³õÊ¼»¯±Ê»­µÄµã¼¯
+--å°†ç‚¹é›†å­—ç¬¦ä¸²åˆ†å‰²ï¼Œå¹¶åˆå§‹åŒ–ç¬”ç”»çš„ç‚¹é›†
 function BH:splitPoints(ptStr)
 	local ptSet = {}
 	for strx,stry in string.gmatch(ptStr,"(%d+)/(%d+)") do
@@ -72,7 +72,7 @@ end
 
 
 
---#####ÊÖĞ´×Ö begin#####--
+--#####æ‰‹å†™å­— begin#####--
 function StdHZ:new()
 	local o = o or {}
 	o.strokes = {}
@@ -82,7 +82,7 @@ function StdHZ:new()
 	return o
 end
 
---ÇĞ·Ö×Ö·û´®
+--åˆ‡åˆ†å­—ç¬¦ä¸²
 function splitPoints(ptStr,ptSet)
 	for strx,stry in string.gmatch(ptStr,"(%d+)/(%d+)") do
 		local pt = {}
@@ -101,13 +101,13 @@ function StdHZ:initialize(str)
 end
 
 
---³õÊ¼»¯ÊÖĞ´×Ö±Ê»­¸öÊıĞÅÏ¢
+--åˆå§‹åŒ–æ‰‹å†™å­—ç¬”ç”»ä¸ªæ•°ä¿¡æ¯
 function StdHZ:initStrokeNum(strokeNum)
 	self.strokeNum = strokeNum
 end
 
 
---³õÊ¼»¯ÊÖĞ´×Öµã¼¯ĞÅÏ¢
+--åˆå§‹åŒ–æ‰‹å†™å­—ç‚¹é›†ä¿¡æ¯
 function StdHZ:initStrokeStrs( strokeStrs )
 	for _,v in pairs(strokeStrs) do
 		self.strokeStrings[#self.strokeStrings+1] = v
@@ -116,7 +116,7 @@ function StdHZ:initStrokeStrs( strokeStrs )
 end
 
 
---³õÊ¼»¯±Ê»­ĞÅÏ¢
+--åˆå§‹åŒ–ç¬”ç”»ä¿¡æ¯
 function StdHZ:initStrokes()
 	for i=1,#self.strokeStrings do
 		local str = self.strokeStrings[i]
@@ -134,7 +134,7 @@ function StdHZ:clearData()
 	self.strokes = {}
 end
 
---#####ÊÖĞ´×Ö end#####--
+--#####æ‰‹å†™å­— end#####--
 
 
 

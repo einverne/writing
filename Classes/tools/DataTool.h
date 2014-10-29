@@ -20,7 +20,7 @@ public:
 	/**
 		将字符串保存到文件中
 	*/
-	static void storeToFile(char* str,char* filename);
+	static void storeToFile(const char* str,char* filename);
 	/**
 		从文件中读取字符串
 	*/

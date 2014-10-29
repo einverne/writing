@@ -83,7 +83,7 @@ string DataTool::intTostring(int a){
 	return s.str();
 }
 
-void DataTool::storeToFile(char* str,char* filename){
+void DataTool::storeToFile(const char* str,char* filename){
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	unsigned long size = 0;
 	string finame(filename);
@@ -116,16 +116,19 @@ string DataTool::readFromFile(char* filename){
 	string filepath = CCFileUtils::sharedFileUtils()->fullPathForFilename(filename);
 #endif
 	unsigned long size = 0;
-	unsigned char* filecontent = (unsigned char*)CCFileUtils::sharedFileUtils()->getFileData(filepath.c_str(),"r",&size);
+	unsigned char* filecontent = CCFileUtils::sharedFileUtils()->getFileData(filepath.c_str(),"r",&size);
 	//read file must add two lines
 	CCString* cstr = CCString::createWithData(filecontent,size);
-	const char* re = cstr->getCString();
-	ret = re;
+	delete[] filecontent;
+//	const char* re = cstr->getCString();
+//	ret = re;
+	ret = string(cstr->getCString());
 	return ret;
 }
 
 string DataTool::getChinese(string key){
 	CCDictionary* strings = CCDictionary::createWithContentsOfFile("fonts/chinese.xml");
 	string strChinese = ((CCString*)strings->objectForKey(key))->m_sString;
+//	CC_SAFE_RELEASE(strings);
 	return strChinese;
 }

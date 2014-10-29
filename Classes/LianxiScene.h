@@ -14,10 +14,10 @@ class LianxiScene : public CCScene
 {
 public:
 	LianxiScene(string hanzi);
-	LianxiScene(string wallfilename,vector<string> hanzis,string hanzi);
+	LianxiScene(vector<string> hanzis,string hanzi);
 	~LianxiScene();
 	static LianxiScene* create(string hanzi);
-	static LianxiScene* create(string wallfilename,vector<string> hanzis,string hanzi);
+	static LianxiScene* create(vector<string> hanzis,string hanzi);
 	virtual bool init();
 
 	string CurrentCharacter;			//当前正在练习的汉字字符
@@ -31,12 +31,10 @@ public:
 //	CC_SYNTHESIZE_RETAIN(CharacterEntity*,p,CharacterP);
 	CC_SYNTHESIZE_RETAIN(CharacterExtend*,ext_p,CharacterExt);
 	
-	string getwallXmlFileName()	{return wallXmlFileName;}
 	void nextCharacter();
 
 private:
 	vector<string> hanziList;
-	string wallXmlFileName;
 };
 
 

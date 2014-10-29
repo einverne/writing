@@ -29,8 +29,6 @@ public:
 	virtual void ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent);
 	virtual void registerWithTouchDispatcher();
 
-	// implement the "static node()" method manually
-//	CREATE_FUNC(WallSingleScene);
 	static WallSingleScene* create(string wallxmlname);
 
 	/**
@@ -60,6 +58,14 @@ public:
 	bool isInSprite(CCTouch* pTouch);
 	void singleClick(string hanzi);
 	string getwallXmlName()	{ return wallXMLCurrent; }
+
+	/**
+	* 修改xml文件中汉字对应proficiency值
+	* @param character 要修改prof值对应的字
+	* @param proficiency要修改到的值
+	* @return
+	*/
+	bool setProficiency(string character,string proficiency);
 	
 private:
 	void backtoMainScene(CCNode* pNode);

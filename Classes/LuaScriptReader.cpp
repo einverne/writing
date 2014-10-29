@@ -5,15 +5,23 @@
 #include "LuaScriptReader.h"
 #include "cocos2d.h"
 USING_NS_CC;
+using namespace std;
 
 
-char StandardZiInfo[10240] = "";		//用于接收标准字信息
-char WriteZiInfo[1024*100] = "";		//手写字信息
-char Hanzi[50] = "";
-char RuleInfo[1024*100] = "";		//规则信息
-char GlobalFunc[1024*100] = "";		//全局函数信息
-char Rules[1024*100] = "";
-char Level[10] = "";
+// char StandardZiInfo[10240] = "";		//用于接收标准字信息
+// char WriteZiInfo[1024*100] = "";		//手写字信息
+// char Hanzi[50] = "";
+// char RuleInfo[1024*100] = "";		//规则信息
+// char GlobalFunc[1024*100] = "";		//全局函数信息
+// char Rules[1024*100] = "";
+// char Level[10] = "";
+string StandardZiInfo;
+string WriteZiInfo;
+string Hanzi;
+string RuleInfo;
+string GlobalFunc;
+string Rules;
+string Level;
 // char* StandardZiInfo = new char[1024];
 // char* WriteZiInfo = new char[1024*10];
 // char* Hanzi = new char[50];
@@ -35,13 +43,13 @@ int StrokeIndex;					//当前笔画的索引
 // see LuaScriptReader.h for the class definition
 CLuaScriptReader::CLuaScriptReader()
 {
-	StandardZiInfo[0] = '\0';		//用于接收标准字信息
-	WriteZiInfo[0] = '\0';		//手写字信息
-	Hanzi[0] = '\0';
-	RuleInfo[0] = '\0';		//规则信息
-	GlobalFunc[0] = '\0';		//全局函数信息
-	Rules[0] = '\0';
- 	Level[0] = '\0';
+// 	StandardZiInfo[0] = '\0';		//用于接收标准字信息
+// 	WriteZiInfo[0] = '\0';		//手写字信息
+// 	Hanzi[0] = '\0';
+// 	RuleInfo[0] = '\0';		//规则信息
+// 	GlobalFunc[0] = '\0';		//全局函数信息
+// 	Rules[0] = '\0';
+//  	Level[0] = '\0';
 	m_plua = NULL;
 	return; 
 }
@@ -56,17 +64,17 @@ CLuaScriptReader::~CLuaScriptReader(){
 }
 
 int GetWriteInfoFromC(lua_State *plua){
-	lua_pushstring(plua, WriteZiInfo);
+	lua_pushstring(plua, WriteZiInfo.c_str());
 	return 1;    
 }
 
 int GetStandardZiInfoFromC(lua_State *plua){
-	lua_pushstring(plua, StandardZiInfo);
+	lua_pushstring(plua, StandardZiInfo.c_str());
 	return 1;    
 }
 
 int GetRuleInfoFromC(lua_State *plua){
-	lua_pushstring(plua, RuleInfo);
+	lua_pushstring(plua, RuleInfo.c_str());
 	return 1;    
 }
 
@@ -92,23 +100,23 @@ int GetStrokeIndexFromC(lua_State*plua){
 }
 
 int GetGlobalFuncFromC(lua_State *plua){
-	lua_pushstring(plua, GlobalFunc);
+	lua_pushstring(plua, GlobalFunc.c_str());
 	return 1;    
 
 }
 
 int GetZiNameFromC(lua_State *plua){
-	lua_pushstring(plua, Hanzi);
+	lua_pushstring(plua, Hanzi.c_str());
 	return 1;
 }
 
 int GetRulesFromC(lua_State *plua){
-	lua_pushstring(plua, Rules);
+	lua_pushstring(plua, Rules.c_str());
 	return 1;
 }
 
 int GetStrokeLevelFromC(lua_State *plua){
-	lua_pushstring(plua, Level);
+	lua_pushstring(plua, Level.c_str());
 	return 1;
 }
 
@@ -190,67 +198,69 @@ bool CLuaScriptReader::RunScriptBuffer(const char *buff,char* ret_string,char *n
 	return true;
 }
 
-void CLuaScriptReader::SetGlobalFunc(const char * filename){
-#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
-	FILE* fpFile = fopen(filename,"r");
-	if (fpFile == NULL)
-	{
-		printf("cannot open file");
-		return;
-	}
-	char line[1024] = "";
-	while (fgets(line, 1024,fpFile) != NULL)
-	{
-		strcat(GlobalFunc,line);
-	}
-#endif
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-		unsigned long int size =0;
-		unsigned char* temp = CCFileUtils::sharedFileUtils()->getFileData(filename,"r",&size);
-		CCString* ccStr = CCString::createWithData(temp,size);
-		strcpy(GlobalFunc,ccStr->getCString());
-// 		CCLog("GlobalFunc %s",GlobalFunc);
-#endif
-	return;
-}
+// void CLuaScriptReader::SetGlobalFunc(const char * filename){
+// #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+// 	FILE* fpFile = fopen(filename,"r");
+// 	if (fpFile == NULL)
+// 	{
+// 		printf("cannot open file");
+// 		return;
+// 	}
+// 	char line[1024] = "";
+// 	while (fgets(line, 1024,fpFile) != NULL)
+// 	{
+// 		strcat(GlobalFunc,line);
+// 	}
+// #endif
+// #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+// 		unsigned long int size =0;
+// 		unsigned char* temp = CCFileUtils::sharedFileUtils()->getFileData(filename,"r",&size);
+// 		CCString* ccStr = CCString::createWithData(temp,size);
+// 		strcpy(GlobalFunc,ccStr->getCString());
+// // 		CCLog("GlobalFunc %s",GlobalFunc);
+// #endif
+// 	return;
+// }
 
 void CLuaScriptReader::SetGlobalFunc(string funcs){
-	strcpy(GlobalFunc,funcs.c_str());
+// 	strcpy(GlobalFunc,funcs.c_str());
+	GlobalFunc = funcs;
 }
 
-void CLuaScriptReader::SetRulesFunc(const char* filename){
-	CCLog("SetRulesFunc(const char* filename)");
-#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
-	FILE* fpFile = fopen(filename,"r");
-	if (fpFile == NULL)
-	{
-		printf("cannot open file");
-		return;
-	}
-	char line[1024] = "";
-	while (fgets(line, 1024,fpFile) != NULL)
-	{
-		strcat(Rules,line);
-	}
-#endif
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-	unsigned long int size = 0;
-	unsigned char* temp = CCFileUtils::sharedFileUtils()->getFileData(filename,"r",&size);
-	CCString* ccStr = CCString::createWithData(temp,size);
-	strcpy(Rules,ccStr->getCString());
-	CCLog("Rules %s",Rules);
-#endif
-	return;
-}
-
+// void CLuaScriptReader::SetRulesFunc(const char* filename){
+// 	CCLog("SetRulesFunc(const char* filename)");
+// #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+// 	FILE* fpFile = fopen(filename,"r");
+// 	if (fpFile == NULL)
+// 	{
+// 		printf("cannot open file");
+// 		return;
+// 	}
+// 	char line[1024] = "";
+// 	while (fgets(line, 1024,fpFile) != NULL)
+// 	{
+// 		strcat(Rules,line);
+// 	}
+// #endif
+// #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+// 	unsigned long int size = 0;
+// 	unsigned char* temp = CCFileUtils::sharedFileUtils()->getFileData(filename,"r",&size);
+// 	CCString* ccStr = CCString::createWithData(temp,size);
+// 	strcpy(Rules,ccStr->getCString());
+// 	CCLog("Rules %s",Rules);
+// #endif
+// 	return;
+// }
+// 
 void CLuaScriptReader::SetRulesFunc(CCString* rules){
 	CCLog("SetRulesFunc(CCString* rules)");
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
-	strcpy(Rules,rules->getCString());
+	Rules = string(rules->getCString());
 #endif
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-	strcpy(Rules,rules->getCString());
-	CCLog("Rules %s",Rules);
+//	strcpy(Rules,rules->getCString());
+	Rules = string(rules->getCString());
+//	CCLog("Rules %s",Rules);
 #endif
 }
 
@@ -279,16 +289,23 @@ bool CLuaScriptReader::RunMixedFile(const char *filename,char *name)
 	}
 	fclose(fpFile);
 	strcat(filebuff,"\n");
-	strcat(filebuff,GlobalFunc);
+	strcat(filebuff,GlobalFunc.c_str());
 	RunScriptBuffer(filebuff,callname);
 #endif
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	unsigned long size = 0;
 	unsigned char* filebuff = CCFileUtils::sharedFileUtils()->getFileData(filename,"r",&size);
 	CCString* ccStr = CCString::createWithData(filebuff,size);
+	if (!filebuff)
+	{
+		delete[] filebuff;
+	}
 	char* filebuff1 = (char*)ccStr->getCString();
 	strcat(filebuff1,"\n");
-	strcat(filebuff1,GlobalFunc);
+	CCLog("GlobalFunc");
+	strcat(filebuff1,GlobalFunc.c_str());
+	CCLog("mixed");
+//	Print2File(filebuff1,"mixed.txt");
 	RunScriptBuffer(filebuff1,callname);
 #endif
 	return true;
@@ -312,11 +329,16 @@ bool CLuaScriptReader::RunScriptFile(const char *filename,char* ret_string,char 
 	RunScriptBuffer(filebuff,ret_string,name);
 #endif
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-	unsigned long int size = 0;
+	unsigned long size = 0;
 	CCLog("filepath name %s",filename);
 	unsigned char* filebuff = CCFileUtils::sharedFileUtils()->getFileData(filename,"rb",&size);
-	CCLog("RunScriptFile Android : %s",filebuff);
+	CCLog("filebuff %l",size);
 	CCString* ccStr = CCString::createWithData(filebuff,size);
+	if (!filebuff)
+	{
+		delete[] filebuff;
+	}
+	CCLog("ccstr end");
 	RunScriptBuffer(ccStr->getCString(),ret_string,name);
 #endif
 	return true;
@@ -340,9 +362,13 @@ bool CLuaScriptReader::RunScriptFile(const char *filename,char *name){
 	RunScriptBuffer(filebuff,name);
 #endif
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-	unsigned long int size = 0;
+	unsigned long size = 0;
 	unsigned char* filebuff = CCFileUtils::sharedFileUtils()->getFileData(filename,"r",&size);
 	CCString* ccStr = CCString::createWithData(filebuff,size);
+	if (!filebuff)
+	{
+		delete[] filebuff;
+	}
 	RunScriptBuffer(ccStr->getCString(),name);
 #endif
 	return true;
@@ -350,32 +376,38 @@ bool CLuaScriptReader::RunScriptFile(const char *filename,char *name){
 
 
 bool CLuaScriptReader::GetSourceCode(char *code){
-	strcpy(RuleInfo,code);
+/*	strcpy(RuleInfo,code);*/
+	RuleInfo = string(code);
 	return true;
 }
 
 bool CLuaScriptReader::SetWriteZiInfo(const char* wz){
-	strcpy(WriteZiInfo,wz);
+	//strcpy(WriteZiInfo,wz);
+	WriteZiInfo = string(wz);
 	return true;
 }
 void CLuaScriptReader::SetZiName(string hanzi){
-	strcpy(Hanzi,hanzi.c_str());
+	//strcpy(Hanzi,hanzi.c_str());
+	Hanzi = hanzi;
 	return;
 }
 
 void CLuaScriptReader::setLevel(string level){
-	strcpy(Level,level.c_str());
+// 	strcpy(Level,level.c_str());
+	Level = level;
 	return;
 }
 
 
 bool CLuaScriptReader::GetStandardZiInfo(string stdinfo){
-	strcpy(StandardZiInfo,stdinfo.c_str());
+//	strcpy(StandardZiInfo,stdinfo.c_str());
+	StandardZiInfo = stdinfo;
 	return true;
 }
 
 bool CLuaScriptReader::GetGlobalFunc(char *globalfunc){
-	strcpy(GlobalFunc,globalfunc);
+// 	strcpy(GlobalFunc,globalfunc);
+	GlobalFunc = string(globalfunc);
 	return true;
 }
 

@@ -560,6 +560,9 @@ void WallSingleScene::saveToFile(string src,const char* dst){
 	bool ret = myDocument->SaveFile(myfilename.c_str());
 }
 
+
+
+
 void WallSingleScene::keyBackClicked(){
 	CCLog("WallSingleScene::keyBackClicked");
 	if (CCDirector::sharedDirector()->getRunningScene()->getChildByTag(TAG_LAYER_EXIT) == NULL) {

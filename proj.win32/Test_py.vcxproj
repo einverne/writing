@@ -128,6 +128,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\BackgroundLayer.cpp" />
     <ClCompile Include="..\Classes\Bujian.cpp" />
+    <ClCompile Include="..\Classes\CeshiScene.cpp" />
     <ClCompile Include="..\Classes\Character.cpp" />
     <ClCompile Include="..\Classes\CharacterEntity.cpp" />
     <ClCompile Include="..\Classes\CharacterExtend.cpp" />
@@ -172,6 +173,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\BackgroundLayer.h" />
     <ClInclude Include="..\Classes\Bujian.h" />
+    <ClInclude Include="..\Classes\CeshiScene.h" />
     <ClInclude Include="..\Classes\Character.h" />
     <ClInclude Include="..\Classes\CharacterEntity.h" />
     <ClInclude Include="..\Classes\CharacterExtend.h" />

@@ -96,7 +96,7 @@ public:
 	* @param filename
 	* @return
 	*/
-	void SetGlobalFunc(const char * filename);
+//	void SetGlobalFunc(const char * filename);
 
 	
 	void SetGlobalFunc(string funcs);
@@ -106,7 +106,7 @@ public:
 	* @param filename
 	* @return
 	*/
-	void SetRulesFunc(const char* filename);
+//	void SetRulesFunc(const char* filename);
 	
 	/**
 	 *

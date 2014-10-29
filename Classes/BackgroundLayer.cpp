@@ -8,7 +8,6 @@ BackgroundLayer::BackgroundLayer()
 
 BackgroundLayer::~BackgroundLayer()
 {
-//	CCLog("~BackgroundLayer %d",  this->m_uReference);
 }
 
 bool BackgroundLayer::init(){
@@ -76,15 +75,13 @@ bool BackgroundLayer::init(){
 void BackgroundLayer::menuBack(CCObject* pSender){
 	this->unscheduleAllSelectors();
 	CCDirector::sharedDirector()->getTouchDispatcher()->removeAllDelegates();
-	string filename = ((LianxiScene*)this->getParent())->getwallXmlFileName();
-	CCDirector::sharedDirector()->replaceScene(WallSingleScene::scene(filename));
+	CCDirector::sharedDirector()->popScene();
 }
 
 void BackgroundLayer::keyBackClicked(){
 	this->unscheduleAllSelectors();
 	CCDirector::sharedDirector()->getTouchDispatcher()->removeAllDelegates();
-	string filename = ((LianxiScene*)this->getParent())->getwallXmlFileName();
-	CCDirector::sharedDirector()->replaceScene(WallSingleScene::scene(filename));
+	CCDirector::sharedDirector()->popScene();
 }
 
 void BackgroundLayer::menuNext(CCObject* pSender){
