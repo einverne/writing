@@ -22,18 +22,7 @@ string RuleInfo;
 string GlobalFunc;
 string Rules;
 string Level;
-// char* StandardZiInfo = new char[1024];
-// char* WriteZiInfo = new char[1024*10];
-// char* Hanzi = new char[50];
-// char* RuleInfo = new char[1024*10];
-// char* GlobalFunc = new char[1024*10];
-// char* Rules = new char[1024*10];
-// char* StandardZiInfo = "";
-// char* WriteZiInfo = "";
-// char* Hanzi = "";
-// char* RuleInfo="";
-// char* GlobalFunc="";
-// char* Rules="";
+
 int RunLevel;						//1:字 2：部件 3：笔画
 int StepFlag;						//1:单步执行 0:整字执行
 int UnitIndex;						//当前部件的索引
@@ -41,7 +30,7 @@ int StrokeIndex;					//当前笔画的索引
 
 // This is the constructor of a class that has been exported.
 // see LuaScriptReader.h for the class definition
-CLuaScriptReader::CLuaScriptReader()
+CLuaScriptReader::CLuaScriptReader():m_plua(NULL)
 {
 // 	StandardZiInfo[0] = '\0';		//用于接收标准字信息
 // 	WriteZiInfo[0] = '\0';		//手写字信息
@@ -55,12 +44,7 @@ CLuaScriptReader::CLuaScriptReader()
 }
 
 CLuaScriptReader::~CLuaScriptReader(){
-// 	delete [] StandardZiInfo;
-// 	delete [] WriteZiInfo;
-// 	delete [] Hanzi;
-// 	delete [] RuleInfo;
-// 	delete [] GlobalFunc;
-// 	delete [] Rules;
+	
 }
 
 int GetWriteInfoFromC(lua_State *plua){
@@ -78,20 +62,20 @@ int GetRuleInfoFromC(lua_State *plua){
 	return 1;    
 }
 
-int GetRunTypeFromC(lua_State *plua){
-	lua_pushinteger(plua,StepFlag);
-	return 1;
-}
+//int GetRunTypeFromC(lua_State *plua){
+//	lua_pushinteger(plua,StepFlag);
+//	return 1;
+//}
 
-int GetRunLevelFromC(lua_State *plua){
-	lua_pushinteger(plua,RunLevel);
-	return 1;
-}
+//int GetRunLevelFromC(lua_State *plua){
+//	lua_pushinteger(plua,RunLevel);
+//	return 1;
+//}
 
-int GetUnitIndexFromC(lua_State*plua){
-	lua_pushinteger(plua,UnitIndex);
-	return 1;
-}
+//int GetUnitIndexFromC(lua_State*plua){
+//	lua_pushinteger(plua,UnitIndex);
+//	return 1;
+//}
 
 
 int GetStrokeIndexFromC(lua_State*plua){
@@ -127,11 +111,11 @@ bool CLuaScriptReader::InitLuaScriptReader(){
 		luaL_openlibs(m_plua);
 		lua_register(m_plua, "GetWriteInfoFromC", GetWriteInfoFromC);
 		lua_register(m_plua, "GetStandardZiInfoFromC", GetStandardZiInfoFromC);
-		lua_register(m_plua, "GetRuleInfoFromC", GetRuleInfoFromC);
-		lua_register(m_plua, "GetRunTypeFromC", GetRunTypeFromC);
-		lua_register(m_plua,"GetUnitIndexFromC",GetUnitIndexFromC);
-		lua_register(m_plua,"GetRunLevelFromC",GetRunLevelFromC);
-		lua_register(m_plua,"GetStrokeIndexFromC",GetStrokeIndexFromC);
+//		lua_register(m_plua, "GetRuleInfoFromC", GetRuleInfoFromC);
+//		lua_register(m_plua, "GetRunTypeFromC", GetRunTypeFromC);
+//		lua_register(m_plua,"GetUnitIndexFromC",GetUnitIndexFromC);
+//		lua_register(m_plua,"GetRunLevelFromC",GetRunLevelFromC);
+//		lua_register(m_plua,"GetStrokeIndexFromC",GetStrokeIndexFromC);
 		lua_register(m_plua,"GetGlobalFuncFromC",GetGlobalFuncFromC);
 		lua_register(m_plua,"GetZiNameFromC",GetZiNameFromC);
 		lua_register(m_plua,"GetRulesFromC",GetRulesFromC);
@@ -222,7 +206,7 @@ bool CLuaScriptReader::RunScriptBuffer(const char *buff,char* ret_string,char *n
 // 	return;
 // }
 
-void CLuaScriptReader::SetGlobalFunc(string funcs){
+void CLuaScriptReader::setGlobalFunc(string funcs){
 // 	strcpy(GlobalFunc,funcs.c_str());
 	GlobalFunc = funcs;
 }
@@ -252,16 +236,10 @@ void CLuaScriptReader::SetGlobalFunc(string funcs){
 // 	return;
 // }
 // 
-void CLuaScriptReader::SetRulesFunc(CCString* rules){
+void CLuaScriptReader::setRulesFunc(CCString* rules){
 	CCLog("SetRulesFunc(CCString* rules)");
-#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
-	Rules = string(rules->getCString());
-#endif
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-//	strcpy(Rules,rules->getCString());
-	Rules = string(rules->getCString());
-//	CCLog("Rules %s",Rules);
-#endif
+	Rules = rules->getCString();
+
 }
 
 
@@ -381,12 +359,12 @@ bool CLuaScriptReader::GetSourceCode(char *code){
 	return true;
 }
 
-bool CLuaScriptReader::SetWriteZiInfo(const char* wz){
+bool CLuaScriptReader::setWriteZiInfo(const char* wz){
 	//strcpy(WriteZiInfo,wz);
 	WriteZiInfo = string(wz);
 	return true;
 }
-void CLuaScriptReader::SetZiName(string hanzi){
+void CLuaScriptReader::setZiName(string hanzi){
 	//strcpy(Hanzi,hanzi.c_str());
 	Hanzi = hanzi;
 	return;
@@ -399,29 +377,29 @@ void CLuaScriptReader::setLevel(string level){
 }
 
 
-bool CLuaScriptReader::GetStandardZiInfo(string stdinfo){
+bool CLuaScriptReader::setStandardZiInfo(string stdinfo){
 //	strcpy(StandardZiInfo,stdinfo.c_str());
 	StandardZiInfo = stdinfo;
 	return true;
 }
 
-bool CLuaScriptReader::GetGlobalFunc(char *globalfunc){
+// bool CLuaScriptReader::setGlobalFunc(char *globalfunc){
 // 	strcpy(GlobalFunc,globalfunc);
-	GlobalFunc = string(globalfunc);
-	return true;
-}
+// 	GlobalFunc = string(globalfunc);
+// 	return true;
+// }
 
 
-bool CLuaScriptReader::GetRunType(int level, int step){
-	RunLevel = level;
-	StepFlag = step ;
-	return true;
-}
+//bool CLuaScriptReader::GetRunType(int level, int step){
+//	RunLevel = level;
+//	StepFlag = step ;
+//	return true;
+//}
 
-bool CLuaScriptReader::GetUnitIndex(int idx){
-	UnitIndex = idx;
-	return true;
-}
+//bool CLuaScriptReader::GetUnitIndex(int idx){
+//	UnitIndex = idx;
+//	return true;
+//}
 
 bool CLuaScriptReader::GetStrokeIndex(int idx){
 	StrokeIndex = idx;

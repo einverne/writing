@@ -24,7 +24,7 @@ extern "C"{
 
 class  CLuaScriptReader {
 public:
-	CLuaScriptReader(void);
+	CLuaScriptReader();
 	~CLuaScriptReader();
 protected:
 	lua_State *m_plua;
@@ -79,17 +79,41 @@ public:
 	bool GetSourceCode(char *sourcecode);
 
 	/**
+	* pass hanzi string to Lua
+	* @param hanzi
+	* @return
+	*/
+	void setZiName(string hanzi);
+
+	/**
+	* pass level string to lua
+	* @param level
+	* @return
+	*/void setLevel(string level);
+
+	/**
 	* copy wz to WriteZiInfo
 	* @param wz
 	* @return
 	*/
-	bool SetWriteZiInfo(const char *wz);
+	bool setWriteZiInfo(const char *wz);
 
-	bool GetStandardZiInfo(string stdinfo);
-	bool GetRunType(int level, int step);
-	bool GetUnitIndex(int idx);
-	bool GetStrokeIndex(int idx);
-	bool GetGlobalFunc(char *globalfunc);
+	/**
+	*
+	* @param stdinfo
+	* @return
+	*/
+	bool setStandardZiInfo(string stdinfo);
+//	bool GetRunType(int level, int step);
+//	bool GetUnitIndex(int idx);
+//	bool GetStrokeIndex(int idx);
+
+	/**
+	*
+	* @param globalfunc
+	* @return
+	*/
+// 	bool setGlobalFunc(char *globalfunc);
 
 	/**
 	* read file and copy string to GlobalFunc
@@ -99,7 +123,11 @@ public:
 //	void SetGlobalFunc(const char * filename);
 
 	
-	void SetGlobalFunc(string funcs);
+	/**
+	* 
+	* @param funcs
+	* @return
+	*/void setGlobalFunc(string funcs);
 	
 	/**
 	* read file and copy string to Rules
@@ -112,7 +140,7 @@ public:
 	 *
 	 * @param rules
 	 */
-	void SetRulesFunc(CCString* rules);
+	void setRulesFunc(CCString* rules);
 
 	/**
 	* 
@@ -130,15 +158,7 @@ public:
 	*/
 	bool Print2File(char* buff,char*file);
 
-	/**
-	* pass hanzi string to Lua
-	* @param hanzi
-	* @return
-	*/
-	void SetZiName(string hanzi);
 
-
-	void setLevel(string level);
 };
 
 
