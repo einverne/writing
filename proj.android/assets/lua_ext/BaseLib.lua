@@ -1,7 +1,7 @@
 -----------------------------------------
---å…ƒå‡½æ•°åº“
---TODOè¿”å›å­—ç¬¦ä¸²ï¼šæœ€ç»ˆè¿”å›ä¸€ä¸ªå­—ç¬¦ä¸²ï¼Œç»™ç•Œé¢å±‚ä½¿ç”¨
---TODO åŸå‡½æ•°å¼‚å¸¸å¤„ç†ï¼ŒåŒ…æ‹¬ç±»å‹åˆ¤æ–­ï¼Œè¾¹ç•Œåˆ¤æ–­ç­‰ç­‰
+--Ôªº¯Êı¿â
+--TODO·µ»Ø×Ö·û´®£º×îÖÕ·µ»ØÒ»¸ö×Ö·û´®£¬¸ø½çÃæ²ãÊ¹ÓÃ
+--TODO Ô­º¯ÊıÒì³£´¦Àí£¬°üÀ¨ÀàĞÍÅĞ¶Ï£¬±ß½çÅĞ¶ÏµÈµÈ
 -----------------------------------------
 
 local print = print
@@ -18,11 +18,11 @@ local RunRule = nil
 local WZEnv = nil
 local StdHZ = nil
 
---ä»£ç è¿è¡Œç»“æœè¿”å›ä¿¡æ¯
+--´úÂëÔËĞĞ½á¹û·µ»ØĞÅÏ¢
 allInfoStr = ""
 retInfoStr = ""
 
---#####è¿è¡Œç¯å¢ƒè®¾ç½®å‡½æ•°#####--
+--#####ÔËĞĞ»·¾³ÉèÖÃº¯Êı#####--
 function clearRetInfoStr()
 	retInfoStr = ""
 end
@@ -47,14 +47,14 @@ end
 function setStdHZ(SZ)
 	StdHZ = SZ
 end
---#####å…ƒå‡½æ•°å®ç°#####--
---æ‰€æœ‰æ“ä½œç´¢å¼•ä»0å¼€å§‹
+--#####Ôªº¯ÊıÊµÏÖ#####--
+--ËùÓĞ²Ù×÷Ë÷Òı´Ó0¿ªÊ¼
 function GetBH( idx )
 	local bh = WriteHZ.strokes[idx + 1]
 	return bh
 end
 
---å‚æ•°ä¸ºbdæˆ–bhéƒ½å¯
+--²ÎÊıÎªbd»òbh¶¼¿É
 function GetStartPoint(bh)
 	local point = WZEnv.POINT:new()
 	point.x = bh.ptSet[1].x
@@ -69,7 +69,7 @@ function GetEndPoint(bh)
 	return point
 end
 
---è·å¾—ä¸­ç‚¹
+--»ñµÃÖĞµã
 function	GetMidPoint ( bh )
  	local point = WZEnv.POINT:new()
 	local len= #bh.ptSet
@@ -80,7 +80,7 @@ function	GetMidPoint ( bh )
 end
 
 
---è·å¾—ç‚¹çš„æ¨ªçºµåæ ‡
+--»ñµÃµãµÄºá×İ×ø±ê
 function GetPointX ( pt )
 	return pt.x
 end
@@ -91,7 +91,7 @@ end
 
 
 
---è·å–æŸä¸€ç¬”æ®µ ç¬”æ®µç´¢å¼•ä»0å¼€å§‹
+--»ñÈ¡Ä³Ò»±Ê¶Î ±Ê¶ÎË÷Òı´Ó0¿ªÊ¼
 function GetBDByBH(bh,bdIdx)
 	local bd = WZEnv.BD:new()
 	local preIdx = 1
@@ -123,7 +123,7 @@ function GetBDLen(bd)
 end
 
 
---è®¡ç®—curIdxå¯¹åº”çš„è§’åº¦
+--¼ÆËãcurIdx¶ÔÓ¦µÄ½Ç¶È
 
 function Cal_Angle(prePt,curPt,postPt)
 	local vecX = {}
@@ -183,7 +183,7 @@ end
 
 
 
---é‡å†™
+--ÖØĞ´
 function GetTurningPtNum(bh,BDNum)
 	local height = 512
 	local threshold_len = height / 28
@@ -301,57 +301,57 @@ for i = 1,#turning_ind do
 end
 ]]
 
----------------------------------å»é™¤æŠ–åŠ¨-----------------------------------------------
---å¦‚æœé€‰å‡ºçš„æ‹ç‚¹æ•°ç›®ä¸º0ï¼Œç›´æ¥è¿”å›ï¼Œæ­¤æ—¶CInflectionPtsæ˜¯ç©ºçš„
+---------------------------------È¥³ı¶¶¶¯-----------------------------------------------
+--Èç¹ûÑ¡³öµÄ¹ÕµãÊıÄ¿Îª0£¬Ö±½Ó·µ»Ø£¬´ËÊ±CInflectionPtsÊÇ¿ÕµÄ
 	if(#turning_ind <= 0) then
 		return 0
 	end
-	--å¦‚æœæ‹ç‚¹æ•°ç›®æ¯”æ ‡å‡†å°‘ï¼Œå°†æ‹ç‚¹æ•°ç»„èµ‹å€¼ï¼Œè¿”å›
+	--Èç¹û¹ÕµãÊıÄ¿±È±ê×¼ÉÙ£¬½«¹ÕµãÊı×é¸³Öµ£¬·µ»Ø
 	if (#turning_ind < BDNum - 1) then
 		bh.InflectionPoint = turning_ind
 		return #turning_ind;
 	end
 
 
-	--å¦‚æœæ‹ç‚¹æ•°ç›®å¤§äºæˆ–è€…ç­‰äºæ ‡å‡†å€¼
+	--Èç¹û¹ÕµãÊıÄ¿´óÓÚ»òÕßµÈÓÚ±ê×¼Öµ
 	if (#turning_ind >= BDNum-1) then
-		--å¦‚æœå¤šå‡ºä¸€ä¸ªæ‹ç‚¹ï¼Œä¼ªæ‹ç‚¹ä¸€å®šæ˜¯åœ¨ç¬¬ä¸€ä¸ªæˆ–è€…æœ€åä¸€ä¸ªï¼Œåˆ†åˆ«è®¡ç®—å…¶è·ç¦»é¦–ä½ç‚¹çš„è·ç¦»
+		--Èç¹û¶à³öÒ»¸ö¹Õµã£¬Î±¹ÕµãÒ»¶¨ÊÇÔÚµÚÒ»¸ö»òÕß×îºóÒ»¸ö£¬·Ö±ğ¼ÆËãÆä¾àÀëÊ×Î»µãµÄ¾àÀë
 		local pos1 = turning_ind[1]
 		local pos2 = turning_ind[#turning_ind]
 		local spt = bh.ptSet[1]
 		local ept = bh.ptSet[#bh.ptSet]
 		local dis1 = math.sqrt( math.pow(bh.ptSet[pos1].x - spt.x,2) + math.pow(bh.ptSet[pos1].y - spt.y,2))
 		local dis2 = math.sqrt( math.pow(bh.ptSet[pos2].x - ept.x,2) + math.pow(bh.ptSet[pos2].y - ept.y,2))
-		--1.å¦‚æœç¬¬ä¸€ä¸ªæ‹ç‚¹æ˜¯æŠ–åŠ¨ç‚¹
+		--1.Èç¹ûµÚÒ»¸ö¹ÕµãÊÇ¶¶¶¯µã
 		if( dis1 < 30 ) then
 			n_prePos = turning_ind[1]
 			n_postPos = #bh.ptSet
-			--æŠŠæŠ–ç¬”æ®µä»ç¬”ç”»ä¸­åˆ é™¤
+			--°Ñ¶¶±Ê¶Î´Ó±Ê»­ÖĞÉ¾³ı
 			for i = 1, n_prePos-1 do
 				table.remove(bh.ptSet,1)
 			end
-			--ä»æ‹ç‚¹æ•°ç»„ä¸­åˆ é™¤è¯¥æ‹ç‚¹
+			--´Ó¹ÕµãÊı×éÖĞÉ¾³ı¸Ã¹Õµã
 			table.remove(turning_ind,1)
-			--ç§»åŠ¨æ‹ç‚¹ç´¢å¼•æ•°ç»„ä¸­ç´¢å¼•çš„ä½ç½®
+			--ÒÆ¶¯¹ÕµãË÷ÒıÊı×éÖĞË÷ÒıµÄÎ»ÖÃ
 			if ( #turning_ind > 0 ) then
 				for i = 1,#turning_ind do
 					 turning_ind[i] = turning_ind[i] - n_prePos + 1
 				end
 			end
 		end
-		--2.å¦‚æœæœ€åä¸€ä¸ªæ‹ç‚¹æ˜¯æŠ–åŠ¨ç‚¹
+		--2.Èç¹û×îºóÒ»¸ö¹ÕµãÊÇ¶¶¶¯µã
 		if (dis2 < 30) then
 			n_prePos = 1
 			n_postPos = turning_ind[#turning_ind]
-			--ä»æ‹ç‚¹è¡¨æ ¼ä¸­åˆ é™¤è¯¥æ‹ç‚¹
+			--´Ó¹Õµã±í¸ñÖĞÉ¾³ı¸Ã¹Õµã
 			table.remove(turning_ind,#turning_ind)
-			--åˆ é™¤æŠ–ç¬”æ®µ
+			--É¾³ı¶¶±Ê¶Î
 			for i = #bh.ptSet,n_postPos+1,-1 do
 				table.remove(bh.ptSet,i)
 			end
 		end
 
-	--è®¡ç®—æ‹ç‚¹ä¹‹é—´çš„è·ç¦»
+	--¼ÆËã¹ÕµãÖ®¼äµÄ¾àÀë
 	if (#turning_ind > 1) then
 		for i = 1, #turning_ind - 1  do
 			print (turning_ind[i])
@@ -365,7 +365,7 @@ end
 		end
 	end
 		bh.InflectionPoint = turning_ind
-		print ("æ‹ç‚¹ä¸ªæ•°ä¸º...")
+		print ("¹Õµã¸öÊıÎª...")
 		print (#turning_ind)
 		print ("test over")
 		return #turning_ind
@@ -376,9 +376,9 @@ end
 
 
 --[[
---è·å¾—ç¬”ç”»æ‹ç‚¹çš„ä¸ªæ•°
+--»ñµÃ±Ê»­¹ÕµãµÄ¸öÊı
 function GetTurningPtNum(bh,BDNum)
-	local n_step = 5			--luaç´¢å¼•ä»1å¼€å§‹
+	local n_step = 5			--luaË÷Òı´Ó1¿ªÊ¼
 	if( #bh.ptSet <2*n_step+1) then
 		return nil
 	end
@@ -386,7 +386,7 @@ function GetTurningPtNum(bh,BDNum)
 	local n_preIdx = 1
 	local n_postIdx = 2*n_step+1
 	local angleArr = {}
-	--è®¡ç®—ç‚¹å¯¹åº”çš„è§’åº¦
+	--¼ÆËãµã¶ÔÓ¦µÄ½Ç¶È
 	for i = n_curIdx,(#bh.ptSet)-n_step do
 		local ele = {}
 		local angle = Cal_Angle(bh.ptSet[n_preIdx],bh.ptSet[i],bh.ptSet[n_postIdx])
@@ -396,12 +396,12 @@ function GetTurningPtNum(bh,BDNum)
 		n_preIdx = n_preIdx + 1
 		n_postIdx = n_postIdx + 1
 	end
-	--æŠŠè§’åº¦æŒ‰ç…§ä»å°åˆ°å¤§æ’åº
+	--°Ñ½Ç¶È°´ÕÕ´ÓĞ¡µ½´óÅÅĞò
 	table.sort(angleArr,sortingFun)
 	local nCandidateNum = #angleArr
 
-	local CInflectionPts = {}		--å­˜å‚¨å€™é€‰æ‹ç‚¹çš„ç´¢å¼•
-	--é€‰å‡ºäº†æœ€å¤šBDNum+1ä¸ªæ‹ç‚¹ï¼Œå­˜å‚¨åœ¨CInflectionPtsä¸­
+	local CInflectionPts = {}		--´æ´¢ºòÑ¡¹ÕµãµÄË÷Òı
+	--Ñ¡³öÁË×î¶àBDNum+1¸ö¹Õµã£¬´æ´¢ÔÚCInflectionPtsÖĞ
 	local f_angleThres = 12/18*3.14;
 	for p = 1,nCandidateNum do
 		local cFlag = false
@@ -418,57 +418,57 @@ function GetTurningPtNum(bh,BDNum)
 		end
 	end
 
-	--ä»CInflectionPtsä¸­ç»§ç»­é€‰å‡ºæœ€ç»ˆæ‹ç‚¹ï¼Œ
-	--è¿™æ ·ä¸»è¦æ˜¯ä¸ºäº†å±è”½ç¬”ç”»å°–ç«¯çš„æŠ–åŠ¨ï¼Œå‡å°æ‹ç‚¹æ£€æµ‹çš„è¯¯å·®
+	--´ÓCInflectionPtsÖĞ¼ÌĞøÑ¡³ö×îÖÕ¹Õµã£¬
+	--ÕâÑùÖ÷ÒªÊÇÎªÁËÆÁ±Î±Ê»­¼â¶ËµÄ¶¶¶¯£¬¼õĞ¡¹Õµã¼ì²âµÄÎó²î
 	local n_prePos
 	local n_postPos
 	table.sort(CInflectionPts)
 
---å¦‚æœé€‰å‡ºçš„æ‹ç‚¹æ•°ç›®ä¸º0ï¼Œç›´æ¥è¿”å›ï¼Œæ­¤æ—¶CInflectionPtsæ˜¯ç©ºçš„
+--Èç¹ûÑ¡³öµÄ¹ÕµãÊıÄ¿Îª0£¬Ö±½Ó·µ»Ø£¬´ËÊ±CInflectionPtsÊÇ¿ÕµÄ
 	if(#CInflectionPts <= 0) then
 		return 0
 	end
-	--å¦‚æœæ‹ç‚¹æ•°ç›®æ¯”æ ‡å‡†å°‘ï¼Œå°†æ‹ç‚¹æ•°ç»„èµ‹å€¼ï¼Œè¿”å›
+	--Èç¹û¹ÕµãÊıÄ¿±È±ê×¼ÉÙ£¬½«¹ÕµãÊı×é¸³Öµ£¬·µ»Ø
 	if (#CInflectionPts < BDNum - 1) then
 		bh.InflectionPoint = CInflectionPts
 		return #CInflectionPts
 	end
 
-   --å¦‚æœæ‹ç‚¹æ•°ç›®å¤§äºæˆ–è€…ç­‰äºæ ‡å‡†å€¼
+   --Èç¹û¹ÕµãÊıÄ¿´óÓÚ»òÕßµÈÓÚ±ê×¼Öµ
 	if (#CInflectionPts >= BDNum-1) then
-		--å¦‚æœå¤šå‡ºä¸€ä¸ªæ‹ç‚¹ï¼Œä¼ªæ‹ç‚¹ä¸€å®šæ˜¯åœ¨ç¬¬ä¸€ä¸ªæˆ–è€…æœ€åä¸€ä¸ªï¼Œåˆ†åˆ«è®¡ç®—å…¶è·ç¦»é¦–ä½ç‚¹çš„è·ç¦»
+		--Èç¹û¶à³öÒ»¸ö¹Õµã£¬Î±¹ÕµãÒ»¶¨ÊÇÔÚµÚÒ»¸ö»òÕß×îºóÒ»¸ö£¬·Ö±ğ¼ÆËãÆä¾àÀëÊ×Î»µãµÄ¾àÀë
 		local pos1 = CInflectionPts[1]
 		local pos2 = CInflectionPts[#CInflectionPts]
 		local spt = bh.ptSet[1]
 		local ept = bh.ptSet[#bh.ptSet]
 		local dis1 = math.sqrt( math.pow(bh.ptSet[pos1].x - spt.x,2) + math.pow(bh.ptSet[pos1].y - spt.y,2))
 		local dis2 = math.sqrt( math.pow(bh.ptSet[pos2].x - ept.x,2) + math.pow(bh.ptSet[pos2].y - ept.y,2))
-		--1.å¦‚æœç¬¬ä¸€ä¸ªæ‹ç‚¹æ˜¯æŠ–åŠ¨ç‚¹
+		--1.Èç¹ûµÚÒ»¸ö¹ÕµãÊÇ¶¶¶¯µã
 		if( dis1 < 5 ) then
 			n_prePos = CInflectionPts[1]
 			n_postPos = #bh.ptSet
-			--æŠŠæŠ–ç¬”æ®µä»ç¬”ç”»ä¸­åˆ é™¤
+			--°Ñ¶¶±Ê¶Î´Ó±Ê»­ÖĞÉ¾³ı
 			for i = 1, n_prePos-1 do
 				table.remove(bh.ptSet,1)
 			end
 
-			--ä»æ‹ç‚¹æ•°ç»„ä¸­åˆ é™¤è¯¥æ‹ç‚¹
+			--´Ó¹ÕµãÊı×éÖĞÉ¾³ı¸Ã¹Õµã
 			table.remove(CInflectionPts,1)
 
-			--ç§»åŠ¨æ‹ç‚¹ç´¢å¼•æ•°ç»„ä¸­ç´¢å¼•çš„ä½ç½®
+			--ÒÆ¶¯¹ÕµãË÷ÒıÊı×éÖĞË÷ÒıµÄÎ»ÖÃ
 			if ( #CInflectionPts > 0 ) then
 				for i = 1,#CInflectionPts do
 					 CInflectionPts[i] = CInflectionPts[i] - n_prePos + 1
 				end
 			end
 		end
-		--2.å¦‚æœæœ€åä¸€ä¸ªæ‹ç‚¹æ˜¯æŠ–åŠ¨ç‚¹
+		--2.Èç¹û×îºóÒ»¸ö¹ÕµãÊÇ¶¶¶¯µã
 		if (dis2 < 5) then
 			n_prePos = 1
 			n_postPos = CInflectionPts[#CInflectionPts]
-			--ä»æ‹ç‚¹è¡¨æ ¼ä¸­åˆ é™¤è¯¥æ‹ç‚¹
+			--´Ó¹Õµã±í¸ñÖĞÉ¾³ı¸Ã¹Õµã
 			table.remove(CInflectionPts,#CInflectionPts)
-			--åˆ é™¤æŠ–ç¬”æ®µ
+			--É¾³ı¶¶±Ê¶Î
 			for i = #bh.ptSet,n_postPos+1,-1 do
 				table.remove(bh.ptSet,i)
 			end
@@ -479,7 +479,7 @@ function GetTurningPtNum(bh,BDNum)
 end
 ]]--
 
---è·å¾—ç¬”ç”»çš„æ‹ç‚¹ ç´¢å¼•ä»0å¼€å§‹
+--»ñµÃ±Ê»­µÄ¹Õµã Ë÷Òı´Ó0¿ªÊ¼
 function GetTurningPt(bh,index)
 	local ptIdx = bh.InflectionPoint[index + 1]
 	return bh.ptSet[ptIdx]
@@ -487,7 +487,7 @@ end
 
 
 
- --è·å¾—ä¸¤ç‚¹é—´è·ç¦»
+ --»ñµÃÁ½µã¼ä¾àÀë
  function GetDistance(pt1,pt2)
 	local dis = math.sqrt( math.pow(pt1.x - pt2.x,2) + math.pow(pt1.y - pt2.y,2))
 	return dis
@@ -530,7 +530,7 @@ end
 
 
 
---è·å¾—ç»è¿‡ç‚¹pt1 pt2çš„ç›´çº¿æ–¹ç¨‹ax+by+c = 0 è¿”å›æ•°ç»„linevarä¸­ä¾æ¬¡æ˜¯ç³»æ•°a b c
+--»ñµÃ¾­¹ıµãpt1 pt2µÄÖ±Ïß·½³Ìax+by+c = 0 ·µ»ØÊı×élinevarÖĞÒÀ´ÎÊÇÏµÊıa b c
 function GetLine(pt1,pt2)
 	local linevar = {}
 	linevar[1] = pt2.y - pt1.y
@@ -539,13 +539,9 @@ function GetLine(pt1,pt2)
 	return linevar
 end
 
---åˆ¤æ–­ç‚¹æ˜¯å¦åœ¨ç›´çº¿ä¸‹è¾¹
+--ÅĞ¶ÏµãÊÇ·ñÔÚÖ±ÏßÏÂ±ß
 function Point2LineDown(pt,line)
 	local a,b,c = line[1],line[2],line[3]
-	print ("the line var is...")
-	print(a,b,c)
-	print ("the curpt is ")
-	print (pt.x,pt.y)
 	local result = a*pt.x + b*pt.y + c
 	if (result < 0) then
 		return true
@@ -553,7 +549,7 @@ function Point2LineDown(pt,line)
 	return false
 end
 
---åˆ¤æ–­ç‚¹æ˜¯å¦åœ¨ç›´çº¿çš„ä¸Šè¾¹
+--ÅĞ¶ÏµãÊÇ·ñÔÚÖ±ÏßµÄÉÏ±ß
 function Point2LineUp(pt,line)
 	local a,b,c = line[1],line[2],line[3]
 	local result = a*pt.x + b*pt.y + c
@@ -565,7 +561,7 @@ end
 
 
 
---è·å¾—æœ€å·¦é¢çš„ç‚¹ bh/bd
+--»ñµÃ×î×óÃæµÄµã bh/bd
 function GetLeftMostPoint ( bh )
 	if ( bh == nil ) then
 		return nil
@@ -588,7 +584,7 @@ function GetLeftMostPoint ( bh )
 	return pt,index
 end
 
---è·å¾—æœ€å³é¢çš„ç‚¹ bh/bd
+--»ñµÃ×îÓÒÃæµÄµã bh/bd
 function GetRightMostPoint ( bh )
 	local pt = WZEnv.POINT:new()
 	local index = 1
@@ -607,7 +603,7 @@ function GetRightMostPoint ( bh )
 	return pt,index
 end
 
---è·å¾—æœ€ä¸Šæ–¹çš„ç‚¹
+--»ñµÃ×îÉÏ·½µÄµã
 function GetTopMostPoint ( bh )
 	local pt = WZEnv.POINT:new()
 	local index = 1
@@ -627,7 +623,7 @@ function GetTopMostPoint ( bh )
 	return pt,index
 end
 
---è·å¾—æœ€ä¸‹æ–¹çš„ç‚¹ bd/bd
+--»ñµÃ×îÏÂ·½µÄµã bd/bd
 function GetBottomMostPoint ( bh )
 	local pt = WZEnv.POINT:new()
 	local index = 1
@@ -646,7 +642,7 @@ function GetBottomMostPoint ( bh )
 	return pt,index
 end
 
---è·å¾—bhä¸Šç¦»ptæœ€è¿‘çš„ç‚¹
+--»ñµÃbhÉÏÀëpt×î½üµÄµã
 function GetVPoint(bh,pt)
 	local minPtIndex = 0
 	local minDis = GetDistance(pt,bh.ptSet[1])
@@ -661,8 +657,8 @@ function GetVPoint(bh,pt)
 end
 
 
---è·å¾—ä¸¤ä¸ªç¬”ç”»çš„äº¤ç‚¹  å¦‚æœæœ‰äº¤ç‚¹ è¿”å›è¯¥äº¤ç‚¹
---							  å¦‚æœæ²¡æœ‰äº¤ç‚¹  è¿”å›nil
+--»ñµÃÁ½¸ö±Ê»­µÄ½»µã  Èç¹ûÓĞ½»µã ·µ»Ø¸Ã½»µã
+--							  Èç¹ûÃ»ÓĞ½»µã  ·µ»Ønil
 function GetJoint(bh1, bh2)
 	local disThreshold = 3
 	local minDis = 256
@@ -693,7 +689,7 @@ end
 
 
 
---pt åˆ°ax + by + c = 0çš„è·ç¦»
+--pt µ½ax + by + c = 0µÄ¾àÀë
 function Cal_Point2LineDis( pt, a, b, c)
 	local x = pt.x
 	local y = pt.y
@@ -703,7 +699,7 @@ function Cal_Point2LineDis( pt, a, b, c)
 	return dis
 end
 
---åˆ¤æ–­ptåœ¨ç›´çº¿ax+by+c=0çš„æ–¹ä½
+--ÅĞ¶ÏptÔÚÖ±Ïßax+by+c=0µÄ·½Î»
 function Cal_Direction(pt, a, b,c)
 	local x = pt.x
 	local y = pt.y
@@ -712,7 +708,7 @@ function Cal_Direction(pt, a, b,c)
 end
 
 
---è·å¾—ç¬”ç”»åˆ°ç›´çº¿ line ax + by + c = 0è·ç¦»æœ€è¿œçš„ç‚¹
+--»ñµÃ±Ê»­µ½Ö±Ïß line ax + by + c = 0¾àÀë×îÔ¶µÄµã
 function GetFarthestPt2Line(bh,line)
 	local a,b,c = line[1],line[2],line[3]
 	local maxDis = 0
@@ -746,13 +742,13 @@ function GetFarDis2Line(bh,line)
 end
 
 
---è·å¾—ç¬”ç”»åˆ°ç›´çº¿line  ax + by + c = 0çš„
+--»ñµÃ±Ê»­µ½Ö±Ïßline  ax + by + c = 0µÄ
 function GetBHTrend(bh,line)
 	local a,b,c = line[1],line[2],line[3]
 	local trendArray = {}
-	trendArray[#trendArray + 1 ] = 0   --ç¬¬ä¸€ä¸ªtagåˆå§‹åŒ–ä¸º0
+	trendArray[#trendArray + 1 ] = 0   --µÚÒ»¸ötag³õÊ¼»¯Îª0
 	local preDis = 0
-	--1 è¡¨ç¤ºåé¢çš„
+	--1 ±íÊ¾ºóÃæµÄ
 	for i = 2,#bh.ptSet do
 		local curPt = bh.ptSet[i]
 		local curDis = Cal_Point2LineDis(curPt,a,b,c)
@@ -772,7 +768,7 @@ function GetBHTrend(bh,line)
 end
 
 
---è¿”å›bhçš„ptSetä¸­ï¼Œç´¢å¼•ä¸ºpreIdxå’ŒpostIdxä¹‹é—´çš„ç‚¹é›†ç»„æˆçš„ç¬”æ®µ
+--·µ»ØbhµÄptSetÖĞ£¬Ë÷ÒıÎªpreIdxºÍpostIdxÖ®¼äµÄµã¼¯×é³ÉµÄ±Ê¶Î
 function GetTempBD(bh,preIdx,postIdx)
 	local bd = WZEnv.BD:new()
 	for i = preIdx, postIdx do
@@ -785,7 +781,7 @@ end
 
 
 
---ä¼ å…¥çš„å‚æ•°ä¸ºå½“å‰ç¬”ç”»çš„ç´¢å¼•.ç¬”ç”»ç´¢å¼•å‡æ˜¯ä»0å¼€å§‹.
+--´«ÈëµÄ²ÎÊıÎªµ±Ç°±Ê»­µÄË÷Òı.±Ê»­Ë÷Òı¾ùÊÇ´Ó0¿ªÊ¼.
 function IsPosRight(idx)
 	local wbh = WriteHZ.strokes[idx + 1]
 	local sbh = StdHZ.strokes[idx + 1]
@@ -811,7 +807,9 @@ end
 
 
 
---åˆ¤æ–­ä¸¤ç¬”ç”»æ˜¯å¦ç›¸äº¤
+--ÅĞ¶ÏÁ½±Ê»­ÊÇ·ñÏà½»
+
+--[[
 function BH2BHXiangJiao(bh1,bh2)
 	local threshold = 50
 	local jpt = GetJoint(bh1,bh2)
@@ -841,9 +839,11 @@ function BH2BHXiangJiao(bh1,bh2)
 	end
 	return true
 end
+]]
 
+--ÅĞ¶ÏÁ½±Ê»­Ïà½Ó
 
---åˆ¤æ–­ä¸¤ç¬”ç”»ç›¸æ¥
+--[[
 function BH2BHXiangJie(bh1,bh2)
 	local threshold = 25
 	local jpt = GetJoint(bh1,bh2)
@@ -902,6 +902,4919 @@ function BH2BHXiangJie(bh1,bh2)
 	end
 	return false
 end
+
+]]
+function PointSame(pt1,pt2)
+	local IsSame = false
+	if (pt1.x == pt2.x and pt1.y == pt2.y) then
+		IsSame = true
+	end
+	return IsSame
+end
+
+
+
+
+function SmallXiangJiao(pt11,pt12,pt21,pt22)
+	local flag = false
+	if (PointSame(pt11,pt21) or PointSame(pt11,pt22) or PointSame(pt12,pt21) or PointSame(pt12,pt22))then
+		flag = true
+	else
+		local k1,c1
+		local k2,c2
+		if(pt11.x == pt12.x) then
+			k1 = 0
+			c1 = pt11.y
+		else
+			k1 = (pt12.y - pt11.y)/(pt12.x - pt11.x)
+			c1 = pt11.y - pt11.x*k1
+		end
+		if (pt21.x == pt22.x) then
+			k2 = 0
+			c2 = pt21.y
+		else
+			k2 = (pt22.y - pt21.y) /(pt22.x - pt21.x)
+			c2 = pt21.y - pt21.x*k2
+		end
+		if (k1 == k2) then		--Èç¹ûÁ½ÏßÆ½ĞĞ
+			return false
+		else
+			local vp = {}
+			vp.x = (c1 - c2) /(k2 - k1)
+			vp.y = (vp.x*k1) + c1
+
+			local maxX1 = pt11.x
+			local minX1 = pt12.x
+			if(pt11.x < pt12.x) then
+				maxX1 = pt12.x
+				minX1 = pt11.x
+			end
+			local maxY1 = pt11.y
+			local minY1 = pt12.y
+			if (pt11.y < pt12.y) then
+				maxY1 = pt12.y
+				minY1 = pt11.y
+			end
+
+			local maxX2 = pt21.x
+			local minX2 = pt22.x
+			if (pt21.x < pt22.x) then
+				maxX2 = pt22.x
+				minX2 = pt21.x
+			end
+
+			local maxY2 = pt21.y
+			local minY2 = pt22.y
+			if (pt21.y < pt22.y) then
+				maxY2 = pt22.y
+				minY2 = pt21.y
+			end
+			--[[
+			print("======================")
+			print(vp.x,vp.y)
+			print(minX1,maxX1)
+			print(minX2,maxX2)
+			print(minY1,maxY1)
+			print(minY2,maxY2)
+			print("======================")
+			]]
+
+			if (vp.x >= minX1  and vp.x <= maxX1
+			and vp.x >= minX2 and vp.x <= maxX2
+			and vp.y >= minY1 and vp.y <= maxY1
+			and vp.y >= minY2 and vp.y <= maxY2) then
+				flag = true
+			end
+		end
+	end
+	return flag
+end
+
+
+function BH2BHXiangJiao(bh1,bh2)
+	local flag = false
+	for i = 1,#bh2.ptSet - 5,5 do
+		for j = 1, #bh1.ptSet - 5,5 do
+			--[[
+			print(bh1.ptSet[j].x,bh1.ptSet[j].y)
+			print(bh1.ptSet[j+1].x,bh1.ptSet[j+1].y)
+			print(bh2.ptSet[i].x,bh2.ptSet[i].y)
+			print(bh2.ptSet[i+1].x,bh2.ptSet[i+1].y)
+			]]--
+			print(i,j)
+			--flag = SmallXiangJiao(bh1.ptSet[j],bh1.ptSet[j+20],bh2.ptSet[i],bh2.ptSet[i+20])
+		end
+		if (flag == true) then
+			break
+		end
+	end
+	return flag
+end
+
+
+function Judge2Dots(pt1,pt2)
+	local disThreshold =  10
+	local distance = GetDistance(pt1,pt2)
+	print ("the minimum distance is...")
+	print(distance)
+	if (distance < disThreshold) then
+		return true
+	else
+		return false
+	end
+end
+
+
+function JudgeDotLine(pt,bd)
+	local tempDis =  512
+	local disThreshold = 10
+	for i =  1, #bd do
+		local curDis = GetDistance(pt,bd.ptSet[i])
+		if (curDis < tempDis ) then
+			tempDis =  curDis
+		end
+	end
+	if(tempDis < disThreshold) then
+		return true
+	else
+		return false
+	end
+end
+
+
+--¶ÔÓÚµ¥±Ê¶ÎÀ´Ëµ£¬Ö»ĞèÒª´«Èë±Ê»­¼´¿É
+--	0 startpoint 1 endpoint 2 line
+function BH2BHXiangJie(bd1,bd2,type1,type2)
+	local flag = 0
+
+	if (type1 == 0) then
+		if(type2 == 0) then
+			print("coming...")
+			flag = Judge2Dots(bd1.ptSet[1],bd2.ptSet[1])
+				elseif (type2 == 1) then
+					flag = Judge2Dots(bd1.ptSet[1],bd2.ptSet[#bd2.ptSet])
+						else
+							flag = JudgeDotLine(bd1.ptSet[1],bd2)
+						end
+
+	elseif (type1 == 1) then
+		if(type2 == 0) then
+			flag = Judge2Dots(bd1.ptSet[#bd1.ptSet],bd2.ptSet[1])
+				elseif (type2 == 1) then
+					flag = Judge2Dots(bd1.ptSet[#bd1.ptSet],bd2.ptSet[#bd2.ptSet])
+						else
+							flag = JudgeDotLine(bd1.ptSet[#bd1.ptSet],bd2)
+						end
+	else --type1 == 2
+		if(type2 == 0) then
+			flag = JudgeDotLine(bd2.ptSet[1],bd1)
+				elseif (type2 == 1) then
+					flag = Judge2Dots(bd2.ptSet[#bd2.ptSet],bd1)
+				end
+	end
+
+	return flag
+end
+
+
+
+
+
+function  IsShu(bh,bl)
+	if(bl ~= 1 and bl~=2 ) then return end
+	local loose_dis_max_threshold = 40      --ËÉÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+	local tight_dis_max_threshold = 20      --½ôÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+	local loose_angel_max_threshold = 30    --ËÉÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+	local tight_angel_max_threshold = 15    --½ôÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+
+	local loose_jitter_max_threshold = 1/5  --ËÉÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+	local tight_jitter_max_threshold = 1/10 --½ôÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+
+
+	local startpt,startindex = GetTopMostPoint(bh)
+	local endpt,endindex = GetBottomMostPoint(bh)
+	if (endindex < startindex) then
+		return false
+	end
+
+	 local finalbh = GetTempBD(bh,startindex,endindex)
+	 local jitter1 = GetTempBD(bh,1,startindex)
+	 local jitter2 = GetTempBD(bh,endindex,#bh.ptSet)
+
+	 local len_jitter1 = GetBDLen(jitter1)
+	 local len_jitter2 = GetBDLen(jitter2)
+	 local len_bh = GetBDLen(finalbh)
+
+	 local line = GetLine(startpt,endpt)
+	 local dis = GetFarDis2Line(finalbh,line)
+
+	 local angel = 90
+	 if (endpt.y ~= startpt.y) then
+		local slope = (endpt.x -  startpt.x)/(endpt.y - startpt.y)
+		angel = math.deg(math.atan(slope))
+	 end
+	angel = math.abs(angel)
+
+ if (bl == 1) then
+     if (len_jitter1/len_bh > loose_jitter_max_threshold or len_jitter2/len_bh > loose_jitter_max_threshold) then
+			return false
+     end
+     if (dis > loose_dis_max_threshold) then
+			return false
+     end
+     if (angel > loose_angel_max_threshold) then
+			return false
+     end
+ end
+
+ if (bl == 2) then
+     if (len_jitter1/len_bh > tight_jitter_max_threshold or len_jitter2/len_bh > tight_jitter_max_threshold) then
+         return false
+     end
+     if (dis > tight_dis_max_threshold) then
+         return false
+     end
+     if (angel > tight_angel_max_threshold) then
+         return false
+     end
+ end
+ return true
+end
+
+
+
+
+function  IsHeng(bh,bl)
+if (bl~= 1 and bl~=2) then return end
+local loose_dis_max_threshold = 40      --ËÉÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local tight_dis_max_threshold = 20      --½ôÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+
+local loose_angel_max_threshold = 30    --ËÉÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+local tight_angel_max_threshold = 15     --½ôÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+
+local loose_jitter_max_threshold = 1/5  --ËÉÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+local tight_jitter_max_threshold = 1/10 --½ôÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+
+local startpt,startindex = GetLeftMostPoint(bh)
+local endpt,endindex = GetRightMostPoint(bh)
+
+ if (startindex > endindex) then
+ return false
+ end
+ local finalbh = GetTempBD(bh,startindex,endindex)
+ local jitter1 = GetTempBD(bh,1,startindex)
+ local jitter2 = GetTempBD(bh,endindex,#bh.ptSet)
+
+ local len_jitter1 = GetBDLen(jitter1)
+ local len_jitter2 = GetBDLen(jitter2)
+ local len_bh = GetBDLen(finalbh)
+
+ local line = GetLine(startpt,endpt)
+ local dis = GetFarDis2Line(finalbh,line)
+
+
+ local angel = 90
+ if (endpt.x ~= startpt.x) then
+ local slope = (endpt.y - startpt.y) / (endpt.x - startpt.x)
+ angel = math.deg ( math.atan(slope))
+ end
+ angel = math.abs(angel)
+
+ if (bl == 1) then
+     if (len_jitter1/len_bh > loose_jitter_max_threshold or len_jitter2/len_bh > loose_jitter_max_threshold) then
+         return false
+     end
+     if (dis > loose_dis_max_threshold) then
+         return false
+     end
+     if (angel > loose_angel_max_threshold) then
+         return false
+     end
+ end
+
+ if (bl == 2) then
+     if (len_jitter1/len_bh > tight_jitter_max_threshold or len_jitter2/len_bh > tight_jitter_max_threshold) then
+         return false
+     end
+     if (dis > tight_dis_max_threshold) then
+         return false
+     end
+     if (angel > tight_angel_max_threshold) then
+         return false
+     end
+ end
+
+ return true
+end
+
+
+function  IsShuZhe(bh,bl)
+if (bl ~= 1 and bl~=2) then return end
+local loose_dis_max_threshold = 40      --ËÉÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local tight_dis_max_threshold = 20      --½ôÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local loose_angel_max_threshold = 30    --ËÉÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+local tight_angel_max_threshold = 15     --½ôÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+
+local loose_jitter_max_threshold = 1/5  --ËÉÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+local tight_jitter_max_threshold = 1/10 --½ôÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+
+
+local bd0_1_loose_angel_max_threshold = 130  --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_loose_angel_min_threshold =60    --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd0_1_tight_angel_max_threshold = 120  --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_tight_angel_min_threshold =70    --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd0_1_loose_lenratio_max_threshold = 5    --ËÉÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×î´óÖµ
+local bd0_1_loose_lenratio_min_threshold = 1/5  --ËÉÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×îĞ¡Öµ
+local bd0_1_tight_lenratio_max_threshold = 3  --½ôÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×î´óÖµ
+local bd0_1_tight_lenratio_min_threshold = 1/3  --½ôÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×îĞ¡Öµ
+
+local startpt,startindex = GetTopMostPoint(bh)
+local endpt,endindex = GetRightMostPoint(bh)
+
+if (startindex > endindex) then
+return false
+end
+
+local spt_ept_line = GetLine(startpt,endpt)
+local finalbh = GetTempBD(bh,startindex,endindex)
+local turning_pt,turning_index = GetFarthestPt2Line(bh,spt_ept_line)
+if (Point2LineDown(turning_pt,spt_ept_line) == false) then
+return false
+end
+
+local bd0 = GetTempBD(bh,startindex,turning_index)
+local line0 = GetLine(startpt,turning_pt)
+local dis0 = GetFarDis2Line(bd0,line0)
+local bd0_jitter = GetTempBD(bh,1,startindex)
+local len_bd0 = GetBDLen(bd0)
+local len_bd0_jitter = GetBDLen(bd0_jitter)
+
+
+local bd1 = GetTempBD(bh,turning_index,endindex)
+local line1 = GetLine(turning_pt,endpt)
+local dis1 = GetFarDis2Line(bd1,line1)
+local bd1_jitter = GetTempBD(bh,endindex,#bh.ptSet)
+local len_bd1 = GetBDLen(bd1)
+local len_bd1_jitter = GetBDLen(bd1_jitter)
+
+local angel0 = 90
+if (turning_pt.y ~= startpt.y) then
+local slope0 = (turning_pt.x -  startpt.x)/(turning_pt.y - startpt.y)
+angel0 = math.deg(math.atan(slope0))
+end
+angel0 = math.abs(angel0)
+
+
+local angel1 = 90
+if (endpt.x ~= turning_pt.x) then
+local slope1 = (endpt.y - turning_pt.y) / (endpt.x - turning_pt.x)
+angel1 = math.deg ( math.atan(slope1))
+end
+angel1 = math.abs(angel1)
+
+
+local bd0_bd1_angel = 0
+bd0_bd1_angel = Cal_Angle (startpt,turning_pt,endpt)
+
+if (bl == 1) then
+    if (len_bd0_jitter/len_bd0 > loose_jitter_max_threshold or len_bd1_jitter/len_bd1 > loose_jitter_max_threshold )  then
+
+        return false
+    end
+    if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold) then
+        return false
+    end
+    if (angel0 > loose_angel_max_threshold or angel1 > loose_angel_max_threshold) then
+        return false
+    end
+    if (len_bd0 / len_bd1 > bd0_1_loose_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_loose_lenratio_min_threshold ) then
+        return false
+    end
+    if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
+        return false
+    end
+end
+
+if (bl == 2) then
+    if (len_bd0_jitter/len_bd0 > tight_jitter_max_threshold or len_bd1_jitter/len_bd1 > tight_jitter_max_threshold )  then
+        return false
+    end
+    if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold) then
+        return false
+    end
+    if (angel0 > tight_angel_max_threshold or angel1 > tight_angel_max_threshold) then
+        return false
+    end
+    if (len_bd0 / len_bd1 > bd0_1_tight_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_tight_lenratio_min_threshold ) then
+        return false
+    end
+    if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
+        return false
+    end
+
+end
+
+return true
+
+end
+
+
+
+
+function  IsShuWanGou(bh,bl)
+if (bl ~= 1 and bl~=2) then return end
+local loose_dis_max_threshold = 40      --ËÉÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local tight_dis_max_threshold = 20      --½ôÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local loose_angel_max_threshold = 30    --ËÉÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+local tight_angel_max_threshold = 15     --½ôÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+local loose_jitter_max_threshold = 1/5  --ËÉÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+local tight_jitter_max_threshold = 1/10 --½ôÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+
+
+local bd0_1_loose_angel_max_threshold = 130  --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_loose_angel_min_threshold =60    --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd0_1_tight_angel_max_threshold = 120  --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_tight_angel_min_threshold = 70    --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd0_1_loose_lenratio_max_threshold = 5    --ËÉÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×î´óÖµ
+local bd0_1_loose_lenratio_min_threshold = 1  --ËÉÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×îĞ¡Öµ
+local bd0_1_tight_lenratio_max_threshold = 3  --½ôÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×î´óÖµ
+local bd0_1_tight_lenratio_min_threshold = 1  --½ôÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×îĞ¡Öµ
+
+local startpt,startindex = GetTopMostPoint(bh)
+local endpt = GetEndPoint(bh)
+local endindex = #bh.ptSet
+if (startindex > endindex) then
+return false
+end
+
+local vpt0 = {}
+vpt0.x = 0
+vpt0.y = 512
+
+local vpt1 = {}
+vpt1.x = 512
+vpt1.y = 512
+
+
+local turning_index0 = 1
+local minDis = 512
+for i = 1,#bh.ptSet do
+    local curpt = bh.ptSet[i]
+    local tempDis = GetDistance(curpt,vpt0)
+    if (tempDis < minDis ) then
+        turning_index_0 = i
+        minDis  = tempDis
+    end
+end
+
+local turning_index_1 = 1
+minDis = 512
+for i = 1,#bh.ptSet do
+    local curpt = bh.ptSet[i]
+    local tempDis = GetDistance(curpt,vpt1)
+    if (tempDis < minDis ) then
+        turning_index_1 = i
+        minDis  = tempDis
+    end
+end
+
+
+local turning_pt_0 = bh.ptSet[turning_index_0]
+local turning_pt_1 = bh.ptSet[turning_index_1]
+
+local bd0 = GetTempBD(bh,startindex,turning_index_0)
+local line0 = GetLine(startpt,turning_pt_0)
+local dis0 = GetFarDis2Line(bd0,line0)
+local bd0_jitter = GetTempBD(bh,1,startindex)
+local len_bd0 = GetBDLen(bd0)
+local len_bd0_jitter = GetBDLen(bd0_jitter)
+
+
+local bd1 = GetTempBD(bh,turning_index_0,turning_index_1)
+local line1 = GetLine(turning_pt_0,turning_pt_1)
+local dis1 = GetFarDis2Line(bd1,line1)
+local len_bd1 = GetBDLen(bd1)
+
+
+
+local bd2 = GetTempBD(bh,turning_index_1,endindex)
+local line2 = GetLine(turning_pt_1,endpt)
+local dis2 = GetFarDis2Line(bd2,line2)
+local len_bd2 = GetBDLen(bd2)
+
+if(len_bd2 < 5) then
+return false
+end
+
+
+local angel0 = 90
+if (turning_pt_0.y ~= startpt.y) then
+local slope0 = (turning_pt_0.x -  startpt.x)/(turning_pt_0.y - startpt.y)
+angel0 = math.deg(math.atan(slope0))
+end
+angel0 = math.abs(angel0)
+
+
+local angel1 = 90
+if (turning_pt_1.x ~= turning_pt_0.x) then
+local slope1 = (turning_pt_1.y - turning_pt_0.y) / (turning_pt_1.x - turning_pt_0.x)
+angel1 = math.deg ( math.atan(slope1))
+end
+angel1 = math.abs(angel1)
+
+local bd0_bd1_angel = 0
+bd0_bd1_angel = Cal_Angle (startpt,turning_pt_0,turning_pt_1)
+
+if (bl == 1) then
+    if (len_bd0_jitter/len_bd0 > loose_jitter_max_threshold )  then
+        return false
+    end
+    if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold or dis2 > loose_dis_max_threshold) then
+        return false
+    end
+    if (angel0 > loose_angel_max_threshold or angel1 > loose_angel_max_threshold) then
+        return false
+    end
+    if (len_bd0 / len_bd1 > bd0_1_loose_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_loose_lenratio_min_threshold ) then
+        return false
+    end
+    if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
+        return false
+    end
+end
+
+if (bl == 2) then
+    if (len_bd0_jitter/len_bd0 > tight_jitter_max_threshold )  then
+        return false
+    end
+    if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold) then
+        return false
+    end
+    if (angel0 > tight_angel_max_threshold or angel1 > tight_angel_max_threshold) then
+        return false
+    end
+    if (len_bd0 / len_bd1 > bd0_1_tight_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_tight_lenratio_min_threshold ) then
+        return false
+    end
+    if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
+        return false
+    end
+
+end
+
+return true
+
+end
+
+
+
+function  IsDian(bh,bl)
+if(bl ~= 1 and bl~=2 ) then return end
+
+local loose_jitter_max_threshold = 1/5  --ËÉÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+local tight_jitter_max_threshold = 1/10 --½ôÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+local loose_dis_max_threshold = 30      --ËÉÆÀÅĞÊ±±Ê¼£µ½±Ê»­Á¬ÏßµÄ×î´ó¾àÀë
+local tight_dis_max_threshold = 15       --½ôÆÀÅĞÊ±±Ê¼£µ½±Ê»­Á¬ÏßµÄ×î´ó¾àÀë
+
+local startpt,startindex = GetTopMostPoint(bh)
+local endpt,endindex = GetRightMostPoint(bh)
+
+if (endindex < startindex) then
+    return false
+end
+
+if (startpt.x >= endpt.x ) then
+    return false
+end
+
+
+local finalbh = GetTempBD(bh,startindex,endindex)
+local jitter1 = GetTempBD(bh,1,startindex)
+local jitter2 = GetTempBD(bh,endindex,#bh.ptSet)
+
+local len_jitter1 = GetBDLen(jitter1)
+local len_jitter2 = GetBDLen(jitter2)
+local len_bh = GetBDLen(finalbh)
+
+local line = GetLine(startpt,endpt)
+local dis = GetFarDis2Line(finalbh,line)
+
+if (bl == 1) then
+     if (len_jitter1/len_bh > loose_jitter_max_threshold or len_jitter2/len_bh > loose_jitter_max_threshold) then
+         return false
+     end
+     if(dis > loose_dis_max_threshold) then
+         return false
+     end
+     for i = startindex, endindex, 5 do
+        if (i + 5 < endindex ) then
+            local curPt = bh.ptSet[i]
+            local nextPt = bh.ptSet[i+5]
+            if (curPt.x > nextPt.x) then
+                  return false
+            end
+
+        if (curPt.y > nextPt.y)then
+            return false
+        end
+        end
+    end
+end
+
+
+if (bl == 2) then
+     if (len_jitter1/len_bh > tight_jitter_max_threshold or len_jitter2/len_bh > tight_jitter_max_threshold) then
+         return false
+     end
+
+     if(dis > tight_dis_max_threshold) then
+         return false
+     end
+
+    for i = startindex, endindex, 2 do
+        if (i + 2 < endindex ) then
+            local curPt = bh.ptSet[i]
+            local nextPt = bh.ptSet[i+2]
+            if (curPt.x > nextPt.x) then
+                return false
+        end
+
+        if (curPt.y > nextPt.y)then
+                return false
+        end
+        end
+    end
+end
+return true
+end
+
+
+
+function  IsHengGou(bh,bl)
+if (bl ~= 1 and bl~=2) then return end
+local loose_dis_max_threshold = 40      --ËÉÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local tight_dis_max_threshold = 20      --½ôÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+
+local loose_angel_max_threshold = 30    --ËÉÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+local tight_angel_max_threshold = 15     --½ôÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+
+local loose_jitter_max_threshold = 1/5  --ËÉÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+local tight_jitter_max_threshold = 1/10 --½ôÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+
+local bd1_len_threshold = 2                       --±Ê¶Î1µÄ×îĞ¡³¤¶È
+
+local bd0_1_loose_angel_max_threshold = 90  --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_loose_angel_min_threshold = 10    --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd0_1_tight_angel_max_threshold = 80  --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_tight_angel_min_threshold = 20    --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd0_1_loose_lenratio_max_threshold = 10    --ËÉÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×î´óÖµ
+local bd0_1_loose_lenratio_min_threshold = 1  --ËÉÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×îĞ¡Öµ
+local bd0_1_tight_lenratio_max_threshold = 6  --½ôÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×î´óÖµ
+local bd0_1_tight_lenratio_min_threshold = 1  --½ôÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×îĞ¡Öµ
+
+local startpt,startindex = GetLeftMostPoint(bh)
+local endpt = GetEndPoint(bh)
+local endindex = #bh.ptSet
+local turning_pt,turning_index = GetRightMostPoint(bh)
+
+
+if (startindex > endindex) then
+return false
+end
+
+if (turning_pt.y > endpt.y) then
+return false
+end
+
+
+local bd0 = GetTempBD(bh,startindex,turning_index)
+local line0 = GetLine(startpt,turning_pt)
+local dis0 = GetFarDis2Line(bd0,line0)
+local bd0_jitter = GetTempBD(bh,1,startindex)
+local len_bd0 = GetBDLen(bd0)
+local len_bd0_jitter = GetBDLen(bd0_jitter)
+
+
+local bd1 = GetTempBD(bh,turning_index,endindex)
+local line1 = GetLine(turning_pt,endpt)
+local dis1 = GetFarDis2Line(bd1,line1)
+local len_bd1 = GetBDLen(bd1)
+if(len_bd1 < bd1_len_threshold ) then
+return false
+end
+
+local angel0 = 90
+if (turning_pt.x ~= startpt.x) then
+local slope0 = (turning_pt.y -  startpt.y)/(turning_pt.x - startpt.x)
+angel0 = math.deg(math.atan(slope0))
+end
+angel0 = math.abs(angel0)
+
+
+local bd0_bd1_angel = 0
+bd0_bd1_angel = Cal_Angle (startpt,turning_pt,endpt)
+
+if (bl == 1) then
+    if (len_bd0_jitter/len_bd0 > loose_jitter_max_threshold )  then
+        return false
+    end
+    if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold) then
+        return false
+    end
+    if (angel0 > loose_angel_max_threshold) then
+        return false
+    end
+    if (len_bd0 / len_bd1 > bd0_1_loose_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_loose_lenratio_min_threshold ) then        trace("loose_ratio_wrong")
+        return false
+    end
+    if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
+        return false
+    end
+end
+
+if (bl == 2) then
+    if (len_bd0_jitter/len_bd0 > tight_jitter_max_threshold )  then
+        return false
+    end
+    if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold) then
+        return false
+    end
+    if (angel0 > tight_angel_max_threshold ) then
+        return false
+    end
+    if (len_bd0 / len_bd1 > bd0_1_tight_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_tight_lenratio_min_threshold ) then
+        return false
+    end
+    if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
+        return false
+    end
+
+end
+
+return true
+
+
+end
+
+
+
+function  IsHengZhe2(bh,bl)
+if (bl ~= 1 and bl~=2) then return end
+
+local loose_dis_max_threshold = 40      --ËÉÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local tight_dis_max_threshold = 20      --½ôÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+
+local bd0_loose_angel_max_threshold = 30     --ËÉÆÀÅĞÊ±bd0Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+local bd0_tight_angel_max_threshold = 15     --½ôÆÀÅĞÊ±bd0Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+
+
+local bd1_loose_angel_max_threshold = 60    --ËÉÆÀÅĞÊ±bd1Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+local bd1_tight_angel_max_threshold = 30    --½ôÆÀÅĞÊ±bd1Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+
+
+local loose_jitter_max_threshold = 1/5  --ËÉÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+local tight_jitter_max_threshold = 1/10 --½ôÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+
+local bd0_1_loose_angel_max_threshold = 90  --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_loose_angel_min_threshold =30    --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd0_1_tight_angel_max_threshold = 90  --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_tight_angel_min_threshold =60    --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd0_1_loose_lenratio_max_threshold = 3    --ËÉÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×î´óÖµ
+local bd0_1_loose_lenratio_min_threshold = 1/3  --ËÉÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×îĞ¡Öµ
+local bd0_1_tight_lenratio_max_threshold = 2  --½ôÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×î´óÖµ
+local bd0_1_tight_lenratio_min_threshold = 1/2  --½ôÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×îĞ¡Öµ
+
+local startpt,startindex = GetLeftMostPoint(bh)
+local endpt,endindex = GetBottomMostPoint(bh)
+
+if (startindex > endindex) then
+return false
+end
+
+local spt_ept_line = GetLine(startpt,endpt)
+local finalbh = GetTempBD(bh,startindex,endindex)
+local turning_pt,turning_index = GetFarthestPt2Line(bh,spt_ept_line)
+if (Point2LineUp(turning_pt,spt_ept_line) == false) then
+return false
+end
+
+local bd0 = GetTempBD(bh,startindex,turning_index)
+local line0 = GetLine(startpt,turning_pt)
+local dis0 = GetFarDis2Line(bd0,line0)
+local bd0_jitter = GetTempBD(bh,1,startindex)
+local len_bd0 = GetBDLen(bd0)
+local len_bd0_jitter = GetBDLen(bd0_jitter)
+
+
+local bd1 = GetTempBD(bh,turning_index,endindex)
+local line1 = GetLine(turning_pt,endpt)
+local dis1 = GetFarDis2Line(bd1,line1)
+local bd1_jitter = GetTempBD(bh,endindex,#bh.ptSet)
+local len_bd1 = GetBDLen(bd1)
+local len_bd1_jitter = GetBDLen(bd1_jitter)
+
+local angel0 = 90
+if (turning_pt.x ~= startpt.x) then
+local slope0 = (turning_pt.y -  startpt.y)/(turning_pt.x - startpt.x)
+angel0 = math.deg(math.atan(slope0))
+end
+angel0 = math.abs(angel0)
+
+
+local angel1 = 90
+if (endpt.y ~= turning_pt.y) then
+local slope1 = (endpt.x - turning_pt.x) / (endpt.y - turning_pt.y)
+angel1 = math.deg ( math.atan(slope1))
+end
+angel1 = math.abs(angel1)
+
+
+local bd0_bd1_angel = 0
+bd0_bd1_angel = Cal_Angle (startpt,turning_pt,endpt)
+
+if (bl == 1) then
+    if (len_bd0_jitter/len_bd0 > loose_jitter_max_threshold or len_bd1_jitter/len_bd1 > loose_jitter_max_threshold )  then
+        return false
+    end
+    if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold) then
+        return false
+    end
+    if (angel0 > bd0_loose_angel_max_threshold or angel1 > bd1_loose_angel_max_threshold) then
+        return false
+    end
+    if (len_bd0 / len_bd1 > bd0_1_loose_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_loose_lenratio_min_threshold ) then
+        return false
+    end
+    if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
+        return false
+    end
+end
+
+if (bl == 2) then
+    if (len_bd0_jitter/len_bd0 > tight_jitter_max_threshold or len_bd1_jitter/len_bd1 > tight_jitter_max_threshold )  then
+        return false
+    end
+    if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold) then
+        return false
+    end
+    if (angel0 > bd0_tight_angel_max_threshold or angel1 > bd1_tight_angel_max_threshold) then
+        return false
+    end
+    if (len_bd0 / len_bd1 > bd0_1_tight_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_tight_lenratio_min_threshold ) then
+        return false
+    end
+    if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
+        return false
+    end
+
+end
+
+return true
+
+
+
+end
+
+
+function  IsXieGou(bh,bl)
+if(bl ~= 1 and bl~=2 ) then return end
+
+local loose_angel_max_threshold = 80        --sptÓëtptÁ¬ÏßÆ«ÀëÊúÖ±·½ÏòµÄ½Ç¶È
+local loose_angel_min_threshold = 10
+local tight_angel_max_threshold = 60
+local tight_angel_min_threshold = 20
+
+local startpt,startindex = GetTopMostPoint(bh)
+local endpt= GetEndPoint(bh)
+local endindex = #bh.ptSet
+local turning_pt,turning_index = GetBottomMostPoint(bh)
+
+local angel = 90
+if (turning_pt.y ~= startpt.y) then
+     local slope = (turning_pt.x -  startpt.x)/(turning_pt.y - startpt.y)
+     angel = math.deg(math.atan(slope))
+end
+angel = math.abs(angel)
+
+
+local bd1 = GetTempBD(bh,turning_index,endindex)
+local len_bd1 = GetBDLen(bd1)
+if (len_bd1 < 5) then
+    return false
+end
+
+if (endindex < startindex) then
+    return false
+end
+
+if (startpt.x >= endpt.x ) then
+    return false
+end
+
+if (turning_pt.x < startpt.x) then
+    return false
+end
+
+
+if (bl == 1) then
+    if (angel > loose_angel_max_threshold or angel < loose_angel_min_threshold) then
+            return false
+    end
+
+
+    for i = startindex, turning_index, 5 do
+        if (i + 5 < turning_index ) then
+            local curPt = bh.ptSet[i]
+            local nextPt = bh.ptSet[i+5]
+            if (curPt.x > nextPt.x) then
+              return false
+            end
+
+        if (curPt.y > nextPt.y)then
+            return false
+        end
+     end
+    end
+end
+
+
+if (bl == 2) then
+    if (angel > tight_angel_max_threshold or angel < tight_angel_min_threshold) then
+            return false
+    end
+
+    for i = startindex, turning_index, 2 do
+        if (i + 2 < turning_index ) then
+            local curPt = bh.ptSet[i]
+            local nextPt = bh.ptSet[i+2]
+            if (curPt.x < nextPt.x) then
+                return false
+        end
+
+        if (curPt.y > nextPt.y)then
+                return false
+            end
+        end
+    end
+end
+return true
+
+
+
+
+end
+
+
+function  IsPie(bh,bl)
+if(bl ~= 1 and bl~=2 ) then return end
+
+local loose_jitter_max_threshold = 1/5  --ËÉÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+local tight_jitter_max_threshold = 1/10 --½ôÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+
+local startpt,startindex = GetTopMostPoint(bh)
+local endpt,endindex = GetLeftMostPoint(bh)
+
+if (endindex < startindex) then
+    return false
+end
+
+if (startpt.x <= endpt.x ) then
+    return false
+end
+
+
+ local finalbh = GetTempBD(bh,startindex,endindex)
+ local jitter1 = GetTempBD(bh,1,startindex)
+ local jitter2 = GetTempBD(bh,endindex,#bh.ptSet)
+
+ local len_jitter1 = GetBDLen(jitter1)
+ local len_jitter2 = GetBDLen(jitter2)
+ local len_bh = GetBDLen(finalbh)
+
+ if (bl == 1) then
+     if (len_jitter1/len_bh > loose_jitter_max_threshold or len_jitter2/len_bh > loose_jitter_max_threshold) then
+         return false
+     end
+
+    for i = startindex, endindex, 20 do
+        if (i + 20 < endindex ) then
+            local curPt = bh.ptSet[i]
+            local nextPt = bh.ptSet[i+20]
+            if (curPt.x < nextPt.x) then
+                return false
+        end
+
+        if (curPt.y > nextPt.y)then
+            return false
+        end
+        end
+    end
+end
+
+
+if (bl == 2) then
+     if (len_jitter1/len_bh > tight_jitter_max_threshold or len_jitter2/len_bh > tight_jitter_max_threshold) then
+         return false
+     end
+
+    for i = startindex, endindex, 10 do
+        if (i + 10 < endindex ) then
+            local curPt = bh.ptSet[i]
+            local nextPt = bh.ptSet[i+10]
+            if (curPt.x < nextPt.x) then
+                return false
+        end
+
+        if (curPt.y > nextPt.y)then
+                return false
+        end
+        end
+    end
+end
+return true
+
+end
+
+
+function  IsTi(bh,bl)
+if(bl ~= 1 and bl~=2 ) then return end
+
+local loose_jitter_max_threshold = 1/5  --ËÉÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+local tight_jitter_max_threshold = 1/10 --½ôÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+local loose_dis_max_threshold = 40      --ËÉÆÀÅĞÊ±±Ê¼£µ½±Ê»­Á¬ÏßµÄ×î´ó¾àÀë
+local tight_dis_max_threshold = 20       --½ôÆÀÅĞÊ±±Ê¼£µ½±Ê»­Á¬ÏßµÄ×î´ó¾àÀë
+
+local startpt,startindex = GetBottomMostPoint(bh)
+local endpt,endindex = GetTopMostPoint(bh)
+
+if (endindex < startindex) then
+    return false
+end
+
+if (startpt.x >= endpt.x ) then
+    return false
+end
+
+
+local finalbh = GetTempBD(bh,startindex,endindex)
+local jitter1 = GetTempBD(bh,1,startindex)
+local jitter2 = GetTempBD(bh,endindex,#bh.ptSet)
+
+local len_jitter1 = GetBDLen(jitter1)
+local len_jitter2 = GetBDLen(jitter2)
+local len_bh = GetBDLen(finalbh)
+
+local line = GetLine(startpt,endpt)
+local dis = GetFarDis2Line(finalbh,line)
+
+if (bl == 1) then
+     if (len_jitter1/len_bh > loose_jitter_max_threshold or len_jitter2/len_bh > loose_jitter_max_threshold) then
+         return false
+     end
+     if(dis > loose_dis_max_threshold) then
+         return false
+     end
+     for i = startindex, endindex, 5 do
+        if (i + 5 < endindex ) then
+            local curPt = bh.ptSet[i]
+            local nextPt = bh.ptSet[i+5]
+            if (curPt.x > nextPt.x) then
+                return false
+        end
+
+        if (curPt.y < nextPt.y)then
+            return false
+        end
+        end
+    end
+end
+
+
+if (bl == 2) then
+     if (len_jitter1/len_bh > tight_jitter_max_threshold or len_jitter2/len_bh > tight_jitter_max_threshold) then
+         return false
+     end
+
+     if(dis > tight_dis_max_threshold) then
+         return false
+     end
+
+    for i = startindex, endindex, 2 do
+        if (i + 2 < endindex ) then
+            local curPt = bh.ptSet[i]
+            local nextPt = bh.ptSet[i+2]
+            if (curPt.x < nextPt.x) then
+              return false
+        end
+
+        if (curPt.y < nextPt.y)then
+            return false
+        end
+        end
+    end
+end
+return true
+
+end
+
+
+function  IsZuoDian(bh,bl)
+if(bl ~= 1 and bl~=2 ) then return end
+
+local loose_dis_max_threshold =40      --ËÉÆÀÅĞÊ±±Ê¼£µ½±Ê»­Á¬ÏßµÄ×î´ó¾àÀë
+local tight_dis_max_threshold = 20       --½ôÆÀÅĞÊ±±Ê¼£µ½±Ê»­Á¬ÏßµÄ×î´ó¾àÀë
+local loose_angel_max_threshold = 80    --Ê×Î²µãÁ¬ÏßÆ«ÀëÊúÖ±·½ÏòµÄ½Ç¶È
+local tight_angel_max_threshold = 60
+
+
+
+local startpt,startindex = GetTopMostPoint(bh)
+local endpt,endindex = GetBottomMostPoint(bh)
+
+if (endindex < startindex) then
+    return false
+end
+
+if (startpt.x <= endpt.x ) then
+    return false
+end
+
+local line = GetLine(startpt,endpt)
+local dis = GetFarDis2Line(bh,line)
+
+
+
+local angel = 90
+if ( endpt.y ~= startpt.y ) then
+    local slope = (endpt.x -  startpt.x)/(endpt.y- startpt.y)
+    angel = math.deg(math.atan(slope))
+end
+angel = math.abs(angel)
+trace(angel)
+
+
+if (bl == 1) then
+     if(dis > loose_dis_max_threshold) then
+         return false
+     end
+     if(angel > loose_angel_max_threshold)then
+        return false
+     end
+end
+
+
+if (bl == 2) then
+
+     if(dis > tight_dis_max_threshold) then
+         return false
+     end
+     if(angel > tight_angel_max_threshold) then
+         return false
+     end
+
+end
+return true
+end
+
+
+function  IsWoGou(bh,bl)
+if(bl ~= 1 and bl~=2 ) then return end
+
+local loose_angel_max_threshold = 70        --sptÓëtptÁ¬ÏßÆ«ÀëÊúÖ±·½ÏòµÄ½Ç¶È
+local loose_angel_min_threshold = 10
+local tight_angel_max_threshold = 60
+local tight_angel_min_threshold = 20
+
+local startpt,startindex = GetTopMostPoint(bh)
+local endpt= GetEndPoint(bh)
+local endindex = #bh.ptSet
+local turning_pt,turning_index = GetBottomMostPoint(bh)
+
+local angel = 90
+if (turning_pt.y ~= startpt.y) then
+     local slope = (turning_pt.x -  startpt.x)/(turning_pt.y - startpt.y)
+     angel = math.deg(math.atan(slope))
+end
+angel = math.abs(angel)
+
+local bd1 = GetTempBD(bh,turning_index,endindex)
+local len_bd1 = GetBDLen(bd1)
+if (len_bd1 < 5) then
+    return false
+end
+
+if (endindex < startindex) then
+    return false
+end
+
+if (startpt.x >= endpt.x ) then
+    return false
+end
+
+if (turning_pt.x < startpt.x) then
+    return false
+end
+
+
+if (bl == 1) then
+    if (angel > loose_angel_max_threshold or angel < loose_angel_min_threshold) then
+            return false
+    end
+
+
+    for i = startindex, turning_index, 20 do
+        if (i + 20 < turning_index ) then
+            local curPt = bh.ptSet[i]
+            local nextPt = bh.ptSet[i+20]
+            if (curPt.x > nextPt.x) then
+              return false
+            end
+
+     end
+    end
+end
+
+
+if (bl == 2) then
+    if (angel > tight_angel_max_threshold or angel < tight_angel_min_threshold) then
+            return false
+    end
+
+    for i = startindex, turning_index, 10 do
+        if (i + 10 < turning_index ) then
+            local curPt = bh.ptSet[i]
+            local nextPt = bh.ptSet[i+10]
+            if (curPt.x < nextPt.x) then
+                return false
+        end
+
+     end
+   end
+end
+return true
+end
+
+
+function  IsWanGou(bh,bl)
+if(bl ~= 1 and bl~=2 ) then return end
+
+local loose_dis_max_threshold = 40      --ËÉÆÀÅĞÊ±±Ê¼£µ½¹Õµã0Á¬ÏßµÄ×î´ó¾àÀë
+local loose_dis_min_threshold = 2
+
+local loose_angel_max_threshold = 30    --ËÉÆÀÅĞÊ±Ê×Óë¹Õµã0Á¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+local loose_jitter_max_threshold = 1/5    --ËÉÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+
+local tight_dis_max_threshold = 20      --½ôÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local tight_dis_min_threshold = 5
+
+local tight_angel_max_threshold = 20    --½ôÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+local tight_jitter_max_threshold = 1/10 --½ôÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+
+local bd0_1_loose_angel_max_threshold = 85      --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_loose_angel_min_threshold = 10      --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd0_1_tight_angel_max_threshold = 70      --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_tight_angel_min_threshold = 15      --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd1_0_lenratio_threshold = 1/2            --±Ê¶Î1ºÍ±Ê¶Î2µÄ³¤¶È±ÈÀı
+
+
+local startpt,startindex = GetTopMostPoint(bh)
+local endpt =  GetEndPoint(bh)
+local endindex = #bh.ptSet
+local turning_pt,turning_index = GetBottomMostPoint(bh)
+
+if (endindex < startindex) then
+return false
+end
+
+if (turning_pt.x < endpt.x) then
+return false
+end
+
+
+ local finalbh = GetTempBD(bh,startindex,endindex)
+ local jitter1 = GetTempBD(bh,1,startindex)
+ local len_jitter1 = GetBDLen(jitter1)
+ local len_bh = GetBDLen(finalbh)
+
+ local line = GetLine(startpt,endpt)
+ local dis = GetFarDis2Line(finalbh,line)
+
+ local bd0 = GetTempBD(bh,startindex,turning_index)
+ local bd1 = GetTempBD(bh,turning_index,endindex)
+ local line0 = GetLine(startpt,turning_pt)
+ local dis0 = GetFarDis2Line(bd0,line0)
+ local line1 = GetLine(turning_pt,endpt)
+ local dis1 =  GetFarDis2Line(bd1,line1)
+
+
+
+ local len_bd0 = GetBDLen(bd0)
+ local len_bd1 = GetBDLen(bd1)
+ if (len_bd1 < 5) then
+ return false
+ end
+
+
+
+local bd0_bd1_angel = Cal_Angle (startpt,turning_pt,endpt)
+ local angel = 90
+ if (turning_pt.y ~= startpt.y) then
+ local slope = (turning_pt.x -  startpt.x)/(turning_pt.y - startpt.y)
+ angel = math.deg(math.atan(slope))
+ end
+ angel = math.abs(angel)
+
+ if (bl == 1) then
+     if (len_jitter1/len_bh > loose_jitter_max_threshold ) then
+         return false
+     end
+     if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold) then
+         return false
+     end
+
+     if(dis0 < loose_dis_min_threshold) then
+         return false
+     end
+
+     if (angel > loose_angel_max_threshold) then
+         return false
+     end
+     if(bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold) then
+         return false
+     end
+ end
+
+ if (bl == 2) then
+     if (len_jitter1/len_bh > tight_jitter_max_threshold) then
+         return false
+     end
+     if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold) then
+         return false
+     end
+
+     if(dis0 < tight_dis_min_threshold) then
+         return false
+     end
+
+     if (angel > tight_angel_max_threshold) then
+         return false
+     end
+      if(bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold) then
+         return false
+     end
+     if(len_bd1 /len_bd0 > bd1_0_lenratio_threshold) then
+         return false
+     end
+ end
+
+return true
+
+end
+
+
+
+function  IsNa(bh,bl)
+if(bl ~= 1 and bl~=2 ) then return end
+
+local loose_jitter_max_threshold = 1/5  --ËÉÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+local tight_jitter_max_threshold = 1/10 --½ôÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+
+local startpt,startindex = GetTopMostPoint(bh)
+local endpt,endindex = GetRightMostPoint(bh)
+
+if (endindex < startindex) then
+    return false
+end
+
+if (startpt.x >= endpt.x ) then
+    return false
+end
+
+
+local finalbh = GetTempBD(bh,startindex,endindex)
+local jitter1 = GetTempBD(bh,1,startindex)
+local jitter2 = GetTempBD(bh,endindex,#bh.ptSet)
+
+local len_jitter1 = GetBDLen(jitter1)
+local len_jitter2 = GetBDLen(jitter2)
+local len_bh = GetBDLen(finalbh)
+
+if (bl == 1) then
+     if (len_jitter1/len_bh > loose_jitter_max_threshold or len_jitter2/len_bh > loose_jitter_max_threshold) then
+         return false
+     end
+
+    for i = startindex, endindex, 20 do
+        if (i + 20 < endindex ) then
+            local curPt = bh.ptSet[i]
+            local nextPt = bh.ptSet[i+20]
+            if (curPt.x > nextPt.x) then
+              return false
+            end
+
+        if (curPt.y > nextPt.y)then
+            return false
+        end
+        end
+    end
+end
+
+
+if (bl == 2) then
+     if (len_jitter1/len_bh > tight_jitter_max_threshold or len_jitter2/len_bh > tight_jitter_max_threshold) then
+         return false
+     end
+
+    for i = startindex, endindex, 10 do
+        if (i + 10 < endindex ) then
+            local curPt = bh.ptSet[i]
+            local nextPt = bh.ptSet[i+10]
+            if (curPt.x > nextPt.x) then
+                return false
+        end
+
+        if (curPt.y > nextPt.y)then
+                return false
+        end
+        end
+    end
+end
+return true
+
+end
+
+
+
+function  IsPieZhe(bh,bl)
+if (bl ~= 1 and bl~=2) then return end
+local bd0_loose_angel_max_threshold = 80    --ËÉÆÀÅĞÊ±±Ê¶Î0Æ«ÒÆÊúÖ±·½Ïò×î´óµÄ½Ç¶È
+local bd0_loose_angel_min_threshold = 10    --ËÉÆÀÅĞÊ±±Ê¶Î0Æ«ÒÆÊúÖ±·½Ïò×îĞ¡µÄ½Ç¶È [bd0_angel_min,bd0_ngel_max]
+
+local bd0_tight_angel_max_threshold = 70     --½ôÆÀÅĞÊ±bd0Æ«ÀëË®Æ½·½ÏòµÄ×î´ó½Ç¶È
+local bd0_tight_angel_min_threshold = 20     --½ôÆÀÅĞÊ±bd0Æ«ÀëË®Æ½·½ÏòµÄ×îĞ¡½Ç¶È
+
+local bd1_loose_angel_max_threshold = 45     --ËÉÆÀÅĞÊ±±Ê¶Î1Æ«ÒÆË®Æ½·½Ïò×î´óµÄ½Ç¶È
+local bd1_tight_angel_max_threshold = 10     --½ôÆÀÅĞÊ±bd1Æ«ÀëË®Æ½·½ÏòµÄ×î´óµÄ½Ç¶È
+
+local loose_dis_max_threshold = 40      --ËÉÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local tight_dis_max_threshold = 20      --½ôÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local loose_angel_max_threshold = 60    --ËÉÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+local tight_angel_max_threshold = 45    --½ôÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+
+local bd0_1_loose_angel_max_threshold = 85  --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_loose_angel_min_threshold =30    --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd0_1_tight_angel_max_threshold = 70  --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_tight_angel_min_threshold =40    --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd0_1_loose_lenratio_max_threshold = 3    --ËÉÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×î´óÖµ
+local bd0_1_loose_lenratio_min_threshold = 1/3  --ËÉÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×îĞ¡Öµ
+local bd0_1_tight_lenratio_max_threshold = 2  --½ôÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×î´óÖµ
+local bd0_1_tight_lenratio_min_threshold = 1/2  --½ôÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×îĞ¡Öµ
+
+local startpt = GetStartPoint(bh)
+local endpt = GetEndPoint(bh)
+
+if (startpt.y > endpt.y ) then
+return false
+end
+
+local spt_ept_line = GetLine(startpt,endpt)
+local turning_pt,turning_index = GetFarthestPt2Line(bh,spt_ept_line)
+if (turning_pt.x > startpt.x or turning_pt.x > endpt.x or turning_pt.y < startpt.y ) then
+return false
+end
+
+if (endpt.y - turning_pt.y > 3) then
+return false
+end
+
+local bd0 = GetTempBD(bh,1,turning_index)
+local line0 = GetLine(startpt,turning_pt)
+local dis0 = GetFarDis2Line(bd0,line0)
+local len_bd0 = GetBDLen(bd0)
+
+local bd1 = GetTempBD(bh,turning_index,#bh.ptSet)
+local line1 = GetLine(turning_pt,endpt)
+local dis1 = GetFarDis2Line(bd1,line1)
+local len_bd1 = GetBDLen(bd1)
+
+local angel0 = 90
+if (turning_pt.y ~= startpt.y) then
+local slope0 = (turning_pt.x -  startpt.x)/(turning_pt.y - startpt.y)
+angel0 = math.deg(math.atan(slope0))
+end
+angel0 = math.abs(angel0)
+
+
+local angel1 = 90
+if (endpt.x ~= turning_pt.x) then
+local slope1 = (endpt.y - turning_pt.y) / (endpt.x - turning_pt.x)
+angel1 = math.deg ( math.atan(slope1))
+end
+angel1 = math.abs(angel1)
+
+local bd0_bd1_angel = 0
+bd0_bd1_angel = Cal_Angle (startpt,turning_pt,endpt)
+
+if (bl == 1) then
+    if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold) then
+        return false
+    end
+    if (angel0 > bd0_loose_angel_max_threshold  or angel1 > bd1_loose_angel_max_threshold ) then
+        return false
+    end
+
+    if (angel0 < bd0_loose_angel_min_threshold  ) then
+        return false
+    end
+
+    if (len_bd0 / len_bd1 > bd0_1_loose_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_loose_lenratio_min_threshold ) then
+        return false
+    end
+    if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
+        return false
+    end
+end
+
+if (bl == 2) then
+    if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold) then
+        return false
+    end
+    if (angel0 > bd0_tight_angel_max_threshold  or angel1 > bd1_tight_angel_max_threshold ) then
+        return false
+    end
+
+    if (angel0 < bd0_tight_angel_min_threshold) then
+        return false
+    end
+    if (len_bd0 / len_bd1 > bd0_1_tight_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_tight_lenratio_min_threshold ) then
+        return false
+    end
+    if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
+        return false
+    end
+
+end
+return true
+
+
+
+
+end
+
+
+function  IsPieTi(bh,bl)
+if (bl ~= 1 and bl~=2) then return end
+local bd0_loose_angel_max_threshold = 80    --ËÉÆÀÅĞÊ±±Ê¶Î0Æ«ÒÆÊúÖ±·½Ïò×î´óµÄ½Ç¶È
+local bd0_loose_angel_min_threshold = 10    --ËÉÆÀÅĞÊ±±Ê¶Î0Æ«ÒÆÊúÖ±·½Ïò×îĞ¡µÄ½Ç¶È [bd0_angel_min,bd0_ngel_max]
+
+local bd0_tight_angel_max_threshold = 60     --½ôÆÀÅĞÊ±bd0Æ«ÀëË®Æ½·½ÏòµÄ×î´ó½Ç¶È
+local bd0_tight_angel_min_threshold = 20     --½ôÆÀÅĞÊ±bd0Æ«ÀëË®Æ½·½ÏòµÄ×îĞ¡½Ç¶È
+
+
+local bd1_loose_angel_min_threshold = 3     --ËÉÆÀÅĞÊ±±Ê¶Î1Æ«ÒÆË®Æ½·½Ïò×î´óµÄ½Ç¶È
+local bd1_tight_angel_min_threshold = 5     --½ôÆÀÅĞÊ±bd1Æ«ÀëË®Æ½·½ÏòµÄ×îĞ¡µÄ½Ç¶È
+
+local loose_dis_max_threshold = 40      --ËÉÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local tight_dis_max_threshold = 20      --½ôÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local loose_angel_max_threshold = 60    --ËÉÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+local tight_angel_max_threshold = 45    --½ôÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+
+
+local bd0_1_loose_angel_max_threshold = 85  --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_loose_angel_min_threshold =30    --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd0_1_tight_angel_max_threshold = 70  --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_tight_angel_min_threshold =40    --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd0_1_loose_lenratio_max_threshold = 5    --ËÉÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×î´óÖµ
+local bd0_1_loose_lenratio_min_threshold = 1/5  --ËÉÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×îĞ¡Öµ
+local bd0_1_tight_lenratio_max_threshold = 3  --½ôÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×î´óÖµ
+local bd0_1_tight_lenratio_min_threshold = 1/3  --½ôÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×îĞ¡Öµ
+
+local startpt = GetStartPoint(bh)
+local endpt = GetEndPoint(bh)
+
+if (startpt.y > endpt.y ) then
+return false
+end
+
+local spt_ept_line = GetLine(startpt,endpt)
+local turning_pt,turning_index = GetFarthestPt2Line(bh,spt_ept_line)
+if (turning_pt.x > startpt.x or turning_pt.x > endpt.x or turning_pt.y < startpt.y ) then
+return false
+end
+
+if (endpt.y - turning_pt.y > 3) then
+return false
+end
+
+local bd0 = GetTempBD(bh,1,turning_index)
+local line0 = GetLine(startpt,turning_pt)
+local dis0 = GetFarDis2Line(bd0,line0)
+local len_bd0 = GetBDLen(bd0)
+
+local bd1 = GetTempBD(bh,turning_index,#bh.ptSet)
+local line1 = GetLine(turning_pt,endpt)
+local dis1 = GetFarDis2Line(bd1,line1)
+local len_bd1 = GetBDLen(bd1)
+
+local angel0 = 90
+if (turning_pt.y ~= startpt.y) then
+local slope0 = (turning_pt.x -  startpt.x)/(turning_pt.y - startpt.y)
+angel0 = math.deg(math.atan(slope0))
+end
+angel0 = math.abs(angel0)
+
+
+local angel1 = 90
+if (endpt.x ~= turning_pt.x) then
+local slope1 = (endpt.y - turning_pt.y) / (endpt.x - turning_pt.x)
+angel1 = math.deg ( math.atan(slope1))
+end
+angel1 = math.abs(angel1)
+
+local bd0_bd1_angel = 0
+bd0_bd1_angel = Cal_Angle (startpt,turning_pt,endpt)
+
+if (bl == 1) then
+    if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold) then
+        return false
+    end
+    if (angel0 > bd0_loose_angel_max_threshold) then
+        return false
+    end
+
+    if (angel0 < bd0_loose_angel_min_threshold or angel1 < bd1_loose_angel_min_threshold ) then
+        return false
+    end
+
+    if (len_bd0 / len_bd1 > bd0_1_loose_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_loose_lenratio_min_threshold ) then
+        return false
+    end
+    if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
+        return false
+    end
+end
+
+if (bl == 2) then
+    if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold) then
+        return false
+    end
+    if (angel0 > bd0_tight_angel_max_threshold ) then
+        return false
+    end
+
+    if (angel0 < bd0_tight_angel_min_threshold or angel1 < bd1_tight_angel_min_threshold ) then
+        return false
+    end
+    if (len_bd0 / len_bd1 > bd0_1_tight_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_tight_lenratio_min_threshold ) then
+        return false
+    end
+    if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
+        return false
+    end
+
+end
+return true
+
+
+
+
+end
+
+function  IsPieDian(bh,bl)
+if (bl ~= 1 and bl~=2) then return end
+
+local loose_dis_max_threshold = 40      --ËÉÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local loose_angel_max_threshold = 30    --ËÉÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+local tight_dis_max_threshold = 20      --½ôÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local tight_angel_max_threshold = 15     --½ôÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+
+
+local bd0_1_loose_angel_max_threshold = 150   --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_loose_angel_min_threshold = 60    --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+
+local bd0_1_tight_angel_max_threshold = 120   --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_tight_angel_min_threshold = 45    --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+
+local bd0_1_lenratio_max_threshold = 3    --½ôÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×î´óÖµ
+local bd0_1_lenratio_min_threshold = 1/3  --½ôÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×îĞ¡Öµ
+
+local startpt,startindex = GetTopMostPoint(bh)
+local endpt,endindex = GetBottomMostPoint(bh)
+local spt_ept_line = GetLine(startpt,endpt)
+local turning_pt,turning_index = GetFarthestPt2Line(bh,spt_ept_line)
+if(turning_pt.x > startpt.x or turning_pt.x > endpt.x) then
+    return false
+end
+
+if (startindex > endindex) then
+    return false
+end
+
+
+
+local bd0 = GetTempBD(bh,startindex,turning_index)
+local line0 = GetLine(startpt,turning_pt)
+local dis0 = GetFarDis2Line(bd0,line0)
+local len_bd0 = GetBDLen(bd0)
+
+
+local bd1 = GetTempBD(bh,turning_index,endindex)
+local line1 = GetLine(turning_pt,endpt)
+local dis1 = GetFarDis2Line(bd1,line1)
+local len_bd1 = GetBDLen(bd1)
+
+
+local bd0_bd1_angel = 0
+bd0_bd1_angel = Cal_Angle (startpt,turning_pt,endpt)
+if (bl == 1) then
+    if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold) then
+        return false
+    end
+    if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
+        return false
+    end
+end
+
+if (bl == 2) then
+    if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold) then
+        return false
+    end
+    if (len_bd0 / len_bd1 > bd0_1_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_lenratio_min_threshold ) then
+        return false
+    end
+    if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
+        return false
+    end
+
+end
+return true
+
+end
+
+
+function  IsHengZhe(bh,bl)
+if (bl ~= 1 and bl~=2) then return end
+local loose_dis_max_threshold = 40      --ËÉÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local tight_dis_max_threshold = 20      --½ôÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+
+local loose_angel_max_threshold = 30    --ËÉÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+local tight_angel_max_threshold = 15     --½ôÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+
+local loose_jitter_max_threshold = 1/5  --ËÉÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+local tight_jitter_max_threshold = 1/10 --½ôÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+
+
+local bd0_1_loose_angel_max_threshold = 120  --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_loose_angel_min_threshold =50    --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd0_1_tight_angel_max_threshold = 100  --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_tight_angel_min_threshold =60    --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd0_1_loose_lenratio_max_threshold = 5    --ËÉÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×î´óÖµ
+local bd0_1_loose_lenratio_min_threshold = 1/5  --ËÉÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×îĞ¡Öµ
+local bd0_1_tight_lenratio_max_threshold = 3  --½ôÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×î´óÖµ
+local bd0_1_tight_lenratio_min_threshold = 1/3  --½ôÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×îĞ¡Öµ
+
+local startpt,startindex = GetLeftMostPoint(bh)
+local endpt,endindex = GetBottomMostPoint(bh)
+
+if (startindex > endindex) then
+return false
+end
+
+local spt_ept_line = GetLine(startpt,endpt)
+local finalbh = GetTempBD(bh,startindex,endindex)
+local turning_pt,turning_index = GetFarthestPt2Line(bh,spt_ept_line)
+if (Point2LineUp(turning_pt,spt_ept_line) == false) then
+return false
+end
+
+local bd0 = GetTempBD(bh,startindex,turning_index)
+local line0 = GetLine(startpt,turning_pt)
+local dis0 = GetFarDis2Line(bd0,line0)
+local bd0_jitter = GetTempBD(bh,1,startindex)
+local len_bd0 = GetBDLen(bd0)
+local len_bd0_jitter = GetBDLen(bd0_jitter)
+
+
+local bd1 = GetTempBD(bh,turning_index,endindex)
+local line1 = GetLine(turning_pt,endpt)
+local dis1 = GetFarDis2Line(bd1,line1)
+local bd1_jitter = GetTempBD(bh,endindex,#bh.ptSet)
+local len_bd1 = GetBDLen(bd1)
+local len_bd1_jitter = GetBDLen(bd1_jitter)
+
+local angel0 = 90
+if (turning_pt.x ~= startpt.x) then
+local slope0 = (turning_pt.y -  startpt.y)/(turning_pt.x - startpt.x)
+angel0 = math.deg(math.atan(slope0))
+end
+angel0 = math.abs(angel0)
+
+
+local angel1 = 90
+if (endpt.y ~= turning_pt.y) then
+local slope1 = (endpt.x - turning_pt.x) / (endpt.y - turning_pt.y)
+angel1 = math.deg ( math.atan(slope1))
+end
+angel1 = math.abs(angel1)
+
+
+local bd0_bd1_angel = 0
+bd0_bd1_angel = Cal_Angle (startpt,turning_pt,endpt)
+
+if (bl == 1) then
+    if (len_bd0_jitter/len_bd0 > loose_jitter_max_threshold or len_bd1_jitter/len_bd1 > loose_jitter_max_threshold )  then
+        return false
+    end
+    if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold) then
+        return false
+    end
+    if (angel0 > loose_angel_max_threshold or angel1 > loose_angel_max_threshold) then
+        return false
+    end
+    if (len_bd0 / len_bd1 > bd0_1_loose_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_loose_lenratio_min_threshold ) then
+        return false
+    end
+    if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
+        return false
+    end
+end
+
+if (bl == 2) then
+    if (len_bd0_jitter/len_bd0 > tight_jitter_max_threshold or len_bd1_jitter/len_bd1 > tight_jitter_max_threshold )  then
+        return false
+    end
+    if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold) then
+        return false
+    end
+    if (angel0 > tight_angel_max_threshold or angel1 > tight_angel_max_threshold) then
+        return false
+    end
+    if (len_bd0 / len_bd1 > bd0_1_tight_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_tight_lenratio_min_threshold ) then
+        return false
+    end
+    if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
+        return false
+    end
+
+end
+return true
+
+
+end
+
+
+function  IsHengZheWan(bh,bl)
+if (bl ~= 1 and bl~=2) then return end
+local loose_dis_max_threshold = 40      --ËÉÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local tight_dis_max_threshold = 20      --½ôÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+
+local loose_angel_max_threshold = 30    --ËÉÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+local tight_angel_max_threshold = 15     --½ôÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+
+local loose_jitter_max_threshold = 1/5  --ËÉÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+local tight_jitter_max_threshold = 1/10 --½ôÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+
+local bd0_1_loose_angel_max_threshold = 120      --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ(bd0-1ºÍbd1-2ãĞÖµÏàÍ¬)
+local bd0_1_loose_angel_min_threshold =50        --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd0_1_tight_angel_max_threshold = 100      --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_tight_angel_min_threshold =60        --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd0_1_loose_lenratio_max_threshold = 5     --ËÉÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×î´óÖµ
+local bd0_1_loose_lenratio_min_threshold = 1/5   --ËÉÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×îĞ¡Öµ
+local bd0_1_tight_lenratio_max_threshold = 3     --½ôÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×î´óÖµ
+local bd0_1_tight_lenratio_min_threshold = 1/3   --½ôÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×îĞ¡Öµ
+
+local startpt,startindex = GetLeftMostPoint(bh)
+local endpt = GetEndPoint(bh)
+local endindex = #bh.ptSet
+
+if (startindex > endindex) then
+return false
+end
+
+local vpt = {}
+vpt.x = endpt.x
+vpt.y = startpt.y
+local turning_index_0 = 1
+local temp = 90
+for i = 1, #bh.ptSet do
+    local cpt = bh.ptSet[i]
+    local angel = 0
+    if (cpt.y == endpt.y) then
+	angel = 90
+    else
+	angel = Cal_Angle (cpt,endpt,vpt)
+    end
+    if (angel < temp) then
+        temp = angel
+        turning_index_0  = i
+    end
+end
+
+local turning_pt_0  = bh.ptSet[turning_index_0 ]
+local bd0 = GetTempBD(bh,startindex,turning_index_0 )
+local line0 = GetLine(startpt,turning_pt_0)
+local dis0 = GetFarDis2Line(bd0,line0)
+local bd0_jitter = GetTempBD(bh,1,startindex)
+local len_bd0 = GetBDLen(bd0)
+local len_bd0_jitter = GetBDLen(bd0_jitter)
+
+
+vpt.x = startpt.x
+vpt.y = endpt.y
+temp = 90
+local turning_index_1 = 1
+for i = 1,#bh.ptSet do
+    local cpt = bh.ptSet[i]
+    local angel = 0
+    if (cpt.y == startpt.y) then
+        angel = 90
+    else
+        angel = Cal_Angle(cpt,startpt,vpt)
+    end
+    if (angel < temp) then
+        temp = angel
+        turning_index_1= i
+    end
+end
+
+local turning_pt_1 = bh.ptSet[turning_index_1]
+local bd1 = GetTempBD(bh,turning_index_0,turning_index_1)
+local line1 = GetLine(turning_pt_0,turning_pt_1)
+local dis1 = GetFarDis2Line(bd1,line1)
+local len_bd1 = GetBDLen(bd1)
+
+local bd2 = GetTempBD(bh,turning_index_1,endindex)
+local line2 = GetLine(turning_pt_1,endpt)
+local dis2 = GetFarDis2Line(bd2,line2)
+local len_bd2 = GetBDLen(bd2)
+
+if(startpt.x > turning_pt_0.x or turning_pt_0.y > turning_pt_1.y or turning_pt_1.x > endpt.x ) then
+return false
+end
+
+local angel0 = 90
+if (turning_pt_0.x ~= startpt.x) then
+local slope0 = (turning_pt_0.y -  startpt.y)/(turning_pt_0.x - startpt.x)
+angel0 = math.deg(math.atan(slope0))
+end
+angel0 = math.abs(angel0)
+
+local angel1 = 90
+if (turning_pt_1.y ~= turning_pt_0.y) then
+local slope1 = (turning_pt_1.x - turning_pt_0.x) / (turning_pt_1.y - turning_pt_0.y)
+angel1 = math.deg ( math.atan(slope1))
+end
+angel1 = math.abs(angel1)
+
+local angel2 = 90
+if (endpt.x ~= turning_pt_1.x) then
+local slope2 = (endpt.y -  turning_pt_1.y)/(endpt.x - turning_pt_1.x)
+angel2 = math.deg(math.atan(slope2))
+end
+angel2 = math.abs(angel2)
+
+local bd0_bd1_angel = 0
+bd0_bd1_angel = Cal_Angle (startpt,turning_pt_0,turning_pt_1)
+local bd1_bd2_angel = 0
+bd1_bd2_angel = Cal_Angle (turning_pt_0,turning_pt_1,endpt)
+
+if (bl == 1) then
+    if (len_bd0_jitter/len_bd0 > loose_jitter_max_threshold )  then
+        return false
+    end
+    if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold or dis2 > loose_dis_max_threshold) then
+        return false
+    end
+    if (angel0 > loose_angel_max_threshold or angel1 > loose_angel_max_threshold or angel2 > loose_angel_max_threshold) then
+        return false
+    end
+    if (len_bd0 / len_bd1 > bd0_1_loose_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_loose_lenratio_min_threshold ) then
+        return false
+    end
+    if (len_bd1 / len_bd2 > bd0_1_loose_lenratio_max_threshold  or len_bd1/len_bd2 <bd0_1_loose_lenratio_min_threshold ) then
+        return false
+    end
+    if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
+        return false
+    end
+    if (bd1_bd2_angel > bd0_1_loose_angel_max_threshold or bd1_bd2_angel < bd0_1_loose_angel_min_threshold ) then
+        return false
+    end
+
+end
+
+if (bl == 2) then
+    if (len_bd0_jitter/len_bd0 > tight_jitter_max_threshold )  then
+        return false
+    end
+    if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold or dis2 > tight_dis_max_threshold) then
+        return false
+    end
+    if (angel0 > tight_angel_max_threshold or angel1 > tight_angel_max_threshold or angel2 > tight_angel_max_threshold) then
+        return false
+    end
+    if (len_bd0 / len_bd1 > bd0_1_tight_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_tight_lenratio_min_threshold ) then
+        return false
+    end
+    if (len_bd1 / len_bd2 > bd0_1_tight_lenratio_max_threshold  or len_bd1/len_bd2 <bd0_1_tight_lenratio_min_threshold ) then
+        return false
+    end
+    if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
+        return false
+    end
+    if (bd1_bd2_angel > bd0_1_tight_angel_max_threshold or bd1_bd2_angel < bd0_1_tight_angel_min_threshold ) then
+        return false
+    end
+
+end
+return true
+
+
+end
+
+
+
+function  IsHengZhe(bh,bl)
+if (bl ~= 1 and bl~=2) then return end
+local loose_dis_max_threshold = 40      --ËÉÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local tight_dis_max_threshold = 20      --½ôÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+
+local loose_angel_max_threshold = 30    --ËÉÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+local tight_angel_max_threshold = 15     --½ôÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+
+local loose_jitter_max_threshold = 1/5  --ËÉÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+local tight_jitter_max_threshold = 1/10 --½ôÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+
+
+local bd0_1_loose_angel_max_threshold = 120  --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_loose_angel_min_threshold = 50    --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd0_1_tight_angel_max_threshold = 100  --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_tight_angel_min_threshold =60    --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd0_1_loose_lenratio_max_threshold = 5    --ËÉÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×î´óÖµ
+local bd0_1_loose_lenratio_min_threshold = 1/5  --ËÉÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×îĞ¡Öµ
+local bd0_1_tight_lenratio_max_threshold = 3  --½ôÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×î´óÖµ
+local bd0_1_tight_lenratio_min_threshold = 1/3  --½ôÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×îĞ¡Öµ
+
+local startpt,startindex = GetLeftMostPoint(bh)
+local endpt,endindex = GetBottomMostPoint(bh)
+
+if (startindex > endindex) then
+return false
+end
+
+local spt_ept_line = GetLine(startpt,endpt)
+local finalbh = GetTempBD(bh,startindex,endindex)
+local turning_pt,turning_index = GetFarthestPt2Line(bh,spt_ept_line)
+if (Point2LineUp(turning_pt,spt_ept_line) == false) then
+return false
+end
+
+local bd0 = GetTempBD(bh,startindex,turning_index)
+local line0 = GetLine(startpt,turning_pt)
+local dis0 = GetFarDis2Line(bd0,line0)
+local bd0_jitter = GetTempBD(bh,1,startindex)
+local len_bd0 = GetBDLen(bd0)
+local len_bd0_jitter = GetBDLen(bd0_jitter)
+
+
+local bd1 = GetTempBD(bh,turning_index,endindex)
+local line1 = GetLine(turning_pt,endpt)
+local dis1 = GetFarDis2Line(bd1,line1)
+local bd1_jitter = GetTempBD(bh,endindex,#bh.ptSet)
+local len_bd1 = GetBDLen(bd1)
+local len_bd1_jitter = GetBDLen(bd1_jitter)
+
+local angel0 = 90
+if (turning_pt.x ~= startpt.x) then
+local slope0 = (turning_pt.y -  startpt.y)/(turning_pt.x - startpt.x)
+angel0 = math.deg(math.atan(slope0))
+end
+angel0 = math.abs(angel0)
+
+
+local angel1 = 90
+if (endpt.y ~= turning_pt.y) then
+local slope1 = (endpt.x - turning_pt.x) / (endpt.y - turning_pt.y)
+angel1 = math.deg ( math.atan(slope1))
+end
+angel1 = math.abs(angel1)
+
+
+local bd0_bd1_angel = 0
+bd0_bd1_angel = Cal_Angle (startpt,turning_pt,endpt)
+
+if (bl == 1) then
+    if (len_bd0_jitter/len_bd0 > loose_jitter_max_threshold or len_bd1_jitter/len_bd1 > loose_jitter_max_threshold )  then
+        return false
+    end
+    if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold) then
+        return false
+    end
+    if (angel0 > loose_angel_max_threshold or angel1 > loose_angel_max_threshold) then
+        return false
+    end
+    if (len_bd0 / len_bd1 > bd0_1_loose_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_loose_lenratio_min_threshold ) then
+        return false
+    end
+    if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
+        return false
+    end
+end
+
+if (bl == 2) then
+    if (len_bd0_jitter/len_bd0 > tight_jitter_max_threshold or len_bd1_jitter/len_bd1 > tight_jitter_max_threshold )  then
+        return false
+    end
+    if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold) then
+        return false
+    end
+    if (angel0 > tight_angel_max_threshold or angel1 > tight_angel_max_threshold) then
+        return false
+    end
+    if (len_bd0 / len_bd1 > bd0_1_tight_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_tight_lenratio_min_threshold ) then
+        return false
+    end
+    if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
+        return false
+    end
+
+end
+return true
+
+
+end
+
+
+
+function  IsHengZheZhe(bh,bl)
+if (bl ~= 1 and bl~=2) then return end
+
+local loose_dis_max_threshold = 40      --ËÉÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local tight_dis_max_threshold = 20      --½ôÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+
+local loose_angel_max_threshold = 30    --ËÉÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+local tight_angel_max_threshold = 15     --½ôÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+
+local loose_jitter_max_threshold = 1/5  --ËÉÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+local tight_jitter_max_threshold = 1/10 --½ôÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+
+local bd0_1_loose_angel_max_threshold = 120      --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ(bd0-1ºÍbd1-2ãĞÖµÏàÍ¬)
+local bd0_1_loose_angel_min_threshold = 50        --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd0_1_tight_angel_max_threshold = 100      --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_tight_angel_min_threshold =60        --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd0_1_loose_lenratio_max_threshold = 5     --ËÉÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×î´óÖµ
+local bd0_1_loose_lenratio_min_threshold = 1/5   --ËÉÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×îĞ¡Öµ
+local bd0_1_tight_lenratio_max_threshold = 3     --½ôÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×î´óÖµ
+local bd0_1_tight_lenratio_min_threshold = 1/3   --½ôÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×îĞ¡Öµ
+
+local startpt,startindex = GetLeftMostPoint(bh)
+local endpt = GetEndPoint(bh)
+local endindex = #bh.ptSet
+
+if (startindex > endindex) then
+return false
+end
+
+local vpt = {}
+vpt.x = endpt.x
+vpt.y = startpt.y
+local turning_index_0 = 1
+local temp = 90
+for i = 1, #bh.ptSet do
+    local cpt = bh.ptSet[i]
+    local angel = 0
+    if (cpt.y == endpt.y) then
+	angel = 90
+    else
+	angel = Cal_Angle (cpt,endpt,vpt)
+    end
+    if (angel < temp) then
+        temp = angel
+        turning_index_0  = i
+    end
+end
+
+local turning_pt_0  = bh.ptSet[turning_index_0 ]
+local bd0 = GetTempBD(bh,startindex,turning_index_0 )
+local line0 = GetLine(startpt,turning_pt_0)
+local dis0 = GetFarDis2Line(bd0,line0)
+local bd0_jitter = GetTempBD(bh,1,startindex)
+local len_bd0 = GetBDLen(bd0)
+local len_bd0_jitter = GetBDLen(bd0_jitter)
+
+
+vpt.x = startpt.x
+vpt.y = endpt.y
+temp = 90
+local turning_index_1 = 1
+for i = 1,#bh.ptSet do
+    local cpt = bh.ptSet[i]
+    local angel = 0
+    if (cpt.y == startpt.y) then
+        angel = 90
+    else
+        angel = Cal_Angle(cpt,startpt,vpt)
+    end
+    if (angel < temp) then
+        temp = angel
+        turning_index_1= i
+    end
+end
+
+local turning_pt_1 = bh.ptSet[turning_index_1]
+local bd1 = GetTempBD(bh,turning_index_0,turning_index_1)
+local line1 = GetLine(turning_pt_0,turning_pt_1)
+local dis1 = GetFarDis2Line(bd1,line1)
+local len_bd1 = GetBDLen(bd1)
+
+local bd2 = GetTempBD(bh,turning_index_1,endindex)
+local line2 = GetLine(turning_pt_1,endpt)
+local dis2 = GetFarDis2Line(bd2,line2)
+local len_bd2 = GetBDLen(bd2)
+
+if(startpt.x > turning_pt_0.x or turning_pt_0.y > turning_pt_1.y or turning_pt_1.x > endpt.x ) then
+return false
+end
+
+local angel0 = 90
+if (turning_pt_0.x ~= startpt.x) then
+local slope0 = (turning_pt_0.y -  startpt.y)/(turning_pt_0.x - startpt.x)
+angel0 = math.deg(math.atan(slope0))
+end
+angel0 = math.abs(angel0)
+
+local angel1 = 90
+if (turning_pt_1.y ~= turning_pt_0.y) then
+local slope1 = (turning_pt_1.x - turning_pt_0.x) / (turning_pt_1.y - turning_pt_0.y)
+angel1 = math.deg ( math.atan(slope1))
+end
+angel1 = math.abs(angel1)
+
+local angel2 = 90
+if (endpt.x ~= turning_pt_1.x) then
+local slope2 = (endpt.y -  turning_pt_1.y)/(endpt.x - turning_pt_1.x)
+angel2 = math.deg(math.atan(slope2))
+end
+angel2 = math.abs(angel2)
+
+local bd0_bd1_angel = 0
+bd0_bd1_angel = Cal_Angle (startpt,turning_pt_0,turning_pt_1)
+local bd1_bd2_angel = 0
+bd1_bd2_angel = Cal_Angle (turning_pt_0,turning_pt_1,endpt)
+
+if (bl == 1) then
+    if (len_bd0_jitter/len_bd0 > loose_jitter_max_threshold )  then
+        return false
+    end
+    if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold or dis2 > loose_dis_max_threshold) then
+        return false
+    end
+    if (angel0 > loose_angel_max_threshold or angel1 > loose_angel_max_threshold or angel2 > loose_angel_max_threshold) then
+        return false
+    end
+    if (len_bd0 / len_bd1 > bd0_1_loose_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_loose_lenratio_min_threshold ) then
+        return false
+    end
+    if (len_bd1 / len_bd2 > bd0_1_loose_lenratio_max_threshold  or len_bd1/len_bd2 <bd0_1_loose_lenratio_min_threshold ) then
+        return false
+    end
+    if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
+        return false
+    end
+    if (bd1_bd2_angel > bd0_1_loose_angel_max_threshold or bd1_bd2_angel < bd0_1_loose_angel_min_threshold ) then
+        return false
+    end
+
+end
+
+if (bl == 2) then
+    if (len_bd0_jitter/len_bd0 > tight_jitter_max_threshold )  then
+        return false
+    end
+    if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold or dis2 > tight_dis_max_threshold) then
+        return false
+    end
+    if (angel0 > tight_angel_max_threshold or angel1 > tight_angel_max_threshold or angel2 > tight_angel_max_threshold) then
+        return false
+    end
+    if (len_bd0 / len_bd1 > bd0_1_tight_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_tight_lenratio_min_threshold ) then
+        return false
+    end
+    if (len_bd1 / len_bd2 > bd0_1_tight_lenratio_max_threshold  or len_bd1/len_bd2 <bd0_1_tight_lenratio_min_threshold ) then
+        return false
+    end
+    if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
+        return false
+    end
+    if (bd1_bd2_angel > bd0_1_tight_angel_max_threshold or bd1_bd2_angel < bd0_1_tight_angel_min_threshold ) then
+        return false
+    end
+
+end
+return true
+
+
+end
+
+function  IsHengZheTi(bh,bl)
+if (bl ~= 1 and bl~=2) then return end
+
+local loose_dis_max_threshold = 40      --ËÉÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local tight_dis_max_threshold = 20      --½ôÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+
+local loose_angel_max_threshold = 30    --ËÉÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+local tight_angel_max_threshold = 15     --½ôÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+
+local loose_jitter_max_threshold = 1/5  --ËÉÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+local tight_jitter_max_threshold = 1/10 --½ôÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+
+
+local bd0_1_loose_angel_max_threshold = 120  --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_loose_angel_min_threshold =50    --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd0_1_tight_angel_max_threshold = 100  --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_tight_angel_min_threshold =60    --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+
+local bd1_2_loose_angel_max_threshold = 80  --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd1_2_loose_angel_min_threshold = 10    --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd1_2_tight_angel_max_threshold = 70  --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd1_2_tight_angel_min_threshold = 20    --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+
+local bd0_1_loose_lenratio_max_threshold = 2    --ËÉÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×î´óÖµ
+local bd0_1_tight_lenratio_max_threshold = 2  --½ôÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×î´óÖµ
+local bd0_1_tight_lenratio_min_threshold = 1/5  --½ôÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×îĞ¡Öµ
+
+
+local startpt,startindex = GetLeftMostPoint(bh)
+local endpt = GetEndPoint(bh)
+local endindex = #bh.ptSet
+local turning_pt_1,turning_index_1 = GetBottomMostPoint(bh)
+
+
+local spt_tpt1_line = GetLine(startpt,turning_pt_1)
+local spt_tpt1_bd = GetTempBD(bh,1,turning_index_1)
+local turning_pt_0,turning_index_0 = GetFarthestPt2Line(spt_tpt1_bd,spt_tpt1_line)
+
+
+
+local bd0 = GetTempBD(bh,startindex,turning_index_0)
+local line0 = GetLine(startpt,turning_pt_0)
+local dis0 = GetFarDis2Line(bd0,line0)
+local bd0_jitter = GetTempBD(bh,1,startindex)
+local len_bd0 = GetBDLen(bd0)
+local len_bd0_jitter = GetBDLen(bd0_jitter)
+
+
+local bd1 = GetTempBD(bh,turning_index_0,turning_index_1)
+local line1 = GetLine(turning_pt_0,turning_pt_1)
+local dis1 = GetFarDis2Line(bd1,line1)
+local len_bd1 = GetBDLen(bd1)
+
+
+
+local bd2 = GetTempBD(bh,turning_index_1,endindex)
+local line2 = GetLine(turning_pt_1,endpt)
+local dis2 = GetFarDis2Line(bd2,line2)
+local len_bd2 = GetBDLen(bd2)
+
+
+if ( endpt.x < turning_pt_1.x ) then
+return false
+end
+
+
+
+local angel0 = 90
+if (turning_pt_0.x ~= startpt.x) then
+local slope0 = (turning_pt_0.y -  startpt.y)/(turning_pt_0.x - startpt.x)
+angel0 = math.deg(math.atan(slope0))
+end
+angel0 = math.abs(angel0)
+
+
+local angel1 = 90
+if (turning_pt_1.y ~= turning_pt_0.y) then
+local slope1 = (turning_pt_1.x - turning_pt_0.x) / (turning_pt_1.y - turning_pt_0.y)
+angel1 = math.deg ( math.atan(slope1))
+end
+angel1 = math.abs(angel1)
+
+
+local bd0_bd1_angel = 0
+bd0_bd1_angel = Cal_Angle (startpt,turning_pt_0,turning_pt_1)
+
+
+local bd1_bd2_angel = 0
+bd1_bd2_angel = Cal_Angle(turning_pt_0,turning_pt_1,endpt)
+
+
+
+
+
+if (bl == 1) then
+    if (len_bd0_jitter/len_bd0 > loose_jitter_max_threshold)  then
+        return false
+    end
+    if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold or dis2 > loose_dis_max_threshold) then
+        return false
+    end
+    if (angel0 > loose_angel_max_threshold or angel1 > loose_angel_max_threshold) then
+        return false
+    end
+    if (len_bd0 / len_bd1 > bd0_1_loose_lenratio_max_threshold ) then
+        return false
+    end
+    if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
+        return false
+    end
+
+    if (bd1_bd2_angel > bd1_2_loose_angel_max_threshold or bd1_bd2_angel < bd1_2_loose_angel_min_threshold ) then
+        return false
+    end
+end
+
+if (bl == 2) then
+    if (len_bd0_jitter/len_bd0 > tight_jitter_max_threshold )  then
+        return false
+    end
+    if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold or dis2 > tight_dis_max_threshold) then
+        return false
+    end
+    if (angel0 > tight_angel_max_threshold or angel1 > tight_angel_max_threshold) then
+        return false
+    end
+    if (len_bd0 / len_bd1 > bd0_1_tight_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_tight_lenratio_min_threshold ) then
+        return false
+    end
+    if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
+        return false
+    end
+    if (bd1_bd2_angel > bd1_2_tight_angel_max_threshold or bd1_bd2_angel < bd1_2_tight_angel_min_threshold ) then
+        return false
+    end
+end
+
+return true
+
+end
+
+
+function  IsHengZheWanGou(bh,bl)
+if (bl ~= 1 and bl~=2) then return end
+
+local loose_dis_max_threshold = 40      --ËÉÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local tight_dis_max_threshold = 20      --½ôÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+
+local loose_angel_max_threshold = 30    --ËÉÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+local tight_angel_max_threshold = 15     --½ôÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+
+local loose_jitter_max_threshold = 1/5  --ËÉÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+local tight_jitter_max_threshold = 1/10 --½ôÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+
+local bd0_1_loose_angel_max_threshold = 120      --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ(bd0-1ºÍbd1-2ãĞÖµÏàÍ¬)
+local bd0_1_loose_angel_min_threshold = 50        --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd0_1_tight_angel_max_threshold = 100      --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_tight_angel_min_threshold =60        --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd0_1_loose_lenratio_max_threshold = 5     --ËÉÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×î´óÖµ
+local bd0_1_loose_lenratio_min_threshold = 1/5   --ËÉÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×îĞ¡Öµ
+local bd0_1_tight_lenratio_max_threshold = 3     --½ôÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×î´óÖµ
+local bd0_1_tight_lenratio_min_threshold = 1/3   --½ôÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×îĞ¡Öµ
+
+local startpt,startindex = GetLeftMostPoint(bh)
+local endpt = GetEndPoint(bh)
+local endindex = #bh.ptSet
+
+if (startindex > endindex) then
+return false
+end
+
+--ÏÈÕÒµ½×îºóÒ»¸ö¹Õµã
+local tempdis = 512
+local turning_index_2 = 1
+local edget = {}
+edget.x = 512
+edget.y = 512
+
+for i = 1, #bh.ptSet do
+    local curpt = bh.ptSet[i]
+    local curdis =  GetDistance(curpt,edget)
+    if (curdis < tempdis) then
+         tempdis = curdis
+         turning_index_2 = i
+    end
+end
+local turning_pt_2 = bh.ptSet[turning_index_2]
+
+local bd3 = GetTempBD(bh,turning_index_2,endindex)
+local line3 = GetLine(turning_pt_2,endpt)
+local dis3 = GetFarDis2Line(bd3,line3)
+local len_bd3 = GetBDLen(bd3)
+if (len_bd3 < 5) then
+return false
+end
+
+local vpt = {}
+vpt.x = endpt.x
+vpt.y = startpt.y
+local turning_index_0 = 1
+local temp = 90
+for i = 1, turning_index_2 do
+    local cpt = bh.ptSet[i]
+    local angel = 0
+    if (cpt.y == turning_pt_2.y) then
+	angel = 90
+    else
+	angel = Cal_Angle (cpt,turning_pt_2,vpt)
+    end
+    if (angel < temp) then
+        temp = angel
+        turning_index_0  = i
+    end
+end
+
+
+local turning_pt_0  = bh.ptSet[turning_index_0 ]
+local bd0 = GetTempBD(bh,startindex,turning_index_0 )
+local line0 = GetLine(startpt,turning_pt_0)
+local dis0 = GetFarDis2Line(bd0,line0)
+local len_bd0 = GetBDLen(bd0)
+
+
+
+
+vpt.x = startpt.x
+vpt.y = endpt.y
+temp = 90
+local turning_index_1 = 1
+for i = 1,turning_index_2 do
+    local cpt = bh.ptSet[i]
+    local angel = 0
+    if (cpt.y == startpt.y) then
+        angel = 90
+    else
+        angel = Cal_Angle(cpt,startpt,vpt)
+    end
+    if (angel < temp) then
+        temp = angel
+        turning_index_1= i
+    end
+end
+
+
+
+local turning_pt_1 = bh.ptSet[turning_index_1]
+local bd1 = GetTempBD(bh,turning_index_0,turning_index_1)
+local line1 = GetLine(turning_pt_0,turning_pt_1)
+local dis1 = GetFarDis2Line(bd1,line1)
+local len_bd1 = GetBDLen(bd1)
+
+
+
+local bd2 = GetTempBD(bh,turning_index_1,turning_index_2)
+local line2 = GetLine(turning_pt_1,turning_pt_2)
+local dis2 = GetFarDis2Line(bd2,line2)
+local len_bd2 = GetBDLen(bd2)
+
+if(startpt.x > turning_pt_0.x or turning_pt_0.y > turning_pt_1.y or turning_pt_1.x > endpt.x ) then
+return false
+end
+
+
+
+local angel0 = 90
+if (turning_pt_0.x ~= startpt.x) then
+local slope0 = (turning_pt_0.y -  startpt.y)/(turning_pt_0.x - startpt.x)
+angel0 = math.deg(math.atan(slope0))
+end
+angel0 = math.abs(angel0)
+
+local angel1 = 90
+if (turning_pt_1.y ~= turning_pt_0.y) then
+local slope1 = (turning_pt_1.x - turning_pt_0.x) / (turning_pt_1.y - turning_pt_0.y)
+angel1 = math.deg ( math.atan(slope1))
+end
+angel1 = math.abs(angel1)
+
+local angel2 = 90
+if (endpt.x ~= turning_pt_1.x) then
+local slope2 = (endpt.y -  turning_pt_1.y)/(endpt.x - turning_pt_1.x)
+angel2 = math.deg(math.atan(slope2))
+end
+angel2 = math.abs(angel2)
+
+local bd0_bd1_angel = 0
+bd0_bd1_angel = Cal_Angle (startpt,turning_pt_0,turning_pt_1)
+local bd1_bd2_angel = 0
+bd1_bd2_angel = Cal_Angle (turning_pt_0,turning_pt_1,endpt)
+
+if (bl == 1) then
+    if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold or dis2 > loose_dis_max_threshold) then
+        return false
+    end
+    if (angel0 > loose_angel_max_threshold or angel1 > loose_angel_max_threshold or angel2 > loose_angel_max_threshold) then
+       return false
+    end
+    if (len_bd0 / len_bd1 > bd0_1_loose_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_loose_lenratio_min_threshold ) then
+       return false
+    end
+    if (len_bd1 / len_bd2 > bd0_1_loose_lenratio_max_threshold  or len_bd1/len_bd2 <bd0_1_loose_lenratio_min_threshold ) then
+        return false
+    end
+    if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
+        return false
+    end
+    if (bd1_bd2_angel > bd0_1_loose_angel_max_threshold or bd1_bd2_angel < bd0_1_loose_angel_min_threshold ) then
+        return false
+    end
+end
+
+if (bl == 2) then
+    if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold or dis2 > tight_dis_max_threshold) then
+        return false
+    end
+    if (angel0 > tight_angel_max_threshold or angel1 > tight_angel_max_threshold or angel2 > tight_angel_max_threshold) then
+        return false
+    end
+    if (len_bd0 / len_bd1 > bd0_1_tight_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_tight_lenratio_min_threshold ) then
+        return false
+    end
+    if (len_bd1 / len_bd2 > bd0_1_tight_lenratio_max_threshold  or len_bd1/len_bd2 <bd0_1_tight_lenratio_min_threshold ) then
+        return false
+    end
+    if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
+        return false
+    end
+    if (bd1_bd2_angel > bd0_1_tight_angel_max_threshold or bd1_bd2_angel < bd0_1_tight_angel_min_threshold ) then
+        return false
+    end
+
+end
+return true
+
+end
+
+function  IsShuWan(bh,bl)
+if (bl ~= 1 and bl~=2) then return end
+
+local loose_dis_max_threshold = 40      --ËÉÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local tight_dis_max_threshold = 20      --½ôÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+
+local loose_angel_max_threshold = 30    --ËÉÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+local tight_angel_max_threshold = 15     --½ôÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+
+local loose_jitter_max_threshold = 1/5  --ËÉÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+local tight_jitter_max_threshold = 1/10 --½ôÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+
+
+local bd0_1_loose_angel_max_threshold = 130  --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_loose_angel_min_threshold =60    --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd0_1_tight_angel_max_threshold = 120  --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_tight_angel_min_threshold =70    --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd0_1_loose_lenratio_max_threshold = 5    --ËÉÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×î´óÖµ
+local bd0_1_loose_lenratio_min_threshold = 1/5  --ËÉÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×îĞ¡Öµ
+local bd0_1_tight_lenratio_max_threshold = 3  --½ôÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×î´óÖµ
+local bd0_1_tight_lenratio_min_threshold = 1/3  --½ôÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×îĞ¡Öµ
+
+local startpt,startindex = GetTopMostPoint(bh)
+local endpt,endindex = GetRightMostPoint(bh)
+
+if (startindex > endindex) then
+return false
+end
+
+local spt_ept_line = GetLine(startpt,endpt)
+local finalbh = GetTempBD(bh,startindex,endindex)
+local turning_pt,turning_index = GetFarthestPt2Line(bh,spt_ept_line)
+if (Point2LineDown(turning_pt,spt_ept_line) == false) then
+return false
+end
+
+local bd0 = GetTempBD(bh,startindex,turning_index)
+local line0 = GetLine(startpt,turning_pt)
+local dis0 = GetFarDis2Line(bd0,line0)
+local bd0_jitter = GetTempBD(bh,1,startindex)
+local len_bd0 = GetBDLen(bd0)
+local len_bd0_jitter = GetBDLen(bd0_jitter)
+
+
+local bd1 = GetTempBD(bh,turning_index,endindex)
+local line1 = GetLine(turning_pt,endpt)
+local dis1 = GetFarDis2Line(bd1,line1)
+local bd1_jitter = GetTempBD(bh,endindex,#bh.ptSet)
+local len_bd1 = GetBDLen(bd1)
+local len_bd1_jitter = GetBDLen(bd1_jitter)
+
+local angel0 = 90
+if (turning_pt.y ~= startpt.y) then
+local slope0 = (turning_pt.x -  startpt.x)/(turning_pt.y - startpt.y)
+angel0 = math.deg(math.atan(slope0))
+end
+angel0 = math.abs(angel0)
+
+
+local angel1 = 90
+if (endpt.x ~= turning_pt.x) then
+local slope1 = (endpt.y - turning_pt.y) / (endpt.x - turning_pt.x)
+angel1 = math.deg ( math.atan(slope1))
+end
+angel1 = math.abs(angel1)
+
+
+local bd0_bd1_angel = 0
+bd0_bd1_angel = Cal_Angle (startpt,turning_pt,endpt)
+if (bl == 1) then
+    if (len_bd0_jitter/len_bd0 > loose_jitter_max_threshold or len_bd1_jitter/len_bd1 > loose_jitter_max_threshold )  then
+        return false
+    end
+    if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold) then
+        return false
+    end
+    if (angel0 > loose_angel_max_threshold or angel1 > loose_angel_max_threshold) then
+        return false
+    end
+    if (len_bd0 / len_bd1 > bd0_1_loose_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_loose_lenratio_min_threshold ) then
+        return false
+    end
+    if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
+        return false
+    end
+end
+
+if (bl == 2) then
+    if (len_bd0_jitter/len_bd0 > tight_jitter_max_threshold or len_bd1_jitter/len_bd1 > tight_jitter_max_threshold )  then
+        return false
+    end
+    if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold) then
+        return false
+    end
+    if (angel0 > tight_angel_max_threshold or angel1 > tight_angel_max_threshold) then
+        return false
+    end
+    if (len_bd0 / len_bd1 > bd0_1_tight_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_tight_lenratio_min_threshold ) then
+        return false
+    end
+    if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
+        return false
+    end
+end
+return true
+
+end
+
+
+
+function  IsShuZheZhe(bh,bl)
+if (bl ~= 1 and bl~=2) then return end
+local loose_dis_max_threshold = 40      --ËÉÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local tight_dis_max_threshold = 20      --½ôÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+
+local loose_angel_max_threshold = 30    --ËÉÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+local tight_angel_max_threshold = 15     --½ôÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+
+local loose_jitter_max_threshold = 1/5  --ËÉÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+local tight_jitter_max_threshold = 1/10 --½ôÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+
+local bd0_1_loose_angel_max_threshold = 130  --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_loose_angel_min_threshold =45    --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd0_1_tight_angel_max_threshold = 120  --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_tight_angel_min_threshold =70    --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd0_1_loose_lenratio_max_threshold = 5    --ËÉÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×î´óÖµ
+local bd0_1_loose_lenratio_min_threshold = 1/5  --ËÉÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×îĞ¡Öµ
+local bd0_1_tight_lenratio_max_threshold = 3  --½ôÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×î´óÖµ
+local bd0_1_tight_lenratio_min_threshold = 1/3  --½ôÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×îĞ¡Öµ
+
+local bd1_2_loose_angel_max_threshold = 130  --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd1_2_loose_angel_min_threshold = 60    --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd1_2_tight_angel_max_threshold = 120  --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd1_2_tight_angel_min_threshold = 70    --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+
+
+local startpt,startindex = GetTopMostPoint(bh)
+local endpt,endindex = GetBottomMostPoint(bh)
+
+if (startpt.y > endpt.y ) then
+return false
+end
+
+local vpt0 = {}
+vpt0.x = 512
+vpt0.y = 0
+
+
+local vpt1 = {}
+vpt1.x = 0
+vpt1.y = 512
+
+
+local turning_index0 = 1
+local minDis = 512
+for i = startindex,#bh.ptSet do
+    local curpt = bh.ptSet[i]
+    local tempDis = GetDistance(curpt,vpt0)
+    if (tempDis < minDis ) then
+        turning_index_0 = i
+        minDis  = tempDis
+    end
+end
+
+local turning_index_1 = 1
+minDis = 512
+for i = startindex,#bh.ptSet do
+    local curpt = bh.ptSet[i]
+    local tempDis = GetDistance(curpt,vpt1)
+    if (tempDis < minDis ) then
+        turning_index_1 = i
+        minDis  = tempDis
+    end
+end
+
+
+local turning_pt_0 = bh.ptSet[turning_index_0]
+local turning_pt_1 = bh.ptSet[turning_index_1]
+
+
+local bd0 = GetTempBD(bh,startindex,turning_index_0)
+local bd1 = GetTempBD(bh,turning_index_0,turning_index_1)
+local bd2 = GetTempBD(bh,turning_index_1,endindex)
+
+local line0 = GetLine(startpt,turning_pt_0)
+local line1 = GetLine(turning_pt_0,turning_pt_1)
+local line2 = GetLine(turning_pt_1,endpt)
+
+
+
+local dis0 = GetFarDis2Line(bd0,line0)
+local dis1 = GetFarDis2Line(bd1,line1)
+local dis2 = GetFarDis2Line(bd2,line2)
+
+local len_bd0 = GetBDLen(bd0)
+local len_bd1 = GetBDLen(bd1)
+local len_bd2 = GetBDLen(bd2)
+if (turning_pt_0.x > endpt.x or turning_pt_0.y < startpt.y ) then
+return false
+end
+
+
+local angel0 = 90
+if (turning_pt_0.y ~= startpt.y) then
+local slope0 = (turning_pt_0.x -  startpt.x)/(turning_pt_0.y - startpt.y)
+angel0 = math.deg(math.atan(slope0))
+end
+angel0 = math.abs(angel0)
+
+local angel1 = 90
+if (turning_pt_1.x ~= turning_pt_0.x) then
+local slope1 = (turning_pt_1.y - turning_pt_0.y) / (turning_pt_1.x - turning_pt_0.x)
+angel1 = math.deg ( math.atan(slope1))
+end
+angel1 = math.abs(angel1)
+
+
+local angel2 = 90
+if (turning_pt_1.y ~= endpt.y) then
+local slope2 = (endpt.x -  turning_pt_1.x)/(endpt.y - turning_pt_1.y)
+angel0 = math.deg(math.atan(slope2))
+end
+angel2 = math.abs(angel2)
+
+
+
+local bd0_bd1_angel = 0
+bd0_bd1_angel = Cal_Angle (startpt,turning_pt_0,turning_pt_1)
+
+
+local bd1_bd2_angel = 0
+bd1_bd2_angel = Cal_Angle (turning_pt_0,turning_pt_1,endpt)
+
+if (bl == 1) then
+    if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold or dis2 > loose_dis_max_threshold) then
+        return false
+    end
+    if (angel0 > loose_angel_max_threshold or angel1 > loose_angel_max_threshold or angel2 > loose_angel_max_threshold) then
+        return false
+    end
+
+
+
+    if (len_bd0 / len_bd1 > bd0_1_loose_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_loose_lenratio_min_threshold ) then
+        return false
+    end
+
+    if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
+        return false
+    end
+
+   if (bd1_bd2_angel > bd1_2_loose_angel_max_threshold or bd1_bd2_angel < bd1_2_loose_angel_min_threshold ) then
+        return false
+    end
+
+end
+if (bl == 2) then
+    if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold or dis2 > tight_dis_max_threshold) then
+        return false
+    end
+    if (angel0 > bd0_tight_angel_max_threshold  or angel1 > bd1_tight_angel_max_threshold ) then
+        return false
+    end
+
+    if (angel0 < bd0_tight_angel_min_threshold ) then
+        return false
+    end
+
+
+    if (len_bd0 / len_bd1 > bd0_1_tight_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_tight_lenratio_min_threshold ) then
+        return false
+    end
+
+    if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
+        return false
+    end
+
+   if (bd1_bd2_angel > bd1_2_tight_angel_max_threshold or bd1_bd2_angel < bd1_2_tight_angel_min_threshold ) then
+        return false
+    end
+end
+return true
+
+
+
+
+
+end
+
+
+
+function  IsShuZheZheGou(bh,bl)
+if (bl ~= 1 and bl~=2) then return end
+local bd0_loose_angel_max_threshold = 30    --ËÉÆÀÅĞÊ±±Ê¶Î0Æ«ÒÆÊúÖ±·½Ïò×î´óµÄ½Ç¶È
+local bd0_tight_angel_max_threshold = 15     --½ôÆÀÅĞÊ±bd0Æ«ÀëË®Æ½·½ÏòµÄ×î´ó½Ç¶È
+
+local bd1_loose_angel_max_threshold = 40     --ËÉÆÀÅĞÊ±±Ê¶Î1Æ«ÒÆË®Æ½·½Ïò×î´óµÄ½Ç¶È
+local bd1_tight_angel_max_threshold = 20     --½ôÆÀÅĞÊ±bd1Æ«ÀëË®Æ½·½ÏòµÄ×î´óµÄ½Ç¶È
+
+local bd2_loose_angel_max_threshold = 30    --bd2Æ«ÀëË®Æ½·½ÏòµÄ×î´ó½Ç¶È
+local bd2_tight_angel_max_threshold = 15
+
+local loose_dis_max_threshold = 40          --ËÉÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local tight_dis_max_threshold = 20
+
+local bd0_1_loose_angel_max_threshold = 120  --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_loose_angel_min_threshold =45   --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd0_1_tight_angel_max_threshold = 90  --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_tight_angel_min_threshold =60   --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd0_1_loose_lenratio_max_threshold = 5    --ËÉÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×î´óÖµ
+local bd0_1_loose_lenratio_min_threshold = 1/5  --ËÉÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×îĞ¡Öµ
+local bd0_1_tight_lenratio_max_threshold = 3    --½ôÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×î´óÖµ
+local bd0_1_tight_lenratio_min_threshold = 1/3  --½ôÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×îĞ¡Öµ
+
+local bd1_2_loose_angel_max_threshold = 120    --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd1_2_loose_angel_min_threshold = 30    --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd1_2_tight_angel_max_threshold = 90    --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd1_2_tight_angel_min_threshold = 40    --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+
+
+local startpt,startindex = GetTopMostPoint(bh)
+local endpt = GetEndPoint(bh)
+local endindex = #bh.ptSet
+local turning_pt_2,turning_index_2 = GetBottomMostPoint(bh)
+local turning_pt_0,turning_index_0 = GetLeftMostPoint(bh)
+local turning_pt_1,turning_index_1 = GetRightMostPoint(bh)
+
+local bd0 = GetTempBD(bh,startindex,turning_index_0)
+local bd1 = GetTempBD(bh,turning_index_0,turning_index_1)
+local bd2 = GetTempBD(bh,turning_index_1,turning_index_2)
+local bd3 = GetTempBD(bh,turning_index_2,endindex)
+
+
+local line0 = GetLine(startpt,turning_pt_0)
+local line1 = GetLine(turning_pt_0,turning_pt_1)
+local line2 = GetLine(turning_pt_1,turning_pt_2)
+local line3 = GetLine(turning_pt_2,endpt)
+
+local dis0 = GetFarDis2Line(bd0,line0)
+local dis1 = GetFarDis2Line(bd1,line1)
+local dis2 = GetFarDis2Line(bd2,line2)
+local dis3 = GetFarDis2Line(bd3,line3)
+
+local len_bd0 = GetBDLen(bd0)
+local len_bd1 = GetBDLen(bd1)
+local len_bd2 = GetBDLen(bd2)
+local len_bd3 = GetBDLen(bd3)
+
+local angel0 = 90
+if (turning_pt_0.y ~= startpt.y) then
+local slope0 = (turning_pt_0.x -  startpt.x)/(turning_pt_0.y - startpt.y)
+angel0 = math.deg(math.atan(slope0))
+end
+angel0 = math.abs(angel0)
+
+local angel1 = 90
+if (turning_pt_1.x ~= turning_pt_0.x) then
+local slope1 = (turning_pt_1.y - turning_pt_0.y) / (turning_pt_1.x - turning_pt_0.x)
+angel1 = math.deg ( math.atan(slope1))
+end
+angel1 = math.abs(angel1)
+
+local angel2 = 90
+if (turning_pt_2.y ~= turning_pt_1.y) then
+local slope2 = (turning_pt_0.x -  startpt.x)/(turning_pt_0.y - startpt.y)
+angel2 = math.deg(math.atan(slope2))
+end
+angel2 = math.abs(angel0)
+
+local bd0_bd1_angel = 0
+bd0_bd1_angel = Cal_Angle (startpt,turning_pt_0,turning_pt_1)
+
+
+local bd1_bd2_angel = 0
+bd1_bd2_angel = Cal_Angle (turning_pt_0,turning_pt_1,endpt)
+
+
+
+
+
+if (bl == 1) then
+    if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold or dis2 > loose_dis_max_threshold or dis3 > loose_dis_max_threshold ) then
+        return false
+    end
+    if (angel0 > bd0_loose_angel_max_threshold  or angel1 > bd1_loose_angel_max_threshold or angel2 > bd2_loose_angel_max_threshold) then
+        return false
+    end
+    if (len_bd0 / len_bd1 > bd0_1_loose_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_loose_lenratio_min_threshold ) then
+        return false
+    end
+
+    if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
+        return false
+    end
+
+   if (bd1_bd2_angel > bd1_2_loose_angel_max_threshold or bd1_bd2_angel < bd1_2_loose_angel_min_threshold ) then
+        return false
+    end
+end
+
+if (bl == 2) then
+    if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold or dis2 > tight_dis_max_threshold or dis3 > tight_dis_max_threshold ) then
+        return false
+    end
+
+    if (angel0 > bd0_tight_angel_max_threshold  or angel1 > bd1_tight_angel_max_threshold or angel2 > bd2_tight_angel_max_threshold) then
+        return false
+    end
+    if (len_bd0 / len_bd1 > bd0_1_tight_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_tight_lenratio_min_threshold ) then
+        return false
+    end
+    if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
+        return false
+    end
+
+    if (bd1_bd2_angel > bd1_2_tight_angel_max_threshold or bd1_bd2_angel < bd1_2_tight_angel_min_threshold ) then
+        return false
+    end
+end
+return true
+
+
+
+
+
+end
+
+
+function  IsShuZhePie(bh,bl)
+if (bl ~= 1 and bl~=2) then return end
+local bd0_loose_angel_max_threshold = 80    --ËÉÆÀÅĞÊ±±Ê¶Î0Æ«ÒÆÊúÖ±·½Ïò×î´óµÄ½Ç¶È
+local bd0_loose_angel_min_threshold = 10    --ËÉÆÀÅĞÊ±±Ê¶Î0Æ«ÒÆÊúÖ±·½Ïò×îĞ¡µÄ½Ç¶È [bd0_angel_min,bd0_ngel_max]
+
+local bd0_tight_angel_max_threshold = 60     --½ôÆÀÅĞÊ±bd0Æ«ÀëË®Æ½·½ÏòµÄ×î´ó½Ç¶È
+local bd0_tight_angel_min_threshold = 10     --½ôÆÀÅĞÊ±bd0Æ«ÀëË®Æ½·½ÏòµÄ×îĞ¡½Ç¶È
+
+local bd1_loose_angel_max_threshold = 40     --ËÉÆÀÅĞÊ±±Ê¶Î1Æ«ÒÆË®Æ½·½Ïò×î´óµÄ½Ç¶È
+local bd1_tight_angel_max_threshold = 20     --½ôÆÀÅĞÊ±bd1Æ«ÀëË®Æ½·½ÏòµÄ×î´óµÄ½Ç¶È
+
+local loose_dis_max_threshold = 40      --ËÉÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local tight_dis_max_threshold = 20      --½ôÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+
+local loose_angel_max_threshold = 30    --ËÉÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+local tight_angel_max_threshold = 15    --½ôÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+
+local bd0_1_loose_angel_max_threshold = 85  --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_loose_angel_min_threshold =30    --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd0_1_tight_angel_max_threshold = 70  --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_tight_angel_min_threshold =40    --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd0_1_loose_lenratio_max_threshold = 5    --ËÉÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×î´óÖµ
+local bd0_1_loose_lenratio_min_threshold = 1/5  --ËÉÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×îĞ¡Öµ
+local bd0_1_tight_lenratio_max_threshold = 3  --½ôÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×î´óÖµ
+local bd0_1_tight_lenratio_min_threshold = 1/3  --½ôÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×îĞ¡Öµ
+
+local bd1_2_loose_angel_max_threshold = 80  --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd1_2_loose_angel_min_threshold = 20    --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd1_2_tight_angel_max_threshold = 70  --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd1_2_tight_angel_min_threshold = 30    --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+
+local startpt = GetStartPoint(bh)
+local startindex = 1
+local endpt,endindex = GetBottomMostPoint(bh)
+
+if (startpt.y > endpt.y ) then
+return false
+end
+
+local turning_pt_1,turning_index_1 = GetRightMostPoint(bh)
+local bd2 = GetTempBD(bh,turning_index_1, endindex)
+local line2 = GetLine(turning_pt_1,endpt)
+local dis2 = GetFarDis2Line(bd2,line2)
+
+
+local turning_pt_0,turning_index_0 = GetLeftMostPoint(bh)
+if (turning_pt_0.x > startpt.x or turning_pt_0.x > endpt.x or turning_pt_0.y < startpt.y ) then
+    return false
+end
+
+if (turning_pt_1.x < endpt.x) then
+    return false
+end
+
+
+local bd0 = GetTempBD(bh,1,turning_index_0)
+local line0 = GetLine(startpt,turning_pt_0)
+local dis0 = GetFarDis2Line(bd0,line0)
+local len_bd0 = GetBDLen(bd0)
+
+
+
+local bd1 = GetTempBD(bh,turning_index_0,turning_index_1)
+local line1 = GetLine(turning_pt_0,turning_pt_1)
+local dis1 = GetFarDis2Line(bd1,line1)
+local len_bd1 = GetBDLen(bd1)
+
+local angel0 = 90
+if (turning_pt_0.y ~= startpt.y) then
+local slope0 = (turning_pt_0.x -  startpt.x)/(turning_pt_0.y - startpt.y)
+angel0 = math.deg(math.atan(slope0))
+end
+angel0 = math.abs(angel0)
+
+local angel1 = 90
+if (turning_pt_1.x ~= turning_pt_0.x) then
+local slope1 = (turning_pt_1.y - turning_pt_0.y) / (turning_pt_1.x - turning_pt_0.x)
+angel1 = math.deg ( math.atan(slope1))
+end
+angel1 = math.abs(angel1)
+
+local bd0_bd1_angel = 0
+bd0_bd1_angel = Cal_Angle (startpt,turning_pt_0,turning_pt_1)
+
+
+local bd1_bd2_angel = 0
+bd1_bd2_angel = Cal_Angle (turning_pt_0,turning_pt_1,endpt)
+
+if (bl == 1) then
+    if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold or dis2 > loose_dis_max_threshold) then
+        return false
+    end
+    if (angel0 > bd0_loose_angel_max_threshold  or angel1 > bd1_loose_angel_max_threshold ) then
+        return false
+    end
+
+    if (angel0 < bd0_loose_angel_min_threshold ) then
+        return false
+    end
+
+
+    if (len_bd0 / len_bd1 > bd0_1_loose_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_loose_lenratio_min_threshold ) then
+        return false
+    end
+
+    if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
+        return false
+    end
+
+   if (bd1_bd2_angel > bd1_2_loose_angel_max_threshold or bd1_bd2_angel < bd1_2_loose_angel_min_threshold ) then
+        return false
+    end
+
+end
+
+if (bl == 2) then
+    if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold or dis2 > tight_dis_max_threshold) then
+        return false
+    end
+    if (angel0 > bd0_tight_angel_max_threshold  or angel1 > bd1_tight_angel_max_threshold ) then
+        return false
+    end
+
+    if (angel0 < bd0_tight_angel_min_threshold ) then
+        return false
+    end
+
+
+    if (len_bd0 / len_bd1 > bd0_1_tight_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_tight_lenratio_min_threshold ) then
+        return false
+    end
+
+    if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
+        return false
+    end
+
+   if (bd1_bd2_angel > bd1_2_tight_angel_max_threshold or bd1_bd2_angel < bd1_2_tight_angel_min_threshold ) then
+        return false
+    end
+end
+return true
+
+end
+
+
+function  IsShuTi(bh,bl)
+if(bl ~= 1 and bl~=2 ) then return end
+
+local loose_dis_max_threshold = 40     --ËÉÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local tight_dis_max_threshold = 20      --½ôÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+
+local loose_angel_max_threshold = 30    --ËÉÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+local tight_angel_max_threshold = 15    --½ôÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+
+local loose_jitter_max_threshold = 1/5  --ËÉÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+local tight_jitter_max_threshold = 1/10 --½ôÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+
+local bd0_1_loose_angel_max_threshold = 85      --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_loose_angel_min_threshold = 10      --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd0_1_tight_angel_max_threshold = 70      --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_tight_angel_min_threshold = 15      --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd1_0_lenratio_threshold = 1/2            --±Ê¶Î1ºÍ±Ê¶Î2µÄ³¤¶È±ÈÀı
+
+
+local startpt,startindex = GetTopMostPoint(bh)
+local endpt =  GetEndPoint(bh)
+local endindex = #bh.ptSet
+local turning_pt,turning_index = GetBottomMostPoint(bh)
+
+if (endindex < startindex) then
+return false
+end
+
+if (turning_pt.x > endpt.x) then
+return false
+end
+
+
+ local finalbh = GetTempBD(bh,startindex,endindex)
+ local jitter1 = GetTempBD(bh,1,startindex)
+ local len_jitter1 = GetBDLen(jitter1)
+ local len_bh = GetBDLen(finalbh)
+
+ local line = GetLine(startpt,endpt)
+ local dis = GetFarDis2Line(finalbh,line)
+
+ local bd0 = GetTempBD(bh,startindex,turning_index)
+ local bd1 = GetTempBD(bh,turning_index,endindex)
+ local line0 = GetLine(startpt,turning_pt)
+ local dis0 = GetFarDis2Line(bd0,line0)
+ local line1 = GetLine(turning_pt,endpt)
+ local dis1 =  GetFarDis2Line(bd1,line1)
+
+
+
+ local len_bd0 = GetBDLen(bd0)
+ local len_bd1 = GetBDLen(bd1)
+ if (len_bd1 < 5) then
+ return false
+ end
+
+
+
+local bd0_bd1_angel = Cal_Angle (startpt,turning_pt,endpt)
+ local angel = 90
+ if (turning_pt.y ~= startpt.y) then
+ local slope = (turning_pt.x -  startpt.x)/(turning_pt.y - startpt.y)
+ angel = math.deg(math.atan(slope))
+ end
+ angel = math.abs(angel)
+
+ if (bl == 1) then
+     if (len_jitter1/len_bh > loose_jitter_max_threshold ) then
+         return false
+     end
+     if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold) then
+         return false
+     end
+     if (angel > loose_angel_max_threshold) then
+         return false
+     end
+     if(bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold) then
+         return false
+     end
+ end
+
+ if (bl == 2) then
+     if (len_jitter1/len_bh > tight_jitter_max_threshold) then
+         return false
+     end
+     if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold) then
+         return false
+     end
+     if (angel > tight_angel_max_threshold) then
+         return false
+     end
+      if(bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold) then
+         return false
+     end
+     if(len_bd1 /len_bd0 > bd1_0_lenratio_threshold) then
+         return false
+     end
+ end
+ return true
+
+
+end
+
+
+function  IsShuGou(bh,bl)
+if(bl ~= 1 and bl~=2 ) then return end
+local loose_dis_max_threshold = 40      --ËÉÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local tight_dis_max_threshold = 20      --½ôÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+
+local loose_angel_max_threshold = 30    --ËÉÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+local tight_angel_max_threshold = 15    --½ôÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+
+local loose_jitter_max_threshold = 1/5  --ËÉÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+local tight_jitter_max_threshold = 1/10 --½ôÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+
+local bd0_1_loose_angel_max_threshold = 85      --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_loose_angel_min_threshold = 10      --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd0_1_tight_angel_max_threshold = 70      --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_tight_angel_min_threshold = 15      --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd1_0_lenratio_threshold = 1/2            --±Ê¶Î1ºÍ±Ê¶Î2µÄ³¤¶È±ÈÀı
+
+
+local startpt,startindex = GetTopMostPoint(bh)
+local endpt =  GetEndPoint(bh)
+local endindex = #bh.ptSet
+local turning_pt,turning_index = GetBottomMostPoint(bh)
+
+if (endindex < startindex) then
+return false
+end
+
+if (turning_pt.x < endpt.x) then
+return false
+end
+
+
+ local finalbh = GetTempBD(bh,startindex,endindex)
+ local jitter1 = GetTempBD(bh,1,startindex)
+ local len_jitter1 = GetBDLen(jitter1)
+ local len_bh = GetBDLen(finalbh)
+
+ local line = GetLine(startpt,endpt)
+ local dis = GetFarDis2Line(finalbh,line)
+
+ local bd0 = GetTempBD(bh,startindex,turning_index)
+ local bd1 = GetTempBD(bh,turning_index,endindex)
+ local line0 = GetLine(startpt,turning_pt)
+ local dis0 = GetFarDis2Line(bd0,line0)
+ local line1 = GetLine(turning_pt,endpt)
+ local dis1 =  GetFarDis2Line(bd1,line1)
+
+ local len_bd0 = GetBDLen(bd0)
+ local len_bd1 = GetBDLen(bd1)
+ if (len_bd1 < 5) then
+ return false
+ end
+
+
+
+local bd0_bd1_angel = Cal_Angle (startpt,turning_pt,endpt)
+ local angel = 90
+ if (turning_pt.y ~= startpt.y) then
+ local slope = (turning_pt.x -  startpt.x)/(turning_pt.y - startpt.y)
+ angel = math.deg(math.atan(slope))
+ end
+ angel = math.abs(angel)
+
+ if (bl == 1) then
+     if (len_jitter1/len_bh > loose_jitter_max_threshold ) then
+         return false
+     end
+     if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold) then
+         return false
+     end
+     if (angel > loose_angel_max_threshold) then
+         return false
+     end
+     if(bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold) then
+         return false
+     end
+ end
+
+ if (bl == 2) then
+     if (len_jitter1/len_bh > tight_jitter_max_threshold) then
+         return false
+     end
+     if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold) then
+         return false
+     end
+     if (angel > tight_angel_max_threshold) then
+         return false
+     end
+      if(bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold) then
+         return false
+     end
+     if(len_bd1 /len_bd0 > bd1_0_lenratio_threshold) then
+         return false
+     end
+ end
+ return true
+
+end
+
+
+function  IsHengZheGou(bh,bl)
+if (bl ~= 1 and bl~=2) then return end
+local loose_dis_max_threshold = 40      --ËÉÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local tight_dis_max_threshold = 20      --½ôÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local loose_angel_max_threshold = 30    --ËÉÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+local tight_angel_max_threshold = 20     --½ôÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+
+local loose_jitter_max_threshold = 1/5  --ËÉÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+local tight_jitter_max_threshold = 1/10 --½ôÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+
+local bd0_1_loose_angel_max_threshold = 120  --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_loose_angel_min_threshold = 50    --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd0_1_tight_angel_max_threshold = 100  --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_tight_angel_min_threshold = 60    --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+
+local bd1_2_loose_angel_max_threshold = 80  --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd1_2_loose_angel_min_threshold = 10    --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd1_2_tight_angel_max_threshold = 60  --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd1_2_tight_angel_min_threshold = 20    --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+
+local bd0_1_loose_lenratio_max_threshold = 3    --ËÉÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×î´óÖµ
+local bd0_1_tight_lenratio_max_threshold = 2  --½ôÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×î´óÖµ
+local bd0_1_tight_lenratio_min_threshold = 1/3  --½ôÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×îĞ¡Öµ
+
+
+local startpt,startindex = GetLeftMostPoint(bh)
+local endpt = GetEndPoint(bh)
+local endindex = #bh.ptSet
+local turning_pt_1,turning_index_1 = GetBottomMostPoint(bh)
+
+
+local spt_tpt1_line = GetLine(startpt,turning_pt_1)
+local spt_tpt1_bd = GetTempBD(bh,1,turning_index_1)
+local turning_pt_0,turning_index_0 = GetFarthestPt2Line(spt_tpt1_bd,spt_tpt1_line)
+
+
+
+local bd0 = GetTempBD(bh,startindex,turning_index_0)
+local line0 = GetLine(startpt,turning_pt_0)
+local dis0 = GetFarDis2Line(bd0,line0)
+local bd0_jitter = GetTempBD(bh,1,startindex)
+local len_bd0 = GetBDLen(bd0)
+local len_bd0_jitter = GetBDLen(bd0_jitter)
+
+
+local bd1 = GetTempBD(bh,turning_index_0,turning_index_1)
+local line1 = GetLine(turning_pt_0,turning_pt_1)
+local dis1 = GetFarDis2Line(bd1,line1)
+local len_bd1 = GetBDLen(bd1)
+
+
+
+local bd2 = GetTempBD(bh,turning_index_1,endindex)
+local line2 = GetLine(turning_pt_1,endpt)
+local dis2 = GetFarDis2Line(bd2,line2)
+local len_bd2 = GetBDLen(bd2)
+
+
+if ( endpt.x > turning_pt_1.x ) then
+return false
+end
+
+
+
+local angel0 = 90
+if (turning_pt_0.x ~= startpt.x) then
+local slope0 = (turning_pt_0.y -  startpt.y)/(turning_pt_0.x - startpt.x)
+angel0 = math.deg(math.atan(slope0))
+end
+angel0 = math.abs(angel0)
+
+
+local angel1 = 90
+if (turning_pt_1.y ~= turning_pt_0.y) then
+local slope1 = (turning_pt_1.x - turning_pt_0.x) / (turning_pt_1.y - turning_pt_0.y)
+angel1 = math.deg ( math.atan(slope1))
+end
+angel1 = math.abs(angel1)
+
+
+local bd0_bd1_angel = 0
+bd0_bd1_angel = Cal_Angle (startpt,turning_pt_0,turning_pt_1)
+
+
+local bd1_bd2_angel = 0
+bd1_bd2_angel = Cal_Angle(turning_pt_0,turning_pt_1,endpt)
+
+if (bl == 1) then
+    if (len_bd0_jitter/len_bd0 > loose_jitter_max_threshold)  then
+        return false
+    end
+    if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold or dis2 > loose_dis_max_threshold) then
+        return false
+    end
+    if (angel0 > loose_angel_max_threshold or angel1 > loose_angel_max_threshold) then
+        return false
+    end
+    if (len_bd0 / len_bd1 > bd0_1_loose_lenratio_max_threshold ) then
+        return false
+    end
+    if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
+        return false
+    end
+
+    if (bd1_bd2_angel > bd1_2_loose_angel_max_threshold or bd1_bd2_angel < bd1_2_loose_angel_min_threshold ) then
+        return false
+    end
+end
+
+if (bl == 2) then
+    if (len_bd0_jitter/len_bd0 > tight_jitter_max_threshold )  then
+        return false
+    end
+    if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold or dis2 > tight_dis_max_threshold) then
+        return false
+    end
+    if (angel0 > tight_angel_max_threshold or angel1 > tight_angel_max_threshold) then
+        return false
+    end
+    if (len_bd0 / len_bd1 > bd0_1_tight_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_tight_lenratio_min_threshold ) then
+        return false
+    end
+    if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
+        return false
+    end
+    if (bd1_bd2_angel > bd1_2_tight_angel_max_threshold or bd1_bd2_angel < bd1_2_tight_angel_min_threshold ) then
+        return false
+    end
+end
+
+return true
+
+end
+
+
+function  IsHengPie(bh,bl)
+if (bl ~= 1 and bl~=2) then return end
+local bd0_loose_dis_max_threshold = 40      --ËÉÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local bd0_tight_dis_max_threshold = 20
+
+local bd0_loose_angel_max_threshold = 30     --ËÉÆÀÅĞÊ±bd0Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+local bd0_tight_angel_max_threshold = 15     --½ôÆÀÅĞÊ±bd0Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+
+
+local bd1_loose_angel_max_threshold = 80    --ËÉÆÀÅĞÊ±bd1Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+local bd1_loose_angel_min_threshold = 10    --ËÉÆÀÅĞÊ±bd1Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×îĞ¡½Ç¶È
+local bd1_tight_angel_max_threshold = 60    --½ôÆÀÅĞÊ±bd1Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+local bd1_tight_angel_min_threshold = 20    --½ôÆÀÅĞÊ±bd1Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×îĞ¡½Ç¶È
+local bd1_loose_dis_max_threshold = 50      --ËÉÆÀÅĞÊ±bd1Â·¾¶ÉÏµ½bd1Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local bd1_loose_dis_min_threshold = 3       --ËÉÆÀÅĞÊ±bd1Â·¾¶ÉÏµ½bd1Ê×Î²µãÁ¬ÏßµÄ×îĞ¡¾àÀë
+local bd1_tight_dis_max_threshold = 30      --½ôÆÀÅĞÊ±bd1Â·¾¶ÉÏµ½bd1Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local bd1_tight_dis_min_threshold = 5       --½ôÆÀÅĞÊ±bd1Â·¾¶ÉÏµ½bd1Ê×Î²µãÁ¬ÏßµÄ×îĞ¡¾àÀë
+
+local loose_jitter_max_threshold = 1/5  --ËÉÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+local tight_jitter_max_threshold = 1/10 --½ôÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+
+local bd0_1_loose_angel_max_threshold = 90  --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_loose_angel_min_threshold =30    --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd0_1_tight_angel_max_threshold = 70  --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_tight_angel_min_threshold =40    --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd0_1_loose_lenratio_max_threshold = 3    --ËÉÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×î´óÖµ
+local bd0_1_loose_lenratio_min_threshold = 1/3  --ËÉÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×îĞ¡Öµ
+local bd0_1_tight_lenratio_max_threshold = 2  --½ôÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×î´óÖµ
+local bd0_1_tight_lenratio_min_threshold = 1/2  --½ôÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×îĞ¡Öµ
+
+local startpt,startindex = GetLeftMostPoint(bh)
+local endpt,endindex = GetBottomMostPoint(bh)
+
+if (startindex > endindex) then
+return false
+end
+
+local spt_ept_line = GetLine(startpt,endpt)
+local finalbh = GetTempBD(bh,startindex,endindex)
+local turning_pt,turning_index = GetFarthestPt2Line(bh,spt_ept_line)
+if (Point2LineUp(turning_pt,spt_ept_line) == false) then
+return false
+end
+
+if (turning_pt.x < endpt.x) then
+return false
+end
+
+local bd0 = GetTempBD(bh,startindex,turning_index)
+local line0 = GetLine(startpt,turning_pt)
+local dis0 = GetFarDis2Line(bd0,line0)
+local bd0_jitter = GetTempBD(bh,1,startindex)
+local len_bd0 = GetBDLen(bd0)
+local len_bd0_jitter = GetBDLen(bd0_jitter)
+
+
+local bd1 = GetTempBD(bh,turning_index,endindex)
+local line1 = GetLine(turning_pt,endpt)
+local dis1 = GetFarDis2Line(bd1,line1)
+local bd1_jitter = GetTempBD(bh,endindex,#bh.ptSet)
+local len_bd1 = GetBDLen(bd1)
+local len_bd1_jitter = GetBDLen(bd1_jitter)
+
+local angel0 = 90
+if (turning_pt.x ~= startpt.x) then
+local slope0 = (turning_pt.y -  startpt.y)/(turning_pt.x - startpt.x)
+angel0 = math.deg(math.atan(slope0))
+end
+angel0 = math.abs(angel0)
+
+
+local angel1 = 90
+if (endpt.y ~= turning_pt.y) then
+local slope1 = (endpt.x - turning_pt.x) / (endpt.y - turning_pt.y)
+angel1 = math.deg ( math.atan(slope1))
+end
+angel1 = math.abs(angel1)
+
+
+local bd0_bd1_angel = 0
+bd0_bd1_angel = Cal_Angle (startpt,turning_pt,endpt)
+
+if (bl == 1) then
+    if (len_bd0_jitter/len_bd0 > loose_jitter_max_threshold or len_bd1_jitter/len_bd1 > loose_jitter_max_threshold )  then
+        return false
+    end
+    if (dis0 > bd0_loose_dis_max_threshold or dis1 > bd1_loose_dis_max_threshold or dis1 <bd1_loose_dis_min_threshold) then
+         return false
+    end
+    if (angel0 > bd0_loose_angel_max_threshold or angel1 > bd1_loose_angel_max_threshold or angel1 < bd1_loose_angel_min_threshold) then
+        return false
+    end
+    if (len_bd0 / len_bd1 > bd0_1_loose_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_loose_lenratio_min_threshold ) then
+        return false
+    end
+    if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
+        return false
+    end
+end
+
+if (bl == 2) then
+    if (len_bd0_jitter/len_bd0 > tight_jitter_max_threshold or len_bd1_jitter/len_bd1 > tight_jitter_max_threshold )  then
+        return false
+    end
+    if (dis0 > tight_dis_max_threshold or dis1 > bd1_tight_dis_max_threshold or dis1 < bd1_tight_dis_min_threshold) then
+        return false
+    end
+    if (angel0 > bd0_tight_angel_max_threshold or angel1 > bd1_tight_angel_max_threshold or angel1 < bd1_tight_angel_min_threshold) then
+        return false
+    end
+    if (len_bd0 / len_bd1 > bd0_1_tight_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_tight_lenratio_min_threshold ) then
+        return false
+    end
+    if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
+        return false
+    end
+end
+
+return true
+
+
+
+end
+
+
+function  IsXieShu(bh,bl)
+if(bl ~= 1 and bl~=2 ) then return end
+
+local loose_dis_max_threshold = 40      --ËÉÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local tight_dis_max_threshold = 20      --½ôÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+
+local loose_angel_max_threshold = 60    --ËÉÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+local tight_angel_max_threshold = 30    --½ôÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+
+local loose_jitter_max_threshold = 1/5  --ËÉÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+local tight_jitter_max_threshold = 1/10 --½ôÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+
+
+local startpt,startindex = GetTopMostPoint(bh)
+local endpt,endindex = GetBottomMostPoint(bh)
+
+if (endindex < startindex) then
+return false
+end
+
+ local finalbh = GetTempBD(bh,startindex,endindex)
+ local jitter1 = GetTempBD(bh,1,startindex)
+ local jitter2 = GetTempBD(bh,endindex,#bh.ptSet)
+
+ local len_jitter1 = GetBDLen(jitter1)
+ local len_jitter2 = GetBDLen(jitter2)
+ local len_bh = GetBDLen(finalbh)
+
+ local line = GetLine(startpt,endpt)
+ local dis = GetFarDis2Line(finalbh,line)
+
+ local angel = 90
+ if (endpt.y ~= startpt.y) then
+ local slope = (endpt.x -  startpt.x)/(endpt.y - startpt.y)
+ angel = math.deg(math.atan(slope))
+ end
+ angel = math.abs(angel)
+
+ if (bl == 1) then
+     if (len_jitter1/len_bh > loose_jitter_max_threshold or len_jitter2/len_bh > loose_jitter_max_threshold) then
+         return false
+     end
+     if (dis > loose_dis_max_threshold) then
+         return false
+     end
+     if (angel > loose_angel_max_threshold) then
+         return false
+     end
+ end
+
+ if (bl == 2) then
+     if (len_jitter1/len_bh > tight_jitter_max_threshold or len_jitter2/len_bh > tight_jitter_max_threshold) then
+         return false
+     end
+     if (dis > tight_dis_max_threshold) then
+         return false
+     end
+     if (angel > tight_angel_max_threshold) then
+         return false
+     end
+ end
+
+ return true
+
+end
+
+
+function  IsXieShuZhe(bh,bl)
+if (bl ~= 1 and bl~=2) then return end
+
+local loose_dis_max_threshold = 40      --ËÉÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local tight_dis_max_threshold = 20      --½ôÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+
+local bd1_loose_angel_max_threshold = 20    --ËÉÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+local bd1_tight_angel_max_threshold = 10     --½ôÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+
+local bd0_loose_angel_max_threshold = 60    --ËÉÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+local bd0_tight_angel_max_threshold = 30     --½ôÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+
+local loose_jitter_max_threshold = 1/5  --ËÉÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+local tight_jitter_max_threshold = 1/10 --½ôÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+
+
+local bd0_1_loose_angel_max_threshold = 90  --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_loose_angel_min_threshold = 30    --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd0_1_tight_angel_max_threshold = 80  --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_tight_angel_min_threshold = 45    --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd0_1_loose_lenratio_max_threshold = 3    --ËÉÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×î´óÖµ
+local bd0_1_loose_lenratio_min_threshold = 1/3  --ËÉÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×îĞ¡Öµ
+local bd0_1_tight_lenratio_max_threshold = 2  --½ôÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×î´óÖµ
+local bd0_1_tight_lenratio_min_threshold = 1/2  --½ôÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×îĞ¡Öµ
+
+local startpt,startindex = GetTopMostPoint(bh)
+local endpt,endindex = GetRightMostPoint(bh)
+
+if (startindex > endindex) then
+return false
+end
+
+local spt_ept_line = GetLine(startpt,endpt)
+local finalbh = GetTempBD(bh,startindex,endindex)
+local turning_pt,turning_index = GetFarthestPt2Line(bh,spt_ept_line)
+if (Point2LineDown(turning_pt,spt_ept_line) == false) then
+return false
+end
+
+local bd0 = GetTempBD(bh,startindex,turning_index)
+local line0 = GetLine(startpt,turning_pt)
+local dis0 = GetFarDis2Line(bd0,line0)
+local bd0_jitter = GetTempBD(bh,1,startindex)
+local len_bd0 = GetBDLen(bd0)
+local len_bd0_jitter = GetBDLen(bd0_jitter)
+
+
+local bd1 = GetTempBD(bh,turning_index,endindex)
+local line1 = GetLine(turning_pt,endpt)
+local dis1 = GetFarDis2Line(bd1,line1)
+local bd1_jitter = GetTempBD(bh,endindex,#bh.ptSet)
+local len_bd1 = GetBDLen(bd1)
+local len_bd1_jitter = GetBDLen(bd1_jitter)
+
+local angel0 = 90
+if (turning_pt.y ~= startpt.y) then
+local slope0 = (turning_pt.x -  startpt.x)/(turning_pt.y - startpt.y)
+angel0 = math.deg(math.atan(slope0))
+end
+angel0 = math.abs(angel0)
+
+
+local angel1 = 90
+if (endpt.x ~= turning_pt.x) then
+local slope1 = (endpt.y - turning_pt.y) / (endpt.x - turning_pt.x)
+angel1 = math.deg ( math.atan(slope1))
+end
+angel1 = math.abs(angel1)
+
+
+local bd0_bd1_angel = 0
+bd0_bd1_angel = Cal_Angle (startpt,turning_pt,endpt)
+
+if (bl == 1) then
+    if (len_bd0_jitter/len_bd0 > loose_jitter_max_threshold or len_bd1_jitter/len_bd1 > loose_jitter_max_threshold )  then
+
+        return false
+    end
+    if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold) then
+        return false
+    end
+    if (angel0 > bd0_loose_angel_max_threshold or angel1 > bd1_loose_angel_max_threshold) then
+        return false
+    end
+    if (len_bd0 / len_bd1 > bd0_1_loose_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_loose_lenratio_min_threshold ) then
+        return false
+    end
+    if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
+        return false
+    end
+end
+
+if (bl == 2) then
+    if (len_bd0_jitter/len_bd0 > tight_jitter_max_threshold or len_bd1_jitter/len_bd1 > tight_jitter_max_threshold )  then
+        return false
+    end
+    if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold) then
+        return false
+    end
+    if (angel0 > bd0_tight_angel_max_threshold or angel1 > bd1_tight_angel_max_threshold) then
+        return false
+    end
+    if (len_bd0 / len_bd1 > bd0_1_tight_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_tight_lenratio_min_threshold ) then
+        return false
+    end
+    if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
+        return false
+    end
+
+end
+trace("pass")
+return true
+
+end
+
+
+function  IsXieWanGou(bh,bl)
+if (bl ~= 1 and bl~=2) then return end
+local loose_dis_max_threshold = 40      --ËÉÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local tight_dis_max_threshold = 20      --½ôÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+
+local loose_jitter_max_threshold = 1/5  --ËÉÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+local tight_jitter_max_threshold = 1/10 --½ôÆÀÅĞÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ı¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀı
+
+
+local bd0_loose_angel_max_threshold = 70    --ËÉÆÀÅĞÊ±bd0Ê×Î²µãÁ¬ÏßµÄ×î´óÇãĞ±½Ç¶È
+local bd0_loose_angel_min_threshold = 5     --ËÉÆÀÅĞÊ±bd0Ê×Î²µãÁ¬ÏßµÄ×îĞ¡ÇãĞ±½Ç¶È
+local bd0_tight_angel_max_threshold = 30    --½ôÆÀÅĞÊ±bd1Ê×Î²µãÁ¬ÏßµÄ×î´óÇãĞ±½Ç¶È
+local bd0_tight_angel_min_threshold = 10    --½ôÆÀÅĞÊ±bd1Ê×Î²µãÁ¬ÏßµÄ×îĞ¡ÇãĞ±½Ç¶È
+
+local bd1_loose_angel_max_threshold = 40    --ËÉÆÀÅĞÊ±bd1Æ«ÀëÊúÖ±·½ÏòµÄ×î´óÇãĞ±½Ç¶È
+local bd1_tight_angel_max_threshold = 20    --½ôÆÀÅĞÊ±bd1Æ«ÀëÊúÖ±·½ÏòµÄ×î´óÇãĞ±½Ç¶È
+
+
+local bd0_1_loose_angel_max_threshold = 90  --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_loose_angel_min_threshold = 45    --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd0_1_tight_angel_max_threshold = 80  --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd0_1_tight_angel_min_threshold = 60    --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+
+local bd1_2_loose_angel_max_threshold = 80  --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd1_2_loose_angel_min_threshold = 10    --ËÉÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+local bd1_2_tight_angel_max_threshold = 70  --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×î´óÖµ
+local bd1_2_tight_angel_min_threshold = 20    --½ôÆÀÅĞÊ±Á½±Ê¶Î¼Ğ½ÇµÄ×îĞ¡Öµ
+
+local bd0_1_loose_lenratio_max_threshold = 3    --ËÉÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×î´óÖµ
+local bd0_1_tight_lenratio_max_threshold = 1  --½ôÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×î´óÖµ
+local bd0_1_tight_lenratio_min_threshold = 1/3  --½ôÆÀÅĞÊ±Á½±Ê¶Î³¤¶È±ÈÀı×îĞ¡Öµ
+
+
+local startpt,startindex = GetLeftMostPoint(bh)
+local endpt = GetEndPoint(bh)
+local endindex = #bh.ptSet
+local turning_pt_1,turning_index_1 = GetBottomMostPoint(bh)
+local turning_pt_0,turning_index_0 = GetTopMostPoint(bh)
+
+
+local bd0 = GetTempBD(bh,startindex,turning_index_0)
+local line0 = GetLine(startpt,turning_pt_0)
+local dis0 = GetFarDis2Line(bd0,line0)
+local bd0_jitter = GetTempBD(bh,1,startindex)
+local len_bd0 = GetBDLen(bd0)
+local len_bd0_jitter = GetBDLen(bd0_jitter)
+
+
+local bd1 = GetTempBD(bh,turning_index_0,turning_index_1)
+local line1 = GetLine(turning_pt_0,turning_pt_1)
+local dis1 = GetFarDis2Line(bd1,line1)
+local len_bd1 = GetBDLen(bd1)
+
+
+
+local bd2 = GetTempBD(bh,turning_index_1,endindex)
+local line2 = GetLine(turning_pt_1,endpt)
+local dis2 = GetFarDis2Line(bd2,line2)
+local len_bd2 = GetBDLen(bd2)
+
+
+if ( endpt.x > turning_pt_1.x ) then
+return false
+end
+
+
+
+local angel0 = 90
+if (turning_pt_0.x ~= startpt.x) then
+local slope0 = (turning_pt_0.y -  startpt.y)/(turning_pt_0.x - startpt.x)
+angel0 = math.deg(math.atan(slope0))
+end
+angel0 = math.abs(angel0)
+
+
+local angel1 = 90
+if (turning_pt_1.y ~= turning_pt_0.y) then
+local slope1 = (turning_pt_1.x - turning_pt_0.x) / (turning_pt_1.y - turning_pt_0.y)
+angel1 = math.deg ( math.atan(slope1))
+end
+angel1 = math.abs(angel1)
+
+
+local bd0_bd1_angel = 0
+bd0_bd1_angel = Cal_Angle (startpt,turning_pt_0,turning_pt_1)
+
+
+local bd1_bd2_angel = 0
+bd1_bd2_angel = Cal_Angle(turning_pt_0,turning_pt_1,endpt)
+
+
+if (bl == 1) then
+    if (len_bd0_jitter/len_bd0 > loose_jitter_max_threshold)  then
+        return false
+    end
+    if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold or dis2 > loose_dis_max_threshold) then
+        return false
+    end
+    if (angel0 > bd0_loose_angel_max_threshold or angel0 < bd0_loose_angel_min_threshold or angel1 > bd1_loose_angel_max_threshold) then
+        return false
+    end
+    if (len_bd0 / len_bd1 > bd0_1_loose_lenratio_max_threshold ) then
+        return false
+    end
+    if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
+        return false
+    end
+
+    if (bd1_bd2_angel > bd1_2_loose_angel_max_threshold or bd1_bd2_angel < bd1_2_loose_angel_min_threshold ) then
+        return false
+    end
+
+
+
+end
+
+if (bl == 2) then
+    if (len_bd0_jitter/len_bd0 > tight_jitter_max_threshold )  then
+        return false
+    end
+    if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold or dis2 > tight_dis_max_threshold) then
+        return false
+    end
+    if (angel0 > bd0_tight_angel_max_threshold or angel0 < bd0_tight_angel_min_threshold or angel1 > bd1_tight_angel_max_threshold) then
+        return false
+    end
+    if (len_bd0 / len_bd1 > bd0_1_tight_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_tight_lenratio_min_threshold ) then
+        return false
+    end
+    if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
+        return false
+    end
+    if (bd1_bd2_angel > bd1_2_tight_angel_max_threshold or bd1_bd2_angel < bd1_2_tight_angel_min_threshold ) then
+        return false
+    end
+end
+return true
+
+end
+
+
+
+
+function  IsHengZheWanGou2(bh,bl)
+if(bl ~= 1 and bl~= 2) then return end
+local loose_dis_max_threshold = 25      --ËÉÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local tight_dis_max_threshold = 10      --½ôÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+
+local loose_angel_max_threshold = 10    --ËÉÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+local tight_angel_max_threshold = 5     --½ôÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+
+local loose_bd_0_1_min_threshold = 10
+local loose_bd_0_1_max_threshold = 80
+local loose_bd_1_2_min_threshold = 20
+local loose_bd_1_2_max_threshold = 70
+
+local tight_bd_0_1_min_threshold = 10
+local tight_bd_0_1_max_threshold = 80
+local tight_bd_1_2_min_threshold = 20
+local tight_bd_1_2_max_threshold = 70
+
+
+local startpt = GetStartPoint(bh)
+local startindex = 1
+local endpt = GetEndPoint(bh)
+local endindex = #bh.ptSet
+
+local tempdis = 128
+local turning_index_0 = 1
+local edget = {}
+edget.x = 128
+edget.y = 0
+
+for i = 1, #bh.ptSet do
+    local curpt = bh.ptSet[i]
+    local curdis =  GetDistance(curpt,edget)
+    if (curdis < tempdis) then
+         tempdis = curdis
+         turning_index_0 = i
+    end
+end
+
+local turning_pt_0= bh.ptSet[turning_index_0]
+
+edget.x = 128
+edget.y = 128
+tempdis = 128
+turning_index_2 = 1
+for i = 1, #bh.ptSet do
+    local curpt = bh.ptSet[i]
+    local curdis =  GetDistance(curpt,edget)
+    if (curdis < tempdis) then
+         tempdis = curdis
+         turning_index_2 = i
+    end
+end
+local turning_pt_2 = bh.ptSet[turning_index_2]
+
+edget.x = 0
+edget.y = 128
+tempdis = 128
+turning_index_1 = 1
+for i = 1, #bh.ptSet do
+    local curpt = bh.ptSet[i]
+    local curdis =  GetDistance(curpt,edget)
+    if (curdis < tempdis) then
+         tempdis = curdis
+         turning_index_1 = i
+    end
+end
+local turning_pt_1= bh.ptSet[turning_index_1]
+
+
+if (endindex == turning_index_2) then
+    return false
+end
+
+
+local bd0 = GetTempBD(bh,startindex,turning_index_0)
+local bd1 = GetTempBD(bh,turning_index_0,turning_index_1)
+local bd2 = GetTempBD(bh,turning_index_1,turning_index_2)
+local bd3 = GetTempBD(bh,turning_index_2,endindex)
+
+local line0 = GetLine(startpt,turning_pt_0)
+local line1 = GetLine(turning_pt_0,turning_pt_1)
+local line2 = GetLine(turning_pt_1,turning_pt_2)
+local line3 = GetLine(turning_pt_2,endpt)
+
+local dis0 = GetFarDis2Line(bd0,line0)
+local dis1 = GetFarDis2Line(bd1,line1)
+local dis2 = GetFarDis2Line(bd2,line2)
+local dis3 = GetFarDis2Line(bd3,line3)
+
+local len_bd0 = GetBDLen(bd0)
+local len_bd1 = GetBDLen(bd1)
+local len_bd2 = GetBDLen(bd2)
+local len_bd3 = GetBDLen(bd3)
+
+local bd0_1_angel = Cal_Angle(startpt,turning_pt_0,turning_pt_1)
+local bd1_2_angel = Cal_Angle(turning_pt_0,turning_pt_1,endpt)
+local angel0 = 90
+if (turning_pt_0.x ~= startpt.x) then
+    local slope0 = (turning_pt_0.y - startpt.y)/(turning_pt_0.x -  startpt.x)
+    angel0 = math.deg(math.atan(slope0))
+end
+angel0 = math.abs(angel0)
+
+local angel2 = 90
+if (turning_pt_2.x ~= turning_pt_1.x) then
+    local slope2 = (turning_pt_2.y - turning_pt_1.y)/(turning_pt_2.x -  turning_pt_1.x)
+    angel2 = math.deg(math.atan(slope2))
+end
+angel2 = math.abs(angel2)
+
+
+if (bl == 1) then
+    if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold or dis2 > loose_dis_max_threshold or dis3 > loose_dis_max_threshold) then
+        return false
+    end
+    if (angel0 > loose_angel_max_threshold or angel2 > loose_angel_max_threshold ) then
+        return false
+    end
+
+    if(bd0_1_angel < loose_bd_0_1_min_threshold or bd0_1_angel > loose_bd_0_1_max_threshold) then
+        return false
+    end
+
+    if(bd1_2_angel < loose_bd_1_2_min_threshold or bd1_2_angel > loose_bd_1_2_max_threshold) then
+        return false
+    end
+end
+
+if (bl == 2) then
+    if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold or dis2 > tight_dis_max_threshold or dis3 > tight_dis_max_threshold) then
+        return false
+    end
+    if (angel0 > tight_angel_max_threshold or angel2 > tight_angel_max_threshold ) then
+        return false
+    end
+
+    if(bd0_1_angel < tight_bd_0_1_min_threshold or bd0_1_angel > tight_bd_0_1_max_threshold) then
+        return false
+    end
+
+    if(bd1_2_angel < tight_bd_1_2_min_threshold or bd1_2_angel > tight_bd_1_2_max_threshold) then
+        return false
+    end
+end
+return true
+end
+
+
+
+function  IsHengZheXieGou(bh,bl)
+if(bl ~= 1 and bl~= 2) then return end
+local loose_dis_max_threshold = 25      --ËÉÆÀÅĞÊ±bd0ºÍbd2±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local tight_dis_max_threshold = 10      --½ôÆÀÅĞÊ±bd0ºÍbd2±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+
+local loose_angel_max_threshold = 10    --ËÉÆÀÅĞÊ±bd0ºÍbd2Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+local tight_angel_max_threshold = 5     --½ôÆÀÅĞÊ±bd0ºÍbd2Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+
+local loose_bd1_dis_min_threshold = 3
+local loose_bd1_dis_max_threshold = 30
+local tight_bd1_dis_min_threshold = 5
+local tight_bd1_dis_max_threshold = 20
+
+local loose_bd_0_1_min_threshold = 95
+local loose_bd_0_1_max_threshold = 150
+local tight_bd_0_1_min_threshold = 100
+local tight_bd_0_1_max_threshold = 135
+
+local startpt,startindex= GetLeftMostPoint(bh)
+local endpt = GetEndPoint(bh)
+local endindex = #bh.ptSet
+
+local tempdis = 128
+local turning_index_0 = 1
+local edget = {}
+edget.x = 128
+edget.y = 0
+
+for i = 1, #bh.ptSet do
+    local curpt = bh.ptSet[i]
+    local curdis =  GetDistance(curpt,edget)
+    if (curdis < tempdis) then
+         tempdis = curdis
+         turning_index_0 = i
+    end
+end
+
+local turning_pt_0= bh.ptSet[turning_index_0]
+local turning_pt_1,turning_index_1 = GetBottomMostPoint(bh)
+
+if (endindex == turning_index_1) then
+    return false
+end
+
+local bd0 = GetTempBD(bh,startindex,turning_index_0)
+local bd1 = GetTempBD(bh,turning_index_0,turning_index_1)
+local bd2 = GetTempBD(bh,turning_index_1,endindex)
+
+local line0 = GetLine(startpt,turning_pt_0)
+local line1 = GetLine(turning_pt_0,turning_pt_1)
+local line2 = GetLine(turning_pt_1,endpt)
+
+local dis0 = GetFarDis2Line(bd0,line0)
+local dis1 = GetFarDis2Line(bd1,line1)
+local dis2 = GetFarDis2Line(bd2,line2)
+trace(dis1)
+
+local bd0_1_angel = Cal_Angle(startpt,turning_pt_0,turning_pt_1)
+local bd1_2_angel = Cal_Angle(turning_pt_0,turning_pt_1,endpt)
+
+local angel0 = 90
+if (turning_pt_0.x ~= startpt.x) then
+    local slope0 = (turning_pt_0.y - startpt.y)/(turning_pt_0.x -  startpt.x)
+    angel0 = math.deg(math.atan(slope0))
+end
+angel0 = math.abs(angel0)
+
+trace(angel0)
+trace(bd0_1_angel)
+
+if (bl == 1) then
+    if (dis0 > loose_dis_max_threshold or dis2 > loose_dis_max_threshold ) then
+        return false
+    end
+   if(dis1 > loose_bd1_dis_max_threshold or dis1 < loose_bd1_dis_min_threshold) then
+        return false
+    end
+
+    if (angel0 > loose_angel_max_threshold ) then
+        return false
+    end
+
+    if(bd0_1_angel < loose_bd_0_1_min_threshold or bd0_1_angel > loose_bd_0_1_max_threshold) then
+        return false
+    end
+end
+
+if (bl == 2) then
+    if (dis0 > tight_dis_max_threshold or dis2 > tight_dis_max_threshold ) then
+        return false
+    end
+    if(dis1 > tight_bd1_dis_max_threshold or dis1 < tight_bd1_dis_min_threshold) then
+        return false
+    end
+
+    if (angel0 > tight_angel_max_threshold ) then
+        return false
+    end
+
+    if(bd0_1_angel < tight_bd_0_1_min_threshold or bd0_1_angel > tight_bd_0_1_max_threshold) then
+        return false
+    end
+end
+return true
+
+end
+
+
+
+
+function  IsHengZheZheZheGou(bh,bl)
+if(bl~= 1 and bl~= 2) then return end
+local loose_dis_max_threshold = 25      --ËÉÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local tight_dis_max_threshold = 10      --½ôÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+
+local loose_angel_max_threshold = 10    --ËÉÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+local tight_angel_max_threshold = 5     --½ôÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+
+local loose_bd_0_1_min_threshold = 30
+local loose_bd_0_1_max_threshold = 85
+local loose_bd_2_3_min_threshold = 30
+local loose_bd_2_3_max_threshold = 85
+
+local tight_bd_0_1_min_threshold = 45
+local tight_bd_0_1_max_threshold = 80
+local tight_bd_2_3_min_threshold = 45
+local tight_bd_2_3_max_threshold = 80
+
+
+local startpt,startindex = GetLeftMostPoint(bh)
+local endpt = GetEndPoint(bh)
+local endindex = #bh.ptSet
+local turning_pt_3,turning_index_3 = GetBottomMostPoint(bh)
+local turning_pt_2,turning_index_2 = GetRightMostPoint(bh)
+
+
+
+local vpt = {}
+vpt.x = turning_pt_2.x
+vpt.y = startpt.y
+local turning_index_0 = startindex
+local temp = 90
+for i = 1, turning_index_2 do
+    local cpt = bh.ptSet[i]
+    local angel = 0
+    if (cpt.y == turning_pt_2.y) then
+	angel = 90
+    else
+	angel = Cal_Angle (cpt,turning_pt_2,vpt)
+    end
+    if (angel < temp) then
+        temp = angel
+        turning_index_0  = i
+    end
+end
+
+local turning_pt_0  = bh.ptSet[turning_index_0 ]
+local bd0 = GetTempBD(bh,startindex,turning_index_0 )
+local line0 = GetLine(startpt,turning_pt_0)
+local dis0 = GetFarDis2Line(bd0,line0)
+
+
+vpt.x = startpt.x
+vpt.y = turning_pt_2.y
+temp = 90
+local turning_index_1 = 1
+for i = 1,turning_index_2 do
+    local cpt = bh.ptSet[i]
+    local angel = 0
+    if (cpt.y == startpt.y) then
+        angel = 90
+    else
+        angel = Cal_Angle(cpt,startpt,vpt)
+    end
+    if (angel < temp) then
+        temp = angel
+        turning_index_1= i
+    end
+end
+
+local turning_pt_1 = bh.ptSet[turning_index_1]
+local bd1 = GetTempBD(bh,turning_index_0,turning_index_1)
+local line1 = GetLine(turning_pt_0,turning_pt_1)
+local dis1 = GetFarDis2Line(bd1,line1)
+
+local bd2 = GetTempBD(bh,turning_index_1,turning_index_2)
+local line2 = GetLine(turning_pt_1,turning_pt_2)
+local dis2 = GetFarDis2Line(bd2,line2)
+
+local bd3 = GetTempBD(bh,turning_index_2,turning_index_3)
+local line3 = GetLine(turning_pt_2,turning_pt_3)
+local dis3 = GetFarDis2Line(bd3,line3)
+
+local bd4 = GetTempBD(bh,turning_index_3,endindex)
+local line4 = GetLine(turning_pt_3,endpt)
+local dis4 = GetFarDis2Line(bd4,line4)
+
+local bd0_1_angel = Cal_Angle(startpt,turning_pt_0,turning_pt_1)
+local bd2_3_angel = Cal_Angle(turning_pt_1,turning_pt_2,turning_pt_3)
+
+
+if (turning_index_3 == endindex) then
+    return false
+end
+
+local angel0 = 90
+if (turning_pt_0.x ~= startpt.x) then
+    local slope0 = (turning_pt_0.y - startpt.y)/(turning_pt_0.x -  startpt.x)
+    angel0 = math.deg(math.atan(slope0))
+end
+angel0 = math.abs(angel0)
+
+local angel2 = 90
+if (turning_pt_2.x ~= turning_pt_1.x) then
+    local slope2 = (turning_pt_2.y - turning_pt_1.y)/(turning_pt_2.x -  turning_pt_1.x)
+    angel2 = math.deg(math.atan(slope2))
+end
+angel2 = math.abs(angel2)
+
+
+if (bl == 1) then
+    if(dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold
+       or dis2 >loose_dis_max_threshold or dis3 > loose_dis_max_threshold or dis4 > loose_dis_max_threshold)then
+        return false
+    end
+
+    if (angel0 > loose_angel_max_threshold or angel2 > loose_angel_max_threshold) then
+        return false
+    end
+
+    if(bd0_1_angel >loose_bd_0_1_max_threshold  or bd0_1_angel  < loose_bd_0_1_min_threshold ) then
+        return false
+    end
+
+    if(bd2_3_angel >loose_bd_2_3_max_threshold  or bd2_3_angel  < loose_bd_2_3_min_threshold ) then
+        return false
+    end
+end
+
+
+if (bl == 2) then
+    if(dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold
+       or dis2 >tight_dis_max_threshold or dis3 > tight_dis_max_threshold or dis4 > tight_dis_max_threshold)then
+        return false
+    end
+
+    if (angel0 > tight_angel_max_threshold or angel2 > tight_angel_max_threshold) then
+        return false
+    end
+
+    if(bd0_1_angel >tight_bd_0_1_max_threshold  or bd0_1_angel  < tight_bd_0_1_min_threshold ) then
+        return false
+    end
+
+    if(bd2_3_angel >tight_bd_2_3_max_threshold  or bd2_3_angel  < tight_bd_2_3_min_threshold ) then
+        return false
+    end
+end
+
+trace("pass")
+
+
+return true
+
+
+
+end
+
+function  IsHengZhePieWan(bh,bl)
+if(bl~= 1 and bl~= 2) then return end
+local loose_dis_max_threshold = 25      --ËÉÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local tight_dis_max_threshold = 10      --½ôÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+
+local loose_angel_max_threshold = 10    --ËÉÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+local tight_angel_max_threshold = 5     --½ôÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+
+local loose_bd_0_1_min_threshold = 30
+local loose_bd_0_1_max_threshold = 85
+local loose_bd_2_3_min_threshold = 30
+local loose_bd_2_3_max_threshold = 85
+
+local tight_bd_0_1_min_threshold = 45
+local tight_bd_0_1_max_threshold = 80
+local tight_bd_2_3_min_threshold = 45
+local tight_bd_2_3_max_threshold = 80
+
+
+local startpt,startindex = GetLeftMostPoint(bh)
+local endpt = GetEndPoint(bh)
+local endindex = #bh.ptSet
+local turning_pt_3,turning_index_3 = GetBottomMostPoint(bh)
+local turning_pt_2,turning_index_2 = GetRightMostPoint(bh)
+
+
+
+local vpt = {}
+vpt.x = turning_pt_2.x
+vpt.y = startpt.y
+local turning_index_0 = startindex
+local temp = 90
+for i = 1, turning_index_2 do
+    local cpt = bh.ptSet[i]
+    local angel = 0
+    if (cpt.y == turning_pt_2.y) then
+	angel = 90
+    else
+	angel = Cal_Angle (cpt,turning_pt_2,vpt)
+    end
+    if (angel < temp) then
+        temp = angel
+        turning_index_0  = i
+    end
+end
+
+local turning_pt_0  = bh.ptSet[turning_index_0 ]
+local bd0 = GetTempBD(bh,startindex,turning_index_0 )
+local line0 = GetLine(startpt,turning_pt_0)
+local dis0 = GetFarDis2Line(bd0,line0)
+
+
+vpt.x = startpt.x
+vpt.y = turning_pt_2.y
+temp = 90
+local turning_index_1 = 1
+for i = 1,turning_index_2 do
+    local cpt = bh.ptSet[i]
+    local angel = 0
+    if (cpt.y == startpt.y) then
+        angel = 90
+    else
+        angel = Cal_Angle(cpt,startpt,vpt)
+    end
+    if (angel < temp) then
+        temp = angel
+        turning_index_1= i
+    end
+end
+
+local turning_pt_1 = bh.ptSet[turning_index_1]
+local bd1 = GetTempBD(bh,turning_index_0,turning_index_1)
+local line1 = GetLine(turning_pt_0,turning_pt_1)
+local dis1 = GetFarDis2Line(bd1,line1)
+
+local bd2 = GetTempBD(bh,turning_index_1,turning_index_2)
+local line2 = GetLine(turning_pt_1,turning_pt_2)
+local dis2 = GetFarDis2Line(bd2,line2)
+
+local bd3 = GetTempBD(bh,turning_index_2,turning_index_3)
+local line3 = GetLine(turning_pt_2,turning_pt_3)
+local dis3 = GetFarDis2Line(bd3,line3)
+
+local bd4 = GetTempBD(bh,turning_index_3,endindex)
+local line4 = GetLine(turning_pt_3,endpt)
+local dis4 = GetFarDis2Line(bd4,line4)
+
+local bd0_1_angel = Cal_Angle(startpt,turning_pt_0,turning_pt_1)
+local bd2_3_angel = Cal_Angle(turning_pt_1,turning_pt_2,turning_pt_3)
+
+
+if (turning_index_3 == endindex) then
+    return false
+end
+
+local angel0 = 90
+if (turning_pt_0.x ~= startpt.x) then
+    local slope0 = (turning_pt_0.y - startpt.y)/(turning_pt_0.x -  startpt.x)
+    angel0 = math.deg(math.atan(slope0))
+end
+angel0 = math.abs(angel0)
+
+local angel2 = 90
+if (turning_pt_2.x ~= turning_pt_1.x) then
+    local slope2 = (turning_pt_2.y - turning_pt_1.y)/(turning_pt_2.x -  turning_pt_1.x)
+    angel2 = math.deg(math.atan(slope2))
+end
+angel2 = math.abs(angel2)
+
+
+if (bl == 1) then
+    if(dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold
+       or dis2 >loose_dis_max_threshold or dis3 > loose_dis_max_threshold or dis4 > loose_dis_max_threshold)then
+        return false
+    end
+
+    if (angel0 > loose_angel_max_threshold or angel2 > loose_angel_max_threshold) then
+        return false
+    end
+
+    if(bd0_1_angel >loose_bd_0_1_max_threshold  or bd0_1_angel  < loose_bd_0_1_min_threshold ) then
+        return false
+    end
+
+    if(bd2_3_angel >loose_bd_2_3_max_threshold  or bd2_3_angel  < loose_bd_2_3_min_threshold ) then
+        return false
+    end
+end
+
+
+if (bl == 2) then
+    if(dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold
+       or dis2 >tight_dis_max_threshold or dis3 > tight_dis_max_threshold or dis4 > tight_dis_max_threshold)then
+        return false
+    end
+
+    if (angel0 > tight_angel_max_threshold or angel2 > tight_angel_max_threshold) then
+        return false
+    end
+
+    if(bd0_1_angel >tight_bd_0_1_max_threshold  or bd0_1_angel  < tight_bd_0_1_min_threshold ) then
+        return false
+    end
+
+    if(bd2_3_angel >tight_bd_2_3_max_threshold  or bd2_3_angel  < tight_bd_2_3_min_threshold ) then
+        return false
+    end
+end
+
+trace("pass")
+
+
+return true
+
+
+
+end
+
+
+
+
+
+function  IsHengZheZhePie(bh,bl)
+
+
+if(bl~= 1 and bl~= 2) then return end
+local loose_dis_max_threshold = 25      --ËÉÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local tight_dis_max_threshold = 10      --½ôÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+
+local loose_angel_max_threshold = 10    --ËÉÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+local tight_angel_max_threshold = 5     --½ôÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+
+local loose_bd_0_1_min_threshold = 30
+local loose_bd_0_1_max_threshold = 85
+local loose_bd_2_3_min_threshold = 30
+local loose_bd_2_3_max_threshold = 85
+
+local tight_bd_0_1_min_threshold = 45
+local tight_bd_0_1_max_threshold = 80
+local tight_bd_2_3_min_threshold = 45
+local tight_bd_2_3_max_threshold = 80
+
+
+local startpt,startindex = GetLeftMostPoint(bh)
+local endpt = GetEndPoint(bh)
+local endindex = #bh.ptSet
+local turning_pt_3,turning_index_3 = GetBottomMostPoint(bh)
+local turning_pt_2,turning_index_2 = GetRightMostPoint(bh)
+
+
+
+local vpt = {}
+vpt.x = turning_pt_2.x
+vpt.y = startpt.y
+local turning_index_0 = startindex
+local temp = 90
+for i = 1, turning_index_2 do
+    local cpt = bh.ptSet[i]
+    local angel = 0
+    if (cpt.y == turning_pt_2.y) then
+	angel = 90
+    else
+	angel = Cal_Angle (cpt,turning_pt_2,vpt)
+    end
+    if (angel < temp) then
+        temp = angel
+        turning_index_0  = i
+    end
+end
+
+local turning_pt_0  = bh.ptSet[turning_index_0 ]
+local bd0 = GetTempBD(bh,startindex,turning_index_0 )
+local line0 = GetLine(startpt,turning_pt_0)
+local dis0 = GetFarDis2Line(bd0,line0)
+
+
+vpt.x = startpt.x
+vpt.y = turning_pt_2.y
+temp = 90
+local turning_index_1 = 1
+for i = 1,turning_index_2 do
+    local cpt = bh.ptSet[i]
+    local angel = 0
+    if (cpt.y == startpt.y) then
+        angel = 90
+    else
+        angel = Cal_Angle(cpt,startpt,vpt)
+    end
+    if (angel < temp) then
+        temp = angel
+        turning_index_1= i
+    end
+end
+
+local turning_pt_1 = bh.ptSet[turning_index_1]
+local bd1 = GetTempBD(bh,turning_index_0,turning_index_1)
+local line1 = GetLine(turning_pt_0,turning_pt_1)
+local dis1 = GetFarDis2Line(bd1,line1)
+
+local bd2 = GetTempBD(bh,turning_index_1,turning_index_2)
+local line2 = GetLine(turning_pt_1,turning_pt_2)
+local dis2 = GetFarDis2Line(bd2,line2)
+
+local bd3 = GetTempBD(bh,turning_index_2,turning_index_3)
+local line3 = GetLine(turning_pt_2,turning_pt_3)
+local dis3 = GetFarDis2Line(bd3,line3)
+
+local bd4 = GetTempBD(bh,turning_index_3,endindex)
+local line4 = GetLine(turning_pt_3,endpt)
+local dis4 = GetFarDis2Line(bd4,line4)
+
+local bd0_1_angel = Cal_Angle(startpt,turning_pt_0,turning_pt_1)
+local bd2_3_angel = Cal_Angle(turning_pt_1,turning_pt_2,turning_pt_3)
+
+
+if (turning_index_3 == endindex) then
+    return false
+end
+
+local angel0 = 90
+if (turning_pt_0.x ~= startpt.x) then
+    local slope0 = (turning_pt_0.y - startpt.y)/(turning_pt_0.x -  startpt.x)
+    angel0 = math.deg(math.atan(slope0))
+end
+angel0 = math.abs(angel0)
+
+local angel2 = 90
+if (turning_pt_2.x ~= turning_pt_1.x) then
+    local slope2 = (turning_pt_2.y - turning_pt_1.y)/(turning_pt_2.x -  turning_pt_1.x)
+    angel2 = math.deg(math.atan(slope2))
+end
+angel2 = math.abs(angel2)
+
+
+if (bl == 1) then
+    if(dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold
+       or dis2 >loose_dis_max_threshold or dis3 > loose_dis_max_threshold or dis4 > loose_dis_max_threshold)then
+        return false
+    end
+
+    if (angel0 > loose_angel_max_threshold or angel2 > loose_angel_max_threshold) then
+        return false
+    end
+
+    if(bd0_1_angel >loose_bd_0_1_max_threshold  or bd0_1_angel  < loose_bd_0_1_min_threshold ) then
+        return false
+    end
+
+    if(bd2_3_angel >loose_bd_2_3_max_threshold  or bd2_3_angel  < loose_bd_2_3_min_threshold ) then
+        return false
+    end
+end
+
+
+if (bl == 2) then
+    if(dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold
+       or dis2 >tight_dis_max_threshold or dis3 > tight_dis_max_threshold or dis4 > tight_dis_max_threshold)then
+        return false
+    end
+
+    if (angel0 > tight_angel_max_threshold or angel2 > tight_angel_max_threshold) then
+        return false
+    end
+
+    if(bd0_1_angel >tight_bd_0_1_max_threshold  or bd0_1_angel  < tight_bd_0_1_min_threshold ) then
+        return false
+    end
+
+    if(bd2_3_angel >tight_bd_2_3_max_threshold  or bd2_3_angel  < tight_bd_2_3_min_threshold ) then
+        return false
+    end
+end
+
+trace("pass")
+
+
+return true
+
+
+end
+
+function  IsHengPieWanGou(bh,bl)
+if(bl~= 1 and bl~= 2) then return end
+local loose_dis_max_threshold = 25      --ËÉÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local tight_dis_max_threshold = 10      --½ôÆÀÅĞÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+
+local loose_angel_max_threshold = 10    --ËÉÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+local tight_angel_max_threshold = 5     --½ôÆÀÅĞÊ±Ê×Î²µãÁ¬ÏßÇãĞ±µÄ×î´ó½Ç¶È
+
+local loose_bd_0_1_min_threshold = 30
+local loose_bd_0_1_max_threshold = 85
+local loose_bd_2_3_min_threshold = 30
+local loose_bd_2_3_max_threshold = 85
+
+local tight_bd_0_1_min_threshold = 45
+local tight_bd_0_1_max_threshold = 80
+local tight_bd_2_3_min_threshold = 45
+local tight_bd_2_3_max_threshold = 80
+
+
+local startpt,startindex = GetLeftMostPoint(bh)
+local endpt = GetEndPoint(bh)
+local endindex = #bh.ptSet
+local turning_pt_3,turning_index_3 = GetBottomMostPoint(bh)
+local turning_pt_2,turning_index_2 = GetRightMostPoint(bh)
+
+
+
+local vpt = {}
+vpt.x = turning_pt_2.x
+vpt.y = startpt.y
+local turning_index_0 = startindex
+local temp = 90
+for i = 1, turning_index_2 do
+    local cpt = bh.ptSet[i]
+    local angel = 0
+    if (cpt.y == turning_pt_2.y) then
+	angel = 90
+    else
+	angel = Cal_Angle (cpt,turning_pt_2,vpt)
+    end
+    if (angel < temp) then
+        temp = angel
+        turning_index_0  = i
+    end
+end
+
+local turning_pt_0  = bh.ptSet[turning_index_0 ]
+local bd0 = GetTempBD(bh,startindex,turning_index_0 )
+local line0 = GetLine(startpt,turning_pt_0)
+local dis0 = GetFarDis2Line(bd0,line0)
+
+
+vpt.x = startpt.x
+vpt.y = turning_pt_2.y
+temp = 90
+local turning_index_1 = 1
+for i = 1,turning_index_2 do
+    local cpt = bh.ptSet[i]
+    local angel = 0
+    if (cpt.y == startpt.y) then
+        angel = 90
+    else
+        angel = Cal_Angle(cpt,startpt,vpt)
+    end
+    if (angel < temp) then
+        temp = angel
+        turning_index_1= i
+    end
+end
+
+local turning_pt_1 = bh.ptSet[turning_index_1]
+local bd1 = GetTempBD(bh,turning_index_0,turning_index_1)
+local line1 = GetLine(turning_pt_0,turning_pt_1)
+local dis1 = GetFarDis2Line(bd1,line1)
+
+local bd2 = GetTempBD(bh,turning_index_1,turning_index_2)
+local line2 = GetLine(turning_pt_1,turning_pt_2)
+local dis2 = GetFarDis2Line(bd2,line2)
+
+local bd3 = GetTempBD(bh,turning_index_2,turning_index_3)
+local line3 = GetLine(turning_pt_2,turning_pt_3)
+local dis3 = GetFarDis2Line(bd3,line3)
+
+local bd4 = GetTempBD(bh,turning_index_3,endindex)
+local line4 = GetLine(turning_pt_3,endpt)
+local dis4 = GetFarDis2Line(bd4,line4)
+
+local bd0_1_angel = Cal_Angle(startpt,turning_pt_0,turning_pt_1)
+local bd2_3_angel = Cal_Angle(turning_pt_1,turning_pt_2,turning_pt_3)
+
+
+if (turning_index_3 == endindex) then
+    return false
+end
+
+local angel0 = 90
+if (turning_pt_0.x ~= startpt.x) then
+    local slope0 = (turning_pt_0.y - startpt.y)/(turning_pt_0.x -  startpt.x)
+    angel0 = math.deg(math.atan(slope0))
+end
+angel0 = math.abs(angel0)
+
+local angel2 = 90
+if (turning_pt_2.x ~= turning_pt_1.x) then
+    local slope2 = (turning_pt_2.y - turning_pt_1.y)/(turning_pt_2.x -  turning_pt_1.x)
+    angel2 = math.deg(math.atan(slope2))
+end
+angel2 = math.abs(angel2)
+
+
+if (bl == 1) then
+    if(dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold
+       or dis2 >loose_dis_max_threshold or dis3 > loose_dis_max_threshold or dis4 > loose_dis_max_threshold)then
+        return false
+    end
+
+    if (angel0 > loose_angel_max_threshold or angel2 > loose_angel_max_threshold) then
+        return false
+    end
+
+    if(bd0_1_angel >loose_bd_0_1_max_threshold  or bd0_1_angel  < loose_bd_0_1_min_threshold ) then
+        return false
+    end
+
+    if(bd2_3_angel >loose_bd_2_3_max_threshold  or bd2_3_angel  < loose_bd_2_3_min_threshold ) then
+        return false
+    end
+end
+
+
+if (bl == 2) then
+    if(dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold
+       or dis2 >tight_dis_max_threshold or dis3 > tight_dis_max_threshold or dis4 > tight_dis_max_threshold)then
+        return false
+    end
+
+    if (angel0 > tight_angel_max_threshold or angel2 > tight_angel_max_threshold) then
+        return false
+    end
+
+    if(bd0_1_angel >tight_bd_0_1_max_threshold  or bd0_1_angel  < tight_bd_0_1_min_threshold ) then
+        return false
+    end
+
+    if(bd2_3_angel >tight_bd_2_3_max_threshold  or bd2_3_angel  < tight_bd_2_3_min_threshold ) then
+        return false
+    end
+end
+
+trace("pass")
+
+
+return true
+
+end
+
+
+
+
+
+
 
 
 

@@ -30,14 +30,14 @@ string JudgeManager::getResult(string hanzi,string points_output,CharacterEntity
 	CLuaScriptReader gReader;
 
 	gReader.InitLuaScriptReader();
-	gReader.SetWriteZiInfo(points_output.c_str());
+	gReader.setWriteZiInfo(points_output.c_str());
  	char * retStr = new char[50];
- 	gReader.SetZiName(hanzi);
+ 	gReader.setZiName(hanzi);
 
-  	gReader.SetRulesFunc(p->getRules());
+  	gReader.setRulesFunc(p->getRules());
 
 	gReader.RunScriptFile(filepath.c_str(),"WriteZiInfo.lua");
-	gReader.SetGlobalFunc(funcs);
+	gReader.setGlobalFunc(funcs);
  	gReader.RunMixedFile(basepath.c_str(),"BaseLib.lua");
  	gReader.RunScriptFile(apipath.c_str(),retStr,"RunAPI.lua");
  	gReader.ExitLuaScriptReader();
@@ -59,26 +59,26 @@ string JudgeManager::getResult(string hanzi , string points_output, string all_p
 	CLuaScriptReader gReader;
 
 	gReader.InitLuaScriptReader();
-	gReader.SetWriteZiInfo(points_output.c_str());
-	gReader.GetStandardZiInfo(all_points);
+	gReader.setWriteZiInfo(points_output.c_str());
+	gReader.setStandardZiInfo(all_points);
 /*	char * retStr = new char[50];*/
 	char retStr[50];
 	retStr[0] = '\0';
- 	gReader.SetZiName(hanzi);
+ 	gReader.setZiName(hanzi);
 
 	//ËÉ½ô¹æÔò
 	string r = DataTool::readFromFile("setting.xml");
  	gReader.setLevel(r);
  	if (r.compare("1") == 0)
  	{
- 		gReader.SetRulesFunc(p->getruleLoose());
+ 		gReader.setRulesFunc(p->getruleLoose());
  	}else if(r.compare("2") == 0){
- 		gReader.SetRulesFunc(p->getRuleTight());
+ 		gReader.setRulesFunc(p->getRuleTight());
  	}
 
- 	DataTool::storeToFile(funcs.c_str(),"func.txt");
-	CCLog("setGlobalFunc %s",funcs.c_str());
-	gReader.SetGlobalFunc(funcs);
+// 	DataTool::storeToFile(funcs.c_str(),"func.txt");
+//	CCLog("setGlobalFunc %s",funcs.c_str());
+//	gReader.setGlobalFunc(funcs);
 
  	CCLog("WriteZiInfo");
  	gReader.RunScriptFile(filepath.c_str(),"WriteZiInfo.lua");
@@ -86,7 +86,9 @@ string JudgeManager::getResult(string hanzi , string points_output, string all_p
  	gReader.RunScriptFile(standardpath.c_str(),"StandardZiInfo.lua");
 
  	CCLog("baselib");
- 	gReader.RunMixedFile(basepath.c_str(),"BaseLib.lua");
+// 	gReader.RunMixedFile(basepath.c_str(),"BaseLib.lua");
+ 	gReader.RunScriptFile(basepath.c_str(),"BaseLib.lua");
+
  	CCLog("runapi");
 	gReader.RunScriptFile(apipath.c_str(),retStr,"RunAPI.lua");
 //	gReader.RunScriptFile(apipath.c_str(),"RunAPI.lua");

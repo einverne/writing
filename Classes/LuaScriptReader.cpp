@@ -401,10 +401,10 @@ bool CLuaScriptReader::setStandardZiInfo(string stdinfo){
 //	return true;
 //}
 
-bool CLuaScriptReader::GetStrokeIndex(int idx){
-	StrokeIndex = idx;
-	return true;
-}
+//bool CLuaScriptReader::GetStrokeIndex(int idx){
+//	StrokeIndex = idx;
+//	return true;
+//}
 
 bool CLuaScriptReader::Print2File(char* str, char*filename)
 {

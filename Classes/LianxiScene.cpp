@@ -109,13 +109,13 @@ bool LianxiScene::init(){
 	strvec.erase(std::unique(strvec.begin(),strvec.end()),strvec.end());
 	vector<string>::iterator iter = strvec.begin(),iter2 = strvec.end();
 
-//	while (iter != iter2)
-//	{
-//		funcs += SQLiteData::getstrokeFunc(*iter);
-//		funcs += "\n";
-//		iter ++;
-//	}
-	funcs += SQLiteData::getstrokeFunc(*iter);
+	while (iter != iter2)
+	{
+		funcs += SQLiteData::getstrokeFunc(*iter);
+		funcs += "\n";
+		iter ++;
+	}
+//	funcs += SQLiteData::getstrokeFunc(*iter);
 
 
 
