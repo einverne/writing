@@ -102,7 +102,7 @@ void HcharacterLayer::judge(){
 	CCObject* ob;
 	CCARRAY_FOREACH(strokes,ob){
 		StrokeDrawnode* node = (StrokeDrawnode*)ob;
-		vector<CCPoint> points = node->getStroke().pointList;
+		vector<CCPoint> points = node->getStroke().getpointList();
 		for (vector<CCPoint>::iterator iter = points.begin(); iter != points.end() ; ++iter)
 		{
 			CCPoint temp = *iter;

@@ -45,19 +45,19 @@ void StrokeDrawnode::draw(){
 // 	glEnable(GL_LINE_SMOOTH);
 	if (visibleIndex == -1)
 	{
-		CCPoint pre = stroke.pointList[0];					//直接拿了pointList第一个值
+		CCPoint pre = stroke.getpointListIndexAt(0);					//直接拿了pointList第一个值
 		for (int i = 1; i< stroke.getPointsCount(); i++)
 		{
-			ccDrawLine(pre,stroke.pointList[i]);
-			pre = stroke.pointList[i];
+			ccDrawLine(pre,stroke.getpointListIndexAt(i));
+			pre = stroke.getpointListIndexAt(i);
 		}
 	}else
 	{
-		CCPoint pre = stroke.pointList[0];					//直接拿了pointList第一个值
+		CCPoint pre = stroke.getpointListIndexAt(0);					//直接拿了pointList第一个值
 		for (int i = 1; i< stroke.getPointsCount() && i < visibleIndex; i++)
 		{
-			ccDrawLine(pre,stroke.pointList[i]);
-			pre = stroke.pointList[i];
+			ccDrawLine(pre,stroke.getpointListIndexAt(i));
+			pre = stroke.getpointListIndexAt(i);
 		}
 	}
 // 	glDisable(GL_LINE_SMOOTH);

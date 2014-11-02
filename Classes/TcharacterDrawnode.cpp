@@ -131,7 +131,7 @@ string TcharacterDrawnode::getCharacterStandardInfo(){
 	for (int i = 1 ; i <= cout ; i++)
 	{
 		Stroke stroke = myChar.getStroke(i);
-		ret += stroke.sendOutput();
+		ret += stroke.sendOutputWithStatus();
 	}
 	return ret;
 }

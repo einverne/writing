@@ -156,3 +156,44 @@ string Stroke::convertToString(float f){
 	buff<<f;
 	return buff.str();
 }
+
+vector<CCPoint> Stroke::getpointList()	{
+	return pointList;
+}
+
+CCPoint Stroke::getpointListIndexAt(int i){
+	CCPoint p = ccp(0,0);
+	if (i < pointList.size())
+	{
+		p = pointList.at(i);
+	}
+	return p;
+}
+
+void Stroke::setpointList(int index,CCPoint pointSet){
+	pointList[index] = pointSet;
+}
+
+void Stroke::addStatus(const char* status){
+	string s = status;
+	statusList.push_back(s);
+}
+
+string Stroke::sendOutputWithStatus(){
+	string ret;
+	vector<string>::const_iterator statusIter = statusList.begin();
+	vector<CCPoint>::const_iterator pointIter = pointList.begin();
+	if (pointList.size() != statusList.size())
+	{
+		return ret;
+	}
+	for (pointIter ; pointIter != pointList.end() && statusIter!= statusList.end(); pointIter++,statusIter++)
+	{
+		CCPoint temp = (*pointIter);
+		ret += convertToString(ceil(temp.x))+ "/" + convertToString(ceil(temp.y)) + "/";
+		string status = *statusIter;
+		ret += status + "/";
+	}
+	ret += "@";
+	return ret;
+}
