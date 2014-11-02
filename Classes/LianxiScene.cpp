@@ -4,13 +4,15 @@
 #include <algorithm>
 using namespace std;
 
-typedef enum layers
+LianxiScene::LianxiScene():backgroundLayer(NULL),
+	touchLayer(NULL),
+	TLayer(NULL),
+	HLayer(NULL),
+	//	p(NULL),
+	ext_p(NULL)
 {
-	kBgLayerTag,
-	kHLayerTag,
-	kTLayerTag,
-	kTouchLayerTag
-};
+
+}
 
 LianxiScene::LianxiScene(string hanzi):backgroundLayer(NULL),
 	touchLayer(NULL),
@@ -92,30 +94,30 @@ bool LianxiScene::init(){
 		this->addChild(touchLayer);
 
 		this->setCharacterExt(new CharacterExtend());
+		SQLiteData::getHanziDataExtend(this->CurrentCharacter,ext_p);
+		setUserObject(getCharacterExt());
 
 		CC_BREAK_IF(!CCScene::init());
 		bRet = true;
 	} while (0);
 
 //	SQLiteData::getHanziData(this->CurrentCharacter,p);
-	SQLiteData::getHanziDataExtend(this->CurrentCharacter,ext_p);
 
-	CCString* temp = ext_p->getSEQ();
-	CCLog("seq %s",temp->getCString());
-	string str(temp->getCString());
-	vector<string> strvec = SQLiteData::splitStrokeSeq(str);
-	//去重
-	std::sort(strvec.begin(),strvec.end());
-	strvec.erase(std::unique(strvec.begin(),strvec.end()),strvec.end());
-	vector<string>::iterator iter = strvec.begin(),iter2 = strvec.end();
-
-	while (iter != iter2)
-	{
-		funcs += SQLiteData::getstrokeFunc(*iter);
-		funcs += "\n";
-		iter ++;
-	}
-//	funcs += SQLiteData::getstrokeFunc(*iter);
+// 	CCString* temp = ext_p->getSEQ();
+// 	CCLog("seq %s",temp->getCString());
+// 	string str(temp->getCString());
+// 	vector<string> strvec = SQLiteData::splitStrokeSeq(str);
+// 	//去重
+// 	std::sort(strvec.begin(),strvec.end());
+// 	strvec.erase(std::unique(strvec.begin(),strvec.end()),strvec.end());
+// 	vector<string>::iterator iter = strvec.begin(),iter2 = strvec.end();
+// 
+// 	while (iter != iter2)
+// 	{
+// 		funcs += SQLiteData::getstrokeFunc(*iter);
+// 		funcs += "\n";
+// 		iter ++;
+// 	}
 
 
 

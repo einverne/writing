@@ -10,14 +10,6 @@
 #include "MyToast.h"
 #include "tools\DataTool.h"
 
-typedef enum layers
-{
-	kBgLayerTag,
-	kHLayerTag,
-	kTLayerTag,
-	kTouchLayerTag
-};
-
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)  
 #define RIGHT_EFFECT_FILE   "right_android.ogg"
 #define WRONG_EFFECT_FILE	"wrong_android.ogg"
@@ -124,7 +116,8 @@ void HcharacterLayer::judge(){
 	CharacterExtend* p = ((LianxiScene*)this->getParent())->getCharacterExt();
 // 	string funcs = ((LianxiScene*)this->getParent())->funcs;
 //	string ret = JudgeManager::getResult(hanzi,output,p,funcs);
-	string funcs = ((LianxiScene*)this->getParent())->funcs;
+// 	string funcs = ((LianxiScene*)this->getParent())->funcs;
+	string funcs = "";
 	string points = ((LianxiScene*)this->getParent())->getTLayer()->getm_TDrawnode()->getCharacterStandardInfo();
 	string ret = JudgeManager::getResult(hanzi,output,points,p,funcs);
 	CCLog("Hcharacterlay: ret : %s %d",ret.c_str(),ret.length());

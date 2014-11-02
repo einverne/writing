@@ -7,18 +7,20 @@
 #include "TcharacterLayer.h"
 #include "HcharacterLayer.h"
 #include "CharacterExtend.h"
+#include "constants.h"
 USING_NS_CC;
 
 
 class LianxiScene : public CCScene
 {
 public:
+	LianxiScene();
 	LianxiScene(string hanzi);
 	LianxiScene(vector<string> hanzis,string hanzi);
 	~LianxiScene();
 	static LianxiScene* create(string hanzi);
 	static LianxiScene* create(vector<string> hanzis,string hanzi);
-	virtual bool init();
+	bool init();
 
 	string CurrentCharacter;			//当前正在练习的汉字字符
 	string funcs;						//当前汉字需要使用到数据中笔画lua评判规则

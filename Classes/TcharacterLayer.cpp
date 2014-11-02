@@ -18,7 +18,7 @@ TcharacterLayer::~TcharacterLayer(){
 bool TcharacterLayer::init(CCSprite* tianzige){
 	if (CCLayer::init())
 	{
-		CCLog("TcharacterLayer");
+		CCLog("TcharacterLayer init");
 		this->setSprite(tianzige);	
 
  		CCPoint tiangzige_position = this->getSprite()->getPosition();
@@ -54,8 +54,10 @@ TcharacterLayer* TcharacterLayer::create(CCSprite* tianzige){
 }
 
 void TcharacterLayer::onEnter(){
+	CCLog("TcharacterLayer::onEnter");
 	CCLayer::onEnter();
-	string LianxiHanzi = ((LianxiScene*)this->getParent())->CurrentCharacter;
+	CCScene* scene = CCDirector::sharedDirector()->getRunningScene();
+	string LianxiHanzi = ((LianxiScene*)scene)->CurrentCharacter;
 //	CharacterEntity* p = ((LianxiScene*)this->getParent())->getCharacterP();
 	CharacterExtend* p = ((LianxiScene*)this->getParent())->getCharacterExt();
 	this->setm_TDrawnode(TcharacterDrawnode::create(LianxiHanzi, m_sprite->getContentSize(), p));
@@ -63,7 +65,7 @@ void TcharacterLayer::onEnter(){
 	//不设置Anchorpoint了，直接做坐标变换
 	m_TDrawnode->setPosition(m_sprite->getPosition()-ccp(m_sprite->getContentSize().width/2,m_sprite->getContentSize().height/2));
 	
-
+	CCLog("TcharacterLayer::onEnter end");
 }
 
 void TcharacterLayer::onExit(){
