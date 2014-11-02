@@ -48,6 +48,16 @@ string JudgeManager::getResult(string hanzi,string points_output,CharacterEntity
 
 }
 
+
+/**
+* param funcs is not used
+* @param hanzi
+* @param points_output
+* @param all_points
+* @param p
+* @param funcs
+* @return
+*/
 string JudgeManager::getResult(string hanzi , string points_output, string all_points, CharacterExtend* p , string funcs){
 	CCLog("JudgeManager %s",funcs.c_str());
 
@@ -76,7 +86,6 @@ string JudgeManager::getResult(string hanzi , string points_output, string all_p
  		gReader.setRulesFunc(p->getRuleTight());
  	}
 
-// 	DataTool::storeToFile(funcs.c_str(),"func.txt");
 //	CCLog("setGlobalFunc %s",funcs.c_str());
 //	gReader.setGlobalFunc(funcs);
 
@@ -86,12 +95,10 @@ string JudgeManager::getResult(string hanzi , string points_output, string all_p
  	gReader.RunScriptFile(standardpath.c_str(),"StandardZiInfo.lua");
 
  	CCLog("baselib");
-// 	gReader.RunMixedFile(basepath.c_str(),"BaseLib.lua");
  	gReader.RunScriptFile(basepath.c_str(),"BaseLib.lua");
 
  	CCLog("runapi");
 	gReader.RunScriptFile(apipath.c_str(),retStr,"RunAPI.lua");
-//	gReader.RunScriptFile(apipath.c_str(),"RunAPI.lua");
 
 	CCLog("ExitLuaScriptReader");
 	gReader.ExitLuaScriptReader();
@@ -99,5 +106,4 @@ string JudgeManager::getResult(string hanzi , string points_output, string all_p
 	string ret = retStr;
 //	delete [] retStr;
 	return ret;
-//	return string("1\r\n");
 }
