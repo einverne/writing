@@ -124,9 +124,8 @@ void HcharacterLayer::judge(){
 	CharacterExtend* p = ((LianxiScene*)this->getParent())->getCharacterExt();
 // 	string funcs = ((LianxiScene*)this->getParent())->funcs;
 //	string ret = JudgeManager::getResult(hanzi,output,p,funcs);
-// 	string funcs = ((LianxiScene*)this->getParent())->funcs;
+	string funcs = ((LianxiScene*)this->getParent())->funcs;
 	string points = ((LianxiScene*)this->getParent())->getTLayer()->getm_TDrawnode()->getCharacterStandardInfo();
-	string funcs = ""
 	string ret = JudgeManager::getResult(hanzi,output,points,p,funcs);
 	CCLog("Hcharacterlay: ret : %s %d",ret.c_str(),ret.length());
 	if (ret.length() == 3)
