@@ -33,8 +33,6 @@ public:
 //	CC_SYNTHESIZE_RETAIN(CharacterEntity*,p,CharacterP);
 	CC_SYNTHESIZE_RETAIN(CharacterExtend*,ext_p,CharacterExt);
 	
-	void nextCharacter();
-
 private:
 	vector<string> hanziList;
 };

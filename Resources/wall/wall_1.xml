@@ -12,7 +12,7 @@
             <h>278 px</h>
             <img>withword\stone_0.png</img>
             <hanzi>一</hanzi>
-            <proficiency>0.0</proficiency>
+            <proficiency>0.5</proficiency>
         </stone>
         <stone>
             <type>nouse</type>
@@ -38,7 +38,7 @@
             <h>244 px</h>
             <img>withword\stone_3.png</img>
             <hanzi>了</hanzi>
-            <proficiency>0.0</proficiency>
+            <proficiency>0.8</proficiency>
         </stone>
         <stone>
             <type>nouse</type>

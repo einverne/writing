@@ -147,6 +147,7 @@ bool WallSingleScene::init(string xmlfilename)
 			//CCLog("temphanzi %s",temphanzi.c_str());
 			//			string GBKhanzi = UTF8ToGBK::UTF8TOGBK(temphanzi);
 			string temppro=proficiencyElement->GetText();
+			float profic = stof(temppro);
 
 			//stone sprite
 			//CCLog("tempfilename %s",tempfilename.c_str());
@@ -156,6 +157,15 @@ bool WallSingleScene::init(string xmlfilename)
 			pSprite1->setPosition(ccp(origin.x+x, origin.y+y));
 			this->addChild(pSprite1, 1);
 
+			//color of sprite to show a word proficient
+			if(profic > 0){
+				ccColor3B color;
+				color.r = profic*256;
+				color.g = color.b = 0;
+				pSprite1->setColor(color);
+				pSprite1->setOpacityModifyRGB(true);
+				pSprite1->setOpacity(125);
+			}
 			//нд╠╬©Р
 			hanzis.push_back(temphanzi);
 
@@ -244,69 +254,6 @@ void WallSingleScene::onExit(){
 	CCLayer::onExit();
 }
 
-// bool  WallScene::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
-// {
-// 	popup();
-// 	touchbeginpoint = ccp(pTouch->getLocation().x , pTouch->getLocation().y);
-// 	touched=true;
-// 	beginTime = millisecondNow();
-// 	return true;
-// }
-// void  WallScene::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
-// {
-// 
-// 	long endTime = millisecondNow();
-// 	if (endTime-beginTime < 250 && isMoved==false)
-// 	{
-// 		//single click
-// 		CCPoint touchpoint = pTouch->getLocation();
-// 		//CCLog("Touchpoint %f %f",touchpoint.x,touchpoint.y);
-// 		for (vector<CHanziManage>::iterator iter = hanzilist.begin();iter!=hanzilist.end();++iter)
-// 		{
-// 			CCPoint hanziPos = iter->pos;
-// 			//CCLog("hanziPos %f %f",hanziPos.x,hanziPos.y);
-// 			CCPoint realPos = ccp(hanziPos.x+changepoint.x,hanziPos.y+changepoint.y);
-// 			//CCLog("hanziPos %f %f",hanziPos.x,hanziPos.y);
-// 			CCRect rect = CCRectMake(realPos.x-100,realPos.y-100,200,200);
-// 
-// 			if (rect.containsPoint(touchpoint))
-// 			{
-// 				CCLog(iter->character.c_str());
-// 				this->singleClick(iter->character);
-// 				return;
-// 			}
-// 		}
-// 	}
-// 
-// 	if (endTime-beginTime > 3000)
-// 	{
-// 		popup();
-// 	}
-// 	touched=false;
-// 	isMoved = false;
-// }
-// void  WallScene::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent)
-// {
-// 	isMoved = true;
-// 	CCPoint newpos=ccp(pTouch->getLocation().x , pTouch->getLocation().y);
-// 	CCPoint temppoint=ccp(newpos.x-touchbeginpoint.x, newpos.y-touchbeginpoint.y);
-// 	changepoint =ccp(changepoint.x+temppoint.x, changepoint.y+temppoint.y);
-// 	//CCLog("%f %f",changepoint.x,changepoint.y);
-// 	////////////////
-// 	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
-// 
-// 	if(changepoint.y!=0)
-// 		changepoint.y=0;
-// 
-// 	if(changepoint.x>=0)
-// 		changepoint.x=0;
-// 
-// 	if (changepoint.x<=-3000*rescale+visibleSize.width)
-// 		changepoint.x=-3000*rescale+visibleSize.width;
-// 	////////////////
-// 	this->setPosition(changepoint);
-// 	touchbeginpoint = newpos;
-// }
 
 void WallSingleScene::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 	CCLog("Touches Began~~~");

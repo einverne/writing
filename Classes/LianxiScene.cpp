@@ -123,7 +123,3 @@ bool LianxiScene::init(){
 
 	return bRet;
 }
-
-void LianxiScene::nextCharacter(){
-	
-}

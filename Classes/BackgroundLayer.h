@@ -17,7 +17,7 @@ public:
 	CCSprite* tianzige_draw;
 private:
 	void menuBack(CCObject* pSender);			//·µ»Ø²Ëµ¥
-	void menuNext(CCObject* pSender);
+// 	void menuNext(CCObject* pSender);
 };
 
 
