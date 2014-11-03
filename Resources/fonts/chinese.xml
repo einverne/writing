@@ -13,5 +13,7 @@
 	<string>位置正确</string>
 	<key>last_one</key>
 	<string>已经是最后一个</string>
+	<key>not_exist</key>
+	<string>该字在数据库中尚不存在</string>
 </dict>  
 </plist>  

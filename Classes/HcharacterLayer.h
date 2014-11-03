@@ -25,6 +25,7 @@ public:
 	string floatToString(float f);
 	void judge();
 	void next();
+	float getWrongPercent();
 
 	CC_SYNTHESIZE_RETAIN(HcharacterDrawnode*,m_HDrawnode,m_HDrawnode);
 	CC_SYNTHESIZE_RETAIN(CCLabelTTF*, bihuaCount,bihuaCount);
@@ -34,6 +35,10 @@ public:
 private:
 	void rewrite(CCObject* pSender);
 	string hanzi;
+	void writeWrong();
+	void writeRight();
+	int writeCount;
+	int wrongCount;
 };
 
 

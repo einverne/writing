@@ -83,6 +83,12 @@ string DataTool::intTostring(int a){
 	return s.str();
 }
 
+string DataTool::floatToString(float f){
+	stringstream s;
+	s << f;
+	return s.str();
+}
+
 void DataTool::storeToFile(const char* str,char* filename){
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	unsigned long size = 0;

@@ -6,10 +6,19 @@
 #include "MainScene.h"
 #include "MyToast.h"
 #include "CeshiScene.h"
+#include "SQLiteData.h"
 
 USING_NS_CC;
 
 #define TAG_LAYER_EXIT 1001
+
+WallSingleScene::WallSingleScene(){
+	isLongPressAllow = false;
+}
+
+WallSingleScene::~WallSingleScene(){
+
+}
 
 //////////////////////////////////////////
 CCScene* WallSingleScene::scene(string filename)
@@ -49,7 +58,7 @@ bool WallSingleScene::init(string xmlfilename)
 	{
 		return false;
 	}
-
+	CCLog("WallSingleScene::init");
 	wallXMLCurrent = xmlfilename;
 	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
 	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
@@ -57,13 +66,27 @@ bool WallSingleScene::init(string xmlfilename)
 	isMoved = false;
 	touched = false;
 
-	CCLog("WallSingleScene:init()");
-	CCSprite* wall_tail = CCSprite::create("wall_tail.png");
-	this->addChild(wall_tail,2);
-	CCSize tailSize = wall_tail->getContentSize();
-	wall_tail->setPosition(ccp(visibleSize.width/2,wall_tail->getContentSize().height/2));
-	wall_tail->setScaleX(visibleSize.width/wall_tail->getContentSize().width);
+	CCLog("WallSingleScene:init");
 
+
+
+	//注册触摸事件
+	CCPoint changepoint=ccp(0,0);
+	touched=false;
+	this->setTouchEnabled(true);
+	this->setKeypadEnabled(true);			//android back key
+	//原本如果没有重载register那个函数，需要调用如下两个其中之一
+	//CCDirector::sharedDirector()->getTouchDispatcher()->addStandardDelegate(this,1);
+	//CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 0, true);
+
+	return true;
+}
+
+void WallSingleScene::onEnter(){
+	CCLayer::onEnter();
+	CCLog("WallSingleScene::onEnter()");
+	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
 
 	CCMenuItemImage* ceshi_button = CCMenuItemImage::create("ceshi_1.png",
 		"ceshi_2.png",
@@ -73,6 +96,20 @@ bool WallSingleScene::init(string xmlfilename)
 	this->addChild(menu,20);
 	ceshi_button->setPosition(ccp(visibleSize.width - ceshi_button->getContentSize().width/2 ,ceshi_button->getContentSize().height/2));
 	menu->setPosition(CCPointZero);
+
+
+	////////////////////////////////////////////////////////////////////////////////
+	CCSprite* pSprite = CCSprite::create("wall.JPG");
+	CCSize spriteSize = pSprite->getContentSize();
+	pSprite->setPosition(ccp(spriteSize.width/2,spriteSize.height/2));
+	pSprite->setScale(15);
+	this->addChild(pSprite, 0);
+	CCSprite* wall_tail = CCSprite::create("wall_tail.png");
+	this->addChild(wall_tail,2);
+	CCSize tailSize = wall_tail->getContentSize();
+	wall_tail->setPosition(ccp(visibleSize.width/2,wall_tail->getContentSize().height/2));
+	wall_tail->setScaleX(visibleSize.width/wall_tail->getContentSize().width);
+
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	string myfilename = CCFileUtils::sharedFileUtils()->getWritablePath()+wallXMLCurrent;
@@ -225,33 +262,13 @@ bool WallSingleScene::init(string xmlfilename)
 			stoneElement=stoneElement->NextSiblingElement();
 		}
 	}
-
-	////////////////////////////////////////////////////////////////////////////////
-	CCSprite* pSprite = CCSprite::create("wall.JPG");
-	CCSize spriteSize = pSprite->getContentSize();
-	pSprite->setPosition(ccp(spriteSize.width/2,spriteSize.height/2));
-	pSprite->setScale(15);
-	this->addChild(pSprite, 0);
-
-	//注册触摸事件
-	CCPoint changepoint=ccp(0,0);
-	touched=false;
-	this->setTouchEnabled(true);
-	this->setKeypadEnabled(true);			//android back key
-	//原本如果没有重载register那个函数，需要调用如下两个其中之一
-	//CCDirector::sharedDirector()->getTouchDispatcher()->addStandardDelegate(this,1);
-	//CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 0, true);
-
-	return true;
-}
-
-void WallSingleScene::onEnter(){
-	CCLayer::onEnter();
-
 }
 
 void WallSingleScene::onExit(){
 	CCLayer::onExit();
+	CCLog("WallSingleScene::onExit");
+	removeAllChildren();
+
 }
 
 
@@ -293,7 +310,6 @@ void WallSingleScene::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
 	CCPoint newpos=ccp(pTouch->getLocation().x , pTouch->getLocation().y);
 	CCPoint temppoint=ccp(newpos.x-touchbeginpoint.x, newpos.y-touchbeginpoint.y);
 	changepoint =ccp(changepoint.x+temppoint.x, changepoint.y+temppoint.y);
-	//CCLog("%f %f",changepoint.x,changepoint.y);
 	////////////////
 	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
 
@@ -306,7 +322,6 @@ void WallSingleScene::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
 	if (changepoint.x<=-900*rescale+visibleSize.width)
 		changepoint.x=-900*rescale+visibleSize.width;
 	////////////////
-	//this->setPosition(changepoint);
 	touchbeginpoint = newpos;
 }
 
@@ -314,13 +329,11 @@ void WallSingleScene::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 	CCTouch* pTouch = (CCTouch*)pTouches->anyObject();
 	long endTime = millisecondNow();
 	float length = ccpDistance(prePoint,pTouch->getLocation());
-// 	CCLog("length:%f  %f",length,endTime-beginTime);
 
 	if (endTime-beginTime < 1000 && length <= 50)
 	{
 		//single click
 		CCPoint touchpoint = pTouch->getLocation();
-		//CCLog("Touchpoint %f %f",touchpoint.x,touchpoint.y);
 		for (vector<CHanziManage>::iterator iter = hanzilist.begin();iter!=hanzilist.end();++iter)
 		{
 			CCPoint hanziPos = iter->pos;
@@ -360,13 +373,7 @@ void WallSingleScene::update(float delta){
 void WallSingleScene::menuCloseCallback(CCObject* pSender)
 {
 	CCDirector::sharedDirector()->end();
-	////
-	//this->setTouchEnabled(false);
-	//CCDirector::sharedDirector()->getTouchDispatcher()->removeDelegate(this);
-	////
-	// #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-	// 	exit(0);
-	// #endif
+
 }
 
 bool WallSingleScene::isInSprite(CCTouch* pTouch){
@@ -391,12 +398,15 @@ bool WallSingleScene::isInSprite(CCTouch* pTouch){
 /************************************************************************/
 void WallSingleScene::singleClick(string hanzi){
 	//解除schedule,不然可能出现不可预测问题。
-	
-	if (hanzi != "a")
+	//判断该字在数据库中是否存在，存在跳转，否则提示
+	if (SQLiteData::isExist(hanzi))
 	{
 		this->unscheduleAllSelectors();
 		CCDirector::sharedDirector()->getTouchDispatcher()->removeAllDelegates();
 		CCDirector::sharedDirector()->pushScene(LianxiScene::create(hanzi));
+	}else{
+		this->unscheduleAllSelectors();
+		MyToast::showToast(this,DataTool::getChinese("not_exist"),TOAST_LONG);
 	}
 
 }
@@ -445,9 +455,9 @@ void WallSingleScene::buttonCallBack(CCNode* pNode){
 }
 
 void WallSingleScene::longPressUpdate(float fDelta){
-	CCLog("Update %f",fDelta);
+	CCLog("longPressUpdate %f",fDelta);
 
-	if (isMoved == false && selectedHanzi.length() > 0)
+	if (isMoved == false && selectedHanzi.length() > 0 && isLongPressAllow == true)
 	{
 		popup(selectedHanzi);
 	}
@@ -491,10 +501,6 @@ void WallSingleScene::saveToFile(string src,const char* dst){
 			if (text == src)
 			{
 				TiXmlElement* new_hanzi = new TiXmlElement("hanzi");
-				// 				string dst_str = GBKToUTF8(dst);
-				// 				string dst_ss = DataTool::GB2312ToUTF8(dst);
-				// 				CCLog("DST XXXX%s XXXX%s",dst.c_str(),dst_str.c_str());
-				// 				const char* temp = dst.c_str();
 				TiXmlText* newText = new TiXmlText(dst);
 				new_hanzi->InsertEndChild(*newText);
 				stone->RemoveChild(hanzi);

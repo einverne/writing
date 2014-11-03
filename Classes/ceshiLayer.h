@@ -11,9 +11,10 @@ public:
 	~ceshiLayer();
 	CREATE_FUNC(ceshiLayer);
 	bool init();
-
+	void SaveProToFile(float pro);
 private:
 	void menuNext(CCObject* pSender);
+	
 };
 
 

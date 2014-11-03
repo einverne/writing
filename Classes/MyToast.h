@@ -19,6 +19,13 @@ public:
 	virtual bool init();
 	void onExit();
 	void initToast(string msg,float time);
+	/**
+	* static function to show Toast
+	* @param node which node to call this function
+	* @param msg	the message to show
+	* @param dt		the time toast will show, second    can use TOAST_LONG and TOAST_SHORT or any other value you want
+	* @return
+	*/
 	static void showToast(CCNode* node,string msg,float dt);
 
 private:

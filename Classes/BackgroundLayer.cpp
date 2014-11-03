@@ -48,7 +48,6 @@ bool BackgroundLayer::init(){
 		back->setPosition(ccp(winSize.width - back->getContentSize().width/2 ,back->getContentSize().height/2));
 		menu->setPosition(CCPointZero);
 
-
 		//add tianzige
 		tianzige = CCSprite::create("tianzige.png");
 		this->addChild(tianzige,1);
@@ -61,12 +60,6 @@ bool BackgroundLayer::init(){
 		CCSize tianzigeDrawSize = tianzige_draw->getContentSize();
 		tianzige_draw->setPosition(ccp(visiableSize.width/2,tailSize.height+50+tianzigeDrawSize.height/2));
 
-// 		CCMenuItemImage* next = CCMenuItemImage::create("dog.png",
-// 			"dog.png",
-// 			this,
-// 			menu_selector(BackgroundLayer::menuNext));
-// 		next->setPosition(ccp(winSize.width - next->getContentSize().width/2-50,winSize.height/2));
-// 		menu->addChild(next);
 
 	}
 	return true;
@@ -83,8 +76,3 @@ void BackgroundLayer::keyBackClicked(){
 	CCDirector::sharedDirector()->getTouchDispatcher()->removeAllDelegates();
 	CCDirector::sharedDirector()->popScene();
 }
-
-// void BackgroundLayer::menuNext(CCObject* pSender){
-// 	CCLog("next");
-// 	((LianxiScene*)this->getParent())->nextCharacter();
-// }

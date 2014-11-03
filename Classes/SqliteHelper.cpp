@@ -108,6 +108,10 @@ int SqliteHelper::getDataCount( string sql )
 {
 	int count=0;
 	sqlite3_exec( pDB, sql.c_str() , loadRecordCount, &count, &errMsg );
+	if (errMsg)
+	{
+		sqlite3_free(errMsg);
+	}
 	return count;
 }
 
@@ -142,7 +146,10 @@ int loadziRecord(void * para, int n_column, char ** column_value, char ** column
 void SqliteHelper::getZiDataInfo(string sql,CCObject* p){
 	int ret = sqlite3_exec(pDB , sql.c_str() , loadziRecord , p,&errMsg);
 	CCLog("getZiDataInfo error code:%d error:%s",ret,errMsg);
-
+	if (errMsg)
+	{
+		sqlite3_free(errMsg);
+	}
 }
 
 int loadziR(void * para, int n_column, char ** column_value, char ** column_name){
@@ -158,6 +165,10 @@ int loadziR(void * para, int n_column, char ** column_value, char ** column_name
 
 void SqliteHelper::getZiDataInfoExtend(string sql,CCObject* p){
 	int ret = sqlite3_exec(pDB, sql.c_str(), loadziR, p ,&errMsg);
+	if (errMsg)
+	{
+		sqlite3_free(errMsg);
+	}
 }
 
 int getFuncBody(void * para, int n_column, char ** column_value, char ** column_name){

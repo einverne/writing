@@ -1,4 +1,4 @@
-<xml>
+﻿<xml>
     <meta>
         <height>1500</height>
         <width>910</width>
@@ -12,7 +12,7 @@
             <h>278 px</h>
             <img>withword\stone_0.png</img>
             <hanzi>一</hanzi>
-            <proficiency>0.5</proficiency>
+            <proficiency>0</proficiency>
         </stone>
         <stone>
             <type>nouse</type>
@@ -38,7 +38,7 @@
             <h>244 px</h>
             <img>withword\stone_3.png</img>
             <hanzi>了</hanzi>
-            <proficiency>0.8</proficiency>
+            <proficiency>0.75</proficiency>
         </stone>
         <stone>
             <type>nouse</type>
@@ -56,7 +56,7 @@
             <h>302 px</h>
             <img>withword\stone_5.png</img>
             <hanzi>人</hanzi>
-            <proficiency>0.0</proficiency>
+            <proficiency>0.8</proficiency>
         </stone>
         <stone>
             <type>nouse</type>
@@ -82,7 +82,7 @@
             <h>327 px</h>
             <img>withword\stone_9.png</img>
             <hanzi>力</hanzi>
-            <proficiency>0.0</proficiency>
+            <proficiency>0.833333</proficiency>
         </stone>
         <stone>
             <type>wordbox</type>
@@ -92,7 +92,7 @@
             <h>213 px</h>
             <img>withword\stone_10.png</img>
             <hanzi>几</hanzi>
-            <proficiency>0.0</proficiency>
+            <proficiency>0.785714</proficiency>
         </stone>
         <stone>
             <type>wordbox</type>
@@ -102,7 +102,7 @@
             <h>299 px</h>
             <img>withword\stone_11.png</img>
             <hanzi>十</hanzi>
-            <proficiency>0.0</proficiency>
+            <proficiency>0.6875</proficiency>
         </stone>
         <stone>
             <type>wordbox</type>
@@ -112,7 +112,7 @@
             <h>221 px</h>
             <img>withword\stone_12.png</img>
             <hanzi>入</hanzi>
-            <proficiency>0.0</proficiency>
+            <proficiency>0.666667</proficiency>
         </stone>
         <stone>
             <type>nouse</type>
@@ -146,7 +146,7 @@
             <h>268 px</h>
             <img>withword\stone_16.png</img>
             <hanzi>个</hanzi>
-            <proficiency>0.0</proficiency>
+            <proficiency>0.6</proficiency>
         </stone>
         <stone>
             <type>nouse</type>
@@ -164,7 +164,7 @@
             <h>317 px</h>
             <img>withword\stone_18.png</img>
             <hanzi>上</hanzi>
-            <proficiency>0.0</proficiency>
+            <proficiency>0.606061</proficiency>
         </stone>
         <stone>
             <type>nouse</type>
@@ -182,7 +182,7 @@
             <h>259 px</h>
             <img>withword\stone_20.png</img>
             <hanzi>大</hanzi>
-            <proficiency>0.0</proficiency>
+            <proficiency>0.642857</proficiency>
         </stone>
         <stone>
             <type>wordbox</type>
@@ -192,7 +192,7 @@
             <h>224 px</h>
             <img>withword\stone_21.png</img>
             <hanzi>子</hanzi>
-            <proficiency>0.0</proficiency>
+            <proficiency>0.659091</proficiency>
         </stone>
         <stone>
             <type>nouse</type>
@@ -210,7 +210,7 @@
             <h>249 px</h>
             <img>withword\stone_23.png</img>
             <hanzi>也</hanzi>
-            <proficiency>0.0</proficiency>
+            <proficiency>0.659091</proficiency>
         </stone>
         <stone>
             <type>nouse</type>
@@ -236,7 +236,7 @@
             <h>293 px</h>
             <img>withword\stone_26.png</img>
             <hanzi>下</hanzi>
-            <proficiency>0.0</proficiency>
+            <proficiency>0</proficiency>
         </stone>
         <stone>
             <type>wordbox</type>
@@ -246,7 +246,7 @@
             <h>231 px</h>
             <img>withword\stone_27.png</img>
             <hanzi>小</hanzi>
-            <proficiency>0.0</proficiency>
+            <proficiency>0</proficiency>
         </stone>
         <stone>
             <type>nouse</type>
@@ -264,7 +264,7 @@
             <h>350 px</h>
             <img>withword\stone_29.png</img>
             <hanzi>于</hanzi>
-            <proficiency>0.0</proficiency>
+            <proficiency>0</proficiency>
         </stone>
         <stone>
             <type>wordbox</type>
@@ -274,7 +274,7 @@
             <h>305 px</h>
             <img>withword\stone_30.png</img>
             <hanzi>么</hanzi>
-            <proficiency>0.0</proficiency>
+            <proficiency>0</proficiency>
         </stone>
         <stone>
             <type>nouse</type>
@@ -315,7 +315,7 @@
             <w>70 px</w>
             <h>146 px</h>
             <img>noword\stone_35.png</img>
-        </stone>       
+        </stone>
         <stone>
             <type>nouse</type>
             <x>867 px</x>
@@ -323,6 +323,6 @@
             <w>42 px</w>
             <h>256 px</h>
             <img>noword\stone_38.png</img>
-        </stone>       
+        </stone>
     </data>
 </xml>

@@ -31,6 +31,9 @@ public:
 
 	void next();
 
+	string getWallFileName()	{ return wfilename;}
+	string getCharacter()		{ return currentCharacter;}
+
 private:
 	string wfilename;
 	vector<string> hanziList;

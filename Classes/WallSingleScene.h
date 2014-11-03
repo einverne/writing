@@ -11,6 +11,8 @@ USING_NS_CC;
 class WallSingleScene : public CCLayer
 {
 public:
+	WallSingleScene();
+	~WallSingleScene();
 	vector<CHanziManage> hanzilist;
 	string selectedHanzi;
 	float rescale;
@@ -37,7 +39,12 @@ public:
 	* @return
 	*/
 	void popup(string hanzi);
-	//对话框回调函数
+	
+	/**
+	* 对话框回调函数
+	* @param pNode
+	* @return
+	*/
 	void buttonCallBack(CCNode* pNode);
 
 	virtual void update(float delta);
@@ -87,6 +94,7 @@ private:
 	void ceshi(CCObject* pSender);
 
 	vector<string> hanzis;
+	bool isLongPressAllow;
 };
 
 #endif // __WallSingleScene_H__

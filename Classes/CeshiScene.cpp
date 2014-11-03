@@ -63,8 +63,6 @@ bool CeshiScene::init(){
 	do 
 	{
 
-
-
 		this->setCharacterExt(new CharacterExtend());
 		SQLiteData::getHanziDataExtend(currentCharacter,ext_p);
 
@@ -110,6 +108,8 @@ void CeshiScene::next(){
 		MyToast::showToast(this,DataTool::getChinese("last_one"),TOAST_LONG);
 		return;
 	}
+	getceshiLayer()->SaveProToFile(getHLayer()->getWrongPercent());
+
 	vector<string>::iterator iter = hanziList.begin();
 
 	vector<string>::iterator next;
@@ -125,4 +125,5 @@ void CeshiScene::next(){
 	getTLayer()->next();
 	getHLayer()->setExChar(ext_p);
 	getHLayer()->next();
+
 }
