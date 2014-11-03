@@ -92,7 +92,7 @@ for i = 1,#ZiRuleList do
 	local newRule = str1.. tostring (i) ..str2
 	local newBH = ""
 	if ( i > 1 ) then
-		newBH = "local bh"..tostring (i - 2) .. " = GetBH(" ..tostring(i - 2) .. ") "
+		newBH = "local bh"..tostring (i - 2) .. " = GetPreBH(" ..tostring(i - 2) .. ") "
 	end
 	newRule  = newRule  .. newBH .. ZiRuleList[i].codes.."\n"
 	if (strokeLevel == '2') then

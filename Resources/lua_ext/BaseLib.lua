@@ -906,6 +906,39 @@ function JudgeDotLine(pt,bd)
 
 end
 
+
+--对于单笔段来说，只需要传入笔画即可
+--	0 startpoint 1 endpoint 2 line
+function BH2BHXiangJie(bd1,bd2,type1,type2)
+	local flag = 0
+	if (type1 == 0) then
+		if(type2 == 0) then
+			flag = Judge2Dots(bd1.ptSet[1],bd2.ptSet[1])
+				elseif (type2 == 1) then
+					flag = Judge2Dots(bd1.ptSet[1],bd2.ptSet[#bd2.ptSet])
+						else
+							flag = JudgeDotLine(bd1.ptSet[1],bd2)
+						end
+
+	elseif (type1 == 1) then
+		if(type2 == 0) then
+			flag = Judge2Dots(bd1.ptSet[#bd1.ptSet],bd2.ptSet[1])
+				elseif (type2 == 1) then
+					flag = Judge2Dots(bd1.ptSet[#bd1.ptSet],bd2.ptSet[#bd2.ptSet])
+						else
+							flag = JudgeDotLine(bd1.ptSet[#bd1.ptSet],bd2)
+						end
+	else --type1 == 2
+		if(type2 == 0) then
+			flag = JudgeDotLine(bd2.ptSet[1],bd1)
+				elseif (type2 == 1) then
+					flag = Judge2Dots(bd2.ptSet[#bd2.ptSet],bd1)
+				end
+	end
+
+	return flag
+end
+
 function  IsShu(bh,bl)
 	if(bl ~= 1 and bl~=2 ) then return end
 	local loose_dis_max_threshold = 40      --松评判时笔迹到首尾点连线的最大距离

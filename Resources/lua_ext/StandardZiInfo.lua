@@ -10,11 +10,9 @@ local print = print
 local math = math
 local table =  table
 local type = type
-
 module("StandardZiInfo")
-
-POINT = { GeoType = "KPOINT", x = 0, y = 0}
-BH = { GeoType = "KBH", ptSet = {}, InflectionPoint = {}, }
+POINT = { GeoType = "SPOINT", x = 0, y = 0}
+BH = { GeoType = "SBH", ptSet = {}, InflectionPoint = {}, }
 StdHZ = { strokeNum = 0, strokes = {}, strokeStrings = {}  }
 
 --split 函数，sep是待切分字符串，sign为分割字符
@@ -51,13 +49,22 @@ end
 --将点集字符串分割，并初始化笔画的点集
 function BH:splitPoints(ptStr)
 	local ptSet = {}
-	for strx,stry in string.gmatch(ptStr,"(%d+)/(%d+)") do
+	local InflectionPoint = {}
+	local i = 0
+	for strx,stry,strtag in string.gmatch(ptStr,"(%d+)/(%d+)/(%d+)") do
 		local pt = {}
 		pt.x = tonumber(strx)
 		pt.y = tonumber(stry)
 		ptSet[#ptSet+1] = pt
+		local tag = tonumber(strtag)
+		if (tag == 1) then
+			InflectionPoint[#InflectionPoint+1] = i   --记录拐点索引
+		end
+		i = i + 1
 	end
 	self.ptSet = ptSet
+	self.InflectionPoint = InflectionPoint
+
 end
 
 function sortingFun(a,b)
