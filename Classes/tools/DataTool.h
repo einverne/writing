@@ -23,6 +23,8 @@ public:
 
 	static string floatToString(float f);
 
+	static float stringToFloat(string str);
+
 	static void storeToFile(const char* str,char* filename);
 	/**
 		从文件中读取字符串

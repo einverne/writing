@@ -1,5 +1,6 @@
 #include "DataTool.h"
-
+#include <iostream>
+#include <string>
 using namespace std;
 USING_NS_CC;
 
@@ -87,6 +88,15 @@ string DataTool::floatToString(float f){
 	stringstream s;
 	s << f;
 	return s.str();
+}
+
+float DataTool::stringToFloat(string str){
+	stringstream ss(str);
+	float f = 0.0;
+	if(!(ss >> f)){
+		CCLog("Error convert string to float");
+	}
+	return f;
 }
 
 void DataTool::storeToFile(const char* str,char* filename){

@@ -7,8 +7,10 @@
 #include "MyToast.h"
 #include "CeshiScene.h"
 #include "SQLiteData.h"
-
+#include <iostream>
+#include <string>
 USING_NS_CC;
+using namespace std;
 
 #define TAG_LAYER_EXIT 1001
 
@@ -184,7 +186,7 @@ void WallSingleScene::onEnter(){
 			//CCLog("temphanzi %s",temphanzi.c_str());
 			//			string GBKhanzi = UTF8ToGBK::UTF8TOGBK(temphanzi);
 			string temppro=proficiencyElement->GetText();
-			float profic = stof(temppro);
+			float profic = DataTool::stringToFloat(temppro);
 
 			//stone sprite
 			//CCLog("tempfilename %s",tempfilename.c_str());
@@ -268,7 +270,7 @@ void WallSingleScene::onExit(){
 	CCLayer::onExit();
 	CCLog("WallSingleScene::onExit");
 	removeAllChildren();
-
+	hanzis.clear();
 }
 
 

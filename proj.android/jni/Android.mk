@@ -13,6 +13,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/Bujian.cpp \
                    ../../Classes/Character.cpp \
                    ../../Classes/CeshiScene.cpp \
+                   ../../Classes/ceshiLayer.cpp \
                    ../../Classes/HanziManage.cpp \
                    ../../Classes/HcharacterDrawnode.cpp \
                    ../../Classes/HcharacterLayer.cpp \
