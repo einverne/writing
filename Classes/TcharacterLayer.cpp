@@ -4,7 +4,7 @@
 #include "CharacterEntity.h"
 
 TcharacterLayer::TcharacterLayer():m_sprite(NULL),
-	m_TDrawnode(NULL),isPause(false)
+	m_TDrawnode(NULL),isPause(false),m_exChar(NULL)
 {
 
 }
@@ -13,6 +13,7 @@ TcharacterLayer::~TcharacterLayer(){
 	CCLog("~TcharacterLayer %d",this->m_uReference);
 	CC_SAFE_RELEASE(m_sprite);
 	CC_SAFE_RELEASE(m_TDrawnode);
+	CC_SAFE_RELEASE(m_exChar);
 }
 
 bool TcharacterLayer::init(CCSprite* tianzige){
@@ -56,11 +57,10 @@ TcharacterLayer* TcharacterLayer::create(CCSprite* tianzige){
 void TcharacterLayer::onEnter(){
 	CCLog("TcharacterLayer::onEnter");
 	CCLayer::onEnter();
-	CCScene* scene = CCDirector::sharedDirector()->getRunningScene();
-	string LianxiHanzi = ((LianxiScene*)scene)->CurrentCharacter;
+// 	CCScene* scene = CCDirector::sharedDirector()->getRunningScene();
 //	CharacterEntity* p = ((LianxiScene*)this->getParent())->getCharacterP();
-	CharacterExtend* p = ((LianxiScene*)this->getParent())->getCharacterExt();
-	this->setm_TDrawnode(TcharacterDrawnode::create(LianxiHanzi, m_sprite->getContentSize(), p));
+// 	CharacterExtend* p = ((LianxiScene*)this->getParent())->getCharacterExt();
+	this->setm_TDrawnode(TcharacterDrawnode::create(curCharacter, m_sprite->getContentSize(), m_exChar));
 	this->addChild(m_TDrawnode,2000);
 	//不设置Anchorpoint了，直接做坐标变换
 	m_TDrawnode->setPosition(m_sprite->getPosition()-ccp(m_sprite->getContentSize().width/2,m_sprite->getContentSize().height/2));
@@ -87,5 +87,18 @@ void TcharacterLayer::refresh(CCObject* pSender){
 		this->getActionManager()->resumeTarget(m_TDrawnode);
 		isPause = false;
 	}
+
+}
+
+void TcharacterLayer::setCharacter(string curChar){
+	curCharacter = curChar;
+}
+
+void TcharacterLayer::next(){
+	this->removeChild(getm_TDrawnode());
+	this->setm_TDrawnode(TcharacterDrawnode::create(curCharacter, m_sprite->getContentSize(), m_exChar));
+	this->addChild(m_TDrawnode,2000);
+	//不设置Anchorpoint了，直接做坐标变换
+	m_TDrawnode->setPosition(m_sprite->getPosition()-ccp(m_sprite->getContentSize().width/2,m_sprite->getContentSize().height/2));
 
 }

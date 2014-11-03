@@ -1,5 +1,4 @@
 #include "TouchLayer.h"
-#include "LianxiScene.h"
 
 TouchLayer::TouchLayer():Tlayer(NULL),
 	Hlayer(NULL)

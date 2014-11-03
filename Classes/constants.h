@@ -6,7 +6,8 @@ typedef enum layers
 	kBgLayerTag,
 	kHLayerTag,
 	kTLayerTag,
-	kTouchLayerTag
+	kTouchLayerTag,
+	kCeshiLayerTag
 };
 
 #endif

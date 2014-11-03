@@ -29,9 +29,9 @@ void MyToast::onExit(){
 }
 
 void MyToast::initToast(string msg,float time){
-	CCLabelTTF* pLabel = CCLabelTTF::create(msg.c_str(),"Arial",21);
+	CCLabelTTF* pLabel = CCLabelTTF::create(msg.c_str(),"Arial",50);
 	pLabel->setColor(ccWHITE);
-	bg->setContentSize(CCSizeMake(pLabel->getContentSize().width+10, pLabel->getContentSize().height+10));
+	bg->setContentSize(CCSizeMake(pLabel->getContentSize().width+35, pLabel->getContentSize().height+20));
 	bg->addChild(pLabel,1);
 	this->addChild(bg,10);
 	pLabel->setPosition(ccp(bg->getContentSize().width/2, bg->getContentSize().height/2));
@@ -51,9 +51,9 @@ void MyToast::showToast(CCNode* node,string msg,float dt){
 	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();  
 	CCScale9Sprite* bg = CCScale9Sprite::create("toast_bg.png");  
 	bg->setPosition(ccp(origin.x+visibleSize.width/2,origin.y+130*visibleSize.height/960));  
-	CCLabelTTF* pLabel = CCLabelTTF::create(msg.c_str(), "Arial", 21);  
+	CCLabelTTF* pLabel = CCLabelTTF::create(msg.c_str(), "Arial", 50);  
 	pLabel->setColor(ccWHITE);  
-	bg->setContentSize(CCSizeMake(pLabel->getContentSize().width+10,pLabel->getContentSize().height+10));  
+	bg->setContentSize(CCSizeMake(pLabel->getContentSize().width+35,pLabel->getContentSize().height+20));  
 	bg->addChild(pLabel, 1);  
 	node->addChild(bg,10);  
 	pLabel->setPosition(ccp(bg->getContentSize().width/2,bg->getContentSize().height/2));  

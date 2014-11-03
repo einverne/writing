@@ -16,14 +16,13 @@ class LianxiScene : public CCScene
 public:
 	LianxiScene();
 	LianxiScene(string hanzi);
-	LianxiScene(vector<string> hanzis,string hanzi);
+// 	LianxiScene(vector<string> hanzis,string hanzi);
 	~LianxiScene();
 	static LianxiScene* create(string hanzi);
-	static LianxiScene* create(vector<string> hanzis,string hanzi);
+// 	static LianxiScene* create(vector<string> hanzis,string hanzi);
 	bool init();
 
-	string CurrentCharacter;			//当前正在练习的汉字字符
-	string funcs;						//当前汉字需要使用到数据中笔画lua评判规则
+// 	string funcs;						//当前汉字需要使用到数据中笔画lua评判规则
 
 
 	CC_SYNTHESIZE_RETAIN(BackgroundLayer*,backgroundLayer,backgroundLayer);
@@ -34,7 +33,9 @@ public:
 	CC_SYNTHESIZE_RETAIN(CharacterExtend*,ext_p,CharacterExt);
 	
 private:
-	vector<string> hanziList;
+// 	vector<string> hanziList;
+	string CurrentCharacter;			//当前正在练习的汉字字符
+
 };
 
 

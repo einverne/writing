@@ -11,5 +11,7 @@
 	<string>位置错误</string>
 	<key>position_right</key>
 	<string>位置正确</string>
+	<key>last_one</key>
+	<string>已经是最后一个</string>
 </dict>  
 </plist>  

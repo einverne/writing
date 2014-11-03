@@ -7,11 +7,11 @@
 #include "HcharacterLayer.h"	
 #include "TouchLayer.h"
 #include "CharacterExtend.h"
-#include "LianxiScene.h"
+#include "ceshiLayer.h"
 USING_NS_CC;
 using namespace std;
 
-class CeshiScene : public LianxiScene
+class CeshiScene : public CCScene
 {
 public:
 	CeshiScene();
@@ -20,12 +20,21 @@ public:
 	static CeshiScene* create(string wallfilename,vector<string> hanzis);
 	bool init();
 
+	CC_SYNTHESIZE_RETAIN(BackgroundLayer*,backgroundLayer,backgroundLayer);
+	CC_SYNTHESIZE_RETAIN(TouchLayer*,touchLayer,touchLayer);
+	CC_SYNTHESIZE_RETAIN(TcharacterLayer*,TLayer,TLayer);
+	CC_SYNTHESIZE_RETAIN(HcharacterLayer*,HLayer,HLayer);
+	//	CC_SYNTHESIZE_RETAIN(CharacterEntity*,p,CharacterP);
+	CC_SYNTHESIZE_RETAIN(CharacterExtend*,ext_p,CharacterExt);
 
+	CC_SYNTHESIZE_RETAIN(ceshiLayer* , csLayer , ceshiLayer);
+
+	void next();
 
 private:
-	string wallfilename;
-	vector<string> hanzis;
-	string curhanzi;
+	string wfilename;
+	vector<string> hanziList;
+	string currentCharacter;
 
 };
 

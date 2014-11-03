@@ -396,7 +396,7 @@ void WallSingleScene::singleClick(string hanzi){
 	{
 		this->unscheduleAllSelectors();
 		CCDirector::sharedDirector()->getTouchDispatcher()->removeAllDelegates();
-		CCDirector::sharedDirector()->pushScene(LianxiScene::create(hanzis,hanzi));
+		CCDirector::sharedDirector()->pushScene(LianxiScene::create(hanzi));
 	}
 
 }
@@ -540,5 +540,5 @@ void WallSingleScene::ceshi(CCObject* pSender){
 // 	MyToast::showToast(this,DataTool::getChinese("stroke_wrong"),2);
 
 	CeshiScene* scene = CeshiScene::create(wallXMLCurrent,hanzis);
-	CCDirector::sharedDirector()->replaceScene(scene);
+	CCDirector::sharedDirector()->pushScene(scene);
 }

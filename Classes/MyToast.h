@@ -7,6 +7,9 @@ USING_NS_CC;
 USING_NS_CC_EXT;
 using namespace std;
 
+#define TOAST_LONG 2
+#define TOAST_SHORT 1
+
 class MyToast : public CCLayerColor
 {
 public:

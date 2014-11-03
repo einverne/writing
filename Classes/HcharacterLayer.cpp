@@ -5,10 +5,10 @@
 #include "MoveToRightPlace.h"
 #include "TcharacterLayer.h"
 #include "MoveToRightPlaceInterval.h"
-#include "LianxiScene.h"
 #include "SimpleAudioEngine.h"
 #include "MyToast.h"
 #include "tools\DataTool.h"
+#include "constants.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)  
 #define RIGHT_EFFECT_FILE   "right_android.ogg"
@@ -20,7 +20,7 @@
 
 
 HcharacterLayer::HcharacterLayer():m_sprite_draw(NULL),
-	bihuaCount(NULL),m_HDrawnode(NULL),m_sprite_info(NULL)
+	bihuaCount(NULL),m_HDrawnode(NULL),m_sprite_info(NULL),m_exChar(NULL)
 {
 }
 
@@ -31,6 +31,7 @@ HcharacterLayer::~HcharacterLayer()
 	CC_SAFE_RELEASE(bihuaCount);
 	CC_SAFE_RELEASE(m_HDrawnode);
 	CC_SAFE_RELEASE(m_sprite_info);
+	CC_SAFE_RELEASE(m_exChar);
 }
 
 bool HcharacterLayer::init(string hanzi,CCSprite* tianzige_draw){
@@ -113,13 +114,15 @@ void HcharacterLayer::judge(){
 
 	CCLog("output %s",output.c_str());
 // 	CharacterEntity* p =  ((LianxiScene*)this->getParent())->getCharacterP();
-	CharacterExtend* p = ((LianxiScene*)this->getParent())->getCharacterExt();
+// 	CharacterExtend* p = ((LianxiScene*)this->getParent())->getCharacterExt();
 // 	string funcs = ((LianxiScene*)this->getParent())->funcs;
 //	string ret = JudgeManager::getResult(hanzi,output,p,funcs);
 // 	string funcs = ((LianxiScene*)this->getParent())->funcs;
 	string funcs = "";
-	string points = ((LianxiScene*)this->getParent())->getTLayer()->getm_TDrawnode()->getCharacterStandardInfo();
-	string ret = JudgeManager::getResult(hanzi,output,points,p,funcs);
+// 	string points = ((LianxiScene*)this->getParent())->getTLayer()->getm_TDrawnode()->getCharacterStandardInfo();
+	TcharacterLayer* tlayer = (TcharacterLayer*)CCDirector::sharedDirector()->getRunningScene()->getChildByTag(kTLayerTag);
+	string points = tlayer->getm_TDrawnode()->getCharacterStandardInfo();
+	string ret = JudgeManager::getResult(hanzi,output,points,m_exChar,funcs);
 	CCLog("Hcharacterlay: ret : %s %d",ret.c_str(),ret.length());
 	if (ret.length() == 3)
 	{
@@ -231,4 +234,12 @@ void HcharacterLayer::rewrite(CCObject* pSender){
 		this->getbihuaCount()->setString("0");
 		getInfoSprite()->setVisible(false);
 	}
+}
+
+void HcharacterLayer::next(){
+	this->removeChild(getm_HDrawnode());
+	this->setm_HDrawnode(HcharacterDrawnode::create());
+	m_HDrawnode->setPosition(m_sprite_draw->getPosition()-ccp(m_sprite_draw->getContentSize().width/2,m_sprite_draw->getContentSize().height/2));
+	this->addChild(m_HDrawnode);
+
 }
