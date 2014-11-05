@@ -785,7 +785,7 @@ function PointSame(pt1,pt2)
 	return IsSame
 end
 
-
+--[[
 function SmallXiangJiao(pt11,pt12,pt21,pt22)
 	local flag = false
 	if (PointSame(pt11,pt21) or PointSame(pt11,pt22) or PointSame(pt12,pt21) or PointSame(pt12,pt22))then
@@ -796,18 +796,25 @@ function SmallXiangJiao(pt11,pt12,pt21,pt22)
 		if(pt11.x == pt12.x) then
 			k1 = 0
 			c1 = pt11.y
+			print("k1 = 0 as defined ")
 		else
+			print("k1 = 0 after calculated")
 			k1 = (pt12.y - pt11.y)/(pt12.x - pt11.x)
 			c1 = pt11.y - pt11.x*k1
 		end
 		if (pt21.x == pt22.x) then
 			k2 = 0
 			c2 = pt21.y
+			print("k2 = 0 as defined")
 		else
 			k2 = (pt22.y - pt21.y) /(pt22.x - pt21.x)
 			c2 = pt21.y - pt21.x*k2
+			print("k2 = 0 as calculated")
 		end
 		if (k1 == k2) then		--Èç¹ûÁ½ÏßÆ½ÐÐ
+			print(pt11.x,pt11.y,pt12.x,pt12.y)
+			print(pt21.x,pt21.y,pt22.x,pt22.y)
+			print("para and k value is "..k1)
 			return false
 		else
 			local vp = {}
@@ -839,6 +846,9 @@ function SmallXiangJiao(pt11,pt12,pt21,pt22)
 				maxY2 = pt22.y
 				minY2 = pt21.y
 			end
+
+			print(vp.x,vp.y)
+		--	print(minX1,maxY1,minX2,maxY2)
 			if (vp.x >= minX1  and vp.x <= maxX1
 			and vp.x >= minX2 and vp.x <= maxX2
 			and vp.y >= minY1 and vp.y <= maxY1
@@ -849,6 +859,87 @@ function SmallXiangJiao(pt11,pt12,pt21,pt22)
 	end
 	return flag
 end
+
+]]--
+
+
+
+function SmallXiangJiao(pt11,pt12,pt21,pt22)
+	local flag1 = 0
+	local flag2 = 0
+	if (PointSame(pt11,pt21) or PointSame(pt11,pt22) or PointSame(pt12,pt21) or PointSame(pt12,pt22))then
+		return true
+	else
+		if(pt11.x ==  pt12.x ) then
+			flag1 = 1
+		end
+
+		if (pt21.x == pt22.x) then
+			flag2 = 1
+		end
+
+		local vp = {}  --vpÊÇÁ½¸öÖ±Ïß¶ÎµÄ½»µã
+		local k1,c1
+		local k2,c2
+		if (flag1 == 1 and flag2 == 1)  then --Èç¹ûÁ½¸öÖ±Ïß¶Î¶¼Æ½ÐÐÓÚyÖá
+			return false
+		elseif(flag1 == 1 ) then --Èç¹ûÖ±Ïß¶Î1Æ½ÐÐÓÚyÖá
+			vp.x = pt11.x
+			k2 = (pt22.y - pt21.y) /(pt22.x - pt21.x)
+			c2 = pt21.y - pt21.x*k2
+			vp.y = k2*(vp.x) + c2
+		elseif(flag2 == 1) then --Èç¹ûÖ±Ïß¶Î2Æ½ÐÐÓÚyÖá
+			vp.x = pt21.x
+			k1 = (pt12.y - pt11.y) /(pt12.x - pt11.x)
+			c1 = pt11.y - pt11.x*k1
+			vp.y = k1*(vp.x) + c1
+		else  --Èç¹ûÁ½¸öÖ±Ïß¶Î¾ù²»Æ½ÐÐÓÚyÖá
+			k1 = (pt12.y - pt11.y)/(pt12.x - pt11.x)
+			c1 = pt11.y - pt11.x*k1
+			k2 = (pt22.y - pt21.y) /(pt22.x - pt21.x)
+			c2 = pt21.y - pt21.x*k2
+			vp.x = (c1 - c2) /(k2 - k1)
+			vp.y = (vp.x*k1) + c1
+		end
+			local maxX1 = pt11.x
+			local minX1 = pt12.x
+			if(pt11.x < pt12.x) then
+				maxX1 = pt12.x
+				minX1 = pt11.x
+			end
+			local maxY1 = pt11.y
+			local minY1 = pt12.y
+			if (pt11.y < pt12.y) then
+				maxY1 = pt12.y
+				minY1 = pt11.y
+			end
+
+			local maxX2 = pt21.x
+			local minX2 = pt22.x
+			if (pt21.x < pt22.x) then
+				maxX2 = pt22.x
+				minX2 = pt21.x
+			end
+
+			local maxY2 = pt21.y
+			local minY2 = pt22.y
+			if (pt21.y < pt22.y) then
+				maxY2 = pt22.y
+				minY2 = pt21.y
+			end
+
+			if (vp.x >= minX1  and vp.x <= maxX1
+			and vp.x >= minX2 and vp.x <= maxX2
+			and vp.y >= minY1 and vp.y <= maxY1
+			and vp.y >= minY2 and vp.y <= maxY2) then
+				return true
+			else
+				return false
+			end
+	end
+end
+
+
 
 
 function BH2BHXiangJiao(bh1,bh2)
@@ -866,7 +957,7 @@ end
 
 
 function Judge2Dots(pt1,pt2)
-	local disThreshold =  10
+	local disThreshold =  50
 	local distance = GetDistance(pt1,pt2)
 	if (distance < disThreshold) then
 		return true
@@ -878,7 +969,7 @@ end
 
 function JudgeDotLine(pt,bd)
 	local tempDis =  512
-	local disThreshold = 10
+	local disThreshold = 50
 	for i =  1, #bd.ptSet do
 		local curDis = GetDistance(pt,bd.ptSet[i])
 		if (curDis < tempDis ) then
@@ -938,6 +1029,9 @@ function BH2BHXiangJie(bd1,bd2,type1,type2)
 
 	return flag
 end
+
+
+
 
 function  IsShu(bh,bl)
 	if(bl ~= 1 and bl~=2 ) then return end
@@ -2013,21 +2107,21 @@ end
 function  IsWanGou(bh,bl)
 if(bl ~= 1 and bl~=2 ) then return end
 
-local loose_dis_max_threshold = 40      --ËÉÆÀÅÐÊ±±Ê¼£µ½¹Õµã0Á¬ÏßµÄ×î´ó¾àÀë
-local loose_dis_min_threshold = 2
+local loose_dis_max_threshold = 50      --ËÉÆÀÅÐÊ±±Ê¼£µ½¹Õµã0Á¬ÏßµÄ×î´ó¾àÀë
+local loose_dis_min_threshold = 1
 
 local loose_angel_max_threshold = 30    --ËÉÆÀÅÐÊ±Ê×Óë¹Õµã0Á¬ÏßÇãÐ±µÄ×î´ó½Ç¶È
 local loose_jitter_max_threshold = 1/5    --ËÉÆÀÅÐÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ý¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀý
 
-local tight_dis_max_threshold = 20      --½ôÆÀÅÐÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
-local tight_dis_min_threshold = 5
+local tight_dis_max_threshold = 30      --½ôÆÀÅÐÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local tight_dis_min_threshold = 2
 
 local tight_angel_max_threshold = 20    --½ôÆÀÅÐÊ±Ê×Î²µãÁ¬ÏßÇãÐ±µÄ×î´ó½Ç¶È
 local tight_jitter_max_threshold = 1/10 --½ôÆÀÅÐÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ý¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀý
 
-local bd0_1_loose_angel_max_threshold = 85      --ËÉÆÀÅÐÊ±Á½±Ê¶Î¼Ð½ÇµÄ×î´óÖµ  
+local bd0_1_loose_angel_max_threshold = 85      --ËÉÆÀÅÐÊ±Á½±Ê¶Î¼Ð½ÇµÄ×î´óÖµ
 local bd0_1_loose_angel_min_threshold = 10      --ËÉÆÀÅÐÊ±Á½±Ê¶Î¼Ð½ÇµÄ×îÐ¡Öµ
-local bd0_1_tight_angel_max_threshold = 70      --½ôÆÀÅÐÊ±Á½±Ê¶Î¼Ð½ÇµÄ×î´óÖµ  
+local bd0_1_tight_angel_max_threshold = 70      --½ôÆÀÅÐÊ±Á½±Ê¶Î¼Ð½ÇµÄ×î´óÖµ
 local bd0_1_tight_angel_min_threshold = 15      --½ôÆÀÅÐÊ±Á½±Ê¶Î¼Ð½ÇµÄ×îÐ¡Öµ
 local bd1_0_lenratio_threshold = 1/2            --±Ê¶Î1ºÍ±Ê¶Î2µÄ³¤¶È±ÈÀý
 
@@ -2049,10 +2143,10 @@ end
 
 
  local finalbh = GetTempBD(bh,startindex,endindex)
- local jitter1 = GetTempBD(bh,1,startindex) 
+ local jitter1 = GetTempBD(bh,1,startindex)
  local len_jitter1 = GetBDLen(jitter1)
  local len_bh = GetBDLen(finalbh)
- 
+
  local line = GetLine(startpt,endpt)
  local dis = GetFarDis2Line(finalbh,line)
 
@@ -2062,16 +2156,13 @@ end
  local dis0 = GetFarDis2Line(bd0,line0)
  local line1 = GetLine(turning_pt,endpt)
  local dis1 =  GetFarDis2Line(bd1,line1)
- 
- 
- 
  local len_bd0 = GetBDLen(bd0)
  local len_bd1 = GetBDLen(bd1)
  if (len_bd1 < 5) then
  return false
  end
- 
- 
+
+
 
 local bd0_bd1_angel = Cal_Angle (startpt,turning_pt,endpt)
  local angel = 90
@@ -2080,19 +2171,19 @@ local bd0_bd1_angel = Cal_Angle (startpt,turning_pt,endpt)
  angel = math.deg(math.atan(slope))
  end
  angel = math.abs(angel)
- 
+
  if (bl == 1) then
      if (len_jitter1/len_bh > loose_jitter_max_threshold ) then
          return false
-     end  
+     end
      if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold) then
          return false
-     end 
-     
+     end
+
      if(dis0 < loose_dis_min_threshold) then
          return false
      end
-     
+
      if (angel > loose_angel_max_threshold) then
          return false
      end
@@ -2100,19 +2191,19 @@ local bd0_bd1_angel = Cal_Angle (startpt,turning_pt,endpt)
          return false
      end
  end
- 
+
  if (bl == 2) then
      if (len_jitter1/len_bh > tight_jitter_max_threshold) then
          return false
-     end  
+     end
      if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold) then
          return false
-     end 
-     
+     end
+
      if(dis0 < tight_dis_min_threshold) then
          return false
      end
-     
+
      if (angel > tight_angel_max_threshold) then
          return false
      end
@@ -2127,6 +2218,7 @@ local bd0_bd1_angel = Cal_Angle (startpt,turning_pt,endpt)
 return true
 
 end
+
 
 
 function  IsNa(bh,bl)
@@ -2329,16 +2421,16 @@ local bd0_tight_angel_min_threshold = 20     --½ôÆÀÅÐÊ±bd0Æ«ÀëË®Æ½·½ÏòµÄ×îÐ¡½Ç¶È
 local bd1_loose_angel_min_threshold = 3     --ËÉÆÀÅÐÊ±±Ê¶Î1Æ«ÒÆË®Æ½·½Ïò×î´óµÄ½Ç¶È
 local bd1_tight_angel_min_threshold = 5     --½ôÆÀÅÐÊ±bd1Æ«ÀëË®Æ½·½ÏòµÄ×îÐ¡µÄ½Ç¶È
 
-local loose_dis_max_threshold = 40      --ËÉÆÀÅÐÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
-local tight_dis_max_threshold = 20      --½ôÆÀÅÐÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local loose_dis_max_threshold = 50      --ËÉÆÀÅÐÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
+local tight_dis_max_threshold = 30      --½ôÆÀÅÐÊ±±Ê¼£µ½Ê×Î²µãÁ¬ÏßµÄ×î´ó¾àÀë
 local loose_angel_max_threshold = 60    --ËÉÆÀÅÐÊ±Ê×Î²µãÁ¬ÏßÇãÐ±µÄ×î´ó½Ç¶È
 local tight_angel_max_threshold = 45    --½ôÆÀÅÐÊ±Ê×Î²µãÁ¬ÏßÇãÐ±µÄ×î´ó½Ç¶È
 
 
 local bd0_1_loose_angel_max_threshold = 85  --ËÉÆÀÅÐÊ±Á½±Ê¶Î¼Ð½ÇµÄ×î´óÖµ  
-local bd0_1_loose_angel_min_threshold =30    --ËÉÆÀÅÐÊ±Á½±Ê¶Î¼Ð½ÇµÄ×îÐ¡Öµ
-local bd0_1_tight_angel_max_threshold = 70  --½ôÆÀÅÐÊ±Á½±Ê¶Î¼Ð½ÇµÄ×î´óÖµ  
-local bd0_1_tight_angel_min_threshold =40    --½ôÆÀÅÐÊ±Á½±Ê¶Î¼Ð½ÇµÄ×îÐ¡Öµ
+local bd0_1_loose_angel_min_threshold = 10    --ËÉÆÀÅÐÊ±Á½±Ê¶Î¼Ð½ÇµÄ×îÐ¡Öµ
+local bd0_1_tight_angel_max_threshold = 80  --½ôÆÀÅÐÊ±Á½±Ê¶Î¼Ð½ÇµÄ×î´óÖµ  
+local bd0_1_tight_angel_min_threshold = 20    --½ôÆÀÅÐÊ±Á½±Ê¶Î¼Ð½ÇµÄ×îÐ¡Öµ
 local bd0_1_loose_lenratio_max_threshold = 5    --ËÉÆÀÅÐÊ±Á½±Ê¶Î³¤¶È±ÈÀý×î´óÖµ
 local bd0_1_loose_lenratio_min_threshold = 1/5  --ËÉÆÀÅÐÊ±Á½±Ê¶Î³¤¶È±ÈÀý×îÐ¡Öµ
 local bd0_1_tight_lenratio_max_threshold = 3  --½ôÆÀÅÐÊ±Á½±Ê¶Î³¤¶È±ÈÀý×î´óÖµ
@@ -2364,7 +2456,6 @@ end
 bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index
 local bd0 = GetTempBD(bh,1,turning_index)
 local line0 = GetLine(startpt,turning_pt)
-local dis0 = GetFarDis2Line(bd0,line0)
 local len_bd0 = GetBDLen(bd0)
 
 local bd1 = GetTempBD(bh,turning_index,#bh.ptSet)
@@ -2391,7 +2482,7 @@ local bd0_bd1_angel = 0
 bd0_bd1_angel = Cal_Angle (startpt,turning_pt,endpt)
 
 if (bl == 1) then 
-    if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold) then
+    if ( dis1 > loose_dis_max_threshold) then
         return false
     end
     if (angel0 > bd0_loose_angel_max_threshold) then
@@ -2411,7 +2502,7 @@ if (bl == 1) then
 end
 
 if (bl == 2) then   
-    if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold) then
+    if (dis1 > tight_dis_max_threshold) then
         return false
     end
     if (angel0 > bd0_tight_angel_max_threshold ) then
@@ -2740,7 +2831,7 @@ if (bl == 1) then
     if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold or dis2 > loose_dis_max_threshold) then   
         return false
     end
-    if (angel0 > loose_angel_max_threshold or angel1 > loose_angel_max_threshold or angel2 > loose_angel_max_threshold) then      
+    if (angel0 > loose_angel_max_threshold or angel1 > loose_angel_max_threshold ) then      
         return false
     end
     if (len_bd0 / len_bd1 > bd0_1_loose_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_loose_lenratio_min_threshold ) then
@@ -2765,7 +2856,7 @@ if (bl == 2) then
     if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold or dis2 > tight_dis_max_threshold) then     
         return false
     end
-    if (angel0 > tight_angel_max_threshold or angel1 > tight_angel_max_threshold or angel2 > tight_angel_max_threshold) then      
+    if (angel0 > tight_angel_max_threshold or angel1 > tight_angel_max_threshold ) then      
         return false
     end
     if (len_bd0 / len_bd1 > bd0_1_tight_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_tight_lenratio_min_threshold ) then
@@ -3099,6 +3190,7 @@ return true
 end
 
 
+
 function  IsHengZheWanGou(bh,bl)
 if (bl ~= 1 and bl~=2) then return end
 
@@ -3111,14 +3203,14 @@ local tight_angel_max_threshold = 15     --½ôÆÀÅÐÊ±Ê×Î²µãÁ¬ÏßÇãÐ±µÄ×î´ó½Ç¶È
 local loose_jitter_max_threshold = 1/5  --ËÉÆÀÅÐÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ý¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀý
 local tight_jitter_max_threshold = 1/10 --½ôÆÀÅÐÊ±¶¶±Ê±Ê¶Î³¤¶ÈÓëÈ¥³ý¶¶±ÊÖ®ºó±Ê»­³¤¶ÈµÄ±ÈÀý
 
-local bd0_1_loose_angel_max_threshold = 120      --ËÉÆÀÅÐÊ±Á½±Ê¶Î¼Ð½ÇµÄ×î´óÖµ(bd0-1ºÍbd1-2ãÐÖµÏàÍ¬)  
-local bd0_1_loose_angel_min_threshold = 50        --ËÉÆÀÅÐÊ±Á½±Ê¶Î¼Ð½ÇµÄ×îÐ¡Öµ
-local bd0_1_tight_angel_max_threshold = 100      --½ôÆÀÅÐÊ±Á½±Ê¶Î¼Ð½ÇµÄ×î´óÖµ  
-local bd0_1_tight_angel_min_threshold =60        --½ôÆÀÅÐÊ±Á½±Ê¶Î¼Ð½ÇµÄ×îÐ¡Öµ
-local bd0_1_loose_lenratio_max_threshold = 5     --ËÉÆÀÅÐÊ±Á½±Ê¶Î³¤¶È±ÈÀý×î´óÖµ
-local bd0_1_loose_lenratio_min_threshold = 1/5   --ËÉÆÀÅÐÊ±Á½±Ê¶Î³¤¶È±ÈÀý×îÐ¡Öµ
-local bd0_1_tight_lenratio_max_threshold = 3     --½ôÆÀÅÐÊ±Á½±Ê¶Î³¤¶È±ÈÀý×î´óÖµ
-local bd0_1_tight_lenratio_min_threshold = 1/3   --½ôÆÀÅÐÊ±Á½±Ê¶Î³¤¶È±ÈÀý×îÐ¡Öµ
+local bd0_1_loose_angel_max_threshold = 120      --ËÉÆÀÅÐÊ±Á½±Ê¶Î¼Ð½ÇµÄ×î´óÖµ(bd0-1ºÍbd1-2ãÐÖµÏàÍ¬)
+local bd0_1_loose_angel_min_threshold = 30        --ËÉÆÀÅÐÊ±Á½±Ê¶Î¼Ð½ÇµÄ×îÐ¡Öµ
+local bd0_1_tight_angel_max_threshold = 100      --½ôÆÀÅÐÊ±Á½±Ê¶Î¼Ð½ÇµÄ×î´óÖµ
+local bd0_1_tight_angel_min_threshold = 40        --½ôÆÀÅÐÊ±Á½±Ê¶Î¼Ð½ÇµÄ×îÐ¡Öµ
+local bd0_1_loose_lenratio_max_threshold = 10     --ËÉÆÀÅÐÊ±Á½±Ê¶Î³¤¶È±ÈÀý×î´óÖµ
+local bd0_1_loose_lenratio_min_threshold = 1/10   --ËÉÆÀÅÐÊ±Á½±Ê¶Î³¤¶È±ÈÀý×îÐ¡Öµ
+local bd0_1_tight_lenratio_max_threshold = 5     --½ôÆÀÅÐÊ±Á½±Ê¶Î³¤¶È±ÈÀý×î´óÖµ
+local bd0_1_tight_lenratio_min_threshold = 1/5   --½ôÆÀÅÐÊ±Á½±Ê¶Î³¤¶È±ÈÀý×îÐ¡Öµ
 
 local startpt,startindex = GetLeftMostPoint(bh)
 local endpt = GetEndPoint(bh)
@@ -3135,13 +3227,13 @@ local edget = {}
 edget.x = 512
 edget.y = 512
 
-for i = 1, #bh.ptSet do 
+for i = 1, #bh.ptSet do
     local curpt = bh.ptSet[i]
     local curdis =  GetDistance(curpt,edget)
     if (curdis < tempdis) then
          tempdis = curdis
          turning_index_2 = i
-    end 
+    end
 end
 local turning_pt_2 = bh.ptSet[turning_index_2]
 
@@ -3169,7 +3261,7 @@ for i = 1, turning_index_2 do
     if (angel < temp) then
         temp = angel
         turning_index_0  = i
-    end	
+    end
 end
 
 
@@ -3186,7 +3278,7 @@ vpt.x = startpt.x
 vpt.y = endpt.y
 temp = 90
 local turning_index_1 = 1
-for i = 1,turning_index_2 do 
+for i = 1,turning_index_2 do
     local cpt = bh.ptSet[i]
     local angel = 0
     if (cpt.y == startpt.y) then
@@ -3197,7 +3289,7 @@ for i = 1,turning_index_2 do
     if (angel < temp) then
         temp = angel
         turning_index_1= i
-    end	
+    end
 end
 
 
@@ -3229,11 +3321,11 @@ local slope0 = (turning_pt_0.y -  startpt.y)/(turning_pt_0.x - startpt.x)
 angel0 = math.deg(math.atan(slope0))
 end
 angel0 = math.abs(angel0)
-  
+
 local angel1 = 90
 if (turning_pt_1.y ~= turning_pt_0.y) then
 local slope1 = (turning_pt_1.x - turning_pt_0.x) / (turning_pt_1.y - turning_pt_0.y)
-angel1 = math.deg ( math.atan(slope1))    
+angel1 = math.deg ( math.atan(slope1))
 end
 angel1 = math.abs(angel1)
 
@@ -3250,10 +3342,10 @@ local bd1_bd2_angel = 0
 bd1_bd2_angel = Cal_Angle (turning_pt_0,turning_pt_1,endpt)
 
 if (bl == 1) then
-    if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold or dis2 > loose_dis_max_threshold) then        
+    if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold or dis2 > loose_dis_max_threshold) then
         return false
     end
-    if (angel0 > loose_angel_max_threshold or angel1 > loose_angel_max_threshold or angel2 > loose_angel_max_threshold) then      
+    if (angel0 > loose_angel_max_threshold or angel1 > loose_angel_max_threshold ) then
        return false
     end
     if (len_bd0 / len_bd1 > bd0_1_loose_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_loose_lenratio_min_threshold ) then
@@ -3267,29 +3359,30 @@ if (bl == 1) then
     end
     if (bd1_bd2_angel > bd0_1_loose_angel_max_threshold or bd1_bd2_angel < bd0_1_loose_angel_min_threshold ) then
         return false
-    end   
+    end
 end
 
 if (bl == 2) then
-    if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold or dis2 > tight_dis_max_threshold) then        
-        return false
+    if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold or dis2 > tight_dis_max_threshold) then
+		  return false
     end
-    if (angel0 > tight_angel_max_threshold or angel1 > tight_angel_max_threshold or angel2 > tight_angel_max_threshold) then      
-        return false
+    if (angel0 > tight_angel_max_threshold or angel1 > tight_angel_max_threshold ) then
+		  return false
     end
     if (len_bd0 / len_bd1 > bd0_1_tight_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_tight_lenratio_min_threshold ) then
-        return false
+		  return false
     end
-    if (len_bd1 / len_bd2 > bd0_1_tight_lenratio_max_threshold  or len_bd1/len_bd2 <bd0_1_tight_lenratio_min_threshold ) then
-        return false
+	if (len_bd1 / len_bd2 > bd0_1_tight_lenratio_max_threshold  or len_bd1/len_bd2 <bd0_1_tight_lenratio_min_threshold ) then
+		  return false
     end
     if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
-        return false
+
+		  return false
     end
     if (bd1_bd2_angel > bd0_1_tight_angel_max_threshold or bd1_bd2_angel < bd0_1_tight_angel_min_threshold ) then
-        return false
+		  return false
     end
-    
+
 end
 return true
 
@@ -4529,16 +4622,12 @@ local bd1_tight_angel_max_threshold = 20    --½ôÆÀÅÐÊ±bd1Æ«ÀëÊúÖ±·½ÏòµÄ×î´óÇãÐ±½
 local bd0_1_loose_angel_max_threshold = 90  --ËÉÆÀÅÐÊ±Á½±Ê¶Î¼Ð½ÇµÄ×î´óÖµ  
 local bd0_1_loose_angel_min_threshold = 45    --ËÉÆÀÅÐÊ±Á½±Ê¶Î¼Ð½ÇµÄ×îÐ¡Öµ
 local bd0_1_tight_angel_max_threshold = 80  --½ôÆÀÅÐÊ±Á½±Ê¶Î¼Ð½ÇµÄ×î´óÖµ  
-local bd0_1_tight_angel_min_threshold = 60    --½ôÆÀÅÐÊ±Á½±Ê¶Î¼Ð½ÇµÄ×îÐ¡Öµ
+local bd0_1_tight_angel_min_threshold = 50    --½ôÆÀÅÐÊ±Á½±Ê¶Î¼Ð½ÇµÄ×îÐ¡Öµ
 
 local bd1_2_loose_angel_max_threshold = 80  --ËÉÆÀÅÐÊ±Á½±Ê¶Î¼Ð½ÇµÄ×î´óÖµ  
 local bd1_2_loose_angel_min_threshold = 10    --ËÉÆÀÅÐÊ±Á½±Ê¶Î¼Ð½ÇµÄ×îÐ¡Öµ
 local bd1_2_tight_angel_max_threshold = 70  --½ôÆÀÅÐÊ±Á½±Ê¶Î¼Ð½ÇµÄ×î´óÖµ  
 local bd1_2_tight_angel_min_threshold = 20    --½ôÆÀÅÐÊ±Á½±Ê¶Î¼Ð½ÇµÄ×îÐ¡Öµ
-
-local bd0_1_loose_lenratio_max_threshold = 3    --ËÉÆÀÅÐÊ±Á½±Ê¶Î³¤¶È±ÈÀý×î´óÖµ
-local bd0_1_tight_lenratio_max_threshold = 1  --½ôÆÀÅÐÊ±Á½±Ê¶Î³¤¶È±ÈÀý×î´óÖµ
-local bd0_1_tight_lenratio_min_threshold = 1/3  --½ôÆÀÅÐÊ±Á½±Ê¶Î³¤¶È±ÈÀý×îÐ¡Öµ
 
 
 local startpt,startindex = GetLeftMostPoint(bh)
@@ -4611,9 +4700,6 @@ if (bl == 1) then
     if (angel0 > bd0_loose_angel_max_threshold or angel0 < bd0_loose_angel_min_threshold or angel1 > bd1_loose_angel_max_threshold) then
         return false
     end
-    if (len_bd0 / len_bd1 > bd0_1_loose_lenratio_max_threshold ) then
-        return false
-    end
     if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
         return false
     end
@@ -4636,9 +4722,7 @@ if (bl == 2) then
     if (angel0 > bd0_tight_angel_max_threshold or angel0 < bd0_tight_angel_min_threshold or angel1 > bd1_tight_angel_max_threshold) then
         return false
     end
-    if (len_bd0 / len_bd1 > bd0_1_tight_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_tight_lenratio_min_threshold ) then
-        return false
-    end
+  
     if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
         return false
     end

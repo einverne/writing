@@ -1,4 +1,4 @@
---å°è£…æ ‡å‡†æ­£å­—çš„ä¿¡æ¯
+--·â×°±ê×¼Õı×ÖµÄĞÅÏ¢
 
 
 
@@ -10,14 +10,12 @@ local print = print
 local math = math
 local table =  table
 local type = type
-
 module("StandardZiInfo")
-
-POINT = { GeoType = "KPOINT", x = 0, y = 0}
-BH = { GeoType = "KBH", ptSet = {}, InflectionPoint = {}, }
+POINT = { GeoType = "SPOINT", x = 0, y = 0}
+BH = { GeoType = "SBH", ptSet = {}, InflectionPoint = {}, }
 StdHZ = { strokeNum = 0, strokes = {}, strokeStrings = {}  }
 
---split å‡½æ•°ï¼Œsepæ˜¯å¾…åˆ‡åˆ†å­—ç¬¦ä¸²ï¼Œsignä¸ºåˆ†å‰²å­—ç¬¦
+--split º¯Êı£¬sepÊÇ´ıÇĞ·Ö×Ö·û´®£¬signÎª·Ö¸î×Ö·û
 function string:split(sep,sign)
 	local sep, fields = sep or "\t", {}
 	local pattern = string.format("([^"..sign.."]+)", sep)
@@ -26,18 +24,18 @@ function string:split(sep,sign)
 end
 
 
---##### è®¾å®šæ ‡å‡†æ­£å­—ä¿¡æ¯ end#####--
+--##### Éè¶¨±ê×¼Õı×ÖĞÅÏ¢ end#####--
 
---##### ç‚¹ begin#####--
+--##### µã begin#####--
 function POINT:new(o)
 	local o = o or {}
 	setmetatable(o,self)
 	self.__index = self
 	return o
 end
---##### ç‚¹ end#####--
+--##### µã end#####--
 
---##### ç¬”ç”»begin#####--
+--##### ±Ê»­begin#####--
 function BH:new(o)
 	local o = o or {}
 	o.ptSet = {}
@@ -48,16 +46,25 @@ function BH:new(o)
 	return o
 end
 
---å°†ç‚¹é›†å­—ç¬¦ä¸²åˆ†å‰²ï¼Œå¹¶åˆå§‹åŒ–ç¬”ç”»çš„ç‚¹é›†
+--½«µã¼¯×Ö·û´®·Ö¸î£¬²¢³õÊ¼»¯±Ê»­µÄµã¼¯
 function BH:splitPoints(ptStr)
 	local ptSet = {}
-	for strx,stry in string.gmatch(ptStr,"(%d+)/(%d+)") do
+	local InflectionPoint = {}
+	local i = 0
+	for strx,stry,strtag in string.gmatch(ptStr,"(%d+)/(%d+)/(%d+)") do
 		local pt = {}
 		pt.x = tonumber(strx)
 		pt.y = tonumber(stry)
 		ptSet[#ptSet+1] = pt
+		local tag = tonumber(strtag)
+		if (tag == 1) then
+			InflectionPoint[#InflectionPoint+1] = i   --¼ÇÂ¼¹ÕµãË÷Òı
+		end
+		i = i + 1
 	end
 	self.ptSet = ptSet
+	self.InflectionPoint = InflectionPoint
+
 end
 
 function sortingFun(a,b)
@@ -72,7 +79,7 @@ end
 
 
 
---#####æ‰‹å†™å­— begin#####--
+--#####ÊÖĞ´×Ö begin#####--
 function StdHZ:new()
 	local o = o or {}
 	o.strokes = {}
@@ -82,7 +89,7 @@ function StdHZ:new()
 	return o
 end
 
---åˆ‡åˆ†å­—ç¬¦ä¸²
+--ÇĞ·Ö×Ö·û´®
 function splitPoints(ptStr,ptSet)
 	for strx,stry in string.gmatch(ptStr,"(%d+)/(%d+)") do
 		local pt = {}
@@ -101,13 +108,13 @@ function StdHZ:initialize(str)
 end
 
 
---åˆå§‹åŒ–æ‰‹å†™å­—ç¬”ç”»ä¸ªæ•°ä¿¡æ¯
+--³õÊ¼»¯ÊÖĞ´×Ö±Ê»­¸öÊıĞÅÏ¢
 function StdHZ:initStrokeNum(strokeNum)
 	self.strokeNum = strokeNum
 end
 
 
---åˆå§‹åŒ–æ‰‹å†™å­—ç‚¹é›†ä¿¡æ¯
+--³õÊ¼»¯ÊÖĞ´×Öµã¼¯ĞÅÏ¢
 function StdHZ:initStrokeStrs( strokeStrs )
 	for _,v in pairs(strokeStrs) do
 		self.strokeStrings[#self.strokeStrings+1] = v
@@ -116,7 +123,7 @@ function StdHZ:initStrokeStrs( strokeStrs )
 end
 
 
---åˆå§‹åŒ–ç¬”ç”»ä¿¡æ¯
+--³õÊ¼»¯±Ê»­ĞÅÏ¢
 function StdHZ:initStrokes()
 	for i=1,#self.strokeStrings do
 		local str = self.strokeStrings[i]
@@ -134,7 +141,7 @@ function StdHZ:clearData()
 	self.strokes = {}
 end
 
---#####æ‰‹å†™å­— end#####--
+--#####ÊÖĞ´×Ö end#####--
 
 
 
