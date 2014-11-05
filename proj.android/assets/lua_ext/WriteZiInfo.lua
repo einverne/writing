@@ -1,8 +1,8 @@
 -----------------------------------------
---·â×°ÊÖĞ´ºº×ÖÊı¾İ½á¹¹
---µã ±Ê¶Î ±Ê»­ ¾ØĞÎ¿òËÄÖÖÊı¾İÀàĞÍ POINT BD BH RECT
---TODO ÈõÒıÓÃÄ£Ê½ÉèÖÃ³É¡°V¡±
---TODO ÊÖĞ´×ÖĞÅÏ¢¹éÒ»»¯: µãµÄÃÜ¶È½øĞĞµ÷Õû && ×ÖµÄ´óĞ¡½øĞĞ·ÅËõ
+--å°è£…æ‰‹å†™æ±‰å­—æ•°æ®ç»“æ„
+--ç‚¹ ç¬”æ®µ ç¬”ç”» çŸ©å½¢æ¡†å››ç§æ•°æ®ç±»å‹ POINT BD BH RECT
+--TODO å¼±å¼•ç”¨æ¨¡å¼è®¾ç½®æˆâ€œVâ€
+--TODO æ‰‹å†™å­—ä¿¡æ¯å½’ä¸€åŒ–: ç‚¹çš„å¯†åº¦è¿›è¡Œè°ƒæ•´ && å­—çš„å¤§å°è¿›è¡Œæ”¾ç¼©
 -----------------------------------------
 
 
@@ -17,18 +17,18 @@ local type = type
 
 module("WriteZiInfo")
 POINT = { GeoType = "KPOINT", x = 0, y = 0}
---ptSet { {x,y} {x,y} {x,y}¡­¡­ }
+--ptSet { {x,y} {x,y} {x,y}â€¦â€¦ }
 BD = { GeoType = "KBD", ptSet = {} }
 --BDSet {bd1 bd2 bd3}
---InflectionPoint ´æ·ÅµÄÊÇ¹ÕµãµÄË÷Òı
+--InflectionPoint å­˜æ”¾çš„æ˜¯æ‹ç‚¹çš„ç´¢å¼•
 BH = { GeoType = "KBH", ptSet = {}, InflectionPoint = {}, BDSet = {} }
 --BHIdxSet {1,2,3}
 RECT = { GeoType = "KRECT", BHIdxSet = {}, Edges = {left = -1, right = -1, top = -1,bottom = -1} }
---strokeStrings = {"x/y¡­¡­","x/y¡­¡­"}
+--strokeStrings = {"x/yâ€¦â€¦","x/yâ€¦â€¦"}
 --strokes = {bh1,bh2,bh3}
 WriteHZ = { strokeNum = 0, strokes = {}, strokeStrings = {}  }
 
---split º¯Êı£¬sepÊÇ´ıÇĞ·Ö×Ö·û´®£¬signÎª·Ö¸î×Ö·û
+--split å‡½æ•°ï¼Œsepæ˜¯å¾…åˆ‡åˆ†å­—ç¬¦ä¸²ï¼Œsignä¸ºåˆ†å‰²å­—ç¬¦
 function string:split(sep,sign)
 	local sep, fields = sep or "\t", {}
 	local pattern = string.format("([^"..sign.."]+)", sep)
@@ -37,18 +37,18 @@ function string:split(sep,sign)
 end
 
 
---##### Éè¶¨±ê×¼Õı×ÖĞÅÏ¢ end#####--
+--##### è®¾å®šæ ‡å‡†æ­£å­—ä¿¡æ¯ end#####--
 
---##### µã begin#####--
+--##### ç‚¹ begin#####--
 function POINT:new(o)
 	local o = o or {}
 	setmetatable(o,self)
 	self.__index = self
 	return o
 end
---##### µã end#####--
+--##### ç‚¹ end#####--
 
---##### ±Ê¶Î begin#####--
+--##### ç¬”æ®µ begin#####--
 function BD:new(o)
 	local o = o or {}
 	o.ptSet = {}
@@ -56,9 +56,9 @@ function BD:new(o)
 	self.__index = self
 	return o
 end
---##### ±Ê¶Î end#####--
+--##### ç¬”æ®µ end#####--
 
---##### ±Ê»­begin#####--
+--##### ç¬”ç”»begin#####--
 function BH:new(o)
 	local o = o or {}
 	o.ptSet = {}
@@ -69,7 +69,7 @@ function BH:new(o)
 	return o
 end
 
---½«µã¼¯×Ö·û´®·Ö¸î£¬²¢³õÊ¼»¯±Ê»­µÄµã¼¯
+--å°†ç‚¹é›†å­—ç¬¦ä¸²åˆ†å‰²ï¼Œå¹¶åˆå§‹åŒ–ç¬”ç”»çš„ç‚¹é›†
 function BH:splitPoints(ptStr)
 	local ptSet = {}
 	for strx,stry in string.gmatch(ptStr,"(%d+)/(%d+)") do
@@ -93,9 +93,9 @@ end
 
 
 
---#####¾ØĞÎ¿ò begin#####--
+--#####çŸ©å½¢æ¡† begin#####--
 
---¾ØĞÎ¿ò¹¹Ôìº¯Êı
+--çŸ©å½¢æ¡†æ„é€ å‡½æ•°
 function RECT:new(o)
 	local o = o or {}
 	o.BHIdxSet = {}
@@ -104,12 +104,12 @@ function RECT:new(o)
 	self.__index = self
 	return o
 end
---#####¾ØĞÎ¿ò end#####--
+--#####çŸ©å½¢æ¡† end#####--
 
 
 
 
---#####ÊÖĞ´×Ö begin#####--
+--#####æ‰‹å†™å­— begin#####--
 function WriteHZ:new()
 	local o = o or {}
 	o.strokes = {}
@@ -120,13 +120,13 @@ function WriteHZ:new()
 end
 
 
---------¶ÔÊÖĞ´×Ö±Ê»­Ó¦¸ÃÏÈ½øĞĞµãÃÜ¶ÈµÄµ÷ÕûÔÙ½øĞĞ¹éÒ»»¯
+--------å¯¹æ‰‹å†™å­—ç¬”ç”»åº”è¯¥å…ˆè¿›è¡Œç‚¹å¯†åº¦çš„è°ƒæ•´å†è¿›è¡Œå½’ä¸€åŒ–
 function getDistance(pt1,pt2)
 	local dis = math.sqrt( math.pow(pt1.x - pt2.x,2) + math.pow(pt1.y - pt2.y,2))
 	return dis
 end
 
---¼ÆËãÒ»¸ö±Ê»­µÄ³¤¶È
+--è®¡ç®—ä¸€ä¸ªç¬”ç”»çš„é•¿åº¦
 function getLength(ptSet)
 	local length = 0.0
 	for i = 1,#ptSet-1 do
@@ -144,7 +144,7 @@ function isIntable(ele,list)
 	return false
 end
 
---ÇĞ·Ö×Ö·û´®
+--åˆ‡åˆ†å­—ç¬¦ä¸²
 function splitPoints(ptStr,ptSet)
 	for strx,stry in string.gmatch(ptStr,"(%d+)/(%d+)") do
 		local pt = {}
@@ -154,7 +154,7 @@ function splitPoints(ptStr,ptSet)
 	end
 end
 
---¶ÔÓÚµãµÄ²åÖµ ptSet ºÍ dstPts ÊÇÃ¿Ò»¸ö±Ê»­µÄµã¼¯
+--å¯¹äºç‚¹çš„æ’å€¼ ptSet å’Œ dstPts æ˜¯æ¯ä¸€ä¸ªç¬”ç”»çš„ç‚¹é›†
 function adjustPtDensity(ptSet,dstPts)
 	local nCount = getLength(ptSet)
 	countInter,countFloat = math.modf (nCount)
@@ -224,7 +224,7 @@ end
 	m_nLeftMargine = 0
 	m_nUpMargine = 0
 
---¼ÆËãÕû¸ö×ÖµÄ·ÅËõ±ÈÀı
+--è®¡ç®—æ•´ä¸ªå­—çš„æ”¾ç¼©æ¯”ä¾‹
 function calZoomRatio (strokeStrsArr)
 	local n_minLeft = 0
 	local n_maxRight = 0
@@ -276,7 +276,7 @@ function calZoomRatio (strokeStrsArr)
 end
 
 
---¹éÒ»»¯Óë²åÖµ
+--å½’ä¸€åŒ–ä¸æ’å€¼
 function WriteHZ:Normailize(strokeStrs)
 	local zoomRatio = 1
 	local xOffset = 0
@@ -284,14 +284,14 @@ function WriteHZ:Normailize(strokeStrs)
 	local strokeStrsArr = {}
 
 
-	--midPtSet ÊÇ¾­¹ı·ÅËõºóÖĞ¼äµã¼¯ Ã¿Ò»±ÊµÄËùÓĞµã¼¯×é³ÉÒ»¸öĞ¡table
+	--midPtSet æ˜¯ç»è¿‡æ”¾ç¼©åä¸­é—´ç‚¹é›† æ¯ä¸€ç¬”çš„æ‰€æœ‰ç‚¹é›†ç»„æˆä¸€ä¸ªå°table
 	local midPtSet = {}
 
 	for i = 1,#strokeStrs do
 		strokeStrsArr[#strokeStrsArr+1] = strokeStrs[i]
 	end
 
-	--1.ÏÈ½øĞĞÕû¸ö×Ö´óĞ¡µÄ·ÅËõ
+	--1.å…ˆè¿›è¡Œæ•´ä¸ªå­—å¤§å°çš„æ”¾ç¼©
 	local xOffset,yOffset,zoomRatio = calZoomRatio(strokeStrsArr)
 	for i = 1 ,#strokeStrsArr do
 		local onestrokePtSet = {}
@@ -305,8 +305,8 @@ function WriteHZ:Normailize(strokeStrs)
 		end
 		midPtSet[#midPtSet+1] = onestrokePtSet
 	end
-	--·ÅËõÍê³ÉºóµãµÄ×ø±ê´æÔÚÁËmidPtSetÖĞ
-	--2.µãµÄ²åÖµ
+	--æ”¾ç¼©å®Œæˆåç‚¹çš„åæ ‡å­˜åœ¨äº†midPtSetä¸­
+	--2.ç‚¹çš„æ’å€¼
 	local tmp = {}
 	for i = 1, #midPtSet do
 		local prePtSet = midPtSet[i]
@@ -319,7 +319,7 @@ end
 
 
 
---------¶ÔÊÖĞ´×Ö±Ê»­Ó¦¸ÃÏÈ½øĞĞµãÃÜ¶ÈµÄµ÷ÕûÔÙ½øĞĞ¹éÒ»»¯
+--------å¯¹æ‰‹å†™å­—ç¬”ç”»åº”è¯¥å…ˆè¿›è¡Œç‚¹å¯†åº¦çš„è°ƒæ•´å†è¿›è¡Œå½’ä¸€åŒ–
 
 function WriteHZ:initialize(str)
 	local strokeStrs  = {}
@@ -328,13 +328,13 @@ function WriteHZ:initialize(str)
 	self:initStrokeNum(#strokeStrs)
 end
 
---³õÊ¼»¯ÊÖĞ´×Ö±Ê»­¸öÊıĞÅÏ¢
+--åˆå§‹åŒ–æ‰‹å†™å­—ç¬”ç”»ä¸ªæ•°ä¿¡æ¯
 function WriteHZ:initStrokeNum(strokeNum)
 	self.strokeNum = strokeNum
 end
 
 
---³õÊ¼»¯ÊÖĞ´×Öµã¼¯ĞÅÏ¢
+--åˆå§‹åŒ–æ‰‹å†™å­—ç‚¹é›†ä¿¡æ¯
 function WriteHZ:initStrokeStrs( strokeStrs )
 	for _,v in pairs(strokeStrs) do
 		self.strokeStrings[#self.strokeStrings+1] = v
@@ -343,7 +343,7 @@ function WriteHZ:initStrokeStrs( strokeStrs )
 end
 
 
---³õÊ¼»¯±Ê»­ĞÅÏ¢
+--åˆå§‹åŒ–ç¬”ç”»ä¿¡æ¯
 function WriteHZ:initStrokes()
 	for i=1,#self.strokeStrings do
 		local str = self.strokeStrings[i]
@@ -356,7 +356,7 @@ end
 
 
 --[[
---³õÊ¼»¯±Ê»­ĞÅÏ¢
+--åˆå§‹åŒ–ç¬”ç”»ä¿¡æ¯
 function WriteHZ:initStrokes()
 	--tmpPTSet {(x,y),(x,y)...}
 	local tmpPTSet = {}
@@ -371,7 +371,7 @@ function WriteHZ:initStrokes()
 	normalize(tmpPTSet)
 end
 
---ĞÅÏ¢Çå¿Õ
+--ä¿¡æ¯æ¸…ç©º
 
 ]]--
 function WriteHZ:clearData()
@@ -380,4 +380,4 @@ function WriteHZ:clearData()
 	self.strokes = {}
 end
 
---#####ÊÖĞ´×Ö end#####--
+--#####æ‰‹å†™å­— end#####--
