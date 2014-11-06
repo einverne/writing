@@ -967,6 +967,65 @@ function Judge2Dots(pt1,pt2)
 end
 
 
+function resample(bh)
+	local newbh = {}
+	newbh.ptSet = {}
+	local n = 20
+	local I = GetBDLen(bh) / (n - 1)
+	local D = 0
+	local dstpoList = {}
+	dstpoList[1] = bh.ptSet[1]
+	local i = 2
+	while(true) do
+			if( i <= #bh.ptSet) then
+				local p1 = bh.ptSet[i - 1]
+				local p2 = bh.ptSet[i]
+				local dist = GetDistance(p1,p2)
+				if ((D + dist) >= I) then
+					local qx = p1.x + ((I - D) / dist) * (p2.x - p1.x);
+					local qy = p1.y + ((I - D) / dist) * (p2.y - p1.y);
+					local newp = {}
+					newp.x = qx
+					newp.y = qy
+					table.insert(bh.ptSet, i,newp)
+					dstpoList[#dstpoList + 1] = newp
+					D = 0
+				else
+					D = D + dist
+				end
+					i = i + 1
+			else
+				break
+			end
+	end
+
+	if (#dstpoList == n - 1 ) then
+		dstpoList[#dstpoList + 1] = bh.ptSet[#bh.ptSet]
+	end
+	newbh.ptSet = dstpoList
+	return newbh
+end
+
+function JudgeDotLine(pt,bd)
+	local newbh = resample(bd)
+	local tempDis =  512
+	local disThreshold = 50
+	for i =  1, #bd.ptSet do
+		local curDis = GetDistance(pt,bd.ptSet[i])
+		if (curDis < tempDis ) then
+			tempDis =  curDis
+		end
+	end
+	if(tempDis < disThreshold) then
+		return true
+	else
+		return false
+	end
+end
+
+
+
+--[[
 function JudgeDotLine(pt,bd)
 	local tempDis =  512
 	local disThreshold = 50
@@ -979,7 +1038,7 @@ function JudgeDotLine(pt,bd)
 	if(tempDis < disThreshold) then
 		return true
 	end
-
+	
 	tempDis = 512
 	for i = 1 ,# bd.ptSet - 1 do
 		local startpt = bd.ptSet[i]
@@ -993,11 +1052,12 @@ function JudgeDotLine(pt,bd)
 	if(tempDis < disThreshold) then
 		return true
 	end
-		return false
+	
+	return false
 
 end
 
-
+]]--
 --对于单笔段来说，只需要传入笔画即可
 --	0 startpoint 1 endpoint 2 line
 function BH2BHXiangJie(bd1,bd2,type1,type2)
