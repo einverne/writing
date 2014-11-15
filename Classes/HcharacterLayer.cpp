@@ -7,6 +7,9 @@
 #include "MoveToRightPlaceInterval.h"
 #include "LianxiScene.h"
 #include "SimpleAudioEngine.h"
+#include "tools/DataTool.h"
+#include "SQLiteData.h"
+#include "MyToast.h"
 
 typedef enum layers
 {
@@ -71,7 +74,25 @@ bool HcharacterLayer::init(string hanzi,CCSprite* tianzige_draw){
 		menu->setPosition(0,0);
 		this->addChild(menu,200);
 
-
+		CCMenuItemImage* itemImage1 = CCMenuItemImage::create("Button1.png",
+			"Button1Sel.png",
+			this,
+			menu_selector(HcharacterLayer::numClick));
+		itemImage1->setUserObject(CCString::create("1"));
+		CCMenuItemImage* itemImage2 = CCMenuItemImage::create("Button2.png",
+			"Button2Sel.png",
+			this,
+			menu_selector(HcharacterLayer::numClick));
+		itemImage2->setUserObject(CCString::create("2"));
+		CCMenuItemImage* itemImage3 = CCMenuItemImage::create("Button3.png",
+			"Button3Sel.png",
+			this,
+			menu_selector(HcharacterLayer::numClick));
+		itemImage3->setUserObject(CCString::create("3"));
+		CCMenu* myMenu = CCMenu::create(itemImage1,itemImage2,itemImage3,NULL);
+		myMenu->setPosition(200,100);
+		myMenu->alignItemsHorizontallyWithPadding(50);
+		addChild(myMenu);
 
 		CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect(RIGHT_EFFECT_FILE);
 		CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect(WRONG_EFFECT_FILE);
@@ -97,7 +118,6 @@ HcharacterLayer* HcharacterLayer::create(string hanzi,CCSprite* tianzige_draw){
 }
 
 void HcharacterLayer::judge(){
-// 	vector<StrokeDrawnode*> strokes = m_HDrawnode->getStrokeDrawnodeList();
 	CCArray* strokes = m_HDrawnode->getStrokeDrawnodeList();
 	string output = "";
 	CCObject* ob;
@@ -107,12 +127,6 @@ void HcharacterLayer::judge(){
 		for (vector<CCPoint>::iterator iter = points.begin(); iter != points.end() ; ++iter)
 		{
 			CCPoint temp = *iter;
-//			CCLog("HcharacterLayer::judge x=%f y=%f",temp.x,temp.y);
-// 			temp = m_sprite_draw->convertToNodeSpace(temp);
-// 			CCPoint deltap = m_sprite_draw->getPosition()-ccp(m_sprite_draw->getContentSize().width/2,m_sprite_draw->getContentSize().height/2);
-// 			temp = temp - deltap;
-//			CCLog("HcharacterLayer::judge convertToNodeSpace x=%f y=%f",temp.x,temp.y);
-
 			temp = convert512(temp);
 			string t = floatToString(ceil(temp.x)) + "/" + floatToString(ceil(temp.y)) + "/";
 			output += t;
@@ -122,44 +136,47 @@ void HcharacterLayer::judge(){
 
 	CCLog("output %s",output.c_str());
 	CharacterEntity* p =  ((LianxiScene*)this->getParent())->getCharacterP();
-	string funcs = ((LianxiScene*)this->getParent())->funcs;
-	string ret = JudgeManager::getResult(hanzi,output,p,funcs);
-	if (ret == "0\r\n")
-	{
-		//这一笔写错
-		this->getm_HDrawnode()->removeLastStroke();
-		int t = getm_HDrawnode()->getStrokeDrawnodeList()->count();
-		ostringstream ostr;
-		ostr << t;
-		bihuaCount->setString(ostr.str().c_str());
-		getInfoSprite()->setVisible(true);
-		getInfoSprite()->setTexture(CCTextureCache::sharedTextureCache()->addImage("wrong.png"));
-		CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect(WRONG_EFFECT_FILE);
-	}else
-	{
-		//写对
-		int t=getm_HDrawnode()->getStrokeDrawnodeList()->count();
-		ostringstream ostr;
-		ostr << t;
-		bihuaCount->setString(ostr.str().c_str());
-		
-		
-		TcharacterLayer* layer = (TcharacterLayer*)this->getParent()->getChildByTag(kTLayerTag);		//get TcharacterLayer
-		Stroke temp = layer->getm_TDrawnode()->getCharacter().getStroke(t);								//get No. stroke
-// 		CCPoint deltpoint = this->m_sprite_draw->getPosition()-ccp(m_sprite_draw->getContentSize().width/2,m_sprite_draw->getContentSize().height/2);
-// 		temp.addEveryPoint(deltpoint);
-// 		MoveToRightPlace* place = MoveToRightPlace::create(t-1,temp);
-		MoveToRightPlaceInterval* place = MoveToRightPlaceInterval::create(1,t-1,temp);
-		m_HDrawnode->runAction(place);
+//	string funcs = ((LianxiScene*)this->getParent())->funcs;
+// 	string ret = JudgeManager::getResult(hanzi,output,p,funcs);
 
+	//需要给数据保存数据
+	// 笔记 判断结果
+	strokeID = DataTool::intTostring(p->getID()->getValue());
+	strokeStr = output;
 
-		if ( t >= layer->getm_TDrawnode()->getCharacter().getStrokeCount())
-		{
-			getInfoSprite()->setVisible(true);
-			getInfoSprite()->setTexture(CCTextureCache::sharedTextureCache()->addImage("right.png"));
-			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect(RIGHT_EFFECT_FILE);
-		}
-	}
+// 	if (ret == "0\r\n")
+// 	{
+// 		//这一笔写错
+// 		this->getm_HDrawnode()->removeLastStroke();
+// 		int t = getm_HDrawnode()->getStrokeDrawnodeList()->count();
+// 		ostringstream ostr;
+// 		ostr << t;
+// 		bihuaCount->setString(ostr.str().c_str());
+// 		getInfoSprite()->setVisible(true);
+// 		getInfoSprite()->setTexture(CCTextureCache::sharedTextureCache()->addImage("wrong.png"));
+// 		CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect(WRONG_EFFECT_FILE);
+// 	}else
+// 	{
+// 		//写对
+// 		int t=getm_HDrawnode()->getStrokeDrawnodeList()->count();
+// 		ostringstream ostr;
+// 		ostr << t;
+// 		bihuaCount->setString(ostr.str().c_str());
+// 		
+// 		
+// 		TcharacterLayer* layer = (TcharacterLayer*)this->getParent()->getChildByTag(kTLayerTag);		//get TcharacterLayer
+// 		Stroke temp = layer->getm_TDrawnode()->getCharacter().getStroke(t);								//get No. stroke
+// 		MoveToRightPlaceInterval* place = MoveToRightPlaceInterval::create(1,t-1,temp);
+// 		m_HDrawnode->runAction(place);
+// 
+// 
+// 		if ( t >= layer->getm_TDrawnode()->getCharacter().getStrokeCount())
+// 		{
+// 			getInfoSprite()->setVisible(true);
+// 			getInfoSprite()->setTexture(CCTextureCache::sharedTextureCache()->addImage("right.png"));
+// 			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect(RIGHT_EFFECT_FILE);
+// 		}
+// 	}
 }
 
 CCPoint HcharacterLayer::convert512(CCPoint p){
@@ -191,4 +208,24 @@ void HcharacterLayer::rewrite(CCObject* pSender){
 		this->getbihuaCount()->setString("0");
 		getInfoSprite()->setVisible(false);
 	}
+}
+
+void HcharacterLayer::numClick(CCObject* pSender){
+	CCMenuItemImage* item = (CCMenuItemImage*)pSender;
+	CCString* text = (CCString*)item->getUserObject();
+	string te = text->getCString();
+	markRest = "0";
+	if (te  == "1")
+	{
+		markRest = "1";
+
+	}else if(te == "2"){
+		markRest = "2";
+
+	}else if(te == "3"){
+		markRest = "3";
+
+	}
+	SQLiteData::insertMarkTable(strokeID,strokeStr,markRest);
+	MyToast::showToast(this,"Success",TOAST_SHORT);
 }

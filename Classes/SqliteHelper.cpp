@@ -133,7 +133,7 @@ int loadziRecord(void * para, int n_column, char ** column_value, char ** column
 	((CharacterEntity*)para)->setName(ccs(column_value[1]));						//ziName
 	((CharacterEntity*)para)->setSEQ(ccs(column_value[2]));							//strokeIDSeq
 	CCLog("%s",column_value[2]);
-	((CharacterEntity*)para)->setRules(ccs(column_value[3]));						//rules
+// 	((CharacterEntity*)para)->setRules(ccs(column_value[3]));						//rules
 	((CharacterEntity*)para)->setXML(ccs(column_value[4]));							//xml
 	return 0;
 }

@@ -22,7 +22,6 @@ vector<string> SQLiteData::splitStrokeSeq(string seq){
 		pos1 = pos2 +1;
 		pos2 = seq.find('-',pos1);
 	}
-	// 	strvec.push_back(seq.substr(pos1));
 	return strvec;
 }
 
@@ -33,7 +32,7 @@ void SQLiteData::getHanziData(string hz,CCObject* p){
 	dbpath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_info.db";
 #endif
 	SqliteHelper::initDB(dbpath.c_str());
-	string sql = "select * from ziData where ziName ='"+hz+"'";
+	string sql = "select * from strokeData where ziName ='"+hz+"'";
 	SqliteHelper::getZiDataInfo(sql,p);
 	SqliteHelper::closeDB();
 }
@@ -50,4 +49,15 @@ string SQLiteData::getstrokeFunc(string strokeID){
 	SqliteHelper::getstrokeFunc(sql,ret);
 	SqliteHelper::closeDB();
 	return string(ret->getFunc()->getCString());
+}
+
+void SQLiteData::insertMarkTable(string strokeid, string strokeStr, string markResult){
+	string dbpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_info.db");
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	dbpath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_info.db";
+#endif
+	SqliteHelper::initDB(dbpath.c_str());
+	string sql = "insert into MarkTable values(null,\""+strokeid+"\",\""+strokeStr+"\",\""+markResult+"\");";
+	SqliteHelper::insertData(sql);
+	SqliteHelper::closeDB();
 }
