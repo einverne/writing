@@ -1,5 +1,4 @@
 #include "TouchLayer.h"
-#include "LianxiScene.h"
 
 TouchLayer::TouchLayer():Tlayer(NULL),
 	Hlayer(NULL)
@@ -14,7 +13,6 @@ TouchLayer::~TouchLayer()
 }
 
 bool TouchLayer::init(TcharacterLayer* t,HcharacterLayer* h){
-//	CCLog("TouchLayer init()");
 	if (CCLayerColor::initWithColor(ccc4(255,255,255,255)))
 	{
 		this->isOutside = false;
@@ -23,8 +21,6 @@ bool TouchLayer::init(TcharacterLayer* t,HcharacterLayer* h){
 		this->setHlayer(h);
 		this->setTouchEnabled(true);
 		this->setOpacity(0);			//全透明
-		//CCDirector::sharedDirector()->getTouchDispatcher()->addStandardDelegate(this,0);	//register touch event
-
 
 		return true;
 	}
@@ -52,11 +48,8 @@ void TouchLayer::onExit(){
 	CCLayer::onExit();
 }
 void TouchLayer::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
-	CCLog("TouchLayer TouchesBegan");
-	LianxiScene* temp= (LianxiScene*)(this->getParent());
-	
-
-	temp->getHLayer()->getInfoSprite()->setVisible(false);
+	CCLog("TouchLayer TouchesBegan");	
+	getHlayer()->getInfoSprite()->setVisible(false);
 	//判断写了几笔 超过笔数就不写
 
 	if (Hlayer->getm_HDrawnode()->getStrokeDrawnodeList()->count() > Tlayer->getm_TDrawnode()->getCharacter().getStrokeCount())
@@ -64,16 +57,16 @@ void TouchLayer::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 		return;
 	}
 	CCPoint touchpoint = ((CCTouch*)pTouches->anyObject())->getLocationInView();
-	CCLog("TouchLayer::ccTouchesBegan getLocationInView x= %f, y= %f",touchpoint.x,touchpoint.y);
+// 	CCLog("TouchLayer::ccTouchesBegan getLocationInView x= %f, y= %f",touchpoint.x,touchpoint.y);
 	touchpoint = CCDirector::sharedDirector()->convertToUI(touchpoint);
-	CCLog("TouchLayer::ccTouchesBegan convertToUI x= %f, y= %f",touchpoint.x,touchpoint.y);
+// 	CCLog("TouchLayer::ccTouchesBegan convertToUI x= %f, y= %f",touchpoint.x,touchpoint.y);
 	this->beginPoint = touchpoint;
 	CCSprite* tianzige = Hlayer->getSprite();
 	if (tianzige->boundingBox().containsPoint(touchpoint))
 	{
 		//在范围内
 		touchpoint = tianzige->convertToNodeSpace(touchpoint);
-		CCLog("TouchLayer::ccTouchesBegan convertToNodeSpace x= %f, y= %f",touchpoint.x,touchpoint.y);
+// 		CCLog("TouchLayer::ccTouchesBegan convertToNodeSpace x= %f, y= %f",touchpoint.x,touchpoint.y);
 		points.push_back(touchpoint);
 		Stroke str(points);
 		Hlayer->getm_HDrawnode()->addStroke(str);
@@ -83,10 +76,9 @@ void TouchLayer::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 		this->isStartOutside = true;
 		points.clear();
 	}
-	//CCLog("isStartOutside = %d, isOutside = %d",isStartOutside,isOutside);
-// 	HcharacterDrawnode* t= Hlayer->getm_HDrawnode();
 	
 }
+
 void TouchLayer::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
 	CCLog("TouchLayer TouchesMoved");
 	if (Hlayer->getm_HDrawnode()->getStrokeDrawnodeList()->count() > Tlayer->getm_TDrawnode()->getCharacter().getStrokeCount())
@@ -152,7 +144,6 @@ void TouchLayer::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 
 		//一笔完成，并且起点，中途，尾点都在范围内，点数据保存在points中
 		Hlayer->judge();			//自动在HcharacterDrawnode中获取点信息
-
 
 		points.clear();
 	}else if (!tianzige->boundingBox().containsPoint(touchp) && isOutside == false)

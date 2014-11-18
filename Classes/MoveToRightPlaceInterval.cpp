@@ -52,10 +52,11 @@ void MoveToRightPlaceInterval::update(float time){
 // 	CCActionInterval::update(time);
 	Stroke stro = ((HcharacterDrawnode*)m_pTarget)->getStroke(index);
 	stro.resample();
-	for (int i = 0; i < this->m_stroke.pointList.size() ; i++)
+	for (int i = 0; i < this->m_stroke.getpointList().size() ; i++)
 	{
-		CCPoint p = stro.pointList[i] - m_stroke.pointList[i];
-		stro.pointList[i] = stro.pointList[i] - p * time;		
+		CCPoint p = stro.getpointListIndexAt(i) - m_stroke.getpointListIndexAt(i);
+		CCPoint temp = stro.getpointListIndexAt(i) - p * time;
+		stro.setpointList(i,temp);		
 	}
 	((HcharacterDrawnode*)m_pTarget)->changeStroke(index,stro);
 }

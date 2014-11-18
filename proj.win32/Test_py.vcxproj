@@ -128,8 +128,11 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\BackgroundLayer.cpp" />
     <ClCompile Include="..\Classes\Bujian.cpp" />
+    <ClCompile Include="..\Classes\ceshiLayer.cpp" />
+    <ClCompile Include="..\Classes\CeshiScene.cpp" />
     <ClCompile Include="..\Classes\Character.cpp" />
     <ClCompile Include="..\Classes\CharacterEntity.cpp" />
+    <ClCompile Include="..\Classes\CharacterExtend.cpp" />
     <ClCompile Include="..\Classes\file\TDInvFileUtils.cpp" />
     <ClCompile Include="..\Classes\HanziManage.cpp" />
     <ClCompile Include="..\Classes\HcharacterDrawnode.cpp" />
@@ -141,6 +144,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\MainScene.cpp" />
     <ClCompile Include="..\Classes\MoveToRightPlace.cpp" />
     <ClCompile Include="..\Classes\MoveToRightPlaceInterval.cpp" />
+    <ClCompile Include="..\Classes\MyToast.cpp" />
     <ClCompile Include="..\Classes\PopLayer.cpp" />
     <ClCompile Include="..\Classes\ReadXML.cpp" />
     <ClCompile Include="..\Classes\RightZiAnimationAction.cpp" />
@@ -163,14 +167,19 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\TouchLayer.cpp" />
     <ClCompile Include="..\Classes\UTF8ToGBK.cpp" />
     <ClCompile Include="..\Classes\WallScene.cpp" />
+    <ClCompile Include="..\Classes\WallSingleScene.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\BackgroundLayer.h" />
     <ClInclude Include="..\Classes\Bujian.h" />
+    <ClInclude Include="..\Classes\ceshiLayer.h" />
+    <ClInclude Include="..\Classes\CeshiScene.h" />
     <ClInclude Include="..\Classes\Character.h" />
     <ClInclude Include="..\Classes\CharacterEntity.h" />
+    <ClInclude Include="..\Classes\CharacterExtend.h" />
+    <ClInclude Include="..\Classes\constants.h" />
     <ClInclude Include="..\Classes\file\TDInvFileUtils.h" />
     <ClInclude Include="..\Classes\HanziManage.h" />
     <ClInclude Include="..\Classes\HcharacterDrawnode.h" />
@@ -182,6 +191,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\MainScene.h" />
     <ClInclude Include="..\Classes\MoveToRightPlace.h" />
     <ClInclude Include="..\Classes\MoveToRightPlaceInterval.h" />
+    <ClInclude Include="..\Classes\MyToast.h" />
     <ClInclude Include="..\Classes\PopLayer.h" />
     <ClInclude Include="..\Classes\ReadXML.h" />
     <ClInclude Include="..\Classes\RightZiAnimationAction.h" />
@@ -202,6 +212,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\TouchLayer.h" />
     <ClInclude Include="..\Classes\UTF8ToGBK.h" />
     <ClInclude Include="..\Classes\WallScene.h" />
+    <ClInclude Include="..\Classes\WallSingleScene.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
@@ -236,4 +247,9 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="Test_py.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

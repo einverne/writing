@@ -23,6 +23,8 @@ CReadXML::CReadXML(const char* xmlcontent)
 		{
 			const char* x = trunpoint->Attribute("x");
 			const char* y = trunpoint->Attribute("y");
+			const char* statusPoint = trunpoint->Attribute("status");
+			stroke.addStatus(statusPoint);
 			stroke.addPoint(ccp(atof(x),atof(y)));
 		}
 		bujian.addStroke(stroke);
@@ -56,6 +58,8 @@ CReadXML::CReadXML(string xmlpath)
 			const char* x = trunpoint->Attribute("x");
 			const char* y = trunpoint->Attribute("y");
 			stroke.addPoint(ccp(atof(x),atof(y)));
+			const char* statusPoint = trunpoint->Attribute("status");
+			stroke.addStatus(statusPoint);
 		}
 		bujian.addStroke(stroke);
 	}

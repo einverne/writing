@@ -16,14 +16,17 @@ public:
 	virtual bool init(CCSprite* tianzige);
 	virtual void onExit();
 	virtual void onEnter();
-	//CREATE_FUNC(TcharacterLayer);
 	static TcharacterLayer* create(CCSprite* tianzige);
 	
 	void refresh(CCObject* pSender);
+	void setCharacter(string curChar);
+	void next();
 	CC_SYNTHESIZE_RETAIN(TcharacterDrawnode*, m_TDrawnode,m_TDrawnode);
 	CC_SYNTHESIZE_RETAIN(CCSprite*,m_sprite,Sprite);
+	CC_SYNTHESIZE_RETAIN(CharacterExtend*,m_exChar,ExChar);
 private:
 	bool isPause;
+	string curCharacter;
 };
 
 

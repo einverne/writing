@@ -1,5 +1,6 @@
 #include "BackgroundLayer.h"
-#include "WallScene.h"
+#include "WallSingleScene.h"
+#include "LianxiScene.h"
 
 BackgroundLayer::BackgroundLayer()
 {
@@ -7,7 +8,6 @@ BackgroundLayer::BackgroundLayer()
 
 BackgroundLayer::~BackgroundLayer()
 {
-	CCLog("~BackgroundLayer %d",  this->m_uReference);
 }
 
 bool BackgroundLayer::init(){
@@ -39,44 +39,40 @@ bool BackgroundLayer::init(){
 		bg->setScaleX(visiableSize.width/bg->getContentSize().width);
 		bg->setScaleY((visiableSize.height-headSize.height-tailSize.height)/bg->getContentSize().height);
 
-// 		CCLabelTTF* back = CCLabelTTF::create("BACK","Arial",25);
 		CCMenuItemImage* back = CCMenuItemImage::create("back_1.png",
 			"back_2.png",
 			this,
 			menu_selector(BackgroundLayer::menuBack));
-// 		CCMenuItemLabel* menuLabel = CCMenuItemLabel::create(back,this,menu_selector(BackgroundLayer::menuBack));
 		CCMenu* menu = CCMenu::create(back,NULL);
 		this->addChild(menu,20);
-// 		back->setPosition(ccp(winSize.width - back->getContentSize().width/2 - 100,back->getContentSize().height+30));
 		back->setPosition(ccp(winSize.width - back->getContentSize().width/2 ,back->getContentSize().height/2));
 		menu->setPosition(CCPointZero);
-
 
 		//add tianzige
 		tianzige = CCSprite::create("tianzige.png");
 		this->addChild(tianzige,1);
 		CCSize tianzigeSize = tianzige->getContentSize();
 		tianzige->setPosition(ccp(visiableSize.width/2,visiableSize.height-headSize.height-tianzigeSize.height/2-50));
-		//tianzige->setAnchorPoint(ccp(0, 0));
 
 
 		tianzige_draw = CCSprite::create("tianzige.png");
 		this->addChild(tianzige_draw,1,1);
 		CCSize tianzigeDrawSize = tianzige_draw->getContentSize();
 		tianzige_draw->setPosition(ccp(visiableSize.width/2,tailSize.height+50+tianzigeDrawSize.height/2));
+
+
 	}
 	return true;
 }
 
 void BackgroundLayer::menuBack(CCObject* pSender){
-/*	CCDirector::sharedDirector()->popScene();*/
 	this->unscheduleAllSelectors();
 	CCDirector::sharedDirector()->getTouchDispatcher()->removeAllDelegates();
-	CCDirector::sharedDirector()->replaceScene(WallScene::scene());
+	CCDirector::sharedDirector()->popScene();
 }
 
 void BackgroundLayer::keyBackClicked(){
 	this->unscheduleAllSelectors();
 	CCDirector::sharedDirector()->getTouchDispatcher()->removeAllDelegates();
-	CCDirector::sharedDirector()->replaceScene(WallScene::scene());
+	CCDirector::sharedDirector()->popScene();
 }

@@ -4,7 +4,7 @@
 #include "CharacterEntity.h"
 
 TcharacterLayer::TcharacterLayer():m_sprite(NULL),
-	m_TDrawnode(NULL),isPause(false)
+	m_TDrawnode(NULL),isPause(false),m_exChar(NULL)
 {
 
 }
@@ -13,17 +13,14 @@ TcharacterLayer::~TcharacterLayer(){
 	CCLog("~TcharacterLayer %d",this->m_uReference);
 	CC_SAFE_RELEASE(m_sprite);
 	CC_SAFE_RELEASE(m_TDrawnode);
+	CC_SAFE_RELEASE(m_exChar);
 }
 
 bool TcharacterLayer::init(CCSprite* tianzige){
 	if (CCLayer::init())
 	{
-		CCLog("TcharacterLayer");
+		CCLog("TcharacterLayer init");
 		this->setSprite(tianzige);	
-
-// 		CCSprite* dog = CCSprite::create("dog.png");
-// 		dog->setPosition(CCPointMake(300,300));
-// 		this->addChild(dog,1000,1000);
 
  		CCPoint tiangzige_position = this->getSprite()->getPosition();
  		CCSize tianzige_size = this->getSprite()->getContentSize();
@@ -58,16 +55,17 @@ TcharacterLayer* TcharacterLayer::create(CCSprite* tianzige){
 }
 
 void TcharacterLayer::onEnter(){
+	CCLog("TcharacterLayer::onEnter");
 	CCLayer::onEnter();
-// 	string ba("八");
-	string LianxiHanzi = ((LianxiScene*)this->getParent())->testCharacter;
-	CharacterEntity* p = ((LianxiScene*)this->getParent())->getCharacterP();
-	this->setm_TDrawnode(TcharacterDrawnode::create(LianxiHanzi, m_sprite->getContentSize(), p));
+// 	CCScene* scene = CCDirector::sharedDirector()->getRunningScene();
+//	CharacterEntity* p = ((LianxiScene*)this->getParent())->getCharacterP();
+// 	CharacterExtend* p = ((LianxiScene*)this->getParent())->getCharacterExt();
+	this->setm_TDrawnode(TcharacterDrawnode::create(curCharacter, m_sprite->getContentSize(), m_exChar));
 	this->addChild(m_TDrawnode,2000);
 	//不设置Anchorpoint了，直接做坐标变换
 	m_TDrawnode->setPosition(m_sprite->getPosition()-ccp(m_sprite->getContentSize().width/2,m_sprite->getContentSize().height/2));
 	
-
+	CCLog("TcharacterLayer::onEnter end");
 }
 
 void TcharacterLayer::onExit(){
@@ -89,5 +87,18 @@ void TcharacterLayer::refresh(CCObject* pSender){
 		this->getActionManager()->resumeTarget(m_TDrawnode);
 		isPause = false;
 	}
+
+}
+
+void TcharacterLayer::setCharacter(string curChar){
+	curCharacter = curChar;
+}
+
+void TcharacterLayer::next(){
+	this->removeChild(getm_TDrawnode());
+	this->setm_TDrawnode(TcharacterDrawnode::create(curCharacter, m_sprite->getContentSize(), m_exChar));
+	this->addChild(m_TDrawnode,2000);
+	//不设置Anchorpoint了，直接做坐标变换
+	m_TDrawnode->setPosition(m_sprite->getPosition()-ccp(m_sprite->getContentSize().width/2,m_sprite->getContentSize().height/2));
 
 }

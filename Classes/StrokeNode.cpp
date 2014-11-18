@@ -1,6 +1,5 @@
 #include "StrokeNode.h"
 #include "Stroke.h"
-// #include "CCDrawingPrimitives.h"
 
 USING_NS_CC;
 

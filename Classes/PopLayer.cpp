@@ -123,7 +123,7 @@ bool PopLayer::addButton(const char* normalImage,const char* selectedImage ,cons
 
 void PopLayer::buttonCallback(CCObject* pSender){
 	CCNode* node = dynamic_cast<CCNode*>(pSender);
-	CCLog("Touch tag %d",node->getTag());
+	CCLog("PopLayer::Touch tag %d",node->getTag());
 	if (m_callback && m_callbackListener)
 	{
 		(m_callbackListener->*m_callback)(node);

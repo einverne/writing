@@ -34,7 +34,7 @@ CCSize Character::getBox(){
 		for (stro_iter; stro_iter != strokeList.end(); ++stro_iter)
 		{
 			Stroke stroke = (Stroke)*stro_iter;
-			vector<CCPoint> pointList = stroke.pointList;
+			vector<CCPoint> pointList = stroke.getpointList();
 			vector<CCPoint>::iterator point_iter = pointList.begin();
 			for (point_iter; point_iter != pointList.end() ; ++point_iter)
 			{
@@ -92,7 +92,7 @@ void Character::transformCoordinate(CCPoint point,float length){
 		for (int strokei = 0; strokei < bujian.strokeCount; ++strokei)
 		{
 			Stroke stroke = strokeList.at(strokei);//(Stroke)*stro_iter;
-			vector<CCPoint> pointList = stroke.pointList;
+			vector<CCPoint> pointList = stroke.getpointList();
 			for (int i = 0;i < stroke.getPointsCount(); i++)
 			{
 				CCPoint temppoint = pointList.at(i);
@@ -104,7 +104,7 @@ void Character::transformCoordinate(CCPoint point,float length){
 // 				bujianList[bujiani].strokeList[strokei].pointList.erase(pointList.begin()+i);
 // 				vector<CCPoint>::iterator po_iter = bujianList[bujiani].strokeList[strokei].pointList.begin();
 // 				bujianList[bujiani].strokeList[strokei].pointList.insert(po_iter+i,ccp(temppoint.x,temppoint.y));
-				bujianList[bujiani].strokeList[strokei].pointList[i] = ccp(temppoint.x,temppoint.y);
+				bujianList[bujiani].strokeList[strokei].setpointList(i,ccp(temppoint.x,temppoint.y));
 				///////////////////////////////////////////////
 				//pointList.erase(pointList.begin()+i);
 				//vector<CCPoint>::iterator po_iter = pointList.begin();
@@ -134,7 +134,7 @@ void Character::prepareDrawNode(){
 		for (int strokei = 0; strokei < bujian.strokeCount; ++strokei)
 		{
 			Stroke stroke = strokeList[strokei];//(Stroke)*stro_iter;
-			vector<CCPoint> pointList = stroke.pointList;
+			vector<CCPoint> pointList = stroke.getpointList();
 			vector<CCDrawNode*> nodeList = stroke.nodeList;
 			vector<CCPoint>::iterator point_iter = pointList.begin();
 			CCPoint prePoint = (CCPoint)(*point_iter);
@@ -170,11 +170,11 @@ void Character::resize(CCSize size){
 			//÷ÿ÷√stroke ◊µ„
 			bujianList[bujiani].strokeList[strokei].prePoint = stroke.prePoint*scale;
 
-			vector<CCPoint> pointList = stroke.pointList;
+			vector<CCPoint> pointList = stroke.getpointList();
 			for (int i =0 ; i < stroke.getPointsCount() ; ++ i)
 			{
 				CCPoint temppoint = pointList.at(i);
-				bujianList[bujiani].strokeList[strokei].pointList[i] = temppoint*scale;
+				bujianList[bujiani].strokeList[strokei].setpointList(i,temppoint*scale);
 			}
 		}
 	}
