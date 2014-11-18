@@ -1,6 +1,3 @@
-writing
-=======
-
 writing Chinese
 
 ###已实现
