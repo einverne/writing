@@ -89,7 +89,12 @@ bool HcharacterLayer::init(string hanzi,CCSprite* tianzige_draw){
 			this,
 			menu_selector(HcharacterLayer::numClick));
 		itemImage3->setUserObject(CCString::create("3"));
-		CCMenu* myMenu = CCMenu::create(itemImage1,itemImage2,itemImage3,NULL);
+		CCMenuItemImage* itemimage4 = CCMenuItemImage::create("ButtonStar.png",
+			"ButtonStarSel.png",
+			this,
+			menu_selector(HcharacterLayer::numClick));
+		itemimage4->setUserObject(CCString::create("4"));
+		CCMenu* myMenu = CCMenu::create(itemImage1,itemImage2,itemImage3,itemimage4,NULL);
 		myMenu->setPosition(200,100);
 		myMenu->alignItemsHorizontallyWithPadding(50);
 		addChild(myMenu);
@@ -225,6 +230,10 @@ void HcharacterLayer::numClick(CCObject* pSender){
 	}else if(te == "3"){
 		markRest = "3";
 
+	}else if (te == "4")
+	{
+		//将数据库拷贝到SD卡目录
+		DataTool::saveFileToSD();
 	}
 	SQLiteData::insertMarkTable(strokeID,strokeStr,markRest);
 	MyToast::showToast(this,"Success",TOAST_SHORT);

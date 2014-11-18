@@ -5,7 +5,7 @@
 #pragma once
 #include "cocos2d.h"
 using namespace std;
-
+USING_NS_CC;
 
 class DataTool
 {
@@ -16,5 +16,6 @@ public:
 //	static string GB2312ToUTF8(string strGBK);
 //	static string GBKToUTF8(string gbk);
 	static string intTostring(int a);
+	static void saveFileToSD();
 };
 #endif

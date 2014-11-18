@@ -81,3 +81,23 @@ string DataTool::intTostring(int a){
 	s << a;
 	return s.str();
 }
+
+void DataTool::saveFileToSD(){
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	unsigned long size = 0;
+	string originpath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_info.db";
+	char* pFileContent = (char*)CCFileUtils::sharedFileUtils()->getFileData(originpath.c_str(),"rb",&size);
+
+	string destFile = "/mnt/sdcard/character_info.db";
+	FILE* file = fopen(destFile.c_str(),"w");
+	if (file != NULL)
+	{
+		file = fopen(destFile.c_str(),"wb");
+		fwrite(pFileContent,size,1,file);
+		CC_SAFE_DELETE_ARRAY(pFileContent);
+	}else{
+		// 		CCLog("CLuaScriptReader::Print2File file NULL");
+	}
+	fclose(file);
+#endif
+}
