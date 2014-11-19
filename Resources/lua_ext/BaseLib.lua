@@ -4685,7 +4685,7 @@ for i = 1,#bh.ptSet do
         minDis  = tempDis
     end
 end
-turning_pt_1 = bh.ptSet[turning_index1]
+local turning_pt_1 = bh.ptSet[turning_index_1]
 local bd0 = GetTempBD(bh,startindex,turning_index_0)
 local line0 = GetLine(startpt,turning_pt_0)
 local dis0 = GetFarDis2Line(bd0,line0)
