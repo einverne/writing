@@ -6,7 +6,7 @@
 
     <uses-sdk
         android:maxSdkVersion="19"
-        android:minSdkVersion="16"
+        android:minSdkVersion="15"
         android:targetSdkVersion="19" />
 
     <uses-feature android:glEsVersion="0x00020000" />
