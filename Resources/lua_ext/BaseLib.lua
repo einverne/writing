@@ -1633,6 +1633,9 @@ if (bl == 1) then
     if (angel0 > loose_angel_max_threshold) then
         return false
     end
+    if (len_bd0 / len_bd1 > bd0_1_loose_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_loose_lenratio_min_threshold ) then        trace("loose_ratio_wrong")
+        return false
+    end
     if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
         return false
     end
@@ -1646,6 +1649,9 @@ if (bl == 2) then
         return false
     end
     if (angel0 > tight_angel_max_threshold ) then
+        return false
+    end
+    if (len_bd0 / len_bd1 > bd0_1_tight_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_tight_lenratio_min_threshold ) then
         return false
     end
     if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
