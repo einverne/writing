@@ -6,7 +6,7 @@
 USING_NS_CC;
 USING_NS_CC_EXT;
 
-class MainScene : public CCLayer ,public CCScrollViewDelegate
+class MainScene : public CCLayerColor ,public CCScrollViewDelegate
 {
 public:
 	MainScene();

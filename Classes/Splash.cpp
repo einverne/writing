@@ -28,7 +28,7 @@ bool Splash::init(){
 
     CCSize winSize = CCDirector::sharedDirector()->getWinSize();
 
-    CCSprite* bg = CCSprite::create("splash.png");
+    CCSprite* bg = CCSprite::create("strangedesign\\splash.jpg");
     CCSize bgSize = bg->getContentSize();
     bg->setPosition(ccp(winSize.width/2,winSize.height/2));
     this->addChild(bg,0);

@@ -94,10 +94,33 @@ void WallSingleScene::onEnter(){
 		"ceshi_2.png",
 		this,
 		menu_selector(WallSingleScene::ceshi));
-	CCMenu* menu = CCMenu::create(ceshi_button,NULL);
+	CCMenuItemImage* back_button = CCMenuItemImage::create("strangedesign/back_button.png",
+		"strangedesign/back_button.png",
+		this,
+		menu_selector(WallSingleScene::back));
+	back_button->setPosition(ccp(back_button->getContentSize().width/2+10,visibleSize.height-back_button->getContentSize().height/2-10));
+
+	CCMenuItemImage* judge_button = CCMenuItemImage::create("strangedesign/Page_judgewritting_button.png",
+		"strangedesign/Page_judgewritting_button.png",
+		this,
+		menu_selector(WallSingleScene::ceshi));
+	CCMenuItemImage* free_button = CCMenuItemImage::create("strangedesign/Page_freewritting_button.png",
+		"strangedesign/Page_freewritting_button.png",
+		this,
+		menu_selector(WallSingleScene::ceshi));
+	judge_button->setPosition(ccp(visibleSize.width - judge_button->getContentSize().width/2 ,judge_button->getContentSize().height/2));
+	free_button->setPosition(ccp(free_button->getContentSize().width/2,free_button->getContentSize().height/2));
+
+	CCMenu* menu = CCMenu::create(judge_button,free_button,back_button,NULL);
 	this->addChild(menu,20);
 	ceshi_button->setPosition(ccp(visibleSize.width - ceshi_button->getContentSize().width/2 ,ceshi_button->getContentSize().height/2));
 	menu->setPosition(CCPointZero);
+
+
+	CCSprite* titlebar = CCSprite::create("strangedesign/title bar_background.png");
+	addChild(titlebar,10);
+	titlebar->setPosition(ccp(visibleSize.width/2,visibleSize.height-titlebar->getContentSize().height/2));
+
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -106,7 +129,7 @@ void WallSingleScene::onEnter(){
 	pSprite->setPosition(ccp(spriteSize.width/2,spriteSize.height/2));
 	pSprite->setScale(15);
 	this->addChild(pSprite, 0);
-	CCSprite* wall_tail = CCSprite::create("wall_tail.png");
+	CCSprite* wall_tail = CCSprite::create("strangedesign/title bar_background.png");
 	this->addChild(wall_tail,2);
 	CCSize tailSize = wall_tail->getContentSize();
 	wall_tail->setPosition(ccp(visibleSize.width/2,wall_tail->getContentSize().height/2));
@@ -121,7 +144,8 @@ void WallSingleScene::onEnter(){
 	myDocument->Parse(pFileContent,0,TIXML_ENCODING_UTF8);
 #endif
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
-	string str_filename = "wall/" + wallXMLCurrent;
+// 	string str_filename = "wall/" + wallXMLCurrent;
+	string str_filename = "strangedesign/scoretable.xml";
 	string myfilename=CCFileUtils::sharedFileUtils()->fullPathForFilename(str_filename.c_str());
 	TiXmlDocument* myDocument = new TiXmlDocument(myfilename.c_str());
 	myDocument->LoadFile();
@@ -549,4 +573,8 @@ void WallSingleScene::ceshi(CCObject* pSender){
 
 	CeshiScene* scene = CeshiScene::create(wallXMLCurrent,hanzis);
 	CCDirector::sharedDirector()->pushScene(scene);
+}
+
+void WallSingleScene::back(CCObject* pSender){
+	CCDirector::sharedDirector()->replaceScene(MainScene::scene());
 }

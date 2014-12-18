@@ -24,22 +24,23 @@ CCScene* MainScene::scene(){
 }
 
 bool MainScene::init(){
-	if (!CCLayer::init())
+	if (!CCLayerColor::initWithColor(ccc4(255,255,255,255)))
 	{
 		return false;
 	}
 	setKeypadEnabled(true);
 
 	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
-	CCSprite* bg = CCSprite::create("main_background.jpg");
-	CCSize bgsize = bg->getContentSize();
-	bg->setPosition(ccp(winSize.width/2,winSize.height/2));
-	addChild(bg,0);
-	bg->setScaleX(winSize.width/bgsize.width);
-	bg->setScaleY(winSize.height/bgsize.height);
+// 	CCSprite* bg = CCSprite::create("main_background.jpg");
+// 	CCSize bgsize = bg->getContentSize();
+// 	bg->setPosition(ccp(winSize.width/2,winSize.height/2));
+// 	addChild(bg,0);
+// 	bg->setScaleX(winSize.width/bgsize.width);
+// 	bg->setScaleY(winSize.height/bgsize.height);
+
 
 	CCLayer* container_layer = CCLayer::create();
-	CCSprite* sp = CCSprite::create("main_button.png");
+	CCSprite* sp = CCSprite::create("strangedesign\\main_button.png");
 	float lay_height = (sp->getContentSize().height+50)*20;
 	container_layer->setContentSize(CCSizeMake(winSize.width,lay_height));
 
@@ -77,12 +78,13 @@ bool MainScene::init(){
 		string s = DataTool::intTostring(i+1);
 		CCLabelTTF* label = CCLabelTTF::create(s.c_str(),"Arial",50);
 		CCMenuItemImage* p = CCMenuItemImage::create(
-			"main_button.png",
-			"main_button_2.png",
+			"strangedesign\\main_button.png",
+			"strangedesign\\main_button.png",
 			this,
 			menu_selector(MainScene::menuSelected)
 			);
 		p->setUserObject(CCString::create(s));
+		p->setContentSize(CCSizeMake(100,100));
 		CCPoint position = ccp(winSize.width/2,container_layer->getContentSize().height-(2*i+1)*(25+p->getContentSize().height/2));
 		p->setPosition(position);
 		label->setPosition(position);
