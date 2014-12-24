@@ -6,7 +6,7 @@
 USING_NS_CC;
 USING_NS_CC_EXT;
 
-class MainScene : public CCLayerColor ,public CCScrollViewDelegate
+class MainScene : public CCLayerColor
 {
 public:
 	MainScene();
@@ -18,15 +18,16 @@ public:
 	virtual void onExit();
 	virtual void keyBackClicked();
 
-	void scrollViewDidScroll(CCScrollView* view);
-	void scrollViewDidZoom(CCScrollView* view);
+// 	void scrollViewDidScroll(CCScrollView* view);
+// 	void scrollViewDidZoom(CCScrollView* view);
 
 private:
 	void menuSelected(CCObject* pSender);
 	void isExit(CCNode* pNode);
 	void Setting(CCObject* pSender);
 	void settingCallBack(CCNode* pNode);
-	CCScrollView* m_pScrollView;
+//	CCScrollView* m_pScrollView;
+	CCObject* gridviewDataSource(CCObject* pConvertView, unsigned int idx);
 };
 
 

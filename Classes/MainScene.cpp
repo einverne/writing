@@ -1,7 +1,8 @@
 #include "MainScene.h"
 #include "WallSingleScene.h"
 #include "tools/DataTool.h"
-
+#include "../CocosWidget/cocos-widget.h"
+using namespace cocos2d::cocoswidget;
 using namespace std;
 #include "stdlib.h"
 USING_NS_CC;
@@ -30,7 +31,13 @@ bool MainScene::init(){
 	}
 	setKeypadEnabled(true);
 
+
+	CWidgetWindow* m_pWindow = CWidgetWindow::create();
+	m_pWindow->setMultiTouchEnabled(true);
+	addChild(m_pWindow);
+
 	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
+	CCSize visiableSize = CCDirector::sharedDirector()->getVisibleSize();
 // 	CCSprite* bg = CCSprite::create("main_background.jpg");
 // 	CCSize bgsize = bg->getContentSize();
 // 	bg->setPosition(ccp(winSize.width/2,winSize.height/2));
@@ -46,11 +53,11 @@ bool MainScene::init(){
 
 	
 	CCSize scrollview_size = winSize;
-	m_pScrollView = CCScrollView::create(scrollview_size , container_layer);
-	m_pScrollView->setDirection(kCCScrollViewDirectionVertical);
-	m_pScrollView->setPosition(CCPointZero);
-	addChild(m_pScrollView);
-	m_pScrollView->setContentOffset(ccp(0 , -(container_layer->getContentSize().height-winSize.height)));
+// 	m_pScrollView = CCScrollView::create(scrollview_size , container_layer);
+// 	m_pScrollView->setDirection(kCCScrollViewDirectionVertical);
+// 	m_pScrollView->setPosition(CCPointZero);
+// 	addChild(m_pScrollView);
+// 	m_pScrollView->setContentOffset(ccp(0 , -(container_layer->getContentSize().height-winSize.height)));
 
 	CCMenuItemImage* setting_btn = CCMenuItemImage::create("setting.png",
 		"setting.png",
@@ -94,6 +101,19 @@ bool MainScene::init(){
 	CCMenu* menu = CCMenu::createWithArray(array);
 	container_layer->addChild(menu,1);
 	menu->setPosition(CCPointZero);
+
+
+	CGridView* pGridView = CGridView::create(
+		CCSize(720, 1280),
+		CCSize(350 , 300),
+		24, this,
+		ccw_datasource_adapter_selector(MainScene::gridviewDataSource));
+	pGridView->setColumns(2);
+	pGridView->setPosition(CCSize(winSize.width/2,winSize.height/2));
+	this->addChild(pGridView);
+	pGridView->setAutoRelocate(true);
+	pGridView->reloadData();
+
 
 
 	return true;
@@ -166,10 +186,40 @@ void MainScene::settingCallBack(CCNode* pNode){
 	}
 }
 
-void MainScene::scrollViewDidScroll(CCScrollView* view){
+// void MainScene::scrollViewDidScroll(CCScrollView* view){
+// 
+// }
+// 
+// void MainScene::scrollViewDidZoom(CCScrollView* view){
+// 
+// }
 
-}
 
-void MainScene::scrollViewDidZoom(CCScrollView* view){
+CCObject* MainScene::gridviewDataSource(CCObject* pConvertView, unsigned int idx){
+	CGridViewCell* pCell = (CGridViewCell*) pConvertView;
+	CButton* pButton = NULL;
 
+	if(!pCell)
+	{
+		pCell = new CGridViewCell();
+		pCell->autorelease();
+
+		//pButton = CButton::createWith9Sprite(CCSizeMake(70, 70), "sprite9_btn1.png", "sprite9_btn2.png");
+		pButton = CButton::create("strangedesign\\main_button.png");
+		pButton->setPosition(CCPoint(350/2, 300/2));
+		pButton->getLabel()->setFontSize(30.0f);
+		pButton->setTag(1);
+		pCell->addChild(pButton);
+	}
+	else
+	{
+		pButton = (CButton*) pCell->getChildByTag(1);
+	}
+
+	char buff[64];
+	sprintf(buff, "%u", idx);
+	pButton->getLabel()->setString(buff);
+	pButton->setUserTag(idx);
+
+	return pCell;
 }
