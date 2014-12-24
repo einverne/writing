@@ -31,7 +31,6 @@ bool MainScene::init(){
 	}
 	setKeypadEnabled(true);
 
-
 	CWidgetWindow* m_pWindow = CWidgetWindow::create();
 	m_pWindow->setMultiTouchEnabled(true);
 	addChild(m_pWindow);
@@ -45,14 +44,12 @@ bool MainScene::init(){
 // 	bg->setScaleX(winSize.width/bgsize.width);
 // 	bg->setScaleY(winSize.height/bgsize.height);
 
+// 	CCLayer* container_layer = CCLayer::create();
+// 	CCSprite* sp = CCSprite::create("strangedesign\\main_button.png");
+// 	float lay_height = (sp->getContentSize().height+50)*20;
+// 	container_layer->setContentSize(CCSizeMake(winSize.width,lay_height));
 
-	CCLayer* container_layer = CCLayer::create();
-	CCSprite* sp = CCSprite::create("strangedesign\\main_button.png");
-	float lay_height = (sp->getContentSize().height+50)*20;
-	container_layer->setContentSize(CCSizeMake(winSize.width,lay_height));
-
-	
-	CCSize scrollview_size = winSize;
+//	CCSize scrollview_size = winSize;
 // 	m_pScrollView = CCScrollView::create(scrollview_size , container_layer);
 // 	m_pScrollView->setDirection(kCCScrollViewDirectionVertical);
 // 	m_pScrollView->setPosition(CCPointZero);
@@ -69,64 +66,53 @@ bool MainScene::init(){
 	m->setPosition(CCPointZero);
 	addChild(m,2);
 
-// 	CCPoint menu_position[8] = {ccp(winSize.width/4,winSize.height/5*4),
-// 		ccp(winSize.width/4*3,winSize.height/5*4),
-// 		ccp(winSize.width/4,winSize.height/5*3),
-// 		ccp(winSize.width/4*3,winSize.height/5*3),
-// 		ccp(winSize.width/4,winSize.height/5*2),
-// 		ccp(winSize.width/4*3,winSize.height/5*2),
-// 		ccp(winSize.width/4,winSize.height/5*1),
-// 		ccp(winSize.width/4*3,winSize.height/5*1),
-// 	};
-
-	CCArray* array = CCArray::create();
-	for (int i = 0; i < 20 ; i++)
-	{
-		string s = DataTool::intTostring(i+1);
-		CCLabelTTF* label = CCLabelTTF::create(s.c_str(),"Arial",50);
-		CCMenuItemImage* p = CCMenuItemImage::create(
-			"strangedesign\\main_button.png",
-			"strangedesign\\main_button.png",
-			this,
-			menu_selector(MainScene::menuSelected)
-			);
-		p->setUserObject(CCString::create(s));
-		p->setContentSize(CCSizeMake(100,100));
-		CCPoint position = ccp(winSize.width/2,container_layer->getContentSize().height-(2*i+1)*(25+p->getContentSize().height/2));
-		p->setPosition(position);
-		label->setPosition(position);
-		array->addObject(p);
-		container_layer->addChild(label,2);
-	}
-	CCMenu* menu = CCMenu::createWithArray(array);
-	container_layer->addChild(menu,1);
-	menu->setPosition(CCPointZero);
+// 	CCArray* array = CCArray::create();
+// 	for (int i = 0; i < 20 ; i++)
+// 	{
+// 		string s = DataTool::intTostring(i+1);
+// 		CCLabelTTF* label = CCLabelTTF::create(s.c_str(),"Arial",50);
+// 		CCMenuItemImage* p = CCMenuItemImage::create(
+// 			"strangedesign\\main_button.png",
+// 			"strangedesign\\main_button.png",
+// 			this,
+// 			menu_selector(MainScene::menuSelected)
+// 			);
+// 		p->setUserObject(CCString::create(s));
+// 		p->setContentSize(CCSizeMake(100,100));
+// 		CCPoint position = ccp(winSize.width/2,container_layer->getContentSize().height-(2*i+1)*(25+p->getContentSize().height/2));
+// 		p->setPosition(position);
+// 		label->setPosition(position);
+// 		array->addObject(p);
+// 		container_layer->addChild(label,2);
+// 	}
+// 	CCMenu* menu = CCMenu::createWithArray(array);
+// 	container_layer->addChild(menu,1);
+// 	menu->setPosition(CCPointZero);
 
 
 	CGridView* pGridView = CGridView::create(
 		CCSize(720, 1280),
-		CCSize(350 , 300),
+		CCSize(360 , 300),
 		24, this,
 		ccw_datasource_adapter_selector(MainScene::gridviewDataSource));
 	pGridView->setColumns(2);
 	pGridView->setPosition(CCSize(winSize.width/2,winSize.height/2));
-	this->addChild(pGridView);
+	m_pWindow->addChild(pGridView);
 	pGridView->setAutoRelocate(true);
 	pGridView->reloadData();
-
 
 
 	return true;
 }
 
-void MainScene::onEnter(){
-	CCLayer::onEnter();
-
-}
-
-void MainScene::onExit(){
-	CCLayer::onExit();
-}
+// void MainScene::onEnter(){
+// 	CCLayer::onEnter();
+// 
+// }
+// 
+// void MainScene::onExit(){
+// 	CCLayer::onExit();
+// }
 
 void MainScene::keyBackClicked(){
 	CCLog("MainScene::keyBackClicked");
@@ -206,8 +192,8 @@ CCObject* MainScene::gridviewDataSource(CCObject* pConvertView, unsigned int idx
 
 		//pButton = CButton::createWith9Sprite(CCSizeMake(70, 70), "sprite9_btn1.png", "sprite9_btn2.png");
 		pButton = CButton::create("strangedesign\\main_button.png");
-		pButton->setPosition(CCPoint(350/2, 300/2));
-		pButton->getLabel()->setFontSize(30.0f);
+		pButton->setPosition(CCPoint(360/2, 300/2));
+		pButton->getLabel()->setFontSize(40.0f);
 		pButton->setTag(1);
 		pCell->addChild(pButton);
 	}
@@ -221,5 +207,14 @@ CCObject* MainScene::gridviewDataSource(CCObject* pConvertView, unsigned int idx
 	pButton->getLabel()->setString(buff);
 	pButton->setUserTag(idx);
 
+	pButton->setOnClickListener(this,ccw_click_selector(MainScene::buttonClick));
+
 	return pCell;
+}
+
+void MainScene::buttonClick(CCObject* pSender){
+	CButton* pButton = (CButton*)pSender;
+	int idx = pButton->getUserTag();
+	string wallfilename = "wall_"+DataTool::intTostring(idx)+".xml";
+	CCDirector::sharedDirector()->replaceScene(WallSingleScene::scene(wallfilename));
 }

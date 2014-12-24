@@ -14,8 +14,8 @@ public:
 	CREATE_FUNC(MainScene);
 	static CCScene* scene();
 	virtual bool init();
-	virtual void onEnter();
-	virtual void onExit();
+// 	virtual void onEnter();
+// 	virtual void onExit();
 	virtual void keyBackClicked();
 
 // 	void scrollViewDidScroll(CCScrollView* view);
@@ -26,7 +26,7 @@ private:
 	void isExit(CCNode* pNode);
 	void Setting(CCObject* pSender);
 	void settingCallBack(CCNode* pNode);
-//	CCScrollView* m_pScrollView;
+	void buttonClick(CCObject* pSender);
 	CCObject* gridviewDataSource(CCObject* pConvertView, unsigned int idx);
 };
 
