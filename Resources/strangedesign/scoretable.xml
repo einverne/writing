@@ -7,7 +7,7 @@
         <stone>
             <type>wordbox</type>
             <x>0 px</x>
-            <y>300 px</y>
+            <y>350 px</y>
             <w>375 px</w>
             <h>460 px</h>
             <img>strangedesign\scoretable.png</img><hanzi>一</hanzi><proficiency>0</proficiency>
@@ -16,7 +16,7 @@
 	  <stone>
             <type>wordbox</type>
             <x>375 px</x>
-            <y>300 px</y>
+            <y>350 px</y>
             <w>375 px</w>
             <h>460 px</h>
             <img>strangedesign\scoretable.png</img><hanzi>一</hanzi><proficiency>0</proficiency>
@@ -25,7 +25,7 @@
 	  <stone>
             <type>wordbox</type>
             <x>750 px</x>
-            <y>300 px</y>
+            <y>350 px</y>
             <w>375 px</w>
             <h>460 px</h>
             <img>strangedesign\scoretable.png</img><hanzi>一</hanzi><proficiency>0</proficiency>
@@ -34,7 +34,7 @@
 	  <stone>
             <type>wordbox</type>
             <x>1125 px</x>
-            <y>300 px</y>
+            <y>350 px</y>
             <w>375 px</w>
             <h>460 px</h>
             <img>strangedesign\scoretable.png</img><hanzi>一</hanzi><proficiency>0</proficiency>
@@ -43,7 +43,7 @@
 	  <stone>
             <type>wordbox</type>
             <x>0 px</x>
-            <y>800 px</y>
+            <y>850 px</y>
             <w>375 px</w>
             <h>460 px</h>
             <img>strangedesign\scoretable.png</img><hanzi>一</hanzi><proficiency>0</proficiency>
@@ -52,7 +52,7 @@
 	  <stone>
             <type>wordbox</type>
             <x>375 px</x>
-            <y>800 px</y>
+            <y>850 px</y>
             <w>375 px</w>
             <h>460 px</h>
             <img>strangedesign\scoretable.png</img><hanzi>一</hanzi><proficiency>0</proficiency>
@@ -61,7 +61,7 @@
 	  <stone>
             <type>wordbox</type>
             <x>750 px</x>
-            <y>800 px</y>
+            <y>850 px</y>
             <w>375 px</w>
             <h>460 px</h>
             <img>strangedesign\scoretable.png</img><hanzi>一</hanzi><proficiency>0</proficiency>
@@ -70,7 +70,7 @@
 	  <stone>
             <type>wordbox</type>
             <x>1125 px</x>
-            <y>800 px</y>
+            <y>850 px</y>
             <w>375 px</w>
             <h>460 px</h>
             <img>strangedesign\scoretable.png</img><hanzi>一</hanzi><proficiency>0</proficiency>
@@ -79,7 +79,7 @@
 	  <stone>
             <type>wordbox</type>
             <x>0 px</x>
-            <y>1300 px</y>
+            <y>1350 px</y>
             <w>375 px</w>
             <h>460 px</h>
             <img>strangedesign\scoretable.png</img><hanzi>一</hanzi><proficiency>0</proficiency>
@@ -88,7 +88,7 @@
 	  <stone>
             <type>wordbox</type>
             <x>375 px</x>
-            <y>1300 px</y>
+            <y>1350 px</y>
             <w>375 px</w>
             <h>460 px</h>
             <img>strangedesign\scoretable.png</img><hanzi>一</hanzi><proficiency>0</proficiency>
@@ -97,7 +97,7 @@
 	  <stone>
             <type>wordbox</type>
             <x>750 px</x>
-            <y>1300 px</y>
+            <y>1350 px</y>
             <w>375 px</w>
             <h>460 px</h>
             <img>strangedesign\scoretable.png</img><hanzi>一</hanzi><proficiency>0</proficiency>
@@ -106,7 +106,7 @@
 	  <stone>
             <type>wordbox</type>
             <x>1125 px</x>
-            <y>1300 px</y>
+            <y>1350 px</y>
             <w>375 px</w>
             <h>460 px</h>
             <img>strangedesign\scoretable.png</img><hanzi>一</hanzi><proficiency>0</proficiency>
@@ -115,7 +115,7 @@
 	  <stone>
             <type>wordbox</type>
             <x>0 px</x>
-            <y>1800 px</y>
+            <y>1850 px</y>
             <w>375 px</w>
             <h>460 px</h>
             <img>strangedesign\scoretable.png</img><hanzi>一</hanzi><proficiency>0</proficiency>
@@ -124,7 +124,7 @@
 	  <stone>
             <type>wordbox</type>
             <x>375 px</x>
-            <y>1800 px</y>
+            <y>1850 px</y>
             <w>375 px</w>
             <h>460 px</h>
             <img>strangedesign\scoretable.png</img><hanzi>一</hanzi><proficiency>0</proficiency>
@@ -133,7 +133,7 @@
 	  <stone>
             <type>wordbox</type>
             <x>750 px</x>
-            <y>1800 px</y>
+            <y>1850 px</y>
             <w>375 px</w>
             <h>460 px</h>
             <img>strangedesign\scoretable.png</img><hanzi>一</hanzi><proficiency>0</proficiency>
@@ -142,7 +142,7 @@
 	  <stone>
             <type>wordbox</type>
             <x>1125 px</x>
-            <y>1800 px</y>
+            <y>1850 px</y>
             <w>375 px</w>
             <h>460 px</h>
             <img>strangedesign\scoretable.png</img><hanzi>一</hanzi><proficiency>0</proficiency>

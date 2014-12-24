@@ -8,7 +8,7 @@
 using namespace std;
 USING_NS_CC;
 
-class WallSingleScene : public CCLayer
+class WallSingleScene : public CCLayerColor
 {
 public:
 	WallSingleScene();

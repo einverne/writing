@@ -56,7 +56,7 @@ bool WallSingleScene::init(string xmlfilename)
 {
 	//////////////////////////////
 	// 1. super init first
-	if ( !CCLayer::init() )
+	if ( !CCLayerColor::initWithColor(ccc4(255,255,255,255)) )
 	{
 		return false;
 	}
@@ -116,7 +116,6 @@ void WallSingleScene::onEnter(){
 	ceshi_button->setPosition(ccp(visibleSize.width - ceshi_button->getContentSize().width/2 ,ceshi_button->getContentSize().height/2));
 	menu->setPosition(CCPointZero);
 
-
 	CCSprite* titlebar = CCSprite::create("strangedesign/title bar_background.png");
 	addChild(titlebar,10);
 	titlebar->setPosition(ccp(visibleSize.width/2,visibleSize.height-titlebar->getContentSize().height/2));
@@ -124,11 +123,12 @@ void WallSingleScene::onEnter(){
 
 
 	////////////////////////////////////////////////////////////////////////////////
-	CCSprite* pSprite = CCSprite::create("wall.JPG");
-	CCSize spriteSize = pSprite->getContentSize();
-	pSprite->setPosition(ccp(spriteSize.width/2,spriteSize.height/2));
-	pSprite->setScale(15);
-	this->addChild(pSprite, 0);
+// 	CCSprite* pSprite = CCSprite::create("wall.JPG");
+// 	CCSize spriteSize = pSprite->getContentSize();
+// 	pSprite->setPosition(ccp(spriteSize.width/2,spriteSize.height/2));
+// 	pSprite->setScale(15);
+// 	this->addChild(pSprite, 0);
+
 	CCSprite* wall_tail = CCSprite::create("strangedesign/title bar_background.png");
 	this->addChild(wall_tail,2);
 	CCSize tailSize = wall_tail->getContentSize();
