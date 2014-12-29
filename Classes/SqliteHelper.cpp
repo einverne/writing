@@ -183,6 +183,26 @@ void SqliteHelper::getstrokeFunc(string sql,CCObject* funcbody){
 
 }
 
+int groupCharacterCallback(void * para, int n_column, char ** column_value, char ** column_name){
+	vector<string>* result = (vector<string>*)para;
+	for (int i=1; i < 17; i++)
+	{
+		result->push_back(column_value[i]);
+	}
+	return 0;
+}
+
+vector<string> SqliteHelper::getGroupCharacter(string sql){
+	vector<string> result;
+	int ret = sqlite3_exec(pDB, sql.c_str(), groupCharacterCallback, &result, &errMsg);
+	if (errMsg)
+	{
+		CCLog("return getDataInfo error code:%d error:%s",ret,errMsg);
+		sqlite3_free(errMsg);
+	}
+	return result;
+}
+
 //¹Ø±ÕÊý¾Ý¿â
 void SqliteHelper::closeDB()
 {

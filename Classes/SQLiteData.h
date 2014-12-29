@@ -35,7 +35,7 @@ public:
 
 	/**
 	* 获取松紧规则的汉字
-	* @param hz
+	* @param hz 汉字名 对应ziName列名
 	* @param p
 	* @return
 	*/
@@ -47,6 +47,22 @@ public:
 	* @return
 	*/
 	static bool isExist(string hz);
+
+	/**
+	* 获取数据库中一行16个字，返回数组
+	* @param index id号，例如1
+	* @return vector<string>
+	*/
+	static vector<string> getGroupCharacter(string index);
+
+	/**
+	* 更新一行中第indexOfCharacter个汉字
+	* @param index 行号
+	* @param indexOfCharacter 第几个汉字
+	* @param character 汉字
+	* @return true成功 false失败
+	*/
+	static bool updateGroupCharacter(string index, string indexOfCharacter, string character);
 };
 
 

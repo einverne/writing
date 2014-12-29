@@ -89,3 +89,30 @@ bool SQLiteData::isExist(string hz){
 	}
 	return true;
 }
+
+vector<string> SQLiteData::getGroupCharacter(string index){
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+	string dbpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_judge.db");
+#endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	string dbpath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_judge.db";
+#endif
+	SqliteHelper::initDB(dbpath.c_str());
+	string sql = "select * from groupCharacter where id ='"+index+"'";
+	vector<string> resultOfGroupCharacter = SqliteHelper::getGroupCharacter(sql);
+	SqliteHelper::closeDB();
+	return resultOfGroupCharacter;
+}
+
+bool SQLiteData::updateGroupCharacter(string index, string indexOfCharacter, string character){
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+	string dbpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_judge.db");
+#endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	string dbpath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_judge.db";
+#endif
+	SqliteHelper::initDB(dbpath.c_str());
+	string sql = "update groupCharacter set C"+index+" = '"+character+"' where id = "+index;
+	SqliteHelper::updateData(sql);
+	return true;
+}

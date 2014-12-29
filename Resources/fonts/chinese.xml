@@ -15,5 +15,7 @@
 	<string>已经是最后一个</string>
 	<key>not_exist</key>
 	<string>该字在数据库中尚不存在</string>
+	<key>zi</key>
+	<string>字</string>
 </dict>  
 </plist>  

@@ -39,6 +39,13 @@ public:
 
 	//关闭打开的数据库
 	static void closeDB();
+
+	/**
+	* 从数据groupCharacter中获取一组16个字数据
+	* @param sql
+	* @return vector<string>
+	*/
+	static vector<string> getGroupCharacter(string sql);
 private:
 
 };

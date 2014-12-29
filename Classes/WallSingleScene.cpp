@@ -136,6 +136,12 @@ void WallSingleScene::onEnter(){
 	wall_tail->setScaleX(visibleSize.width/wall_tail->getContentSize().width);
 
 
+
+
+	vector<string> groupCharacter = SQLiteData::getGroupCharacter(DataTool::intTostring(1));
+//	SQLiteData::updateGroupCharacter(DataTool::intTostring(1),DataTool::intTostring(1),DataTool::getChinese("zi"));
+
+
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	string myfilename = CCFileUtils::sharedFileUtils()->getWritablePath()+wallXMLCurrent;
 	unsigned long size = 0;
@@ -167,12 +173,13 @@ void WallSingleScene::onEnter(){
 	TiXmlElement* stoneElement = dataElement->FirstChildElement();  // stone
 
 	hanzilist.clear();
+	int indexOfCharacter = 0;
 	while (stoneElement) {
 		CHanziManage temphanziManage;
 		TiXmlElement* typeElement = stoneElement->FirstChildElement();  // type
 
 		string flag1("wordbox");
-		string flag2("nouse");
+// 		string flag2("nouse");
 		string flag3(typeElement->GetText());
 		if(flag3==flag1)
 		{
@@ -206,11 +213,11 @@ void WallSingleScene::onEnter(){
 			y += wall_tail->getContentSize().height;
 
 			string tempfilename=imgElement->GetText();
-			string temphanzi=hanziElement->GetText();
+// 			string temphanzi=hanziElement->GetText();
 			//CCLog("temphanzi %s",temphanzi.c_str());
 			//			string GBKhanzi = UTF8ToGBK::UTF8TOGBK(temphanzi);
-			string temppro=proficiencyElement->GetText();
-			float profic = DataTool::stringToFloat(temppro);
+// 			string temppro=proficiencyElement->GetText();
+// 			float profic = DataTool::stringToFloat(temppro);
 
 			//stone sprite
 			//CCLog("tempfilename %s",tempfilename.c_str());
@@ -221,72 +228,76 @@ void WallSingleScene::onEnter(){
 			this->addChild(pSprite1, 1);
 
 			//color of sprite to show a word proficient
-			if(profic > 0){
-				ccColor3B color;
-				color.r = profic*256;
-				color.g = color.b = 0;
-				pSprite1->setColor(color);
-				pSprite1->setOpacityModifyRGB(true);
-				pSprite1->setOpacity(125);
-			}
+// 			if(profic > 0){
+// 				ccColor3B color;
+// 				color.r = profic*256;
+// 				color.g = color.b = 0;
+// 				pSprite1->setColor(color);
+// 				pSprite1->setOpacityModifyRGB(true);
+// 				pSprite1->setOpacity(125);
+// 			}
 			//文本框
-			hanzis.push_back(temphanzi);
 
-			CCLabelTTF* pLabel = CCLabelTTF::create(temphanzi.c_str(), "XingShu", 100);
+
+			hanzis.push_back(groupCharacter.at(indexOfCharacter));
+
+
+			CCLabelTTF* pLabel = CCLabelTTF::create(groupCharacter.at(indexOfCharacter).c_str(), "XingShu", 100);
 			pLabel->setPosition(ccp(origin.x + x, origin.y + y));
 			this->addChild(pLabel, 2);
 
 			//汉字管理
-			temphanziManage.character=hanziElement->GetText();
+			temphanziManage.character=groupCharacter.at(indexOfCharacter);
 			temphanziManage.textbox=pLabel;
 			temphanziManage.pos=CCPoint(x,y);
 			temphanziManage.filename=tempfilename;
-			temphanziManage.proficiency=atoi(temppro.c_str());
+// 			temphanziManage.proficiency=atoi(temppro.c_str());
 
 			vector<CHanziManage>::iterator it = hanzilist.end(); 
 			hanzilist.insert(it,temphanziManage);
 			stoneElement=stoneElement->NextSiblingElement();
 
+			indexOfCharacter++;
 		}
-		if(flag3==flag2)
-		{
-			//nouse
-			TiXmlElement* xElement = typeElement->NextSiblingElement();  // x
-			TiXmlElement* yElement = xElement->NextSiblingElement();  // y
-			TiXmlElement* wElement = yElement->NextSiblingElement();  // w
-			TiXmlElement* hElement = wElement->NextSiblingElement();  // h
-			TiXmlElement* imgElement = hElement->NextSiblingElement();  // img
-
-			string tempx=xElement->GetText();
-			int x=atoi((tempx.substr(0,tempx.size()-2)).c_str());
-			string tempy=yElement->GetText();
-			int y=atoi((tempy.substr(0, tempy.size()-2)).c_str());
-			string tempw=wElement->GetText();
-			int w=atoi((tempw.substr(0,tempw.size()-2)).c_str());
-			string temph=hElement->GetText();
-			int h=atoi((temph.substr(0, temph.size()-2)).c_str());
-
-			//坐标系重定位
-			x=x+w/2;
-			y=height-y-h/2;
-
-			//缩放；
-			x*=width_rescale;
-			y*=rescale;
-			w*=width_rescale;
-			h*=rescale;
-			y += wall_tail->getContentSize().height;
-
-			//stone sprite
-			string tempfilename=imgElement->GetText();
-			CCSprite* pSprite2 = CCSprite::create(tempfilename.c_str());
-			pSprite2->setScaleY(rescale);
-			pSprite2->setScaleX(width_rescale);
-			pSprite2->setPosition(ccp(origin.x+x, origin.y+y));
-			this->addChild(pSprite2, 1);
-			/////////////
-			stoneElement=stoneElement->NextSiblingElement();
-		}
+// 		if(flag3==flag2)
+// 		{
+// 			//nouse
+// 			TiXmlElement* xElement = typeElement->NextSiblingElement();  // x
+// 			TiXmlElement* yElement = xElement->NextSiblingElement();  // y
+// 			TiXmlElement* wElement = yElement->NextSiblingElement();  // w
+// 			TiXmlElement* hElement = wElement->NextSiblingElement();  // h
+// 			TiXmlElement* imgElement = hElement->NextSiblingElement();  // img
+// 
+// 			string tempx=xElement->GetText();
+// 			int x=atoi((tempx.substr(0,tempx.size()-2)).c_str());
+// 			string tempy=yElement->GetText();
+// 			int y=atoi((tempy.substr(0, tempy.size()-2)).c_str());
+// 			string tempw=wElement->GetText();
+// 			int w=atoi((tempw.substr(0,tempw.size()-2)).c_str());
+// 			string temph=hElement->GetText();
+// 			int h=atoi((temph.substr(0, temph.size()-2)).c_str());
+// 
+// 			//坐标系重定位
+// 			x=x+w/2;
+// 			y=height-y-h/2;
+// 
+// 			//缩放；
+// 			x*=width_rescale;
+// 			y*=rescale;
+// 			w*=width_rescale;
+// 			h*=rescale;
+// 			y += wall_tail->getContentSize().height;
+// 
+// 			//stone sprite
+// 			string tempfilename=imgElement->GetText();
+// 			CCSprite* pSprite2 = CCSprite::create(tempfilename.c_str());
+// 			pSprite2->setScaleY(rescale);
+// 			pSprite2->setScaleX(width_rescale);
+// 			pSprite2->setPosition(ccp(origin.x+x, origin.y+y));
+// 			this->addChild(pSprite2, 1);
+// 			/////////////
+// 			stoneElement=stoneElement->NextSiblingElement();
+// 		}
 	}
 }
 
