@@ -1,6 +1,7 @@
 #include "MainScene.h"
 #include "WallSingleScene.h"
 #include "tools/DataTool.h"
+#include "SQLiteData.h"
 #include "../CocosWidget/cocos-widget.h"
 using namespace cocos2d::cocoswidget;
 using namespace std;
@@ -92,15 +93,14 @@ bool MainScene::init(){
 
 	CGridView* pGridView = CGridView::create(
 		CCSize(720, 1280),
-		CCSize(360 , 300),
-		24, this,
+		CCSize(360 , 350),
+		12, this,
 		ccw_datasource_adapter_selector(MainScene::gridviewDataSource));
 	pGridView->setColumns(2);
 	pGridView->setPosition(CCSize(winSize.width/2,winSize.height/2));
 	m_pWindow->addChild(pGridView);
 	pGridView->setAutoRelocate(true);
 	pGridView->reloadData();
-
 
 	return true;
 }
@@ -191,11 +191,33 @@ CCObject* MainScene::gridviewDataSource(CCObject* pConvertView, unsigned int idx
 		pCell->autorelease();
 
 		//pButton = CButton::createWith9Sprite(CCSizeMake(70, 70), "sprite9_btn1.png", "sprite9_btn2.png");
-		pButton = CButton::create("strangedesign\\main_button.png");
-		pButton->setPosition(CCPoint(360/2, 300/2));
+		pButton = CButton::create("strangedesign\\main_clincher.png");
+		pButton->setPosition(CCPoint(360/2, 350-pButton->getContentSize().height/2));
 		pButton->getLabel()->setFontSize(40.0f);
 		pButton->setTag(1);
-		pCell->addChild(pButton);
+
+		pCell->addChild(pButton,10);
+
+		CCSprite* sprite = CCSprite::create("strangedesign\\table4mul4.png");
+		sprite->setContentSize(CCSize(320,320));
+		sprite->setPosition(CCPoint(360/2,350/2));
+		pCell->addChild(sprite,1);
+
+		vector<string> groupCharacter = SQLiteData::getGroupCharacter(DataTool::intTostring(0));
+
+		CCPoint positions[16] = {ccp(40,280),ccp(120,280),ccp(200,280),ccp(280,280),
+			ccp(40,200),ccp(120,200),ccp(200,200),ccp(280,200),
+			ccp(40,120),ccp(120,120),ccp(200,120),ccp(280,120),
+			ccp(40,40),ccp(120,40),ccp(200,40),ccp(280,40)
+		};
+		for (int i = 0; i < groupCharacter.size(); i++)
+		{
+			string hanzi = groupCharacter.at(i);
+			CCLabelTTF* clabel = CCLabelTTF::create(hanzi.c_str(),"Arial",40);
+			clabel->setPosition(positions[i]);
+			clabel->setColor(ccc3(0,0,0));
+			sprite->addChild(clabel);
+		}
 	}
 	else
 	{

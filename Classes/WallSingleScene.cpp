@@ -138,7 +138,7 @@ void WallSingleScene::onEnter(){
 
 
 
-	vector<string> groupCharacter = SQLiteData::getGroupCharacter(DataTool::intTostring(1));
+	vector<string> groupCharacter = SQLiteData::getGroupCharacter(DataTool::intTostring(0));
 //	SQLiteData::updateGroupCharacter(DataTool::intTostring(1),DataTool::intTostring(1),DataTool::getChinese("zi"));
 
 
