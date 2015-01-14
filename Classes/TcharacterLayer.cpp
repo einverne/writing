@@ -25,8 +25,8 @@ bool TcharacterLayer::init(CCSprite* tianzige){
  		CCPoint tiangzige_position = this->getSprite()->getPosition();
  		CCSize tianzige_size = this->getSprite()->getContentSize();
 
- 		CCMenuItemImage* refreshButton = CCMenuItemImage::create("replay.png",
- 			"replay.png",
+ 		CCMenuItemImage* refreshButton = CCMenuItemImage::create("strangedesign/Judge_writting_play_button.png",
+ 			"strangedesign/Judge_writting_play_button.png",
  			this,
  			menu_selector(TcharacterLayer::refresh));
  		CCPoint refresh_position = ccp(tiangzige_position.x+tianzige_size.width/2+20+refreshButton->getContentSize().width/2,tiangzige_position.y+tianzige_size.height/2-refreshButton->getContentSize().height/2);

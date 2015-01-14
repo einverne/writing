@@ -2,9 +2,11 @@
 #define __Hcharacter_H__
 
 #include "cocos2d.h"
+#include "cocos-widget.h"
 #include "HcharacterDrawnode.h"
 #include "CharacterExtend.h"
 USING_NS_CC;
+using namespace cocos2d::cocoswidget;
 
 class HcharacterLayer : public CCLayer
 {

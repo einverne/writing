@@ -44,7 +44,8 @@ bool HcharacterLayer::init(string hanzi,CCSprite* tianzige_draw){
 		m_HDrawnode->setPosition(m_sprite_draw->getPosition()-ccp(m_sprite_draw->getContentSize().width/2,m_sprite_draw->getContentSize().height/2));
 		this->addChild(m_HDrawnode);
 
-		this->setbihuaCount(CCLabelTTF::create("bihua","Marker Felt",50));
+		this->setbihuaCount(CCLabelTTF::create("","Arial",50));
+		getbihuaCount()->setColor(ccc3(0,0,0));
 		this->addChild(bihuaCount,2000);
 		bihuaCount->setPosition(tianzige_draw->getPosition()+ccp(0,tianzige_draw->getContentSize().height/2 + bihuaCount->getContentSize().height));
 		
@@ -57,8 +58,8 @@ bool HcharacterLayer::init(string hanzi,CCSprite* tianzige_draw){
 		CCPoint tianzige_draw_position = getSprite()->getPosition();
 		CCSize tianzige_draw_size = getSprite()->getContentSize();
 
-		CCMenuItemImage* rewriteButton = CCMenuItemImage::create("rewrite.png",
-			"rewrite.png",
+		CCMenuItemImage* rewriteButton = CCMenuItemImage::create("strangedesign/Judge_writting_cancel_button.png",
+			"strangedesign/Judge_writting_cancel_button.png",
 			this,
 			menu_selector(HcharacterLayer::rewrite));
 		CCPoint rewrite_position = ccp(tianzige_draw_position.x + tianzige_draw_size.width/2+20+rewriteButton->getContentSize().width/2,tianzige_draw_position.y+tianzige_draw_size.height/2-rewriteButton->getContentSize().height/2);
@@ -70,6 +71,23 @@ bool HcharacterLayer::init(string hanzi,CCSprite* tianzige_draw){
 		CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect(RIGHT_EFFECT_FILE);
 		CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect(WRONG_EFFECT_FILE);
 		CocosDenshion::SimpleAudioEngine::sharedEngine()->setEffectsVolume(0.5);
+
+		//放大缩小按钮
+		CCSize visiableSize = CCDirector::sharedDirector()->getVisibleSize();
+		CButton* zoomin = CButton::create("strangedesign/Judge_writting_zoomin_button.png");
+		zoomin->setPosition(ccp(visiableSize.width/4,zoomin->getContentSize().height+50));
+
+		CButton* zoomout = CButton::create("strangedesign/Judge_writting_zoomout_button.png");
+		zoomout->setPosition(ccp(visiableSize.width/4*2,zoomout->getContentSize().height+50));
+
+
+		CWidgetWindow* m_pWindow = CWidgetWindow::create();
+		m_pWindow->setMultiTouchEnabled(true);
+		addChild(m_pWindow,10);
+
+		m_pWindow->addChild(zoomin);
+		m_pWindow->addChild(zoomout);
+
 
 		return true;
 	}

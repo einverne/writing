@@ -67,7 +67,7 @@ bool TcharacterDrawnode::init(string hz,CCSize showrect,CharacterExtend* p){
 	this->showRect = showrect;
 
 	this->m_character.getBox();
-	this->m_character.resize(CCSizeMake(500,500));
+	this->m_character.resize(showrect);
 	this->m_character.resample();
 
 	vector<Bujian> bujianList = this->m_character.bujianList;

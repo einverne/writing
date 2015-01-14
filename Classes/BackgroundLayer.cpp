@@ -58,7 +58,6 @@ bool BackgroundLayer::init(){
 		//add tianzige
 		tianzige = CCSprite::create("tianzige.png");
 		this->addChild(tianzige,1);
-		tianzige->setScale(0.75);
 		CCSize tianzigeSize = tianzige->getContentSize();
 		tianzige->setPosition(ccp(visiableSize.width/2,visiableSize.height-tianzigeSize.height/2-50-title_bar->getContentSize().height));
 
@@ -66,6 +65,16 @@ bool BackgroundLayer::init(){
 		this->addChild(tianzige_draw,1,1);
 		CCSize tianzigeDrawSize = tianzige_draw->getContentSize();
 		tianzige_draw->setPosition(ccp(visiableSize.width/2,50+tianzigeDrawSize.height/2+title_bar->getContentSize().height));
+
+
+		CWidgetWindow* m_pWindow = CWidgetWindow::create();
+		m_pWindow->setMultiTouchEnabled(true);
+		addChild(m_pWindow,10);
+
+		CToggleView* pToggle = CToggleView::create("strangedesign/Judge_writting_easy_button.png","strangedesign/Judge_writting_difficult_button.png");
+		pToggle->setOnClickListener(this,ccw_click_selector(BackgroundLayer::onClick));
+		pToggle->setPosition(title_bar->getPosition());
+		m_pWindow->addChild(pToggle);
 
 	}
 	return true;
@@ -81,4 +90,19 @@ void BackgroundLayer::keyBackClicked(){
 	this->unscheduleAllSelectors();
 	CCDirector::sharedDirector()->getTouchDispatcher()->removeAllDelegates();
 	CCDirector::sharedDirector()->popScene();
+}
+
+void BackgroundLayer::onClick(CCObject* pSender){
+	CCLog("onClick");
+	CToggleView* pToggle = (CToggleView*) pSender;
+	if( pToggle->isChecked() )
+	{
+		//if click Y , end app	将设置写入配置文件 tight
+		CCLog("checked");
+		DataTool::storeToFile("2","setting.xml");
+	}
+	else
+	{
+		DataTool::storeToFile("1","setting.xml");
+	}
 }

@@ -248,8 +248,9 @@ void WallSingleScene::onEnter(){
 			hanzis.push_back(groupCharacter.at(indexOfCharacter));
 
 
-			CCLabelTTF* pLabel = CCLabelTTF::create(groupCharacter.at(indexOfCharacter).c_str(), "XingShu", 100);
+			CCLabelTTF* pLabel = CCLabelTTF::create(groupCharacter.at(indexOfCharacter).c_str(), "Arial", 100);
 			pLabel->setPosition(ccp(origin.x + x, origin.y + y));
+			pLabel->setColor(ccc3(0,0,0));
 			this->addChild(pLabel, 2);
 
 			//ºº×Ö¹ÜÀí
@@ -486,6 +487,7 @@ void WallSingleScene::buttonCallBack(CCNode* pNode){
 
 				iter->character = string(popL->getHanzi());
 				CCLabelTTF* t = (CCLabelTTF*)iter->textbox;
+				t->setColor(ccc3(0,0,0));
 				t->setString(popL->getHanzi());
 			}
 		}
