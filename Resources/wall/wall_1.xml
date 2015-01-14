@@ -1,4 +1,4 @@
-﻿<xml>
+<xml>
     <meta>
         <height>1500</height>
         <width>910</width>
@@ -37,7 +37,7 @@
             <w>237 px</w>
             <h>244 px</h>
             <img>withword\stone_3.png</img>
-            <hanzi>了</hanzi>
+            <hanzi>中</hanzi>
             <proficiency>0.75</proficiency>
         </stone>
         <stone>
@@ -55,7 +55,7 @@
             <w>226 px</w>
             <h>302 px</h>
             <img>withword\stone_5.png</img>
-            <hanzi>人</hanzi>
+            <hanzi>a</hanzi>
             <proficiency>0.8</proficiency>
         </stone>
         <stone>
@@ -81,7 +81,7 @@
             <w>278 px</w>
             <h>327 px</h>
             <img>withword\stone_9.png</img>
-            <hanzi>力</hanzi>
+            <hanzi>a</hanzi>
             <proficiency>0.833333</proficiency>
         </stone>
         <stone>
@@ -91,7 +91,7 @@
             <w>263 px</w>
             <h>213 px</h>
             <img>withword\stone_10.png</img>
-            <hanzi>几</hanzi>
+            <hanzi>a</hanzi>
             <proficiency>0.785714</proficiency>
         </stone>
         <stone>
@@ -111,7 +111,7 @@
             <w>243 px</w>
             <h>221 px</h>
             <img>withword\stone_12.png</img>
-            <hanzi>入</hanzi>
+            <hanzi>a</hanzi>
             <proficiency>0.666667</proficiency>
         </stone>
         <stone>
@@ -145,7 +145,7 @@
             <w>252 px</w>
             <h>268 px</h>
             <img>withword\stone_16.png</img>
-            <hanzi>个</hanzi>
+            <hanzi>a</hanzi>
             <proficiency>0.6</proficiency>
         </stone>
         <stone>
@@ -181,7 +181,7 @@
             <w>252 px</w>
             <h>259 px</h>
             <img>withword\stone_20.png</img>
-            <hanzi>大</hanzi>
+            <hanzi>飞</hanzi>
             <proficiency>0.642857</proficiency>
         </stone>
         <stone>
@@ -191,7 +191,7 @@
             <w>203 px</w>
             <h>224 px</h>
             <img>withword\stone_21.png</img>
-            <hanzi>子</hanzi>
+            <hanzi>a</hanzi>
             <proficiency>0.659091</proficiency>
         </stone>
         <stone>
@@ -209,7 +209,7 @@
             <w>374 px</w>
             <h>249 px</h>
             <img>withword\stone_23.png</img>
-            <hanzi>也</hanzi>
+            <hanzi>及</hanzi>
             <proficiency>0.659091</proficiency>
         </stone>
         <stone>
@@ -235,7 +235,7 @@
             <w>285 px</w>
             <h>293 px</h>
             <img>withword\stone_26.png</img>
-            <hanzi>下</hanzi>
+            <hanzi>a</hanzi>
             <proficiency>0</proficiency>
         </stone>
         <stone>
@@ -245,7 +245,7 @@
             <w>267 px</w>
             <h>231 px</h>
             <img>withword\stone_27.png</img>
-            <hanzi>小</hanzi>
+            <hanzi>a</hanzi>
             <proficiency>0</proficiency>
         </stone>
         <stone>
@@ -263,7 +263,7 @@
             <w>251 px</w>
             <h>350 px</h>
             <img>withword\stone_29.png</img>
-            <hanzi>于</hanzi>
+            <hanzi>a</hanzi>
             <proficiency>0</proficiency>
         </stone>
         <stone>
@@ -273,7 +273,7 @@
             <w>290 px</w>
             <h>305 px</h>
             <img>withword\stone_30.png</img>
-            <hanzi>么</hanzi>
+            <hanzi>a</hanzi>
             <proficiency>0</proficiency>
         </stone>
         <stone>

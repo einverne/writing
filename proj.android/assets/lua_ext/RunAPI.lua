@@ -49,10 +49,10 @@ writeHZ:initialize(WriteZiStr)
 
 
 --#########################	处理标准字信息		 ########################################
-local StandardZiInfo = GetStandardZiInfoFromC()---接口2
-local SZ = require("StandardZiInfo")
-local stdHZ = SZ.StdHZ:new()
-stdHZ:initialize(StandardZiInfo)
+--local StandardZiInfo = GetStandardZiInfoFromC()---接口2
+--local SZ = require("StandardZiInfo")
+--local stdHZ = SZ.StdHZ:new()
+--stdHZ:initialize(StandardZiInfo)
 
 --#########################	处理标准字信息		 ########################################
 
@@ -60,9 +60,9 @@ stdHZ:initialize(StandardZiInfo)
 
 --获得规则代码
 local strZiRule = GetRulesFromC();---接口3 注意在外面要判断是取松规则还是紧规则
+
 --接口4 注意根据松评判或者紧评判给出相应的strokelevel
 local strokeLevel =  GetStrokeLevelFromC()
-
 
 --装载字级别规则 	ZiRuleList = {{index = 1 , codes = "..."},{index = 2 , codes = "..."},{index = 3 , codes = "..."},...}
 strZiRule  = string.gsub(strZiRule , "//##begin", "" )
@@ -92,7 +92,7 @@ for i = 1,#ZiRuleList do
 	local newRule = str1.. tostring (i) ..str2
 	local newBH = ""
 	if ( i > 1 ) then
-		newBH = "local bh"..tostring (i - 2) .. " = GetPreBH(" ..tostring(i - 2) .. ") "
+		newBH = "local bh"..tostring (i - 2)
 	end
 	newRule  = newRule  .. newBH .. ZiRuleList[i].codes.."\n"
 	if (strokeLevel == '2') then
@@ -101,11 +101,8 @@ for i = 1,#ZiRuleList do
 	else
 		newRule =  newRule..str3
 	end
-
 	NewZiRuleArr[#NewZiRuleArr+1] = newRule
-
 end
-
 
 
 baseFuncs = require("BaseLib")

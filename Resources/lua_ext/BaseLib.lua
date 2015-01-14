@@ -1,7 +1,7 @@
 -----------------------------------------
---元函数库
---TODO返回字符串：最终返回一个字符串，给界面层使用
---TODO 原函数异常处理，包括类型判断，边界判断等等
+--鍏冨嚱鏁板簱
+--TODO杩斿洖瀛楃涓诧細鏈€缁堣繑鍥炰竴涓瓧绗︿覆锛岀粰鐣岄潰灞備娇鐢?
+--TODO 鍘熷嚱鏁板紓甯稿鐞嗭紝鍖呮嫭绫诲瀷鍒ゆ柇锛岃竟鐣屽垽鏂瓑绛?
 -----------------------------------------
 
 local print = print
@@ -18,11 +18,11 @@ local RunRule = nil
 local WZEnv = nil
 local StdHZ = nil
 
---代码运行结果返回信息
+--浠ｇ爜杩愯缁撴灉杩斿洖淇℃伅
 allInfoStr = ""
 retInfoStr = ""
 
---#####运行环境设置函数#####--
+--#####杩愯鐜璁剧疆鍑芥暟#####--
 function clearRetInfoStr()
 	retInfoStr = ""
 end
@@ -47,46 +47,55 @@ end
 function setStdHZ(SZ)
 	StdHZ = SZ
 end
---#####元函数实现#####--
---所有操作索引从0开始
+--#####鍏冨嚱鏁板疄鐜?####--
+--鎵€鏈夋搷浣滅储寮曚粠0寮€濮?
 function GetBH( idx )
 	local bh = WriteHZ.strokes[idx + 1]
 	return bh
 end
 
---注意与GetBH的区别，这里取得的是标准字的笔画
+--娉ㄦ剰涓嶨etBH鐨勫尯鍒紝杩欓噷鍙栧緱鐨勬槸鏍囧噯瀛楃殑绗旂敾
 function GetPreBH(idx)
 	local bh = StdHZ.strokes[idx + 1]
 	return bh
 end
 
---参数为bd或bh都可
+--鍙傛暟涓篵d鎴朾h閮藉彲
 function GetStartPoint(bh)
 	local point = WZEnv.POINT:new()
 	point.x = bh.ptSet[1].x
 	point.y = bh.ptSet[1].y
-	return point
+	return point ,1
 end
 
 function GetEndPoint(bh)
 	local point = WZEnv.POINT:new()
 	point.x = bh.ptSet[#bh.ptSet].x
 	point.y = bh.ptSet[#bh.ptSet].y
-	return point
+	return point ,#bh.ptSet
 end
 
---获得中点
+--鑾峰緱涓偣
 function	GetMidPoint ( bh )
  	local point = WZEnv.POINT:new()
 	local len= #bh.ptSet
 	local tmpIdx = math.floor ( len / 2 )
 	point.x = bh.ptSet[tmpIdx].x
 	point.y = bh.ptSet[tmpIdx].y
-	return point
+	print(len,tmpIdx)
+	return point,tmpIdx
+end
+
+function	GetMidIndex( bd )
+ 	local point = WZEnv.POINT:new()
+	local len= #bd.ptSet
+	local tmpIdx = math.floor ( len / 2 )
+	return tmpIdx
 end
 
 
---获得点的横纵坐标
+
+--鑾峰緱鐐圭殑妯旱鍧愭爣
 function GetPointX ( pt )
 	return pt.x
 end
@@ -124,7 +133,7 @@ function GetBDLen(bd)
 end
 
 
---计算curIdx对应的角度
+--璁＄畻curIdx瀵瑰簲鐨勮搴?
 function Cal_Angle(prePt,curPt,postPt)
 	local vecX = {}
 	local vecY = {}
@@ -169,7 +178,7 @@ function GetAngel(spt,ept)
 	return degree
 end
 
---获得拐点，暂未用到
+--鑾峰緱鎷愮偣锛屾殏鏈敤鍒?
 function GetTurningPtNum(bh,BDNum)
 	local height = 512
 	local threshold_len = height / 28
@@ -282,57 +291,57 @@ function GetTurningPtNum(bh,BDNum)
 end
 
 
----------------------------------去除抖动-----------------------------------------------
---如果选出的拐点数目为0，直接返回，此时CInflectionPts是空的
+---------------------------------鍘婚櫎鎶栧姩-----------------------------------------------
+--濡傛灉閫夊嚭鐨勬嫄鐐规暟鐩负0锛岀洿鎺ヨ繑鍥烇紝姝ゆ椂CInflectionPts鏄┖鐨?
 	if(#turning_ind <= 0) then
 		return 0
 	end
-	--如果拐点数目比标准少，将拐点数组赋值，返回
+	--濡傛灉鎷愮偣鏁扮洰姣旀爣鍑嗗皯锛屽皢鎷愮偣鏁扮粍璧嬪€硷紝杩斿洖
 	if (#turning_ind < BDNum - 1) then
 		bh.InflectionPoint = turning_ind
 		return #turning_ind;
 	end
 
 
-	--如果拐点数目大于或者等于标准值
+	--濡傛灉鎷愮偣鏁扮洰澶т簬鎴栬€呯瓑浜庢爣鍑嗗€?
 	if (#turning_ind >= BDNum-1) then
-		--如果多出一个拐点，伪拐点一定是在第一个或者最后一个，分别计算其距离首位点的距离
+		--濡傛灉澶氬嚭涓€涓嫄鐐癸紝浼嫄鐐逛竴瀹氭槸鍦ㄧ涓€涓垨鑰呮渶鍚庝竴涓紝鍒嗗埆璁＄畻鍏惰窛绂婚浣嶇偣鐨勮窛绂?
 		local pos1 = turning_ind[1]
 		local pos2 = turning_ind[#turning_ind]
 		local spt = bh.ptSet[1]
 		local ept = bh.ptSet[#bh.ptSet]
 		local dis1 = math.sqrt( math.pow(bh.ptSet[pos1].x - spt.x,2) + math.pow(bh.ptSet[pos1].y - spt.y,2))
 		local dis2 = math.sqrt( math.pow(bh.ptSet[pos2].x - ept.x,2) + math.pow(bh.ptSet[pos2].y - ept.y,2))
-		--1.如果第一个拐点是抖动点
+		--1.濡傛灉绗竴涓嫄鐐规槸鎶栧姩鐐?
 		if( dis1 < 30 ) then
 			n_prePos = turning_ind[1]
 			n_postPos = #bh.ptSet
-			--把抖笔段从笔画中删除
+			--鎶婃姈绗旀浠庣瑪鐢讳腑鍒犻櫎
 			for i = 1, n_prePos-1 do
 				table.remove(bh.ptSet,1)
 			end
-			--从拐点数组中删除该拐点
+			--浠庢嫄鐐规暟缁勪腑鍒犻櫎璇ユ嫄鐐?
 			table.remove(turning_ind,1)
-			--移动拐点索引数组中索引的位置
+			--绉诲姩鎷愮偣绱㈠紩鏁扮粍涓储寮曠殑浣嶇疆
 			if ( #turning_ind > 0 ) then
 				for i = 1,#turning_ind do
 					 turning_ind[i] = turning_ind[i] - n_prePos + 1
 				end
 			end
 		end
-		--2.如果最后一个拐点是抖动点
+		--2.濡傛灉鏈€鍚庝竴涓嫄鐐规槸鎶栧姩鐐?
 		if (dis2 < 30) then
 			n_prePos = 1
 			n_postPos = turning_ind[#turning_ind]
-			--从拐点表格中删除该拐点
+			--浠庢嫄鐐硅〃鏍间腑鍒犻櫎璇ユ嫄鐐?
 			table.remove(turning_ind,#turning_ind)
-			--删除抖笔段
+			--鍒犻櫎鎶栫瑪娈?
 			for i = #bh.ptSet,n_postPos+1,-1 do
 				table.remove(bh.ptSet,i)
 			end
 		end
 
-	--计算拐点之间的距离
+	--璁＄畻鎷愮偣涔嬮棿鐨勮窛绂?
 	if (#turning_ind > 1) then
 		for i = 1, #turning_ind - 1  do
 			print (turning_ind[i])
@@ -346,7 +355,7 @@ end
 		end
 	end
 		bh.InflectionPoint = turning_ind
-		print ("拐点个数为...")
+		print ("鎷愮偣涓暟涓?..")
 		print (#turning_ind)
 		print ("test over")
 		return #turning_ind
@@ -357,9 +366,9 @@ end
 
 
 --[[
---获得笔画拐点的个数
+--鑾峰緱绗旂敾鎷愮偣鐨勪釜鏁?
 function GetTurningPtNum(bh,BDNum)
-	local n_step = 5			--lua索引从1开始
+	local n_step = 5			--lua绱㈠紩浠?寮€濮?
 	if( #bh.ptSet <2*n_step+1) then
 		return nil
 	end
@@ -367,7 +376,7 @@ function GetTurningPtNum(bh,BDNum)
 	local n_preIdx = 1
 	local n_postIdx = 2*n_step+1
 	local angleArr = {}
-	--计算点对应的角度
+	--璁＄畻鐐瑰搴旂殑瑙掑害
 	for i = n_curIdx,(#bh.ptSet)-n_step do
 		local ele = {}
 		local angle = Cal_Angle(bh.ptSet[n_preIdx],bh.ptSet[i],bh.ptSet[n_postIdx])
@@ -377,12 +386,12 @@ function GetTurningPtNum(bh,BDNum)
 		n_preIdx = n_preIdx + 1
 		n_postIdx = n_postIdx + 1
 	end
-	--把角度按照从小到大排序
+	--鎶婅搴︽寜鐓т粠灏忓埌澶ф帓搴?
 	table.sort(angleArr,sortingFun)
 	local nCandidateNum = #angleArr
 
-	local CInflectionPts = {}		--存储候选拐点的索引
-	--选出了最多BDNum+1个拐点，存储在CInflectionPts中
+	local CInflectionPts = {}		--瀛樺偍鍊欓€夋嫄鐐圭殑绱㈠紩
+	--閫夊嚭浜嗘渶澶欱DNum+1涓嫄鐐癸紝瀛樺偍鍦–InflectionPts涓?
 	local f_angleThres = 12/18*3.14;
 	for p = 1,nCandidateNum do
 		local cFlag = false
@@ -399,57 +408,57 @@ function GetTurningPtNum(bh,BDNum)
 		end
 	end
 
-	--从CInflectionPts中继续选出最终拐点，
-	--这样主要是为了屏蔽笔画尖端的抖动，减小拐点检测的误差
+	--浠嶤InflectionPts涓户缁€夊嚭鏈€缁堟嫄鐐癸紝
+	--杩欐牱涓昏鏄负浜嗗睆钄界瑪鐢诲皷绔殑鎶栧姩锛屽噺灏忔嫄鐐规娴嬬殑璇樊
 	local n_prePos
 	local n_postPos
 	table.sort(CInflectionPts)
 
---如果选出的拐点数目为0，直接返回，此时CInflectionPts是空的
+--濡傛灉閫夊嚭鐨勬嫄鐐规暟鐩负0锛岀洿鎺ヨ繑鍥烇紝姝ゆ椂CInflectionPts鏄┖鐨?
 	if(#CInflectionPts <= 0) then
 		return 0
 	end
-	--如果拐点数目比标准少，将拐点数组赋值，返回
+	--濡傛灉鎷愮偣鏁扮洰姣旀爣鍑嗗皯锛屽皢鎷愮偣鏁扮粍璧嬪€硷紝杩斿洖
 	if (#CInflectionPts < BDNum - 1) then
 		bh.InflectionPoint = CInflectionPts
 		return #CInflectionPts
 	end
 
-   --如果拐点数目大于或者等于标准值
+   --濡傛灉鎷愮偣鏁扮洰澶т簬鎴栬€呯瓑浜庢爣鍑嗗€?
 	if (#CInflectionPts >= BDNum-1) then
-		--如果多出一个拐点，伪拐点一定是在第一个或者最后一个，分别计算其距离首位点的距离
+		--濡傛灉澶氬嚭涓€涓嫄鐐癸紝浼嫄鐐逛竴瀹氭槸鍦ㄧ涓€涓垨鑰呮渶鍚庝竴涓紝鍒嗗埆璁＄畻鍏惰窛绂婚浣嶇偣鐨勮窛绂?
 		local pos1 = CInflectionPts[1]
 		local pos2 = CInflectionPts[#CInflectionPts]
 		local spt = bh.ptSet[1]
 		local ept = bh.ptSet[#bh.ptSet]
 		local dis1 = math.sqrt( math.pow(bh.ptSet[pos1].x - spt.x,2) + math.pow(bh.ptSet[pos1].y - spt.y,2))
 		local dis2 = math.sqrt( math.pow(bh.ptSet[pos2].x - ept.x,2) + math.pow(bh.ptSet[pos2].y - ept.y,2))
-		--1.如果第一个拐点是抖动点
+		--1.濡傛灉绗竴涓嫄鐐规槸鎶栧姩鐐?
 		if( dis1 < 5 ) then
 			n_prePos = CInflectionPts[1]
 			n_postPos = #bh.ptSet
-			--把抖笔段从笔画中删除
+			--鎶婃姈绗旀浠庣瑪鐢讳腑鍒犻櫎
 			for i = 1, n_prePos-1 do
 				table.remove(bh.ptSet,1)
 			end
 
-			--从拐点数组中删除该拐点
+			--浠庢嫄鐐规暟缁勪腑鍒犻櫎璇ユ嫄鐐?
 			table.remove(CInflectionPts,1)
 
-			--移动拐点索引数组中索引的位置
+			--绉诲姩鎷愮偣绱㈠紩鏁扮粍涓储寮曠殑浣嶇疆
 			if ( #CInflectionPts > 0 ) then
 				for i = 1,#CInflectionPts do
 					 CInflectionPts[i] = CInflectionPts[i] - n_prePos + 1
 				end
 			end
 		end
-		--2.如果最后一个拐点是抖动点
+		--2.濡傛灉鏈€鍚庝竴涓嫄鐐规槸鎶栧姩鐐?
 		if (dis2 < 5) then
 			n_prePos = 1
 			n_postPos = CInflectionPts[#CInflectionPts]
-			--从拐点表格中删除该拐点
+			--浠庢嫄鐐硅〃鏍间腑鍒犻櫎璇ユ嫄鐐?
 			table.remove(CInflectionPts,#CInflectionPts)
-			--删除抖笔段
+			--鍒犻櫎鎶栫瑪娈?
 			for i = #bh.ptSet,n_postPos+1,-1 do
 				table.remove(bh.ptSet,i)
 			end
@@ -461,13 +470,13 @@ end
 ]]--
 
 
---获得笔画的拐点 索引从0开始
+--鑾峰緱绗旂敾鐨勬嫄鐐?绱㈠紩浠?寮€濮?
 function GetTurningPt(bh,index)
 	local ptIdx = bh.InflectionPoint[index + 1]
 	return bh.ptSet[ptIdx]
 end
 
- --获得两点间距离
+ --鑾峰緱涓ょ偣闂磋窛绂?
  function GetDistance(pt1,pt2)
 	local dis = math.sqrt( math.pow(pt1.x - pt2.x,2) + math.pow(pt1.y - pt2.y,2))
 	return dis
@@ -504,7 +513,7 @@ end
 
 
 
---获得经过点pt1 pt2的直线方程ax+by+c = 0 返回数组linevar中依次是系数a b c
+--鑾峰緱缁忚繃鐐筽t1 pt2鐨勭洿绾挎柟绋媋x+by+c = 0 杩斿洖鏁扮粍linevar涓緷娆℃槸绯绘暟a b c
 function GetLine(pt1,pt2)
 	local linevar = {}
 	linevar[1] = pt2.y - pt1.y
@@ -513,7 +522,7 @@ function GetLine(pt1,pt2)
 	return linevar
 end
 
---判断点是否在直线下边
+--鍒ゆ柇鐐规槸鍚﹀湪鐩寸嚎涓嬭竟
 function Point2LineDown(pt,line)
 	local a,b,c = line[1],line[2],line[3]
 	local result = a*pt.x + b*pt.y + c
@@ -523,7 +532,7 @@ function Point2LineDown(pt,line)
 	return false
 end
 
---判断点是否在直线的上边
+--鍒ゆ柇鐐规槸鍚﹀湪鐩寸嚎鐨勪笂杈?
 function Point2LineUp(pt,line)
 	local a,b,c = line[1],line[2],line[3]
 	local result = a*pt.x + b*pt.y + c
@@ -534,8 +543,27 @@ function Point2LineUp(pt,line)
 end
 
 
+--判断点是否在直线的右边
+function Point2LineRight(pt,line)
+	local a,b,c = line[1],line[2],line[3]
+	--line: ax + by + c = 0
+	local x = pt.x
+	local y = pt.y
+	--如果直线是平行于X轴的，那么判断点在直线的左边还是右边
+	if (a == 0) then
+			return false
+	end
 
---获得最左面的点 bh/bd
+	local result_x = (-c-b*y)/a
+	if (result_x < x) then
+		return true
+	else
+		return false
+	end
+end
+
+
+--鑾峰緱鏈€宸﹂潰鐨勭偣 bh/bd
 function GetLeftMostPoint ( bh )
 	if ( bh == nil ) then
 		return nil
@@ -558,7 +586,7 @@ function GetLeftMostPoint ( bh )
 	return pt,index
 end
 
---获得最右面的点 bh/bd
+--鑾峰緱鏈€鍙抽潰鐨勭偣 bh/bd
 function GetRightMostPoint ( bh )
 	local pt = WZEnv.POINT:new()
 	local index = 1
@@ -577,7 +605,7 @@ function GetRightMostPoint ( bh )
 	return pt,index
 end
 
---获得最上方的点
+--鑾峰緱鏈€涓婃柟鐨勭偣
 function GetTopMostPoint ( bh )
 	local pt = WZEnv.POINT:new()
 	local index = 1
@@ -597,7 +625,7 @@ function GetTopMostPoint ( bh )
 	return pt,index
 end
 
---获得最下方的点 bd/bd
+--鑾峰緱鏈€涓嬫柟鐨勭偣 bd/bd
 function GetBottomMostPoint ( bh )
 	local pt = WZEnv.POINT:new()
 	local index = 1
@@ -616,7 +644,7 @@ function GetBottomMostPoint ( bh )
 	return pt,index
 end
 
---获得bh上离pt最近的点
+--鑾峰緱bh涓婄pt鏈€杩戠殑鐐?
 function GetVPoint(bh,pt)
 	local minPtIndex = 0
 	local minDis = GetDistance(pt,bh.ptSet[1])
@@ -631,8 +659,8 @@ function GetVPoint(bh,pt)
 end
 
 
---获得两个笔画的交点  如果有交点 返回该交点
---							  如果没有交点  返回nil
+--鑾峰緱涓や釜绗旂敾鐨勪氦鐐? 濡傛灉鏈変氦鐐?杩斿洖璇ヤ氦鐐?
+--							  濡傛灉娌℃湁浜ょ偣  杩斿洖nil
 function GetJoint(bh1, bh2)
 	local disThreshold = 3
 	local minDis = 256
@@ -663,7 +691,7 @@ end
 
 
 
---pt 到ax + by + c = 0的距离
+--pt 鍒癮x + by + c = 0鐨勮窛绂?
 function Cal_Point2LineDis( pt, a, b, c)
 	local x = pt.x
 	local y = pt.y
@@ -673,7 +701,7 @@ function Cal_Point2LineDis( pt, a, b, c)
 	return dis
 end
 
---判断pt在直线ax+by+c=0的方位
+--鍒ゆ柇pt鍦ㄧ洿绾縜x+by+c=0鐨勬柟浣?
 function Cal_Direction(pt, a, b,c)
 	local x = pt.x
 	local y = pt.y
@@ -682,7 +710,7 @@ function Cal_Direction(pt, a, b,c)
 end
 
 
---获得笔画到直线 line ax + by + c = 0距离最远的点
+--鑾峰緱绗旂敾鍒扮洿绾?line ax + by + c = 0璺濈鏈€杩滅殑鐐?
 function GetFarthestPt2Line(bh,line)
 	local a,b,c = line[1],line[2],line[3]
 	local maxDis = 0
@@ -715,13 +743,13 @@ function GetFarDis2Line(bh,line)
 end
 
 
---获得笔画到直线line  ax + by + c = 0的
+--鑾峰緱绗旂敾鍒扮洿绾縧ine  ax + by + c = 0鐨?
 function GetBHTrend(bh,line)
 	local a,b,c = line[1],line[2],line[3]
 	local trendArray = {}
-	trendArray[#trendArray + 1 ] = 0   --第一个tag初始化为0
+	trendArray[#trendArray + 1 ] = 0   --绗竴涓猼ag鍒濆鍖栦负0
 	local preDis = 0
-	--1 表示后面的
+	--1 琛ㄧず鍚庨潰鐨?
 	for i = 2,#bh.ptSet do
 		local curPt = bh.ptSet[i]
 		local curDis = Cal_Point2LineDis(curPt,a,b,c)
@@ -741,7 +769,7 @@ function GetBHTrend(bh,line)
 end
 
 
---返回bh的ptSet中，索引为preIdx和postIdx之间的点集组成的笔段
+--杩斿洖bh鐨刾tSet涓紝绱㈠紩涓簆reIdx鍜宲ostIdx涔嬮棿鐨勭偣闆嗙粍鎴愮殑绗旀
 function GetTempBD(bh,preIdx,postIdx)
 	local bd = WZEnv.BD:new()
 	for i = preIdx, postIdx do
@@ -751,7 +779,7 @@ function GetTempBD(bh,preIdx,postIdx)
 end
 
 
---传入的参数为当前笔画的索引.笔画索引均是从0开始.
+--浼犲叆鐨勫弬鏁颁负褰撳墠绗旂敾鐨勭储寮?绗旂敾绱㈠紩鍧囨槸浠?寮€濮?
 function IsPosRight(idx)
 	local wbh = WriteHZ.strokes[idx + 1]
 	local sbh = StdHZ.strokes[idx + 1]
@@ -811,7 +839,7 @@ function SmallXiangJiao(pt11,pt12,pt21,pt22)
 			c2 = pt21.y - pt21.x*k2
 			print("k2 = 0 as calculated")
 		end
-		if (k1 == k2) then		--如果两线平行
+		if (k1 == k2) then		--濡傛灉涓ょ嚎骞宠
 			print(pt11.x,pt11.y,pt12.x,pt12.y)
 			print(pt21.x,pt21.y,pt22.x,pt22.y)
 			print("para and k value is "..k1)
@@ -878,22 +906,22 @@ function SmallXiangJiao(pt11,pt12,pt21,pt22)
 			flag2 = 1
 		end
 
-		local vp = {}  --vp是两个直线段的交点
+		local vp = {}  --vp鏄袱涓洿绾挎鐨勪氦鐐?
 		local k1,c1
 		local k2,c2
-		if (flag1 == 1 and flag2 == 1)  then --如果两个直线段都平行于y轴
+		if (flag1 == 1 and flag2 == 1)  then --濡傛灉涓や釜鐩寸嚎娈甸兘骞宠浜巠杞?
 			return false
-		elseif(flag1 == 1 ) then --如果直线段1平行于y轴
+		elseif(flag1 == 1 ) then --濡傛灉鐩寸嚎娈?骞宠浜巠杞?
 			vp.x = pt11.x
 			k2 = (pt22.y - pt21.y) /(pt22.x - pt21.x)
 			c2 = pt21.y - pt21.x*k2
 			vp.y = k2*(vp.x) + c2
-		elseif(flag2 == 1) then --如果直线段2平行于y轴
+		elseif(flag2 == 1) then --濡傛灉鐩寸嚎娈?骞宠浜巠杞?
 			vp.x = pt21.x
 			k1 = (pt12.y - pt11.y) /(pt12.x - pt11.x)
 			c1 = pt11.y - pt11.x*k1
 			vp.y = k1*(vp.x) + c1
-		else  --如果两个直线段均不平行于y轴
+		else  --濡傛灉涓や釜鐩寸嚎娈靛潎涓嶅钩琛屼簬y杞?
 			k1 = (pt12.y - pt11.y)/(pt12.x - pt11.x)
 			c1 = pt11.y - pt11.x*k1
 			k2 = (pt22.y - pt21.y) /(pt22.x - pt21.x)
@@ -1058,7 +1086,7 @@ function JudgeDotLine(pt,bd)
 end
 
 ]]--
---对于单笔段来说，只需要传入笔画即可
+--瀵逛簬鍗曠瑪娈垫潵璇达紝鍙渶瑕佷紶鍏ョ瑪鐢诲嵆鍙?
 --	0 startpoint 1 endpoint 2 line
 function BH2BHXiangJie(bd1,bd2,type1,type2)
 	local flag = 0
@@ -1095,3685 +1123,510 @@ end
 
 function  IsShu(bh,bl)
 	if(bl ~= 1 and bl~=2 ) then return end
-	local loose_dis_max_threshold = 80      --松评判时笔迹到首尾点连线的最大距离
-	local tight_dis_max_threshold = 50      --紧评判时笔迹到首尾点连线的最大距离
-	local loose_angel_max_threshold = 45    --松评判时首尾点连线倾斜的最大角度
-	local tight_angel_max_threshold = 30    --紧评判时首尾点连线倾斜的最大角度
-
-	local loose_jitter_max_threshold = 1/5  --松评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-	local tight_jitter_max_threshold = 1/10 --紧评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
+	local loose_angel_max_threshold = 17
+	local tight_angel_max_threshold = 10
 
 
-	local startpt,startindex = GetTopMostPoint(bh)
-	local endpt,endindex = GetBottomMostPoint(bh)
-	if (endindex < startindex) then
+	local loose_curve_max_threshold = 1.052
+	local tight_curve_max_threshold = 1.035
+
+	local startpt,startindex = GetStartPoint(bh)
+	local endpt,endindex = GetEndPoint(bh)
+
+	if (startpt.y >= endpt.y) then
 		return false
 	end
 
-	 local finalbh = GetTempBD(bh,startindex,endindex)
-	 local jitter1 = GetTempBD(bh,1,startindex)
-	 local jitter2 = GetTempBD(bh,endindex,#bh.ptSet)
-
-	 local len_jitter1 = GetBDLen(jitter1)
-	 local len_jitter2 = GetBDLen(jitter2)
-	 local len_bh = GetBDLen(finalbh)
-
-	 local line = GetLine(startpt,endpt)
-	 local dis = GetFarDis2Line(finalbh,line)
-
-	 local angel = 90
-	 if (endpt.y ~= startpt.y) then
+	local line = GetLine(startpt,endpt)
+	local len = GetBDLen(bh)
+	local dis = GetDistance(startpt,endpt)
+	local curve = len / dis
+	local angel = 90
+	if (endpt.y ~= startpt.y) then
 		local slope = (endpt.x -  startpt.x)/(endpt.y - startpt.y)
 		angel = math.deg(math.atan(slope))
-	 end
+	end
 	angel = math.abs(angel)
 
+
  if (bl == 1) then
-     if (len_jitter1/len_bh > loose_jitter_max_threshold or len_jitter2/len_bh > loose_jitter_max_threshold) then
-			return false
-     end
-     if (dis > loose_dis_max_threshold) then
-			return false
-     end
-     if (angel > loose_angel_max_threshold) then
-			return false
-     end
+	if (curve <= loose_curve_max_threshold and angel <= loose_angel_max_threshold) then
+		return true
+	end
+
+		return false
  end
 
  if (bl == 2) then
-     if (len_jitter1/len_bh > tight_jitter_max_threshold or len_jitter2/len_bh > tight_jitter_max_threshold) then
-         return false
-     end
-     if (dis > tight_dis_max_threshold) then
-         return false
-     end
-     if (angel > tight_angel_max_threshold) then
-         return false
-     end
+   if (curve <= tight_curve_max_threshold and angel <= tight_angel_max_threshold) then
+		return true
+	end
+		return false
  end
- return true
+
+end
+
+
+
+function  IsHengZhe(bh,bl)
+	if (bl ~= 1 and bl~=2) then return end
+
+	local bd0_loose_angel_max_threshold = 20
+	local bd0_tight_angel_max_threshold = 15
+
+	local bd1_loose_angel_max_threshold = 40
+	local bd1_tight_angel_max_threshold = 11
+
+	local bd1_loose_curve_max_threshold = 1.25
+	local bd1_tight_curve_max_threshold = 1.027
+
+	local startpt,startindex = GetStartPoint(bh)
+	local endpt,endindex = GetEndPoint(bh)
+
+	if (startpt.x >= endpt.x or startpt.y >= endpt.y) then
+		return false
+	end
+
+	local line = GetLine(startpt,endpt)
+	local turning_pt,turning_index = GetFarthestPt2Line(bh,line)
+	if(Point2LineUp(turning_pt,line) == false) then
+		return false
+	else
+		local bd0 = GetTempBD(bh,startindex,turning_index)
+		local line0 = GetLine(startpt,turning_pt)
+		local len_bd0 = GetBDLen(bd0)
+		local dis_bd0 = GetDistance(startpt,turning_pt)
+		local curve0 = len_bd0 / dis_bd0
+
+		local bd1 = GetTempBD(bh,turning_index,endindex)
+		local line1 = GetLine(turning_pt,endpt)
+		local len_bd1 = GetBDLen(bd1)
+		local dis_bd1 = GetDistance(turning_pt,endpt)
+		local curve1 = len_bd1 / dis_bd1
+
+		local angel0 = 90
+		if (turning_pt.x ~= startpt.x) then
+			local slope0 = (turning_pt.y -  startpt.y)/(turning_pt.x - startpt.x)
+			angel0 = math.deg(math.atan(slope0))
+		end
+		angel0 = math.abs(angel0)
+
+		local angel1 = 90
+		if (endpt.y ~= turning_pt.y) then
+			local slope1 = (endpt.x - turning_pt.x) / (endpt.y - turning_pt.y)
+			angel1 = math.deg ( math.atan(slope1))
+		end
+
+	if(curve1 > 1.027 and angel0 > 16) then
+		return false
+	end
+	if(curve1 > 1.027 and angel0 <= 16 and angel1 > 35) then
+		return false
+	end
+	angel1 = math.abs(angel1)
+	angel0 = math.abs(angel0)
+	if (bl == 1) then
+		if (curve1 < 1.027 and angel1 < 40)then
+			return true
+		elseif(curve1 >= 1.027 and curve1 < 1.25 and angel0 < 16 and angel1 < 35) then
+			return true
+		else
+			return false
+		end
+	end
+
+	if (bl == 2) then
+		if (angel0 < 15 and angel1 < 12 and curve1 < 1.03) then
+			return true
+		else
+			return false
+		end
+	end
+end
 end
 
 function  IsHeng(bh,bl)
-if (bl~= 1 and bl~=2) then return end
-local loose_dis_max_threshold = 80      --松评判时笔迹到首尾点连线的最大距离
-local tight_dis_max_threshold = 50      --紧评判时笔迹到首尾点连线的最大距离
+	if (bl~= 1 and bl~=2) then return end
+	local loose_curve_max_threshold = 1.1
+	local tight_curve_max_threshold = 1.08
 
-local loose_angel_max_threshold = 45    --松评判时首尾点连线倾斜的最大角度
-local tight_angel_max_threshold = 30     --紧评判时首尾点连线倾斜的最大角度
-
-local loose_jitter_max_threshold = 1/5  --松评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-local tight_jitter_max_threshold = 1/10 --紧评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-
-local startpt,startindex = GetLeftMostPoint(bh)
-local endpt,endindex = GetRightMostPoint(bh)
-
- if (startindex > endindex) then
- return false
- end
- local finalbh = GetTempBD(bh,startindex,endindex)
- local jitter1 = GetTempBD(bh,1,startindex)
- local jitter2 = GetTempBD(bh,endindex,#bh.ptSet)
-
- local len_jitter1 = GetBDLen(jitter1)
- local len_jitter2 = GetBDLen(jitter2)
- local len_bh = GetBDLen(finalbh)
-
- local line = GetLine(startpt,endpt)
- local dis = GetFarDis2Line(finalbh,line)
+	local loose_angel_max_threshold = 20
+	local tight_angel_max_threshold = 10
 
 
- local angel = 90
- if (endpt.x ~= startpt.x) then
- local slope = (endpt.y - startpt.y) / (endpt.x - startpt.x)
- angel = math.deg ( math.atan(slope))
- end
- angel = math.abs(angel)
+	local startpt,startindex = GetStartPoint(bh)
+	local endpt,endindex = GetEndPoint(bh)
+
+	 if (startpt.x >= endpt.x) then
+		return false
+	 end
+	local line = GetLine(startpt,endpt)
+
+	local len_var = GetBDLen(bh)
+	local dis_var = GetDistance(startpt,endpt)
+	local curve = len_var / dis_var
+
+	local angel = 90
+		if(startpt.x ~= endpt.x) then
+			local slope = (endpt.y - startpt.y) / (endpt.x - startpt.x)
+			angel = math.deg ( math.atan(slope))
+	end
+
+	local angel_var = math.abs(angel)
+
 
  if (bl == 1) then
-     if (len_jitter1/len_bh > loose_jitter_max_threshold or len_jitter2/len_bh > loose_jitter_max_threshold) then
-         return false
-     end
-     if (dis > loose_dis_max_threshold) then
-         return false
-     end
-     if (angel > loose_angel_max_threshold) then
-         return false
-     end
+	if (angel_var <= loose_angel_max_threshold  and curve <= loose_curve_max_threshold) then
+		return true
+	else
+		return false
+	end
  end
 
  if (bl == 2) then
-     if (len_jitter1/len_bh > tight_jitter_max_threshold or len_jitter2/len_bh > tight_jitter_max_threshold) then
-         return false
-     end
-     if (dis > tight_dis_max_threshold) then
-         return false
-     end
-     if (angel > tight_angel_max_threshold) then
-         return false
-     end
- end
-
- return true
-end
-
-function  IsShuZhe(bh,bl)
-if (bl ~= 1 and bl~=2) then return end
-local loose_dis_max_threshold = 40      --松评判时笔迹到首尾点连线的最大距离
-local tight_dis_max_threshold = 20      --紧评判时笔迹到首尾点连线的最大距离
-local loose_angel_max_threshold = 30    --松评判时首尾点连线倾斜的最大角度
-local tight_angel_max_threshold = 15     --紧评判时首尾点连线倾斜的最大角度
-
-local loose_jitter_max_threshold = 1/5  --松评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-local tight_jitter_max_threshold = 1/10 --紧评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-
-local bd0_1_loose_angel_max_threshold = 130  --松评判时两笔段夹角的最大值
-local bd0_1_loose_angel_min_threshold =60    --松评判时两笔段夹角的最小值
-local bd0_1_tight_angel_max_threshold = 120  --紧评判时两笔段夹角的最大值
-local bd0_1_tight_angel_min_threshold =70    --紧评判时两笔段夹角的最小值
-local bd0_1_loose_lenratio_max_threshold = 5    --松评判时两笔段长度比例最大值
-local bd0_1_loose_lenratio_min_threshold = 1/5  --松评判时两笔段长度比例最小值
-local bd0_1_tight_lenratio_max_threshold = 3  --紧评判时两笔段长度比例最大值
-local bd0_1_tight_lenratio_min_threshold = 1/3  --紧评判时两笔段长度比例最小值
-
-local startpt,startindex = GetTopMostPoint(bh)
-local endpt,endindex = GetRightMostPoint(bh)
-
-if (startindex > endindex) then
-return false
-end
-
-local spt_ept_line = GetLine(startpt,endpt)
-local finalbh = GetTempBD(bh,startindex,endindex)
-local turning_pt,turning_index = GetFarthestPt2Line(bh,spt_ept_line)
-if (Point2LineDown(turning_pt,spt_ept_line) == false) then
-	return false
-end
-bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index
-
-local bd0 = GetTempBD(bh,startindex,turning_index)
-local line0 = GetLine(startpt,turning_pt)
-local dis0 = GetFarDis2Line(bd0,line0)
-local bd0_jitter = GetTempBD(bh,1,startindex)
-local len_bd0 = GetBDLen(bd0)
-local len_bd0_jitter = GetBDLen(bd0_jitter)
-
-
-local bd1 = GetTempBD(bh,turning_index,endindex)
-local line1 = GetLine(turning_pt,endpt)
-local dis1 = GetFarDis2Line(bd1,line1)
-local bd1_jitter = GetTempBD(bh,endindex,#bh.ptSet)
-local len_bd1 = GetBDLen(bd1)
-local len_bd1_jitter = GetBDLen(bd1_jitter)
-
-local angel0 = 90
-if (turning_pt.y ~= startpt.y) then
-local slope0 = (turning_pt.x -  startpt.x)/(turning_pt.y - startpt.y)
-angel0 = math.deg(math.atan(slope0))
-end
-angel0 = math.abs(angel0)
-
-
-local angel1 = 90
-if (endpt.x ~= turning_pt.x) then
-local slope1 = (endpt.y - turning_pt.y) / (endpt.x - turning_pt.x)
-angel1 = math.deg ( math.atan(slope1))
-end
-angel1 = math.abs(angel1)
-
-
-local bd0_bd1_angel = 0
-bd0_bd1_angel = Cal_Angle (startpt,turning_pt,endpt)
-
-if (bl == 1) then
-    if (len_bd0_jitter/len_bd0 > loose_jitter_max_threshold or len_bd1_jitter/len_bd1 > loose_jitter_max_threshold )  then
-
-        return false
-    end
-    if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold) then
-        return false
-    end
-    if (angel0 > loose_angel_max_threshold or angel1 > loose_angel_max_threshold) then
-        return false
-    end
-    if (len_bd0 / len_bd1 > bd0_1_loose_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_loose_lenratio_min_threshold ) then
-        return false
-    end
-    if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
-        return false
-    end
-end
-
-if (bl == 2) then
-    if (len_bd0_jitter/len_bd0 > tight_jitter_max_threshold or len_bd1_jitter/len_bd1 > tight_jitter_max_threshold )  then
-        return false
-    end
-    if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold) then
-        return false
-    end
-    if (angel0 > tight_angel_max_threshold or angel1 > tight_angel_max_threshold) then
-        return false
-    end
-    if (len_bd0 / len_bd1 > bd0_1_tight_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_tight_lenratio_min_threshold ) then
-        return false
-    end
-    if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
-        return false
-    end
-
-end
-
-return true
-
-end
-
-function  IsShuWanGou(bh,bl)
-if (bl ~= 1 and bl~=2) then return end
-local loose_dis_max_threshold = 80      --松评判时笔迹到首尾点连线的最大距离
-local tight_dis_max_threshold = 50      --紧评判时笔迹到首尾点连线的最大距离
-local loose_angel_max_threshold = 45    --松评判时首尾点连线倾斜的最大角度
-local tight_angel_max_threshold = 30     --紧评判时首尾点连线倾斜的最大角度
-local loose_jitter_max_threshold = 1/5  --松评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-local tight_jitter_max_threshold = 1/10 --紧评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-
-
-local bd0_1_loose_angel_max_threshold = 130  --松评判时两笔段夹角的最大值
-local bd0_1_loose_angel_min_threshold = 60    --松评判时两笔段夹角的最小值
-local bd0_1_tight_angel_max_threshold = 120  --紧评判时两笔段夹角的最大值
-local bd0_1_tight_angel_min_threshold = 70    --紧评判时两笔段夹角的最小值
-local bd0_1_loose_lenratio_max_threshold = 5    --松评判时两笔段长度比例最大值
-local bd0_1_loose_lenratio_min_threshold = 1  --松评判时两笔段长度比例最小值
-local bd0_1_tight_lenratio_max_threshold = 3  --紧评判时两笔段长度比例最大值
-local bd0_1_tight_lenratio_min_threshold = 1  --紧评判时两笔段长度比例最小值
-
-local startpt,startindex = GetTopMostPoint(bh)
-local endpt = GetEndPoint(bh)
-local endindex = #bh.ptSet
-if (startindex > endindex) then
-return false
-end
-
-local vpt0 = {}
-vpt0.x = 0
-vpt0.y = 512
-
-local vpt1 = {}
-vpt1.x = 512
-vpt1.y = 512
-
-
-local turning_index0 = 1
-local minDis = 512
-for i = 1,#bh.ptSet do
-    local curpt = bh.ptSet[i]
-    local tempDis = GetDistance(curpt,vpt0)
-    if (tempDis < minDis ) then
-        turning_index_0 = i
-        minDis  = tempDis
-    end
-end
-
-local turning_index_1 = 1
-minDis = 512
-for i = 1,#bh.ptSet do
-    local curpt = bh.ptSet[i]
-    local tempDis = GetDistance(curpt,vpt1)
-    if (tempDis < minDis ) then
-        turning_index_1 = i
-        minDis  = tempDis
-    end
-end
-
-
-bh.InflectionPoint[#bh.InflectionPoint + 1] =  turning_index0
-bh.InflectionPoint[#bh.InflectionPoint + 1] =  turning_index1
-
-
-
-local turning_pt_0 = bh.ptSet[turning_index_0]
-local turning_pt_1 = bh.ptSet[turning_index_1]
-
-local bd0 = GetTempBD(bh,startindex,turning_index_0)
-local line0 = GetLine(startpt,turning_pt_0)
-local dis0 = GetFarDis2Line(bd0,line0)
-local bd0_jitter = GetTempBD(bh,1,startindex)
-local len_bd0 = GetBDLen(bd0)
-local len_bd0_jitter = GetBDLen(bd0_jitter)
-
-
-local bd1 = GetTempBD(bh,turning_index_0,turning_index_1)
-local line1 = GetLine(turning_pt_0,turning_pt_1)
-local dis1 = GetFarDis2Line(bd1,line1)
-local len_bd1 = GetBDLen(bd1)
-
-
-
-local bd2 = GetTempBD(bh,turning_index_1,endindex)
-local line2 = GetLine(turning_pt_1,endpt)
-local dis2 = GetFarDis2Line(bd2,line2)
-local len_bd2 = GetBDLen(bd2)
-
-
-
-local angel0 = 90
-if (turning_pt_0.y ~= startpt.y) then
-local slope0 = (turning_pt_0.x -  startpt.x)/(turning_pt_0.y - startpt.y)
-angel0 = math.deg(math.atan(slope0))
-end
-angel0 = math.abs(angel0)
-
-
-local angel1 = 90
-if (turning_pt_1.x ~= turning_pt_0.x) then
-local slope1 = (turning_pt_1.y - turning_pt_0.y) / (turning_pt_1.x - turning_pt_0.x)
-angel1 = math.deg ( math.atan(slope1))
-end
-angel1 = math.abs(angel1)
-
-local bd0_bd1_angel = 0
-bd0_bd1_angel = Cal_Angle (startpt,turning_pt_0,turning_pt_1)
-
-if (bl == 1) then
-    if (len_bd0_jitter/len_bd0 > loose_jitter_max_threshold )  then
-        return false
-    end
-    if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold or dis2 > loose_dis_max_threshold) then
-        return false
-    end
-    if (angel0 > loose_angel_max_threshold or angel1 > loose_angel_max_threshold) then
-        return false
-    end
-    if (len_bd0 / len_bd1 > bd0_1_loose_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_loose_lenratio_min_threshold ) then
-        return false
-    end
-    if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
-        return false
-    end
-end
-
-if (bl == 2) then
-	if(len_bd2 < 5) then
+	if (angel_var <= tight_angel_max_threshold  and curve <= tight_curve_max_threshold) then
+		return true
+	else
 		return false
 	end
-    if (len_bd0_jitter/len_bd0 > tight_jitter_max_threshold )  then
-        return false
-    end
-    if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold) then
-        return false
-    end
-    if (angel0 > tight_angel_max_threshold or angel1 > tight_angel_max_threshold) then
-        return false
-    end
-    if (len_bd0 / len_bd1 > bd0_1_tight_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_tight_lenratio_min_threshold ) then
-        return false
-    end
-    if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
-        return false
-    end
-
-end
-
-return true
-
-end
-
-function  IsDian(bh,bl)
-if(bl ~= 1 and bl~=2 ) then return end
-
-local loose_jitter_max_threshold = 1/5  --松评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-local tight_jitter_max_threshold = 1/10 --紧评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-local loose_dis_max_threshold = 30      --松评判时笔迹到笔画连线的最大距离
-local tight_dis_max_threshold = 15       --紧评判时笔迹到笔画连线的最大距离
-
-local startpt,startindex = GetTopMostPoint(bh)
-local endpt,endindex = GetRightMostPoint(bh)
-
-if (endindex < startindex) then
-    return false
-end
-
-if (startpt.x >= endpt.x ) then
-    return false
-end
-
-
-local finalbh = GetTempBD(bh,startindex,endindex)
-local jitter1 = GetTempBD(bh,1,startindex)
-local jitter2 = GetTempBD(bh,endindex,#bh.ptSet)
-
-local len_jitter1 = GetBDLen(jitter1)
-local len_jitter2 = GetBDLen(jitter2)
-local len_bh = GetBDLen(finalbh)
-
-local line = GetLine(startpt,endpt)
-local dis = GetFarDis2Line(finalbh,line)
-
-if (bl == 1) then
-     if (len_jitter1/len_bh > loose_jitter_max_threshold or len_jitter2/len_bh > loose_jitter_max_threshold) then
-         return false
-     end
-     if(dis > loose_dis_max_threshold) then
-         return false
-     end
-     for i = startindex, endindex, 5 do
-        if (i + 5 < endindex ) then
-            local curPt = bh.ptSet[i]
-            local nextPt = bh.ptSet[i+5]
-            if (curPt.x > nextPt.x) then
-                  return false
-            end
-
-        if (curPt.y > nextPt.y)then
-            return false
-        end
-        end
-    end
-end
-
-
-if (bl == 2) then
-     if (len_jitter1/len_bh > tight_jitter_max_threshold or len_jitter2/len_bh > tight_jitter_max_threshold) then
-         return false
-     end
-
-     if(dis > tight_dis_max_threshold) then
-         return false
-     end
-
-    for i = startindex, endindex, 2 do
-        if (i + 2 < endindex ) then
-            local curPt = bh.ptSet[i]
-            local nextPt = bh.ptSet[i+2]
-            if (curPt.x > nextPt.x) then
-                return false
-        end
-
-        if (curPt.y > nextPt.y)then
-                return false
-        end
-        end
-    end
-end
-return true
-end
-
-
-function  IsHengGou(bh,bl)
-if (bl ~= 1 and bl~=2) then return end
-local loose_dis_max_threshold = 40      --松评判时笔迹到首尾点连线的最大距离
-local tight_dis_max_threshold = 20      --紧评判时笔迹到首尾点连线的最大距离
-
-local loose_angel_max_threshold = 30    --松评判时首尾点连线倾斜的最大角度
-local tight_angel_max_threshold = 15     --紧评判时首尾点连线倾斜的最大角度
-
-local loose_jitter_max_threshold = 1/5  --松评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-local tight_jitter_max_threshold = 1/10 --紧评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-
-local bd1_len_threshold = 2                       --笔段1的最小长度
-
-local bd0_1_loose_angel_max_threshold = 90  --松评判时两笔段夹角的最大值
-local bd0_1_loose_angel_min_threshold = 10    --松评判时两笔段夹角的最小值
-local bd0_1_tight_angel_max_threshold = 80  --紧评判时两笔段夹角的最大值
-local bd0_1_tight_angel_min_threshold = 20    --紧评判时两笔段夹角的最小值
-local bd0_1_loose_lenratio_max_threshold = 10    --松评判时两笔段长度比例最大值
-local bd0_1_loose_lenratio_min_threshold = 1  --松评判时两笔段长度比例最小值
-local bd0_1_tight_lenratio_max_threshold = 6  --紧评判时两笔段长度比例最大值
-local bd0_1_tight_lenratio_min_threshold = 1  --紧评判时两笔段长度比例最小值
-
-local startpt,startindex = GetLeftMostPoint(bh)
-local endpt = GetEndPoint(bh)
-local endindex = #bh.ptSet
-local turning_pt,turning_index = GetRightMostPoint(bh)
-
-
-if (startindex > endindex) then
-return false
-end
-
-if (turning_pt.y > endpt.y) then
-return false
-end
-
-bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index
-
-local bd0 = GetTempBD(bh,startindex,turning_index)
-local line0 = GetLine(startpt,turning_pt)
-local dis0 = GetFarDis2Line(bd0,line0)
-local bd0_jitter = GetTempBD(bh,1,startindex)
-local len_bd0 = GetBDLen(bd0)
-local len_bd0_jitter = GetBDLen(bd0_jitter)
-
-
-local bd1 = GetTempBD(bh,turning_index,endindex)
-local line1 = GetLine(turning_pt,endpt)
-local dis1 = GetFarDis2Line(bd1,line1)
-local len_bd1 = GetBDLen(bd1)
-if(len_bd1 < bd1_len_threshold ) then
-return false
-end
-
-local angel0 = 90
-if (turning_pt.x ~= startpt.x) then
-local slope0 = (turning_pt.y -  startpt.y)/(turning_pt.x - startpt.x)
-angel0 = math.deg(math.atan(slope0))
-end
-angel0 = math.abs(angel0)
-
-
-local bd0_bd1_angel = 0
-bd0_bd1_angel = Cal_Angle (startpt,turning_pt,endpt)
-
-if (bl == 1) then
-    if (len_bd0_jitter/len_bd0 > loose_jitter_max_threshold )  then
-        return false
-    end
-    if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold) then
-        return false
-    end
-    if (angel0 > loose_angel_max_threshold) then
-        return false
-    end
-    if (len_bd0 / len_bd1 > bd0_1_loose_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_loose_lenratio_min_threshold ) then        trace("loose_ratio_wrong")
-        return false
-    end
-    if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
-        return false
-    end
-end
-
-if (bl == 2) then
-    if (len_bd0_jitter/len_bd0 > tight_jitter_max_threshold )  then
-        return false
-    end
-    if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold) then
-        return false
-    end
-    if (angel0 > tight_angel_max_threshold ) then
-        return false
-    end
-    if (len_bd0 / len_bd1 > bd0_1_tight_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_tight_lenratio_min_threshold ) then
-        return false
-    end
-    if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
-        return false
-    end
-
-end
-
-return true
-
+ end
 
 end
 
 
-function  IsHengZhe2(bh,bl)
-if (bl ~= 1 and bl~=2) then return end
+function IsHengZheXieGou(bh,bl)
+	local startpt,startindex = GetStartPoint(bh)
+	local endpt,endindex = GetEndPoint(bh)
+	local turning_pt_1,turning_index_1 = GetBottomMostPoint(bh)
 
-local loose_dis_max_threshold = 40      --松评判时笔迹到首尾点连线的最大距离
-local tight_dis_max_threshold = 20      --紧评判时笔迹到首尾点连线的最大距离
+	local n_minLeft,n_maxRight,n_minUp,n_maxDown = 512,0,512,0
+	for i = 1,#bh.ptSet do
+		if (n_minLeft > bh.ptSet[i].x) then
+			n_minLeft = bh.ptSet[i].x
+		end
 
-local bd0_loose_angel_max_threshold = 30     --松评判时bd0首尾点连线倾斜的最大角度
-local bd0_tight_angel_max_threshold = 15     --紧评判时bd0首尾点连线倾斜的最大角度
+		if(n_maxRight < bh.ptSet[i].x) then
+			n_maxRight = bh.ptSet[i].x
+		end
 
+		if(n_minUp > bh.ptSet[i].y) then
+			n_minUp = bh.ptSet[i].y
+		end
 
-local bd1_loose_angel_max_threshold = 60    --松评判时bd1首尾点连线倾斜的最大角度
-local bd1_tight_angel_max_threshold = 30    --紧评判时bd1首尾点连线倾斜的最大角度
+		if(n_maxDown < bh.ptSet[i].y) then
+			n_maxDown = bh.ptSet[i].y
+		end
+	end
 
+	local cmpPt = {}
+	cmpPt.x = n_maxRight
+	cmpPt.y = n_minUp
+	local tmpDis = 512
+	local turning_pt_0 = {}
+	local turning_index_0 = 1
 
-local loose_jitter_max_threshold = 1/5  --松评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-local tight_jitter_max_threshold = 1/10 --紧评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
+	for i = 1, turning_index_1 do
+		local curPt = bh.ptSet[i]
+		local curDis = GetDistance(curPt,cmpPt)
+		if(curDis < tmpDis) then
+			tmpDis = curDis
+			turning_index_0 = i
+			turning_pt_0 = bh.ptSet[i]
+		end
+	end
+	local line0 = GetLine(startpt,turning_pt_1)
+	local tmpBD = GetTempBD(bh,startindex,turning_index_1)
+	local bd0 = GetTempBD(bh,startindex,turning_index_0)
+	local bd1 = GetTempBD(bh,turning_index_0,turning_index_1)
+	local bd2 = GetTempBD(bh,turning_index_1,endindex)
 
-local bd0_1_loose_angel_max_threshold = 90  --松评判时两笔段夹角的最大值
-local bd0_1_loose_angel_min_threshold =30    --松评判时两笔段夹角的最小值
-local bd0_1_tight_angel_max_threshold = 90  --紧评判时两笔段夹角的最大值
-local bd0_1_tight_angel_min_threshold =60    --紧评判时两笔段夹角的最小值
-local bd0_1_loose_lenratio_max_threshold = 3    --松评判时两笔段长度比例最大值
-local bd0_1_loose_lenratio_min_threshold = 1/3  --松评判时两笔段长度比例最小值
-local bd0_1_tight_lenratio_max_threshold = 2  --紧评判时两笔段长度比例最大值
-local bd0_1_tight_lenratio_min_threshold = 1/2  --紧评判时两笔段长度比例最小值
+	local len_bd0 = GetBDLen(bd0)
+	local len_bd1 = GetBDLen(bd1)
+	local len_bd2 = GetBDLen(bd2)
+	local dis_bd0 = GetDistance(startpt,turning_pt_0)
+	local dis_bd1 = GetDistance(turning_pt_0,turning_pt_1)
 
-local startpt,startindex = GetLeftMostPoint(bh)
-local endpt,endindex = GetBottomMostPoint(bh)
+	local line1 = GetLine(turning_pt_0,turning_pt_1)
+	local fpt,findex = GetFarthestPt2Line(bd1,line1)
+	findex = findex + turning_index_0
+	fpt = bh.ptSet[findex]
+	if (len_bd0 == 0 or len_bd1 == 0 or len_bd2 == 0) then
+		return false
+	end
 
-if (startindex > endindex) then
-return false
+	if (Point2LineUp(turning_pt_0,line0) == false) then
+		return false
+	end
+
+	if (Point2LineDown(fpt,line1) == false) then
+		return false
+	end
+
+	tmpDis = 512
+	local ptX = 0
+	for i = turning_index_0, turning_index_1 do
+		local curPt = bh.ptSet[i]
+		local curDis = math.abs(curPt.y - endpt.y)
+		if(curDis < tmpDis) then
+			ptX = curPt.x
+			tmpDis = curDis
+		end
+	end
+	if(ptX > endpt.x) then
+		return false
+	end
+
+	local wanqu0 = len_bd0/dis_bd0
+	local wanqu1 = len_bd1/dis_bd1
+	local angel0 = 90
+	if (turning_pt_0.x ~= startpt.x) then
+		local slope0 = (turning_pt_0.y -  startpt.y)/(turning_pt_0.x - startpt.x)
+		angel0 = math.deg(math.atan(slope0))
+	end
+	angel0 = math.abs(angel0)
+
+	local angel1 = 90
+	if (turning_pt_1.y ~= turning_pt_0.y) then
+		local slope1 = (turning_pt_1.x - turning_pt_0.x) / (turning_pt_1.y - turning_pt_0.y)
+		angel1 = math.deg ( math.atan(slope1))
+	end
+
+	if(angel1 < -4 or wanqu0 > 1.038 or angel0 > 15) then
+		return false
+	end
+	if (bl == 1) then
+		return true
+	end
+
+	if(bl == 2) then
+		if(angel1 > -4 and angel0 < 15) then
+			return true
+		end
+		if(angel0 < 15 and wanqu0 < 1.03) then
+			return true
+		end
+	end
+	return false
 end
 
-local spt_ept_line = GetLine(startpt,endpt)
-local finalbh = GetTempBD(bh,startindex,endindex)
-local turning_pt,turning_index = GetFarthestPt2Line(bh,spt_ept_line)
-if (Point2LineUp(turning_pt,spt_ept_line) == false) then
-return false
-end
-
-bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index
-local bd0 = GetTempBD(bh,startindex,turning_index)
-local line0 = GetLine(startpt,turning_pt)
-local dis0 = GetFarDis2Line(bd0,line0)
-local bd0_jitter = GetTempBD(bh,1,startindex)
-local len_bd0 = GetBDLen(bd0)
-local len_bd0_jitter = GetBDLen(bd0_jitter)
-
-
-local bd1 = GetTempBD(bh,turning_index,endindex)
-local line1 = GetLine(turning_pt,endpt)
-local dis1 = GetFarDis2Line(bd1,line1)
-local bd1_jitter = GetTempBD(bh,endindex,#bh.ptSet)
-local len_bd1 = GetBDLen(bd1)
-local len_bd1_jitter = GetBDLen(bd1_jitter)
-
-local angel0 = 90
-if (turning_pt.x ~= startpt.x) then
-local slope0 = (turning_pt.y -  startpt.y)/(turning_pt.x - startpt.x)
-angel0 = math.deg(math.atan(slope0))
-end
-angel0 = math.abs(angel0)
+function IsHengZheZhePie(bh,bl)
+	local startpt,startindex = GetStartPoint(bh)
+	local endpt,endindex = GetEndPoint(bh)
+	local tmpDis = 0
+	local fpt = {}
+	local findex = 0
+	local maxX = 0
+	for i = 1,#bh.ptSet do
+		local curPt = bh.ptSet[i]
+			if (curPt.x > maxX) then
+			maxX = curPt.x
+			fpt = bh.ptSet[i]
+			findex = i
+		end
+	end
+	if (findex == 1 or findex == endindex) then
+		return false
+	end
+	--�жϸõ��ǵ�һ���յ㻹�����һ���յ�
+	local tmpBD1 = GetTempBD(bh,1,findex)
+	local BD1_len = GetBDLen(tmpBD1)
+	local BD1_dis = GetDistance(startpt,fpt)
+	local BD1_curve = BD1_len / BD1_dis
 
 
-local angel1 = 90
-if (endpt.y ~= turning_pt.y) then
-local slope1 = (endpt.x - turning_pt.x) / (endpt.y - turning_pt.y)
-angel1 = math.deg ( math.atan(slope1))
-end
-angel1 = math.abs(angel1)
+	--�����������������Ҫ�Ĺյ�turning_pt_1
+	local turning_pt_0 = {}
+	local turning_pt0_index = 1
+
+	local turning_pt_1 = {}
+	local turning_pt1_index = 1
+
+	local turning_pt_2 = {}
+	local turning_pt2_index = 1
+
+	local loop_start_index = 1
+	local loop_end_index = 1
+
+	if (BD1_curve > 1.2) then
+	-- ˵���ùյ������һ���յ�
+		loop_start_index = 1
+		loop_end_index = findex - 5
+		if(loop_end_index < 1) then
+			return false
+		end
+		turning_pt2_index = findex
+		turning_pt_2 = bh.ptSet[findex]
+	else
+		loop_start_index = findex + 5
+		if(loop_start_index > endindex) then
+			return false
+		end
+		loop_end_index = endindex
+		turning_pt0_index = findex
+		turning_pt_0 = bh.ptSet[findex]
+	end
+	local beginIdx = 1
+	local beginPt= bh.ptSet[1]
+	local tmpAngle = 90
+
+	for i = loop_start_index , loop_end_index  do
+		local curPt = bh.ptSet[i]
+		local curAngel = 90
+		if (curPt.y ~= fpt.y) then
+			local slope = (curPt.x - fpt.x) / (curPt.y - fpt.y)
+			curAngel = math.deg(math.atan(slope))
+		end
+		curAngel = math.abs(curAngel)
+		if(curAngel < tmpAngle) then
+			tmpAngle = curAngel
+			beginIdx = i
+			beginPt = bh.ptSet[i]
+		end
+		if(curAngel < 0.1) then
+			beginIdx = i
+			beginPt = bh.ptSet[i]
+			break
+		end
+
+	end
+		tmpDis = 512
+		loop_start_index = beginIdx
+		loop_end_index = findex
+		if (beginIdx > findex) then
+			loop_start_index = findex
+			loop_end_index = beginIdx
+		end
+
+		tmpDis = 0
+		line_spt_ept = GetLine(bh.ptSet[loop_start_index],bh.ptSet[loop_end_index])
+		for i = loop_start_index,loop_end_index do
+			local curPt = bh.ptSet[i]
+			if (Point2LineDown(curPt,line_spt_ept) == true) then
+				local curDis = Cal_Point2LineDis(curPt,line_spt_ept[1],line_spt_ept[2],line_spt_ept[3])
+				if (curDis > tmpDis) then
+					tmpDis = curDis
+					turning_pt1_index = i
+					turning_pt_1 = bh.ptSet[i]
+				end
+			end
+		end
+
+	if (turning_pt1_index == 1 or turning_pt1_index == endindex) then
+			return false
+		end
+	if (turning_pt0_index == 1) then
+		local line1 = GetLine(startpt,turning_pt_1)
+		tmpDis = 0
+		for i = 1,turning_pt1_index do
+			local curPt = bh.ptSet[i]
+			local curDis = Cal_Point2LineDis(curPt,line1[1],line1[2],line1[3])
+			if(curDis > tmpDis) then
+				tmpDis = curDis
+				turning_pt0_index = i
+				turning_pt_0 = bh.ptSet[i]
+			end
+		end
+	end
+
+		if (turning_pt0_index == 1 or turning_pt0_index == endindex) then
+			return false
+		end
+
+	if (turning_pt2_index == 1 )then
+		local line1 = GetLine(turning_pt_1,endpt)
+		tmpDis = 0
+		for i = turning_pt1_index,endindex do
+			local curPt = bh.ptSet[i]
+			local curDis = Cal_Point2LineDis(curPt,line1[1],line1[2],line1[3])
+			if(curDis > tmpDis) then
+				tmpDis = curDis
+				turning_pt2_index = i
+				turning_pt_2 = bh.ptSet[i]
+			end
+		end
+	end
+	if (turning_pt2_index == 1 or turning_pt2_index == endindex) then
+			return false
+		end
+	if (turning_pt_0.x <= turning_pt_1.x or turning_pt_0.y >= turning_pt_1.y
+	or turning_pt_1.x >= turning_pt_2.x
+	or turning_pt_2.x <= endpt.x or turning_pt_2.y >= endpt.y) then
+		return false
+	else
+		local bd0 = GetTempBD(bh,1,turning_pt0_index)
+		local bd1 = GetTempBD(bh,turning_pt0_index,turning_pt1_index)
+		local bd2 = GetTempBD(bh,turning_pt1_index,turning_pt2_index)
+		local bd3 = GetTempBD(bh,turning_pt2_index,endindex)
+
+		--bd0 �Ĳ������� ƫ��ˮƽ����ĽǶ� len/dis
+		local angel0 = 90
+		if (turning_pt_0.x ~= startpt.x) then
+			local slope0 = (turning_pt_0.y -  startpt.y)/(turning_pt_0.x - startpt.x)
+			angel0 = math.deg(math.atan(slope0))
+		end
+		angel0 = math.abs(angel0)
+		bd0_dis = GetDistance(startpt,turning_pt_0)
+		bd0_len = GetBDLen(bd0)
+		local wanqu0= bd0_len / bd0_dis
+
+		--bd1�Ĳ�������
+		local angel1 = 90
+		if (turning_pt_1.y ~= turning_pt_0.y) then
+			local slope1 = (turning_pt_1.x - turning_pt_0.x) / (turning_pt_1.y - turning_pt_0.y)
+			angel1 = math.deg ( math.atan(slope1))
+		end
+		angel1 = math.abs(angel1)
+		bd1_dis = GetDistance(turning_pt_0,turning_pt_1)
+		bd1_len = GetBDLen(bd1)
+		local wanqu1 = bd1_len / bd1_dis
+
+		-- bd3�Ĳ�������
+		local angel2 = 90
+		if (turning_pt_2.x ~= turning_pt_1.x) then
+			local slope2 = (turning_pt_2.y -  turning_pt_1.y)/(turning_pt_2.x - turning_pt_1.x)
+			angel2 = math.deg(math.atan(slope2))
+		end
+		angel2 = math.abs(angel2)
 
 
-local bd0_bd1_angel = 0
-bd0_bd1_angel = Cal_Angle (startpt,turning_pt,endpt)
+		--bd4�Ĳ�������
+		local angel3 = 90
+		if (endpt.y ~= turning_pt_2.y) then
+			local slope3 = (endpt.x - turning_pt_2.x) / (endpt.y - turning_pt_2.y)
+			angel3 = math.deg ( math.atan(slope3))
+		end
+		angel3 = math.abs(angel3)
 
-if (bl == 1) then
-    if (len_bd0_jitter/len_bd0 > loose_jitter_max_threshold or len_bd1_jitter/len_bd1 > loose_jitter_max_threshold )  then
-        return false
-    end
-    if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold) then
-        return false
-    end
-    if (angel0 > bd0_loose_angel_max_threshold or angel1 > bd1_loose_angel_max_threshold) then
-        return false
-    end
-    if (len_bd0 / len_bd1 > bd0_1_loose_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_loose_lenratio_min_threshold ) then
-        return false
-    end
-    if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
-        return false
-    end
-end
-
-if (bl == 2) then
-    if (len_bd0_jitter/len_bd0 > tight_jitter_max_threshold or len_bd1_jitter/len_bd1 > tight_jitter_max_threshold )  then
-        return false
-    end
-    if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold) then
-        return false
-    end
-    if (angel0 > bd0_tight_angel_max_threshold or angel1 > bd1_tight_angel_max_threshold) then
-        return false
-    end
-    if (len_bd0 / len_bd1 > bd0_1_tight_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_tight_lenratio_min_threshold ) then
-        return false
-    end
-    if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
-        return false
-    end
-
-end
-
-return true
-
-
-
-end
-
-
-
-function  IsXieGou(bh,bl)
-if(bl ~= 1 and bl~=2 ) then return end
-
-local loose_angel_max_threshold = 80        --spt与tpt连线偏离竖直方向的角度
-local loose_angel_min_threshold = 10
-local tight_angel_max_threshold = 60
-local tight_angel_min_threshold = 20
-
-local startpt,startindex = GetTopMostPoint(bh)
-local endpt= GetEndPoint(bh)
-local endindex = #bh.ptSet
-local turning_pt,turning_index = GetBottomMostPoint(bh)
-bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index
-
-
-local angel = 90
-if (turning_pt.y ~= startpt.y) then
-     local slope = (turning_pt.x -  startpt.x)/(turning_pt.y - startpt.y)
-     angel = math.deg(math.atan(slope))
-end
-angel = math.abs(angel)
-
-
-local bd1 = GetTempBD(bh,turning_index,endindex)
-local len_bd1 = GetBDLen(bd1)
-if (len_bd1 < 5) then
-    return false
-end
-
-if (endindex < startindex) then
-    return false
-end
-
-if (startpt.x >= endpt.x ) then
-    return false
-end
-
-if (turning_pt.x < startpt.x) then
-    return false
-end
-
-
-if (bl == 1) then
-    if (angel > loose_angel_max_threshold or angel < loose_angel_min_threshold) then
-            return false
-    end
-
-
-    for i = startindex, turning_index, 5 do
-        if (i + 5 < turning_index ) then
-            local curPt = bh.ptSet[i]
-            local nextPt = bh.ptSet[i+5]
-            if (curPt.x > nextPt.x) then
-              return false
-            end
-
-        if (curPt.y > nextPt.y)then
-            return false
-        end
-     end
-    end
-end
-
-
-if (bl == 2) then
-    if (angel > tight_angel_max_threshold or angel < tight_angel_min_threshold) then
-            return false
-    end
-
-    for i = startindex, turning_index, 2 do
-        if (i + 2 < turning_index ) then
-            local curPt = bh.ptSet[i]
-            local nextPt = bh.ptSet[i+2]
-            if (curPt.x < nextPt.x) then
-                return false
-        end
-
-        if (curPt.y > nextPt.y)then
-                return false
-            end
-        end
-    end
-end
-return true
+		if (angel0  > 19) then
+			return false
+		end
+		if (bl == 1) then
+			if (angel0 <= 19) then
+				return true
+			end
+		end
+		if(bl == 2) then
+			if(angel0 < 19 and wanqu1 < 1.059 and angel1 > 24) then
+				return true
+			end
+			if(angel0 < 19 and wanqu1 < 1.059 and angel1 < 24 and angel3 > 44)then
+				return true
+			end
+		end
+		return false
+	end
 end
 
 
 function  IsPie(bh,bl)
-if(bl ~= 1 and bl~=2 ) then return end
-
-local loose_jitter_max_threshold = 1/5
-local tight_jitter_max_threshold = 1/10
-
-local startpt,startindex = GetTopMostPoint(bh)
-local endpt,endindex = GetLeftMostPoint(bh)
-
-if (endindex < startindex) then
-    return false
+	return true
 end
 
-if (startpt.x <= endpt.x ) then
-    return false
+function  IsDian(bh,bl)
+	return true
 end
-
-
- local finalbh = GetTempBD(bh,startindex,endindex)
- local jitter1 = GetTempBD(bh,1,startindex)
- local jitter2 = GetTempBD(bh,endindex,#bh.ptSet)
-
- local len_jitter1 = GetBDLen(jitter1)
- local len_jitter2 = GetBDLen(jitter2)
- local len_bh = GetBDLen(finalbh)
-
- if (bl == 1) then
-     if (len_jitter1/len_bh > loose_jitter_max_threshold or len_jitter2/len_bh > loose_jitter_max_threshold) then
-         return false
-     end
-
-    for i = startindex, endindex, 20 do
-        if (i + 20 < endindex ) then
-            local curPt = bh.ptSet[i]
-            local nextPt = bh.ptSet[i+20]
-            if (curPt.x < nextPt.x) then
-                return false
-			end
-
-        if (curPt.y > nextPt.y)then
-            return false
-        end
-        end
-    end
-end
-
-
-if (bl == 2) then
-     if (len_jitter1/len_bh > tight_jitter_max_threshold or len_jitter2/len_bh > tight_jitter_max_threshold) then
-         return false
-     end
-
-    for i = startindex, endindex, 10 do
-        if (i + 10 < endindex ) then
-            local curPt = bh.ptSet[i]
-            local nextPt = bh.ptSet[i+10]
-            if (curPt.x < nextPt.x) then
-                return false
-        end
-
-        if (curPt.y > nextPt.y)then
-                return false
-        end
-        end
-    end
-end
-return true
-
-end
-
-
-function  IsTi(bh,bl)
-if(bl ~= 1 and bl~=2 ) then return end
-
-local loose_jitter_max_threshold = 1/5  --松评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-local tight_jitter_max_threshold = 1/10 --紧评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-local loose_dis_max_threshold = 40      --松评判时笔迹到笔画连线的最大距离
-local tight_dis_max_threshold = 20       --紧评判时笔迹到笔画连线的最大距离
-
-local startpt,startindex = GetBottomMostPoint(bh)
-local endpt,endindex = GetTopMostPoint(bh)
-
-if (endindex < startindex) then
-    return false
-end
-
-if (startpt.x >= endpt.x ) then
-    return false
-end
-
-
-local finalbh = GetTempBD(bh,startindex,endindex)
-local jitter1 = GetTempBD(bh,1,startindex)
-local jitter2 = GetTempBD(bh,endindex,#bh.ptSet)
-
-local len_jitter1 = GetBDLen(jitter1)
-local len_jitter2 = GetBDLen(jitter2)
-local len_bh = GetBDLen(finalbh)
-
-local line = GetLine(startpt,endpt)
-local dis = GetFarDis2Line(finalbh,line)
-
-if (bl == 1) then
-     if (len_jitter1/len_bh > loose_jitter_max_threshold or len_jitter2/len_bh > loose_jitter_max_threshold) then
-         return false
-     end
-     if(dis > loose_dis_max_threshold) then
-         return false
-     end
-     for i = startindex, endindex, 5 do
-        if (i + 5 < endindex ) then
-            local curPt = bh.ptSet[i]
-            local nextPt = bh.ptSet[i+5]
-            if (curPt.x > nextPt.x) then
-                return false
-        end
-
-        if (curPt.y < nextPt.y)then
-            return false
-        end
-        end
-    end
-end
-
-
-if (bl == 2) then
-     if (len_jitter1/len_bh > tight_jitter_max_threshold or len_jitter2/len_bh > tight_jitter_max_threshold) then
-         return false
-     end
-
-     if(dis > tight_dis_max_threshold) then
-         return false
-     end
-
-    for i = startindex, endindex, 2 do
-        if (i + 2 < endindex ) then
-            local curPt = bh.ptSet[i]
-            local nextPt = bh.ptSet[i+2]
-            if (curPt.x < nextPt.x) then
-              return false
-        end
-
-        if (curPt.y < nextPt.y)then
-            return false
-        end
-        end
-    end
-end
-return true
-
-end
-
-
-function  IsZuoDian(bh,bl)
-if(bl ~= 1 and bl~=2 ) then return end
-
-local loose_dis_max_threshold =40      --松评判时笔迹到笔画连线的最大距离
-local tight_dis_max_threshold = 20       --紧评判时笔迹到笔画连线的最大距离
-local loose_angel_max_threshold = 80    --首尾点连线偏离竖直方向的角度
-local tight_angel_max_threshold = 60
-
-
-
-local startpt,startindex = GetTopMostPoint(bh)
-local endpt,endindex = GetBottomMostPoint(bh)
-
-if (endindex < startindex) then
-    return false
-end
-
-if (startpt.x <= endpt.x ) then
-    return false
-end
-
-local line = GetLine(startpt,endpt)
-local dis = GetFarDis2Line(bh,line)
-
-
-
-local angel = 90
-if ( endpt.y ~= startpt.y ) then
-    local slope = (endpt.x -  startpt.x)/(endpt.y- startpt.y)
-    angel = math.deg(math.atan(slope))
-end
-angel = math.abs(angel)
-trace(angel)
-
-
-if (bl == 1) then
-     if(dis > loose_dis_max_threshold) then
-         return false
-     end
-     if(angel > loose_angel_max_threshold)then
-        return false
-     end
-end
-
-
-if (bl == 2) then
-
-     if(dis > tight_dis_max_threshold) then
-         return false
-     end
-     if(angel > tight_angel_max_threshold) then
-         return false
-     end
-
-end
-return true
-end
-
-
-function  IsWoGou(bh,bl)
-if(bl ~= 1 and bl~=2 ) then return end
-
-local loose_angel_max_threshold = 70        --spt与tpt连线偏离竖直方向的角度
-local loose_angel_min_threshold = 10
-local tight_angel_max_threshold = 60
-local tight_angel_min_threshold = 20
-
-local startpt,startindex = GetTopMostPoint(bh)
-local endpt= GetEndPoint(bh)
-local endindex = #bh.ptSet
-local turning_pt,turning_index = GetBottomMostPoint(bh)
-bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index
-
-
-local angel = 90
-if (turning_pt.y ~= startpt.y) then
-     local slope = (turning_pt.x -  startpt.x)/(turning_pt.y - startpt.y)
-     angel = math.deg(math.atan(slope))
-end
-angel = math.abs(angel)
-
-local bd1 = GetTempBD(bh,turning_index,endindex)
-local len_bd1 = GetBDLen(bd1)
-if (len_bd1 < 5) then
-    return false
-end
-
-if (endindex < startindex) then
-    return false
-end
-
-if (startpt.x >= endpt.x ) then
-    return false
-end
-
-if (turning_pt.x < startpt.x) then
-    return false
-end
-
-
-if (bl == 1) then
-    if (angel > loose_angel_max_threshold or angel < loose_angel_min_threshold) then
-            return false
-    end
-
-
-    for i = startindex, turning_index, 20 do
-        if (i + 20 < turning_index ) then
-            local curPt = bh.ptSet[i]
-            local nextPt = bh.ptSet[i+20]
-            if (curPt.x > nextPt.x) then
-              return false
-            end
-
-     end
-    end
-end
-
-
-if (bl == 2) then
-    if (angel > tight_angel_max_threshold or angel < tight_angel_min_threshold) then
-            return false
-    end
-
-    for i = startindex, turning_index, 10 do
-        if (i + 10 < turning_index ) then
-            local curPt = bh.ptSet[i]
-            local nextPt = bh.ptSet[i+10]
-            if (curPt.x < nextPt.x) then
-                return false
-        end
-     end
-   end
-end
-return true
-end
-
-
-function  IsWanGou(bh,bl)
-if(bl ~= 1 and bl~=2 ) then return end
-
-local bd0_loose_dis_max_threshold = 150      --松评判时笔迹到拐点0连线的最大距离
-local bd0_tight_dis_max_threshold = 80
-local bd1_loose_dis_max_threshold = 100
-local bd1_tight_dis_max_threshold = 50 
-local loose_dis_min_threshold = 1
-local loose_angel_max_threshold = 45    --松评判时首与拐点0连线倾斜的最大角度
-local loose_jitter_max_threshold = 1/5    --松评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-
-local tight_dis_max_threshold = 30      --紧评判时笔迹到首尾点连线的最大距离
-local tight_dis_min_threshold = 2
-
-local tight_angel_max_threshold = 30    --紧评判时首尾点连线倾斜的最大角度
-local tight_jitter_max_threshold = 1/10 --紧评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-
-local bd0_1_loose_angel_max_threshold = 85      --松评判时两笔段夹角的最大值
-local bd0_1_loose_angel_min_threshold = 10      --松评判时两笔段夹角的最小值
-local bd0_1_tight_angel_max_threshold = 70      --紧评判时两笔段夹角的最大值
-local bd0_1_tight_angel_min_threshold = 15      --紧评判时两笔段夹角的最小值
-local bd1_0_lenratio_threshold = 1/2            --笔段1和笔段2的长度比例
-
-
-local startpt,startindex = GetTopMostPoint(bh)
-local endpt =  GetEndPoint(bh)
-local endindex = #bh.ptSet
-local turning_pt,turning_index = GetBottomMostPoint(bh)
-bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index
-
-if (endindex < startindex) then
-return false
-end
-
-if (turning_pt.x < endpt.x) then
-return false
-end
-
- local finalbh = GetTempBD(bh,startindex,endindex)
- local jitter1 = GetTempBD(bh,1,startindex)
- local len_jitter1 = GetBDLen(jitter1)
- local len_bh = GetBDLen(finalbh)
-
- local line = GetLine(startpt,endpt)
- local dis = GetFarDis2Line(finalbh,line)
-
- local bd0 = GetTempBD(bh,startindex,turning_index)
- local bd1 = GetTempBD(bh,turning_index,endindex)
- local line0 = GetLine(startpt,turning_pt)
- local dis0 = GetFarDis2Line(bd0,line0)
- local line1 = GetLine(turning_pt,endpt)
- local dis1 =  GetFarDis2Line(bd1,line1)
- local len_bd0 = GetBDLen(bd0)
- local len_bd1 = GetBDLen(bd1)
- if (len_bd1 < 5) then
- return false
- end
-
-
-
-local bd0_bd1_angel = Cal_Angle (startpt,turning_pt,endpt)
- local angel = 90
- if (turning_pt.y ~= startpt.y) then
- local slope = (turning_pt.x -  startpt.x)/(turning_pt.y - startpt.y)
- angel = math.deg(math.atan(slope))
- end
- angel = math.abs(angel)
-
- if (bl == 1) then
-     if (len_jitter1/len_bh > loose_jitter_max_threshold ) then
-         return false
-     end
-     if (dis0 > bd0_loose_dis_max_threshold or dis1 > bd1_loose_dis_max_threshold) then
-         return false
-     end
-
-     if(dis0 < loose_dis_min_threshold) then
-         return false
-     end
-
-     if (angel > loose_angel_max_threshold) then
-         return false
-     end
-     if(bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold) then
-         return false
-     end
- end
-
- if (bl == 2) then
-     if (len_jitter1/len_bh > tight_jitter_max_threshold) then
-         return false
-     end
-     if (dis0 > bd0_tight_dis_max_threshold or dis1 > bd1_tight_dis_max_threshold) then
-         return false
-     end
-
-     if(dis0 < tight_dis_min_threshold) then
-         return false
-     end
-
-     if (angel > tight_angel_max_threshold) then
-         return false
-     end
-      if(bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold) then
-         return false
-     end
-     if(len_bd1 /len_bd0 > bd1_0_lenratio_threshold) then
-         return false
-     end
- end
-
-return true
-
-end
-
-
 
 function  IsNa(bh,bl)
-if(bl ~= 1 and bl~=2 ) then return end
-
-local loose_jitter_max_threshold = 1/5  --松评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-local tight_jitter_max_threshold = 1/10 --紧评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-
-local startpt,startindex = GetTopMostPoint(bh)
-local endpt,endindex = GetRightMostPoint(bh)
-
-if (endindex < startindex) then
-    return false
+	return true
 end
-
-if (startpt.x >= endpt.x ) then
-    return false
-end
-
-
-local finalbh = GetTempBD(bh,startindex,endindex)
-local jitter1 = GetTempBD(bh,1,startindex)
-local jitter2 = GetTempBD(bh,endindex,#bh.ptSet)
-
-local len_jitter1 = GetBDLen(jitter1)
-local len_jitter2 = GetBDLen(jitter2)
-local len_bh = GetBDLen(finalbh)
-
-if (bl == 1) then
-     if (len_jitter1/len_bh > loose_jitter_max_threshold or len_jitter2/len_bh > loose_jitter_max_threshold) then
-         return false
-     end
-
-    for i = startindex, endindex, 20 do
-        if (i + 20 < endindex ) then
-            local curPt = bh.ptSet[i]
-            local nextPt = bh.ptSet[i+20]
-            if (curPt.x > nextPt.x) then
-              return false
-            end
-
-        if (curPt.y > nextPt.y)then
-            return false
-        end
-        end
-    end
-end
-
-
-if (bl == 2) then
-     if (len_jitter1/len_bh > tight_jitter_max_threshold or len_jitter2/len_bh > tight_jitter_max_threshold) then
-         return false
-     end
-
-    for i = startindex, endindex, 10 do
-        if (i + 10 < endindex ) then
-            local curPt = bh.ptSet[i]
-            local nextPt = bh.ptSet[i+10]
-            if (curPt.x > nextPt.x) then
-                return false
-        end
-
-        if (curPt.y > nextPt.y)then
-                return false
-        end
-        end
-    end
-end
-return true
-
-end
-
-
-function  IsPieZhe(bh,bl)
-if (bl ~= 1 and bl~=2) then return end
-local bd0_loose_angel_max_threshold = 80    --松评判时笔段0偏移竖直方向最大的角度
-local bd0_loose_angel_min_threshold = 10    --松评判时笔段0偏移竖直方向最小的角度 [bd0_angel_min,bd0_ngel_max]
-
-local bd0_tight_angel_max_threshold = 70     --紧评判时bd0偏离水平方向的最大角度
-local bd0_tight_angel_min_threshold = 20     --紧评判时bd0偏离水平方向的最小角度
-
-local bd1_loose_angel_max_threshold = 45     --松评判时笔段1偏移水平方向最大的角度
-local bd1_tight_angel_max_threshold = 10     --紧评判时bd1偏离水平方向的最大的角度
-
-local loose_dis_max_threshold = 40      --松评判时笔迹到首尾点连线的最大距离
-local tight_dis_max_threshold = 20      --紧评判时笔迹到首尾点连线的最大距离
-local loose_angel_max_threshold = 60    --松评判时首尾点连线倾斜的最大角度
-local tight_angel_max_threshold = 45    --紧评判时首尾点连线倾斜的最大角度
-
-local bd0_1_loose_angel_max_threshold = 85  --松评判时两笔段夹角的最大值
-local bd0_1_loose_angel_min_threshold =30    --松评判时两笔段夹角的最小值
-local bd0_1_tight_angel_max_threshold = 70  --紧评判时两笔段夹角的最大值
-local bd0_1_tight_angel_min_threshold =40    --紧评判时两笔段夹角的最小值
-local bd0_1_loose_lenratio_max_threshold = 3    --松评判时两笔段长度比例最大值
-local bd0_1_loose_lenratio_min_threshold = 1/3  --松评判时两笔段长度比例最小值
-local bd0_1_tight_lenratio_max_threshold = 2  --紧评判时两笔段长度比例最大值
-local bd0_1_tight_lenratio_min_threshold = 1/2  --紧评判时两笔段长度比例最小值
-
-local startpt = GetStartPoint(bh)
-local endpt = GetEndPoint(bh)
-
-if (startpt.y > endpt.y ) then
-return false
-end
-
-local spt_ept_line = GetLine(startpt,endpt)
-local turning_pt,turning_index = GetFarthestPt2Line(bh,spt_ept_line)
-if (turning_pt.x > startpt.x or turning_pt.x > endpt.x or turning_pt.y < startpt.y ) then
-return false
-end
-bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index
-
-
-
-if (endpt.y - turning_pt.y > 3) then
-return false
-end
-
-local bd0 = GetTempBD(bh,1,turning_index)
-local line0 = GetLine(startpt,turning_pt)
-local dis0 = GetFarDis2Line(bd0,line0)
-local len_bd0 = GetBDLen(bd0)
-
-local bd1 = GetTempBD(bh,turning_index,#bh.ptSet)
-local line1 = GetLine(turning_pt,endpt)
-local dis1 = GetFarDis2Line(bd1,line1)
-local len_bd1 = GetBDLen(bd1)
-
-local angel0 = 90
-if (turning_pt.y ~= startpt.y) then
-local slope0 = (turning_pt.x -  startpt.x)/(turning_pt.y - startpt.y)
-angel0 = math.deg(math.atan(slope0))
-end
-angel0 = math.abs(angel0)
-
-
-local angel1 = 90
-if (endpt.x ~= turning_pt.x) then
-local slope1 = (endpt.y - turning_pt.y) / (endpt.x - turning_pt.x)
-angel1 = math.deg ( math.atan(slope1))
-end
-angel1 = math.abs(angel1)
-
-local bd0_bd1_angel = 0
-bd0_bd1_angel = Cal_Angle (startpt,turning_pt,endpt)
-
-if (bl == 1) then
-    if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold) then
-        return false
-    end
-    if (angel0 > bd0_loose_angel_max_threshold  or angel1 > bd1_loose_angel_max_threshold ) then
-        return false
-    end
-
-    if (angel0 < bd0_loose_angel_min_threshold  ) then
-        return false
-    end
-
-    if (len_bd0 / len_bd1 > bd0_1_loose_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_loose_lenratio_min_threshold ) then
-        return false
-    end
-    if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
-        return false
-    end
-end
-
-if (bl == 2) then
-    if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold) then
-        return false
-    end
-    if (angel0 > bd0_tight_angel_max_threshold  or angel1 > bd1_tight_angel_max_threshold ) then
-        return false
-    end
-
-    if (angel0 < bd0_tight_angel_min_threshold) then
-        return false
-    end
-    if (len_bd0 / len_bd1 > bd0_1_tight_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_tight_lenratio_min_threshold ) then
-        return false
-    end
-    if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
-        return false
-    end
-
-end
-return true
-
-end
-
-
-function  IsPieTi(bh,bl)
-if (bl ~= 1 and bl~=2) then return end
-local bd0_loose_angel_max_threshold = 100    --松评判时笔段0偏移竖直方向最大的角度
-local bd0_loose_angel_min_threshold = 10    --松评判时笔段0偏移竖直方向最小的角度 [bd0_angel_min,bd0_ngel_max]
-
-local bd0_tight_angel_max_threshold = 80     --紧评判时bd0偏离水平方向的最大角度
-local bd0_tight_angel_min_threshold = 10     --紧评判时bd0偏离水平方向的最小角度
-
-
-local bd1_loose_angel_min_threshold = 3     --松评判时笔段1偏移水平方向最大的角度
-local bd1_tight_angel_min_threshold = 5     --紧评判时bd1偏离水平方向的最小的角度
-
-local loose_dis_max_threshold = 80      --松评判时笔迹到首尾点连线的最大距离
-local tight_dis_max_threshold = 50      --紧评判时笔迹到首尾点连线的最大距离
-local loose_angel_max_threshold = 60    --松评判时首尾点连线倾斜的最大角度
-local tight_angel_max_threshold = 45    --紧评判时首尾点连线倾斜的最大角度
-
-
-local bd0_1_loose_angel_max_threshold = 85  --松评判时两笔段夹角的最大值
-local bd0_1_loose_angel_min_threshold = 10    --松评判时两笔段夹角的最小值
-local bd0_1_tight_angel_max_threshold = 80  --紧评判时两笔段夹角的最大值
-local bd0_1_tight_angel_min_threshold = 20    --紧评判时两笔段夹角的最小值
-local bd0_1_loose_lenratio_max_threshold = 5    --松评判时两笔段长度比例最大值
-local bd0_1_loose_lenratio_min_threshold = 1/5  --松评判时两笔段长度比例最小值
-local bd0_1_tight_lenratio_max_threshold = 3  --紧评判时两笔段长度比例最大值
-local bd0_1_tight_lenratio_min_threshold = 1/3  --紧评判时两笔段长度比例最小值
-
-local startpt = GetStartPoint(bh)
-local endpt = GetEndPoint(bh)
-
-if (startpt.y > endpt.y ) then
-return false
-end
-
-local spt_ept_line = GetLine(startpt,endpt)
-local turning_pt,turning_index = GetFarthestPt2Line(bh,spt_ept_line)
-if (turning_pt.x > startpt.x or turning_pt.x > endpt.x or turning_pt.y < startpt.y ) then
-return false
-end
-
-if (endpt.y - turning_pt.y > 3) then
-return false
-end
-
-bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index
-local bd0 = GetTempBD(bh,1,turning_index)
-local line0 = GetLine(startpt,turning_pt)
-local len_bd0 = GetBDLen(bd0)
-
-local bd1 = GetTempBD(bh,turning_index,#bh.ptSet)
-local line1 = GetLine(turning_pt,endpt)
-local dis1 = GetFarDis2Line(bd1,line1)
-local len_bd1 = GetBDLen(bd1)
-
-local angel0 = 90
-if (turning_pt.y ~= startpt.y) then
-local slope0 = (turning_pt.x -  startpt.x)/(turning_pt.y - startpt.y)
-angel0 = math.deg(math.atan(slope0))
-end
-angel0 = math.abs(angel0)
-
-
-local angel1 = 90
-if (endpt.x ~= turning_pt.x) then
-local slope1 = (endpt.y - turning_pt.y) / (endpt.x - turning_pt.x)
-angel1 = math.deg ( math.atan(slope1))
-end
-angel1 = math.abs(angel1)
-
-local bd0_bd1_angel = 0
-bd0_bd1_angel = Cal_Angle (startpt,turning_pt,endpt)
-
-if (bl == 1) then
-    if ( dis1 > loose_dis_max_threshold) then
-        return false
-    end
-    if (angel0 > bd0_loose_angel_max_threshold) then
-        return false
-    end
-
-    if (angel0 < bd0_loose_angel_min_threshold or angel1 < bd1_loose_angel_min_threshold ) then
-        return false
-    end
-
-    if (len_bd0 / len_bd1 > bd0_1_loose_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_loose_lenratio_min_threshold ) then
-        return false
-    end
-    if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
-        return false
-    end
-end
-
-if (bl == 2) then
-    if (dis1 > tight_dis_max_threshold) then
-        return false
-    end
-    if (angel0 > bd0_tight_angel_max_threshold ) then
-        return false
-    end
-
-    if (angel0 < bd0_tight_angel_min_threshold or angel1 < bd1_tight_angel_min_threshold ) then
-        return false
-    end
-    if (len_bd0 / len_bd1 > bd0_1_tight_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_tight_lenratio_min_threshold ) then
-        return false
-    end
-    if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
-        return false
-    end
- end
-return true
-end
-
-
-function  IsPieDian(bh,bl)
-if (bl ~= 1 and bl~=2) then return end
-
-local loose_dis_max_threshold = 40      --松评判时笔迹到首尾点连线的最大距离
-local loose_angel_max_threshold = 30    --松评判时首尾点连线倾斜的最大角度
-local tight_dis_max_threshold = 20      --紧评判时笔迹到首尾点连线的最大距离
-local tight_angel_max_threshold = 15     --紧评判时首尾点连线倾斜的最大角度
-
-
-local bd0_1_loose_angel_max_threshold = 150   --紧评判时两笔段夹角的最大值
-local bd0_1_loose_angel_min_threshold = 60    --紧评判时两笔段夹角的最小值
-
-local bd0_1_tight_angel_max_threshold = 120   --紧评判时两笔段夹角的最大值
-local bd0_1_tight_angel_min_threshold = 45    --紧评判时两笔段夹角的最小值
-
-local bd0_1_lenratio_max_threshold = 3    --紧评判时两笔段长度比例最大值
-local bd0_1_lenratio_min_threshold = 1/3  --紧评判时两笔段长度比例最小值
-
-local startpt,startindex = GetTopMostPoint(bh)
-local endpt,endindex = GetBottomMostPoint(bh)
-local spt_ept_line = GetLine(startpt,endpt)
-local turning_pt,turning_index = GetFarthestPt2Line(bh,spt_ept_line)
-if(turning_pt.x > startpt.x or turning_pt.x > endpt.x) then
-    return false
-end
-
-if (startindex > endindex) then
-    return false
-end
-bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index
-local bd0 = GetTempBD(bh,startindex,turning_index)
-local line0 = GetLine(startpt,turning_pt)
-local dis0 = GetFarDis2Line(bd0,line0)
-local len_bd0 = GetBDLen(bd0)
-
-
-local bd1 = GetTempBD(bh,turning_index,endindex)
-local line1 = GetLine(turning_pt,endpt)
-local dis1 = GetFarDis2Line(bd1,line1)
-local len_bd1 = GetBDLen(bd1)
-
-
-local bd0_bd1_angel = 0
-bd0_bd1_angel = Cal_Angle (startpt,turning_pt,endpt)
-if (bl == 1) then
-    if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold) then
-        return false
-    end
-    if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
-        return false
-    end
-end
-
-if (bl == 2) then
-    if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold) then
-        return false
-    end
-    if (len_bd0 / len_bd1 > bd0_1_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_lenratio_min_threshold ) then
-        return false
-    end
-    if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
-        return false
-    end
-
-end
-return true
-
-end
-
-
-function  IsHengZhe(bh,bl)
-if (bl ~= 1 and bl~=2) then return end
-local loose_dis_max_threshold = 40      --松评判时笔迹到首尾点连线的最大距离
-local tight_dis_max_threshold = 20      --紧评判时笔迹到首尾点连线的最大距离
-
-local loose_angel_max_threshold = 30    --松评判时首尾点连线倾斜的最大角度
-local tight_angel_max_threshold = 15     --紧评判时首尾点连线倾斜的最大角度
-
-local loose_jitter_max_threshold = 1/5  --松评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-local tight_jitter_max_threshold = 1/10 --紧评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-
-
-local bd0_1_loose_angel_max_threshold = 120  --松评判时两笔段夹角的最大值
-local bd0_1_loose_angel_min_threshold =50    --松评判时两笔段夹角的最小值
-local bd0_1_tight_angel_max_threshold = 100  --紧评判时两笔段夹角的最大值
-local bd0_1_tight_angel_min_threshold =60    --紧评判时两笔段夹角的最小值
-local bd0_1_loose_lenratio_max_threshold = 5    --松评判时两笔段长度比例最大值
-local bd0_1_loose_lenratio_min_threshold = 1/5  --松评判时两笔段长度比例最小值
-local bd0_1_tight_lenratio_max_threshold = 3  --紧评判时两笔段长度比例最大值
-local bd0_1_tight_lenratio_min_threshold = 1/3  --紧评判时两笔段长度比例最小值
-
-local startpt,startindex = GetLeftMostPoint(bh)
-local endpt,endindex = GetBottomMostPoint(bh)
-
-if (startindex > endindex) then
-return false
-end
-
-local spt_ept_line = GetLine(startpt,endpt)
-local finalbh = GetTempBD(bh,startindex,endindex)
-local turning_pt,turning_index = GetFarthestPt2Line(bh,spt_ept_line)
-if (Point2LineUp(turning_pt,spt_ept_line) == false) then
-return false
-end
-
-
-bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index
-local bd0 = GetTempBD(bh,startindex,turning_index)
-local line0 = GetLine(startpt,turning_pt)
-local dis0 = GetFarDis2Line(bd0,line0)
-local bd0_jitter = GetTempBD(bh,1,startindex)
-local len_bd0 = GetBDLen(bd0)
-local len_bd0_jitter = GetBDLen(bd0_jitter)
-
-
-local bd1 = GetTempBD(bh,turning_index,endindex)
-local line1 = GetLine(turning_pt,endpt)
-local dis1 = GetFarDis2Line(bd1,line1)
-local bd1_jitter = GetTempBD(bh,endindex,#bh.ptSet)
-local len_bd1 = GetBDLen(bd1)
-local len_bd1_jitter = GetBDLen(bd1_jitter)
-
-local angel0 = 90
-if (turning_pt.x ~= startpt.x) then
-local slope0 = (turning_pt.y -  startpt.y)/(turning_pt.x - startpt.x)
-angel0 = math.deg(math.atan(slope0))
-end
-angel0 = math.abs(angel0)
-
-
-local angel1 = 90
-if (endpt.y ~= turning_pt.y) then
-local slope1 = (endpt.x - turning_pt.x) / (endpt.y - turning_pt.y)
-angel1 = math.deg ( math.atan(slope1))
-end
-angel1 = math.abs(angel1)
-
-
-local bd0_bd1_angel = 0
-bd0_bd1_angel = Cal_Angle (startpt,turning_pt,endpt)
-
-if (bl == 1) then
-    if (len_bd0_jitter/len_bd0 > loose_jitter_max_threshold or len_bd1_jitter/len_bd1 > loose_jitter_max_threshold )  then
-        return false
-    end
-    if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold) then
-        return false
-    end
-    if (angel0 > loose_angel_max_threshold or angel1 > loose_angel_max_threshold) then
-        return false
-    end
-    if (len_bd0 / len_bd1 > bd0_1_loose_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_loose_lenratio_min_threshold ) then
-        return false
-    end
-    if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
-        return false
-    end
-end
-
-if (bl == 2) then
-    if (len_bd0_jitter/len_bd0 > tight_jitter_max_threshold or len_bd1_jitter/len_bd1 > tight_jitter_max_threshold )  then
-        return false
-    end
-    if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold) then
-        return false
-    end
-    if (angel0 > tight_angel_max_threshold or angel1 > tight_angel_max_threshold) then
-        return false
-    end
-    if (len_bd0 / len_bd1 > bd0_1_tight_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_tight_lenratio_min_threshold ) then
-        return false
-    end
-    if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
-        return false
-    end
-
-end
-return true
-end
-
-
-function  IsHengZheWan(bh,bl)
-if (bl ~= 1 and bl~=2) then return end
-local loose_dis_max_threshold = 40      --松评判时笔迹到首尾点连线的最大距离
-local tight_dis_max_threshold = 20      --紧评判时笔迹到首尾点连线的最大距离
-
-local loose_angel_max_threshold = 30    --松评判时首尾点连线倾斜的最大角度
-local tight_angel_max_threshold = 15     --紧评判时首尾点连线倾斜的最大角度
-
-local loose_jitter_max_threshold = 1/5  --松评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-local tight_jitter_max_threshold = 1/10 --紧评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-
-local bd0_1_loose_angel_max_threshold = 120      --松评判时两笔段夹角的最大值(bd0-1和bd1-2阈值相同)
-local bd0_1_loose_angel_min_threshold =50        --松评判时两笔段夹角的最小值
-local bd0_1_tight_angel_max_threshold = 100      --紧评判时两笔段夹角的最大值
-local bd0_1_tight_angel_min_threshold =60        --紧评判时两笔段夹角的最小值
-local bd0_1_loose_lenratio_max_threshold = 5     --松评判时两笔段长度比例最大值
-local bd0_1_loose_lenratio_min_threshold = 1/5   --松评判时两笔段长度比例最小值
-local bd0_1_tight_lenratio_max_threshold = 3     --紧评判时两笔段长度比例最大值
-local bd0_1_tight_lenratio_min_threshold = 1/3   --紧评判时两笔段长度比例最小值
-
-local startpt,startindex = GetLeftMostPoint(bh)
-local endpt = GetEndPoint(bh)
-local endindex = #bh.ptSet
-
-if (startindex > endindex) then
-return false
-end
-
-local vpt = {}
-vpt.x = endpt.x
-vpt.y = startpt.y
-local turning_index_0 = 1
-local temp = 90
-for i = 1, #bh.ptSet do
-    local cpt = bh.ptSet[i]
-    local angel = 0
-    if (cpt.y == endpt.y) then
-	angel = 90
-    else
-	angel = Cal_Angle (cpt,endpt,vpt)
-    end
-    if (angel < temp) then
-        temp = angel
-        turning_index_0  = i
-    end
-end
-
-local turning_pt_0  = bh.ptSet[turning_index_0 ]
-local bd0 = GetTempBD(bh,startindex,turning_index_0 )
-local line0 = GetLine(startpt,turning_pt_0)
-local dis0 = GetFarDis2Line(bd0,line0)
-local bd0_jitter = GetTempBD(bh,1,startindex)
-local len_bd0 = GetBDLen(bd0)
-local len_bd0_jitter = GetBDLen(bd0_jitter)
-
-
-vpt.x = startpt.x
-vpt.y = endpt.y
-temp = 90
-local turning_index_1 = 1
-for i = 1,#bh.ptSet do
-    local cpt = bh.ptSet[i]
-    local angel = 0
-    if (cpt.y == startpt.y) then
-        angel = 90
-    else
-        angel = Cal_Angle(cpt,startpt,vpt)
-    end
-    if (angel < temp) then
-        temp = angel
-        turning_index_1= i
-    end
-end
-
-local turning_pt_1 = bh.ptSet[turning_index_1]
-local bd1 = GetTempBD(bh,turning_index_0,turning_index_1)
-local line1 = GetLine(turning_pt_0,turning_pt_1)
-local dis1 = GetFarDis2Line(bd1,line1)
-local len_bd1 = GetBDLen(bd1)
-
-local bd2 = GetTempBD(bh,turning_index_1,endindex)
-local line2 = GetLine(turning_pt_1,endpt)
-local dis2 = GetFarDis2Line(bd2,line2)
-local len_bd2 = GetBDLen(bd2)
-
-
-bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
-
-bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
-
-if(startpt.x > turning_pt_0.x or turning_pt_0.y > turning_pt_1.y or turning_pt_1.x > endpt.x ) then
-return false
-end
-
-local angel0 = 90
-if (turning_pt_0.x ~= startpt.x) then
-local slope0 = (turning_pt_0.y -  startpt.y)/(turning_pt_0.x - startpt.x)
-angel0 = math.deg(math.atan(slope0))
-end
-angel0 = math.abs(angel0)
-
-local angel1 = 90
-if (turning_pt_1.y ~= turning_pt_0.y) then
-local slope1 = (turning_pt_1.x - turning_pt_0.x) / (turning_pt_1.y - turning_pt_0.y)
-angel1 = math.deg ( math.atan(slope1))
-end
-angel1 = math.abs(angel1)
-
-local angel2 = 90
-if (endpt.x ~= turning_pt_1.x) then
-local slope2 = (endpt.y -  turning_pt_1.y)/(endpt.x - turning_pt_1.x)
-angel2 = math.deg(math.atan(slope2))
-end
-angel2 = math.abs(angel2)
-
-local bd0_bd1_angel = 0
-bd0_bd1_angel = Cal_Angle (startpt,turning_pt_0,turning_pt_1)
-local bd1_bd2_angel = 0
-bd1_bd2_angel = Cal_Angle (turning_pt_0,turning_pt_1,endpt)
-
-if (bl == 1) then
-    if (len_bd0_jitter/len_bd0 > loose_jitter_max_threshold )  then
-        return false
-    end
-    if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold or dis2 > loose_dis_max_threshold) then
-        return false
-    end
-    if (angel0 > loose_angel_max_threshold or angel1 > loose_angel_max_threshold ) then
-        return false
-    end
-    if (len_bd0 / len_bd1 > bd0_1_loose_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_loose_lenratio_min_threshold ) then
-        return false
-    end
-    if (len_bd1 / len_bd2 > bd0_1_loose_lenratio_max_threshold  or len_bd1/len_bd2 <bd0_1_loose_lenratio_min_threshold ) then
-        return false
-    end
-    if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
-        return false
-    end
-    if (bd1_bd2_angel > bd0_1_loose_angel_max_threshold or bd1_bd2_angel < bd0_1_loose_angel_min_threshold ) then
-        return false
-    end
-
-end
-
-if (bl == 2) then
-    if (len_bd0_jitter/len_bd0 > tight_jitter_max_threshold )  then
-        return false
-    end
-    if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold or dis2 > tight_dis_max_threshold) then
-        return false
-    end
-    if (angel0 > tight_angel_max_threshold or angel1 > tight_angel_max_threshold ) then
-        return false
-    end
-    if (len_bd0 / len_bd1 > bd0_1_tight_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_tight_lenratio_min_threshold ) then
-        return false
-    end
-    if (len_bd1 / len_bd2 > bd0_1_tight_lenratio_max_threshold  or len_bd1/len_bd2 <bd0_1_tight_lenratio_min_threshold ) then
-        return false
-    end
-    if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
-        return false
-    end
-    if (bd1_bd2_angel > bd0_1_tight_angel_max_threshold or bd1_bd2_angel < bd0_1_tight_angel_min_threshold ) then
-        return false
-    end
-
-end
-return true
-end
-
-
-function  IsHengZheZhe(bh,bl)
-if (bl ~= 1 and bl~=2) then return end
-
-local loose_dis_max_threshold = 40      --松评判时笔迹到首尾点连线的最大距离
-local tight_dis_max_threshold = 20      --紧评判时笔迹到首尾点连线的最大距离
-
-local loose_angel_max_threshold = 30    --松评判时首尾点连线倾斜的最大角度
-local tight_angel_max_threshold = 15     --紧评判时首尾点连线倾斜的最大角度
-
-local loose_jitter_max_threshold = 1/5  --松评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-local tight_jitter_max_threshold = 1/10 --紧评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-
-local bd0_1_loose_angel_max_threshold = 120      --松评判时两笔段夹角的最大值(bd0-1和bd1-2阈值相同)
-local bd0_1_loose_angel_min_threshold = 50        --松评判时两笔段夹角的最小值
-local bd0_1_tight_angel_max_threshold = 100      --紧评判时两笔段夹角的最大值
-local bd0_1_tight_angel_min_threshold =60        --紧评判时两笔段夹角的最小值
-local bd0_1_loose_lenratio_max_threshold = 5     --松评判时两笔段长度比例最大值
-local bd0_1_loose_lenratio_min_threshold = 1/5   --松评判时两笔段长度比例最小值
-local bd0_1_tight_lenratio_max_threshold = 3     --紧评判时两笔段长度比例最大值
-local bd0_1_tight_lenratio_min_threshold = 1/3   --紧评判时两笔段长度比例最小值
-
-local startpt,startindex = GetLeftMostPoint(bh)
-local endpt = GetEndPoint(bh)
-local endindex = #bh.ptSet
-
-if (startindex > endindex) then
-return false
-end
-
-local vpt = {}
-vpt.x = endpt.x
-vpt.y = startpt.y
-local turning_index_0 = 1
-local temp = 90
-for i = 1, #bh.ptSet do
-    local cpt = bh.ptSet[i]
-    local angel = 0
-    if (cpt.y == endpt.y) then
-	angel = 90
-    else
-	angel = Cal_Angle (cpt,endpt,vpt)
-    end
-    if (angel < temp) then
-        temp = angel
-        turning_index_0  = i
-    end
-end
-
-local turning_pt_0  = bh.ptSet[turning_index_0 ]
-local bd0 = GetTempBD(bh,startindex,turning_index_0 )
-local line0 = GetLine(startpt,turning_pt_0)
-local dis0 = GetFarDis2Line(bd0,line0)
-local bd0_jitter = GetTempBD(bh,1,startindex)
-local len_bd0 = GetBDLen(bd0)
-local len_bd0_jitter = GetBDLen(bd0_jitter)
-
-
-vpt.x = startpt.x
-vpt.y = endpt.y
-temp = 90
-local turning_index_1 = 1
-for i = 1,#bh.ptSet do
-    local cpt = bh.ptSet[i]
-    local angel = 0
-    if (cpt.y == startpt.y) then
-        angel = 90
-    else
-        angel = Cal_Angle(cpt,startpt,vpt)
-    end
-    if (angel < temp) then
-        temp = angel
-        turning_index_1= i
-    end
-end
-
-local turning_pt_1 = bh.ptSet[turning_index_1]
-local bd1 = GetTempBD(bh,turning_index_0,turning_index_1)
-local line1 = GetLine(turning_pt_0,turning_pt_1)
-local dis1 = GetFarDis2Line(bd1,line1)
-local len_bd1 = GetBDLen(bd1)
-
-local bd2 = GetTempBD(bh,turning_index_1,endindex)
-local line2 = GetLine(turning_pt_1,endpt)
-local dis2 = GetFarDis2Line(bd2,line2)
-local len_bd2 = GetBDLen(bd2)
-
-bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
-bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
-
-if(startpt.x > turning_pt_0.x or turning_pt_0.y > turning_pt_1.y or turning_pt_1.x > endpt.x ) then
-return false
-end
-
-local angel0 = 90
-if (turning_pt_0.x ~= startpt.x) then
-local slope0 = (turning_pt_0.y -  startpt.y)/(turning_pt_0.x - startpt.x)
-angel0 = math.deg(math.atan(slope0))
-end
-angel0 = math.abs(angel0)
-
-local angel1 = 90
-if (turning_pt_1.y ~= turning_pt_0.y) then
-local slope1 = (turning_pt_1.x - turning_pt_0.x) / (turning_pt_1.y - turning_pt_0.y)
-angel1 = math.deg ( math.atan(slope1))
-end
-angel1 = math.abs(angel1)
-
-local angel2 = 90
-if (endpt.x ~= turning_pt_1.x) then
-local slope2 = (endpt.y -  turning_pt_1.y)/(endpt.x - turning_pt_1.x)
-angel2 = math.deg(math.atan(slope2))
-end
-angel2 = math.abs(angel2)
-
-local bd0_bd1_angel = 0
-bd0_bd1_angel = Cal_Angle (startpt,turning_pt_0,turning_pt_1)
-local bd1_bd2_angel = 0
-bd1_bd2_angel = Cal_Angle (turning_pt_0,turning_pt_1,endpt)
-
-if (bl == 1) then
-    if (len_bd0_jitter/len_bd0 > loose_jitter_max_threshold )  then
-        return false
-    end
-    if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold or dis2 > loose_dis_max_threshold) then
-        return false
-    end
-    if (angel0 > loose_angel_max_threshold or angel1 > loose_angel_max_threshold or angel2 > loose_angel_max_threshold) then
-        return false
-    end
-    if (len_bd0 / len_bd1 > bd0_1_loose_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_loose_lenratio_min_threshold ) then
-        return false
-    end
-    if (len_bd1 / len_bd2 > bd0_1_loose_lenratio_max_threshold  or len_bd1/len_bd2 <bd0_1_loose_lenratio_min_threshold ) then
-        return false
-    end
-    if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
-        return false
-    end
-    if (bd1_bd2_angel > bd0_1_loose_angel_max_threshold or bd1_bd2_angel < bd0_1_loose_angel_min_threshold ) then
-        return false
-    end
-
-end
-
-if (bl == 2) then
-    if (len_bd0_jitter/len_bd0 > tight_jitter_max_threshold )  then
-        return false
-    end
-    if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold or dis2 > tight_dis_max_threshold) then
-        return false
-    end
-    if (angel0 > tight_angel_max_threshold or angel1 > tight_angel_max_threshold or angel2 > tight_angel_max_threshold) then
-        return false
-    end
-    if (len_bd0 / len_bd1 > bd0_1_tight_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_tight_lenratio_min_threshold ) then
-        return false
-    end
-    if (len_bd1 / len_bd2 > bd0_1_tight_lenratio_max_threshold  or len_bd1/len_bd2 <bd0_1_tight_lenratio_min_threshold ) then
-        return false
-    end
-    if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
-        return false
-    end
-    if (bd1_bd2_angel > bd0_1_tight_angel_max_threshold or bd1_bd2_angel < bd0_1_tight_angel_min_threshold ) then
-        return false
-    end
-
-end
-return true
-end
-
-
-function  IsHengZheTi(bh,bl)
-if (bl ~= 1 and bl~=2) then return end
-
-local loose_dis_max_threshold = 40      --松评判时笔迹到首尾点连线的最大距离
-local tight_dis_max_threshold = 20      --紧评判时笔迹到首尾点连线的最大距离
-
-local loose_angel_max_threshold = 30    --松评判时首尾点连线倾斜的最大角度
-local tight_angel_max_threshold = 15     --紧评判时首尾点连线倾斜的最大角度
-
-local loose_jitter_max_threshold = 1/5  --松评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-local tight_jitter_max_threshold = 1/10 --紧评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-
-
-local bd0_1_loose_angel_max_threshold = 120  --松评判时两笔段夹角的最大值
-local bd0_1_loose_angel_min_threshold =50    --松评判时两笔段夹角的最小值
-local bd0_1_tight_angel_max_threshold = 100  --紧评判时两笔段夹角的最大值
-local bd0_1_tight_angel_min_threshold =60    --紧评判时两笔段夹角的最小值
-
-local bd1_2_loose_angel_max_threshold = 80  --松评判时两笔段夹角的最大值
-local bd1_2_loose_angel_min_threshold = 10    --松评判时两笔段夹角的最小值
-local bd1_2_tight_angel_max_threshold = 70  --紧评判时两笔段夹角的最大值
-local bd1_2_tight_angel_min_threshold = 20    --紧评判时两笔段夹角的最小值
-
-local bd0_1_loose_lenratio_max_threshold = 2    --松评判时两笔段长度比例最大值
-local bd0_1_tight_lenratio_max_threshold = 2  --紧评判时两笔段长度比例最大值
-local bd0_1_tight_lenratio_min_threshold = 1/5  --紧评判时两笔段长度比例最小值
-
-
-local startpt,startindex = GetLeftMostPoint(bh)
-local endpt = GetEndPoint(bh)
-local endindex = #bh.ptSet
-local turning_pt_1,turning_index_1 = GetBottomMostPoint(bh)
-
-
-local spt_tpt1_line = GetLine(startpt,turning_pt_1)
-local spt_tpt1_bd = GetTempBD(bh,1,turning_index_1)
-local turning_pt_0,turning_index_0 = GetFarthestPt2Line(spt_tpt1_bd,spt_tpt1_line)
-
-bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
-bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
-local bd0 = GetTempBD(bh,startindex,turning_index_0)
-local line0 = GetLine(startpt,turning_pt_0)
-local dis0 = GetFarDis2Line(bd0,line0)
-local bd0_jitter = GetTempBD(bh,1,startindex)
-local len_bd0 = GetBDLen(bd0)
-local len_bd0_jitter = GetBDLen(bd0_jitter)
-
-
-local bd1 = GetTempBD(bh,turning_index_0,turning_index_1)
-local line1 = GetLine(turning_pt_0,turning_pt_1)
-local dis1 = GetFarDis2Line(bd1,line1)
-local len_bd1 = GetBDLen(bd1)
-
-
-
-local bd2 = GetTempBD(bh,turning_index_1,endindex)
-local line2 = GetLine(turning_pt_1,endpt)
-local dis2 = GetFarDis2Line(bd2,line2)
-local len_bd2 = GetBDLen(bd2)
-
-
-if ( endpt.x < turning_pt_1.x ) then
-return false
-end
-
-
-
-local angel0 = 90
-if (turning_pt_0.x ~= startpt.x) then
-local slope0 = (turning_pt_0.y -  startpt.y)/(turning_pt_0.x - startpt.x)
-angel0 = math.deg(math.atan(slope0))
-end
-angel0 = math.abs(angel0)
-
-
-local angel1 = 90
-if (turning_pt_1.y ~= turning_pt_0.y) then
-local slope1 = (turning_pt_1.x - turning_pt_0.x) / (turning_pt_1.y - turning_pt_0.y)
-angel1 = math.deg ( math.atan(slope1))
-end
-angel1 = math.abs(angel1)
-
-
-local bd0_bd1_angel = 0
-bd0_bd1_angel = Cal_Angle (startpt,turning_pt_0,turning_pt_1)
-
-
-local bd1_bd2_angel = 0
-bd1_bd2_angel = Cal_Angle(turning_pt_0,turning_pt_1,endpt)
-
-
-
-
-
-if (bl == 1) then
-    if (len_bd0_jitter/len_bd0 > loose_jitter_max_threshold)  then
-        return false
-    end
-    if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold or dis2 > loose_dis_max_threshold) then
-        return false
-    end
-    if (angel0 > loose_angel_max_threshold or angel1 > loose_angel_max_threshold) then
-        return false
-    end
-    if (len_bd0 / len_bd1 > bd0_1_loose_lenratio_max_threshold ) then
-        return false
-    end
-    if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
-        return false
-    end
-
-    if (bd1_bd2_angel > bd1_2_loose_angel_max_threshold or bd1_bd2_angel < bd1_2_loose_angel_min_threshold ) then
-        return false
-    end
-end
-
-if (bl == 2) then
-    if (len_bd0_jitter/len_bd0 > tight_jitter_max_threshold )  then
-        return false
-    end
-    if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold or dis2 > tight_dis_max_threshold) then
-        return false
-    end
-    if (angel0 > tight_angel_max_threshold or angel1 > tight_angel_max_threshold) then
-        return false
-    end
-    if (len_bd0 / len_bd1 > bd0_1_tight_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_tight_lenratio_min_threshold ) then
-        return false
-    end
-    if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
-        return false
-    end
-    if (bd1_bd2_angel > bd1_2_tight_angel_max_threshold or bd1_bd2_angel < bd1_2_tight_angel_min_threshold ) then
-        return false
-    end
-end
-
-return true
-end
-
-
-
-function  IsHengZheWanGou(bh,bl)
-if (bl ~= 1 and bl~=2) then return end
-
-local loose_dis_max_threshold = 100      --松评判时笔迹到首尾点连线的最大距离
-local tight_dis_max_threshold = 50      --紧评判时笔迹到首尾点连线的最大距离
-
-local loose_angel_max_threshold = 45    --松评判时首尾点连线倾斜的最大角度
-local tight_angel_max_threshold = 30     --紧评判时首尾点连线倾斜的最大角度
-
-local loose_jitter_max_threshold = 1/5  --松评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-local tight_jitter_max_threshold = 1/10 --紧评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-
-local bd0_1_loose_angel_max_threshold = 120      --松评判时两笔段夹角的最大值(bd0-1和bd1-2阈值相同)
-local bd0_1_loose_angel_min_threshold = 30        --松评判时两笔段夹角的最小值
-local bd0_1_tight_angel_max_threshold = 100      --紧评判时两笔段夹角的最大值
-local bd0_1_tight_angel_min_threshold = 40        --紧评判时两笔段夹角的最小值
-local bd0_1_loose_lenratio_max_threshold = 10     --松评判时两笔段长度比例最大值
-local bd0_1_loose_lenratio_min_threshold = 1/10   --松评判时两笔段长度比例最小值
-local bd0_1_tight_lenratio_max_threshold = 5     --紧评判时两笔段长度比例最大值
-local bd0_1_tight_lenratio_min_threshold = 1/5   --紧评判时两笔段长度比例最小值
-
-local startpt,startindex = GetLeftMostPoint(bh)
-local endpt = GetEndPoint(bh)
-local endindex = #bh.ptSet
-
-if (startindex > endindex) then
-return false
-end
-
---先找到最后一个拐点
-local tempdis = 512
-local turning_index_2 = 1
-local edget = {}
-edget.x = 512
-edget.y = 512
-
-for i = 1, #bh.ptSet do
-    local curpt = bh.ptSet[i]
-    local curdis =  GetDistance(curpt,edget)
-    if (curdis < tempdis) then
-         tempdis = curdis
-         turning_index_2 = i
-    end
-end
-local turning_pt_2 = bh.ptSet[turning_index_2]
-
-local bd3 = GetTempBD(bh,turning_index_2,endindex)
-local line3 = GetLine(turning_pt_2,endpt)
-local dis3 = GetFarDis2Line(bd3,line3)
-local len_bd3 = GetBDLen(bd3)
-
-local vpt = {}
-vpt.x = endpt.x
-vpt.y = startpt.y
-local turning_index_0 = 1
-local temp = 90
-for i = 1, turning_index_2 do
-    local cpt = bh.ptSet[i]
-    local angel = 0
-    if (cpt.y == turning_pt_2.y) then
-	angel = 90
-    else
-	angel = Cal_Angle (cpt,turning_pt_2,vpt)
-    end
-    if (angel < temp) then
-        temp = angel
-        turning_index_0  = i
-    end
-end
-
-
-local turning_pt_0  = bh.ptSet[turning_index_0 ]
-local bd0 = GetTempBD(bh,startindex,turning_index_0 )
-local line0 = GetLine(startpt,turning_pt_0)
-local dis0 = GetFarDis2Line(bd0,line0)
-local len_bd0 = GetBDLen(bd0)
-
-
-
-
-vpt.x = startpt.x
-vpt.y = endpt.y
-temp = 90
-local turning_index_1 = 1
-for i = 1,turning_index_2 do
-    local cpt = bh.ptSet[i]
-    local angel = 0
-    if (cpt.y == startpt.y) then
-        angel = 90
-    else
-        angel = Cal_Angle(cpt,startpt,vpt)
-    end
-    if (angel < temp) then
-        temp = angel
-        turning_index_1= i
-    end
-end
-
-
-
-local turning_pt_1 = bh.ptSet[turning_index_1]
-local bd1 = GetTempBD(bh,turning_index_0,turning_index_1)
-local line1 = GetLine(turning_pt_0,turning_pt_1)
-local dis1 = GetFarDis2Line(bd1,line1)
-local len_bd1 = GetBDLen(bd1)
-
-
-
-local bd2 = GetTempBD(bh,turning_index_1,turning_index_2)
-local line2 = GetLine(turning_pt_1,turning_pt_2)
-local dis2 = GetFarDis2Line(bd2,line2)
-local len_bd2 = GetBDLen(bd2)
-
-if(startpt.x > turning_pt_0.x or turning_pt_0.y > turning_pt_1.y or turning_pt_1.x > endpt.x ) then
-return false
-end
-
-bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
-bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
-bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_2
-
-local angel0 = 90
-if (turning_pt_0.x ~= startpt.x) then
-local slope0 = (turning_pt_0.y -  startpt.y)/(turning_pt_0.x - startpt.x)
-angel0 = math.deg(math.atan(slope0))
-end
-angel0 = math.abs(angel0)
-
-local angel1 = 90
-if (turning_pt_1.y ~= turning_pt_0.y) then
-local slope1 = (turning_pt_1.x - turning_pt_0.x) / (turning_pt_1.y - turning_pt_0.y)
-angel1 = math.deg ( math.atan(slope1))
-end
-angel1 = math.abs(angel1)
-
-local angel2 = 90
-if (endpt.x ~= turning_pt_1.x) then
-local slope2 = (endpt.y -  turning_pt_1.y)/(endpt.x - turning_pt_1.x)
-angel2 = math.deg(math.atan(slope2))
-end
-angel2 = math.abs(angel2)
-
-local bd0_bd1_angel = 0
-bd0_bd1_angel = Cal_Angle (startpt,turning_pt_0,turning_pt_1)
-local bd1_bd2_angel = 0
-bd1_bd2_angel = Cal_Angle (turning_pt_0,turning_pt_1,endpt)
-
-if (bl == 1) then
-    if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold or dis2 > loose_dis_max_threshold) then
-        return false
-    end
-    if (angel0 > loose_angel_max_threshold or angel1 > loose_angel_max_threshold ) then
-       return false
-    end
-    if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
-        return false
-    end
-    if (bd1_bd2_angel > bd0_1_loose_angel_max_threshold or bd1_bd2_angel < bd0_1_loose_angel_min_threshold ) then
-        return false
-    end
-end
-
-if (bl == 2) then
-	if (len_bd3 < 3) then
-		return false
-	end
-
-    if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold or dis2 > tight_dis_max_threshold) then
-		  return false
-    end
-    if (angel0 > tight_angel_max_threshold or angel1 > tight_angel_max_threshold ) then
-		  return false
-    end
-    if (len_bd0 / len_bd1 > bd0_1_tight_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_tight_lenratio_min_threshold ) then
-		  return false
-    end
-	if (len_bd1 / len_bd2 > bd0_1_tight_lenratio_max_threshold  or len_bd1/len_bd2 <bd0_1_tight_lenratio_min_threshold ) then
-		  return false
-    end
-    if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
-
-		  return false
-    end
-    if (bd1_bd2_angel > bd0_1_tight_angel_max_threshold or bd1_bd2_angel < bd0_1_tight_angel_min_threshold ) then
-		  return false
-    end
-
-end
-return true
-
-end
-
-
-function  IsShuWan(bh,bl)
-if (bl ~= 1 and bl~=2) then return end
-
-local loose_dis_max_threshold = 40      --松评判时笔迹到首尾点连线的最大距离
-local tight_dis_max_threshold = 20      --紧评判时笔迹到首尾点连线的最大距离
-
-local loose_angel_max_threshold = 30    --松评判时首尾点连线倾斜的最大角度
-local tight_angel_max_threshold = 15     --紧评判时首尾点连线倾斜的最大角度
-
-local loose_jitter_max_threshold = 1/5  --松评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-local tight_jitter_max_threshold = 1/10 --紧评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-
-
-local bd0_1_loose_angel_max_threshold = 130  --松评判时两笔段夹角的最大值
-local bd0_1_loose_angel_min_threshold =60    --松评判时两笔段夹角的最小值
-local bd0_1_tight_angel_max_threshold = 120  --紧评判时两笔段夹角的最大值
-local bd0_1_tight_angel_min_threshold =70    --紧评判时两笔段夹角的最小值
-local bd0_1_loose_lenratio_max_threshold = 5    --松评判时两笔段长度比例最大值
-local bd0_1_loose_lenratio_min_threshold = 1/5  --松评判时两笔段长度比例最小值
-local bd0_1_tight_lenratio_max_threshold = 3  --紧评判时两笔段长度比例最大值
-local bd0_1_tight_lenratio_min_threshold = 1/3  --紧评判时两笔段长度比例最小值
-
-local startpt,startindex = GetTopMostPoint(bh)
-local endpt,endindex = GetRightMostPoint(bh)
-
-if (startindex > endindex) then
-return false
-end
-
-local spt_ept_line = GetLine(startpt,endpt)
-local finalbh = GetTempBD(bh,startindex,endindex)
-local turning_pt,turning_index = GetFarthestPt2Line(bh,spt_ept_line)
-if (Point2LineDown(turning_pt,spt_ept_line) == false) then
-return false
-end
-bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index
-
-local bd0 = GetTempBD(bh,startindex,turning_index)
-local line0 = GetLine(startpt,turning_pt)
-local dis0 = GetFarDis2Line(bd0,line0)
-local bd0_jitter = GetTempBD(bh,1,startindex)
-local len_bd0 = GetBDLen(bd0)
-local len_bd0_jitter = GetBDLen(bd0_jitter)
-
-
-local bd1 = GetTempBD(bh,turning_index,endindex)
-local line1 = GetLine(turning_pt,endpt)
-local dis1 = GetFarDis2Line(bd1,line1)
-local bd1_jitter = GetTempBD(bh,endindex,#bh.ptSet)
-local len_bd1 = GetBDLen(bd1)
-local len_bd1_jitter = GetBDLen(bd1_jitter)
-
-local angel0 = 90
-if (turning_pt.y ~= startpt.y) then
-local slope0 = (turning_pt.x -  startpt.x)/(turning_pt.y - startpt.y)
-angel0 = math.deg(math.atan(slope0))
-end
-angel0 = math.abs(angel0)
-
-
-local angel1 = 90
-if (endpt.x ~= turning_pt.x) then
-local slope1 = (endpt.y - turning_pt.y) / (endpt.x - turning_pt.x)
-angel1 = math.deg ( math.atan(slope1))
-end
-angel1 = math.abs(angel1)
-
-
-local bd0_bd1_angel = 0
-bd0_bd1_angel = Cal_Angle (startpt,turning_pt,endpt)
-if (bl == 1) then
-    if (len_bd0_jitter/len_bd0 > loose_jitter_max_threshold or len_bd1_jitter/len_bd1 > loose_jitter_max_threshold )  then
-        return false
-    end
-    if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold) then
-        return false
-    end
-    if (angel0 > loose_angel_max_threshold or angel1 > loose_angel_max_threshold) then
-        return false
-    end
-    if (len_bd0 / len_bd1 > bd0_1_loose_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_loose_lenratio_min_threshold ) then
-        return false
-    end
-    if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
-        return false
-    end
-end
-
-if (bl == 2) then
-    if (len_bd0_jitter/len_bd0 > tight_jitter_max_threshold or len_bd1_jitter/len_bd1 > tight_jitter_max_threshold )  then
-        return false
-    end
-    if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold) then
-        return false
-    end
-    if (angel0 > tight_angel_max_threshold or angel1 > tight_angel_max_threshold) then
-        return false
-    end
-    if (len_bd0 / len_bd1 > bd0_1_tight_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_tight_lenratio_min_threshold ) then
-        return false
-    end
-    if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
-        return false
-    end
-end
-return true
-end
-
-
-function  IsShuZheZhe(bh,bl)
-if (bl ~= 1 and bl~=2) then return end
-local loose_dis_max_threshold = 40      --松评判时笔迹到首尾点连线的最大距离
-local tight_dis_max_threshold = 20      --紧评判时笔迹到首尾点连线的最大距离
-
-local loose_angel_max_threshold = 30    --松评判时首尾点连线倾斜的最大角度
-local tight_angel_max_threshold = 15     --紧评判时首尾点连线倾斜的最大角度
-
-local loose_jitter_max_threshold = 1/5  --松评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-local tight_jitter_max_threshold = 1/10 --紧评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-
-local bd0_1_loose_angel_max_threshold = 130  --松评判时两笔段夹角的最大值
-local bd0_1_loose_angel_min_threshold =45    --松评判时两笔段夹角的最小值
-local bd0_1_tight_angel_max_threshold = 120  --紧评判时两笔段夹角的最大值
-local bd0_1_tight_angel_min_threshold =70    --紧评判时两笔段夹角的最小值
-local bd0_1_loose_lenratio_max_threshold = 5    --松评判时两笔段长度比例最大值
-local bd0_1_loose_lenratio_min_threshold = 1/5  --松评判时两笔段长度比例最小值
-local bd0_1_tight_lenratio_max_threshold = 3  --紧评判时两笔段长度比例最大值
-local bd0_1_tight_lenratio_min_threshold = 1/3  --紧评判时两笔段长度比例最小值
-
-local bd1_2_loose_angel_max_threshold = 130  --松评判时两笔段夹角的最大值
-local bd1_2_loose_angel_min_threshold = 60    --松评判时两笔段夹角的最小值
-local bd1_2_tight_angel_max_threshold = 120  --紧评判时两笔段夹角的最大值
-local bd1_2_tight_angel_min_threshold = 70    --紧评判时两笔段夹角的最小值
-
-
-local startpt,startindex = GetTopMostPoint(bh)
-local endpt,endindex = GetBottomMostPoint(bh)
-
-if (startpt.y > endpt.y ) then
-return false
-end
-
-local vpt0 = {}
-vpt0.x = 512
-vpt0.y = 0
-
-
-local vpt1 = {}
-vpt1.x = 0
-vpt1.y = 512
-
-
-local turning_index0 = 1
-local minDis = 512
-for i = startindex,#bh.ptSet do
-    local curpt = bh.ptSet[i]
-    local tempDis = GetDistance(curpt,vpt0)
-    if (tempDis < minDis ) then
-        turning_index_0 = i
-        minDis  = tempDis
-    end
-end
-
-local turning_index_1 = 1
-minDis = 512
-for i = startindex,#bh.ptSet do
-    local curpt = bh.ptSet[i]
-    local tempDis = GetDistance(curpt,vpt1)
-    if (tempDis < minDis ) then
-        turning_index_1 = i
-        minDis  = tempDis
-    end
-end
-
-
-local turning_pt_0 = bh.ptSet[turning_index_0]
-local turning_pt_1 = bh.ptSet[turning_index_1]
-
-
-local bd0 = GetTempBD(bh,startindex,turning_index_0)
-local bd1 = GetTempBD(bh,turning_index_0,turning_index_1)
-local bd2 = GetTempBD(bh,turning_index_1,endindex)
-
-local line0 = GetLine(startpt,turning_pt_0)
-local line1 = GetLine(turning_pt_0,turning_pt_1)
-local line2 = GetLine(turning_pt_1,endpt)
-
-
-
-local dis0 = GetFarDis2Line(bd0,line0)
-local dis1 = GetFarDis2Line(bd1,line1)
-local dis2 = GetFarDis2Line(bd2,line2)
-
-local len_bd0 = GetBDLen(bd0)
-local len_bd1 = GetBDLen(bd1)
-local len_bd2 = GetBDLen(bd2)
-if (turning_pt_0.x > endpt.x or turning_pt_0.y < startpt.y ) then
-return false
-end
-
-
-local angel0 = 90
-if (turning_pt_0.y ~= startpt.y) then
-local slope0 = (turning_pt_0.x -  startpt.x)/(turning_pt_0.y - startpt.y)
-angel0 = math.deg(math.atan(slope0))
-end
-angel0 = math.abs(angel0)
-
-local angel1 = 90
-if (turning_pt_1.x ~= turning_pt_0.x) then
-local slope1 = (turning_pt_1.y - turning_pt_0.y) / (turning_pt_1.x - turning_pt_0.x)
-angel1 = math.deg ( math.atan(slope1))
-end
-angel1 = math.abs(angel1)
-
-
-local angel2 = 90
-if (turning_pt_1.y ~= endpt.y) then
-local slope2 = (endpt.x -  turning_pt_1.x)/(endpt.y - turning_pt_1.y)
-angel0 = math.deg(math.atan(slope2))
-end
-angel2 = math.abs(angel2)
-
-bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
-bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
-
-
-local bd0_bd1_angel = 0
-bd0_bd1_angel = Cal_Angle (startpt,turning_pt_0,turning_pt_1)
-
-
-local bd1_bd2_angel = 0
-bd1_bd2_angel = Cal_Angle (turning_pt_0,turning_pt_1,endpt)
-
-if (bl == 1) then
-    if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold or dis2 > loose_dis_max_threshold) then
-        return false
-    end
-    if (angel0 > loose_angel_max_threshold or angel1 > loose_angel_max_threshold or angel2 > loose_angel_max_threshold) then
-        return false
-    end
-
-
-
-    if (len_bd0 / len_bd1 > bd0_1_loose_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_loose_lenratio_min_threshold ) then
-        return false
-    end
-
-    if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
-        return false
-    end
-
-   if (bd1_bd2_angel > bd1_2_loose_angel_max_threshold or bd1_bd2_angel < bd1_2_loose_angel_min_threshold ) then
-        return false
-    end
-
-end
-if (bl == 2) then
-    if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold or dis2 > tight_dis_max_threshold) then
-        return false
-    end
-    if (angel0 > bd0_tight_angel_max_threshold  or angel1 > bd1_tight_angel_max_threshold ) then
-        return false
-    end
-
-    if (angel0 < bd0_tight_angel_min_threshold ) then
-        return false
-    end
-
-
-    if (len_bd0 / len_bd1 > bd0_1_tight_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_tight_lenratio_min_threshold ) then
-        return false
-    end
-
-    if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
-        return false
-    end
-
-   if (bd1_bd2_angel > bd1_2_tight_angel_max_threshold or bd1_bd2_angel < bd1_2_tight_angel_min_threshold ) then
-        return false
-    end
-end
-return true
-end
-
-
-function  IsShuZheZheGou(bh,bl)
-if (bl ~= 1 and bl~=2) then return end
-local bd0_loose_angel_max_threshold = 30    --松评判时笔段0偏移竖直方向最大的角度
-local bd0_tight_angel_max_threshold = 15     --紧评判时bd0偏离水平方向的最大角度
-
-local bd1_loose_angel_max_threshold = 40     --松评判时笔段1偏移水平方向最大的角度
-local bd1_tight_angel_max_threshold = 20     --紧评判时bd1偏离水平方向的最大的角度
-
-local bd2_loose_angel_max_threshold = 30    --bd2偏离水平方向的最大角度
-local bd2_tight_angel_max_threshold = 15
-
-local loose_dis_max_threshold = 40          --松评判时笔迹到首尾点连线的最大距离
-local tight_dis_max_threshold = 20
-
-local bd0_1_loose_angel_max_threshold = 120  --松评判时两笔段夹角的最大值
-local bd0_1_loose_angel_min_threshold =45   --松评判时两笔段夹角的最小值
-local bd0_1_tight_angel_max_threshold = 90  --紧评判时两笔段夹角的最大值
-local bd0_1_tight_angel_min_threshold =60   --紧评判时两笔段夹角的最小值
-local bd0_1_loose_lenratio_max_threshold = 5    --松评判时两笔段长度比例最大值
-local bd0_1_loose_lenratio_min_threshold = 1/5  --松评判时两笔段长度比例最小值
-local bd0_1_tight_lenratio_max_threshold = 3    --紧评判时两笔段长度比例最大值
-local bd0_1_tight_lenratio_min_threshold = 1/3  --紧评判时两笔段长度比例最小值
-
-local bd1_2_loose_angel_max_threshold = 120    --松评判时两笔段夹角的最大值
-local bd1_2_loose_angel_min_threshold = 30    --松评判时两笔段夹角的最小值
-local bd1_2_tight_angel_max_threshold = 90    --紧评判时两笔段夹角的最大值
-local bd1_2_tight_angel_min_threshold = 40    --紧评判时两笔段夹角的最小值
-
-
-local startpt,startindex = GetTopMostPoint(bh)
-local endpt = GetEndPoint(bh)
-local endindex = #bh.ptSet
-local turning_pt_2,turning_index_2 = GetBottomMostPoint(bh)
-local turning_pt_0,turning_index_0 = GetLeftMostPoint(bh)
-local turning_pt_1,turning_index_1 = GetRightMostPoint(bh)
-
-local bd0 = GetTempBD(bh,startindex,turning_index_0)
-local bd1 = GetTempBD(bh,turning_index_0,turning_index_1)
-local bd2 = GetTempBD(bh,turning_index_1,turning_index_2)
-local bd3 = GetTempBD(bh,turning_index_2,endindex)
-
-
-local line0 = GetLine(startpt,turning_pt_0)
-local line1 = GetLine(turning_pt_0,turning_pt_1)
-local line2 = GetLine(turning_pt_1,turning_pt_2)
-local line3 = GetLine(turning_pt_2,endpt)
-
-local dis0 = GetFarDis2Line(bd0,line0)
-local dis1 = GetFarDis2Line(bd1,line1)
-local dis2 = GetFarDis2Line(bd2,line2)
-local dis3 = GetFarDis2Line(bd3,line3)
-
-local len_bd0 = GetBDLen(bd0)
-local len_bd1 = GetBDLen(bd1)
-local len_bd2 = GetBDLen(bd2)
-local len_bd3 = GetBDLen(bd3)
-
-local angel0 = 90
-if (turning_pt_0.y ~= startpt.y) then
-local slope0 = (turning_pt_0.x -  startpt.x)/(turning_pt_0.y - startpt.y)
-angel0 = math.deg(math.atan(slope0))
-end
-angel0 = math.abs(angel0)
-
-local angel1 = 90
-if (turning_pt_1.x ~= turning_pt_0.x) then
-local slope1 = (turning_pt_1.y - turning_pt_0.y) / (turning_pt_1.x - turning_pt_0.x)
-angel1 = math.deg ( math.atan(slope1))
-end
-angel1 = math.abs(angel1)
-
-local angel2 = 90
-if (turning_pt_2.y ~= turning_pt_1.y) then
-local slope2 = (turning_pt_0.x -  startpt.x)/(turning_pt_0.y - startpt.y)
-angel2 = math.deg(math.atan(slope2))
-end
-angel2 = math.abs(angel0)
-
-local bd0_bd1_angel = 0
-bd0_bd1_angel = Cal_Angle (startpt,turning_pt_0,turning_pt_1)
-
-
-local bd1_bd2_angel = 0
-bd1_bd2_angel = Cal_Angle (turning_pt_0,turning_pt_1,endpt)
-
-bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
-bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
-bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_2
-
-
-
-
-if (bl == 1) then
-    if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold or dis2 > loose_dis_max_threshold or dis3 > loose_dis_max_threshold ) then
-        return false
-    end
-    if (angel0 > bd0_loose_angel_max_threshold  or angel1 > bd1_loose_angel_max_threshold or angel2 > bd2_loose_angel_max_threshold) then
-        return false
-    end
-    if (len_bd0 / len_bd1 > bd0_1_loose_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_loose_lenratio_min_threshold ) then
-        return false
-    end
-
-    if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
-        return false
-    end
-
-   if (bd1_bd2_angel > bd1_2_loose_angel_max_threshold or bd1_bd2_angel < bd1_2_loose_angel_min_threshold ) then
-        return false
-    end
-end
-
-if (bl == 2) then
-    if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold or dis2 > tight_dis_max_threshold or dis3 > tight_dis_max_threshold ) then
-        return false
-    end
-
-    if (angel0 > bd0_tight_angel_max_threshold  or angel1 > bd1_tight_angel_max_threshold or angel2 > bd2_tight_angel_max_threshold) then
-        return false
-    end
-    if (len_bd0 / len_bd1 > bd0_1_tight_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_tight_lenratio_min_threshold ) then
-        return false
-    end
-    if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
-        return false
-    end
-
-    if (bd1_bd2_angel > bd1_2_tight_angel_max_threshold or bd1_bd2_angel < bd1_2_tight_angel_min_threshold ) then
-        return false
-    end
-end
-return true
-end
-
-
-function  IsShuZhePie(bh,bl)
-if (bl ~= 1 and bl~=2) then return end
-local bd0_loose_angel_max_threshold = 80    --松评判时笔段0偏移竖直方向最大的角度
-local bd0_loose_angel_min_threshold = 10    --松评判时笔段0偏移竖直方向最小的角度 [bd0_angel_min,bd0_ngel_max]
-
-local bd0_tight_angel_max_threshold = 60     --紧评判时bd0偏离水平方向的最大角度
-local bd0_tight_angel_min_threshold = 10     --紧评判时bd0偏离水平方向的最小角度
-
-local bd1_loose_angel_max_threshold = 40     --松评判时笔段1偏移水平方向最大的角度
-local bd1_tight_angel_max_threshold = 20     --紧评判时bd1偏离水平方向的最大的角度
-
-local loose_dis_max_threshold = 40      --松评判时笔迹到首尾点连线的最大距离
-local tight_dis_max_threshold = 20      --紧评判时笔迹到首尾点连线的最大距离
-
-local loose_angel_max_threshold = 30    --松评判时首尾点连线倾斜的最大角度
-local tight_angel_max_threshold = 15    --紧评判时首尾点连线倾斜的最大角度
-
-local bd0_1_loose_angel_max_threshold = 85  --松评判时两笔段夹角的最大值
-local bd0_1_loose_angel_min_threshold =30    --松评判时两笔段夹角的最小值
-local bd0_1_tight_angel_max_threshold = 70  --紧评判时两笔段夹角的最大值
-local bd0_1_tight_angel_min_threshold =40    --紧评判时两笔段夹角的最小值
-local bd0_1_loose_lenratio_max_threshold = 5    --松评判时两笔段长度比例最大值
-local bd0_1_loose_lenratio_min_threshold = 1/5  --松评判时两笔段长度比例最小值
-local bd0_1_tight_lenratio_max_threshold = 3  --紧评判时两笔段长度比例最大值
-local bd0_1_tight_lenratio_min_threshold = 1/3  --紧评判时两笔段长度比例最小值
-
-local bd1_2_loose_angel_max_threshold = 80  --松评判时两笔段夹角的最大值
-local bd1_2_loose_angel_min_threshold = 20    --松评判时两笔段夹角的最小值
-local bd1_2_tight_angel_max_threshold = 70  --紧评判时两笔段夹角的最大值
-local bd1_2_tight_angel_min_threshold = 30    --紧评判时两笔段夹角的最小值
-
-local startpt = GetStartPoint(bh)
-local startindex = 1
-local endpt,endindex = GetBottomMostPoint(bh)
-
-if (startpt.y > endpt.y ) then
-return false
-end
-
-local turning_pt_1,turning_index_1 = GetRightMostPoint(bh)
-local bd2 = GetTempBD(bh,turning_index_1, endindex)
-local line2 = GetLine(turning_pt_1,endpt)
-local dis2 = GetFarDis2Line(bd2,line2)
-
-
-local turning_pt_0,turning_index_0 = GetLeftMostPoint(bh)
-if (turning_pt_0.x > startpt.x or turning_pt_0.x > endpt.x or turning_pt_0.y < startpt.y ) then
-    return false
-end
-
-if (turning_pt_1.x < endpt.x) then
-    return false
-end
-
-
-local bd0 = GetTempBD(bh,1,turning_index_0)
-local line0 = GetLine(startpt,turning_pt_0)
-local dis0 = GetFarDis2Line(bd0,line0)
-local len_bd0 = GetBDLen(bd0)
-
-
-
-local bd1 = GetTempBD(bh,turning_index_0,turning_index_1)
-local line1 = GetLine(turning_pt_0,turning_pt_1)
-local dis1 = GetFarDis2Line(bd1,line1)
-local len_bd1 = GetBDLen(bd1)
-
-local angel0 = 90
-if (turning_pt_0.y ~= startpt.y) then
-local slope0 = (turning_pt_0.x -  startpt.x)/(turning_pt_0.y - startpt.y)
-angel0 = math.deg(math.atan(slope0))
-end
-angel0 = math.abs(angel0)
-
-local angel1 = 90
-if (turning_pt_1.x ~= turning_pt_0.x) then
-local slope1 = (turning_pt_1.y - turning_pt_0.y) / (turning_pt_1.x - turning_pt_0.x)
-angel1 = math.deg ( math.atan(slope1))
-end
-angel1 = math.abs(angel1)
-
-
-bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
-bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
-
-local bd0_bd1_angel = 0
-bd0_bd1_angel = Cal_Angle (startpt,turning_pt_0,turning_pt_1)
-
-
-local bd1_bd2_angel = 0
-bd1_bd2_angel = Cal_Angle (turning_pt_0,turning_pt_1,endpt)
-
-if (bl == 1) then
-    if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold or dis2 > loose_dis_max_threshold) then
-        return false
-    end
-    if (angel0 > bd0_loose_angel_max_threshold  or angel1 > bd1_loose_angel_max_threshold ) then
-        return false
-    end
-
-    if (angel0 < bd0_loose_angel_min_threshold ) then
-        return false
-    end
-
-
-    if (len_bd0 / len_bd1 > bd0_1_loose_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_loose_lenratio_min_threshold ) then
-        return false
-    end
-
-    if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
-        return false
-    end
-
-   if (bd1_bd2_angel > bd1_2_loose_angel_max_threshold or bd1_bd2_angel < bd1_2_loose_angel_min_threshold ) then
-        return false
-    end
-
-end
-
-if (bl == 2) then
-    if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold or dis2 > tight_dis_max_threshold) then
-        return false
-    end
-    if (angel0 > bd0_tight_angel_max_threshold  or angel1 > bd1_tight_angel_max_threshold ) then
-        return false
-    end
-
-    if (angel0 < bd0_tight_angel_min_threshold ) then
-        return false
-    end
-
-
-    if (len_bd0 / len_bd1 > bd0_1_tight_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_tight_lenratio_min_threshold ) then
-        return false
-    end
-
-    if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
-        return false
-    end
-
-   if (bd1_bd2_angel > bd1_2_tight_angel_max_threshold or bd1_bd2_angel < bd1_2_tight_angel_min_threshold ) then
-        return false
-    end
-end
-return true
-end
-
-function  IsShuTi(bh,bl)
-if(bl ~= 1 and bl~=2 ) then return end
-
-local loose_dis_max_threshold = 40     --松评判时笔迹到首尾点连线的最大距离
-local tight_dis_max_threshold = 20      --紧评判时笔迹到首尾点连线的最大距离
-
-local loose_angel_max_threshold = 30    --松评判时首尾点连线倾斜的最大角度
-local tight_angel_max_threshold = 15    --紧评判时首尾点连线倾斜的最大角度
-
-local loose_jitter_max_threshold = 1/5  --松评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-local tight_jitter_max_threshold = 1/10 --紧评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-
-local bd0_1_loose_angel_max_threshold = 85      --松评判时两笔段夹角的最大值
-local bd0_1_loose_angel_min_threshold = 10      --松评判时两笔段夹角的最小值
-local bd0_1_tight_angel_max_threshold = 70      --紧评判时两笔段夹角的最大值
-local bd0_1_tight_angel_min_threshold = 15      --紧评判时两笔段夹角的最小值
-local bd1_0_lenratio_threshold = 1/2            --笔段1和笔段2的长度比例
-
-
-local startpt,startindex = GetTopMostPoint(bh)
-local endpt =  GetEndPoint(bh)
-local endindex = #bh.ptSet
-local turning_pt,turning_index = GetBottomMostPoint(bh)
-
-if (endindex < startindex) then
-return false
-end
-
-if (turning_pt.x > endpt.x) then
-return false
-end
-
-
- local finalbh = GetTempBD(bh,startindex,endindex)
- local jitter1 = GetTempBD(bh,1,startindex)
- local len_jitter1 = GetBDLen(jitter1)
- local len_bh = GetBDLen(finalbh)
-
- local line = GetLine(startpt,endpt)
- local dis = GetFarDis2Line(finalbh,line)
-
- local bd0 = GetTempBD(bh,startindex,turning_index)
- local bd1 = GetTempBD(bh,turning_index,endindex)
- local line0 = GetLine(startpt,turning_pt)
- local dis0 = GetFarDis2Line(bd0,line0)
- local line1 = GetLine(turning_pt,endpt)
- local dis1 =  GetFarDis2Line(bd1,line1)
-
-
-bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index
- local len_bd0 = GetBDLen(bd0)
- local len_bd1 = GetBDLen(bd1)
- if (len_bd1 < 5) then
- return false
- end
-
-
-
-local bd0_bd1_angel = Cal_Angle (startpt,turning_pt,endpt)
- local angel = 90
- if (turning_pt.y ~= startpt.y) then
- local slope = (turning_pt.x -  startpt.x)/(turning_pt.y - startpt.y)
- angel = math.deg(math.atan(slope))
- end
- angel = math.abs(angel)
-
- if (bl == 1) then
-     if (len_jitter1/len_bh > loose_jitter_max_threshold ) then
-         return false
-     end
-     if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold) then
-         return false
-     end
-     if (angel > loose_angel_max_threshold) then
-         return false
-     end
-     if(bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold) then
-         return false
-     end
- end
-
- if (bl == 2) then
-     if (len_jitter1/len_bh > tight_jitter_max_threshold) then
-         return false
-     end
-     if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold) then
-         return false
-     end
-     if (angel > tight_angel_max_threshold) then
-         return false
-     end
-      if(bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold) then
-         return false
-     end
-     if(len_bd1 /len_bd0 > bd1_0_lenratio_threshold) then
-         return false
-     end
- end
- return true
-end
-
-
-function  IsShuGou(bh,bl)
-if(bl ~= 1 and bl~=2 ) then return end
-local loose_dis_max_threshold = 80      --松评判时笔迹到首尾点连线的最大距离
-local tight_dis_max_threshold = 50      --紧评判时笔迹到首尾点连线的最大距离
-
-local loose_angel_max_threshold = 45    --松评判时首尾点连线倾斜的最大角度
-local tight_angel_max_threshold = 30    --紧评判时首尾点连线倾斜的最大角度
-
-local loose_jitter_max_threshold = 1/5  --松评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-local tight_jitter_max_threshold = 1/10 --紧评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-
-local bd0_1_tight_angel_max_threshold = 70      --紧评判时两笔段夹角的最大值
-local bd0_1_tight_angel_min_threshold = 15      --紧评判时两笔段夹角的最小值
-local bd1_0_lenratio_threshold = 1/2            --笔段1和笔段2的长度比例
-
-
-local startpt,startindex = GetTopMostPoint(bh)
-local endpt =  GetEndPoint(bh)
-local endindex = #bh.ptSet
-local turning_pt,turning_index = GetBottomMostPoint(bh)
-
-if (endindex < startindex) then
-return false
-end
-
-if (turning_pt.x < endpt.x) then
-return false
-end
-
-
- local finalbh = GetTempBD(bh,startindex,endindex)
- local jitter1 = GetTempBD(bh,1,startindex)
- local len_jitter1 = GetBDLen(jitter1)
- local len_bh = GetBDLen(finalbh)
-
- local line = GetLine(startpt,endpt)
- local dis = GetFarDis2Line(finalbh,line)
-
- local bd0 = GetTempBD(bh,startindex,turning_index)
- local bd1 = GetTempBD(bh,turning_index,endindex)
- local line0 = GetLine(startpt,turning_pt)
- local dis0 = GetFarDis2Line(bd0,line0)
- local line1 = GetLine(turning_pt,endpt)
- local dis1 =  GetFarDis2Line(bd1,line1)
- bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index
-
-
- local len_bd0 = GetBDLen(bd0)
- local len_bd1 = GetBDLen(bd1)
- if (len_bd1 < 5) then
- return false
- end
-
-
-
-local bd0_bd1_angel = Cal_Angle (startpt,turning_pt,endpt)
- local angel = 90
- if (turning_pt.y ~= startpt.y) then
- local slope = (turning_pt.x -  startpt.x)/(turning_pt.y - startpt.y)
- angel = math.deg(math.atan(slope))
- end
- angel = math.abs(angel)
-
- if (bl == 1) then
-     if (len_jitter1/len_bh > loose_jitter_max_threshold ) then
-         return false
-     end
-     if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold) then
-         return false
-     end
-     if (angel > loose_angel_max_threshold) then
-         return false
-     end
- end
-
- if (bl == 2) then
-     if (len_jitter1/len_bh > tight_jitter_max_threshold) then
-         return false
-     end
-     if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold) then
-         return false
-     end
-     if (angel > tight_angel_max_threshold) then
-         return false
-     end
-      if(bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold) then
-         return false
-     end
-     if(len_bd1 /len_bd0 > bd1_0_lenratio_threshold) then
-         return false
-     end
- end
- return true
-end
-
-
-function  IsHengZheGou(bh,bl)
-if (bl ~= 1 and bl~=2) then return end
-local loose_dis_max_threshold = 80
-local tight_dis_max_threshold = 50
-local loose_angel_max_threshold = 45
-local tight_angel_max_threshold = 30
-
-local loose_jitter_max_threshold = 1/5
-local tight_jitter_max_threshold = 1/10
-
-local bd0_1_loose_angel_max_threshold = 120
-local bd0_1_loose_angel_min_threshold = 30
-local bd0_1_tight_angel_max_threshold = 100
-local bd0_1_tight_angel_min_threshold = 45
-
-local bd1_2_loose_angel_max_threshold = 80
-local bd1_2_loose_angel_min_threshold = 10
-local bd1_2_tight_angel_max_threshold = 70
-local bd1_2_tight_angel_min_threshold = 20
-
-local bd0_1_loose_lenratio_max_threshold = 3
-local bd0_1_tight_lenratio_max_threshold = 2
-local bd0_1_tight_lenratio_min_threshold = 1/3
-
-
-local startpt,startindex = GetLeftMostPoint(bh)
-local endpt = GetEndPoint(bh)
-local endindex = #bh.ptSet
-local turning_pt_1,turning_index_1 = GetBottomMostPoint(bh)
-
-local spt_tpt1_line = GetLine(startpt,turning_pt_1)
-local spt_tpt1_bd = GetTempBD(bh,1,turning_index_1)
-local turning_pt_0,turning_index_0 = GetFarthestPt2Line(spt_tpt1_bd,spt_tpt1_line)
-
-local bd0 = GetTempBD(bh,startindex,turning_index_0)
-local line0 = GetLine(startpt,turning_pt_0)
-local dis0 = GetFarDis2Line(bd0,line0)
-local bd0_jitter = GetTempBD(bh,1,startindex)
-local len_bd0 = GetBDLen(bd0)
-local len_bd0_jitter = GetBDLen(bd0_jitter)
-
-local bd1 = GetTempBD(bh,turning_index_0,turning_index_1)
-local line1 = GetLine(turning_pt_0,turning_pt_1)
-local dis1 = GetFarDis2Line(bd1,line1)
-local len_bd1 = GetBDLen(bd1)
-
-local bd2 = GetTempBD(bh,turning_index_1,endindex)
-local line2 = GetLine(turning_pt_1,endpt)
-local dis2 = GetFarDis2Line(bd2,line2)
-local len_bd2 = GetBDLen(bd2)
-
-if ( endpt.x > turning_pt_1.x ) then
-return false
-end
-
-bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
-bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
-
-local angel0 = 90
-if (turning_pt_0.x ~= startpt.x) then
-local slope0 = (turning_pt_0.y -  startpt.y)/(turning_pt_0.x - startpt.x)
-angel0 = math.deg(math.atan(slope0))
-end
-angel0 = math.abs(angel0)
-
-
-local angel1 = 90
-if (turning_pt_1.y ~= turning_pt_0.y) then
-local slope1 = (turning_pt_1.x - turning_pt_0.x) / (turning_pt_1.y - turning_pt_0.y)
-angel1 = math.deg ( math.atan(slope1))
-end
-angel1 = math.abs(angel1)
-
-
-local bd0_bd1_angel = 0
-bd0_bd1_angel = Cal_Angle (startpt,turning_pt_0,turning_pt_1)
-
-
-local bd1_bd2_angel = 0
-bd1_bd2_angel = Cal_Angle(turning_pt_0,turning_pt_1,endpt)
-
-if (bl == 1) then
-    if (len_bd0_jitter/len_bd0 > loose_jitter_max_threshold)  then
-        return false
-    end
-    if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold or dis2 > loose_dis_max_threshold) then
-        return false
-    end
-    if (angel0 > loose_angel_max_threshold or angel1 > loose_angel_max_threshold) then
-        return false
-    end
-    if (len_bd0 / len_bd1 > bd0_1_loose_lenratio_max_threshold ) then
-        return false
-    end
-    if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
-        return false
-    end
-end
-
-if (bl == 2) then
-    if (len_bd0_jitter/len_bd0 > tight_jitter_max_threshold )  then
-        return false
-    end
-    if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold or dis2 > tight_dis_max_threshold) then
-        return false
-    end
-    if (angel0 > tight_angel_max_threshold or angel1 > tight_angel_max_threshold) then
-        return false
-    end
-    if (len_bd0 / len_bd1 > bd0_1_tight_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_tight_lenratio_min_threshold ) then
-        return false
-    end
-    if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
-        return false
-    end
-    if (bd1_bd2_angel > bd1_2_tight_angel_max_threshold or bd1_bd2_angel < bd1_2_tight_angel_min_threshold ) then
-        return false
-    end
-end
-return true
-end
-
-
-function  IsHengPie(bh,bl)
-if (bl ~= 1 and bl~=2) then return end
-local bd0_loose_dis_max_threshold = 80      --松评判时笔迹到首尾点连线的最大距离
-local bd0_tight_dis_max_threshold = 50
-
-local bd0_loose_angel_max_threshold = 60     --松评判时bd0首尾点连线倾斜的最大角度
-local bd0_tight_angel_max_threshold = 45     --紧评判时bd0首尾点连线倾斜的最大角度
-
-
-local bd1_loose_angel_max_threshold = 80    --松评判时bd1首尾点连线倾斜的最大角度
-local bd1_loose_angel_min_threshold = 10    --松评判时bd1首尾点连线倾斜的最小角度
-local bd1_tight_angel_max_threshold = 70    --紧评判时bd1首尾点连线倾斜的最大角度
-local bd1_tight_angel_min_threshold = 20    --紧评判时bd1首尾点连线倾斜的最小角度
-local bd1_loose_dis_max_threshold = 100      --松评判时bd1路径上到bd1首尾点连线的最大距离
-local bd1_loose_dis_min_threshold = 3       --松评判时bd1路径上到bd1首尾点连线的最小距离
-local bd1_tight_dis_max_threshold = 50      --紧评判时bd1路径上到bd1首尾点连线的最大距离
-local bd1_tight_dis_min_threshold = 5       --紧评判时bd1路径上到bd1首尾点连线的最小距离
-
-local loose_jitter_max_threshold = 1/5  --松评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-local tight_jitter_max_threshold = 1/10 --紧评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-
-local bd0_1_loose_angel_max_threshold = 90  --松评判时两笔段夹角的最大值
-local bd0_1_loose_angel_min_threshold = 20    --松评判时两笔段夹角的最小值
-local bd0_1_tight_angel_max_threshold = 80  --紧评判时两笔段夹角的最大值
-local bd0_1_tight_angel_min_threshold = 20    --紧评判时两笔段夹角的最小值
-local bd0_1_loose_lenratio_max_threshold = 3    --松评判时两笔段长度比例最大值
-local bd0_1_loose_lenratio_min_threshold = 1/3  --松评判时两笔段长度比例最小值
-local bd0_1_tight_lenratio_max_threshold = 2  --紧评判时两笔段长度比例最大值
-local bd0_1_tight_lenratio_min_threshold = 1/2  --紧评判时两笔段长度比例最小值
-
-local startpt,startindex = GetLeftMostPoint(bh)
-local endpt,endindex = GetBottomMostPoint(bh)
-
-if (startindex > endindex) then
-return false
-end
-
-local spt_ept_line = GetLine(startpt,endpt)
-local finalbh = GetTempBD(bh,startindex,endindex)
-local turning_pt,turning_index = GetFarthestPt2Line(bh,spt_ept_line)
-if (Point2LineUp(turning_pt,spt_ept_line) == false) then
-return false
-end
-
-if (turning_pt.x < endpt.x) then
-return false
-end
-
-bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index
-local bd0 = GetTempBD(bh,startindex,turning_index)
-local line0 = GetLine(startpt,turning_pt)
-local dis0 = GetFarDis2Line(bd0,line0)
-local bd0_jitter = GetTempBD(bh,1,startindex)
-local len_bd0 = GetBDLen(bd0)
-local len_bd0_jitter = GetBDLen(bd0_jitter)
-
-
-local bd1 = GetTempBD(bh,turning_index,endindex)
-local line1 = GetLine(turning_pt,endpt)
-local dis1 = GetFarDis2Line(bd1,line1)
-local bd1_jitter = GetTempBD(bh,endindex,#bh.ptSet)
-local len_bd1 = GetBDLen(bd1)
-local len_bd1_jitter = GetBDLen(bd1_jitter)
-
-local angel0 = 90
-if (turning_pt.x ~= startpt.x) then
-local slope0 = (turning_pt.y -  startpt.y)/(turning_pt.x - startpt.x)
-angel0 = math.deg(math.atan(slope0))
-end
-angel0 = math.abs(angel0)
-
-
-local angel1 = 90
-if (endpt.y ~= turning_pt.y) then
-local slope1 = (endpt.x - turning_pt.x) / (endpt.y - turning_pt.y)
-angel1 = math.deg ( math.atan(slope1))
-end
-angel1 = math.abs(angel1)
-
-
-local bd0_bd1_angel = 0
-bd0_bd1_angel = Cal_Angle (startpt,turning_pt,endpt)
-
-if (bl == 1) then
-    if (len_bd0_jitter/len_bd0 > loose_jitter_max_threshold or len_bd1_jitter/len_bd1 > loose_jitter_max_threshold )  then
-        return false
-    end
-    if (dis0 > bd0_loose_dis_max_threshold or dis1 > bd1_loose_dis_max_threshold or dis1 <bd1_loose_dis_min_threshold) then
-         return false
-    end
-    if (angel0 > bd0_loose_angel_max_threshold or angel1 > bd1_loose_angel_max_threshold or angel1 < bd1_loose_angel_min_threshold) then
-        return false
-    end
-    if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
-        return false
-    end
-end
-
-if (bl == 2) then
-    if (len_bd0_jitter/len_bd0 > tight_jitter_max_threshold or len_bd1_jitter/len_bd1 > tight_jitter_max_threshold )  then
-        return false
-    end
-    if (dis0 > tight_dis_max_threshold or dis1 > bd1_tight_dis_max_threshold or dis1 < bd1_tight_dis_min_threshold) then
-        return false
-    end
-    if (angel0 > bd0_tight_angel_max_threshold or angel1 > bd1_tight_angel_max_threshold or angel1 < bd1_tight_angel_min_threshold) then
-        return false
-    end
-    if (len_bd0 / len_bd1 > bd0_1_tight_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_tight_lenratio_min_threshold ) then
-        return false
-    end
-    if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
-        return false
-    end
-end
-
-return true
-end
-
-
-function  IsXieShu(bh,bl)
-if(bl ~= 1 and bl~=2 ) then return end
-
-local loose_dis_max_threshold = 40      --松评判时笔迹到首尾点连线的最大距离
-local tight_dis_max_threshold = 20      --紧评判时笔迹到首尾点连线的最大距离
-
-local loose_angel_max_threshold = 60    --松评判时首尾点连线倾斜的最大角度
-local tight_angel_max_threshold = 30    --紧评判时首尾点连线倾斜的最大角度
-
-local loose_jitter_max_threshold = 1/5  --松评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-local tight_jitter_max_threshold = 1/10 --紧评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-
-
-local startpt,startindex = GetTopMostPoint(bh)
-local endpt,endindex = GetBottomMostPoint(bh)
-
-if (endindex < startindex) then
-return false
-end
-
- local finalbh = GetTempBD(bh,startindex,endindex)
- local jitter1 = GetTempBD(bh,1,startindex)
- local jitter2 = GetTempBD(bh,endindex,#bh.ptSet)
-
- local len_jitter1 = GetBDLen(jitter1)
- local len_jitter2 = GetBDLen(jitter2)
- local len_bh = GetBDLen(finalbh)
-
- local line = GetLine(startpt,endpt)
- local dis = GetFarDis2Line(finalbh,line)
-
- local angel = 90
- if (endpt.y ~= startpt.y) then
- local slope = (endpt.x -  startpt.x)/(endpt.y - startpt.y)
- angel = math.deg(math.atan(slope))
- end
- angel = math.abs(angel)
-
- if (bl == 1) then
-     if (len_jitter1/len_bh > loose_jitter_max_threshold or len_jitter2/len_bh > loose_jitter_max_threshold) then
-         return false
-     end
-     if (dis > loose_dis_max_threshold) then
-         return false
-     end
-     if (angel > loose_angel_max_threshold) then
-         return false
-     end
- end
-
- if (bl == 2) then
-     if (len_jitter1/len_bh > tight_jitter_max_threshold or len_jitter2/len_bh > tight_jitter_max_threshold) then
-         return false
-     end
-     if (dis > tight_dis_max_threshold) then
-         return false
-     end
-     if (angel > tight_angel_max_threshold) then
-         return false
-     end
- end
-
- return true
-
-end
-
-
-function  IsXieShuZhe(bh,bl)
-if (bl ~= 1 and bl~=2) then return end
-
-local loose_dis_max_threshold = 40      --松评判时笔迹到首尾点连线的最大距离
-local tight_dis_max_threshold = 20      --紧评判时笔迹到首尾点连线的最大距离
-
-local bd1_loose_angel_max_threshold = 20    --松评判时首尾点连线倾斜的最大角度
-local bd1_tight_angel_max_threshold = 10     --紧评判时首尾点连线倾斜的最大角度
-
-local bd0_loose_angel_max_threshold = 60    --松评判时首尾点连线倾斜的最大角度
-local bd0_tight_angel_max_threshold = 30     --紧评判时首尾点连线倾斜的最大角度
-
-local loose_jitter_max_threshold = 1/5  --松评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-local tight_jitter_max_threshold = 1/10 --紧评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-
-
-local bd0_1_loose_angel_max_threshold = 90  --松评判时两笔段夹角的最大值
-local bd0_1_loose_angel_min_threshold = 30    --松评判时两笔段夹角的最小值
-local bd0_1_tight_angel_max_threshold = 80  --紧评判时两笔段夹角的最大值
-local bd0_1_tight_angel_min_threshold = 45    --紧评判时两笔段夹角的最小值
-local bd0_1_loose_lenratio_max_threshold = 3    --松评判时两笔段长度比例最大值
-local bd0_1_loose_lenratio_min_threshold = 1/3  --松评判时两笔段长度比例最小值
-local bd0_1_tight_lenratio_max_threshold = 2  --紧评判时两笔段长度比例最大值
-local bd0_1_tight_lenratio_min_threshold = 1/2  --紧评判时两笔段长度比例最小值
-
-local startpt,startindex = GetTopMostPoint(bh)
-local endpt,endindex = GetRightMostPoint(bh)
-
-if (startindex > endindex) then
-return false
-end
-
-local spt_ept_line = GetLine(startpt,endpt)
-local finalbh = GetTempBD(bh,startindex,endindex)
-local turning_pt,turning_index = GetFarthestPt2Line(bh,spt_ept_line)
-if (Point2LineDown(turning_pt,spt_ept_line) == false) then
-return false
-end
-
-bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index
-
-local bd0 = GetTempBD(bh,startindex,turning_index)
-local line0 = GetLine(startpt,turning_pt)
-local dis0 = GetFarDis2Line(bd0,line0)
-local bd0_jitter = GetTempBD(bh,1,startindex)
-local len_bd0 = GetBDLen(bd0)
-local len_bd0_jitter = GetBDLen(bd0_jitter)
-
-
-local bd1 = GetTempBD(bh,turning_index,endindex)
-local line1 = GetLine(turning_pt,endpt)
-local dis1 = GetFarDis2Line(bd1,line1)
-local bd1_jitter = GetTempBD(bh,endindex,#bh.ptSet)
-local len_bd1 = GetBDLen(bd1)
-local len_bd1_jitter = GetBDLen(bd1_jitter)
-
-local angel0 = 90
-if (turning_pt.y ~= startpt.y) then
-local slope0 = (turning_pt.x -  startpt.x)/(turning_pt.y - startpt.y)
-angel0 = math.deg(math.atan(slope0))
-end
-angel0 = math.abs(angel0)
-
-
-local angel1 = 90
-if (endpt.x ~= turning_pt.x) then
-local slope1 = (endpt.y - turning_pt.y) / (endpt.x - turning_pt.x)
-angel1 = math.deg ( math.atan(slope1))
-end
-angel1 = math.abs(angel1)
-
-
-local bd0_bd1_angel = 0
-bd0_bd1_angel = Cal_Angle (startpt,turning_pt,endpt)
-
-if (bl == 1) then
-    if (len_bd0_jitter/len_bd0 > loose_jitter_max_threshold or len_bd1_jitter/len_bd1 > loose_jitter_max_threshold )  then
-
-        return false
-    end
-    if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold) then
-        return false
-    end
-    if (angel0 > bd0_loose_angel_max_threshold or angel1 > bd1_loose_angel_max_threshold) then
-        return false
-    end
-    if (len_bd0 / len_bd1 > bd0_1_loose_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_loose_lenratio_min_threshold ) then
-        return false
-    end
-    if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
-        return false
-    end
-end
-
-if (bl == 2) then
-    if (len_bd0_jitter/len_bd0 > tight_jitter_max_threshold or len_bd1_jitter/len_bd1 > tight_jitter_max_threshold )  then
-        return false
-    end
-    if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold) then
-        return false
-    end
-    if (angel0 > bd0_tight_angel_max_threshold or angel1 > bd1_tight_angel_max_threshold) then
-        return false
-    end
-    if (len_bd0 / len_bd1 > bd0_1_tight_lenratio_max_threshold  or len_bd0/len_bd1 <bd0_1_tight_lenratio_min_threshold ) then
-        return false
-    end
-    if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
-        return false
-    end
-
-end
-return true
-
-end
-
-function  IsXieWanGou(bh,bl)
-if (bl ~= 1 and bl~=2) then return end
-local loose_dis_max_threshold = 80      --松评判时笔迹到首尾点连线的最大距离
-local tight_dis_max_threshold = 50      --紧评判时笔迹到首尾点连线的最大距离
-
-local loose_jitter_max_threshold = 1/5  --松评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-local tight_jitter_max_threshold = 1/10 --紧评判时抖笔笔段长度与去除抖笔之后笔画长度的比例
-
-
-local bd0_loose_angel_max_threshold = 80    --松评判时bd0首尾点连线的最大倾斜角度
-local bd0_loose_angel_min_threshold = 3     --松评判时bd0首尾点连线的最小倾斜角度
-local bd0_tight_angel_max_threshold = 60    --紧评判时bd1首尾点连线的最大倾斜角度
-local bd0_tight_angel_min_threshold = 5    --紧评判时bd1首尾点连线的最小倾斜角度
-
-local bd1_loose_angel_max_threshold = 50    --松评判时bd1偏离竖直方向的最大倾斜角度
-local bd1_tight_angel_max_threshold = 40    --紧评判时bd1偏离竖直方向的最大倾斜角度
-
-
-local bd0_1_loose_angel_max_threshold = 90  --松评判时两笔段夹角的最大值
-local bd0_1_loose_angel_min_threshold = 30    --松评判时两笔段夹角的最小值
-local bd0_1_tight_angel_max_threshold = 80  --紧评判时两笔段夹角的最大值
-local bd0_1_tight_angel_min_threshold = 40    --紧评判时两笔段夹角的最小值
-
---local bd1_2_loose_angel_max_threshold = 80  --松评判时两笔段夹角的最大值
---local bd1_2_loose_angel_min_threshold = 10    --松评判时两笔段夹角的最小值
-local bd1_2_tight_angel_max_threshold = 80  --紧评判时两笔段夹角的最大值
-local bd1_2_tight_angel_min_threshold = 10    --紧评判时两笔段夹角的最小值
-
-
-local startpt,startindex = GetLeftMostPoint(bh)
-local endpt = GetEndPoint(bh)
-local endindex = #bh.ptSet
-local turning_pt_0,turning_index_0 = GetTopMostPoint(bh)
-
-
-local vpt1 = {}
-vpt1.x = 512
-vpt1.y = 512
-
-local turning_index_1 = 1
-minDis = 512
-for i = 1,#bh.ptSet do
-    local curpt = bh.ptSet[i]
-    local tempDis = GetDistance(curpt,vpt1)
-    if (tempDis < minDis ) then
-        turning_index_1 = i
-        minDis  = tempDis
-    end
-end
-turning_pt_1 = bh.ptSet[turning_index1]
-local bd0 = GetTempBD(bh,startindex,turning_index_0)
-local line0 = GetLine(startpt,turning_pt_0)
-local dis0 = GetFarDis2Line(bd0,line0)
-local bd0_jitter = GetTempBD(bh,1,startindex)
-local len_bd0 = GetBDLen(bd0)
-local len_bd0_jitter = GetBDLen(bd0_jitter)
-
-
-local bd1 = GetTempBD(bh,turning_index_0,turning_index_1)
-local line1 = GetLine(turning_pt_0,turning_pt_1)
-local dis1 = GetFarDis2Line(bd1,line1)
-local len_bd1 = GetBDLen(bd1)
-
-
-
-local bd2 = GetTempBD(bh,turning_index_1,endindex)
-local line2 = GetLine(turning_pt_1,endpt)
-local dis2 = GetFarDis2Line(bd2,line2)
-local len_bd2 = GetBDLen(bd2)
-
-
-if ( endpt.x > turning_pt_1.x ) then
-return false
-end
-
-bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
-bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
-
-
-local angel0 = 90
-if (turning_pt_0.x ~= startpt.x) then
-local slope0 = (turning_pt_0.y -  startpt.y)/(turning_pt_0.x - startpt.x)
-angel0 = math.deg(math.atan(slope0))
-end
-angel0 = math.abs(angel0)
-
-
-local angel1 = 90
-if (turning_pt_1.y ~= turning_pt_0.y) then
-local slope1 = (turning_pt_1.x - turning_pt_0.x) / (turning_pt_1.y - turning_pt_0.y)
-angel1 = math.deg ( math.atan(slope1))
-end
-angel1 = math.abs(angel1)
-
-
-local bd0_bd1_angel = 0
-bd0_bd1_angel = Cal_Angle (startpt,turning_pt_0,turning_pt_1)
-
-
-local bd1_bd2_angel = 0
-bd1_bd2_angel = Cal_Angle(turning_pt_0,turning_pt_1,endpt)
-
-
-if (bl == 1) then
-    if (len_bd0_jitter/len_bd0 > loose_jitter_max_threshold)  then
-        return false
-    end
-    if (dis0 > loose_dis_max_threshold or dis1 > loose_dis_max_threshold or dis2 > loose_dis_max_threshold) then
-        return false
-    end
-    if (angel0 > bd0_loose_angel_max_threshold or angel0 < bd0_loose_angel_min_threshold or angel1 > bd1_loose_angel_max_threshold) then
-        return false
-    end
-    if (bd0_bd1_angel > bd0_1_loose_angel_max_threshold or bd0_bd1_angel < bd0_1_loose_angel_min_threshold ) then
-        return false
-    end
-end
-
-if (bl == 2) then
-    if (len_bd0_jitter/len_bd0 > tight_jitter_max_threshold )  then
-        return false
-    end
-    if (dis0 > tight_dis_max_threshold or dis1 > tight_dis_max_threshold or dis2 > tight_dis_max_threshold) then
-        return false
-    end
-    if (angel0 > bd0_tight_angel_max_threshold or angel0 < bd0_tight_angel_min_threshold or angel1 > bd1_tight_angel_max_threshold) then
-        return false
-    end
-
-    if (bd0_bd1_angel > bd0_1_tight_angel_max_threshold or bd0_bd1_angel < bd0_1_tight_angel_min_threshold ) then
-        return false
-    end
-    if (bd1_bd2_angel > bd1_2_tight_angel_max_threshold or bd1_bd2_angel < bd1_2_tight_angel_min_threshold ) then
-        return false
-    end
-end
-return true
-end
-
-
 

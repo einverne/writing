@@ -40,7 +40,8 @@ end
 
 
 --#########################	处理手写字信息		 ########################################
-local WriteZiStr = GetWriteInfoFromC()	--外部接口1
+--local WriteZiStr = GetWriteInfoFromC()	--外部接口1
+local WriteZiStr = [[90/140/91/147/91/154/91/161/91/167/91/174/91/181/91/187/91/194/91/201/91/207/91/214/91/221/91/227/91/234/91/241/91/247/91/254/91/261/91/267/@116/155/116/152/116/149/131/143/140/143/155/140/176/140/203/140/233/140/265/140/289/140/310/140/334/140/346/140/361/140/367/140/373/140/376/140/382/140/388/137/391/137/394/137/403/137/406/137/409/137/406/137/400/140/394/140/385/143/376/143/364/146/355/155/349/158/337/158/331/164/325/167/319/167/310/170/298/176/292/179/286/182/274/191/268/194/262/194/256/194/254/200/248/200/245/200/242/200/239/200/239/203/236/203/233/203/233/206/230/206/230/206/@]]
 local WZ = require("WriteZiInfo")
 local writeHZ = WZ.WriteHZ:new()
 writeHZ:initialize(WriteZiStr)
@@ -59,11 +60,36 @@ writeHZ:initialize(WriteZiStr)
 
 
 --获得规则代码
-local strZiRule = GetRulesFromC();---接口3 注意在外面要判断是取松规则还是紧规则
+--local strZiRule = GetRulesFromC();---接口3 注意在外面要判断是取松规则还是紧规则
+local strZiRule =[[//##begin
+//##:110009:----
+local bh0 = GetBH(0)
+if(IsShu(bh0,bl) ==false) then
+trace("0")
+ else
+  trace("1")
+ end
 
+//##:110023:----
+local bh1 = GetBH(1)
+if(IsHengZhe(bh1,bl) ==false) then
+bflag = 0
+ else
+  bflag = 1
+ end
+
+//##:110014:----
+local bh2 = GetBH(2)
+if(IsNa(bh2,bl) ==false) then
+trace("0")
+ else
+  trace("1")
+ end
+//##end
+]]
 --接口4 注意根据松评判或者紧评判给出相应的strokelevel
-local strokeLevel =  GetStrokeLevelFromC()
-
+--local strokeLevel =  GetStrokeLevelFromC()
+local strokeLevel =  '2'
 --装载字级别规则 	ZiRuleList = {{index = 1 , codes = "..."},{index = 2 , codes = "..."},{index = 3 , codes = "..."},...}
 strZiRule  = string.gsub(strZiRule , "//##begin", "" )
 strZiRule  = string.gsub(strZiRule , "//##end", "" )
@@ -126,7 +152,7 @@ end
 local bhNum = writeHZ.strokeNum
 RunZiRule(bhNum)
 Pass2CStr = baseFuncs.allInfoStr
---print(Pass2CStr)
+print(Pass2CStr)
 return Pass2CStr
 
 
