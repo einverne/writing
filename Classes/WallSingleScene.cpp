@@ -90,6 +90,7 @@ void WallSingleScene::onEnter(){
 	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
 	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
 
+	//add Menu Item
 	CCMenuItemImage* ceshi_button = CCMenuItemImage::create("ceshi_1.png",
 		"ceshi_2.png",
 		this,
@@ -98,7 +99,7 @@ void WallSingleScene::onEnter(){
 		"strangedesign/back_button.png",
 		this,
 		menu_selector(WallSingleScene::back));
-	back_button->setPosition(ccp(back_button->getContentSize().width/2+10,visibleSize.height-back_button->getContentSize().height/2-10));
+	back_button->setPosition(ccp(back_button->getContentSize().width/2+10,visibleSize.height-back_button->getContentSize().height/2-50));
 
 	CCMenuItemImage* judge_button = CCMenuItemImage::create("strangedesign/Page_judgewritting_button.png",
 		"strangedesign/Page_judgewritting_button.png",
@@ -120,6 +121,9 @@ void WallSingleScene::onEnter(){
 	addChild(titlebar,10);
 	titlebar->setPosition(ccp(visibleSize.width/2,visibleSize.height-titlebar->getContentSize().height/2));
 
+	CCSprite* selectionMode = CCSprite::create("strangedesign/Page_selectionmode_character.png");
+	addChild(selectionMode,11);
+	selectionMode->setPosition(titlebar->getPosition());
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -135,8 +139,10 @@ void WallSingleScene::onEnter(){
 	wall_tail->setPosition(ccp(visibleSize.width/2,wall_tail->getContentSize().height/2));
 	wall_tail->setScaleX(visibleSize.width/wall_tail->getContentSize().width);
 
-
-
+	//Screenshot function 截屏功能待后续加入
+	CCSprite* screenshot = CCSprite::create("strangedesign/Page_Screenshot_button.png");
+	addChild(screenshot,12);
+	screenshot->setPosition(wall_tail->getPosition());
 
 	vector<string> groupCharacter = SQLiteData::getGroupCharacter(DataTool::intTostring(0));
 //	SQLiteData::updateGroupCharacter(DataTool::intTostring(1),DataTool::intTostring(1),DataTool::getChinese("zi"));
