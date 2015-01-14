@@ -10,7 +10,7 @@
             <y>135 px</y>
             <w>277 px</w>
             <h>278 px</h>
-            <img>withword\stone_0.png</img>
+            <img>withword/stone_0.png</img>
             <hanzi>一</hanzi>
             <proficiency>0</proficiency>
         </stone>
@@ -36,7 +36,7 @@
             <y>506 px</y>
             <w>237 px</w>
             <h>244 px</h>
-            <img>withword\stone_3.png</img>
+            <img>withword/stone_3.png</img>
             <hanzi>中</hanzi>
             <proficiency>0.75</proficiency>
         </stone>
@@ -54,7 +54,7 @@
             <y>980 px</y>
             <w>226 px</w>
             <h>302 px</h>
-            <img>withword\stone_5.png</img>
+            <img>withword/stone_5.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.8</proficiency>
         </stone>
@@ -80,7 +80,7 @@
             <y>301 px</y>
             <w>278 px</w>
             <h>327 px</h>
-            <img>withword\stone_9.png</img>
+            <img>withword/stone_9.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.833333</proficiency>
         </stone>
@@ -90,7 +90,7 @@
             <y>624 px</y>
             <w>263 px</w>
             <h>213 px</h>
-            <img>withword\stone_10.png</img>
+            <img>withword/stone_10.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.785714</proficiency>
         </stone>
@@ -100,7 +100,7 @@
             <y>825 px</y>
             <w>281 px</w>
             <h>299 px</h>
-            <img>withword\stone_11.png</img>
+            <img>withword/stone_11.png</img>
             <hanzi>十</hanzi>
             <proficiency>0.6875</proficiency>
         </stone>
@@ -110,7 +110,7 @@
             <y>1117 px</y>
             <w>243 px</w>
             <h>221 px</h>
-            <img>withword\stone_12.png</img>
+            <img>withword/stone_12.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.666667</proficiency>
         </stone>
@@ -144,7 +144,7 @@
             <y>175 px</y>
             <w>252 px</w>
             <h>268 px</h>
-            <img>withword\stone_16.png</img>
+            <img>withword/stone_16.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.6</proficiency>
         </stone>
@@ -162,7 +162,7 @@
             <y>526 px</y>
             <w>308 px</w>
             <h>317 px</h>
-            <img>withword\stone_18.png</img>
+            <img>withword/stone_18.png</img>
             <hanzi>上</hanzi>
             <proficiency>0.606061</proficiency>
         </stone>
@@ -180,7 +180,7 @@
             <y>843 px</y>
             <w>252 px</w>
             <h>259 px</h>
-            <img>withword\stone_20.png</img>
+            <img>withword/stone_20.png</img>
             <hanzi>飞</hanzi>
             <proficiency>0.642857</proficiency>
         </stone>
@@ -190,7 +190,7 @@
             <y>1081 px</y>
             <w>203 px</w>
             <h>224 px</h>
-            <img>withword\stone_21.png</img>
+            <img>withword/stone_21.png</img>
             <hanzi>a</hanzi>
             <proficiency>0.659091</proficiency>
         </stone>
@@ -208,7 +208,7 @@
             <y>1251 px</y>
             <w>374 px</w>
             <h>249 px</h>
-            <img>withword\stone_23.png</img>
+            <img>withword/stone_23.png</img>
             <hanzi>及</hanzi>
             <proficiency>0.659091</proficiency>
         </stone>
@@ -234,7 +234,7 @@
             <y>77 px</y>
             <w>285 px</w>
             <h>293 px</h>
-            <img>withword\stone_26.png</img>
+            <img>withword/stone_26.png</img>
             <hanzi>a</hanzi>
             <proficiency>0</proficiency>
         </stone>
@@ -244,7 +244,7 @@
             <y>351 px</y>
             <w>267 px</w>
             <h>231 px</h>
-            <img>withword\stone_27.png</img>
+            <img>withword/stone_27.png</img>
             <hanzi>a</hanzi>
             <proficiency>0</proficiency>
         </stone>
@@ -262,7 +262,7 @@
             <y>654 px</y>
             <w>251 px</w>
             <h>350 px</h>
-            <img>withword\stone_29.png</img>
+            <img>withword/stone_29.png</img>
             <hanzi>a</hanzi>
             <proficiency>0</proficiency>
         </stone>
@@ -272,7 +272,7 @@
             <y>984 px</y>
             <w>290 px</w>
             <h>305 px</h>
-            <img>withword\stone_30.png</img>
+            <img>withword/stone_30.png</img>
             <hanzi>a</hanzi>
             <proficiency>0</proficiency>
         </stone>
