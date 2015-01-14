@@ -21,7 +21,7 @@ LianxiScene::LianxiScene(string hanzi):backgroundLayer(NULL),
 	//	p(NULL),
 	ext_p(NULL)
 {
-	this->CurrentCharacter = hanzi;
+	CurrentCharacter = hanzi;
 	//	p = new CharacterEntity();
 }
 
@@ -31,13 +31,13 @@ LianxiScene::LianxiScene(string hanzi):backgroundLayer(NULL),
 // 	HLayer(NULL),
 // 	ext_p(NULL)
 // {
-// 	this->hanziList = hanzis;
-// 	this->CurrentCharacter = hanzi;
+// 	hanziList = hanzis;
+// 	CurrentCharacter = hanzi;
 // }
 
 LianxiScene::~LianxiScene()
 {
-	CCLog("~~LianxiScene %d",  this->m_uReference);
+	CCLog("~~LianxiScene %d",  m_uReference);
 	CC_SAFE_RELEASE(backgroundLayer);
 	CC_SAFE_RELEASE(TLayer);
 	CC_SAFE_RELEASE(HLayer);
@@ -73,38 +73,38 @@ bool LianxiScene::init(){
 	bool bRet = false;
 	do
 	{
-		this->setCharacterExt(new CharacterExtend());
-		SQLiteData::getHanziDataExtend(this->CurrentCharacter,ext_p);
+		setCharacterExt(new CharacterExtend());
+		SQLiteData::getHanziDataExtend(CurrentCharacter,ext_p);
 
-		this->setbackgroundLayer(BackgroundLayer::create());
+		setbackgroundLayer(BackgroundLayer::create());
 		CC_BREAK_IF(!backgroundLayer);
 		backgroundLayer->setTag(kBgLayerTag);
-		this->addChild(backgroundLayer);
+		addChild(backgroundLayer);
 
-		this->setTLayer(TcharacterLayer::create(backgroundLayer->tianzige));
+		setTLayer(TcharacterLayer::create(backgroundLayer->tianzige));
 		CC_BREAK_IF(!TLayer);
 		TLayer->setTag(kTLayerTag);
-		this->addChild(TLayer);
+		addChild(TLayer);
 		TLayer->setCharacter(CurrentCharacter);
 		TLayer->setExChar(ext_p);
 
-		this->setHLayer(HcharacterLayer::create(CurrentCharacter,backgroundLayer->tianzige_draw));
+		setHLayer(HcharacterLayer::create(CurrentCharacter,backgroundLayer->tianzige_draw));
 		CC_BREAK_IF(!HLayer);
 		HLayer->setTag(kHLayerTag);
-		this->addChild(HLayer);
+		addChild(HLayer);
 		HLayer->setExChar(ext_p);
 		
-		this->settouchLayer(TouchLayer::create(TLayer,HLayer));
+		settouchLayer(TouchLayer::create(TLayer,HLayer));
 		CC_BREAK_IF(!touchLayer);
 		touchLayer->setTag(kTouchLayerTag);
-		this->addChild(touchLayer);
+		addChild(touchLayer);
 
 
 		CC_BREAK_IF(!CCScene::init());
 		bRet = true;
 	} while (0);
 
-//	SQLiteData::getHanziData(this->CurrentCharacter,p);
+//	SQLiteData::getHanziData(CurrentCharacter,p);
 
 // 	CCString* temp = ext_p->getSEQ();
 // 	CCLog("seq %s",temp->getCString());

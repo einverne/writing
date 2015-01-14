@@ -15,6 +15,13 @@ TcharacterDrawnode::~TcharacterDrawnode()
 	CC_SAFE_RELEASE(strokedrawList);
 }
 
+/**
+* 
+* @param hz 汉字
+* @param showrect 显示区域
+* @param p 包含数据库中读取的汉字信息XML等等
+* @return 初始化是否成功
+*/
 bool TcharacterDrawnode::init(string hz,CCSize showrect,CharacterEntity* p){
 
 	strokedrawList = CCArray::create();
@@ -42,6 +49,13 @@ bool TcharacterDrawnode::init(string hz,CCSize showrect,CharacterEntity* p){
 	return true;
 }
 
+/**
+* 
+* @param hz
+* @param showrect
+* @param p
+* @return
+*/
 bool TcharacterDrawnode::init(string hz,CCSize showrect,CharacterExtend* p){
 
 	strokedrawList = CCArray::create();
@@ -53,7 +67,7 @@ bool TcharacterDrawnode::init(string hz,CCSize showrect,CharacterExtend* p){
 	this->showRect = showrect;
 
 	this->m_character.getBox();
-	this->m_character.resize(showRect);
+	this->m_character.resize(CCSizeMake(500,500));
 	this->m_character.resample();
 
 	vector<Bujian> bujianList = this->m_character.bujianList;

@@ -5,7 +5,7 @@
 #include "cocos2d.h"
 USING_NS_CC;
 
-class BackgroundLayer : public CCLayer
+class BackgroundLayer : public CCLayerColor
 {
 public:
 	BackgroundLayer();

@@ -6,9 +6,7 @@
 USING_NS_CC;
 using namespace std;
 
-/************************************************************************/
-/* 每一个笔画的绘制类，继承自CCNode                                                                     */
-/************************************************************************/
+//每一个笔画的绘制类，继承自CCNode
 class StrokeDrawnode : public CCNode
 {
 public:
@@ -19,7 +17,9 @@ public:
 	* @return
 	*/
 	StrokeDrawnode(Stroke stro);
+
 	~StrokeDrawnode();
+
 	/**
 	* create a StrokeDrawnode
 	* @param stro

@@ -20,7 +20,7 @@ bool TcharacterLayer::init(CCSprite* tianzige){
 	if (CCLayer::init())
 	{
 		CCLog("TcharacterLayer init");
-		this->setSprite(tianzige);	
+		setSprite(tianzige);	
 
  		CCPoint tiangzige_position = this->getSprite()->getPosition();
  		CCSize tianzige_size = this->getSprite()->getContentSize();
