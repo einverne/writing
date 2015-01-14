@@ -20,7 +20,7 @@
             <y>0 px</y>
             <w>203 px</w>
             <h>263 px</h>
-            <img>noword\stone_1.png</img>
+            <img>noword/stone_1.png</img>
         </stone>
         <stone>
             <type>nouse</type>
@@ -28,7 +28,7 @@
             <y>271 px</y>
             <w>195 px</w>
             <h>256 px</h>
-            <img>noword\stone_2.png</img>
+            <img>noword/stone_2.png</img>
         </stone>
         <stone>
             <type>wordbox</type>
@@ -46,7 +46,7 @@
             <y>719 px</y>
             <w>210 px</w>
             <h>296 px</h>
-            <img>noword\stone_4.png</img>
+            <img>noword/stone_4.png</img>
         </stone>
         <stone>
             <type>wordbox</type>
@@ -64,7 +64,7 @@
             <y>1235 px</y>
             <w>176 px</w>
             <h>265 px</h>
-            <img>noword\stone_6.png</img>
+            <img>noword/stone_6.png</img>
         </stone>
         <stone>
             <type>nouse</type>
@@ -72,7 +72,7 @@
             <y>55 px</y>
             <w>88 px</w>
             <h>89 px</h>
-            <img>noword\stone_7.png</img>
+            <img>noword/stone_7.png</img>
         </stone>
         <stone>
             <type>wordbox</type>
@@ -120,7 +120,7 @@
             <y>1273 px</y>
             <w>81 px</w>
             <h>83 px</h>
-            <img>noword\stone_13.png</img>
+            <img>noword/stone_13.png</img>
         </stone>
         <stone>
             <type>nouse</type>
@@ -128,7 +128,7 @@
             <y>1339 px</y>
             <w>293 px</w>
             <h>161 px</h>
-            <img>noword\stone_14.png</img>
+            <img>noword/stone_14.png</img>
         </stone>
         <stone>
             <type>nouse</type>
@@ -136,7 +136,7 @@
             <y>0 px</y>
             <w>343 px</w>
             <h>231 px</h>
-            <img>noword\stone_15.png</img>
+            <img>noword/stone_15.png</img>
         </stone>
         <stone>
             <type>wordbox</type>
@@ -154,7 +154,7 @@
             <y>438 px</y>
             <w>72 px</w>
             <h>84 px</h>
-            <img>noword\stone_17.png</img>
+            <img>noword/stone_17.png</img>
         </stone>
         <stone>
             <type>wordbox</type>
@@ -172,7 +172,7 @@
             <y>769 px</y>
             <w>86 px</w>
             <h>104 px</h>
-            <img>noword\stone_19.png</img>
+            <img>noword/stone_19.png</img>
         </stone>
         <stone>
             <type>wordbox</type>
@@ -200,7 +200,7 @@
             <y>1310 px</y>
             <w>47 px</w>
             <h>90 px</h>
-            <img>noword\stone_22.png</img>
+            <img>noword/stone_22.png</img>
         </stone>
         <stone>
             <type>wordbox</type>
@@ -218,7 +218,7 @@
             <y>0 px</y>
             <w>349 px</w>
             <h>79 px</h>
-            <img>noword\stone_24.png</img>
+            <img>noword/stone_24.png</img>
         </stone>
         <stone>
             <type>nouse</type>
@@ -226,7 +226,7 @@
             <y>61 px</y>
             <w>45 px</w>
             <h>67 px</h>
-            <img>noword\stone_25.png</img>
+            <img>noword/stone_25.png</img>
         </stone>
         <stone>
             <type>wordbox</type>
@@ -254,7 +254,7 @@
             <y>567 px</y>
             <w>83 px</w>
             <h>107 px</h>
-            <img>noword\stone_28.png</img>
+            <img>noword/stone_28.png</img>
         </stone>
         <stone>
             <type>wordbox</type>
@@ -282,7 +282,7 @@
             <y>1288 px</y>
             <w>63 px</w>
             <h>86 px</h>
-            <img>noword\stone_31.png</img>
+            <img>noword/stone_31.png</img>
         </stone>
         <stone>
             <type>nouse</type>
@@ -290,7 +290,7 @@
             <y>1386 px</y>
             <w>79 px</w>
             <h>114 px</h>
-            <img>noword\stone_32.png</img>
+            <img>noword/stone_32.png</img>
         </stone>
         <stone>
             <type>nouse</type>
@@ -298,7 +298,7 @@
             <y>0 px</y>
             <w>55 px</w>
             <h>242 px</h>
-            <img>noword\stone_33.png</img>
+            <img>noword/stone_33.png</img>
         </stone>
         <stone>
             <type>nouse</type>
@@ -306,7 +306,7 @@
             <y>246 px</y>
             <w>115 px</w>
             <h>307 px</h>
-            <img>noword\stone_34.png</img>
+            <img>noword/stone_34.png</img>
         </stone>
         <stone>
             <type>nouse</type>
@@ -314,7 +314,7 @@
             <y>489 px</y>
             <w>70 px</w>
             <h>146 px</h>
-            <img>noword\stone_35.png</img>
+            <img>noword/stone_35.png</img>
         </stone>
         <stone>
             <type>nouse</type>
@@ -322,7 +322,7 @@
             <y>1075 px</y>
             <w>42 px</w>
             <h>256 px</h>
-            <img>noword\stone_38.png</img>
+            <img>noword/stone_38.png</img>
         </stone>
     </data>
 </xml>
