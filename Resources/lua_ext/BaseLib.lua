@@ -1391,18 +1391,25 @@ function IsHengZheXieGou(bh,bl)
 		angel1 = math.deg ( math.atan(slope1))
 	end
 
-	if(angel1 < -4 or wanqu0 > 1.038 or angel0 > 15) then
+	if(angel1 < -4 and angel0 < 15) then
 		return false
 	end
+	if(wanqu0 > 1.04 and angel0 > 4.2 and angel1 > -4)then
+		return false
+	end
+	if(angel0 > 15) then
+		return false
+	end
+
 	if (bl == 1) then
 		return true
 	end
 
 	if(bl == 2) then
-		if(angel1 > -4 and angel0 < 15) then
+		if(angel1 > -4 and angel0 < 5) then
 			return true
 		end
-		if(angel0 < 15 and wanqu0 < 1.03) then
+		if(angel0 < 15  and wanqu0 < 1.04 and angel1 > -4) then
 			return true
 		end
 	end
