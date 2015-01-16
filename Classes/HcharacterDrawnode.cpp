@@ -1,7 +1,7 @@
 #include "HcharacterDrawnode.h"
 #include "HcharacterLayer.h"
 
-HcharacterDrawnode::HcharacterDrawnode():strokeDrawlist(NULL)
+HcharacterDrawnode::HcharacterDrawnode():strokeDrawlist(NULL),tianziged(NULL)
 {
 }
 
@@ -21,6 +21,11 @@ void HcharacterDrawnode::onExit(){
 }
 
 bool HcharacterDrawnode::init(){
+	tianziged = CCSprite::create("tianzige.png");
+	addChild(tianziged,-1);
+	tianziged->setAnchorPoint(ccp(0,0));
+	setContentSize(tianziged->getContentSize());
+
 	this->setStrokeDrawnodeList(CCArray::create());
 	getStrokeDrawnodeList()->retain();
 	return true;

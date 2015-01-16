@@ -21,7 +21,7 @@
 
 HcharacterLayer::HcharacterLayer():m_sprite_draw(NULL),
 	bihuaCount(NULL),m_HDrawnode(NULL),m_sprite_info(NULL),m_exChar(NULL),
-	writeCount(0),wrongCount(0)
+	writeCount(0),wrongCount(0),scale(1)
 {
 }
 
@@ -38,48 +38,56 @@ HcharacterLayer::~HcharacterLayer()
 bool HcharacterLayer::init(string hanzi,CCSprite* tianzige_draw){
 	if (CCLayer::init())
 	{
+		CCSize visiableSize = CCDirector::sharedDirector()->getVisibleSize();
+
 		this->hanzi = hanzi;
 		this->setSprite(tianzige_draw);
 		this->setm_HDrawnode(HcharacterDrawnode::create());
-		m_HDrawnode->setPosition(m_sprite_draw->getPosition()-ccp(m_sprite_draw->getContentSize().width/2,m_sprite_draw->getContentSize().height/2));
-		this->addChild(m_HDrawnode);
+		m_HDrawnode->setPosition(m_sprite_draw->getPosition());
+		getm_HDrawnode()->setScale(scale);
+		getm_HDrawnode()->setAnchorPoint(ccp(0.5,0.5));
+		addChild(m_HDrawnode);
 
 		this->setbihuaCount(CCLabelTTF::create("","Arial",50));
 		getbihuaCount()->setColor(ccc3(0,0,0));
-		this->addChild(bihuaCount,2000);
-		bihuaCount->setPosition(tianzige_draw->getPosition()+ccp(0,tianzige_draw->getContentSize().height/2 + bihuaCount->getContentSize().height));
+		this->addChild(bihuaCount,10);
+		bihuaCount->setPosition(ccp(visiableSize.width/4*3+100,getbihuaCount()->getContentSize().height/2+60));
 		
 		this->setInfoSprite(CCSprite::create("right.png"));
 		this->addChild(getInfoSprite(),2000);
-		getInfoSprite()->setPosition(ccp(10+getInfoSprite()->getContentSize().width/2,tianzige_draw->getPositionY()));
-		getInfoSprite()->setScale(0.6);
+		getInfoSprite()->setPosition(ccp(visiableSize.width/4-100,getInfoSprite()->getContentSize().height/2+60));
+		getInfoSprite()->setScale(scale);
 		getInfoSprite()->setVisible(false);
 
 		CCPoint tianzige_draw_position = getSprite()->getPosition();
 		CCSize tianzige_draw_size = getSprite()->getContentSize();
 
-		CCMenuItemImage* rewriteButton = CCMenuItemImage::create("strangedesign/Judge_writting_cancel_button.png",
-			"strangedesign/Judge_writting_cancel_button.png",
-			this,
-			menu_selector(HcharacterLayer::rewrite));
-		CCPoint rewrite_position = ccp(tianzige_draw_position.x + tianzige_draw_size.width/2+20+rewriteButton->getContentSize().width/2,tianzige_draw_position.y+tianzige_draw_size.height/2-rewriteButton->getContentSize().height/2);
-		rewriteButton->setPosition(rewrite_position);
-		CCMenu* menu = CCMenu::create(rewriteButton,NULL);
-		menu->setPosition(0,0);
-		this->addChild(menu,200);
+// 		CCMenuItemImage* rewriteButton = CCMenuItemImage::create("strangedesign/Judge_writting_cancel_button.png",
+// 			"strangedesign/Judge_writting_cancel_button.png",
+// 			this,
+// 			menu_selector(HcharacterLayer::rewrite));
+// 		CCPoint rewrite_position = ccp(tianzige_draw_position.x + tianzige_draw_size.width/2+20+rewriteButton->getContentSize().width/2,tianzige_draw_position.y+tianzige_draw_size.height/2-rewriteButton->getContentSize().height/2);
+// 		rewriteButton->setPosition(rewrite_position);
+// 		CCMenu* menu = CCMenu::create(rewriteButton,NULL);
+// 		menu->setPosition(0,0);
+// 		this->addChild(menu,200);
 
 		CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect(RIGHT_EFFECT_FILE);
 		CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect(WRONG_EFFECT_FILE);
 		CocosDenshion::SimpleAudioEngine::sharedEngine()->setEffectsVolume(0.5);
 
 		//放大缩小按钮
-		CCSize visiableSize = CCDirector::sharedDirector()->getVisibleSize();
 		CButton* zoomin = CButton::create("strangedesign/Judge_writting_zoomin_button.png");
 		zoomin->setPosition(ccp(visiableSize.width/4,zoomin->getContentSize().height+50));
+		zoomin->setOnClickListener(this,ccw_click_selector(HcharacterLayer::zoomin));
 
 		CButton* zoomout = CButton::create("strangedesign/Judge_writting_zoomout_button.png");
 		zoomout->setPosition(ccp(visiableSize.width/4*2,zoomout->getContentSize().height+50));
+		zoomout->setOnClickListener(this,ccw_click_selector(HcharacterLayer::zoomout));
 
+		CButton* rewrite = CButton::create("strangedesign/Judge_writting_cancel_button.png");
+		rewrite->setPosition(ccp(visiableSize.width/4*3,rewrite->getContentSize().height+50));
+		rewrite->setOnClickListener(this,ccw_click_selector(HcharacterLayer::rewrite));
 
 		CWidgetWindow* m_pWindow = CWidgetWindow::create();
 		m_pWindow->setMultiTouchEnabled(true);
@@ -87,7 +95,7 @@ bool HcharacterLayer::init(string hanzi,CCSprite* tianzige_draw){
 
 		m_pWindow->addChild(zoomin);
 		m_pWindow->addChild(zoomout);
-
+		m_pWindow->addChild(rewrite);
 
 		return true;
 	}
@@ -226,6 +234,22 @@ void HcharacterLayer::rewrite(CCObject* pSender){
 		this->getm_HDrawnode()->rewrite();
 		this->getbihuaCount()->setString("0");
 		getInfoSprite()->setVisible(false);
+	}
+}
+
+void HcharacterLayer::zoomin(CCObject* pSender){
+	if (scale < 2.0)
+	{
+		scale += 0.1;
+		getm_HDrawnode()->setScale(scale);
+	}
+}
+
+void HcharacterLayer::zoomout(CCObject* pSender){
+	if (scale > 0.5)
+	{
+		scale -= 0.1;
+		getm_HDrawnode()->setScale(scale);
 	}
 }
 

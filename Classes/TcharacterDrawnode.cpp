@@ -5,7 +5,7 @@
 #include "SQLiteData.h"
 
 TcharacterDrawnode::TcharacterDrawnode():strokedrawList(NULL),
-	visibleIndex(-1)
+	visibleIndex(-1),tiangzige(NULL)
 {
 	
 }
@@ -23,6 +23,11 @@ TcharacterDrawnode::~TcharacterDrawnode()
 * @return 初始化是否成功
 */
 bool TcharacterDrawnode::init(string hz,CCSize showrect,CharacterEntity* p){
+
+	tiangzige = CCSprite::create("tianzige.png");
+	addChild(tiangzige,10);
+	tiangzige->setAnchorPoint(ccp(0,0));
+	setContentSize(tiangzige->getContentSize());
 
 	strokedrawList = CCArray::create();
 	strokedrawList->retain();
@@ -57,6 +62,12 @@ bool TcharacterDrawnode::init(string hz,CCSize showrect,CharacterEntity* p){
 * @return
 */
 bool TcharacterDrawnode::init(string hz,CCSize showrect,CharacterExtend* p){
+
+	tiangzige = CCSprite::create("tianzige.png");
+	addChild(tiangzige,-1);
+	tiangzige->setAnchorPoint(ccp(0,0));
+	setContentSize(tiangzige->getContentSize());
+
 
 	strokedrawList = CCArray::create();
 	strokedrawList->retain();

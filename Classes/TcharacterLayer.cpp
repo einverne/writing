@@ -61,10 +61,12 @@ void TcharacterLayer::onEnter(){
 //	CharacterEntity* p = ((LianxiScene*)this->getParent())->getCharacterP();
 // 	CharacterExtend* p = ((LianxiScene*)this->getParent())->getCharacterExt();
 	this->setm_TDrawnode(TcharacterDrawnode::create(curCharacter, m_sprite->getContentSize(), m_exChar));
-	this->addChild(m_TDrawnode,2000);
+	this->addChild(m_TDrawnode,1);
 	//不设置Anchorpoint了，直接做坐标变换
-	m_TDrawnode->setPosition(m_sprite->getPosition()-ccp(m_sprite->getContentSize().width/2,m_sprite->getContentSize().height/2));
-	
+	m_TDrawnode->setPosition(m_sprite->getPosition());
+	getm_TDrawnode()->setScale(0.75);
+	getm_TDrawnode()->setAnchorPoint(ccp(0.5,0.5));
+
 	CCLog("TcharacterLayer::onEnter end");
 }
 
@@ -74,7 +76,7 @@ void TcharacterLayer::onExit(){
 
 void TcharacterLayer::refresh(CCObject* pSender){
 	CCLog("TcharacterLayer::refresh");
-	RightZiAnimationAction* animation = RightZiAnimationAction::create(5.0);
+	RightZiAnimationAction* animation = RightZiAnimationAction::create(3.0);
 	if (m_TDrawnode->getActionManager()->numberOfRunningActionsInTarget(m_TDrawnode) <= 0)
 	{
 		m_TDrawnode->runAction(animation);

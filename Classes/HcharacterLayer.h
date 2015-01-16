@@ -36,11 +36,14 @@ public:
 	CC_SYNTHESIZE_RETAIN(CharacterExtend* , m_exChar, ExChar);
 private:
 	void rewrite(CCObject* pSender);
+	void zoomin(CCObject* pSender);
+	void zoomout(CCObject* pSender);
 	string hanzi;
 	void writeWrong();
 	void writeRight();
 	int writeCount;
 	int wrongCount;
+	float scale;
 };
 
 

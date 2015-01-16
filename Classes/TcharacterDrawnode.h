@@ -63,11 +63,13 @@ public:
 	string getCharacterStandardInfo();
 
 	CC_SYNTHESIZE_RETAIN(CCArray*,strokedrawList,strokedrawList);
+
 private:
 	CCSize showRect;				//根据传入的显示范围定义显示范围
 	Character m_character;			//根据汉字读取字符xml文件，构造Character
 	int visibleIndex;
 	Character myChar;
+	CCSprite* tiangzige;
 };
 
 

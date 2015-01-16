@@ -61,11 +61,12 @@ void TouchLayer::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 	touchpoint = CCDirector::sharedDirector()->convertToUI(touchpoint);
 // 	CCLog("TouchLayer::ccTouchesBegan convertToUI x= %f, y= %f",touchpoint.x,touchpoint.y);
 	this->beginPoint = touchpoint;
-	CCSprite* tianzige = Hlayer->getSprite();
-	if (tianzige->boundingBox().containsPoint(touchpoint))
+// 	CCSprite* tianzige = Hlayer->getSprite();
+	HcharacterDrawnode* dnode = Hlayer->getm_HDrawnode();
+	if (dnode->boundingBox().containsPoint(touchpoint))
 	{
 		//ÔÚ·¶Î§ÄÚ
-		touchpoint = tianzige->convertToNodeSpace(touchpoint);
+		touchpoint = dnode->convertToNodeSpace(touchpoint);
 // 		CCLog("TouchLayer::ccTouchesBegan convertToNodeSpace x= %f, y= %f",touchpoint.x,touchpoint.y);
 		points.push_back(touchpoint);
 		Stroke str(points);
@@ -89,7 +90,8 @@ void TouchLayer::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
 	touchp = CCDirector::sharedDirector()->convertToUI(touchp);
 	//CCLog("x= %f, y= %f",touchp.x,touchp.y);
 
-	CCSprite* tianzige = Hlayer->getSprite();
+// 	CCSprite* tianzige = Hlayer->getSprite();
+	HcharacterDrawnode* tianzige = Hlayer->getm_HDrawnode();
 	if (isStartOutside)
 	{
 		return;
@@ -116,7 +118,8 @@ void TouchLayer::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 	}
 	CCPoint touchp = ((CCTouch*)pTouches->anyObject())->getLocationInView();
 	touchp = CCDirector::sharedDirector()->convertToUI(touchp);
-	CCSprite* tianzige = Hlayer->getSprite();
+// 	CCSprite* tianzige = Hlayer->getSprite();
+	HcharacterDrawnode* tianzige = Hlayer->getm_HDrawnode();
 	if (this->beginPoint.equals(touchp) && tianzige->boundingBox().containsPoint(touchp))
 	{
 		Hlayer->getm_HDrawnode()->removeLastStroke();
