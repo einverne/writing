@@ -8,8 +8,6 @@ using namespace std;
 class SQLiteData
 {
 public:
-	SQLiteData();
-	~SQLiteData();
 
 	/**
 	* 获取数据库中汉字信息
@@ -63,6 +61,15 @@ public:
 	* @return true成功 false失败
 	*/
 	static bool updateGroupCharacter(string index, string indexOfCharacter, string character);
+
+	/**
+	* 从数据库中查询index号Unit中前count个字，保存到数组桌哦你
+	* @param index Unit的编号
+	* @param count 该单元中前count个单词
+	* @return
+	*/
+	static vector<vector<string>> getUnit(string index,int count=16);
+
 };
 
 

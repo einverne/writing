@@ -203,6 +203,26 @@ vector<string> SqliteHelper::getGroupCharacter(string sql){
 	return result;
 }
 
+int getUnitCallback(void* para, int n_column, char** column_value, char** column_name){
+	string* result = (string*)para;
+	if (strcmp(column_name[2],"characters")==0)
+	{
+		result->append(column_value[2]);
+	}
+	return 0;
+}
+
+string SqliteHelper::getUnit(string sql){
+	string result;
+	int ret = sqlite3_exec(pDB, sql.c_str(), getUnitCallback, &result, &errMsg);
+	if (errMsg)
+	{
+		CCLog("return getUnit error code:%d error:%s",ret,errMsg);
+		sqlite3_free(errMsg);
+	}
+	return result;
+}
+
 //¹Ø±ÕÊý¾Ý¿â
 void SqliteHelper::closeDB()
 {

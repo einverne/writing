@@ -4,13 +4,6 @@
 #include "strokeFunc.h"
 #include "CharacterExtend.h"
 
-SQLiteData::SQLiteData()
-{
-}
-
-SQLiteData::~SQLiteData()
-{
-}
 
 vector<string> SQLiteData::splitStrokeSeq(string seq){
 	string::size_type pos1,pos2;
@@ -115,4 +108,47 @@ bool SQLiteData::updateGroupCharacter(string index, string indexOfCharacter, str
 	string sql = "update groupCharacter set C"+index+" = '"+character+"' where id = "+index;
 	SqliteHelper::updateData(sql);
 	return true;
+}
+
+vector<string> splitSingle(string singlestring){
+	string::size_type pos1,pos2;
+	vector<string> strRe;
+	pos2 = singlestring.find(':');
+	pos1 = 0;
+	while (string::npos != pos2)
+	{
+		strRe.push_back(singlestring.substr(pos1,pos2-pos1));
+		pos1 = pos2+1;
+		pos2 = singlestring.find(':',pos1);
+	}
+	return strRe;
+}
+
+vector<vector<string>> splitUnitString(string charstring){
+	string::size_type pos1,pos2;
+	vector<vector<string>> strvec;
+	pos2 = charstring.find('/');
+	pos1 = 0;
+	while (string::npos != pos2)
+	{
+		strvec.push_back(splitSingle(charstring.substr(pos1,pos2-pos1)));
+		pos1 = pos2 +1;
+		pos2 = charstring.find('/',pos1);
+	}
+	return strvec;
+}
+
+vector<vector<string>> SQLiteData::getUnit(string index,int count){
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+	string dbpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_judge.db");
+#endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	string dbpath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_judge.db";
+#endif
+	SqliteHelper::initDB(dbpath.c_str());
+	string sql = "select * from unit where id ='"+index+"'";
+	string charstring = SqliteHelper::getUnit(sql);
+	vector<vector<string>> result = splitUnitString(charstring);
+	SqliteHelper::closeDB();
+	return result;
 }

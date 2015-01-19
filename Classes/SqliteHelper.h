@@ -46,6 +46,13 @@ public:
 	* @return vector<string>
 	*/
 	static vector<string> getGroupCharacter(string sql);
+
+	/**
+	* 从数据库中获取一单元数据
+	* @param sql 语句
+	* @return
+	*/
+	static string getUnit(string sql);
 private:
 
 };
