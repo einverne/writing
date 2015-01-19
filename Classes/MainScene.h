@@ -27,6 +27,7 @@ private:
 	void Setting(CCObject* pSender);
 	void settingCallBack(CCNode* pNode);
 	void buttonClick(CCObject* pSender);
+	bool buttonLongClick(CCObject* pSender,CCTouch* pTouch);
 	CCObject* gridviewDataSource(CCObject* pConvertView, unsigned int idx);
 };
 

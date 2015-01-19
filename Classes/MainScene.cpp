@@ -92,7 +92,7 @@ bool MainScene::init(){
 
 
 	CGridView* pGridView = CGridView::create(
-		CCSize(720, 1280),
+		CCSize(720, 1080),
 		CCSize(360 , 350),
 		12, this,
 		ccw_datasource_adapter_selector(MainScene::gridviewDataSource));
@@ -203,7 +203,8 @@ CCObject* MainScene::gridviewDataSource(CCObject* pConvertView, unsigned int idx
 		sprite->setPosition(CCPoint(360/2,350/2));
 		pCell->addChild(sprite,1);
 
-		vector<string> groupCharacter = SQLiteData::getGroupCharacter(DataTool::intTostring(0));
+// 		vector<string> groupCharacter = SQLiteData::getGroupCharacter(DataTool::intTostring(0));
+		vector<vector<string>> groupCharacter = SQLiteData::getUnit(DataTool::intTostring(0));
 
 		CCPoint positions[16] = {ccp(40,280),ccp(120,280),ccp(200,280),ccp(280,280),
 			ccp(40,200),ccp(120,200),ccp(200,200),ccp(280,200),
@@ -212,7 +213,7 @@ CCObject* MainScene::gridviewDataSource(CCObject* pConvertView, unsigned int idx
 		};
 		for (int i = 0; i < groupCharacter.size(); i++)
 		{
-			string hanzi = groupCharacter.at(i);
+			string hanzi = groupCharacter.at(i).at(0);
 			CCLabelTTF* clabel = CCLabelTTF::create(hanzi.c_str(),"Arial",40);
 			clabel->setPosition(positions[i]);
 			clabel->setColor(ccc3(0,0,0));
@@ -230,13 +231,22 @@ CCObject* MainScene::gridviewDataSource(CCObject* pConvertView, unsigned int idx
 	pButton->setUserTag(idx);
 
 	pButton->setOnClickListener(this,ccw_click_selector(MainScene::buttonClick));
-
+	pButton->setOnLongClickListener(this,ccw_longclick_selector(MainScene::buttonLongClick));
 	return pCell;
 }
 
 void MainScene::buttonClick(CCObject* pSender){
 	CButton* pButton = (CButton*)pSender;
 	int idx = pButton->getUserTag();
-	string wallfilename = "wall_"+DataTool::intTostring(idx)+".xml";
+	string wallfilename = "wall_"+DataTool::intTostring(idx)+".xml";	//这个传值已经无用
 	CCDirector::sharedDirector()->replaceScene(WallSingleScene::scene(wallfilename));
+}
+
+bool  MainScene::buttonLongClick(CCObject* pSender, CCTouch* pTouch){
+	CCLog("Long click");
+	//长按进入编辑界面
+	CButton* pButton = (CButton*)pSender;
+	int idx = pButton->getUserTag();
+
+	return true;
 }

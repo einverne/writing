@@ -51,7 +51,7 @@ public:
 	* @param index id号，例如1
 	* @return vector<string>
 	*/
-	static vector<string> getGroupCharacter(string index);
+//	static vector<string> getGroupCharacter(string index);
 
 	/**
 	* 更新一行中第indexOfCharacter个汉字
@@ -60,7 +60,7 @@ public:
 	* @param character 汉字
 	* @return true成功 false失败
 	*/
-	static bool updateGroupCharacter(string index, string indexOfCharacter, string character);
+//	static bool updateGroupCharacter(string index, string indexOfCharacter, string character);
 
 	/**
 	* 从数据库中查询index号Unit中前count个字，保存到数组桌哦你
@@ -70,6 +70,13 @@ public:
 	*/
 	static vector<vector<string>> getUnit(string index,int count=16);
 
+	/**
+	* 更新一单元数据
+	* @param index 单元ID
+	* @param unit 单元的数组
+	* @return
+	*/
+	static bool updateUnit(string index,vector<vector<string>> unit);
 };
 
 

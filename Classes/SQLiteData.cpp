@@ -83,32 +83,32 @@ bool SQLiteData::isExist(string hz){
 	return true;
 }
 
-vector<string> SQLiteData::getGroupCharacter(string index){
-#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
-	string dbpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_judge.db");
-#endif
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-	string dbpath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_judge.db";
-#endif
-	SqliteHelper::initDB(dbpath.c_str());
-	string sql = "select * from groupCharacter where id ='"+index+"'";
-	vector<string> resultOfGroupCharacter = SqliteHelper::getGroupCharacter(sql);
-	SqliteHelper::closeDB();
-	return resultOfGroupCharacter;
-}
-
-bool SQLiteData::updateGroupCharacter(string index, string indexOfCharacter, string character){
-#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
-	string dbpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_judge.db");
-#endif
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-	string dbpath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_judge.db";
-#endif
-	SqliteHelper::initDB(dbpath.c_str());
-	string sql = "update groupCharacter set C"+index+" = '"+character+"' where id = "+index;
-	SqliteHelper::updateData(sql);
-	return true;
-}
+// vector<string> SQLiteData::getGroupCharacter(string index){
+// #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+// 	string dbpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_judge.db");
+// #endif
+// #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+// 	string dbpath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_judge.db";
+// #endif
+// 	SqliteHelper::initDB(dbpath.c_str());
+// 	string sql = "select * from groupCharacter where id ='"+index+"'";
+// 	vector<string> resultOfGroupCharacter = SqliteHelper::getGroupCharacter(sql);
+// 	SqliteHelper::closeDB();
+// 	return resultOfGroupCharacter;
+// }
+// 
+// bool SQLiteData::updateGroupCharacter(string index, string indexOfCharacter, string character){
+// #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+// 	string dbpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_judge.db");
+// #endif
+// #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+// 	string dbpath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_judge.db";
+// #endif
+// 	SqliteHelper::initDB(dbpath.c_str());
+// 	string sql = "update groupCharacter set C"+index+" = '"+character+"' where id = "+index;
+// 	SqliteHelper::updateData(sql);
+// 	return true;
+// }
 
 vector<string> splitSingle(string singlestring){
 	string::size_type pos1,pos2;
@@ -138,6 +138,20 @@ vector<vector<string>> splitUnitString(string charstring){
 	return strvec;
 }
 
+string createUnitString(vector<vector<string>> unit){
+	string ret;
+	for (int i = 0 ; i < unit.size(); i++)
+	{
+		vector<string> singleChar = unit.at(i);
+		for (int j = 0; j< singleChar.size(); j++)
+		{
+			ret += singleChar.at(j)+":";
+		}
+		ret += "/";
+	}
+	return ret;
+}
+
 vector<vector<string>> SQLiteData::getUnit(string index,int count){
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 	string dbpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_judge.db");
@@ -149,6 +163,26 @@ vector<vector<string>> SQLiteData::getUnit(string index,int count){
 	string sql = "select * from unit where id ='"+index+"'";
 	string charstring = SqliteHelper::getUnit(sql);
 	vector<vector<string>> result = splitUnitString(charstring);
+	vector<vector<string>> re;
+	for (int i = 0 ; i < count ; ++i)
+	{
+		re.push_back(result.at(i));
+	}
 	SqliteHelper::closeDB();
-	return result;
+	return re;
+}
+
+bool SQLiteData::updateUnit(string index,vector<vector<string>> unit){
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+	string dbpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_judge.db");
+#endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	string dbpath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_judge.db";
+#endif
+	SqliteHelper::initDB(dbpath.c_str());
+	string unitStr = createUnitString(unit);
+	string sql = "update unit set characters='"+unitStr+"' where id = '"+index+"'";
+	SqliteHelper::updateData(sql);
+	SqliteHelper::closeDB();
+	return true;
 }
