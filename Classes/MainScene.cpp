@@ -1,16 +1,9 @@
 #include "MainScene.h"
-#include "WallSingleScene.h"
-#include "tools/DataTool.h"
-#include "SQLiteData.h"
-#include "../CocosWidget/cocos-widget.h"
-using namespace cocos2d::cocoswidget;
-using namespace std;
-#include "stdlib.h"
-USING_NS_CC;
+
 #define TAG_LAYER_EXIT 1001
 #define TAG_SETTING_LAYER 1002
 
-MainScene::MainScene(){
+MainScene::MainScene():unit_count(0),pGridView(NULL),unit_ids(NULL){
 
 }
 MainScene::~MainScene(){
@@ -29,6 +22,8 @@ bool MainScene::init(){
 	{
 		return false;
 	}
+	unit_count = SQLiteData::getUnitCount();
+	unit_ids = SQLiteData::getUnitIDs();
 	setKeypadEnabled(true);
 
 	CWidgetWindow* m_pWindow = CWidgetWindow::create();
@@ -48,15 +43,20 @@ bool MainScene::init(){
 	m->setPosition(CCPointZero);
 	addChild(m,2);
 
-	CGridView* pGridView = CGridView::create(
+	CButton* add_btn = CButton::create("ButtonPlus.png","ButtonPlusSel.png");
+	add_btn->setPosition(ccp(winSize.width- setting_btn->getContentSize().width -250, setting_btn->getContentSize().height));
+	add_btn->setOnClickListener(this,ccw_click_selector(MainScene::addButtonCallback));
+	m_pWindow->addChild(add_btn);
+
+	pGridView = CGridView::create(
 		CCSize(720, 1080),
 		CCSize(360 , 350),
-		12, this,
+		unit_count, this,
 		ccw_datasource_adapter_selector(MainScene::gridviewDataSource));
 	pGridView->setColumns(2);
 	pGridView->setPosition(CCSize(winSize.width/2,winSize.height/2));
 	m_pWindow->addChild(pGridView);
-	pGridView->setAutoRelocate(true);
+	pGridView->setAutoRelocate(false);
 	pGridView->reloadData();
 
 	return true;
@@ -135,7 +135,8 @@ CCObject* MainScene::gridviewDataSource(CCObject* pConvertView, unsigned int idx
 		pCell->addChild(sprite,1);
 
 // 		vector<string> groupCharacter = SQLiteData::getGroupCharacter(DataTool::intTostring(0));
-		vector<vector<string>> groupCharacter = SQLiteData::getUnit(DataTool::intTostring(0));
+		CCLog("idx %d",idx);
+		vector<vector<string>> groupCharacter = SQLiteData::getUnit(unit_ids.at(idx));
 
 		CCPoint positions[16] = {ccp(40,280),ccp(120,280),ccp(200,280),ccp(280,280),
 			ccp(40,200),ccp(120,200),ccp(200,200),ccp(280,200),
@@ -180,4 +181,22 @@ bool  MainScene::buttonLongClick(CCObject* pSender, CCTouch* pTouch){
 	int idx = pButton->getUserTag();
 
 	return true;
+}
+
+void MainScene::addButtonCallback(CCObject* pSender){
+	CCLog("Add new");
+	vector<vector<string>> unit;
+	vector<string> single;
+	single.push_back(DataTool::getChinese("zi"));
+	single.push_back(DataTool::intTostring(12));
+	single.push_back(DataTool::intTostring(13));
+	for (int i =0 ; i < 16; i++)
+	{
+		unit.push_back(single);
+	}
+	SQLiteData::insertUnit(unit);
+// 	unit_count++;
+// 	pGridView->setCountOfCell(unit_count);
+// 	unit_ids = SQLiteData::getUnitIDs();
+// 	pGridView->reloadData();
 }

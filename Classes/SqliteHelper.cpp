@@ -8,7 +8,7 @@ char * errMsg = NULL;//错误信息
 std::string sqlstr;//SQL指令 
 int result;//sqlite3_exec返回值		
 
-void SqliteHelper::initDB(const char* db){
+void SQLiteHelper::initDB(const char* db){
 	//打开一个数据库，如果该数据库不存在，则创建一个数据库文件
 	result = sqlite3_open(db,&pDB);
 	if (result != SQLITE_OK)
@@ -27,7 +27,7 @@ int isExisted( void * para, int n_column, char ** column_value, char ** column_n
 	return 0; 
 }
 
-bool SqliteHelper::tableIsExist( string name )
+bool SQLiteHelper::tableIsExist( string name )
 {
 	if (pDB!=NULL)
 	{
@@ -42,7 +42,7 @@ bool SqliteHelper::tableIsExist( string name )
 
 //在数据库中判断名为name的表示否存在，如果不存在则创建这张表
 //@示例语句string sqls = "create table user(id integer,username text,password text)";
-void SqliteHelper::createTable( string sql,string name )
+void SQLiteHelper::createTable( string sql,string name )
 {
 	if (!tableIsExist(name))
 	{
@@ -55,7 +55,7 @@ void SqliteHelper::createTable( string sql,string name )
 
 //删除表格
 //@示例语句sqlstr="drop table name"; 
-void SqliteHelper::deleteTable( string sql,string name )
+void SQLiteHelper::deleteTable( string sql,string name )
 {
 	if (tableIsExist(name))
 	{
@@ -65,19 +65,15 @@ void SqliteHelper::deleteTable( string sql,string name )
 	}
 }
 
-
-//插入数据
-//@示例语句sqlstr=" insert into MyTable_1( name ) values ( '擎天柱' ) "; 
-void SqliteHelper::insertData( string sql ){
+int SQLiteHelper::insertData( string sql ){
 	result = sqlite3_exec( pDB, sql.c_str() , NULL, NULL, &errMsg ); 
 	if(result != SQLITE_OK ) 
-		CCLog( "插入记录失败，错误码:%d ，错误原因:%s\n" , result, errMsg ); 
+		CCLog( "插入记录失败，错误码:%d ，错误原因:%s\n" , result, errMsg );
+	sqlite3_int64 id = sqlite3_last_insert_rowid(pDB);
+	return id;
 }
 
-
-//删除数据
-//@示例语句sqlstr="delete from MyTable_1 where ID = 2"; 
-void SqliteHelper::deleteData( string sql )
+void SQLiteHelper::deleteData( string sql )
 {
 	result=sqlite3_exec( pDB, sql.c_str() , NULL, NULL, &errMsg );
 	if(result != SQLITE_OK ) 
@@ -86,7 +82,7 @@ void SqliteHelper::deleteData( string sql )
 
 //修改数据
 //@示例语句        sqlstr="update MyTable_1 set name='威震天' where ID = 3"; 
-void SqliteHelper::updateData( string sql )
+void SQLiteHelper::updateData( string sql )
 {
 	result = sqlite3_exec( pDB, sql.c_str() , NULL, NULL, &errMsg );
 	if(result != SQLITE_OK ) 
@@ -97,14 +93,11 @@ void SqliteHelper::updateData( string sql )
 int loadRecordCount( void * para, int n_column, char ** column_value, char ** column_name ) 
 { 
 	int *count=(int*)para; 
-	*count=n_column; 
-	return 0; 
+	*count=atoi(column_value[0]);
+	return 0;
 }
 
-//获取记录的条数
-//@示例语句string sqlsssss = "select count(*) from user";
-//@示例语句  取得表格字段的语句string sqlsssss = "select * from user";
-int SqliteHelper::getDataCount( string sql )
+int SQLiteHelper::getDataCount( string sql )
 {
 	int count=0;
 	sqlite3_exec( pDB, sql.c_str() , loadRecordCount, &count, &errMsg );
@@ -127,7 +120,7 @@ int loadRecord( void * para, int n_column, char ** column_value, char ** column_
 	return 0;
 }
 //获取一条记录的信息 其中的pSend是一个实体类我们以后可以自定义一个继承了CCObject的类来代替他保存数据库中取出来的数据
-void SqliteHelper::getDataInfo( string sql,CCObject *pSend )
+void SQLiteHelper::getDataInfo( string sql,CCObject *pSend )
 {
 	int ret = sqlite3_exec( pDB, sql.c_str() , loadRecord, pSend, &errMsg );
 	CCLog("return getDataInfo error code:%d error:%s",ret,errMsg);
@@ -143,7 +136,7 @@ int loadziRecord(void * para, int n_column, char ** column_value, char ** column
 	return 0;
 }
 
-void SqliteHelper::getZiDataInfo(string sql,CCObject* p){
+void SQLiteHelper::getZiDataInfo(string sql,CCObject* p){
 	int ret = sqlite3_exec(pDB , sql.c_str() , loadziRecord , p,&errMsg);
 	CCLog("getZiDataInfo error code:%d error:%s",ret,errMsg);
 	if (errMsg)
@@ -163,7 +156,7 @@ int loadziR(void * para, int n_column, char ** column_value, char ** column_name
 	return 0;
 }
 
-void SqliteHelper::getZiDataInfoExtend(string sql,CCObject* p){
+void SQLiteHelper::getZiDataInfoExtend(string sql,CCObject* p){
 	int ret = sqlite3_exec(pDB, sql.c_str(), loadziR, p ,&errMsg);
 	if (errMsg)
 	{
@@ -177,7 +170,7 @@ int getFuncBody(void * para, int n_column, char ** column_value, char ** column_
 	return 0;
 }
 
-void SqliteHelper::getstrokeFunc(string sql,CCObject* funcbody){
+void SQLiteHelper::getstrokeFunc(string sql,CCObject* funcbody){
 	int ret = sqlite3_exec(pDB,sql.c_str(),getFuncBody,funcbody,&errMsg);
 	CCLog("SqliteHelper::getstrokeFunc error code:%d error:%s",ret,errMsg);
 
@@ -192,7 +185,7 @@ int groupCharacterCallback(void * para, int n_column, char ** column_value, char
 	return 0;
 }
 
-vector<string> SqliteHelper::getGroupCharacter(string sql){
+vector<string> SQLiteHelper::getGroupCharacter(string sql){
 	vector<string> result;
 	int ret = sqlite3_exec(pDB, sql.c_str(), groupCharacterCallback, &result, &errMsg);
 	if (errMsg)
@@ -212,7 +205,7 @@ int getUnitCallback(void* para, int n_column, char** column_value, char** column
 	return 0;
 }
 
-string SqliteHelper::getUnit(string sql){
+string SQLiteHelper::getUnit(string sql){
 	string result;
 	int ret = sqlite3_exec(pDB, sql.c_str(), getUnitCallback, &result, &errMsg);
 	if (errMsg)
@@ -223,8 +216,24 @@ string SqliteHelper::getUnit(string sql){
 	return result;
 }
 
-//关闭数据库
-void SqliteHelper::closeDB()
+int getIDs(void* para, int n_column, char** column_value, char** column_name){
+	vector<string>* ret = (vector<string>*)para;
+	ret->push_back(column_value[0]);
+	return 0;
+}
+
+vector<string> SQLiteHelper::getUnitIDs(string sql){
+	vector<string> result;
+	int ret = sqlite3_exec(pDB, sql.c_str(), getIDs, &result, &errMsg);
+	if (errMsg)
+	{
+		CCLog("getUnitIDs error code:%d error:%s",ret,errMsg);
+		sqlite3_free(errMsg);
+	}
+	return result;
+}
+
+void SQLiteHelper::closeDB()
 {
 	result = sqlite3_close(pDB); 
 	if (result == SQLITE_OK)

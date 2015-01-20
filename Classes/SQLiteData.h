@@ -6,6 +6,7 @@
 #include "CharacterEntity.h"
 #include "strokeFunc.h"
 #include "CharacterExtend.h"
+#include "tools/DataTool.h"
 
 USING_NS_CC;
 using namespace std;
@@ -78,7 +79,7 @@ public:
 	* @param count 该单元中前count个单词
 	* @return
 	*/
-	static vector<vector<string>> getUnit(string index,int count=16);
+	static vector<vector<string>> getUnit(string unit_id,int count=16);
 
 	/**
 	* 更新一单元数据
@@ -86,7 +87,41 @@ public:
 	* @param unit 单元的数组
 	* @return
 	*/
-	static bool updateUnit(string index,vector<vector<string>> unit);
+	static bool updateUnit(string unit_id,vector<vector<string>> unit);
+
+	/**
+	* 向数据库中插入一单元数据
+	* @param unit 包含的unit的数据
+	* @return 返回该Unit的ID
+	*/
+	static string insertUnit(vector<vector<string>> unit);
+
+	/**
+	* 向数据库中插入一单元数据
+	* @param unit_info 该单元的基本信息介绍
+	* @param unit 包含的unit的数据
+	* @return 返回该Unit的ID
+	*/
+	static string insertUnit(string unit_info,vector<vector<string>> unit);
+
+	/**
+	* 删除数据库中unit id的单元数据
+	* @param unit_id
+	* @return
+	*/
+	static bool deleteUnit(string unit_id);
+
+	/**
+	* 获取Unit的数量
+	* @return
+	*/
+	static int getUnitCount();
+
+	/**
+	* 获取数据库中单元ID
+	* @return
+	*/
+	static vector<string> getUnitIDs();
 };
 
 

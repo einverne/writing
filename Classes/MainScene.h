@@ -3,6 +3,13 @@
 
 #include "cocos2d.h"
 #include "cocos-ext.h"
+#include "WallSingleScene.h"
+#include "tools/DataTool.h"
+#include "SQLiteData.h"
+#include "../CocosWidget/cocos-widget.h"
+using namespace cocos2d::cocoswidget;
+using namespace std;
+#include "stdlib.h"
 USING_NS_CC;
 USING_NS_CC_EXT;
 
@@ -22,7 +29,12 @@ private:
 	void settingCallBack(CCNode* pNode);
 	void buttonClick(CCObject* pSender);
 	bool buttonLongClick(CCObject* pSender,CCTouch* pTouch);
+	void addButtonCallback(CCObject* pSender);
 	CCObject* gridviewDataSource(CCObject* pConvertView, unsigned int idx);
+
+	int unit_count;
+	vector<string> unit_ids;
+	CGridView* pGridView;
 };
 
 
