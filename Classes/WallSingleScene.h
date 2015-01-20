@@ -4,7 +4,14 @@
 #include "cocos2d.h"
 #include "HanziManage.h"
 #include "PopLayer.h"
-#include <vector>
+#include "tinyxml.h" 
+#include "PopLayer.h"
+#include "tools/DataTool.h"
+#include "LianxiScene.h"
+#include "MainScene.h"
+#include "MyToast.h"
+#include "CeshiScene.h"
+#include "SQLiteData.h"
 using namespace std;
 USING_NS_CC;
 
@@ -96,6 +103,8 @@ private:
 
 	vector<string> hanzis;
 	bool isLongPressAllow;
+	string unitID;				//用以区别不同单元，与数据库中单元ID列对应
+	vector<vector<string>> groupCharacter;
 };
 
 #endif // __WallSingleScene_H__

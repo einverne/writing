@@ -1,9 +1,4 @@
 #include "SQLiteData.h"
-#include "SqliteHelper.h"
-#include "CharacterEntity.h"
-#include "strokeFunc.h"
-#include "CharacterExtend.h"
-
 
 vector<string> SQLiteData::splitStrokeSeq(string seq){
 	string::size_type pos1,pos2;
@@ -19,7 +14,6 @@ vector<string> SQLiteData::splitStrokeSeq(string seq){
 	// 	strvec.push_back(seq.substr(pos1));
 	return strvec;
 }
-
 
 void SQLiteData::getHanziData(string hz,CCObject* p){
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32

@@ -14,15 +14,9 @@ public:
 	CREATE_FUNC(MainScene);
 	static CCScene* scene();
 	virtual bool init();
-// 	virtual void onEnter();
-// 	virtual void onExit();
 	virtual void keyBackClicked();
 
-// 	void scrollViewDidScroll(CCScrollView* view);
-// 	void scrollViewDidZoom(CCScrollView* view);
-
 private:
-	void menuSelected(CCObject* pSender);
 	void isExit(CCNode* pNode);
 	void Setting(CCObject* pSender);
 	void settingCallBack(CCNode* pNode);

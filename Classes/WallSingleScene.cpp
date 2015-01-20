@@ -1,40 +1,21 @@
 #include "WallSingleScene.h"
-#include "tinyxml.h" 
-#include "PopLayer.h"
-#include "tools/DataTool.h"
-#include "LianxiScene.h"
-#include "MainScene.h"
-#include "MyToast.h"
-#include "CeshiScene.h"
-#include "SQLiteData.h"
-#include <iostream>
-#include <string>
-USING_NS_CC;
-using namespace std;
 
 #define TAG_LAYER_EXIT 1001
 
 WallSingleScene::WallSingleScene(){
-	isLongPressAllow = false;
+	isLongPressAllow = true;		//允许长按响应
+	unitID = "0";
 }
 
 WallSingleScene::~WallSingleScene(){
 
 }
 
-//////////////////////////////////////////
 CCScene* WallSingleScene::scene(string filename)
 {
-	// 'scene' is an autorelease object
 	CCScene *scene = CCScene::create();
-
-	// 'layer' is an autorelease object
 	WallSingleScene *layer = WallSingleScene::create(filename);
-
-	// add layer as a child to scene
 	scene->addChild(layer);
-
-	// return the scene
 	return scene;
 }
 
@@ -51,7 +32,6 @@ WallSingleScene* WallSingleScene::create(string wallxmlname){
 	}
 }
 
-// on "init" you need to initialize your instance
 bool WallSingleScene::init(string xmlfilename)
 {
 	//////////////////////////////
@@ -67,10 +47,6 @@ bool WallSingleScene::init(string xmlfilename)
 
 	isMoved = false;
 	touched = false;
-
-	CCLog("WallSingleScene:init");
-
-
 
 	//注册触摸事件
 	CCPoint changepoint=ccp(0,0);
@@ -126,13 +102,6 @@ void WallSingleScene::onEnter(){
 	selectionMode->setPosition(titlebar->getPosition());
 
 
-	////////////////////////////////////////////////////////////////////////////////
-// 	CCSprite* pSprite = CCSprite::create("wall.JPG");
-// 	CCSize spriteSize = pSprite->getContentSize();
-// 	pSprite->setPosition(ccp(spriteSize.width/2,spriteSize.height/2));
-// 	pSprite->setScale(15);
-// 	this->addChild(pSprite, 0);
-
 	CCSprite* wall_tail = CCSprite::create("strangedesign/title bar_background.png");
 	this->addChild(wall_tail,2);
 	CCSize tailSize = wall_tail->getContentSize();
@@ -144,10 +113,7 @@ void WallSingleScene::onEnter(){
 	addChild(screenshot,12);
 	screenshot->setPosition(wall_tail->getPosition());
 
-// 	vector<string> groupCharacter = SQLiteData::getGroupCharacter(DataTool::intTostring(0));
-	vector<vector<string>> groupCharacter = SQLiteData::getUnit(DataTool::intTostring(0));
-	//	SQLiteData::updateGroupCharacter(DataTool::intTostring(1),DataTool::intTostring(1),DataTool::getChinese("zi"));
-
+	groupCharacter = SQLiteData::getUnit(unitID);
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	string myfilename = CCFileUtils::sharedFileUtils()->getWritablePath()+wallXMLCurrent;
@@ -452,7 +418,7 @@ void WallSingleScene::popup(string hanzi){
 	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
 	popL = PopLayer::create(hanzi,"pop/background.png");
 	popL->setContentSize(CCSizeMake(winSize.width*0.75,winSize.height*0.75));
-	popL->setTitle("test");
+	popL->setTitle("Modify Unit");
 	popL->setEditBox();
 	popL->setCallBackFunc(this,callfuncN_selector(WallSingleScene::buttonCallBack));
 	popL->addButton("sure_up.png","sure_down.png","Y",0);
@@ -467,15 +433,28 @@ void WallSingleScene::buttonCallBack(CCNode* pNode){
 	if (pNode->getTag() == 0)
 	{
 		//弹出对话框，确认，将汉字写到对应位置
-		//const char* h = popL->getHanzi();
 		for (vector<CHanziManage>::iterator iter = hanzilist.begin(); iter != hanzilist.end(); ++iter)
 		{
 			if (iter == selectedCHanziManageIter)
 			{
 				// 将改动的汉字写入到xml文件，saveToFile()
-				const char* h = popL->getHanzi();
-				//				string dst(h,strlen(h)+1);
-				saveToFile(iter->character, h);
+				const char* h = popL->getHanzi();			//改动的汉字
+				//saveToFile(iter->character, h);
+
+				//将汉字更新到数据库中
+				for (int i = 0 ;i < groupCharacter.size(); ++i)
+				{
+					if (iter->character == groupCharacter.at(i).at(0))
+					{
+						vector<string> newSingle;
+						newSingle.push_back(string(h));
+						newSingle.push_back(DataTool::intTostring(0));
+						newSingle.push_back(DataTool::intTostring(2));
+						groupCharacter[i] = newSingle;
+						break;
+					}
+				}
+				SQLiteData::updateUnit(unitID,groupCharacter);
 
 				iter->character = string(popL->getHanzi());
 				CCLabelTTF* t = (CCLabelTTF*)iter->textbox;
@@ -493,8 +472,12 @@ void WallSingleScene::buttonCallBack(CCNode* pNode){
 
 void WallSingleScene::longPressUpdate(float fDelta){
 	CCLog("longPressUpdate %f",fDelta);
-
-	if (isMoved == false && selectedHanzi.length() > 0 && isLongPressAllow == true)
+	if (isLongPressAllow == false){
+		//解除定时器
+		CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(WallSingleScene::longPressUpdate),this);
+		return;
+	}
+	if (isMoved == false && selectedHanzi.length() > 0)
 	{
 		popup(selectedHanzi);
 	}

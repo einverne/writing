@@ -2,6 +2,11 @@
 #define __SQLiteData_H_
 
 #include "cocos2d.h"
+#include "SqliteHelper.h"
+#include "CharacterEntity.h"
+#include "strokeFunc.h"
+#include "CharacterExtend.h"
+
 USING_NS_CC;
 using namespace std;
 
@@ -61,6 +66,11 @@ public:
 	* @return true成功 false失败
 	*/
 //	static bool updateGroupCharacter(string index, string indexOfCharacter, string character);
+
+	// usage of these two functions
+	// 	vector<string> groupCharacter = SQLiteData::getGroupCharacter(DataTool::intTostring(0));
+	//	SQLiteData::updateGroupCharacter(DataTool::intTostring(1),DataTool::intTostring(1),DataTool::getChinese("zi"));
+
 
 	/**
 	* 从数据库中查询index号Unit中前count个字，保存到数组桌哦你

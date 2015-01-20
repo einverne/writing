@@ -10,7 +10,6 @@ USING_NS_CC;
 #define TAG_LAYER_EXIT 1001
 #define TAG_SETTING_LAYER 1002
 
-
 MainScene::MainScene(){
 
 }
@@ -38,24 +37,6 @@ bool MainScene::init(){
 
 	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
 	CCSize visiableSize = CCDirector::sharedDirector()->getVisibleSize();
-// 	CCSprite* bg = CCSprite::create("main_background.jpg");
-// 	CCSize bgsize = bg->getContentSize();
-// 	bg->setPosition(ccp(winSize.width/2,winSize.height/2));
-// 	addChild(bg,0);
-// 	bg->setScaleX(winSize.width/bgsize.width);
-// 	bg->setScaleY(winSize.height/bgsize.height);
-
-// 	CCLayer* container_layer = CCLayer::create();
-// 	CCSprite* sp = CCSprite::create("strangedesign\\main_button.png");
-// 	float lay_height = (sp->getContentSize().height+50)*20;
-// 	container_layer->setContentSize(CCSizeMake(winSize.width,lay_height));
-
-//	CCSize scrollview_size = winSize;
-// 	m_pScrollView = CCScrollView::create(scrollview_size , container_layer);
-// 	m_pScrollView->setDirection(kCCScrollViewDirectionVertical);
-// 	m_pScrollView->setPosition(CCPointZero);
-// 	addChild(m_pScrollView);
-// 	m_pScrollView->setContentOffset(ccp(0 , -(container_layer->getContentSize().height-winSize.height)));
 
 	CCMenuItemImage* setting_btn = CCMenuItemImage::create("setting.png",
 		"setting.png",
@@ -66,30 +47,6 @@ bool MainScene::init(){
 	CCMenu* m = CCMenu::create(setting_btn,NULL);
 	m->setPosition(CCPointZero);
 	addChild(m,2);
-
-// 	CCArray* array = CCArray::create();
-// 	for (int i = 0; i < 20 ; i++)
-// 	{
-// 		string s = DataTool::intTostring(i+1);
-// 		CCLabelTTF* label = CCLabelTTF::create(s.c_str(),"Arial",50);
-// 		CCMenuItemImage* p = CCMenuItemImage::create(
-// 			"strangedesign\\main_button.png",
-// 			"strangedesign\\main_button.png",
-// 			this,
-// 			menu_selector(MainScene::menuSelected)
-// 			);
-// 		p->setUserObject(CCString::create(s));
-// 		p->setContentSize(CCSizeMake(100,100));
-// 		CCPoint position = ccp(winSize.width/2,container_layer->getContentSize().height-(2*i+1)*(25+p->getContentSize().height/2));
-// 		p->setPosition(position);
-// 		label->setPosition(position);
-// 		array->addObject(p);
-// 		container_layer->addChild(label,2);
-// 	}
-// 	CCMenu* menu = CCMenu::createWithArray(array);
-// 	container_layer->addChild(menu,1);
-// 	menu->setPosition(CCPointZero);
-
 
 	CGridView* pGridView = CGridView::create(
 		CCSize(720, 1080),
@@ -105,15 +62,6 @@ bool MainScene::init(){
 	return true;
 }
 
-// void MainScene::onEnter(){
-// 	CCLayer::onEnter();
-// 
-// }
-// 
-// void MainScene::onExit(){
-// 	CCLayer::onExit();
-// }
-
 void MainScene::keyBackClicked(){
 	CCLog("MainScene::keyBackClicked");
 	if (CCDirector::sharedDirector()->getRunningScene()->getChildByTag(1001) == NULL) {
@@ -128,14 +76,6 @@ void MainScene::keyBackClicked(){
 		exitDialog->addButton("cancer_up.png","cancer_down.png","N",1);
 		CCDirector::sharedDirector()->getRunningScene()->addChild(exitDialog,100,TAG_LAYER_EXIT);
 	}
-}
-
-void MainScene::menuSelected(CCObject* pSender){
-	CCMenuItemImage* menuItemImag = (CCMenuItemImage*)pSender;
-	CCString* text = (CCString*)menuItemImag->getUserObject();
-	string number = text->getCString();
-	string wallfilename = "wall_"+number+".xml";
-	CCDirector::sharedDirector()->replaceScene(WallSingleScene::scene(wallfilename));
 }
 
 void MainScene::isExit(CCNode* pNode){
@@ -171,15 +111,6 @@ void MainScene::settingCallBack(CCNode* pNode){
 		DataTool::storeToFile("1","setting.xml");
 	}
 }
-
-// void MainScene::scrollViewDidScroll(CCScrollView* view){
-// 
-// }
-// 
-// void MainScene::scrollViewDidZoom(CCScrollView* view){
-// 
-// }
-
 
 CCObject* MainScene::gridviewDataSource(CCObject* pConvertView, unsigned int idx){
 	CGridViewCell* pCell = (CGridViewCell*) pConvertView;
