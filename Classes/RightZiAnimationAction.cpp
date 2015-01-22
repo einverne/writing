@@ -39,24 +39,24 @@ void RightZiAnimationAction::startWithTarget(CCNode *pTarget){
 }
 
 void RightZiAnimationAction::update(float time){
-	CCLog("Time:%f",time);
+	CCLog("Time: %f",time);
 	CCActionInterval::update(time);
 	TcharacterDrawnode* tnode = (TcharacterDrawnode*)m_pTarget;
 	CCArray* temp = tnode->getstrokedrawList();
 	CCObject* it = NULL;
 	int count = tnode->getPointsCount();
 	int c = count / (this->m_fDuration*60);
-	CCARRAY_FOREACH(temp,it){
-		StrokeDrawnode* snode = (StrokeDrawnode*)it;
-		if (snode->getVisibleIndex() >= snode->getStroke().getPointsCount())
-		{
-			continue;
-		}
-		snode->setVisibleIndex(snode->getVisibleIndex() + 1);
-		if (snode->getVisibleIndex()  >= snode->getStroke().getPointsCount())
-		{
-			tnode->setVisibleIndex(tnode->getVisibleIndex()+1);
-		}
-		break;
+	int delta = count * time;
+	int stroke_index = tnode->getVisibleIndex();
+	int visible_stroke_index = 0;
+	int sumcount = 0;
+	StrokeDrawnode* snode = (StrokeDrawnode*)temp->objectAtIndex(visible_stroke_index);
+	while (sumcount + snode->getStroke().getPointsCount() < delta && visible_stroke_index < tnode->getstrokedrawList()->count()-1)
+	{
+		sumcount += snode->getStroke().getPointsCount();
+		visible_stroke_index++;
+		snode = (StrokeDrawnode*)temp->objectAtIndex(visible_stroke_index);
 	}
+	tnode->setVisibleIndex(visible_stroke_index);
+	snode->setVisibleIndex(delta-sumcount);
 }
