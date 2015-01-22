@@ -28,10 +28,18 @@ bool MainScene::init(){
 
 	CWidgetWindow* m_pWindow = CWidgetWindow::create();
 	m_pWindow->setMultiTouchEnabled(true);
-	addChild(m_pWindow);
+	addChild(m_pWindow,4);
 
 	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
 	CCSize visiableSize = CCDirector::sharedDirector()->getVisibleSize();
+
+	CCSprite* titlebar = CCSprite::create("strangedesign/title bar_background.png");
+	addChild(titlebar,1);
+	titlebar->setPosition(ccp(visiableSize.width/2,visiableSize.height-titlebar->getContentSize().height/2));
+
+	CCSprite* selectionMode = CCSprite::create("strangedesign/Page_selectionmode_character.png");
+	addChild(selectionMode,2);
+	selectionMode->setPosition(titlebar->getPosition());
 
 	CCMenuItemImage* setting_btn = CCMenuItemImage::create("setting.png",
 		"setting.png",
@@ -41,22 +49,23 @@ bool MainScene::init(){
 	setting_btn->setPosition(ccp(winSize.width- setting_btn->getContentSize().width -100, setting_btn->getContentSize().height));
 	CCMenu* m = CCMenu::create(setting_btn,NULL);
 	m->setPosition(CCPointZero);
-	addChild(m,2);
+	addChild(m,3);
 
-	CButton* add_btn = CButton::create("ButtonPlus.png","ButtonPlusSel.png");
-	add_btn->setPosition(ccp(winSize.width- setting_btn->getContentSize().width -250, setting_btn->getContentSize().height));
+	CButton* add_btn = CButton::create("strangedesign/Main_add_button.png","strangedesign/Main_add_button.png");
+	add_btn->setPosition(ccp(winSize.width -50, winSize.height- titlebar->getContentSize().height/2));
 	add_btn->setOnClickListener(this,ccw_click_selector(MainScene::addButtonCallback));
-	m_pWindow->addChild(add_btn);
+	m_pWindow->addChild(add_btn,4);
 
+	CCLog("unit count %d",unit_count);
 	pGridView = CGridView::create(
-		CCSize(720, 1080),
+		CCSize(720, 980),
 		CCSize(360 , 350),
 		unit_count, this,
 		ccw_datasource_adapter_selector(MainScene::gridviewDataSource));
 	pGridView->setColumns(2);
 	pGridView->setPosition(CCSize(winSize.width/2,winSize.height/2));
 	m_pWindow->addChild(pGridView);
-	pGridView->setAutoRelocate(false);
+	pGridView->setAutoRelocate(true);
 	pGridView->reloadData();
 
 	return true;
@@ -115,9 +124,9 @@ void MainScene::settingCallBack(CCNode* pNode){
 CCObject* MainScene::gridviewDataSource(CCObject* pConvertView, unsigned int idx){
 	CGridViewCell* pCell = (CGridViewCell*) pConvertView;
 	CButton* pButton = NULL;
-
-	if(!pCell)
-	{
+	CCLog("idx %d",idx);
+// 	if(!pCell)
+// 	{
 		pCell = new CGridViewCell();
 		pCell->autorelease();
 
@@ -151,11 +160,11 @@ CCObject* MainScene::gridviewDataSource(CCObject* pConvertView, unsigned int idx
 			clabel->setColor(ccc3(0,0,0));
 			sprite->addChild(clabel);
 		}
-	}
-	else
-	{
-		pButton = (CButton*) pCell->getChildByTag(1);
-	}
+// 	}
+// 	else
+// 	{
+// 		pButton = (CButton*) pCell->getChildByTag(1);
+// 	}
 
 	char buff[64];
 	sprintf(buff, "%u", idx);
@@ -179,6 +188,7 @@ bool  MainScene::buttonLongClick(CCObject* pSender, CCTouch* pTouch){
 	//长按进入编辑界面
 	CButton* pButton = (CButton*)pSender;
 	int idx = pButton->getUserTag();
+	CCLog("idx %d",idx);
 
 	return true;
 }
@@ -195,8 +205,8 @@ void MainScene::addButtonCallback(CCObject* pSender){
 		unit.push_back(single);
 	}
 	SQLiteData::insertUnit(unit);
-// 	unit_count++;
-// 	pGridView->setCountOfCell(unit_count);
-// 	unit_ids = SQLiteData::getUnitIDs();
-// 	pGridView->reloadData();
+	unit_count++;
+	pGridView->setCountOfCell(unit_count);
+	unit_ids = SQLiteData::getUnitIDs();
+	pGridView->reloadData();
 }
