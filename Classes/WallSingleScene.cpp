@@ -34,8 +34,6 @@ WallSingleScene* WallSingleScene::create(string wallxmlname){
 
 bool WallSingleScene::init(string xmlfilename)
 {
-	//////////////////////////////
-	// 1. super init first
 	if ( !CCLayerColor::initWithColor(ccc4(255,255,255,255)) )
 	{
 		return false;
@@ -179,9 +177,9 @@ void WallSingleScene::onEnter(){
 			int h=atoi((temph.substr(0, temph.size()-2)).c_str());
 
 			string strcharacterposx=characterposx->GetText();
-			int intcharacterposx=atoi((strcharacterposx.substr(0,strcharacterposx.size()-2)).c_str());
+			int intcharacterposx=atoi((strcharacterposx.substr(0,strcharacterposx.size())).c_str());
 			string strcharacterposy=characterposy->GetText();
-			int intcharacterposy=atoi((strcharacterposy.substr(0, strcharacterposy.size()-2)).c_str());
+			int intcharacterposy=atoi((strcharacterposy.substr(0, strcharacterposy.size())).c_str());
 			string strscoreposx=scoreposx->GetText();
 			int intscoreposx=atoi((strscoreposx.substr(0,strscoreposx.size())).c_str());
 			string strscoreposy=scoreposy->GetText();
@@ -192,18 +190,15 @@ void WallSingleScene::onEnter(){
 			int inttimesposy=atoi((strtimesposy.substr(0, strtimesposy.size())).c_str());
 
 
-			//坐标系重定位
-			x=x+w/2;
+			//坐标系重定位 将XML中第四象限坐标转成第一象限
+			x+=w/2;
 			y=height-y-h/2;
 
-// 			intcharacterposx=intcharacterposx+w/2;
-// 			intcharacterposy=height-intcharacterposy-h/2;
-// 
-// 			intscoreposx=intscoreposx+w/2;
-// 			intscoreposy=height-intscoreposy-h/2;
-// 
-// 			inttimesposx=inttimesposx+w/2;
-// 			inttimesposy=height-inttimesposy-h/2;
+
+			intcharacterposx=height-intcharacterposx;
+			intscoreposy=height-intscoreposy;
+			inttimesposy=height-inttimesposy;
+
 
 			//缩放
 			x*=width_rescale;
@@ -218,19 +213,20 @@ void WallSingleScene::onEnter(){
 
 			w*=width_rescale;
 			h*=rescale;
-			y += wall_tail->getContentSize().height;
+			y += wall_tail->getContentSize().height-20;
 
-			intcharacterposy += wall_tail->getContentSize().height;
-			intscoreposy += wall_tail->getContentSize().height;
-			inttimesposy += wall_tail->getContentSize().height;
+			intcharacterposy += wall_tail->getContentSize().height-20;
+			intscoreposy += wall_tail->getContentSize().height-20;
+			inttimesposy += wall_tail->getContentSize().height-20;
 
 			string tempfilename=imgElement->GetText();
 
+			//添加田字格背景图
 			CCSprite* pSprite1 = CCSprite::create(tempfilename.c_str());
 			pSprite1->setScaleY(rescale);
 			pSprite1->setScaleX(width_rescale);
 			pSprite1->setPosition(ccp(origin.x+x, origin.y+y));
-			this->addChild(pSprite1, 1);
+			addChild(pSprite1, 1);
 
 			hanzis.push_back(groupCharacter.at(indexOfCharacter).at(0));
 
@@ -240,12 +236,12 @@ void WallSingleScene::onEnter(){
 			pLabel->setColor(ccc3(0,0,0));
 			this->addChild(pLabel, 2);
 			//添加次数
-			CCLabelTTF* timesLabel = CCLabelTTF::create(groupCharacter.at(indexOfCharacter).at(1).c_str(),"Arial",40);
+			CCLabelTTF* timesLabel = CCLabelTTF::create(groupCharacter.at(indexOfCharacter).at(1).c_str(),"Arial",35);
 			timesLabel->setPosition(ccp(origin.x+inttimesposx,origin.y+inttimesposy));
 			timesLabel->setColor(ccc3(0,0,0));
 			addChild(timesLabel,2);
 			//添加评判最高分
-			CCLabelTTF* scoreLabel = CCLabelTTF::create(groupCharacter.at(indexOfCharacter).at(2).c_str(),"Arial",40);
+			CCLabelTTF* scoreLabel = CCLabelTTF::create(groupCharacter.at(indexOfCharacter).at(2).c_str(),"Arial",35);
 			scoreLabel->setPosition(ccp(origin.x+intscoreposx,origin.y+intscoreposy));
 			scoreLabel->setColor(ccc3(0,0,0));
 			addChild(scoreLabel,2);
