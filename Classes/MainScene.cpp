@@ -125,8 +125,8 @@ CCObject* MainScene::gridviewDataSource(CCObject* pConvertView, unsigned int idx
 	CGridViewCell* pCell = (CGridViewCell*) pConvertView;
 	CButton* pButton = NULL;
 	CCLog("idx %d",idx);
-// 	if(!pCell)
-// 	{
+	if(!pCell)
+	{
 		pCell = new CGridViewCell();
 		pCell->autorelease();
 
@@ -145,7 +145,7 @@ CCObject* MainScene::gridviewDataSource(CCObject* pConvertView, unsigned int idx
 
 // 		vector<string> groupCharacter = SQLiteData::getGroupCharacter(DataTool::intTostring(0));
 		CCLog("idx %d",idx);
-		vector<vector<string>> groupCharacter = SQLiteData::getUnit(unit_ids.at(idx));
+		vector<vector<string> > groupCharacter = SQLiteData::getUnit(unit_ids.at(idx));
 
 		CCPoint positions[16] = {ccp(40,280),ccp(120,280),ccp(200,280),ccp(280,280),
 			ccp(40,200),ccp(120,200),ccp(200,200),ccp(280,200),
@@ -160,11 +160,39 @@ CCObject* MainScene::gridviewDataSource(CCObject* pConvertView, unsigned int idx
 			clabel->setColor(ccc3(0,0,0));
 			sprite->addChild(clabel);
 		}
-// 	}
-// 	else
-// 	{
-// 		pButton = (CButton*) pCell->getChildByTag(1);
-// 	}
+	}
+	else
+	{
+		pButton = CButton::create("strangedesign\\main_clincher.png");
+		pButton->setPosition(CCPoint(360/2, 350-pButton->getContentSize().height/2));
+		pButton->getLabel()->setFontSize(40.0f);
+		pButton->setTag(1);
+
+		pCell->addChild(pButton,10);
+
+		CCSprite* sprite = CCSprite::create("strangedesign\\table4mul4.png");
+		sprite->setContentSize(CCSize(320,320));
+		sprite->setPosition(CCPoint(360/2,350/2));
+		pCell->addChild(sprite,1);
+
+		// 		vector<string> groupCharacter = SQLiteData::getGroupCharacter(DataTool::intTostring(0));
+		CCLog("idx %d",idx);
+		vector<vector<string> > groupCharacter = SQLiteData::getUnit(unit_ids.at(idx));
+
+		CCPoint positions[16] = {ccp(40,280),ccp(120,280),ccp(200,280),ccp(280,280),
+			ccp(40,200),ccp(120,200),ccp(200,200),ccp(280,200),
+			ccp(40,120),ccp(120,120),ccp(200,120),ccp(280,120),
+			ccp(40,40),ccp(120,40),ccp(200,40),ccp(280,40)
+		};
+		for (int i = 0; i < groupCharacter.size(); i++)
+		{
+			string hanzi = groupCharacter.at(i).at(0);
+			CCLabelTTF* clabel = CCLabelTTF::create(hanzi.c_str(),"Arial",40);
+			clabel->setPosition(positions[i]);
+			clabel->setColor(ccc3(0,0,0));
+			sprite->addChild(clabel);
+		}
+	}
 
 	char buff[64];
 	sprintf(buff, "%u", idx);
@@ -195,7 +223,7 @@ bool  MainScene::buttonLongClick(CCObject* pSender, CCTouch* pTouch){
 
 void MainScene::addButtonCallback(CCObject* pSender){
 	CCLog("Add new");
-	vector<vector<string>> unit;
+	vector<vector<string> > unit;
 	vector<string> single;
 	single.push_back(DataTool::getChinese("zi"));
 	single.push_back(DataTool::intTostring(12));
