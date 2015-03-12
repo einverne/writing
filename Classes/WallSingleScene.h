@@ -12,6 +12,7 @@
 #include "MyToast.h"
 #include "CeshiScene.h"
 #include "SQLiteData.h"
+#include <vector>
 using namespace std;
 USING_NS_CC;
 
@@ -104,7 +105,7 @@ private:
 	vector<string> hanzis;
 	bool isLongPressAllow;
 	string unitID;				//用以区别不同单元，与数据库中单元ID列对应
-	vector<vector<string>> groupCharacter;
+	vector<vector <string> > groupCharacter;
 };
 
 #endif // __WallSingleScene_H__

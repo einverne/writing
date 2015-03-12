@@ -7,47 +7,77 @@ LOCAL_MODULE := cocos2dcpp_shared
 LOCAL_MODULE_FILENAME := libcocos2dcpp
 
 LOCAL_SRC_FILES := hellocpp/main.cpp \
-				   ../../Classes/sqlite3.c \
-                   ../../Classes/AppDelegate.cpp \
-                   ../../Classes/BackgroundLayer.cpp \
-                   ../../Classes/Bujian.cpp \
-                   ../../Classes/Character.cpp \
-                   ../../Classes/CeshiScene.cpp \
-                   ../../Classes/ceshiLayer.cpp \
-                   ../../Classes/HanziManage.cpp \
-                   ../../Classes/HcharacterDrawnode.cpp \
-                   ../../Classes/HcharacterLayer.cpp \
-                   ../../Classes/HclcData.cpp \
-                   ../../Classes/JudgeManager.cpp \
-                   ../../Classes/LianxiScene.cpp \
-                   ../../Classes/LuaScriptReader.cpp \
-                   ../../Classes/MainScene.cpp \
-                   ../../Classes/MyToast.cpp \
-                   ../../Classes/PopLayer.cpp \
-                   ../../Classes/ReadXML.cpp \
-                   ../../Classes/Splash.cpp \
-                   ../../Classes/Stroke.cpp \
-                   ../../Classes/StrokeDrawnode.cpp \
-                   ../../Classes/StrokeNode.cpp \
-                   ../../Classes/strokeFunc.cpp \
-                   ../../Classes/SQLiteData.cpp \
-                   ../../Classes/TcharacterDrawnode.cpp \
-                   ../../Classes/TcharacterLayer.cpp \
-                   ../../Classes/TouchLayer.cpp \
-                   ../../Classes/WallScene.cpp \
-                   ../../Classes/WallSingleScene.cpp \
-                   ../../Classes/tinystr.cpp \
-                   ../../Classes/tinyxml.cpp \
-                   ../../Classes/tinyxmlerror.cpp \
-                   ../../Classes/tinyxmlparser.cpp \
-                   ../../Classes/MoveToRightPlaceInterval.cpp \
-                   ../../Classes/SqliteHelper.cpp \
-                   ../../Classes/CharacterEntity.cpp \
-                   ../../Classes/CharacterExtend.cpp \
-                   ../../Classes/RightZiAnimationAction.cpp \
-                   ../../Classes/tools/DataTool.cpp \
+                ../../CocosWidget/Button.cpp \
+				../../CocosWidget/CheckBox.cpp \
+				../../CocosWidget/ColorView.cpp \
+				../../CocosWidget/ControlView.cpp \
+				../../CocosWidget/ExpandableListView.cpp \
+				../../CocosWidget/GradientView.cpp \
+				../../CocosWidget/GridPageView.cpp \
+				../../CocosWidget/GridView.cpp \
+				../../CocosWidget/ImageView.cpp \
+				../../CocosWidget/ImageViewScale9.cpp \
+				../../CocosWidget/Label.cpp \
+				../../CocosWidget/LabelAtlas.cpp \
+				../../CocosWidget/LabelBMFont.cpp \
+				../../CocosWidget/Layout.cpp \
+				../../CocosWidget/ListView.cpp \
+				../../CocosWidget/Lua_cocos2dx_widget.cpp \
+				../../CocosWidget/PageView.cpp \
+				../../CocosWidget/ProgressBar.cpp \
+				../../CocosWidget/Scale9Sprite.cpp \
+				../../CocosWidget/ScrollView.cpp \
+				../../CocosWidget/Slider.cpp \
+				../../CocosWidget/TableView.cpp \
+				../../CocosWidget/TextArea.cpp \
+				../../CocosWidget/TextRich.cpp \
+				../../CocosWidget/ToggleView.cpp \
+				../../CocosWidget/Widget.cpp \
+				../../CocosWidget/WidgetProtocol.cpp \
+				../../CocosWidget/WidgetWindow.cpp \
+				../../CocosWidget/WitlsMacros.cpp \
+			   ../../Classes/sqlite3.c \
+			   ../../Classes/AppDelegate.cpp \
+			   ../../Classes/BackgroundLayer.cpp \
+			   ../../Classes/Bujian.cpp \
+			   ../../Classes/Character.cpp \
+			   ../../Classes/CeshiScene.cpp \
+			   ../../Classes/ceshiLayer.cpp \
+			   ../../Classes/HanziManage.cpp \
+			   ../../Classes/HcharacterDrawnode.cpp \
+			   ../../Classes/HcharacterLayer.cpp \
+			   ../../Classes/HclcData.cpp \
+			   ../../Classes/JudgeManager.cpp \
+			   ../../Classes/LianxiScene.cpp \
+			   ../../Classes/LuaScriptReader.cpp \
+			   ../../Classes/MainScene.cpp \
+			   ../../Classes/MyToast.cpp \
+			   ../../Classes/PopLayer.cpp \
+			   ../../Classes/ReadXML.cpp \
+			   ../../Classes/Splash.cpp \
+			   ../../Classes/Stroke.cpp \
+			   ../../Classes/StrokeDrawnode.cpp \
+			   ../../Classes/StrokeNode.cpp \
+			   ../../Classes/strokeFunc.cpp \
+			   ../../Classes/SQLiteData.cpp \
+			   ../../Classes/TcharacterDrawnode.cpp \
+			   ../../Classes/TcharacterLayer.cpp \
+			   ../../Classes/TouchLayer.cpp \
+			   ../../Classes/WallScene.cpp \
+			   ../../Classes/WallSingleScene.cpp \
+			   ../../Classes/tinystr.cpp \
+			   ../../Classes/tinyxml.cpp \
+			   ../../Classes/tinyxmlerror.cpp \
+			   ../../Classes/tinyxmlparser.cpp \
+			   ../../Classes/MoveToRightPlaceInterval.cpp \
+			   ../../Classes/SqliteHelper.cpp \
+			   ../../Classes/CharacterEntity.cpp \
+			   ../../Classes/CharacterExtend.cpp \
+			   ../../Classes/RightZiAnimationAction.cpp \
+			   ../../Classes/tools/DataTool.cpp \
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes\
+LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../CocosWidget\
 
 LOCAL_WHOLE_STATIC_LIBRARIES += cocos2dx_static
 LOCAL_WHOLE_STATIC_LIBRARIES += cocosdenshion_static
@@ -59,8 +89,8 @@ LOCAL_WHOLE_STATIC_LIBRARIES += cocos_lua_static
 
 include $(BUILD_SHARED_LIBRARY)
 
-$(call import-add-path,D:\graduation_project\cocos2d-x-2.1.5)
-$(call import-add-path,D:\graduation_project\cocos2d-x-2.1.5\cocos2dx\platform\third_party\android\prebuilt\)
+$(call import-add-path,E:\graduation_project\cocos2d-x-2.1.5)
+$(call import-add-path,E:\graduation_project\cocos2d-x-2.1.5\cocos2dx\platform\third_party\android\prebuilt\)
 $(call import-module,cocos2dx)
 $(call import-module,cocos2dx/platform/third_party/android/prebuilt/libcurl)
 $(call import-module,CocosDenshion/android)

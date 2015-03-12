@@ -107,9 +107,9 @@ vector<string> splitSingle(string singlestring){
 	return strRe;
 }
 
-vector<vector<string>> splitUnitString(string charstring){
+vector< vector<string> > splitUnitString(string charstring){
 	string::size_type pos1,pos2;
-	vector<vector<string>> strvec;
+	vector< vector<string> > strvec;
 	pos2 = charstring.find('/');
 	pos1 = 0;
 	while (string::npos != pos2)
@@ -121,7 +121,7 @@ vector<vector<string>> splitUnitString(string charstring){
 	return strvec;
 }
 
-string createUnitString(vector<vector<string>> unit){
+string createUnitString(vector< vector<string> > unit){
 	string ret;
 	for (int i = 0 ; i < unit.size(); i++)
 	{
@@ -135,12 +135,12 @@ string createUnitString(vector<vector<string>> unit){
 	return ret;
 }
 
-vector<vector<string>> SQLiteData::getUnit(string unit_id,int count){
+vector< vector<string> > SQLiteData::getUnit(string unit_id,int count){
 	SQLiteHelper::initDB(judgepath.c_str());
 	string sql = "select * from unit where id ='"+unit_id+"'";
 	string charstring = SQLiteHelper::getUnit(sql);
-	vector<vector<string>> result = splitUnitString(charstring);
-	vector<vector<string>> re;
+	vector< vector<string> > result = splitUnitString(charstring);
+	vector< vector<string> > re;
 	for (int i = 0 ; i < count ; ++i)
 	{
 		re.push_back(result.at(i));
@@ -149,7 +149,7 @@ vector<vector<string>> SQLiteData::getUnit(string unit_id,int count){
 	return re;
 }
 
-bool SQLiteData::updateUnit(string unit_id,vector<vector<string>> unit){
+bool SQLiteData::updateUnit(string unit_id,vector< vector<string> > unit){
 	SQLiteHelper::initDB(judgepath.c_str());
 	string unitStr = createUnitString(unit);
 	string sql = "update unit set characters='"+unitStr+"' where id = '"+unit_id+"'";
@@ -158,7 +158,7 @@ bool SQLiteData::updateUnit(string unit_id,vector<vector<string>> unit){
 	return true;
 }
 
-string SQLiteData::insertUnit(vector<vector<string>> unit){
+string SQLiteData::insertUnit(vector< vector<string> > unit){
 	SQLiteHelper::initDB(judgepath.c_str());
 	string sql = "insert into unit (characters) values ('"+createUnitString(unit)+"')";
 	int id = SQLiteHelper::insertData(sql);
@@ -166,7 +166,7 @@ string SQLiteData::insertUnit(vector<vector<string>> unit){
 	return DataTool::intTostring(id);
 }
 
-string SQLiteData::insertUnit(string unit_info,vector<vector<string>> unit){
+string SQLiteData::insertUnit(string unit_info,vector< vector<string> > unit){
 	SQLiteHelper::initDB(judgepath.c_str());
 	string sql = "insert into unit (unit_info,characters) values ('"+unit_info+"','"+createUnitString(unit)+"')";
 	int id = SQLiteHelper::insertData(sql);

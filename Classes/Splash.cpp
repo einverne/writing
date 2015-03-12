@@ -36,10 +36,10 @@ bool Splash::init(){
     bg->setScaleY(winSize.height/bgSize.height);
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-    for(int i = 1; i<=20; i++){
-    	string str_i = DataTool::intTostring(i);
-    	initXML("wall_"+str_i+".xml");
-    }
+//    for(int i = 1; i<=20; i++){
+//    	string str_i = DataTool::intTostring(i);
+//    	initXML("wall_"+str_i+".xml");
+//    }
     string dbpat = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_info.db";
 	if (!CCFileUtils::sharedFileUtils()->isFileExist(dbpat))
 	{
@@ -106,13 +106,11 @@ void Splash::initDB(string db_name){
 
 void Splash::onEnter(){
     CCLayer::onEnter();
-//    CCLog("onEnter");
     this->scheduleOnce(schedule_selector(Splash::finishSplash),0.8f);
 }
 
 void Splash::onExit(){
     CCLayer::onExit();
-//    CCLog("onExit");
 }
 
 void Splash::onExitTransitionDidStart(){

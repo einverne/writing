@@ -1,0 +1,249 @@
+<xml>
+    <meta>
+        <height>2600</height>
+        <width>1500</width>
+    </meta>
+    <data>
+        <stone>
+            <type>wordbox</type>
+            <x>0 px</x>
+            <y>350 px</y>
+            <w>375 px</w>
+            <h>460 px</h>
+            <img>strangedesign\scoretable.png</img>
+            <characterposx>186</characterposx>
+            <characterposy>616</characterposy>
+            <scoreposx>124</scoreposx>
+            <scoreposy>392</scoreposy>
+            <timesposx>311</timesposx>
+            <timesposy>392</timesposy>
+        </stone>
+
+	  <stone>
+            <type>wordbox</type>
+            <x>375 px</x>
+            <y>350 px</y>
+            <w>375 px</w>
+            <h>460 px</h>
+            <img>strangedesign\scoretable.png</img>
+            <characterposx>561</characterposx>
+            <characterposy>616</characterposy>
+            <scoreposx>499</scoreposx>
+            <scoreposy>392</scoreposy>
+            <timesposx>686</timesposx>
+            <timesposy>392</timesposy>
+        </stone>
+
+	  <stone>
+            <type>wordbox</type>
+            <x>750 px</x>
+            <y>350 px</y>
+            <w>375 px</w>
+            <h>460 px</h>
+            <img>strangedesign\scoretable.png</img>
+            <characterposx>936</characterposx>
+            <characterposy>616</characterposy>
+            <scoreposx>874</scoreposx>
+            <scoreposy>392</scoreposy>
+            <timesposx>1061</timesposx>
+            <timesposy>392</timesposy>
+        </stone>
+
+	  <stone>
+            <type>wordbox</type>
+            <x>1125 px</x>
+            <y>350 px</y>
+            <w>375 px</w>
+            <h>460 px</h>
+            <img>strangedesign\scoretable.png</img>
+            <characterposx>1311</characterposx>
+            <characterposy>616</characterposy>
+            <scoreposx>1249</scoreposx>
+            <scoreposy>392</scoreposy>
+            <timesposx>1436</timesposx>
+            <timesposy>392</timesposy>
+        </stone>
+
+	  <stone>
+            <type>wordbox</type>
+            <x>0 px</x>
+            <y>850 px</y>
+            <w>375 px</w>
+            <h>460 px</h>
+            <img>strangedesign\scoretable.png</img>
+            <characterposx>186</characterposx>
+            <characterposy>1116</characterposy>
+            <scoreposx>124</scoreposx>
+            <scoreposy>892</scoreposy>
+            <timesposx>311</timesposx>
+            <timesposy>892</timesposy>
+        </stone>
+
+	  <stone>
+            <type>wordbox</type>
+            <x>375 px</x>
+            <y>850 px</y>
+            <w>375 px</w>
+            <h>460 px</h>
+            <img>strangedesign\scoretable.png</img>
+            <characterposx>561</characterposx>
+            <characterposy>1116</characterposy>
+            <scoreposx>499</scoreposx>
+            <scoreposy>892</scoreposy>
+            <timesposx>686</timesposx>
+            <timesposy>892</timesposy>
+        </stone>
+
+	  <stone>
+            <type>wordbox</type>
+            <x>750 px</x>
+            <y>850 px</y>
+            <w>375 px</w>
+            <h>460 px</h>
+            <img>strangedesign\scoretable.png</img>
+            <characterposx>936</characterposx>
+            <characterposy>1116</characterposy>
+            <scoreposx>874</scoreposx>
+            <scoreposy>892</scoreposy>
+            <timesposx>1061</timesposx>
+            <timesposy>892</timesposy>
+        </stone>
+
+	  <stone>
+            <type>wordbox</type>
+            <x>1125 px</x>
+            <y>850 px</y>
+            <w>375 px</w>
+            <h>460 px</h>
+            <img>strangedesign\scoretable.png</img>
+            <characterposx>1311</characterposx>
+            <characterposy>1116</characterposy>
+            <scoreposx>1249</scoreposx>
+            <scoreposy>892</scoreposy>
+            <timesposx>1436</timesposx>
+            <timesposy>892</timesposy>
+        </stone>
+
+	  <stone>
+            <type>wordbox</type>
+            <x>0 px</x>
+            <y>1350 px</y>
+            <w>375 px</w>
+            <h>460 px</h>
+            <img>strangedesign\scoretable.png</img>
+            <characterposx>186</characterposx>
+            <characterposy>1616</characterposy>
+            <scoreposx>124</scoreposx>
+            <scoreposy>1392</scoreposy>
+            <timesposx>311</timesposx>
+            <timesposy>1392</timesposy>
+        </stone>
+
+	  <stone>
+            <type>wordbox</type>
+            <x>375 px</x>
+            <y>1350 px</y>
+            <w>375 px</w>
+            <h>460 px</h>
+            <img>strangedesign\scoretable.png</img>
+            <characterposx>561</characterposx>
+            <characterposy>1616</characterposy>
+            <scoreposx>499</scoreposx>
+            <scoreposy>1392</scoreposy>
+            <timesposx>686</timesposx>
+            <timesposy>1392</timesposy>
+        </stone>
+
+	  <stone>
+            <type>wordbox</type>
+            <x>750 px</x>
+            <y>1350 px</y>
+            <w>375 px</w>
+            <h>460 px</h>
+            <img>strangedesign\scoretable.png</img>
+            <characterposx>936</characterposx>
+            <characterposy>1616</characterposy>
+            <scoreposx>874</scoreposx>
+            <scoreposy>1392</scoreposy>
+            <timesposx>1061</timesposx>
+            <timesposy>1392</timesposy>
+        </stone>
+
+	  <stone>
+            <type>wordbox</type>
+            <x>1125 px</x>
+            <y>1350 px</y>
+            <w>375 px</w>
+            <h>460 px</h>
+            <img>strangedesign\scoretable.png</img>
+            <characterposx>1311</characterposx>
+            <characterposy>1616</characterposy>
+            <scoreposx>1249</scoreposx>
+            <scoreposy>1392</scoreposy>
+            <timesposx>1436</timesposx>
+            <timesposy>1392</timesposy>
+        </stone>
+
+	  <stone>
+            <type>wordbox</type>
+            <x>0 px</x>
+            <y>1850 px</y>
+            <w>375 px</w>
+            <h>460 px</h>
+            <img>strangedesign\scoretable.png</img>
+            <characterposx>186</characterposx>
+            <characterposy>2116</characterposy>
+            <scoreposx>124</scoreposx>
+            <scoreposy>1892</scoreposy>
+            <timesposx>311</timesposx>
+            <timesposy>1892</timesposy>
+        </stone>
+
+	  <stone>
+            <type>wordbox</type>
+            <x>375 px</x>
+            <y>1850 px</y>
+            <w>375 px</w>
+            <h>460 px</h>
+            <img>strangedesign\scoretable.png</img>
+            <characterposx>561</characterposx>
+            <characterposy>2116</characterposy>
+            <scoreposx>499</scoreposx>
+            <scoreposy>1892</scoreposy>
+            <timesposx>686</timesposx>
+            <timesposy>1892</timesposy>
+        </stone>
+
+	  <stone>
+            <type>wordbox</type>
+            <x>750 px</x>
+            <y>1850 px</y>
+            <w>375 px</w>
+            <h>460 px</h>
+            <img>strangedesign\scoretable.png</img>
+            <characterposx>936</characterposx>
+            <characterposy>2116</characterposy>
+            <scoreposx>874</scoreposx>
+            <scoreposy>1892</scoreposy>
+            <timesposx>1061</timesposx>
+            <timesposy>1892</timesposy>
+        </stone>
+
+	  <stone>
+            <type>wordbox</type>
+            <x>1125 px</x>
+            <y>1850 px</y>
+            <w>375 px</w>
+            <h>460 px</h>
+            <img>strangedesign\scoretable.png</img>
+            <characterposx>1311</characterposx>
+            <characterposy>2116</characterposy>
+            <scoreposx>1249</scoreposx>
+            <scoreposy>1892</scoreposy>
+            <timesposx>1436</timesposx>
+            <timesposy>1892</timesposy>
+        </stone>
+
+     </data>
+</xml>
+

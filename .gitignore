@@ -213,3 +213,5 @@ local.properties
 
 # TeXlipse plugin
 .texlipse
+
+Resources/mixed.txt

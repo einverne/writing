@@ -1,17 +1,4 @@
 #include "DataTool.h"
-#include <iostream>
-#include <string>
-using namespace std;
-USING_NS_CC;
-
-DataTool::DataTool(void)
-{
-}
-
-
-DataTool::~DataTool(void)
-{
-}
 
 //string DataTool::GB2312ToUTF8(string strGBK){
 //	string strOutUTF8 = "";

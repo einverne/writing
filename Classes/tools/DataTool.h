@@ -1,18 +1,16 @@
-
 #ifndef _DataTool_H_
 #define _DataTool_H_
 
 #pragma once
 #include "cocos2d.h"
+#include <iostream>
+#include <string>
+USING_NS_CC;
 using namespace std;
-
 
 class DataTool
 {
 public:
-	DataTool(void);
-	~DataTool(void);
-
 //	static string GB2312ToUTF8(string strGBK);
 //	static string GBKToUTF8(string gbk);
 	//½«int×ª³Éstring×Ö·û´®
