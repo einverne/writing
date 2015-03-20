@@ -2,25 +2,25 @@
 
 #define TAG_LAYER_EXIT 1001
 
-WallSingleScene::WallSingleScene(){
+WallSingleLayer::WallSingleLayer(string unitID){
 	isLongPressAllow = true;		//允许长按响应
-	unitID = "0";
+	this->unitID = unitID;
 }
 
-WallSingleScene::~WallSingleScene(){
+WallSingleLayer::~WallSingleLayer(){
 
 }
 
-CCScene* WallSingleScene::scene(string filename)
+CCScene* WallSingleLayer::scene(string filename,string unitID)
 {
 	CCScene *scene = CCScene::create();
-	WallSingleScene *layer = WallSingleScene::create(filename);
+	WallSingleLayer *layer = WallSingleLayer::create(filename,unitID);
 	scene->addChild(layer);
 	return scene;
 }
 
-WallSingleScene* WallSingleScene::create(string wallxmlname){
-	WallSingleScene* pret = new WallSingleScene();
+WallSingleLayer* WallSingleLayer::create(string wallxmlname,string unitID){
+	WallSingleLayer* pret = new WallSingleLayer(unitID);
 	if (pret && pret->init(wallxmlname))
 	{
 		pret->autorelease();
@@ -32,7 +32,7 @@ WallSingleScene* WallSingleScene::create(string wallxmlname){
 	}
 }
 
-bool WallSingleScene::init(string xmlfilename)
+bool WallSingleLayer::init(string xmlfilename)
 {
 	if ( !CCLayerColor::initWithColor(ccc4(255,255,255,255)) )
 	{
@@ -58,7 +58,7 @@ bool WallSingleScene::init(string xmlfilename)
 	return true;
 }
 
-void WallSingleScene::onEnter(){
+void WallSingleLayer::onEnter(){
 	CCLayer::onEnter();
 	CCLog("WallSingleScene::onEnter()");
 	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
@@ -68,21 +68,24 @@ void WallSingleScene::onEnter(){
 	CCMenuItemImage* ceshi_button = CCMenuItemImage::create("ceshi_1.png",
 		"ceshi_2.png",
 		this,
-		menu_selector(WallSingleScene::ceshi));
+		menu_selector(WallSingleLayer::ceshi));
 	CCMenuItemImage* back_button = CCMenuItemImage::create("strangedesign/back_button.png",
 		"strangedesign/back_button.png",
 		this,
-		menu_selector(WallSingleScene::back));
+		menu_selector(WallSingleLayer::back));
 	back_button->setPosition(ccp(back_button->getContentSize().width/2+10,visibleSize.height-back_button->getContentSize().height/2-50));
 
+	//评判书写
 	CCMenuItemImage* judge_button = CCMenuItemImage::create("strangedesign/Page_judgewritting_button.png",
 		"strangedesign/Page_judgewritting_button.png",
 		this,
-		menu_selector(WallSingleScene::ceshi));
+		menu_selector(WallSingleLayer::ceshi));
+
+	//自由练习
 	CCMenuItemImage* free_button = CCMenuItemImage::create("strangedesign/Page_freewritting_button.png",
 		"strangedesign/Page_freewritting_button.png",
 		this,
-		menu_selector(WallSingleScene::ceshi));
+		menu_selector(WallSingleLayer::freewriting));
 	judge_button->setPosition(ccp(visibleSize.width - judge_button->getContentSize().width/2 ,judge_button->getContentSize().height/2));
 	free_button->setPosition(ccp(free_button->getContentSize().width/2,free_button->getContentSize().height/2));
 
@@ -262,7 +265,7 @@ void WallSingleScene::onEnter(){
 	}
 }
 
-void WallSingleScene::onExit(){
+void WallSingleLayer::onExit(){
 	CCLayer::onExit();
 	CCLog("WallSingleScene::onExit");
 	removeAllChildren();
@@ -270,7 +273,7 @@ void WallSingleScene::onExit(){
 }
 
 
-void WallSingleScene::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
+void WallSingleLayer::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 	CCLog("Touches Began~~~");
 	CCTouch* pTouch = (CCTouch*)pTouches->anyObject();
 
@@ -281,7 +284,7 @@ void WallSingleScene::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 	beginTime = millisecondNow();
 	//定时器,直接使用scheduleUpdate无效
 	//this->scheduleUpdate();
-	CCDirector::sharedDirector()->getScheduler()->scheduleSelector(schedule_selector(WallSingleScene::longPressUpdate),this,1.5f,false);
+	CCDirector::sharedDirector()->getScheduler()->scheduleSelector(schedule_selector(WallSingleLayer::longPressUpdate),this,1.5f,false);
 	for (vector<CHanziManage>::iterator iter = hanzilist.begin();iter!=hanzilist.end();++iter)
 	{
 		CCPoint hanziPos = iter->pos;
@@ -298,7 +301,7 @@ void WallSingleScene::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 	}
 
 }
-void WallSingleScene::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
+void WallSingleLayer::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
 	CCLog("ccTouchesMoved");
 	CCTouch* pTouch = (CCTouch*)pTouches->anyObject();
 	if (ccpDistance(prePoint,pTouch->getLocation()) > 50)
@@ -323,7 +326,7 @@ void WallSingleScene::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
 	touchbeginpoint = newpos;
 }
 
-void WallSingleScene::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
+void WallSingleLayer::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 	CCTouch* pTouch = (CCTouch*)pTouches->anyObject();
 	long endTime = millisecondNow();
 	float length = ccpDistance(prePoint,pTouch->getLocation());
@@ -354,27 +357,27 @@ void WallSingleScene::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 	selectedHanzi = "";
 
 	//解除定时器
-	CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(WallSingleScene::longPressUpdate),this);
+	CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(WallSingleLayer::longPressUpdate),this);
 
 }
 
-void WallSingleScene::registerWithTouchDispatcher(){
+void WallSingleLayer::registerWithTouchDispatcher(){
 	CCDirector::sharedDirector()->getTouchDispatcher()->addStandardDelegate(this,1);
 }
 
-void WallSingleScene::update(float delta){
+void WallSingleLayer::update(float delta){
 	CCLog("update");
 }
 
 
 
-void WallSingleScene::menuCloseCallback(CCObject* pSender)
+void WallSingleLayer::menuCloseCallback(CCObject* pSender)
 {
 	CCDirector::sharedDirector()->end();
 
 }
 
-bool WallSingleScene::isInSprite(CCTouch* pTouch){
+bool WallSingleLayer::isInSprite(CCTouch* pTouch){
 	// 返回当前触摸位置在OpenGL坐标 
 	CCPoint touchPoint=pTouch->getLocation();
 	// 将世界坐标转换为当前父View的本地坐标系
@@ -394,7 +397,7 @@ bool WallSingleScene::isInSprite(CCTouch* pTouch){
 /************************************************************************/
 /* string hanzi 传给lianxi界面书写                                                                      */
 /************************************************************************/
-void WallSingleScene::singleClick(string hanzi){
+void WallSingleLayer::singleClick(string hanzi){
 	//解除schedule,不然可能出现不可预测问题。
 	//判断该字在数据库中是否存在，存在跳转，否则提示
 	if (SQLiteData::isExist(hanzi))
@@ -409,22 +412,22 @@ void WallSingleScene::singleClick(string hanzi){
 
 }
 
-void WallSingleScene::popup(string hanzi){
+void WallSingleLayer::popup(string hanzi){
 // 	CCLog("popup wall");
 	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
 	popL = PopLayer::create(hanzi,"pop/background.png");
 	popL->setContentSize(CCSizeMake(winSize.width*0.75,winSize.height*0.75));
 	popL->setTitle("Modify Unit");
 	popL->setEditBox();
-	popL->setCallBackFunc(this,callfuncN_selector(WallSingleScene::buttonCallBack));
+	popL->setCallBackFunc(this,callfuncN_selector(WallSingleLayer::buttonCallBack));
 	popL->addButton("sure_up.png","sure_down.png","Y",0);
 	popL->addButton("cancer_up.png","cancer_down.png","N",1);
 	CCDirector::sharedDirector()->getRunningScene()->addChild(popL,100);
 	//解除定时器
-	CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(WallSingleScene::longPressUpdate),this);
+	CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(WallSingleLayer::longPressUpdate),this);
 }
 
-void WallSingleScene::buttonCallBack(CCNode* pNode){
+void WallSingleLayer::buttonCallBack(CCNode* pNode){
 	CCLog("button call back. tag: %d", pNode->getTag());
 	if (pNode->getTag() == 0)
 	{
@@ -466,11 +469,11 @@ void WallSingleScene::buttonCallBack(CCNode* pNode){
 	}
 }
 
-void WallSingleScene::longPressUpdate(float fDelta){
+void WallSingleLayer::longPressUpdate(float fDelta){
 	CCLog("longPressUpdate %f",fDelta);
 	if (isLongPressAllow == false){
 		//解除定时器
-		CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(WallSingleScene::longPressUpdate),this);
+		CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(WallSingleLayer::longPressUpdate),this);
 		return;
 	}
 	if (isMoved == false && selectedHanzi.length() > 0)
@@ -478,7 +481,7 @@ void WallSingleScene::longPressUpdate(float fDelta){
 		popup(selectedHanzi);
 	}
 	//解除定时器
-	CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(WallSingleScene::longPressUpdate),this);
+	CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(WallSingleLayer::longPressUpdate),this);
 }
 
 /**
@@ -486,7 +489,7 @@ void WallSingleScene::longPressUpdate(float fDelta){
 	dst 目标字
 	将原字替换成目标字，替换xml文件中查找到的第一个字
 */
-void WallSingleScene::saveToFile(string src,const char* dst){
+void WallSingleLayer::saveToFile(string src,const char* dst){
 	int i = 0;
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
@@ -532,7 +535,7 @@ void WallSingleScene::saveToFile(string src,const char* dst){
 
 
 
-void WallSingleScene::keyBackClicked(){
+void WallSingleLayer::keyBackClicked(){
 	CCLog("WallSingleScene::keyBackClicked");
 	if (CCDirector::sharedDirector()->getRunningScene()->getChildByTag(TAG_LAYER_EXIT) == NULL) {
 		CCLog("WallSingleScene::NULL");
@@ -541,14 +544,14 @@ void WallSingleScene::keyBackClicked(){
 		exitDialog->setContentSize(CCSizeMake(winSize.width*0.8,winSize.height*0.5));
 		exitDialog->setTitle("back",50);
 		exitDialog->setContentText("back",60,100,150);
-		exitDialog->setCallBackFunc(this,callfuncN_selector(WallSingleScene::backtoMainScene));
+		exitDialog->setCallBackFunc(this,callfuncN_selector(WallSingleLayer::backtoMainScene));
 		exitDialog->addButton("sure_up.png","sure_down.png","Y",0);
 		exitDialog->addButton("cancer_up.png","cancer_down.png","N",1);
 		CCDirector::sharedDirector()->getRunningScene()->addChild(exitDialog,100,TAG_LAYER_EXIT);
 	}
 }
 
-void WallSingleScene::backtoMainScene(CCNode* pNode){
+void WallSingleLayer::backtoMainScene(CCNode* pNode){
 	if (pNode->getTag() == 0)
 	{
 		CCDirector::sharedDirector()->replaceScene(MainScene::scene());
@@ -557,14 +560,22 @@ void WallSingleScene::backtoMainScene(CCNode* pNode){
 	}
 }
 
-void WallSingleScene::ceshi(CCObject* pSender){
+//评判书写
+void WallSingleLayer::ceshi(CCObject* pSender){
 	CCLog("WallSingleScene::ceshi clicked");
+
 // 	MyToast::showToast(this,DataTool::getChinese("stroke_wrong"),2);
 
 	CeshiScene* scene = CeshiScene::create(wallXMLCurrent,hanzis);
 	CCDirector::sharedDirector()->pushScene(scene);
 }
 
-void WallSingleScene::back(CCObject* pSender){
+//自由练习
+void WallSingleLayer::freewriting(CCObject* pSender){
+	CCLog("Free writing~");
+	
+}
+
+void WallSingleLayer::back(CCObject* pSender){
 	CCDirector::sharedDirector()->replaceScene(MainScene::scene());
 }

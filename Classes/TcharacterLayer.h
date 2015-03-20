@@ -25,8 +25,8 @@ public:
 	CC_SYNTHESIZE_RETAIN(CCSprite*,m_sprite,Sprite);
 	CC_SYNTHESIZE_RETAIN(CharacterExtend*,m_exChar,ExChar);
 private:
-	bool isPause;
-	string curCharacter;
+	bool isPause;					//动画是否暂停
+	string curCharacter;			//当前字符
 };
 
 
