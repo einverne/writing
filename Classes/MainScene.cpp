@@ -207,8 +207,9 @@ CCObject* MainScene::gridviewDataSource(CCObject* pConvertView, unsigned int idx
 void MainScene::buttonClick(CCObject* pSender){
 	CButton* pButton = (CButton*)pSender;
 	int idx = pButton->getUserTag();
+	string id = unit_ids.at(idx);		//将顺序数字转化成数据库中id
 	string wallfilename = "wall_"+DataTool::intTostring(idx)+".xml";	//这个传值已经无用
-	CCDirector::sharedDirector()->replaceScene(WallSingleScene::scene(wallfilename));
+	CCDirector::sharedDirector()->replaceScene(WallSingleLayer::scene(wallfilename,id));
 }
 
 bool  MainScene::buttonLongClick(CCObject* pSender, CCTouch* pTouch){

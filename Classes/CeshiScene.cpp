@@ -12,7 +12,6 @@ CeshiScene::CeshiScene():backgroundLayer(NULL),
 	touchLayer(NULL),
 	TLayer(NULL),
 	HLayer(NULL),
-	//	p(NULL),
 	ext_p(NULL),
 	csLayer(NULL)
 {
@@ -23,11 +22,10 @@ CeshiScene::CeshiScene(string wallfilename,vector<string> hanzis):backgroundLaye
 	touchLayer(NULL),
 	TLayer(NULL),
 	HLayer(NULL),
-	//	p(NULL),
 	ext_p(NULL),
 	csLayer(NULL)
 {
-	wfilename = wallfilename;
+	mwallfilename = wallfilename;
 	hanziList = hanzis;
 	if (!hanzis.empty())
 	{
@@ -108,7 +106,7 @@ void CeshiScene::next(){
 		MyToast::showToast(this,DataTool::getChinese("last_one"),TOAST_LONG);
 		return;
 	}
-	getceshiLayer()->SaveProToFile(getHLayer()->getWrongPercent());
+//	getceshiLayer()->SaveProToFile(getHLayer()->getWrongPercent());
 
 	vector<string>::iterator iter = hanziList.begin();
 
@@ -125,5 +123,9 @@ void CeshiScene::next(){
 	getTLayer()->next();
 	getHLayer()->setExChar(ext_p);
 	getHLayer()->next();
+
+}
+
+void CeshiScene::previous(){
 
 }

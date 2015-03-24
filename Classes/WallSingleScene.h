@@ -16,11 +16,11 @@
 using namespace std;
 USING_NS_CC;
 
-class WallSingleScene : public CCLayerColor
+class WallSingleLayer : public CCLayerColor
 {
 public:
-	WallSingleScene();
-	~WallSingleScene();
+	WallSingleLayer(string unitID);
+	~WallSingleLayer();
 	vector<CHanziManage> hanzilist;
 	string selectedHanzi;
 	float rescale;
@@ -30,7 +30,7 @@ public:
 	virtual void onExit();
 	virtual void keyBackClicked();
 
-	static cocos2d::CCScene* scene(string filename);
+	static cocos2d::CCScene* scene(string filename,string unitID);
 
 	void menuCloseCallback(CCObject* pSender);
 
@@ -39,7 +39,7 @@ public:
 	virtual void ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent);
 	virtual void registerWithTouchDispatcher();
 
-	static WallSingleScene* create(string wallxmlname);
+	static WallSingleLayer* create(string wallxmlname,string unitID);
 
 	/**
 	* 弹出对话框
@@ -97,15 +97,23 @@ private:
 
 	// xml 文件名
 	string wallXMLCurrent;
-	/*
+
+	/**
 		测试按钮响应函数
 	*/
 	void ceshi(CCObject* pSender);
 
-	vector<string> hanzis;
-	bool isLongPressAllow;
+	/**
+	* 自由练习消息响应
+	* @param pSender
+	* @return
+	*/
+	void freewriting(CCObject* pSender);
+
+	vector<string> hanzis;			//墙上的汉字
+	bool isLongPressAllow;			//是否允许长按操作
 	string unitID;				//用以区别不同单元，与数据库中单元ID列对应
-	vector<vector <string> > groupCharacter;
+	vector<vector <string> > groupCharacter;		//从数据库中获取一个单元的汉字数组
 };
 
 #endif // __WallSingleScene_H__
