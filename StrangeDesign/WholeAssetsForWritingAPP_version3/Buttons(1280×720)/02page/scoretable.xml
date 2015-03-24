@@ -1,0 +1,153 @@
+<xml>
+    <meta>
+        <height>2600</height>
+        <width>1500</width>
+    </meta>
+    <data>
+        <stone>
+            <type>wordbox</type>
+            <x>0 px</x>
+            <y>300 px</y>
+            <w>375 px</w>
+            <h>460 px</h>
+            <img>scorestable.png</img>
+        </stone>
+
+	  <stone>
+            <type>wordbox</type>
+            <x>375 px</x>
+            <y>300 px</y>
+            <w>375 px</w>
+            <h>460 px</h>
+            <img>scorestable.png</img>
+        </stone>
+
+	  <stone>
+            <type>wordbox</type>
+            <x>750 px</x>
+            <y>300 px</y>
+            <w>375 px</w>
+            <h>460 px</h>
+            <img>scorestable.png</img>
+        </stone>
+
+	  <stone>
+            <type>wordbox</type>
+            <x>1125 px</x>
+            <y>300 px</y>
+            <w>375 px</w>
+            <h>460 px</h>
+            <img>scorestable.png</img>
+        </stone>
+
+	  <stone>
+            <type>wordbox</type>
+            <x>0 px</x>
+            <y>800 px</y>
+            <w>375 px</w>
+            <h>460 px</h>
+            <img>scorestable.png</img>
+        </stone>
+
+	  <stone>
+            <type>wordbox</type>
+            <x>375 px</x>
+            <y>800 px</y>
+            <w>375 px</w>
+            <h>460 px</h>
+            <img>scorestable.png</img>
+        </stone>
+
+	  <stone>
+            <type>wordbox</type>
+            <x>750 px</x>
+            <y>800 px</y>
+            <w>375 px</w>
+            <h>460 px</h>
+            <img>scorestable.png</img>
+        </stone>
+
+	  <stone>
+            <type>wordbox</type>
+            <x>1125 px</x>
+            <y>800 px</y>
+            <w>375 px</w>
+            <h>460 px</h>
+            <img>scorestable.png</img>
+        </stone>
+
+	  <stone>
+            <type>wordbox</type>
+            <x>0 px</x>
+            <y>1300 px</y>
+            <w>375 px</w>
+            <h>460 px</h>
+            <img>scorestable.png</img>
+        </stone>
+
+	  <stone>
+            <type>wordbox</type>
+            <x>375 px</x>
+            <y>1300 px</y>
+            <w>375 px</w>
+            <h>460 px</h>
+            <img>scorestable.png</img>
+        </stone>
+
+	  <stone>
+            <type>wordbox</type>
+            <x>750 px</x>
+            <y>1300 px</y>
+            <w>375 px</w>
+            <h>460 px</h>
+            <img>scorestable.png</img>
+        </stone>
+
+	  <stone>
+            <type>wordbox</type>
+            <x>1125 px</x>
+            <y>1300 px</y>
+            <w>375 px</w>
+            <h>460 px</h>
+            <img>scorestable.png</img>
+        </stone>
+
+	  <stone>
+            <type>wordbox</type>
+            <x>0 px</x>
+            <y>1800 px</y>
+            <w>375 px</w>
+            <h>460 px</h>
+            <img>scorestable.png</img>
+        </stone>
+
+	  <stone>
+            <type>wordbox</type>
+            <x>375 px</x>
+            <y>1800 px</y>
+            <w>375 px</w>
+            <h>460 px</h>
+            <img>scorestable.png</img>
+        </stone>
+
+	  <stone>
+            <type>wordbox</type>
+            <x>750 px</x>
+            <y>1800 px</y>
+            <w>375 px</w>
+            <h>460 px</h>
+            <img>scorestable.png</img>
+        </stone>
+
+	  <stone>
+            <type>wordbox</type>
+            <x>1125 px</x>
+            <y>1800 px</y>
+            <w>375 px</w>
+            <h>460 px</h>
+            <img>scorestable.png</img>
+        </stone>
+
+     </data>
+</xml>
+
