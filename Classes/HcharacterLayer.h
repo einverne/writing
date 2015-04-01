@@ -24,7 +24,6 @@ public:
 	* @return
 	*/
 	CCPoint convert512(CCPoint p);
-	string floatToString(float f);
 	void judge();
 	void reloadChar();
 	float getWrongPercent();
@@ -35,15 +34,16 @@ public:
 	CC_SYNTHESIZE_RETAIN(CCSprite* , m_sprite_info, InfoSprite);
 	CC_SYNTHESIZE_RETAIN(CharacterExtend* , m_exChar, ExChar);
 private:
-	void rewrite(CCObject* pSender);
-	void zoomin(CCObject* pSender);
-	void zoomout(CCObject* pSender);
-	string hanzi;
+	void rewrite(CCObject* pSender);		//
+	void zoomin(CCObject* pSender);			//
+	void zoomout(CCObject* pSender);		//
+	string hanzi;				//保存该层使用汉字
 	void writeWrong();
 	void writeRight();
 	int writeCount;
 	int wrongCount;
-	float scale;
+	float scale;				//缩放比率
+	bool isJudge;				//是否评判
 };
 
 

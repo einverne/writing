@@ -21,7 +21,7 @@
 
 HcharacterLayer::HcharacterLayer():m_sprite_draw(NULL),
 	bihuaCount(NULL),m_HDrawnode(NULL),m_sprite_info(NULL),m_exChar(NULL),
-	writeCount(0),wrongCount(0),scale(1)
+	writeCount(0),wrongCount(0),scale(1),isJudge(false)
 {
 }
 
@@ -127,7 +127,7 @@ void HcharacterLayer::judge(){
 		{
 			CCPoint temp = *iter;
 			temp = convert512(temp);
-			string t = floatToString(ceil(temp.x)) + "/" + floatToString(ceil(temp.y)) + "/";
+			string t = DataTool::floatToString(ceil(temp.x)) + "/" + DataTool::floatToString(ceil(temp.y)) + "/";
 			output += t;
 		}
 		output += "@";
@@ -213,12 +213,6 @@ CCPoint HcharacterLayer::convert512(CCPoint p){
 	return ccp(fx,-(fy-512));
 }
 
-string HcharacterLayer::floatToString(float f){
-	ostringstream buff;
-	buff<<f;
-	return buff.str();
-}
-
 void HcharacterLayer::onEnter(){
 	CCLayer::onEnter();
 }
@@ -256,7 +250,9 @@ void HcharacterLayer::zoomout(CCObject* pSender){
 void HcharacterLayer::reloadChar(){
 	this->removeChild(getm_HDrawnode());
 	this->setm_HDrawnode(HcharacterDrawnode::create());
-	m_HDrawnode->setPosition(m_sprite_draw->getPosition()-ccp(m_sprite_draw->getContentSize().width/2,m_sprite_draw->getContentSize().height/2));
+	m_HDrawnode->setPosition(m_sprite_draw->getPosition());
+	m_HDrawnode->setAnchorPoint(ccp(0.5,0.5));
+	m_HDrawnode->setScale(scale);
 	this->addChild(m_HDrawnode);
 	rewrite(this);
 }
