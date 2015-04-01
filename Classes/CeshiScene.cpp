@@ -150,3 +150,7 @@ void CeshiScene::previous(){
 	getHLayer()->setExChar(ext_p);
 	getHLayer()->reloadChar();
 }
+
+void CeshiScene::setJudge(bool isjudge){
+	getHLayer()->isJudge(isjudge);
+}

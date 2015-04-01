@@ -30,6 +30,7 @@ public:
 
 	void previous();
 	void next();
+	void setJudge(bool isjudge);
 
 	string getWallFileName()	{ return mwallfilename;}
 	string getCharacter()		{ return currentCharacter;}

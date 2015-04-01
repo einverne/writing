@@ -99,7 +99,9 @@ private:
 	string wallXMLCurrent;
 
 	/**
-		测试按钮响应函数
+	* 测试按钮响应函数
+	* @param pSender
+	* @return
 	*/
 	void ceshi(CCObject* pSender);
 

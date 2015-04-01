@@ -27,6 +27,7 @@ public:
 	void judge();
 	void reloadChar();
 	float getWrongPercent();
+	void isJudge(bool isjudge);
 
 	CC_SYNTHESIZE_RETAIN(HcharacterDrawnode*,m_HDrawnode,m_HDrawnode);
 	CC_SYNTHESIZE_RETAIN(CCLabelTTF*, bihuaCount,bihuaCount);
@@ -43,7 +44,7 @@ private:
 	int writeCount;
 	int wrongCount;
 	float scale;				//Àı∑≈±»¬ 
-	bool isJudge;				// «∑Ò∆¿≈–
+	bool ijudge;				// «∑Ò∆¿≈– false≤ª∆¿≈–£¨true∆¿≈–
 };
 
 

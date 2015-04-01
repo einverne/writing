@@ -567,13 +567,15 @@ void WallSingleLayer::ceshi(CCObject* pSender){
 // 	MyToast::showToast(this,DataTool::getChinese("stroke_wrong"),2);
 
 	CeshiScene* scene = CeshiScene::create(wallXMLCurrent,hanzis);
+	scene->setJudge(true);
 	CCDirector::sharedDirector()->pushScene(scene);
 }
 
 //втсиа╥о╟
 void WallSingleLayer::freewriting(CCObject* pSender){
 	CCLog("Free writing~");
-	
+	CeshiScene* scene = CeshiScene::create(wallXMLCurrent,hanzis);
+	CCDirector::sharedDirector()->pushScene(scene);
 }
 
 void WallSingleLayer::back(CCObject* pSender){

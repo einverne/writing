@@ -21,7 +21,7 @@
 
 HcharacterLayer::HcharacterLayer():m_sprite_draw(NULL),
 	bihuaCount(NULL),m_HDrawnode(NULL),m_sprite_info(NULL),m_exChar(NULL),
-	writeCount(0),wrongCount(0),scale(1),isJudge(false)
+	writeCount(0),wrongCount(0),scale(1),ijudge(false)
 {
 }
 
@@ -144,6 +144,11 @@ void HcharacterLayer::judge(){
 	string points = tlayer->getm_TDrawnode()->getCharacterStandardInfo();
 	string ret = JudgeManager::getResult(hanzi,output,points,m_exChar,funcs);
 	CCLog("Hcharacterlay: ret : %s %d",ret.c_str(),ret.length());
+	//如果不评判则跳过
+	if (!ijudge)
+	{
+		return;
+	}
 	if (ret.length() == 3)
 	{
 		if (ret.at(0) == '0')
@@ -263,4 +268,8 @@ float HcharacterLayer::getWrongPercent(){
 		return 0;
 	}
 	return (float)wrongCount/writeCount;
+}
+
+void HcharacterLayer::isJudge(bool isjudge){
+	this->ijudge = isjudge;
 }
