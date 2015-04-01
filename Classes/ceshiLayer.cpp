@@ -20,7 +20,14 @@ bool ceshiLayer::init(){
 			this,
 			menu_selector(ceshiLayer::menuNext));
 		next->setPosition(ccp(winSize.width - next->getContentSize().width/2-50,winSize.height/2));
-		CCMenu* menu = CCMenu::create(next,NULL);
+
+		CCMenuItemImage* previous = CCMenuItemImage::create("dog.png",
+			"dog.png",
+			this,
+			menu_selector(ceshiLayer::menuPrevious));
+		previous->setPosition(ccp(previous->getContentSize().width/2+50 , winSize.height/2));
+
+		CCMenu* menu = CCMenu::create(next, previous, NULL);
 		addChild(menu,10);
 		menu->setPosition(CCPointZero);
 
@@ -33,6 +40,13 @@ void ceshiLayer::menuNext(CCObject* pSender){
 	CCLog("next");
 	CeshiScene* scene = (CeshiScene*)CCDirector::sharedDirector()->getRunningScene();
 	scene->next();
+}
+
+void ceshiLayer::menuPrevious(CCObject* pSender){
+	//调用上一个
+	CCLog("previous");
+	CeshiScene* scene = (CeshiScene*)CCDirector::sharedDirector()->getRunningScene();
+	scene->previous();
 }
 
 void ceshiLayer::SaveProToFile(float pro){

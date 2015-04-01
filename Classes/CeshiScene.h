@@ -36,8 +36,9 @@ public:
 
 private:
 	string mwallfilename;
-	vector<string> hanziList;
-	string currentCharacter;
+	vector<string> hanziList;			//保存汉字列表
+	string currentCharacter;			//当前书写汉字
+	int index;							//保存当前汉字序号
 };
 
 

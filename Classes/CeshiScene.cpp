@@ -13,7 +13,8 @@ CeshiScene::CeshiScene():backgroundLayer(NULL),
 	TLayer(NULL),
 	HLayer(NULL),
 	ext_p(NULL),
-	csLayer(NULL)
+	csLayer(NULL),
+	index(0)
 {
 
 }
@@ -23,7 +24,8 @@ CeshiScene::CeshiScene(string wallfilename,vector<string> hanzis):backgroundLaye
 	TLayer(NULL),
 	HLayer(NULL),
 	ext_p(NULL),
-	csLayer(NULL)
+	csLayer(NULL),
+	index(0)
 {
 	mwallfilename = wallfilename;
 	hanziList = hanzis;
@@ -101,31 +103,50 @@ bool CeshiScene::init(){
 }
 
 void CeshiScene::next(){
-	if (hanziList.size() <= 1)
+	//在最后一个字提醒用户最后一个字
+	if (index == 14)
 	{
 		MyToast::showToast(this,DataTool::getChinese("last_one"),TOAST_LONG);
-		return;
 	}
 //	getceshiLayer()->SaveProToFile(getHLayer()->getWrongPercent());
 
-	vector<string>::iterator iter = hanziList.begin();
-
-	vector<string>::iterator next;
-	string hz = *iter;
-	if (currentCharacter == hz)
+// 	vector<string>::iterator iter = hanziList.begin();
+// 
+// 	vector<string>::iterator next;
+// 	string hz = *iter;
+// 	if (currentCharacter == hz)
+// 	{
+// 		 next = hanziList.erase(iter);		不在list中去除汉字
+// 		
+// 	}
+// 	currentCharacter = *next;
+	index++;
+	if (index > 15)
 	{
-		 next = hanziList.erase(iter);
+		index = index%16;
 	}
-	currentCharacter = *next;
+	currentCharacter = hanziList.at(index);
 	SQLiteData::getHanziDataExtend(currentCharacter,ext_p);
 	getTLayer()->setCharacter(currentCharacter);
 	getTLayer()->setExChar(ext_p);
-	getTLayer()->next();
+	getTLayer()->reloadChar();
 	getHLayer()->setExChar(ext_p);
-	getHLayer()->next();
+	getHLayer()->reloadChar();
 
 }
 
 void CeshiScene::previous(){
 
+	index--;
+	if (index<0)
+	{
+		index = index+16;
+	}
+	currentCharacter = hanziList.at(index);
+	SQLiteData::getHanziDataExtend(currentCharacter,ext_p);
+	getTLayer()->setCharacter(currentCharacter);
+	getTLayer()->setExChar(ext_p);
+	getTLayer()->reloadChar();
+	getHLayer()->setExChar(ext_p);
+	getHLayer()->reloadChar();
 }

@@ -253,7 +253,7 @@ void HcharacterLayer::zoomout(CCObject* pSender){
 	}
 }
 
-void HcharacterLayer::next(){
+void HcharacterLayer::reloadChar(){
 	this->removeChild(getm_HDrawnode());
 	this->setm_HDrawnode(HcharacterDrawnode::create());
 	m_HDrawnode->setPosition(m_sprite_draw->getPosition()-ccp(m_sprite_draw->getContentSize().width/2,m_sprite_draw->getContentSize().height/2));

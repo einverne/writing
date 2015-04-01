@@ -20,7 +20,7 @@ public:
 	
 	void refresh(CCObject* pSender);
 	void setCharacter(string curChar);
-	void next();
+	void reloadChar();
 	CC_SYNTHESIZE_RETAIN(TcharacterDrawnode*, m_TDrawnode,m_TDrawnode);
 	CC_SYNTHESIZE_RETAIN(CCSprite*,m_sprite,Sprite);
 	CC_SYNTHESIZE_RETAIN(CharacterExtend*,m_exChar,ExChar);

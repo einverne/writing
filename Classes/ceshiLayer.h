@@ -14,7 +14,7 @@ public:
 	void SaveProToFile(float pro);
 private:
 	void menuNext(CCObject* pSender);
-	
+	void menuPrevious(CCObject* pSender);
 };
 
 

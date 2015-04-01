@@ -96,7 +96,7 @@ void TcharacterLayer::setCharacter(string curChar){
 	curCharacter = curChar;
 }
 
-void TcharacterLayer::next(){
+void TcharacterLayer::reloadChar(){
 	this->removeChild(getm_TDrawnode());
 	this->setm_TDrawnode(TcharacterDrawnode::create(curCharacter, m_sprite->getContentSize(), m_exChar));
 	this->addChild(m_TDrawnode,2000);

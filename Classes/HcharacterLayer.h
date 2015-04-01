@@ -26,7 +26,7 @@ public:
 	CCPoint convert512(CCPoint p);
 	string floatToString(float f);
 	void judge();
-	void next();
+	void reloadChar();
 	float getWrongPercent();
 
 	CC_SYNTHESIZE_RETAIN(HcharacterDrawnode*,m_HDrawnode,m_HDrawnode);
