@@ -67,3 +67,7 @@ void HcharacterDrawnode::rewrite(){
 		getStrokeDrawnodeList()->removeLastObject(true);
 	}
 }
+
+int HcharacterDrawnode::getStrokeCount(){
+	return this->getStrokeDrawnodeList()->count();
+}

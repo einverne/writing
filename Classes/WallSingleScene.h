@@ -103,7 +103,7 @@ private:
 	* @param pSender
 	* @return
 	*/
-	void ceshi(CCObject* pSender);
+	void pingpanwriting(CCObject* pSender);
 
 	/**
 	* 自由练习消息响应

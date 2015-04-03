@@ -68,7 +68,7 @@ void WallSingleLayer::onEnter(){
 	CCMenuItemImage* ceshi_button = CCMenuItemImage::create("ceshi_1.png",
 		"ceshi_2.png",
 		this,
-		menu_selector(WallSingleLayer::ceshi));
+		menu_selector(WallSingleLayer::pingpanwriting));
 	CCMenuItemImage* back_button = CCMenuItemImage::create("strangedesign/back_button.png",
 		"strangedesign/back_button.png",
 		this,
@@ -79,7 +79,7 @@ void WallSingleLayer::onEnter(){
 	CCMenuItemImage* judge_button = CCMenuItemImage::create("strangedesign/Page_judgewritting_button.png",
 		"strangedesign/Page_judgewritting_button.png",
 		this,
-		menu_selector(WallSingleLayer::ceshi));
+		menu_selector(WallSingleLayer::pingpanwriting));
 
 	//自由练习
 	CCMenuItemImage* free_button = CCMenuItemImage::create("strangedesign/Page_freewritting_button.png",
@@ -561,12 +561,12 @@ void WallSingleLayer::backtoMainScene(CCNode* pNode){
 }
 
 //评判书写
-void WallSingleLayer::ceshi(CCObject* pSender){
-	CCLog("WallSingleScene::ceshi clicked");
+void WallSingleLayer::pingpanwriting(CCObject* pSender){
+	CCLog("WallSingleScene::pin clicked");
 
 // 	MyToast::showToast(this,DataTool::getChinese("stroke_wrong"),2);
 
-	CeshiScene* scene = CeshiScene::create(wallXMLCurrent,hanzis);
+	CeshiScene* scene = CeshiScene::create(unitID,hanzis);
 	scene->setJudge(true);
 	CCDirector::sharedDirector()->pushScene(scene);
 }
@@ -574,7 +574,8 @@ void WallSingleLayer::ceshi(CCObject* pSender){
 //自由练习
 void WallSingleLayer::freewriting(CCObject* pSender){
 	CCLog("Free writing~");
-	CeshiScene* scene = CeshiScene::create(wallXMLCurrent,hanzis);
+	CeshiScene* scene = CeshiScene::create(unitID,hanzis);
+	scene->setJudge(false);
 	CCDirector::sharedDirector()->pushScene(scene);
 }
 

@@ -197,3 +197,19 @@ vector<string> SQLiteData::getUnitIDs(){
 	SQLiteHelper::closeDB();
 	return count;
 }
+
+string SQLiteData::insertNote(string unit_id,string zi_id,string note){
+	SQLiteHelper::initDB(judgepath.c_str());
+	string sql = "insert into ziNotes (unitid, ziid, note) values ("+unit_id+","+zi_id+",'"+note+"')";
+	int id = SQLiteHelper::insertData(sql);
+	SQLiteHelper::closeDB();
+	return DataTool::intTostring(id);
+}
+
+bool SQLiteData::deleteNote(string id){
+	SQLiteHelper::initDB(judgepath.c_str());
+	string sql = "delete from ziNotes where id = "+id+"";
+	SQLiteHelper::deleteData(sql);
+	SQLiteHelper::closeDB();
+	return true;
+}

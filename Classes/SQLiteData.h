@@ -122,6 +122,22 @@ public:
 	* @return
 	*/
 	static vector<string> getUnitIDs();
+
+	/**
+	* 向数据库中插入一条笔记记录
+	* @param unit_id	单元id
+	* @param zi_id		汉字id
+	* @param note		笔记 点数据信息
+	* @return			返回插入的行id
+	*/
+	static string insertNote(string unit_id,string zi_id,string note);
+
+	/**
+	* 从数据库中删除一条记录
+	* @param id	记录的id
+	* @return
+	*/
+	static bool deleteNote(string id);
 };
 
 

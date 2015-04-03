@@ -70,7 +70,13 @@ public:
 	//************************************
 	Stroke getStroke(int index);
 
+	/**
+	* ÖØĞ´£¬ÒÆ³ıº¯ÊıÄÚÈİ
+	* @return
+	*/
 	void rewrite();
+
+	int getStrokeCount();
 
 // 	vector<StrokeDrawnode*> getStrokeDrawnodeList(){ return this->strokeDrawlist; }
 // 	vector<StrokeDrawnode*> strokeDrawlist;

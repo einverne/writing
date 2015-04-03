@@ -25,9 +25,10 @@ public:
 	*/
 	CCPoint convert512(CCPoint p);
 	void judge();
-	void reloadChar();
+	void reloadChar();				//重新加载汉字信息
 	float getWrongPercent();
 	void isJudge(bool isjudge);
+	string getPointsOutput()	{ return pointsOutput; }
 
 	CC_SYNTHESIZE_RETAIN(HcharacterDrawnode*,m_HDrawnode,m_HDrawnode);
 	CC_SYNTHESIZE_RETAIN(CCLabelTTF*, bihuaCount,bihuaCount);
@@ -38,13 +39,14 @@ private:
 	void rewrite(CCObject* pSender);		//
 	void zoomin(CCObject* pSender);			//
 	void zoomout(CCObject* pSender);		//
-	string hanzi;				//保存该层使用汉字
 	void writeWrong();
 	void writeRight();
-	int writeCount;
-	int wrongCount;
+	int writeCount;				//书写次数
+	int wrongCount;				//错误次数
+	string hanzi;				//保存该层使用汉字
 	float scale;				//缩放比率
 	bool ijudge;				//是否评判 false不评判，true评判
+	string pointsOutput;		//输出字符串
 };
 
 

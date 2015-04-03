@@ -19,7 +19,7 @@ CeshiScene::CeshiScene():backgroundLayer(NULL),
 
 }
 
-CeshiScene::CeshiScene(string wallfilename,vector<string> hanzis):backgroundLayer(NULL),
+CeshiScene::CeshiScene(string unit_id,vector<string> hanzis):backgroundLayer(NULL),
 	touchLayer(NULL),
 	TLayer(NULL),
 	HLayer(NULL),
@@ -27,7 +27,7 @@ CeshiScene::CeshiScene(string wallfilename,vector<string> hanzis):backgroundLaye
 	csLayer(NULL),
 	index(0)
 {
-	mwallfilename = wallfilename;
+	this->unit_id = unit_id;
 	hanziList = hanzis;
 	if (!hanzis.empty())
 	{
@@ -45,8 +45,8 @@ CeshiScene::~CeshiScene()
 	CC_SAFE_RELEASE(csLayer);
 }
 
-CeshiScene* CeshiScene::create(string wallfilename,vector<string> hanzis){
-	CeshiScene* pRet = new CeshiScene(wallfilename,hanzis);
+CeshiScene* CeshiScene::create(string unit_id,vector<string> hanzis){
+	CeshiScene* pRet = new CeshiScene(unit_id,hanzis);
 	if (pRet && pRet->init())
 	{
 		pRet->autorelease();
@@ -65,6 +65,7 @@ bool CeshiScene::init(){
 
 		this->setCharacterExt(new CharacterExtend());
 		SQLiteData::getHanziDataExtend(currentCharacter,ext_p);
+		zi_id = DataTool::intTostring(ext_p->getID()->getValue());
 
 		this->setbackgroundLayer(BackgroundLayer::create());
 		CC_BREAK_IF(!backgroundLayer);
@@ -127,6 +128,7 @@ void CeshiScene::next(){
 	}
 	currentCharacter = hanziList.at(index);
 	SQLiteData::getHanziDataExtend(currentCharacter,ext_p);
+	zi_id = DataTool::intTostring(ext_p->getID()->getValue());
 	getTLayer()->setCharacter(currentCharacter);
 	getTLayer()->setExChar(ext_p);
 	getTLayer()->reloadChar();
@@ -144,6 +146,7 @@ void CeshiScene::previous(){
 	}
 	currentCharacter = hanziList.at(index);
 	SQLiteData::getHanziDataExtend(currentCharacter,ext_p);
+	zi_id = DataTool::intTostring(ext_p->getID()->getValue());
 	getTLayer()->setCharacter(currentCharacter);
 	getTLayer()->setExChar(ext_p);
 	getTLayer()->reloadChar();
@@ -152,5 +155,6 @@ void CeshiScene::previous(){
 }
 
 void CeshiScene::setJudge(bool isjudge){
+	this->b_isJudge = isjudge;
 	getHLayer()->isJudge(isjudge);
 }
