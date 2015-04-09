@@ -101,11 +101,11 @@ void ceshiLayer::SaveProToFile(float pro){
 // 	string myfilename=CCFileUtils::sharedFileUtils()->fullPathForFilename(wallpath.c_str());
 #endif
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-	string myfilename = CCFileUtils::sharedFileUtils()->getWritablePath()+wallXMLCurrent;
+//	string myfilename = CCFileUtils::sharedFileUtils()->getWritablePath()+wallXMLCurrent;
 #endif
 // 	TiXmlDocument* myDocument = new TiXmlDocument(myfilename.c_str());
 // 	myDocument->LoadFile();
-// 
+//
 // 	TiXmlElement* rootEle = myDocument->RootElement();
 // 	TiXmlElement* meta = rootEle->FirstChildElement();
 // 	TiXmlElement* data = meta->NextSiblingElement();
