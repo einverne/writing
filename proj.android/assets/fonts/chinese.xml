@@ -15,6 +15,10 @@
 	<string>已经是最后一个</string>
 	<key>not_exist</key>
 	<string>该字在数据库中尚不存在</string>
+	<key>insert_into_sqlite</key>
+	<string>笔迹已经存入数据库</string>
+	<key>not_finish</key>
+	<string>还未写完，请写完在保存</string>
 	<key>zi</key>
 	<string>字</string>
 </dict>  
