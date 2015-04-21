@@ -3,7 +3,7 @@
 #define __BackgroundLayer_H__
 
 #include "cocos2d.h"
-#include "cocos-widget.h"
+#include "../CocosWidget/cocos-widget.h"
 #include "tools\DataTool.h"
 USING_NS_CC;
 using namespace cocos2d::cocoswidget;

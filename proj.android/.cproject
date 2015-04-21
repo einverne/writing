@@ -18,7 +18,7 @@
 					<folderInfo id="0.756827735." name="/" resourcePath="">
 						<toolChain errorParsers="" id="org.eclipse.cdt.build.core.prefbase.toolchain.294545719" name="No ToolChain" resourceTypeBasedDiscovery="false" superClass="org.eclipse.cdt.build.core.prefbase.toolchain">
 							<targetPlatform id="org.eclipse.cdt.build.core.prefbase.toolchain.294545719.993860072" name=""/>
-							<builder arguments="NDK_DEBUG=1" buildPath="${ProjDirPath}" command="${NDK_ROOT}\ndk-build.cmd" enabledIncrementalBuild="true" errorParsers="org.eclipse.cdt.core.GmakeErrorParser;org.eclipse.cdt.core.CWDLocator" id="org.eclipse.cdt.build.core.settings.default.builder.1648661634" incrementalBuildTarget="" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Gnu Make Builder" parallelBuildOn="false" stopOnErr="true" superClass="org.eclipse.cdt.build.core.settings.default.builder">
+							<builder arguments="" buildPath="${ProjDirPath}" command="${NDK_ROOT}\ndk-build.cmd" enabledIncrementalBuild="true" errorParsers="org.eclipse.cdt.core.GmakeErrorParser;org.eclipse.cdt.core.CWDLocator" id="org.eclipse.cdt.build.core.settings.default.builder.1648661634" incrementalBuildTarget="" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Gnu Make Builder" parallelBuildOn="false" stopOnErr="true" superClass="org.eclipse.cdt.build.core.settings.default.builder">
 								<outputEntries>
 									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name=""/>
 								</outputEntries>
@@ -41,9 +41,8 @@
 									<listOptionValue builtIn="false" value="${NDK_ROOT}/sources/cxx-stl/system/include"/>
 									<listOptionValue builtIn="false" value="${NDK_ROOT}/sources/cxx-stl/gnu-libstdc++/4.6/libs/armeabi-v7a/include"/>
 									<listOptionValue builtIn="false" value="${NDK_ROOT}/platforms/android-8/arch-arm/usr/include"/>
-									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/../../../cocos2dx/scripting/lua/&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;E:\graduation_project\cocos2d-x-2.1.5\scripting\lua\cocos2dx_support&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;E:\graduation_project\cocos2d-x-2.1.5\scripting\lua\lua&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/../../../scripting/lua/lua&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/../../../scripting/lua/cocos2dx_support&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.1267721019" name="Symbols" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="COCOS2DX_ROOT=${ProjDirPath}/../../../"/>
@@ -52,7 +51,6 @@
 							</tool>
 							<tool errorParsers="org.eclipse.cdt.core.VCErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GASErrorParser;org.eclipse.cdt.core.GLDErrorParser" id="org.eclipse.cdt.build.core.settings.holder.2035290044" name="GNU C++" superClass="org.eclipse.cdt.build.core.settings.holder">
 								<option id="org.eclipse.cdt.build.core.settings.holder.incpaths.898748423" name="Include Paths" superClass="org.eclipse.cdt.build.core.settings.holder.incpaths" valueType="includePath">
-									<listOptionValue builtIn="false" value="${NDK_ROOT}/toolchains/arm-linux-androideabi-4.4.3/prebuilt/darwin-x86/lib/gcc/arm-linux-androideabi/4.4.3/include"/>
 									<listOptionValue builtIn="false" value="${ProjDirPath}/../../../cocos2dx/include"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/jni&quot;"/>
 									<listOptionValue builtIn="false" value="${ProjDirPath}/../../../cocos2dx"/>
@@ -61,6 +59,7 @@
 									<listOptionValue builtIn="false" value="${NDK_ROOT}/sources/cxx-stl/stlport/stlport"/>
 									<listOptionValue builtIn="false" value="${NDK_ROOT}/platforms/android-8/arch-arm/usr/include"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/../../../extensions&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${NDK_ROOT}/toolchains/arm-linux-androideabi-4.4.3/prebuilt/windows_x86_64/lib/gcc/arm-linux-androideabi/4.4.3/include&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.1267721019" name="Symbols" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="COCOS2DX_ROOT=${ProjDirPath}/../../../"/>

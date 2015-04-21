@@ -2,7 +2,7 @@
 #define __Hcharacter_H__
 
 #include "cocos2d.h"
-#include "cocos-widget.h"
+#include "../CocosWidget/cocos-widget.h"
 #include "HcharacterDrawnode.h"
 #include "CharacterExtend.h"
 USING_NS_CC;

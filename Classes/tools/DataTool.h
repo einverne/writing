@@ -28,9 +28,12 @@ public:
 		从文件中读取字符串
 	*/
 	static string readFromFile(char* filename);
+
 	/**
-		获取中文字符
-	*/
+	 * 获取中文字符
+	 * @param key 中文字符串已key value保存在xml中
+	 * @return
+	 */
 	static string getChinese(string key);
 };
 #endif
