@@ -18,31 +18,34 @@
 					<folderInfo id="0.756827735." name="/" resourcePath="">
 						<toolChain errorParsers="" id="org.eclipse.cdt.build.core.prefbase.toolchain.294545719" name="No ToolChain" resourceTypeBasedDiscovery="false" superClass="org.eclipse.cdt.build.core.prefbase.toolchain">
 							<targetPlatform id="org.eclipse.cdt.build.core.prefbase.toolchain.294545719.993860072" name=""/>
-							<builder arguments="" buildPath="${ProjDirPath}" command="${NDK_ROOT}\ndk-build.cmd" enabledIncrementalBuild="true" errorParsers="org.eclipse.cdt.core.GmakeErrorParser;org.eclipse.cdt.core.CWDLocator" id="org.eclipse.cdt.build.core.settings.default.builder.1648661634" incrementalBuildTarget="" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Gnu Make Builder" parallelBuildOn="false" stopOnErr="true" superClass="org.eclipse.cdt.build.core.settings.default.builder">
+							<builder arguments="NDK_DEBUG=1" buildPath="${ProjDirPath}" command="${NDK_ROOT}\ndk-build.cmd" enabledIncrementalBuild="true" errorParsers="org.eclipse.cdt.core.GmakeErrorParser;org.eclipse.cdt.core.CWDLocator" id="org.eclipse.cdt.build.core.settings.default.builder.1648661634" incrementalBuildTarget="" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Gnu Make Builder" parallelBuildOn="false" stopOnErr="true" superClass="org.eclipse.cdt.build.core.settings.default.builder">
 								<outputEntries>
 									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name=""/>
 								</outputEntries>
 							</builder>
 							<tool errorParsers="org.eclipse.cdt.core.VCErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GASErrorParser;org.eclipse.cdt.core.GLDErrorParser" id="org.eclipse.cdt.build.core.settings.holder.libs.1844369373" name="holder for library settings" superClass="org.eclipse.cdt.build.core.settings.holder.libs">
 								<option id="org.eclipse.cdt.build.core.settings.holder.libfiles.628519629" name="Library Files" superClass="org.eclipse.cdt.build.core.settings.holder.libfiles" valueType="libFiles">
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="../libcocos2dx.a"/>
+									<listOptionValue builtIn="false" value="../libcocos2dx.a"/>
 								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.libpaths.1705781501" name="Library Paths" superClass="org.eclipse.cdt.build.core.settings.holder.libpaths" valueType="libPaths">
-									<listOptionValue builtIn="false" value="${NDK_ROOT}/sources/cxx-stl/gnu-libstdc++/4.6/libs/armeabi-v7a"/>
+									<listOptionValue builtIn="false" value="&quot;${NDK_ROOT}/sources/cxx-stl/gnu-libstdc++/4.6/libs/armeabi-v7a&quot;"/>
 								</option>
 							</tool>
 							<tool errorParsers="org.eclipse.cdt.core.VCErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GASErrorParser;org.eclipse.cdt.core.GLDErrorParser" id="org.eclipse.cdt.build.core.settings.holder.991472034" name="Assembly" superClass="org.eclipse.cdt.build.core.settings.holder">
 								<option id="org.eclipse.cdt.build.core.settings.holder.incpaths.1413805376" name="Include Paths" superClass="org.eclipse.cdt.build.core.settings.holder.incpaths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/jni&quot;"/>
-									<listOptionValue builtIn="false" value="${NDK_ROOT}/toolchains/arm-linux-androideabi-4.4.3/prebuilt/darwin-x86/lib/gcc/arm-linux-androideabi/4.4.3/include"/>
-									<listOptionValue builtIn="false" value="${ProjDirPath}/../../../cocos2dx"/>
-									<listOptionValue builtIn="false" value="${ProjDirPath}/../../../cocos2dx/include"/>
-									<listOptionValue builtIn="false" value="${NDK_ROOT}/sources/cxx-stl/gnu-libstdc++/4.6/include"/>
-									<listOptionValue builtIn="false" value="${NDK_ROOT}/sources/cxx-stl/system/include"/>
-									<listOptionValue builtIn="false" value="${NDK_ROOT}/sources/cxx-stl/gnu-libstdc++/4.6/libs/armeabi-v7a/include"/>
-									<listOptionValue builtIn="false" value="${NDK_ROOT}/platforms/android-8/arch-arm/usr/include"/>
-									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/../../../scripting/lua/lua&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/../../../scripting/lua/cocos2dx_support&quot;"/>
+									<listOptionValue builtIn="false" value="E:/graduation_project/cocos2d-x-2.1.5/projects/Test_py/proj.android/jni"/>
+									<listOptionValue builtIn="false" value="E:/graduation_project/cocos2d-x-2.1.5/cocos2dx"/>
+									<listOptionValue builtIn="false" value="E:/graduation_project/cocos2d-x-2.1.5/cocos2dx/include"/>
+									<listOptionValue builtIn="false" value="E:/graduation_project/cocos2d-x-2.1.5/cocos2dx/scripting/lua"/>
+									<listOptionValue builtIn="false" value="E:/graduation_project/cocos2d-x-2.1.5/scripting/lua/cocos2dx_support"/>
+									<listOptionValue builtIn="false" value="E:/graduation_project/cocos2d-x-2.1.5/scripting/lua/lua"/>
+									<listOptionValue builtIn="false" value="E:/graduation_project/cocos2d-x-2.1.5/extensions"/>
+									<listOptionValue builtIn="false" value="&quot;${NDK_ROOT}/sources/cxx-stl/gnu-libstdc++/4.6/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${NDK_ROOT}/toolchains/arm-linux-androideabi-4.4.3/prebuilt/darwin-x86/lib/gcc/arm-linux-androideabi/4.4.3/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${NDK_ROOT}/sources/cxx-stl/system/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${NDK_ROOT}/platforms/android-8/arch-arm/usr/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${NDK_ROOT}/sources/cxx-stl/gnu-libstdc++/4.6/libs/armeabi-v7a/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${NDK_ROOT}/sources/cxx-stl/stlport/stlport&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.1267721019" name="Symbols" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="COCOS2DX_ROOT=${ProjDirPath}/../../../"/>
@@ -51,15 +54,22 @@
 							</tool>
 							<tool errorParsers="org.eclipse.cdt.core.VCErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GASErrorParser;org.eclipse.cdt.core.GLDErrorParser" id="org.eclipse.cdt.build.core.settings.holder.2035290044" name="GNU C++" superClass="org.eclipse.cdt.build.core.settings.holder">
 								<option id="org.eclipse.cdt.build.core.settings.holder.incpaths.898748423" name="Include Paths" superClass="org.eclipse.cdt.build.core.settings.holder.incpaths" valueType="includePath">
-									<listOptionValue builtIn="false" value="${ProjDirPath}/../../../cocos2dx/include"/>
-									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/jni&quot;"/>
-									<listOptionValue builtIn="false" value="${ProjDirPath}/../../../cocos2dx"/>
-									<listOptionValue builtIn="false" value="${NDK_ROOT}/sources/cxx-stl/gnu-libstdc++/4.6/include"/>
-									<listOptionValue builtIn="false" value="${NDK_ROOT}/sources/cxx-stl/gnu-libstdc++/4.6/libs/armeabi-v7a/include"/>
-									<listOptionValue builtIn="false" value="${NDK_ROOT}/sources/cxx-stl/stlport/stlport"/>
-									<listOptionValue builtIn="false" value="${NDK_ROOT}/platforms/android-8/arch-arm/usr/include"/>
-									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/../../../extensions&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${NDK_ROOT}/toolchains/arm-linux-androideabi-4.4.3/prebuilt/windows_x86_64/lib/gcc/arm-linux-androideabi/4.4.3/include&quot;"/>
+									<listOptionValue builtIn="false" value="E:/graduation_project/cocos2d-x-2.1.5/projects/Test_py/proj.android/jni"/>
+									<listOptionValue builtIn="false" value="E:/graduation_project/cocos2d-x-2.1.5/cocos2dx"/>
+									<listOptionValue builtIn="false" value="E:/graduation_project/cocos2d-x-2.1.5/cocos2dx/include"/>
+									<listOptionValue builtIn="false" value="D:/Android/android-ndk-r8e/sources/cxx-stl/gnu-libstdc++/4.6/include"/>
+									<listOptionValue builtIn="false" value="D:/Android/android-ndk-r8e/sources/cxx-stl/system/include"/>
+									<listOptionValue builtIn="false" value="D:/Android/android-ndk-r8e/sources/cxx-stl/gnu-libstdc++/4.6/libs/armeabi-v7a/include"/>
+									<listOptionValue builtIn="false" value="E:/graduation_project/cocos2d-x-2.1.5/cocos2dx/scripting/lua"/>
+									<listOptionValue builtIn="false" value="E:/graduation_project/cocos2d-x-2.1.5/scripting/lua/cocos2dx_support"/>
+									<listOptionValue builtIn="false" value="E:/graduation_project/cocos2d-x-2.1.5/scripting/lua/lua"/>
+									<listOptionValue builtIn="false" value="D:/Android/android-ndk-r8e/sources/cxx-stl/stlport/stlport"/>
+									<listOptionValue builtIn="false" value="E:/graduation_project/cocos2d-x-2.1.5/extensions"/>
+									<listOptionValue builtIn="false" value="&quot;${NDK_ROOT}/toolchains/arm-linux-androideabi-4.4.3/prebuilt/darwin-x86/lib/gcc/arm-linux-androideabi/4.4.3/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${NDK_ROOT}/sources/cxx-stl/system/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${NDK_ROOT}/sources/cxx-stl/gnu-libstdc++/4.6/libs/armeabi-v7a/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${NDK_ROOT}/platforms/android-8/arch-arm/usr/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${NDK_ROOT}/sources/cxx-stl/gnu-libstdc++/4.6/include&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.1267721019" name="Symbols" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="COCOS2DX_ROOT=${ProjDirPath}/../../../"/>
@@ -68,12 +78,19 @@
 							</tool>
 							<tool errorParsers="org.eclipse.cdt.core.VCErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GASErrorParser;org.eclipse.cdt.core.GLDErrorParser" id="org.eclipse.cdt.build.core.settings.holder.731367497" name="GNU C" superClass="org.eclipse.cdt.build.core.settings.holder">
 								<option id="org.eclipse.cdt.build.core.settings.holder.incpaths.1548475709" name="Include Paths" superClass="org.eclipse.cdt.build.core.settings.holder.incpaths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/jni&quot;"/>
-									<listOptionValue builtIn="false" value="${ProjDirPath}/../../../cocos2dx/include"/>
-									<listOptionValue builtIn="false" value="${NDK_ROOT}/toolchains/arm-linux-androideabi-4.4.3/prebuilt/darwin-x86/lib/gcc/arm-linux-androideabi/4.4.3/include"/>
-									<listOptionValue builtIn="false" value="${ProjDirPath}/../../../cocos2dx"/>
-									<listOptionValue builtIn="false" value="${NDK_ROOT}/sources/cxx-stl/stlport/stlport"/>
-									<listOptionValue builtIn="false" value="${NDK_ROOT}/platforms/android-8/arch-arm/usr/include"/>
+									<listOptionValue builtIn="false" value="E:/graduation_project/cocos2d-x-2.1.5/projects/Test_py/proj.android/jni"/>
+									<listOptionValue builtIn="false" value="D:/Android/android-ndk-r8e/toolchains/arm-linux-androideabi-4.4.3/prebuilt/darwin-x86/lib/gcc/arm-linux-androideabi/4.4.3/include"/>
+									<listOptionValue builtIn="false" value="E:/graduation_project/cocos2d-x-2.1.5/cocos2dx"/>
+									<listOptionValue builtIn="false" value="E:/graduation_project/cocos2d-x-2.1.5/cocos2dx/include"/>
+									<listOptionValue builtIn="false" value="D:/Android/android-ndk-r8e/sources/cxx-stl/gnu-libstdc++/4.6/include"/>
+									<listOptionValue builtIn="false" value="D:/Android/android-ndk-r8e/sources/cxx-stl/system/include"/>
+									<listOptionValue builtIn="false" value="D:/Android/android-ndk-r8e/sources/cxx-stl/gnu-libstdc++/4.6/libs/armeabi-v7a/include"/>
+									<listOptionValue builtIn="false" value="D:/Android/android-ndk-r8e/platforms/android-8/arch-arm/usr/include"/>
+									<listOptionValue builtIn="false" value="E:/graduation_project/cocos2d-x-2.1.5/cocos2dx/scripting/lua"/>
+									<listOptionValue builtIn="false" value="E:/graduation_project/cocos2d-x-2.1.5/scripting/lua/cocos2dx_support"/>
+									<listOptionValue builtIn="false" value="E:/graduation_project/cocos2d-x-2.1.5/scripting/lua/lua"/>
+									<listOptionValue builtIn="false" value="D:/Android/android-ndk-r8e/sources/cxx-stl/stlport/stlport"/>
+									<listOptionValue builtIn="false" value="E:/graduation_project/cocos2d-x-2.1.5/extensions"/>
 								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.1267721019" name="Symbols" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="COCOS2DX_ROOT=${ProjDirPath}/../../../"/>
@@ -83,11 +100,12 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="Myscripting|Myextensions|Mycocos2dx|MYClasses|jni/cocos2dx_support|cocos2dx|scripting|extensions|Classes" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="MYClasses"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Mycocos2dx"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Myextensions"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Myscripting"/>
+						<entry excluding="CocosWidget|MClasses|Mcocos2dx|Mextensions|extensions|Myextensions|Classes|jni/cocos2dx_support|AllClasses|Mscripting|scripting|MyClasses|cocos2dx|MYClasses|Myscripting|Mycocos2dx" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Mscripting"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Mextensions"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Mcocos2dx"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="MClasses"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="CocosWidget"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -103,10 +121,8 @@
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		</scannerConfigBuildInfo>
 	</storageModule>
-	<storageModule moduleId="refreshScope" versionNumber="2">
-		<configuration configurationName="Default">
-			<resource resourceType="PROJECT" workspacePath="/Test_py"/>
-		</configuration>
+	<storageModule moduleId="refreshScope" versionNumber="1">
+		<resource resourceType="PROJECT" workspacePath="/Test_py"/>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>

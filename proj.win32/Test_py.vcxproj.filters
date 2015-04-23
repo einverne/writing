@@ -249,6 +249,9 @@
     <ClCompile Include="..\CocosWidget\WitlsMacros.cpp">
       <Filter>cocoswidget</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\NewUnit.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -473,6 +476,9 @@
     </ClInclude>
     <ClInclude Include="..\CocosWidget\WitlsMacros.h">
       <Filter>cocoswidget</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\NewUnit.h">
+      <Filter>Classes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

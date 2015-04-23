@@ -145,6 +145,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\MoveToRightPlace.cpp" />
     <ClCompile Include="..\Classes\MoveToRightPlaceInterval.cpp" />
     <ClCompile Include="..\Classes\MyToast.cpp" />
+    <ClCompile Include="..\Classes\NewUnit.cpp" />
     <ClCompile Include="..\Classes\PopLayer.cpp" />
     <ClCompile Include="..\Classes\ReadXML.cpp" />
     <ClCompile Include="..\Classes\RightZiAnimationAction.cpp" />
@@ -221,6 +222,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\MoveToRightPlace.h" />
     <ClInclude Include="..\Classes\MoveToRightPlaceInterval.h" />
     <ClInclude Include="..\Classes\MyToast.h" />
+    <ClInclude Include="..\Classes\NewUnit.h" />
     <ClInclude Include="..\Classes\PopLayer.h" />
     <ClInclude Include="..\Classes\ReadXML.h" />
     <ClInclude Include="..\Classes\RightZiAnimationAction.h" />

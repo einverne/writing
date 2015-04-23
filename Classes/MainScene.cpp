@@ -1,4 +1,5 @@
 #include "MainScene.h"
+#include "NewUnit.h"
 
 #define TAG_LAYER_EXIT 1001
 #define TAG_SETTING_LAYER 1002
@@ -223,19 +224,21 @@ bool  MainScene::buttonLongClick(CCObject* pSender, CCTouch* pTouch){
 }
 
 void MainScene::addButtonCallback(CCObject* pSender){
-	CCLog("Add new");
-	vector<vector<string> > unit;
-	vector<string> single;
-	single.push_back(DataTool::getChinese("zi"));
-	single.push_back(DataTool::intTostring(12));
-	single.push_back(DataTool::intTostring(13));
-	for (int i =0 ; i < 16; i++)
-	{
-		unit.push_back(single);
-	}
-	SQLiteData::insertUnit(unit);
-	unit_count++;
-	pGridView->setCountOfCell(unit_count);
-	unit_ids = SQLiteData::getUnitIDs();
-	pGridView->reloadData();
+	CCLog("Add new unit");
+	string add = "add";
+	CCDirector::sharedDirector()->replaceScene(NewUnitLayer::scene(add));
+// 	vector<vector<string> > unit;
+// 	vector<string> single;
+// 	single.push_back(DataTool::getChinese("zi"));
+// 	single.push_back(DataTool::intTostring(12));
+// 	single.push_back(DataTool::intTostring(13));
+// 	for (int i =0 ; i < 16; i++)
+// 	{
+// 		unit.push_back(single);
+// 	}
+// 	SQLiteData::insertUnit(unit);
+ 	unit_count++;
+ 	pGridView->setCountOfCell(unit_count);
+ 	unit_ids = SQLiteData::getUnitIDs();
+ 	pGridView->reloadData();
 }
