@@ -219,7 +219,7 @@ bool  MainScene::buttonLongClick(CCObject* pSender, CCTouch* pTouch){
 	CButton* pButton = (CButton*)pSender;
 	int idx = pButton->getUserTag();
 	CCLog("idx %d",idx);
-
+	CCDirector::sharedDirector()->replaceScene(NewUnitLayer::scene(DataTool::intTostring(idx)));
 	return true;
 }
 
