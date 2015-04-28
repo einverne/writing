@@ -74,7 +74,8 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
    ../../Classes/CharacterEntity.cpp \
    ../../Classes/CharacterExtend.cpp \
    ../../Classes/RightZiAnimationAction.cpp \
-   ../../Classes/tools/DataTool.cpp
+   ../../Classes/tools/DataTool.cpp \
+   ../../Classes/NewUnit.cpp \
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 

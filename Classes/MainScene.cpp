@@ -19,6 +19,7 @@ CCScene* MainScene::scene(){
 }
 
 bool MainScene::init(){
+	CCLog("mainScene init enter");
 	if (!CCLayerColor::initWithColor(ccc4(255,255,255,255)))
 	{
 		return false;
@@ -218,15 +219,14 @@ bool  MainScene::buttonLongClick(CCObject* pSender, CCTouch* pTouch){
 	//长按进入编辑界面
 	CButton* pButton = (CButton*)pSender;
 	int idx = pButton->getUserTag();
-	CCLog("idx %d",idx);
-	CCDirector::sharedDirector()->replaceScene(NewUnitLayer::scene(DataTool::intTostring(idx)));
+	string unitID = unit_ids.at(idx);
+	CCDirector::sharedDirector()->replaceScene(NewUnitLayer::scene(unitID));
 	return true;
 }
 
 void MainScene::addButtonCallback(CCObject* pSender){
 	CCLog("Add new unit");
-	string add = "add";
-	CCDirector::sharedDirector()->replaceScene(NewUnitLayer::scene(add));
+	CCDirector::sharedDirector()->replaceScene(NewUnitLayer::scene("add"));
 // 	vector<vector<string> > unit;
 // 	vector<string> single;
 // 	single.push_back(DataTool::getChinese("zi"));

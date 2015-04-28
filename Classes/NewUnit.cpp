@@ -39,8 +39,6 @@ bool NewUnitLayer::init()
 		return false;
 	}
 	CCLog("NewUnitLayer::init");
-// 	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
-// 	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
 
 	isMoved = false;
 	touched = false;
@@ -80,15 +78,34 @@ void NewUnitLayer::onEnter(){
 		menu_selector(NewUnitLayer::back));
 	back_button->setPosition(ccp(back_button->getContentSize().width/2+10,visibleSize.height-back_button->getContentSize().height/2-50));
 
-	CCMenuItemImage* finishBtn = CCMenuItemImage::create("main_button.png",
-		"mail_button.png",
-		this,
-		menu_selector(NewUnitLayer::finish));
-	finishBtn->setPosition(wall_tail->getPosition());
-
-	CCMenu* menu = CCMenu::create(back_button, finishBtn,NULL);
+	CCMenu* menu = CCMenu::create(back_button, NULL);
 	this->addChild(menu,20);
 	menu->setPosition(CCPointZero);
+
+	if (unitID != "add")
+	{
+		CCMenuItemImage* deleteBtn = CCMenuItemImage::create("ButtonMinus.png",
+			"ButtonMinusSel.png",
+			this,
+			menu_selector(NewUnitLayer::del));
+		deleteBtn->setPosition(wall_tail->getPosition()-ccp(wall_tail->getPositionX()/2,0));
+		CCMenuItemImage* updateBtn = CCMenuItemImage::create("ButtonPlus.png",
+			"ButtonPlusSel.png",
+			this,
+			menu_selector(NewUnitLayer::updateUnit));
+		updateBtn->setPosition(wall_tail->getPosition()+ccp(wall_tail->getPositionX()/2,0));
+		menu->addChild(deleteBtn);
+		menu->addChild(updateBtn);
+	}else
+	{
+		CCMenuItemImage* finishBtn = CCMenuItemImage::create("main_button.png",
+			"mail_button.png",
+			this,
+			menu_selector(NewUnitLayer::finish));
+		finishBtn->setPosition(wall_tail->getPosition());
+		menu->addChild(finishBtn);
+	}
+	
 
 
 	if (unitID != "add")
@@ -107,7 +124,7 @@ void NewUnitLayer::onEnter(){
 	}
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-	string myfilename = CCFileUtils::sharedFileUtils()->getWritablePath()+wallXMLCurrent;
+	string myfilename = "strangedesign/scoretable.xml";
 	unsigned long size = 0;
 	char* pFileContent = (char*)CCFileUtils::sharedFileUtils()->getFileData(myfilename.c_str(),"r",&size);
 	TiXmlDocument* myDocument = new TiXmlDocument();
@@ -486,8 +503,20 @@ void NewUnitLayer::back(CCObject* pSender){
 	CCDirector::sharedDirector()->replaceScene(MainScene::scene());
 }
 
-
 void NewUnitLayer::finish(CCObject* pSender){
 	CCLog("finish");
 	SQLiteData::insertUnit(groupCharacter);
+	CCDirector::sharedDirector()->replaceScene(MainScene::scene());
+}
+
+void NewUnitLayer::del(CCObject* pSender){
+	CCLog("del");
+	SQLiteData::deleteUnit(unitID);
+	CCDirector::sharedDirector()->replaceScene(MainScene::scene());
+}
+
+void NewUnitLayer::updateUnit(CCObject* pSender){
+	CCLog("updateUnit");
+	SQLiteData::updateUnit(unitID,groupCharacter);
+	CCDirector::sharedDirector()->replaceScene(MainScene::scene());
 }

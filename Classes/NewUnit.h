@@ -25,6 +25,11 @@ public:
 	string selectedHanzi;
 	float rescale;
 
+	/**
+	* 传入add 则增加一个单元，如果传入>=0的值则为修改该ID的单元
+	* @param unitID add 或者 >=0 的数字ID 单元ID
+	* @return
+	*/
 	static cocos2d::CCScene* scene(string unitID);
 
 	virtual bool init();
@@ -83,6 +88,8 @@ private:
 	void backtoMainScene(CCNode* pNode);
 	void back(CCObject* pSender);
 	void finish(CCObject* pSender);
+	void del(CCObject* pSender);
+	void updateUnit(CCObject* pSender);
 	PopLayer* popL;
 	vector<CHanziManage>::iterator selectedCHanziManageIter;
 
