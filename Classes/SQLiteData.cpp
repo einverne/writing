@@ -1,12 +1,5 @@
 #include "SQLiteData.h"
 
-#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
-string judgepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_judge.db");
-#endif
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-string judgepath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_judge.db";
-#endif
-
 vector<string> SQLiteData::splitStrokeSeq(string seq){
 	string::size_type pos1,pos2;
 	vector<string> strvec;
@@ -23,6 +16,7 @@ vector<string> SQLiteData::splitStrokeSeq(string seq){
 }
 
 void SQLiteData::getHanziData(string hz,CCObject* p){
+	
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 	string infodbpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_info.db");
 #endif
@@ -36,6 +30,12 @@ void SQLiteData::getHanziData(string hz,CCObject* p){
 }
 
 string SQLiteData::getstrokeFunc(string strokeID){
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+	string judgepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_judge.db");
+#endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	string judgepath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_judge.db";
+#endif
 	CCLog("SQLiteData::getstrokeFunc %s",strokeID.c_str());
 	SQLiteHelper::initDB(judgepath.c_str());
 	string sql = "select * from strokeFunc where strokeID ='"+strokeID+"'";
@@ -46,6 +46,12 @@ string SQLiteData::getstrokeFunc(string strokeID){
 }
 
 void SQLiteData::getHanziDataExtend(string hz,CCObject* p){
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+	string judgepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_judge.db");
+#endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	string judgepath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_judge.db";
+#endif
 	SQLiteHelper::initDB(judgepath.c_str());
 	string sql = "select * from ziData where ziName ='"+hz+"'";
 	SQLiteHelper::getZiDataInfoExtend(sql,p);
@@ -53,6 +59,12 @@ void SQLiteData::getHanziDataExtend(string hz,CCObject* p){
 }
 
 bool SQLiteData::isExist(string hz){
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+	string judgepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_judge.db");
+#endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	string judgepath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_judge.db";
+#endif
 	SQLiteHelper::initDB(judgepath.c_str());
 	string sql = "select * from ziData where ziName ='"+hz+"'";
 	int count = SQLiteHelper::getDataCount(sql);
@@ -136,6 +148,12 @@ string createUnitString(vector< vector<string> > unit){
 }
 
 vector< vector<string> > SQLiteData::getUnit(string unit_id,int count){
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+	string judgepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_judge.db");
+#endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	string judgepath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_judge.db";
+#endif
 	SQLiteHelper::initDB(judgepath.c_str());
 	string sql = "select * from unit where id ='"+unit_id+"'";
 	string charstring = SQLiteHelper::getUnit(sql);
@@ -150,6 +168,12 @@ vector< vector<string> > SQLiteData::getUnit(string unit_id,int count){
 }
 
 bool SQLiteData::updateUnit(string unit_id,vector< vector<string> > unit){
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+	string judgepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_judge.db");
+#endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	string judgepath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_judge.db";
+#endif
 	SQLiteHelper::initDB(judgepath.c_str());
 	string unitStr = createUnitString(unit);
 	string sql = "update unit set characters='"+unitStr+"' where id = '"+unit_id+"'";
@@ -159,6 +183,12 @@ bool SQLiteData::updateUnit(string unit_id,vector< vector<string> > unit){
 }
 
 string SQLiteData::insertUnit(vector< vector<string> > unit){
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+	string judgepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_judge.db");
+#endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	string judgepath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_judge.db";
+#endif
 	SQLiteHelper::initDB(judgepath.c_str());
 	string sql = "insert into unit (characters) values ('"+createUnitString(unit)+"')";
 	int id = SQLiteHelper::insertData(sql);
@@ -167,6 +197,12 @@ string SQLiteData::insertUnit(vector< vector<string> > unit){
 }
 
 string SQLiteData::insertUnit(string unit_info,vector< vector<string> > unit){
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+	string judgepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_judge.db");
+#endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	string judgepath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_judge.db";
+#endif
 	SQLiteHelper::initDB(judgepath.c_str());
 	string sql = "insert into unit (unit_info,characters) values ('"+unit_info+"','"+createUnitString(unit)+"')";
 	int id = SQLiteHelper::insertData(sql);
@@ -175,6 +211,12 @@ string SQLiteData::insertUnit(string unit_info,vector< vector<string> > unit){
 }
 
 bool SQLiteData::deleteUnit(string unit_id){
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+	string judgepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_judge.db");
+#endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	string judgepath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_judge.db";
+#endif
 	SQLiteHelper::initDB(judgepath.c_str());
 	string sql = "delete from unit where id = "+unit_id+"";
 	SQLiteHelper::deleteData(sql);
@@ -183,14 +225,28 @@ bool SQLiteData::deleteUnit(string unit_id){
 }
 
 int SQLiteData::getUnitCount(){
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+	string judgepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_judge.db");
+#endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	string judgepath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_judge.db";
+#endif
 	SQLiteHelper::initDB(judgepath.c_str());
 	string sql = "select count(*) from unit";
+	CCLog( "getDataCount-sql:%s \n" , sql.c_str()); 
 	int count = SQLiteHelper::getDataCount(sql);
+	CCLog( "getDataCount:%d \n" , count); 
 	SQLiteHelper::closeDB();
 	return count;
 }
 
 vector<string> SQLiteData::getUnitIDs(){
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+	string judgepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_judge.db");
+#endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	string judgepath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_judge.db";
+#endif
 	SQLiteHelper::initDB(judgepath.c_str());
 	string sql = "select id from unit";
 	vector<string> count = SQLiteHelper::getUnitIDs(sql);
@@ -199,6 +255,12 @@ vector<string> SQLiteData::getUnitIDs(){
 }
 
 string SQLiteData::insertNote(string unit_id,string zi_id,string note){
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+	string judgepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_judge.db");
+#endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	string judgepath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_judge.db";
+#endif
 	SQLiteHelper::initDB(judgepath.c_str());
 	string sql = "insert into ziNotes (unitid, ziid, note) values ("+unit_id+","+zi_id+",'"+note+"')";
 	int id = SQLiteHelper::insertData(sql);
@@ -207,6 +269,12 @@ string SQLiteData::insertNote(string unit_id,string zi_id,string note){
 }
 
 bool SQLiteData::deleteNote(string id){
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+	string judgepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_judge.db");
+#endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	string judgepath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_judge.db";
+#endif
 	SQLiteHelper::initDB(judgepath.c_str());
 	string sql = "delete from ziNotes where id = "+id+"";
 	SQLiteHelper::deleteData(sql);

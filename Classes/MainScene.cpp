@@ -1,11 +1,12 @@
 #include "MainScene.h"
 #include "NewUnit.h"
+#include "PopLayer.h"
 
 #define TAG_LAYER_EXIT 1001
 #define TAG_SETTING_LAYER 1002
 
-MainScene::MainScene():unit_count(0),pGridView(NULL),unit_ids(NULL){
-
+MainScene::MainScene():unit_count(0),pGridView(NULL){
+	unit_ids.clear();
 }
 MainScene::~MainScene(){
 
@@ -31,7 +32,7 @@ bool MainScene::init(){
 	CWidgetWindow* m_pWindow = CWidgetWindow::create();
 	m_pWindow->setMultiTouchEnabled(true);
 	addChild(m_pWindow,4);
-
+	
 	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
 	CCSize visiableSize = CCDirector::sharedDirector()->getVisibleSize();
 
@@ -42,7 +43,7 @@ bool MainScene::init(){
 	CCSprite* selectionMode = CCSprite::create("strangedesign/Page_selectionmode_character.png");
 	addChild(selectionMode,2);
 	selectionMode->setPosition(titlebar->getPosition());
-
+	
 	CCMenuItemImage* setting_btn = CCMenuItemImage::create("setting.png",
 		"setting.png",
 		this,
@@ -52,12 +53,13 @@ bool MainScene::init(){
 	CCMenu* m = CCMenu::create(setting_btn,NULL);
 	m->setPosition(CCPointZero);
 	addChild(m,3);
-
+	
 	CButton* add_btn = CButton::create("strangedesign/Main_add_button.png","strangedesign/Main_add_button.png");
 	add_btn->setPosition(ccp(winSize.width -50, winSize.height- titlebar->getContentSize().height/2));
 	add_btn->setOnClickListener(this,ccw_click_selector(MainScene::addButtonCallback));
 	m_pWindow->addChild(add_btn,4);
 
+	
 	CCLog("unit count %d",unit_count);
 	pGridView = CGridView::create(
 		CCSize(720, 980),
@@ -69,7 +71,7 @@ bool MainScene::init(){
 	m_pWindow->addChild(pGridView);
 	pGridView->setAutoRelocate(true);
 	pGridView->reloadData();
-
+	
 	return true;
 }
 
@@ -133,19 +135,20 @@ CCObject* MainScene::gridviewDataSource(CCObject* pConvertView, unsigned int idx
 		pCell->autorelease();
 
 		//pButton = CButton::createWith9Sprite(CCSizeMake(70, 70), "sprite9_btn1.png", "sprite9_btn2.png");
-		pButton = CButton::create("strangedesign\\main_clincher.png");
+		pButton = CButton::create("strangedesign/main_clincher.png");
 		pButton->setPosition(CCPoint(360/2, 350-pButton->getContentSize().height/2));
 		pButton->getLabel()->setFontSize(40.0f);
 		pButton->setTag(1);
 
 		pCell->addChild(pButton,10);
 
-		CCSprite* sprite = CCSprite::create("strangedesign\\table4mul4.png");
+		CCSprite* sprite = CCSprite::create("strangedesign/table4mul4.png");
 		sprite->setContentSize(CCSize(320,320));
 		sprite->setPosition(CCPoint(360/2,350/2));
 		pCell->addChild(sprite,1);
 
 // 		vector<string> groupCharacter = SQLiteData::getGroupCharacter(DataTool::intTostring(0));
+		
 		CCLog("idx %d",idx);
 		vector<vector<string> > groupCharacter = SQLiteData::getUnit(unit_ids.at(idx));
 
@@ -165,14 +168,14 @@ CCObject* MainScene::gridviewDataSource(CCObject* pConvertView, unsigned int idx
 	}
 	else
 	{
-		pButton = CButton::create("strangedesign\\main_clincher.png");
+		pButton = CButton::create("strangedesign/main_clincher.png");
 		pButton->setPosition(CCPoint(360/2, 350-pButton->getContentSize().height/2));
 		pButton->getLabel()->setFontSize(40.0f);
 		pButton->setTag(1);
 
 		pCell->addChild(pButton,10);
 
-		CCSprite* sprite = CCSprite::create("strangedesign\\table4mul4.png");
+		CCSprite* sprite = CCSprite::create("strangedesign/table4mul4.png");
 		sprite->setContentSize(CCSize(320,320));
 		sprite->setPosition(CCPoint(360/2,350/2));
 		pCell->addChild(sprite,1);
