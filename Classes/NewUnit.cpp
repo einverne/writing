@@ -124,7 +124,8 @@ void NewUnitLayer::onEnter(){
 	}
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-	string myfilename = "strangedesign/scoretable.xml";
+	string str_filename = "strangedesign/scoretable.xml";
+	string myfilename=CCFileUtils::sharedFileUtils()->fullPathForFilename(str_filename.c_str());
 	unsigned long size = 0;
 	char* pFileContent = (char*)CCFileUtils::sharedFileUtils()->getFileData(myfilename.c_str(),"r",&size);
 	TiXmlDocument* myDocument = new TiXmlDocument();

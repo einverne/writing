@@ -3,7 +3,7 @@
 #define TAG_LAYER_EXIT 1001
 
 WallSingleLayer::WallSingleLayer(string unitID){
-	isLongPressAllow = true;		//允许长按响应
+	isLongPressAllow = false;		//允许长按响应
 	this->unitID = unitID;
 }
 
@@ -11,17 +11,17 @@ WallSingleLayer::~WallSingleLayer(){
 
 }
 
-CCScene* WallSingleLayer::scene(string filename,string unitID)
+CCScene* WallSingleLayer::scene(string unitID)
 {
 	CCScene *scene = CCScene::create();
-	WallSingleLayer *layer = WallSingleLayer::create(filename,unitID);
+	WallSingleLayer *layer = WallSingleLayer::create(unitID);
 	scene->addChild(layer);
 	return scene;
 }
 
-WallSingleLayer* WallSingleLayer::create(string wallxmlname,string unitID){
+WallSingleLayer* WallSingleLayer::create(string unitID){
 	WallSingleLayer* pret = new WallSingleLayer(unitID);
-	if (pret && pret->init(wallxmlname))
+	if (pret && pret->init())
 	{
 		pret->autorelease();
 		return pret;
@@ -32,14 +32,13 @@ WallSingleLayer* WallSingleLayer::create(string wallxmlname,string unitID){
 	}
 }
 
-bool WallSingleLayer::init(string xmlfilename)
+bool WallSingleLayer::init()
 {
 	if ( !CCLayerColor::initWithColor(ccc4(255,255,255,255)) )
 	{
 		return false;
 	}
 	CCLog("WallSingleScene::init");
-	wallXMLCurrent = xmlfilename;
 	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
 	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
 
@@ -102,7 +101,6 @@ void WallSingleLayer::onEnter(){
 	addChild(selectionMode,11);
 	selectionMode->setPosition(titlebar->getPosition());
 
-
 	CCSprite* wall_tail = CCSprite::create("strangedesign/title bar_background.png");
 	this->addChild(wall_tail,2);
 	CCSize tailSize = wall_tail->getContentSize();
@@ -114,17 +112,18 @@ void WallSingleLayer::onEnter(){
 	addChild(screenshot,12);
 	screenshot->setPosition(wall_tail->getPosition());
 
+	CCLog("SQLiteData::getUnit(unitID)");
 	groupCharacter = SQLiteData::getUnit(unitID);
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-	string myfilename = CCFileUtils::sharedFileUtils()->getWritablePath()+wallXMLCurrent;
+	string str_filename = "strangedesign/scoretable.xml";
+	string myfilename = CCFileUtils::sharedFileUtils()->fullPathForFilename(str_filename.c_str());
 	unsigned long size = 0;
 	char* pFileContent = (char*)CCFileUtils::sharedFileUtils()->getFileData(myfilename.c_str(),"r",&size);
 	TiXmlDocument* myDocument = new TiXmlDocument();
 	myDocument->Parse(pFileContent,0,TIXML_ENCODING_UTF8);
 #endif
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
-// 	string str_filename = "wall/" + wallXMLCurrent;
 	string str_filename = "strangedesign/scoretable.xml";
 	string myfilename=CCFileUtils::sharedFileUtils()->fullPathForFilename(str_filename.c_str());
 	TiXmlDocument* myDocument = new TiXmlDocument(myfilename.c_str());
@@ -153,7 +152,6 @@ void WallSingleLayer::onEnter(){
 		TiXmlElement* typeElement = stoneElement->FirstChildElement();  // type
 
 		string flag1("wordbox");
-// 		string flag2("nouse");
 		string flag3(typeElement->GetText());
 		if(flag3==flag1)
 		{
@@ -400,15 +398,16 @@ bool WallSingleLayer::isInSprite(CCTouch* pTouch){
 void WallSingleLayer::singleClick(string hanzi){
 	//解除schedule,不然可能出现不可预测问题。
 	//判断该字在数据库中是否存在，存在跳转，否则提示
-	if (SQLiteData::isExist(hanzi))
-	{
-		this->unscheduleAllSelectors();
-		CCDirector::sharedDirector()->getTouchDispatcher()->removeAllDelegates();
-		CCDirector::sharedDirector()->pushScene(LianxiScene::create(hanzi));
-	}else{
-		this->unscheduleAllSelectors();
-		MyToast::showToast(this,DataTool::getChinese("not_exist"),TOAST_LONG);
-	}
+	this->unscheduleAllSelectors();
+// 	if (SQLiteData::isExist(hanzi))
+// 	{
+// 		this->unscheduleAllSelectors();
+// 		CCDirector::sharedDirector()->getTouchDispatcher()->removeAllDelegates();
+// 		CCDirector::sharedDirector()->pushScene(LianxiScene::create(hanzi));
+// 	}else{
+// 		this->unscheduleAllSelectors();
+// 		MyToast::showToast(this,DataTool::getChinese("not_exist"),TOAST_LONG);
+// 	}
 
 }
 
@@ -483,57 +482,6 @@ void WallSingleLayer::longPressUpdate(float fDelta){
 	//解除定时器
 	CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(WallSingleLayer::longPressUpdate),this);
 }
-
-/**
-	src 原字
-	dst 目标字
-	将原字替换成目标字，替换xml文件中查找到的第一个字
-*/
-void WallSingleLayer::saveToFile(string src,const char* dst){
-	int i = 0;
-
-#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
-	string wallpath = "wall/" + wallXMLCurrent;
-	string myfilename=CCFileUtils::sharedFileUtils()->fullPathForFilename(wallpath.c_str());
-#endif
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-	string myfilename = CCFileUtils::sharedFileUtils()->getWritablePath()+wallXMLCurrent;
-#endif
-	TiXmlDocument* myDocument = new TiXmlDocument(myfilename.c_str());
-	myDocument->LoadFile();
-
-	TiXmlElement* rootEle = myDocument->RootElement();
-	TiXmlElement* meta = rootEle->FirstChildElement();
-	TiXmlElement* data = meta->NextSiblingElement();
-	TiXmlElement* stone = data->FirstChildElement();
-	while (stone)
-	{
-
-		TiXmlElement* type = stone->FirstChildElement();
-		string text(type->GetText());
-		string wordbox("wordbox");
-		if (text == wordbox)
-		{
-			TiXmlElement* img = stone->FirstChildElement("img");
-			TiXmlElement* hanzi = stone->FirstChildElement("hanzi");
-			string text(hanzi->GetText());
-			if (text == src)
-			{
-				TiXmlElement* new_hanzi = new TiXmlElement("hanzi");
-				TiXmlText* newText = new TiXmlText(dst);
-				new_hanzi->InsertEndChild(*newText);
-				stone->RemoveChild(hanzi);
-				stone->InsertAfterChild(img,*new_hanzi);
-				break;
-			}
-		}
-		stone = stone->NextSiblingElement();
-	}
-	bool ret = myDocument->SaveFile(myfilename.c_str());
-}
-
-
-
 
 void WallSingleLayer::keyBackClicked(){
 	CCLog("WallSingleScene::keyBackClicked");

@@ -35,12 +35,12 @@ bool Splash::init(){
     bg->setScaleY(winSize.height/bgSize.height);
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-//    string dbpat = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_info.db";
-//	if (!CCFileUtils::sharedFileUtils()->isFileExist(dbpat))
-//	{
-//		initDB("character_info.db");
-//		initDB("character_judge.db");
-//	}
+    string dbpat = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_info.db";
+	if (!CCFileUtils::sharedFileUtils()->isFileExist(dbpat))
+	{
+		initDB("character_info.db");
+		initDB("character_judge.db");
+	}
 	string settingxml = CCFileUtils::sharedFileUtils()->getWritablePath()+"setting.xml";
 	if (!CCFileUtils::sharedFileUtils()->isFileExist(settingxml))
 	{

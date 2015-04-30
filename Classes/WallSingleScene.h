@@ -25,12 +25,24 @@ public:
 	string selectedHanzi;
 	float rescale;
 
-	virtual bool init(string xmlfilename);
+	virtual bool init();
 	virtual void onEnter();
 	virtual void onExit();
 	virtual void keyBackClicked();
 
-	static cocos2d::CCScene* scene(string filename,string unitID);
+	/**
+	 * unitID创建
+	 * @param unitID
+	 * @return
+	 */
+	static cocos2d::CCScene* scene(string unitID);
+
+	/**
+	 * 用UnitID创建
+	 * @param unitID
+	 * @return
+	 */
+	static WallSingleLayer* create(string unitID);
 
 	void menuCloseCallback(CCObject* pSender);
 
@@ -38,8 +50,6 @@ public:
 	virtual void ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent);
 	virtual void ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent);
 	virtual void registerWithTouchDispatcher();
-
-	static WallSingleLayer* create(string wallxmlname,string unitID);
 
 	/**
 	* 弹出对话框
@@ -59,9 +69,6 @@ public:
 	//长按
 	void longPressUpdate(float fDelta);
 
-	//保存到xml文件
-	void saveToFile(string src,const char* dst);
-
 	//获取当前时间 精确到毫秒数
 	static inline long millisecondNow()
 	{
@@ -72,7 +79,6 @@ public:
 
 	bool isInSprite(CCTouch* pTouch);
 	void singleClick(string hanzi);
-	string getwallXmlName()	{ return wallXMLCurrent; }
 
 	/**
 	* 修改xml文件中汉字对应proficiency值
@@ -94,9 +100,6 @@ private:
 	bool touched;
 	bool isMoved;
 	long beginTime;
-
-	// xml 文件名
-	string wallXMLCurrent;
 
 	/**
 	* 测试按钮响应函数

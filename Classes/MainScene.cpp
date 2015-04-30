@@ -6,8 +6,9 @@
 #define TAG_SETTING_LAYER 1002
 
 MainScene::MainScene():unit_count(0),pGridView(NULL){
-	unit_ids.clear();
+
 }
+
 MainScene::~MainScene(){
 
 }
@@ -213,8 +214,7 @@ void MainScene::buttonClick(CCObject* pSender){
 	CButton* pButton = (CButton*)pSender;
 	int idx = pButton->getUserTag();
 	string id = unit_ids.at(idx);		//将顺序数字转化成数据库中id
-	string wallfilename = "wall_"+DataTool::intTostring(idx)+".xml";	//这个传值已经无用
-	CCDirector::sharedDirector()->replaceScene(WallSingleLayer::scene(wallfilename,id));
+	CCDirector::sharedDirector()->replaceScene(WallSingleLayer::scene(id));
 }
 
 bool  MainScene::buttonLongClick(CCObject* pSender, CCTouch* pTouch){
@@ -240,8 +240,9 @@ void MainScene::addButtonCallback(CCObject* pSender){
 // 		unit.push_back(single);
 // 	}
 // 	SQLiteData::insertUnit(unit);
- 	unit_count++;
- 	pGridView->setCountOfCell(unit_count);
- 	unit_ids = SQLiteData::getUnitIDs();
- 	pGridView->reloadData();
+
+//  	unit_count++;
+//  	pGridView->setCountOfCell(unit_count);
+//  	unit_ids = SQLiteData::getUnitIDs();
+//  	pGridView->reloadData();
 }
