@@ -16,14 +16,14 @@ bool ceshiLayer::init(){
 	if (CCLayer::init())
 	{
 		CCSize winSize = CCDirector::sharedDirector()->getWinSize();
-		CCMenuItemImage* next = CCMenuItemImage::create("dog.png",
-			"dog.png",
+		CCMenuItemImage* next = CCMenuItemImage::create("strangedesign/Writting_next_button.png",
+			"strangedesign/Writting_next_button_down.png",
 			this,
 			menu_selector(ceshiLayer::menuNext));
 		next->setPosition(ccp(winSize.width - next->getContentSize().width/2-50,winSize.height/2));
 
-		CCMenuItemImage* previous = CCMenuItemImage::create("dog.png",
-			"dog.png",
+		CCMenuItemImage* previous = CCMenuItemImage::create("strangedesign/Writting_pre_button.png",
+			"strangedesign/Writting_pre_button_down.png",
 			this,
 			menu_selector(ceshiLayer::menuPrevious));
 		previous->setPosition(ccp(previous->getContentSize().width/2+50 , winSize.height/2));
@@ -46,8 +46,8 @@ void ceshiLayer::onEnter(){
 	if (!scene->getJudge())
 	{
 		//自由书写 需增加Button 作为保存
-		CCMenuItemImage* saveButton = CCMenuItemImage::create("dog.png",
-			"dog,png",
+		CCMenuItemImage* saveButton = CCMenuItemImage::create("strangedesign/Edit_Finish_button.png",
+			"strangedesign/Edit_Finish_button_down.png",
 			this,
 			menu_selector(ceshiLayer::menuSave));
 		saveButton->setPosition(ccp(650,500));

@@ -77,15 +77,18 @@ bool HcharacterLayer::init(string hanzi,CCSprite* tianzige_draw){
 		CocosDenshion::SimpleAudioEngine::sharedEngine()->setEffectsVolume(0.5);
 
 		//放大缩小按钮
-		CButton* zoomin = CButton::create("strangedesign/Judge_writting_zoomin_button.png");
+		CButton* zoomin = CButton::create("strangedesign/Judge_writting_zoomin_button.png",
+			"strangedesign/Judge_writting_zoomin_button_down.png");
 		zoomin->setPosition(ccp(visiableSize.width/4,zoomin->getContentSize().height+50));
 		zoomin->setOnClickListener(this,ccw_click_selector(HcharacterLayer::zoomin));
 
-		CButton* zoomout = CButton::create("strangedesign/Judge_writting_zoomout_button.png");
+		CButton* zoomout = CButton::create("strangedesign/Judge_writting_zoomout_button.png",
+			"strangedesign/Judge_writting_zoomout_button_down.png");
 		zoomout->setPosition(ccp(visiableSize.width/4*2,zoomout->getContentSize().height+50));
 		zoomout->setOnClickListener(this,ccw_click_selector(HcharacterLayer::zoomout));
 
-		CButton* rewrite = CButton::create("strangedesign/Judge_writting_cancel_button.png");
+		CButton* rewrite = CButton::create("strangedesign/Judge_writting_cancel_button.png",
+			"strangedesign/Judge_writting_cancel_button_down.png");
 		rewrite->setPosition(ccp(visiableSize.width/4*3,rewrite->getContentSize().height+50));
 		rewrite->setOnClickListener(this,ccw_click_selector(HcharacterLayer::rewrite));
 

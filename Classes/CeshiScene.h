@@ -30,6 +30,13 @@ public:
 
 	void previous();
 	void next();
+
+	
+	/**
+	* 设置是否评判书写 true为评判 false为不评判
+	* @param isjudge
+	* @return
+	*/
 	void setJudge(bool isjudge);
 	bool getJudge()	{ return b_isJudge; }
 

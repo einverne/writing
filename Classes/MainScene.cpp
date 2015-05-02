@@ -55,7 +55,7 @@ bool MainScene::init(){
 	m->setPosition(CCPointZero);
 	addChild(m,3);
 	
-	CButton* add_btn = CButton::create("strangedesign/Main_add_button.png","strangedesign/Main_add_button.png");
+	CButton* add_btn = CButton::create("strangedesign/Main_add_button.png","strangedesign/Main_add_button_down.png");
 	add_btn->setPosition(ccp(winSize.width -50, winSize.height- titlebar->getContentSize().height/2));
 	add_btn->setOnClickListener(this,ccw_click_selector(MainScene::addButtonCallback));
 	m_pWindow->addChild(add_btn,4);

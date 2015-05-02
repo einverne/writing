@@ -73,10 +73,10 @@ void NewUnitLayer::onEnter(){
 	wall_tail->setScaleX(visibleSize.width/wall_tail->getContentSize().width);
 
 	CCMenuItemImage* back_button = CCMenuItemImage::create("strangedesign/back_button.png",
-		"strangedesign/back_button.png",
+		"strangedesign/back_button_down.png",
 		this,
 		menu_selector(NewUnitLayer::back));
-	back_button->setPosition(ccp(back_button->getContentSize().width/2+10,visibleSize.height-back_button->getContentSize().height/2-50));
+	back_button->setPosition(ccp(back_button->getContentSize().width/2+10, visibleSize.height-back_button->getContentSize().height/2-50));
 
 	CCMenu* menu = CCMenu::create(back_button, NULL);
 	this->addChild(menu,20);
@@ -84,13 +84,13 @@ void NewUnitLayer::onEnter(){
 
 	if (unitID != "add")
 	{
-		CCMenuItemImage* deleteBtn = CCMenuItemImage::create("ButtonMinus.png",
-			"ButtonMinusSel.png",
+		CCMenuItemImage* deleteBtn = CCMenuItemImage::create("strangedesign/Dlg_delete_button.png",
+			"strangedesign/Dlg_delete_button_down.png",
 			this,
 			menu_selector(NewUnitLayer::del));
 		deleteBtn->setPosition(wall_tail->getPosition()-ccp(wall_tail->getPositionX()/2,0));
-		CCMenuItemImage* updateBtn = CCMenuItemImage::create("ButtonPlus.png",
-			"ButtonPlusSel.png",
+		CCMenuItemImage* updateBtn = CCMenuItemImage::create("strangedesign/Dlg_edit_button.png",
+			"strangedesign/Dlg_edit_button_down.png",
 			this,
 			menu_selector(NewUnitLayer::updateUnit));
 		updateBtn->setPosition(wall_tail->getPosition()+ccp(wall_tail->getPositionX()/2,0));
@@ -519,5 +519,6 @@ void NewUnitLayer::del(CCObject* pSender){
 void NewUnitLayer::updateUnit(CCObject* pSender){
 	CCLog("updateUnit");
 	SQLiteData::updateUnit(unitID,groupCharacter);
-	CCDirector::sharedDirector()->replaceScene(MainScene::scene());
+	MyToast::showToast(this,DataTool::getChinese("update_unit"),TOAST_LONG);
+//	CCDirector::sharedDirector()->replaceScene(MainScene::scene());
 }

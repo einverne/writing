@@ -37,7 +37,6 @@ public:
 	virtual void onExit();
 	virtual void keyBackClicked();
 
-
 	void menuCloseCallback(CCObject* pSender);
 
 	virtual void ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent);

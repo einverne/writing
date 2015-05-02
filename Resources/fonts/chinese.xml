@@ -21,5 +21,7 @@
 	<string>还未写完，请写完在保存</string>
 	<key>zi</key>
 	<string>字</string>
+	<key>update_unit</key>
+	<string>已更新单元数据库</string>
 </dict>  
 </plist>  

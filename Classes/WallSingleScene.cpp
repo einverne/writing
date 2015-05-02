@@ -69,20 +69,20 @@ void WallSingleLayer::onEnter(){
 		this,
 		menu_selector(WallSingleLayer::pingpanwriting));
 	CCMenuItemImage* back_button = CCMenuItemImage::create("strangedesign/back_button.png",
-		"strangedesign/back_button.png",
+		"strangedesign/back_button_down.png",
 		this,
 		menu_selector(WallSingleLayer::back));
 	back_button->setPosition(ccp(back_button->getContentSize().width/2+10,visibleSize.height-back_button->getContentSize().height/2-50));
 
 	//ÆÀÅÐÊéÐ´
 	CCMenuItemImage* judge_button = CCMenuItemImage::create("strangedesign/Page_judgewritting_button.png",
-		"strangedesign/Page_judgewritting_button.png",
+		"strangedesign/Page_judgewritting_button_down.png",
 		this,
 		menu_selector(WallSingleLayer::pingpanwriting));
 
 	//×ÔÓÉÁ·Ï°
 	CCMenuItemImage* free_button = CCMenuItemImage::create("strangedesign/Page_freewritting_button.png",
-		"strangedesign/Page_freewritting_button.png",
+		"strangedesign/Page_freewritting_button_down.png",
 		this,
 		menu_selector(WallSingleLayer::freewriting));
 	judge_button->setPosition(ccp(visibleSize.width - judge_button->getContentSize().width/2 ,judge_button->getContentSize().height/2));
