@@ -2,6 +2,7 @@
 #define __NewUnit_H__
 
 #include "cocos2d.h"
+#include "cocos-ext.h"
 #include "HanziManage.h"
 #include "PopLayer.h"
 #include "tinyxml.h" 
@@ -15,8 +16,9 @@
 #include <vector>
 using namespace std;
 USING_NS_CC;
+USING_NS_CC_EXT;
 
-class NewUnitLayer : public CCLayerColor
+class NewUnitLayer : public CCLayerColor, CCEditBoxDelegate
 {
 public:
 	NewUnitLayer(string unitID);
@@ -39,32 +41,22 @@ public:
 
 	void menuCloseCallback(CCObject* pSender);
 
-	virtual void ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent);
-	virtual void ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent);
-	virtual void ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent);
+// 	virtual void ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent);
+// 	virtual void ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent);
+// 	virtual void ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent);
 	virtual void registerWithTouchDispatcher();
 
 	static NewUnitLayer* create(string unitID);
 
-	/**
-	* 弹出对话框
-	* @param hanzi
-	* @return
-	*/
-	void popup(string hanzi);
+	//开始编辑时
+	virtual void editBoxEditingDidBegin(CCEditBox* editBox);
+	//结束编辑时
+	virtual void editBoxEditingDidEnd(CCEditBox* editBox);
+	//编辑框文字改变时
+	virtual void editBoxTextChanged(CCEditBox* editBox, const std::string& text);
+	//触发return后
+	virtual void editBoxReturn(CCEditBox* editBox);
 	
-	/**
-	* 对话框回调函数
-	* @param pNode
-	* @return
-	*/
-	void buttonCallBack(CCNode* pNode);
-
-	virtual void update(float delta);
-
-	bool isInSprite(CCTouch* pTouch);
-	void singleClick(string hanzi);
-
 	/**
 	* 修改xml文件中汉字对应proficiency值
 	* @param character 要修改prof值对应的字
@@ -82,16 +74,11 @@ private:
 	PopLayer* popL;
 	vector<CHanziManage>::iterator selectedCHanziManageIter;
 
-	CCPoint touchbeginpoint;
-	CCPoint prePoint;
-	CCPoint changepoint;
-	bool touched;
-	bool isMoved;
-
 	vector<string> hanzis;			//墙上的汉字
-	bool isLongPressAllow;			//是否允许长按操作
 	string unitID;				//用以区别不同单元，与数据库中单元ID列对应
 	vector<vector <string> > groupCharacter;		//从数据库中获取一个单元的汉字数组
+
+	int tag;
 };
 
 #endif // __NewUnit_H__

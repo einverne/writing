@@ -2,8 +2,7 @@
 
 #define TAG_LAYER_EXIT 1001
 
-NewUnitLayer::NewUnitLayer(string unitID){
-	isLongPressAllow = false;		//允许长按响应
+NewUnitLayer::NewUnitLayer(string unitID):tag(0){
 	this->unitID = unitID;
 }
 
@@ -40,8 +39,6 @@ bool NewUnitLayer::init()
 	}
 	CCLog("NewUnitLayer::init");
 
-	isMoved = false;
-	touched = false;
 
 	//注册触摸事件
 	CCPoint changepoint=ccp(0,0);
@@ -148,7 +145,7 @@ void NewUnitLayer::onEnter(){
 
 	rescale=(visibleSize.height - wall_tail->getContentSize().height)/(float)height;
 	float width_rescale = visibleSize.width/(float)width;
-	//////////////
+
 	TiXmlElement* dataElement = metaElement->NextSiblingElement();  // data
 	TiXmlElement* stoneElement = dataElement->FirstChildElement();  // stone
 
@@ -159,7 +156,6 @@ void NewUnitLayer::onEnter(){
 		TiXmlElement* typeElement = stoneElement->FirstChildElement();  // type
 
 		string flag1("wordbox");
-// 		string flag2("nouse");
 		string flag3(typeElement->GetText());
 		if(flag3==flag1)
 		{
@@ -234,16 +230,42 @@ void NewUnitLayer::onEnter(){
 			CCSprite* pSprite1 = CCSprite::create(tempfilename.c_str());
 			pSprite1->setScaleY(rescale);
 			pSprite1->setScaleX(width_rescale);
-			pSprite1->setPosition(ccp(origin.x+x, origin.y+y));
-			addChild(pSprite1, 1);
+// 			pSprite1->setPosition(ccp(origin.x+x, origin.y+y));
+
+
+			CCSize originsize = pSprite1->getContentSize();
+			CCRect fullRect = CCRectMake(0,0,originsize.width,originsize.height);
+			CCRect insetRect = fullRect;
+			CCScale9Sprite* scalesprite = CCScale9Sprite::create(tempfilename.c_str(),fullRect, insetRect);
+
+			CCSize editBoxSize = ccp(scalesprite->getContentSize().width*width_rescale, scalesprite->getContentSize().height*rescale);
+			CCEditBox* editbox1 = CCEditBox::create(editBoxSize,scalesprite);
+			editbox1->setPosition(ccp(origin.x+x, origin.y+y));
+			addChild(editbox1, 1);
 
 			hanzis.push_back(groupCharacter.at(indexOfCharacter).at(0));
 
 			//添加汉字
-			CCLabelTTF* pLabel = CCLabelTTF::create(groupCharacter.at(indexOfCharacter).at(0).c_str(), "Arial", 100);
-			pLabel->setPosition(ccp(origin.x + x, origin.y + y));
-			pLabel->setColor(ccc3(0,0,0));
-			this->addChild(pLabel, 2);
+			editbox1->setPlaceHolder("Input Chinese Character:");
+			editbox1->setPlaceholderFontColor(ccBLACK);
+			editbox1->setPlaceholderFontSize(100);
+
+			editbox1->setFontName("Arial");
+
+			editbox1->setText(groupCharacter.at(indexOfCharacter).at(0).c_str());
+			editbox1->setFontSize(100);
+			editbox1->setFontColor(ccBLACK);
+			editbox1->setMaxLength(1);
+			editbox1->setInputMode(kEditBoxInputModeSingleLine);
+
+			editbox1->setDelegate(this);
+			editbox1->setTag(tag);
+			tag++;
+
+// 			CCLabelTTF* pLabel = CCLabelTTF::create(groupCharacter.at(indexOfCharacter).at(0).c_str(), "Arial", 100);
+// 			pLabel->setPosition(ccp(origin.x + x, origin.y + y));
+// 			pLabel->setColor(ccc3(0,0,0));
+// 			this->addChild(pLabel, 2);
 			//添加次数
 			CCLabelTTF* timesLabel = CCLabelTTF::create(groupCharacter.at(indexOfCharacter).at(1).c_str(),"Arial",35);
 			timesLabel->setPosition(ccp(origin.x+inttimesposx,origin.y+inttimesposy));
@@ -257,7 +279,7 @@ void NewUnitLayer::onEnter(){
 
 			//汉字管理
 			temphanziManage.character=groupCharacter.at(indexOfCharacter).at(0);
-			temphanziManage.textbox=pLabel;
+// 			temphanziManage.textbox=pLabel;
 			temphanziManage.pos=CCPoint(x,y);
 			temphanziManage.filename=tempfilename;
 // 			temphanziManage.proficiency=atoi(temppro.c_str());
@@ -278,176 +300,13 @@ void NewUnitLayer::onExit(){
 	hanzis.clear();
 }
 
-void NewUnitLayer::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
-	CCLog("Touches Began~~~");
-	CCTouch* pTouch = (CCTouch*)pTouches->anyObject();
-
-	touchbeginpoint = ccp(pTouch->getLocation().x , pTouch->getLocation().y);
-	CCLog("beganpoint %f %f",touchbeginpoint.x, touchbeginpoint.y);
-	prePoint = touchbeginpoint;
-	touched=true;
-	isMoved = false;
-
-	for (vector<CHanziManage>::iterator iter = hanzilist.begin();iter!=hanzilist.end();++iter)
-	{
-		CCPoint hanziPos = iter->pos;
-		//CCLog("hanziPos %f %f",hanziPos.x,hanziPos.y);
-		CCPoint realPos = ccp(hanziPos.x+changepoint.x,hanziPos.y+changepoint.y);
-		//CCLog("hanziPos %f %f",hanziPos.x,hanziPos.y);
-		CCRect rect = CCRectMake(realPos.x-100,realPos.y-100,200,200);
-
-		if (rect.containsPoint(touchbeginpoint))
-		{
-			selectedHanzi = iter->character;
-			selectedCHanziManageIter = iter;
-		}
-	}
-}
-
-void NewUnitLayer::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
-	if (!touched)
-	{
-		//只有当TouchesBegan之后才进入Moved
-		return;
-	}
-	CCTouch* pTouch = (CCTouch*)pTouches->anyObject();
-	if (ccpDistance(prePoint,pTouch->getLocation()) > 50)
-	{
-		isMoved = true;
-	}
-	CCPoint newpos=ccp(pTouch->getLocation().x , pTouch->getLocation().y);
-	CCPoint temppoint=ccp(newpos.x-touchbeginpoint.x, newpos.y-touchbeginpoint.y);
-	changepoint =ccp(changepoint.x+temppoint.x, changepoint.y+temppoint.y);
-	CCLog("changepoint %f %f",changepoint.x, changepoint.y);
-
-	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
-
-	touchbeginpoint = newpos;
-}
-
-void NewUnitLayer::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
-	CCTouch* pTouch = (CCTouch*)pTouches->anyObject();
-
-	//distance of movement
-	float length = ccpDistance(prePoint,pTouch->getLocation());
-
-	if (length <= 50)
-	{
-		//single click
-		CCPoint touchpoint = pTouch->getLocation();
-		for (vector<CHanziManage>::iterator iter = hanzilist.begin();iter!=hanzilist.end();++iter)
-		{
-			CCPoint hanziPos = iter->pos;
-			//CCLog("hanziPos %f %f",hanziPos.x,hanziPos.y);
-			CCPoint realPos = ccp(hanziPos.x+changepoint.x,hanziPos.y+changepoint.y);
-			//CCLog("hanziPos %f %f",hanziPos.x,hanziPos.y);
-			CCRect rect = CCRectMake(realPos.x-100,realPos.y-100,200,200);
-			//在字周围200像素内，判断为点中
-			if (rect.containsPoint(touchpoint))
-			{
-				CCLog(iter->character.c_str());
-				this->singleClick(iter->character);
-				return;
-			}
-		}
-	}
-
-	changepoint = ccp(0,0);
-	touched=false;
-	isMoved = false;
-	selectedHanzi = "";
-
-}
-
 void NewUnitLayer::registerWithTouchDispatcher(){
 	CCDirector::sharedDirector()->getTouchDispatcher()->addStandardDelegate(this,1);
-}
-
-void NewUnitLayer::update(float delta){
-	CCLog("update");
 }
 
 void NewUnitLayer::menuCloseCallback(CCObject* pSender)
 {
 	CCDirector::sharedDirector()->end();
-}
-
-bool NewUnitLayer::isInSprite(CCTouch* pTouch){
-	// 返回当前触摸位置在OpenGL坐标 
-	CCPoint touchPoint=pTouch->getLocation();
-	// 将世界坐标转换为当前父View的本地坐标系
-
-	CCPoint reallyPoint=this->getParent()->convertToNodeSpace(touchPoint);
-	// 获取当前基于父view的坐标系
-
-	CCRect rect=this->boundingBox();
-	// CCnode->convertToNodeSpace 或者  convertToWorldSpace 是基于当前Node的  与当前Node相关
-
-	if(rect.containsPoint(reallyPoint)){
-		return true;
-	}
-	return false;
-}
-
-void NewUnitLayer::singleClick(string hanzi){
-	CCLog("singleClick");
-	if (isMoved == false && selectedHanzi.length() > 0)
-	{
-		popup(selectedHanzi);
-	}
-}
-
-void NewUnitLayer::popup(string hanzi){
-	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
-	popL = PopLayer::create(hanzi,"pop/background.png");
-	popL->setContentSize(CCSizeMake(winSize.width*0.75,winSize.height*0.75));
-	popL->setTitle("Modify Unit");
-	popL->setEditBox();
-	popL->setCallBackFunc(this,callfuncN_selector(NewUnitLayer::buttonCallBack));
-	popL->addButton("sure_up.png","sure_down.png","Y",0);
-	popL->addButton("cancer_up.png","cancer_down.png","N",1);
-	CCDirector::sharedDirector()->getRunningScene()->addChild(popL,100);
-}
-
-void NewUnitLayer::buttonCallBack(CCNode* pNode){
-	CCLog("button call back. tag: %d", pNode->getTag());
-	if (pNode->getTag() == 0)
-	{
-		//弹出对话框，确认，将汉字写到对应位置
-		for (vector<CHanziManage>::iterator iter = hanzilist.begin(); iter != hanzilist.end(); ++iter)
-		{
-			if (iter == selectedCHanziManageIter)
-			{
-				// 将改动的汉字
-				const char* h = popL->getHanzi();			//改动的汉字
-
-				//将汉字更新到groupCharacter
-				for (int i = 0 ;i < groupCharacter.size(); ++i)
-				{
-					if (iter->character == groupCharacter.at(i).at(0))
-					{
-						vector<string> newSingle;
-						newSingle.push_back(string(h));
-						newSingle.push_back(DataTool::intTostring(0));
-						newSingle.push_back(DataTool::intTostring(2));
-						groupCharacter[i] = newSingle;
-						break;
-					}
-				}
-				//SQLiteData::updateUnit(unitID,groupCharacter);
-
-				iter->character = string(popL->getHanzi());
-				CCLabelTTF* t = (CCLabelTTF*)iter->textbox;
-				t->setColor(ccc3(0,0,0));
-				t->setString(popL->getHanzi());
-			}
-		}
-
-
-	}else
-	{
-		//弹出对话框，取消，什么都不做
-	}
 }
 
 void NewUnitLayer::keyBackClicked(){
@@ -495,5 +354,29 @@ void NewUnitLayer::updateUnit(CCObject* pSender){
 	CCLog("updateUnit");
 	SQLiteData::updateUnit(unitID,groupCharacter);
 	MyToast::showToast(this,DataTool::getChinese("update_unit"),TOAST_LONG);
-//	CCDirector::sharedDirector()->replaceScene(MainScene::scene());
+}
+
+void NewUnitLayer::editBoxEditingDidBegin(CCEditBox* editBox){
+	CCLog("editbox begin");
+
+}
+
+void NewUnitLayer::editBoxEditingDidEnd(CCEditBox* editBox){
+	CCLog("editbox end");
+
+}
+
+void NewUnitLayer::editBoxTextChanged(CCEditBox* editBox, const std::string& text){
+	CCLog("editbox changed");
+
+}
+
+void NewUnitLayer::editBoxReturn(CCEditBox* editBox){
+	CCLog("editbox return");
+	int i = editBox->getTag();
+	vector<string> newSingle;
+	newSingle.push_back(string(editBox->getText()));
+	newSingle.push_back(DataTool::intTostring(0));
+	newSingle.push_back(DataTool::intTostring(2));
+	groupCharacter[i] = newSingle;
 }
