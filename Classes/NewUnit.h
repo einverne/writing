@@ -61,16 +61,6 @@ public:
 	void buttonCallBack(CCNode* pNode);
 
 	virtual void update(float delta);
-	//长按
-	void longPressUpdate(float fDelta);
-
-	//获取当前时间 精确到毫秒数
-	static inline long millisecondNow()
-	{
-		struct cc_timeval now;
-		CCTime::gettimeofdayCocos2d(&now, NULL);
-		return (now.tv_sec * 1000 + now.tv_usec / 1000);
-	}
 
 	bool isInSprite(CCTouch* pTouch);
 	void singleClick(string hanzi);
@@ -97,8 +87,6 @@ private:
 	CCPoint changepoint;
 	bool touched;
 	bool isMoved;
-	long beginTime;
-
 
 	vector<string> hanzis;			//墙上的汉字
 	bool isLongPressAllow;			//是否允许长按操作

@@ -45,7 +45,6 @@ bool NewUnitLayer::init()
 
 	//注册触摸事件
 	CCPoint changepoint=ccp(0,0);
-	touched=false;
 	this->setTouchEnabled(true);
 	this->setKeypadEnabled(true);			//android back key
 
@@ -284,13 +283,11 @@ void NewUnitLayer::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 	CCTouch* pTouch = (CCTouch*)pTouches->anyObject();
 
 	touchbeginpoint = ccp(pTouch->getLocation().x , pTouch->getLocation().y);
+	CCLog("beganpoint %f %f",touchbeginpoint.x, touchbeginpoint.y);
 	prePoint = touchbeginpoint;
 	touched=true;
+	isMoved = false;
 
-	beginTime = millisecondNow();
-	//定时器,直接使用scheduleUpdate无效
-	//this->scheduleUpdate();
-	CCDirector::sharedDirector()->getScheduler()->scheduleSelector(schedule_selector(NewUnitLayer::longPressUpdate),this,1.5f,false);
 	for (vector<CHanziManage>::iterator iter = hanzilist.begin();iter!=hanzilist.end();++iter)
 	{
 		CCPoint hanziPos = iter->pos;
@@ -305,10 +302,14 @@ void NewUnitLayer::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 			selectedCHanziManageIter = iter;
 		}
 	}
-
 }
+
 void NewUnitLayer::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
-	CCLog("ccTouchesMoved");
+	if (!touched)
+	{
+		//只有当TouchesBegan之后才进入Moved
+		return;
+	}
 	CCTouch* pTouch = (CCTouch*)pTouches->anyObject();
 	if (ccpDistance(prePoint,pTouch->getLocation()) > 50)
 	{
@@ -317,27 +318,20 @@ void NewUnitLayer::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
 	CCPoint newpos=ccp(pTouch->getLocation().x , pTouch->getLocation().y);
 	CCPoint temppoint=ccp(newpos.x-touchbeginpoint.x, newpos.y-touchbeginpoint.y);
 	changepoint =ccp(changepoint.x+temppoint.x, changepoint.y+temppoint.y);
-	////////////////
+	CCLog("changepoint %f %f",changepoint.x, changepoint.y);
+
 	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
 
-	if(changepoint.y!=0)
-		changepoint.y=0;
-
-	if(changepoint.x>=0)
-		changepoint.x=0;
-
-	if (changepoint.x<=-900*rescale+visibleSize.width)
-		changepoint.x=-900*rescale+visibleSize.width;
-	////////////////
 	touchbeginpoint = newpos;
 }
 
 void NewUnitLayer::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 	CCTouch* pTouch = (CCTouch*)pTouches->anyObject();
-	long endTime = millisecondNow();
+
+	//distance of movement
 	float length = ccpDistance(prePoint,pTouch->getLocation());
 
-	if (endTime-beginTime < 1000 && length <= 50)
+	if (length <= 50)
 	{
 		//single click
 		CCPoint touchpoint = pTouch->getLocation();
@@ -358,12 +352,10 @@ void NewUnitLayer::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 		}
 	}
 
+	changepoint = ccp(0,0);
 	touched=false;
 	isMoved = false;
 	selectedHanzi = "";
-
-	//解除定时器
-	CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(NewUnitLayer::longPressUpdate),this);
 
 }
 
@@ -415,8 +407,6 @@ void NewUnitLayer::popup(string hanzi){
 	popL->addButton("sure_up.png","sure_down.png","Y",0);
 	popL->addButton("cancer_up.png","cancer_down.png","N",1);
 	CCDirector::sharedDirector()->getRunningScene()->addChild(popL,100);
-	//解除定时器
-	CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(NewUnitLayer::longPressUpdate),this);
 }
 
 void NewUnitLayer::buttonCallBack(CCNode* pNode){
@@ -458,21 +448,6 @@ void NewUnitLayer::buttonCallBack(CCNode* pNode){
 	{
 		//弹出对话框，取消，什么都不做
 	}
-}
-
-void NewUnitLayer::longPressUpdate(float fDelta){
-	CCLog("longPressUpdate %f",fDelta);
-	if (isLongPressAllow == false){
-		//解除定时器
-		CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(NewUnitLayer::longPressUpdate),this);
-		return;
-	}
-	if (isMoved == false && selectedHanzi.length() > 0)
-	{
-		popup(selectedHanzi);
-	}
-	//解除定时器
-	CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(NewUnitLayer::longPressUpdate),this);
 }
 
 void NewUnitLayer::keyBackClicked(){
