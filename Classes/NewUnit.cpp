@@ -54,7 +54,7 @@ bool NewUnitLayer::init()
 
 void NewUnitLayer::onEnter(){
 	CCLayer::onEnter();
-	CCLog("WallSingleScene::onEnter()");
+	CCLog("NewUnitLayer::onEnter()");
 	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
 	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
 

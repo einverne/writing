@@ -93,7 +93,7 @@ void PopLayer::setContentText(const char* text, int fontsize, int padding , int 
 
 void PopLayer::setEditBox(){
 	//ÃÌº” ‰»ÎøÚ
-	CCEditBox* editbox = CCEditBox::create(CCSizeMake(200,100),CCScale9Sprite::create("main_button.png"));
+	CCEditBox* editbox = CCEditBox::create(CCSizeMake(300,100),CCScale9Sprite::create("strangedesign/Edit_inputframe_small.png"));
 	setEditBoxHanzi(editbox);
 }
 

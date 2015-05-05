@@ -136,7 +136,7 @@ CCObject* MainScene::gridviewDataSource(CCObject* pConvertView, unsigned int idx
 		pCell->autorelease();
 
 		//pButton = CButton::createWith9Sprite(CCSizeMake(70, 70), "sprite9_btn1.png", "sprite9_btn2.png");
-		pButton = CButton::create("strangedesign/main_clincher.png");
+		pButton = CButton::create("strangedesign/main_clincher.png","strangedesign/main_clincher_down.png");
 		pButton->setPosition(CCPoint(360/2, 350-pButton->getContentSize().height/2));
 		pButton->getLabel()->setFontSize(40.0f);
 		pButton->setTag(1);
