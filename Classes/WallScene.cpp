@@ -374,10 +374,6 @@ void WallScene::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 		}
 	}
 
-	// 	if (endTime-beginTime > 3000)
-	// 	{
-	// 		popup();
-	// 	}
 	touched=false;
 	isMoved = false;
 	selectedHanzi = "";
@@ -440,8 +436,6 @@ void WallScene::singleClick(string hanzi){
 		CCDirector::sharedDirector()->replaceScene(LianxiScene::create(hanzi));
 	}
 
-// 	CCDirector::sharedDirector()->pushScene(lianxi::scene(hanzi));
-// 	CCDirector::sharedDirector()->pushScene(LianxiScene::create(hanzi));
 }
 
 void WallScene::popup(string hanzi){

@@ -12,6 +12,8 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/BackgroundLayer.cpp \
                    ../../Classes/Bujian.cpp \
                    ../../Classes/Character.cpp \
+                   ../../Classes/CeshiScene.cpp \
+                   ../../Classes/ceshiLayer.cpp \
                    ../../Classes/HanziManage.cpp \
                    ../../Classes/HcharacterDrawnode.cpp \
                    ../../Classes/HcharacterLayer.cpp \
@@ -20,6 +22,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/LianxiScene.cpp \
                    ../../Classes/LuaScriptReader.cpp \
                    ../../Classes/MainScene.cpp \
+                   ../../Classes/MyToast.cpp \
                    ../../Classes/PopLayer.cpp \
                    ../../Classes/ReadXML.cpp \
                    ../../Classes/Splash.cpp \
@@ -32,6 +35,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/TcharacterLayer.cpp \
                    ../../Classes/TouchLayer.cpp \
                    ../../Classes/WallScene.cpp \
+                   ../../Classes/WallSingleScene.cpp \
                    ../../Classes/tinystr.cpp \
                    ../../Classes/tinyxml.cpp \
                    ../../Classes/tinyxmlerror.cpp \
@@ -39,6 +43,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/MoveToRightPlaceInterval.cpp \
                    ../../Classes/SqliteHelper.cpp \
                    ../../Classes/CharacterEntity.cpp \
+                   ../../Classes/CharacterExtend.cpp \
                    ../../Classes/RightZiAnimationAction.cpp \
                    ../../Classes/tools/DataTool.cpp \
 

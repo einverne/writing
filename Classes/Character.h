@@ -10,33 +10,27 @@ class Character
 {
 public:
 	bool addBujian(Bujian bujian);
-	//************************************
-	// Method:    getBox 获取包围盒
-	// FullName:  Character::getBox
-	// Access:    public 
-	// Returns:   cocos2d::CCSize
-	// Qualifier:
-	//************************************
+
+	/**
+	* getBox 获取包围盒
+	* @return
+	*/
 	CCSize getBox();
-	//************************************
-	// Method:    getStrokeCount 获取字的笔画数
-	// FullName:  Character::getStrokeCount
-	// Access:    public 
-	// Returns:   int
-	// Qualifier:
-	//************************************
+
+	/**
+	* getStrokeCount 获取字的笔画数
+	* @return
+	*/
 	int getStrokeCount();
 	void resize(CCSize size);
 	void resample();
 	void prepareDrawNode();
-	//************************************
-	// Method:    getStroke 获取第no笔，笔画从1开始
-	// FullName:  Character::getStroke
-	// Access:    public 
-	// Returns:   Stroke
-	// Qualifier:
-	// Parameter: int no
-	//************************************
+
+	/**
+	* getStroke 获取第no笔，笔画从1开始
+	* @param no
+	* @return
+	*/
 	Stroke getStroke(int no);
 public:
 	Character(void);

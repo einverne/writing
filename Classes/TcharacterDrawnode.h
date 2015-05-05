@@ -5,6 +5,7 @@
 #include "Character.h"
 #include "StrokeDrawnode.h"
 #include "CharacterEntity.h"
+#include "CharacterExtend.h"
 USING_NS_CC;
 
 /************************************************************************/
@@ -27,6 +28,10 @@ public:
 	* @return
 	*/
 	virtual bool init(string hz,CCSize showrect,CharacterEntity* p);
+
+
+	virtual bool init(string hz,CCSize showrect,CharacterExtend* p);
+
 	/**
 	* 用汉字和显示区域创建TcharacterDrawnode
 	* @param hz
@@ -35,8 +40,7 @@ public:
 	*/
 	static TcharacterDrawnode* create(string hz,CCSize showrect,CharacterEntity* p);
 
-//	CREATE_FUNC(TcharacterDrawnode);
-// 	vector<StrokeDrawnode*> strokedrawList;
+	static TcharacterDrawnode* create(string hz,CCSize showrect,CharacterExtend* p);
 
 	/**
 	* 返回当前正字Character
@@ -53,11 +57,17 @@ public:
 	void setVisibleIndex(int vi);
 	int getVisibleIndex()    { return visibleIndex; }
 
+	/**
+		产生整个汉字xml中标准汉字坐标点信息
+	*/
+	string getCharacterStandardInfo();
+
 	CC_SYNTHESIZE_RETAIN(CCArray*,strokedrawList,strokedrawList);
 private:
 	CCSize showRect;				//根据传入的显示范围定义显示范围
 	Character m_character;			//根据汉字读取字符xml文件，构造Character
 	int visibleIndex;
+	Character myChar;
 };
 
 

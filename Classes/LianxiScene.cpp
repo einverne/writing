@@ -4,23 +4,36 @@
 #include <algorithm>
 using namespace std;
 
-typedef enum layers
+LianxiScene::LianxiScene():backgroundLayer(NULL),
+	touchLayer(NULL),
+	TLayer(NULL),
+	HLayer(NULL),
+	//	p(NULL),
+	ext_p(NULL)
 {
-	kBgLayerTag,
-	kHLayerTag,
-	kTLayerTag,
-	kTouchLayerTag
-};
+
+}
 
 LianxiScene::LianxiScene(string hanzi):backgroundLayer(NULL),
 	touchLayer(NULL),
 	TLayer(NULL),
 	HLayer(NULL),
-	p(NULL)
+	//	p(NULL),
+	ext_p(NULL)
 {
-	this->testCharacter = hanzi;
-//	p = new CharacterEntity();
+	this->CurrentCharacter = hanzi;
+	//	p = new CharacterEntity();
 }
+
+// LianxiScene::LianxiScene(vector<string> hanzis,string hanzi):backgroundLayer(NULL),
+// 	touchLayer(NULL),
+// 	TLayer(NULL),
+// 	HLayer(NULL),
+// 	ext_p(NULL)
+// {
+// 	this->hanziList = hanzis;
+// 	this->CurrentCharacter = hanzi;
+// }
 
 LianxiScene::~LianxiScene()
 {
@@ -29,7 +42,7 @@ LianxiScene::~LianxiScene()
 	CC_SAFE_RELEASE(TLayer);
 	CC_SAFE_RELEASE(HLayer);
 	CC_SAFE_RELEASE(touchLayer);
-	CC_SAFE_RELEASE(p);
+	CC_SAFE_RELEASE(ext_p);
 }
 
 LianxiScene* LianxiScene::create(string hanzi){
@@ -39,15 +52,30 @@ LianxiScene* LianxiScene::create(string hanzi){
 		pRet->autorelease();
 		return pRet;
 	}else{
-        CC_SAFE_DELETE(pRet);        
+		CC_SAFE_DELETE(pRet);        
 		return NULL;
 	}
 }
+
+// LianxiScene* LianxiScene::create(vector<string> hanzis,string hanzi){
+// 	LianxiScene* pRet = new LianxiScene(hanzis,hanzi);
+// 	if (pRet && pRet->init())
+// 	{
+// 		pRet->autorelease();
+// 		return pRet;
+// 	}else{
+//         CC_SAFE_DELETE(pRet);        
+// 		return NULL;
+// 	}
+// }
 
 bool LianxiScene::init(){
 	bool bRet = false;
 	do
 	{
+		this->setCharacterExt(new CharacterExtend());
+		SQLiteData::getHanziDataExtend(this->CurrentCharacter,ext_p);
+
 		this->setbackgroundLayer(BackgroundLayer::create());
 		CC_BREAK_IF(!backgroundLayer);
 		backgroundLayer->setTag(kBgLayerTag);
@@ -56,42 +84,45 @@ bool LianxiScene::init(){
 		this->setTLayer(TcharacterLayer::create(backgroundLayer->tianzige));
 		CC_BREAK_IF(!TLayer);
 		TLayer->setTag(kTLayerTag);
-		//TLayer->setSprite(backgroundLayer->tianzige);			将背景层中tianzige传给正字信息图层
 		this->addChild(TLayer);
+		TLayer->setCharacter(CurrentCharacter);
+		TLayer->setExChar(ext_p);
 
-		this->setHLayer(HcharacterLayer::create(testCharacter,backgroundLayer->tianzige_draw));
+		this->setHLayer(HcharacterLayer::create(CurrentCharacter,backgroundLayer->tianzige_draw));
 		CC_BREAK_IF(!HLayer);
 		HLayer->setTag(kHLayerTag);
 		this->addChild(HLayer);
+		HLayer->setExChar(ext_p);
 		
 		this->settouchLayer(TouchLayer::create(TLayer,HLayer));
 		CC_BREAK_IF(!touchLayer);
 		touchLayer->setTag(kTouchLayerTag);
 		this->addChild(touchLayer);
 
-		this->setCharacterP(new CharacterEntity());
-		CCLog("LianxiScene ref: %d",this->m_uReference);
 
 		CC_BREAK_IF(!CCScene::init());
 		bRet = true;
 	} while (0);
 
-	SQLiteData::getHanziData(this->testCharacter,p);
-	CCString* temp = p->getSEQ();
-	CCLog("seq %s",temp->getCString());
-	string str(temp->getCString());
-	vector<string> strvec = SQLiteData::splitStrokeSeq(str);
-	//去重
-	std::sort(strvec.begin(),strvec.end());
-	strvec.erase(std::unique(strvec.begin(),strvec.end()),strvec.end());
-	vector<string>::iterator iter = strvec.begin(),iter2 = strvec.end();
+//	SQLiteData::getHanziData(this->CurrentCharacter,p);
 
-	while (iter != iter2)
-	{
-		funcs += SQLiteData::getstrokeFunc(*iter);
-		funcs += "\n";
-		iter ++;
-	}
+// 	CCString* temp = ext_p->getSEQ();
+// 	CCLog("seq %s",temp->getCString());
+// 	string str(temp->getCString());
+// 	vector<string> strvec = SQLiteData::splitStrokeSeq(str);
+// 	//去重
+// 	std::sort(strvec.begin(),strvec.end());
+// 	strvec.erase(std::unique(strvec.begin(),strvec.end()),strvec.end());
+// 	vector<string>::iterator iter = strvec.begin(),iter2 = strvec.end();
+// 
+// 	while (iter != iter2)
+// 	{
+// 		funcs += SQLiteData::getstrokeFunc(*iter);
+// 		funcs += "\n";
+// 		iter ++;
+// 	}
+
+
 
 	return bRet;
 }

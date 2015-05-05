@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #pragma once
+using namespace std;
 USING_NS_CC;
 
 class Splash : public CCLayer
@@ -19,8 +20,10 @@ public:
     void onEnter();
     void onExit();
     void onExitTransitionDidStart();
-
+private:
     void finishSplash(float dt);
+	void initDB(string db_name);
+	void initXML(string xmlfile);
 };
 
 #endif

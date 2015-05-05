@@ -48,6 +48,7 @@ writing Chinese
     - CReadXML(const char* xmlcontent);         //传入xml字符串并解析
 
 ###设计实现修改的地方
+
 ####界面设计和事件响应
 在练习界面将布局和事件响应分开，分开四个Layer处理
 似乎应该将田字格单独包装成为CCNode自定义类，单独在此类中处理田字格正字及手写字处理逻辑

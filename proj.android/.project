@@ -113,6 +113,26 @@
 			<locationURI>COCOS2DX/projects/Test_py/Classes</locationURI>
 		</link>
 		<link>
+			<name>MYClasses</name>
+			<type>2</type>
+			<location>D:/graduation_project/cocos2d-x-2.1.5/projects/Test_py/Classes</location>
+		</link>
+		<link>
+			<name>Mycocos2dx</name>
+			<type>2</type>
+			<location>D:/graduation_project/cocos2d-x-2.1.5/cocos2dx</location>
+		</link>
+		<link>
+			<name>Myextensions</name>
+			<type>2</type>
+			<location>D:/graduation_project/cocos2d-x-2.1.5/extensions</location>
+		</link>
+		<link>
+			<name>Myscripting</name>
+			<type>2</type>
+			<location>D:/graduation_project/cocos2d-x-2.1.5/scripting</location>
+		</link>
+		<link>
 			<name>cocos2dx</name>
 			<type>2</type>
 			<locationURI>COCOS2DX/cocos2dx</locationURI>
@@ -120,7 +140,7 @@
 		<link>
 			<name>cocos2dx src</name>
 			<type>2</type>
-			<location>E:/graduation_project/cocos2d-x-2.1.5/cocos2dx/platform/android/java/src</location>
+			<location>D:/graduation_project/cocos2d-x-2.1.5/cocos2dx/platform/android/java/src</location>
 		</link>
 		<link>
 			<name>extensions</name>

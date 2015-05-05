@@ -1,6 +1,8 @@
 #include "DataTool.h"
-
+#include <iostream>
+#include <string>
 using namespace std;
+USING_NS_CC;
 
 DataTool::DataTool(void)
 {
@@ -80,4 +82,69 @@ string DataTool::intTostring(int a){
 	stringstream s;
 	s << a;
 	return s.str();
+}
+
+string DataTool::floatToString(float f){
+	stringstream s;
+	s << f;
+	return s.str();
+}
+
+float DataTool::stringToFloat(string str){
+	stringstream ss(str);
+	float f = 0.0;
+	if(!(ss >> f)){
+		CCLog("Error convert string to float");
+	}
+	return f;
+}
+
+void DataTool::storeToFile(const char* str,char* filename){
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	unsigned long size = 0;
+	string finame(filename);
+	string path = CCFileUtils::sharedFileUtils()->getWritablePath()+finame;
+	FILE* file = fopen(path.c_str(),"w");
+	if (file != NULL)
+	{
+		file = fopen(path.c_str(),"wb");
+		fwrite(str,strlen(str),1,file);
+	}else{
+		// 		CCLog("CLuaScriptReader::Print2File file NULL");
+	}
+	fclose(file);
+#endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+	FILE * pFile;
+
+	pFile = fopen (filename, "wb" );
+	fwrite (str, strlen(str), 1 , pFile );
+	fclose (pFile);
+#endif
+}
+
+string DataTool::readFromFile(char* filename){
+	string ret;
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	string filepath = CCFileUtils::sharedFileUtils()->getWritablePath()+filename;
+#endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+	string filepath = CCFileUtils::sharedFileUtils()->fullPathForFilename(filename);
+#endif
+	unsigned long size = 0;
+	unsigned char* filecontent = CCFileUtils::sharedFileUtils()->getFileData(filepath.c_str(),"r",&size);
+	//read file must add two lines
+	CCString* cstr = CCString::createWithData(filecontent,size);
+	delete[] filecontent;
+//	const char* re = cstr->getCString();
+//	ret = re;
+	ret = string(cstr->getCString());
+	return ret;
+}
+
+string DataTool::getChinese(string key){
+	CCDictionary* strings = CCDictionary::createWithContentsOfFile("fonts/chinese.xml");
+	string strChinese = ((CCString*)strings->objectForKey(key))->m_sString;
+//	CC_SAFE_RELEASE(strings);
+	return strChinese;
 }

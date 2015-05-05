@@ -2,6 +2,7 @@
 #include "SqliteHelper.h"
 #include "CharacterEntity.h"
 #include "strokeFunc.h"
+#include "CharacterExtend.h"
 
 SQLiteData::SQLiteData()
 {
@@ -28,9 +29,11 @@ vector<string> SQLiteData::splitStrokeSeq(string seq){
 
 
 void SQLiteData::getHanziData(string hz,CCObject* p){
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 	string dbpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_info.db");
+#endif
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-	dbpath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_info.db";
+	string dbpath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_info.db";
 #endif
 	SqliteHelper::initDB(dbpath.c_str());
 	string sql = "select * from ziData where ziName ='"+hz+"'";
@@ -40,9 +43,11 @@ void SQLiteData::getHanziData(string hz,CCObject* p){
 
 string SQLiteData::getstrokeFunc(string strokeID){
 	CCLog("SQLiteData::getstrokeFunc %s",strokeID.c_str());
-	string dbpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_info.db");
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+	string dbpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_judge.db");
+#endif
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-	dbpath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_info.db";
+	string dbpath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_judge.db";
 #endif
 	SqliteHelper::initDB(dbpath.c_str());
 	string sql = "select * from strokeFunc where strokeID ='"+strokeID+"'";
@@ -50,4 +55,37 @@ string SQLiteData::getstrokeFunc(string strokeID){
 	SqliteHelper::getstrokeFunc(sql,ret);
 	SqliteHelper::closeDB();
 	return string(ret->getFunc()->getCString());
+}
+
+void SQLiteData::getHanziDataExtend(string hz,CCObject* p){
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+	string dbpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_judge.db");
+#endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	string dbpath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_judge.db";
+#endif
+	SqliteHelper::initDB(dbpath.c_str());
+	string sql = "select * from ziData where ziName ='"+hz+"'";
+	SqliteHelper::getZiDataInfoExtend(sql,p);
+	SqliteHelper::closeDB();
+}
+
+bool SQLiteData::isExist(string hz){
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+	string dbpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_judge.db");
+#endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	string dbpath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_judge.db";
+#endif
+	SqliteHelper::initDB(dbpath.c_str());
+	string sql = "select * from ziData where ziName ='"+hz+"'";
+	int count = SqliteHelper::getDataCount(sql);
+	SqliteHelper::closeDB();
+	if (count > 0)
+	{
+		return true;
+	}else{
+		return false;
+	}
+	return true;
 }

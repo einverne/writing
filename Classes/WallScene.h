@@ -31,10 +31,6 @@ public:
 
 	void menuCloseCallback(CCObject* pSender);
 
-// 	bool  ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
-// 	void  ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
-// 	void  ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent);
-
 	virtual void ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent);
 	virtual void ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent);
 	virtual void ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent);
