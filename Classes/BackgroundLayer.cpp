@@ -15,13 +15,14 @@ bool BackgroundLayer::init(){
 	{
 		CCLog("Background init");
 		this->setKeypadEnabled(true);
+
 		//add background picture
 		CCSize winSize = CCDirector::sharedDirector()->getWinSize(); 
 		CCSize visiableSize = CCDirector::sharedDirector()->getVisibleSize();
 		CCSize originSize = CCDirector::sharedDirector()->getVisibleOrigin();
 
 		//add static resource , like title bar
-		CCSprite* title_bar = CCSprite::create("strangedesign/title bar_background.png");
+		title_bar = CCSprite::create("strangedesign/title bar_background.png");
 		addChild(title_bar,1);
 		title_bar->setPosition(ccp(visiableSize.width/2,visiableSize.height-title_bar->getContentSize().height/2));
 
@@ -45,7 +46,18 @@ bool BackgroundLayer::init(){
 		CCSize tianzigeDrawSize = tianzige_draw->getContentSize();
 		tianzige_draw->setPosition(ccp(visiableSize.width/2,100+tianzigeDrawSize.height/2+title_bar->getContentSize().height));
 
+	}
+	return true;
+}
 
+void BackgroundLayer::onEnter(){
+	CCLayerColor::onEnter();
+
+	//只有评分书写时才显示 难易
+	JudgeScene* parentScene = (JudgeScene*)this->getParent();
+	bool isjudge = parentScene->getIsJudge();
+	if (isjudge == true)
+	{
 		CWidgetWindow* m_pWindow = CWidgetWindow::create();
 		m_pWindow->setMultiTouchEnabled(true);
 		addChild(m_pWindow,10);
@@ -56,8 +68,8 @@ bool BackgroundLayer::init(){
 		m_pWindow->addChild(pToggle);
 
 	}
-	return true;
 }
+
 
 void BackgroundLayer::menuBack(CCObject* pSender){
 	this->unscheduleAllSelectors();

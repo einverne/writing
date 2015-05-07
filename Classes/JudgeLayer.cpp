@@ -26,7 +26,7 @@ void JudgeLayer::onEnter(){
 
 	BackgroundLayer* backgroundLayer = (BackgroundLayer*)this->getParent()->getChildByTag(kBgLayerTag);
 	CCSprite* tianzige = backgroundLayer->tianzige;
-
+	CCSprite* title_bar = backgroundLayer->title_bar;
 
 	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
 	CCMenuItemImage* next = CCMenuItemImage::create("strangedesign/Writting_next_button.png",
@@ -52,12 +52,20 @@ void JudgeLayer::onEnter(){
 	if (!scene->getIsJudge())
 	{
 		//自由书写 需增加Button 作为保存
-		CCMenuItemImage* saveButton = CCMenuItemImage::create("strangedesign/Edit_Finish_button.png",
-			"strangedesign/Edit_Finish_button_down.png",
+		CCMenuItemImage* saveButton = CCMenuItemImage::create("strangedesign/Free_writting_save_button_up.png",
+			"strangedesign/Free_writting_save_button_down.png",
 			this,
 			menu_selector(JudgeLayer::menuSave));
-		saveButton->setPosition(ccp(650,500));
+		saveButton->setPosition(ccp(winSize.width/5*4,saveButton->getContentSize().height+5));
 		menu->addChild(saveButton);
+
+		//view button
+		CCMenuItemImage* viewBtn = CCMenuItemImage::create("strangedesign/Free_writting_view_button_up.png",
+			"strangedesign/Free_writting_view_button_down.png",
+			this,
+			menu_selector(JudgeLayer::menuView));
+		viewBtn->setPosition(ccp(winSize.width-viewBtn->getContentSize().width/2, title_bar->getPositionY()));
+		menu->addChild(viewBtn);
 	}
 }
 
@@ -93,6 +101,11 @@ void JudgeLayer::menuSave(CCObject* pSender){
 		MyToast::showToast(this,DataTool::getChinese("not_finish"),TOAST_LONG);
 	}
 
+}
+
+void JudgeLayer::menuView(CCObject* pSender){
+
+	CCLog("menuView");
 }
 
 void JudgeLayer::SaveProToFile(float pro){

@@ -20,6 +20,7 @@ private:
 	void menuNext(CCObject* pSender);
 	void menuPrevious(CCObject* pSender);
 	void menuSave(CCObject* pSender);
+	void menuView(CCObject* pSender);
 	CCMenu* menu;
 };
 

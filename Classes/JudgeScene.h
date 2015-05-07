@@ -28,7 +28,16 @@ public:
 
 	CC_SYNTHESIZE_RETAIN(JudgeLayer* , judgeLayer , JudgeLayer);
 
+	/**
+	* 上一个汉字
+	* @return
+	*/
 	void previous();
+
+	/**
+	* 下一个汉字
+	* @return
+	*/
 	void next();
 
 	

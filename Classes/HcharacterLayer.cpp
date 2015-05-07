@@ -215,6 +215,14 @@ void HcharacterLayer::onEnter(){
 	rewrite->setPosition(ccp(visiableSize.width/4*3,rewrite->getContentSize().height+5));
 	rewrite->setOnClickListener(this,ccw_click_selector(HcharacterLayer::rewrite));
 
+	if (scene->getIsJudge() == false)
+	{
+		zoomin->setPosition(ccp(visiableSize.width/5,zoomin->getContentSize().height+5));
+		zoomout->setPosition(ccp(visiableSize.width/5*2,zoomout->getContentSize().height+5));
+		rewrite->setPosition(ccp(visiableSize.width/5*3,rewrite->getContentSize().height+5));
+
+	}
+
 	CWidgetWindow* m_pWindow = CWidgetWindow::create();
 	m_pWindow->setMultiTouchEnabled(true);
 	addChild(m_pWindow,10);

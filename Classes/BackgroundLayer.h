@@ -14,10 +14,12 @@ public:
 	BackgroundLayer();
 	~BackgroundLayer();
 	virtual bool init();
+	virtual void onEnter();
 	virtual void keyBackClicked();
 	CREATE_FUNC(BackgroundLayer);
 	CCSprite* tianzige;
 	CCSprite* tianzige_draw;
+	CCSprite* title_bar;
 private:
 	void menuBack(CCObject* pSender);			//·µ»Ø²Ëµ¥
 	void onClick(CCObject* pSender);			//Toggle onClick
