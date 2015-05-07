@@ -53,6 +53,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
    ../../Classes/MainScene.cpp \
    ../../Classes/MyToast.cpp \
    ../../Classes/PopLayer.cpp \
+   ../../Classes/PopCancelLayer.cpp \
    ../../Classes/ReadXML.cpp \
    ../../Classes/Splash.cpp \
    ../../Classes/Stroke.cpp \

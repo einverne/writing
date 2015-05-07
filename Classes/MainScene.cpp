@@ -239,10 +239,9 @@ bool  MainScene::buttonLongClick(CCObject* pSender, CCTouch* pTouch){
 	CCDirector::sharedDirector()->getRunningScene()->addChild(exitDialog,100,TAG_SETTING_LAYER);
 
 
-// 	CButton* pButton = (CButton*)pSender;
-// 	int idx = pButton->getUserTag();
-// 	string unitID = unit_ids.at(idx);
-// 	CCDirector::sharedDirector()->replaceScene(NewUnitLayer::scene(unitID));
+	CButton* pButton = (CButton*)pSender;
+	int idx = pButton->getUserTag();
+	longClickSelectUnitID = unit_ids.at(idx);
 	return true;
 }
 
@@ -268,19 +267,18 @@ void MainScene::addButtonCallback(CCObject* pSender){
 
 void MainScene::dlgCallBack(CCNode* pNode){
 
-	CCLog("dlgCallback");
-
 	int tag = pNode->getTag();
 	if (tag == 0)
 	{
-
+		//delete unit
+		SQLiteData::deleteUnit(longClickSelectUnitID);
+		unit_count--;
+		pGridView->setCountOfCell(unit_count);
+		unit_ids = SQLiteData::getUnitIDs();
+		pGridView->reloadData();
 	}else{
-
+		//update into the NewUnitLayer
+		CCDirector::sharedDirector()->replaceScene(NewUnitLayer::scene(longClickSelectUnitID));
 	}
-	// 	CButton* pButton = (CButton*)pSender;
-	// 	int idx = pButton->getUserTag();
-	// 	string unitID = unit_ids.at(idx);
-	// 	CCDirector::sharedDirector()->replaceScene(NewUnitLayer::scene(unitID));
-
 
 }

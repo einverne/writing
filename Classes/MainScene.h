@@ -35,6 +35,7 @@ private:
 	int unit_count;
 	vector<string> unit_ids;
 	CGridView* pGridView;
+	string longClickSelectUnitID;			//store the unit_id long click selected
 };
 
 
