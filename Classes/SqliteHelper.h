@@ -127,6 +127,13 @@ public:
 	* @return
 	*/
 	static vector<string> getUnitIDs(string sql);
+
+	/**
+	* 从ziNotes中 读取数据
+	* @param sql sql语句
+	* @return
+	*/
+	static vector<vector <string> > getNote(string sql);
 private:
 
 };

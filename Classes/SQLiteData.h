@@ -138,6 +138,15 @@ public:
 	* @return
 	*/
 	static bool deleteNote(string id);
+
+	/**
+	* 从数据库 ziNotes 表中读取 unit_id 并且 ziid 的手写汉字值
+	* @param unit_id 单元ID
+	* @param zi_id 字ID，每个汉字的ID是唯一的
+	* @return vector<vector <string> >
+	*/
+	static vector<vector <string> > getNote(string unit_id, string zi_id);
+
 };
 
 

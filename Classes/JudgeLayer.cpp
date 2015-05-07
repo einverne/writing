@@ -105,6 +105,8 @@ void JudgeLayer::menuSave(CCObject* pSender){
 
 void JudgeLayer::menuView(CCObject* pSender){
 
+	vector<vector <string> > ret = SQLiteData::getNote("1","32");
+
 	CCLog("menuView");
 }
 

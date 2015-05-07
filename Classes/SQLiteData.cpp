@@ -281,3 +281,19 @@ bool SQLiteData::deleteNote(string id){
 	SQLiteHelper::closeDB();
 	return true;
 }
+
+vector<vector <string> > SQLiteData::getNote(string unit_id, string zi_id){
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+	string judgepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_judge.db");
+#endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	string judgepath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_judge.db";
+#endif
+	SQLiteHelper::initDB(judgepath.c_str());
+	string sql = "select * from ziNotes where unitid ='"+unit_id+"' and ziid ='"+zi_id+"'";
+	vector<vector <string> > notes = SQLiteHelper::getNote(sql);
+
+	SQLiteHelper::closeDB();
+	return notes;
+
+}
