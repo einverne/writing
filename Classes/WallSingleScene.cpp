@@ -508,22 +508,21 @@ void WallSingleLayer::backtoMainScene(CCNode* pNode){
 	}
 }
 
-//ÆÀÅÐÊéÐ´
 void WallSingleLayer::pingpanwriting(CCObject* pSender){
 	CCLog("WallSingleScene::pin clicked");
 
 // 	MyToast::showToast(this,DataTool::getChinese("stroke_wrong"),2);
 
-	CeshiScene* scene = CeshiScene::create(unitID,hanzis);
-	scene->setJudge(true);
+	JudgeScene* scene = JudgeScene::create(unitID,hanzis);
+	scene->setIsJudge(true);
 	CCDirector::sharedDirector()->pushScene(scene);
 }
 
-//×ÔÓÉÁ·Ï°
+
 void WallSingleLayer::freewriting(CCObject* pSender){
 	CCLog("Free writing~");
-	CeshiScene* scene = CeshiScene::create(unitID,hanzis);
-	scene->setJudge(false);
+	JudgeScene* scene = JudgeScene::create(unitID,hanzis);
+	scene->setIsJudge(false);
 	CCDirector::sharedDirector()->pushScene(scene);
 }
 

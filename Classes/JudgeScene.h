@@ -1,5 +1,5 @@
-#ifndef __CeshiScene_H__
-#define __CeshiScene_H__
+#ifndef __JudgeScene_H__
+#define __JudgeScene_H__
 
 #include "cocos2d.h"
 #include "BackgroundLayer.h"
@@ -7,17 +7,17 @@
 #include "HcharacterLayer.h"	
 #include "TouchLayer.h"
 #include "CharacterExtend.h"
-#include "ceshiLayer.h"
+#include "JudgeLayer.h"
 USING_NS_CC;
 using namespace std;
 
-class CeshiScene : public CCScene
+class JudgeScene : public CCScene
 {
 public:
-	CeshiScene();
-	CeshiScene(string unit_id,vector<string> hanzis);
-	~CeshiScene();
-	static CeshiScene* create(string unit_id,vector<string> hanzis);
+	JudgeScene();
+	JudgeScene(string unit_id,vector<string> hanzis);
+	~JudgeScene();
+	static JudgeScene* create(string unit_id,vector<string> hanzis);
 	virtual bool init();
 
 	CC_SYNTHESIZE_RETAIN(BackgroundLayer*,backgroundLayer,backgroundLayer);
@@ -26,7 +26,7 @@ public:
 	CC_SYNTHESIZE_RETAIN(HcharacterLayer*,HLayer,HLayer);
 	CC_SYNTHESIZE_RETAIN(CharacterExtend*,ext_p,CharacterExt);
 
-	CC_SYNTHESIZE_RETAIN(ceshiLayer* , csLayer , ceshiLayer);
+	CC_SYNTHESIZE_RETAIN(JudgeLayer* , judgeLayer , JudgeLayer);
 
 	void previous();
 	void next();
@@ -37,8 +37,8 @@ public:
 	* @param isjudge
 	* @return
 	*/
-	void setJudge(bool isjudge);
-	bool getJudge()	{ return b_isJudge; }
+	void setIsJudge(bool isjudge);
+	bool getIsJudge()	{ return b_isJudge; }
 
 	string getUnitID()	{ return unit_id;}
 	string getZiID()	{ return zi_id; }

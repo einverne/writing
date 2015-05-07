@@ -9,6 +9,7 @@
 #include "MyToast.h"
 #include "tools\DataTool.h"
 #include "constants.h"
+#include "JudgeScene.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)  
 #define RIGHT_EFFECT_FILE   "right_android.ogg"
@@ -38,7 +39,6 @@ HcharacterLayer::~HcharacterLayer()
 bool HcharacterLayer::init(string hanzi,CCSprite* tianzige_draw){
 	if (CCLayer::init())
 	{
-		CCSize visiableSize = CCDirector::sharedDirector()->getVisibleSize();
 
 		this->hanzi = hanzi;
 		this->setSprite(tianzige_draw);
@@ -48,57 +48,7 @@ bool HcharacterLayer::init(string hanzi,CCSprite* tianzige_draw){
 		getm_HDrawnode()->setAnchorPoint(ccp(0.5,0.5));
 		addChild(m_HDrawnode);
 
-		this->setbihuaCount(CCLabelTTF::create("","Arial",50));
-		getbihuaCount()->setColor(ccc3(0,0,0));
-		this->addChild(bihuaCount,10);
-		bihuaCount->setPosition(ccp(visiableSize.width/4*3+100,getbihuaCount()->getContentSize().height/2+60));
-		
-		this->setInfoSprite(CCSprite::create("right.png"));
-		this->addChild(getInfoSprite(),2000);
-		getInfoSprite()->setPosition(ccp(visiableSize.width/4-100,getInfoSprite()->getContentSize().height/2+60));
-		getInfoSprite()->setScale(scale);
-		getInfoSprite()->setVisible(false);
-
-		CCPoint tianzige_draw_position = getSprite()->getPosition();
-		CCSize tianzige_draw_size = getSprite()->getContentSize();
-
-// 		CCMenuItemImage* rewriteButton = CCMenuItemImage::create("strangedesign/Judge_writting_cancel_button.png",
-// 			"strangedesign/Judge_writting_cancel_button.png",
-// 			this,
-// 			menu_selector(HcharacterLayer::rewrite));
-// 		CCPoint rewrite_position = ccp(tianzige_draw_position.x + tianzige_draw_size.width/2+20+rewriteButton->getContentSize().width/2,tianzige_draw_position.y+tianzige_draw_size.height/2-rewriteButton->getContentSize().height/2);
-// 		rewriteButton->setPosition(rewrite_position);
-// 		CCMenu* menu = CCMenu::create(rewriteButton,NULL);
-// 		menu->setPosition(0,0);
-// 		this->addChild(menu,200);
-
-		CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect(RIGHT_EFFECT_FILE);
-		CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect(WRONG_EFFECT_FILE);
-		CocosDenshion::SimpleAudioEngine::sharedEngine()->setEffectsVolume(0.5);
-
-		//放大缩小按钮
-		CButton* zoomin = CButton::create("strangedesign/Judge_writting_zoomin_button.png",
-			"strangedesign/Judge_writting_zoomin_button_down.png");
-		zoomin->setPosition(ccp(visiableSize.width/4,zoomin->getContentSize().height+50));
-		zoomin->setOnClickListener(this,ccw_click_selector(HcharacterLayer::zoomin));
-
-		CButton* zoomout = CButton::create("strangedesign/Judge_writting_zoomout_button.png",
-			"strangedesign/Judge_writting_zoomout_button_down.png");
-		zoomout->setPosition(ccp(visiableSize.width/4*2,zoomout->getContentSize().height+50));
-		zoomout->setOnClickListener(this,ccw_click_selector(HcharacterLayer::zoomout));
-
-		CButton* rewrite = CButton::create("strangedesign/Judge_writting_cancel_button.png",
-			"strangedesign/Judge_writting_cancel_button_down.png");
-		rewrite->setPosition(ccp(visiableSize.width/4*3,rewrite->getContentSize().height+50));
-		rewrite->setOnClickListener(this,ccw_click_selector(HcharacterLayer::rewrite));
-
-		CWidgetWindow* m_pWindow = CWidgetWindow::create();
-		m_pWindow->setMultiTouchEnabled(true);
-		addChild(m_pWindow,10);
-
-		m_pWindow->addChild(zoomin);
-		m_pWindow->addChild(zoomout);
-		m_pWindow->addChild(rewrite);
+	
 
 		return true;
 	}
@@ -223,6 +173,55 @@ CCPoint HcharacterLayer::convert512(CCPoint p){
 
 void HcharacterLayer::onEnter(){
 	CCLayer::onEnter();
+
+	CCSize visiableSize = CCDirector::sharedDirector()->getVisibleSize();
+
+	JudgeScene* scene = (JudgeScene*)this->getParent();
+	BackgroundLayer* backgroundLayer = scene->getbackgroundLayer();
+	CCSprite* tianzige = backgroundLayer->tianzige;
+
+	this->setbihuaCount(CCLabelTTF::create("","Arial",80));
+	getbihuaCount()->setColor(ccc3(0,0,0));
+	this->addChild(bihuaCount,10);
+	CCPoint bihuaCountPosition = ccp(visiableSize.width/4-70, tianzige->getPositionY()-50);
+	bihuaCount->setPosition(bihuaCountPosition);
+
+	this->setInfoSprite(CCSprite::create("right.png"));
+	this->addChild(getInfoSprite(),2000);
+	getInfoSprite()->setPosition(ccp(visiableSize.width/4*3+50,tianzige->getPositionY()-50));
+	getInfoSprite()->setScale(scale);
+	getInfoSprite()->setVisible(false);
+
+	CCPoint tianzige_draw_position = getSprite()->getPosition();
+	CCSize tianzige_draw_size = getSprite()->getContentSize();
+
+	CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect(RIGHT_EFFECT_FILE);
+	CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect(WRONG_EFFECT_FILE);
+	CocosDenshion::SimpleAudioEngine::sharedEngine()->setEffectsVolume(0.5);
+
+	//放大缩小按钮
+	CButton* zoomin = CButton::create("strangedesign/Judge_writting_zoomin_button.png",
+		"strangedesign/Judge_writting_zoomin_button_down.png");
+	zoomin->setPosition(ccp(visiableSize.width/4,zoomin->getContentSize().height+5));
+	zoomin->setOnClickListener(this,ccw_click_selector(HcharacterLayer::zoomin));
+
+	CButton* zoomout = CButton::create("strangedesign/Judge_writting_zoomout_button.png",
+		"strangedesign/Judge_writting_zoomout_button_down.png");
+	zoomout->setPosition(ccp(visiableSize.width/4*2,zoomout->getContentSize().height+5));
+	zoomout->setOnClickListener(this,ccw_click_selector(HcharacterLayer::zoomout));
+
+	CButton* rewrite = CButton::create("strangedesign/Judge_writting_cancel_button.png",
+		"strangedesign/Judge_writting_cancel_button_down.png");
+	rewrite->setPosition(ccp(visiableSize.width/4*3,rewrite->getContentSize().height+5));
+	rewrite->setOnClickListener(this,ccw_click_selector(HcharacterLayer::rewrite));
+
+	CWidgetWindow* m_pWindow = CWidgetWindow::create();
+	m_pWindow->setMultiTouchEnabled(true);
+	addChild(m_pWindow,10);
+
+	m_pWindow->addChild(zoomin);
+	m_pWindow->addChild(zoomout);
+	m_pWindow->addChild(rewrite);
 }
 
 void HcharacterLayer::onExit(){
@@ -240,7 +239,7 @@ void HcharacterLayer::rewrite(CCObject* pSender){
 }
 
 void HcharacterLayer::zoomin(CCObject* pSender){
-	if (scale < 2.0)
+	if (scale < 1.6)
 	{
 		scale += 0.1;
 		getm_HDrawnode()->setScale(scale);

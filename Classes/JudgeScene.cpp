@@ -1,4 +1,4 @@
-#include "CeshiScene.h"
+#include "JudgeScene.h"
 #include "LianxiScene.h"
 #include "SQLiteData.h"
 #include <algorithm>
@@ -8,23 +8,23 @@ using namespace std;
 
 
 
-CeshiScene::CeshiScene():backgroundLayer(NULL),
+JudgeScene::JudgeScene():backgroundLayer(NULL),
 	touchLayer(NULL),
 	TLayer(NULL),
 	HLayer(NULL),
 	ext_p(NULL),
-	csLayer(NULL),
+	judgeLayer(NULL),
 	index(0)
 {
 
 }
 
-CeshiScene::CeshiScene(string unit_id,vector<string> hanzis):backgroundLayer(NULL),
+JudgeScene::JudgeScene(string unit_id,vector<string> hanzis):backgroundLayer(NULL),
 	touchLayer(NULL),
 	TLayer(NULL),
 	HLayer(NULL),
 	ext_p(NULL),
-	csLayer(NULL),
+	judgeLayer(NULL),
 	index(0)
 {
 	this->unit_id = unit_id;
@@ -35,18 +35,18 @@ CeshiScene::CeshiScene(string unit_id,vector<string> hanzis):backgroundLayer(NUL
 	}
 }
 
-CeshiScene::~CeshiScene()
+JudgeScene::~JudgeScene()
 {
 	CC_SAFE_RELEASE(backgroundLayer);
 	CC_SAFE_RELEASE(TLayer);
 	CC_SAFE_RELEASE(HLayer);
 	CC_SAFE_RELEASE(touchLayer);
 	CC_SAFE_RELEASE(ext_p);
-	CC_SAFE_RELEASE(csLayer);
+	CC_SAFE_RELEASE(judgeLayer);
 }
 
-CeshiScene* CeshiScene::create(string unit_id,vector<string> hanzis){
-	CeshiScene* pRet = new CeshiScene(unit_id,hanzis);
+JudgeScene* JudgeScene::create(string unit_id,vector<string> hanzis){
+	JudgeScene* pRet = new JudgeScene(unit_id,hanzis);
 	if (pRet && pRet->init())
 	{
 		pRet->autorelease();
@@ -58,7 +58,7 @@ CeshiScene* CeshiScene::create(string unit_id,vector<string> hanzis){
 	}
 }
 
-bool CeshiScene::init(){
+bool JudgeScene::init(){
 	bool bRet = false;
 	do 
 	{
@@ -90,10 +90,10 @@ bool CeshiScene::init(){
 		touchLayer->setTag(kTouchLayerTag);
 		this->addChild(touchLayer);
 
-		this->setceshiLayer(ceshiLayer::create());
-		CC_BREAK_IF(!csLayer);
-		csLayer->setTag(kCeshiLayerTag);
-		this->addChild(csLayer);
+		this->setJudgeLayer(JudgeLayer::create());
+		CC_BREAK_IF(!judgeLayer);
+		judgeLayer->setTag(kCeshiLayerTag);
+		this->addChild(judgeLayer);
 
 		CC_BREAK_IF(!CCScene::init());
 
@@ -103,7 +103,7 @@ bool CeshiScene::init(){
 	return bRet;
 }
 
-void CeshiScene::next(){
+void JudgeScene::next(){
 	//在最后一个字提醒用户最后一个字
 	if (index == 14)
 	{
@@ -137,7 +137,7 @@ void CeshiScene::next(){
 
 }
 
-void CeshiScene::previous(){
+void JudgeScene::previous(){
 
 	index--;
 	if (index<0)
@@ -154,7 +154,7 @@ void CeshiScene::previous(){
 	getHLayer()->reloadChar();
 }
 
-void CeshiScene::setJudge(bool isjudge){
+void JudgeScene::setIsJudge(bool isjudge){
 	this->b_isJudge = isjudge;
 	getHLayer()->isJudge(isjudge);
 }

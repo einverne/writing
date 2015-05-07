@@ -1,76 +1,82 @@
-#include "ceshiLayer.h"
-#include "CeshiScene.h"
+#include "JudgeLayer.h"
+#include "JudgeScene.h"
 #include "tinyxml.h"
 #include "tools/DataTool.h"
 
-ceshiLayer::ceshiLayer()
+JudgeLayer::JudgeLayer()
 {
 }
 
-ceshiLayer::~ceshiLayer()
+JudgeLayer::~JudgeLayer()
 {
 }
 
-bool ceshiLayer::init(){
+bool JudgeLayer::init(){
 	CCLog("ceshiLayer::init()");
 	if (CCLayer::init())
 	{
-		CCSize winSize = CCDirector::sharedDirector()->getWinSize();
-		CCMenuItemImage* next = CCMenuItemImage::create("strangedesign/Writting_next_button.png",
-			"strangedesign/Writting_next_button_down.png",
-			this,
-			menu_selector(ceshiLayer::menuNext));
-		next->setPosition(ccp(winSize.width - next->getContentSize().width/2-50,winSize.height/2));
-
-		CCMenuItemImage* previous = CCMenuItemImage::create("strangedesign/Writting_pre_button.png",
-			"strangedesign/Writting_pre_button_down.png",
-			this,
-			menu_selector(ceshiLayer::menuPrevious));
-		previous->setPosition(ccp(previous->getContentSize().width/2+50 , winSize.height/2));
-
-		menu = CCMenu::create(next, previous, NULL);
-
-
-		
-		addChild(menu,10);
-		menu->setPosition(CCPointZero);
 
 		return true;
 	}
 	return false;
 }
 
-void ceshiLayer::onEnter(){
+void JudgeLayer::onEnter(){
 	CCLayer::onEnter();
-	CeshiScene* scene = (CeshiScene*)this->getParent();
-	if (!scene->getJudge())
+
+	BackgroundLayer* backgroundLayer = (BackgroundLayer*)this->getParent()->getChildByTag(kBgLayerTag);
+	CCSprite* tianzige = backgroundLayer->tianzige;
+
+
+	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
+	CCMenuItemImage* next = CCMenuItemImage::create("strangedesign/Writting_next_button.png",
+		"strangedesign/Writting_next_button_down.png",
+		this,
+		menu_selector(JudgeLayer::menuNext));
+	CCPoint nextBtnPosition = ccp(winSize.width - next->getContentSize().width/2-50,tianzige->getPositionY()+tianzige->getContentSize().height/2+20);
+	next->setPosition(nextBtnPosition);
+
+	CCMenuItemImage* previous = CCMenuItemImage::create("strangedesign/Writting_pre_button.png",
+		"strangedesign/Writting_pre_button_down.png",
+		this,
+		menu_selector(JudgeLayer::menuPrevious));
+	CCPoint previousBtnPosition = ccp(previous->getContentSize().width/2+50 , tianzige->getPositionY()+ tianzige->getContentSize().height/2 + 20);
+	previous->setPosition(previousBtnPosition);
+
+	menu = CCMenu::create(next, previous, NULL);
+
+	addChild(menu,10);
+	menu->setPosition(CCPointZero);
+
+	JudgeScene* scene = (JudgeScene*)this->getParent();
+	if (!scene->getIsJudge())
 	{
 		//自由书写 需增加Button 作为保存
 		CCMenuItemImage* saveButton = CCMenuItemImage::create("strangedesign/Edit_Finish_button.png",
 			"strangedesign/Edit_Finish_button_down.png",
 			this,
-			menu_selector(ceshiLayer::menuSave));
+			menu_selector(JudgeLayer::menuSave));
 		saveButton->setPosition(ccp(650,500));
 		menu->addChild(saveButton);
 	}
 }
 
-void ceshiLayer::menuNext(CCObject* pSender){
+void JudgeLayer::menuNext(CCObject* pSender){
 	CCLog("next");
-	CeshiScene* scene = (CeshiScene*)CCDirector::sharedDirector()->getRunningScene();
+	JudgeScene* scene = (JudgeScene*)CCDirector::sharedDirector()->getRunningScene();
 	scene->next();
 }
 
-void ceshiLayer::menuPrevious(CCObject* pSender){
+void JudgeLayer::menuPrevious(CCObject* pSender){
 	//调用上一个
 	CCLog("previous");
-	CeshiScene* scene = (CeshiScene*)CCDirector::sharedDirector()->getRunningScene();
+	JudgeScene* scene = (JudgeScene*)CCDirector::sharedDirector()->getRunningScene();
 	scene->previous();
 }
 
-void ceshiLayer::menuSave(CCObject* pSender){
+void JudgeLayer::menuSave(CCObject* pSender){
 	CCLog("save to sqlite");
-	CeshiScene* scene = (CeshiScene*)CCDirector::sharedDirector()->getRunningScene();
+	JudgeScene* scene = (JudgeScene*)CCDirector::sharedDirector()->getRunningScene();
 
 	//判断是否写完
 	if (scene->gettouchLayer()->isTimeSave())
@@ -89,9 +95,9 @@ void ceshiLayer::menuSave(CCObject* pSender){
 
 }
 
-void ceshiLayer::SaveProToFile(float pro){
+void JudgeLayer::SaveProToFile(float pro){
 	//filename hanzi ceshiScene  profic 计算
-	CeshiScene* scene = (CeshiScene*)CCDirector::sharedDirector()->getRunningScene();
+	JudgeScene* scene = (JudgeScene*)CCDirector::sharedDirector()->getRunningScene();
 // 	string wallXMLCurrent = scene->getWallFileName();
 	string currhanzi = scene->getCharacter();
 

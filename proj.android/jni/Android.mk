@@ -41,8 +41,8 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
    ../../Classes/BackgroundLayer.cpp \
    ../../Classes/Bujian.cpp \
    ../../Classes/Character.cpp \
-   ../../Classes/CeshiScene.cpp \
-   ../../Classes/ceshiLayer.cpp \
+   ../../Classes/JudgeScene.cpp \
+   ../../Classes/JudgeLayer.cpp \
    ../../Classes/HanziManage.cpp \
    ../../Classes/HcharacterDrawnode.cpp \
    ../../Classes/HcharacterLayer.cpp \

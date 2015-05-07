@@ -3,15 +3,16 @@
 
 #include "cocos2d.h"
 #include "SQLiteData.h"
+#include "constants.h"
 #include "MyToast.h"
 USING_NS_CC;
 
-class ceshiLayer : public CCLayer
+class JudgeLayer : public CCLayer
 {
 public:
-	ceshiLayer();
-	~ceshiLayer();
-	CREATE_FUNC(ceshiLayer);
+	JudgeLayer();
+	~JudgeLayer();
+	CREATE_FUNC(JudgeLayer);
 	bool init();
 	virtual void onEnter();
 	void SaveProToFile(float pro);

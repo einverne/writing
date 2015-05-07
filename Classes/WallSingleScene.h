@@ -10,7 +10,7 @@
 #include "LianxiScene.h"
 #include "MainScene.h"
 #include "MyToast.h"
-#include "CeshiScene.h"
+#include "JudgeScene.h"
 #include "SQLiteData.h"
 #include <vector>
 using namespace std;
@@ -102,7 +102,7 @@ private:
 	long beginTime;
 
 	/**
-	* ≤‚ ‘∞¥≈•œÏ”¶∫Ø ˝
+	* ∆¿≈– È–¥
 	* @param pSender
 	* @return
 	*/

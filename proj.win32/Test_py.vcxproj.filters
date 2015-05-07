@@ -156,12 +156,6 @@
     <ClCompile Include="..\Classes\MyToast.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\CeshiScene.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\ceshiLayer.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
     <ClCompile Include="..\CocosWidget\Button.cpp">
       <Filter>cocoswidget</Filter>
     </ClCompile>
@@ -253,6 +247,12 @@
       <Filter>Classes</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\PopCancelLayer.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\JudgeScene.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\JudgeLayer.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
   </ItemGroup>
@@ -378,13 +378,7 @@
     <ClInclude Include="..\Classes\MyToast.h">
       <Filter>Classes</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\CeshiScene.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\constants.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ceshiLayer.h">
       <Filter>Classes</Filter>
     </ClInclude>
     <ClInclude Include="..\CocosWidget\Button.h">
@@ -484,6 +478,12 @@
       <Filter>Classes</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\PopCancelLayer.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\JudgeScene.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\JudgeLayer.h">
       <Filter>Classes</Filter>
     </ClInclude>
   </ItemGroup>

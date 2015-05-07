@@ -39,11 +39,11 @@ bool BackgroundLayer::init(){
 		//add tianzige
 		tianzige = CCSprite::create("tianzige.png");
 		CCSize tianzigeSize = tianzige->getContentSize();
-		tianzige->setPosition(ccp(visiableSize.width/2,visiableSize.height-tianzigeSize.height/2-50-title_bar->getContentSize().height));
+		tianzige->setPosition(ccp(visiableSize.width/2,visiableSize.height-tianzigeSize.height/2- 100 -title_bar->getContentSize().height));
 
 		tianzige_draw = CCSprite::create("tianzige.png");
 		CCSize tianzigeDrawSize = tianzige_draw->getContentSize();
-		tianzige_draw->setPosition(ccp(visiableSize.width/2,50+tianzigeDrawSize.height/2+title_bar->getContentSize().height));
+		tianzige_draw->setPosition(ccp(visiableSize.width/2,100+tianzigeDrawSize.height/2+title_bar->getContentSize().height));
 
 
 		CWidgetWindow* m_pWindow = CWidgetWindow::create();

@@ -88,11 +88,12 @@ void NewUnitLayer::onEnter(){
 		menu->addChild(updateBtn);
 	}else
 	{
-		CCMenuItemImage* finishBtn = CCMenuItemImage::create("main_button.png",
-			"mail_button.png",
+		CCMenuItemImage* finishBtn = CCMenuItemImage::create("strangedesign/Edit_Finish_button.png",
+			"strangedesign/Edit_Finish_button_down.png",
 			this,
 			menu_selector(NewUnitLayer::finishAddUnit));
-		finishBtn->setPosition(wall_tail->getPosition());
+		CCPoint finishBtnPosition = ccp(visibleSize.width, visibleSize.height) - ccp(finishBtn->getContentSize().width/2,finishBtn->getContentSize().height/2);
+		finishBtn->setPosition(finishBtnPosition);
 		menu->addChild(finishBtn);
 	}
 	
