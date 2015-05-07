@@ -13,6 +13,7 @@ PopLayer::PopLayer(void):m__pMenu(NULL)
 	, m__ltTitle(NULL)
 	, m__editBox(NULL)
 {
+	CCLog("Poplayer Construct");
 }
 
 
@@ -24,9 +25,11 @@ PopLayer::~PopLayer(void)
 	CC_SAFE_RELEASE(m__ltTitle);
 	CC_SAFE_RELEASE(m__s9BackGround);
 	CC_SAFE_RELEASE(m__editBox);
+	CCLog("~PopLayer");
 }
 
 bool PopLayer::init(){
+	CCLog("PopLayer::init");
 	bool bRef = false;
 	do 
 	{
@@ -160,7 +163,7 @@ void PopLayer::onEnter(){
 	int i = 0;
 	CCARRAY_FOREACH(array, pObj){
 		CCNode* node = dynamic_cast<CCNode*>(pObj);
-		node->setPosition(ccp( winSize.width / 2 - contentSize.width / 2 + btnWidth * (i + 1), winSize.height / 2 - contentSize.height / 3));
+		node->setPosition(ccp( winSize.width / 2 - contentSize.width / 2 + btnWidth * (i + 1), winSize.height / 2 - contentSize.height / 3 + 20));
 		i++;
 	}
 

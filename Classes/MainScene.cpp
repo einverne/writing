@@ -1,6 +1,7 @@
 #include "MainScene.h"
 #include "NewUnit.h"
 #include "PopLayer.h"
+#include "PopCancelLayer.h"
 
 #define TAG_LAYER_EXIT 1001
 #define TAG_SETTING_LAYER 1002
@@ -41,19 +42,19 @@ bool MainScene::init(){
 	addChild(titlebar,1);
 	titlebar->setPosition(ccp(visiableSize.width/2,visiableSize.height-titlebar->getContentSize().height/2));
 
-	CCSprite* selectionMode = CCSprite::create("strangedesign/Page_selectionmode_character.png");
+	CCSprite* selectionMode = CCSprite::create("strangedesign/main_selection_unit.png");
 	addChild(selectionMode,2);
 	selectionMode->setPosition(titlebar->getPosition());
 	
-	CCMenuItemImage* setting_btn = CCMenuItemImage::create("setting.png",
-		"setting.png",
-		this,
-		menu_selector(MainScene::Setting)
-		);
-	setting_btn->setPosition(ccp(winSize.width- setting_btn->getContentSize().width -100, setting_btn->getContentSize().height));
-	CCMenu* m = CCMenu::create(setting_btn,NULL);
-	m->setPosition(CCPointZero);
-	addChild(m,3);
+// 	CCMenuItemImage* setting_btn = CCMenuItemImage::create("setting.png",
+// 		"setting.png",
+// 		this,
+// 		menu_selector(MainScene::Setting)
+// 		);
+// 	setting_btn->setPosition(ccp(winSize.width- setting_btn->getContentSize().width -100, setting_btn->getContentSize().height));
+// 	CCMenu* m = CCMenu::create(setting_btn,NULL);
+// 	m->setPosition(CCPointZero);
+// 	addChild(m,3);
 	
 	CButton* add_btn = CButton::create("strangedesign/Main_add_button.png","strangedesign/Main_add_button_down.png");
 	add_btn->setPosition(ccp(winSize.width -50, winSize.height- titlebar->getContentSize().height/2));
@@ -62,13 +63,16 @@ bool MainScene::init(){
 
 	
 	CCLog("unit count %d",unit_count);
+
+	CCSize visualSize = CCSizeMake(winSize.width,winSize.height-titlebar->getContentSize().height-10);
+	CCSize gridcellSize = CCSizeMake(360 , 350);
 	pGridView = CGridView::create(
-		CCSize(720, 980),
-		CCSize(360 , 350),
+		visualSize,
+		gridcellSize,
 		unit_count, this,
 		ccw_datasource_adapter_selector(MainScene::gridviewDataSource));
 	pGridView->setColumns(2);
-	pGridView->setPosition(CCSize(winSize.width/2,winSize.height/2));
+	pGridView->setPosition(CCSize(winSize.width/2,(winSize.height-titlebar->getContentSize().height)/2));
 	m_pWindow->addChild(pGridView);
 	pGridView->setAutoRelocate(true);
 	pGridView->reloadData();
@@ -101,30 +105,30 @@ void MainScene::isExit(CCNode* pNode){
 	}
 }
 
-void MainScene::Setting(CCObject* pSender){
-	CCLog("Setting");
-	if (CCDirector::sharedDirector()->getRunningScene()->getChildByTag(TAG_SETTING_LAYER) == NULL) {
-		
-		CCSize winSize = CCDirector::sharedDirector()->getWinSize();
-		PopLayer* exitDialog = PopLayer::create("pop/background.png");
-		exitDialog->setContentSize(CCSizeMake(winSize.width*0.75,winSize.height*0.5));
-		exitDialog->setTitle("Setting",50);
-		exitDialog->setContentText("Setting Loose or tight!",60,100,150);
-		exitDialog->setCallBackFunc(this,callfuncN_selector(MainScene::settingCallBack));
-		exitDialog->addButton("sure_up.png","sure_down.png","Y",0);
-		exitDialog->addButton("cancer_up.png","cancer_down.png","N",1);
-		CCDirector::sharedDirector()->getRunningScene()->addChild(exitDialog,100,TAG_SETTING_LAYER);
-	}
-}
+// void MainScene::Setting(CCObject* pSender){
+// 	CCLog("Setting");
+// 	if (CCDirector::sharedDirector()->getRunningScene()->getChildByTag(TAG_SETTING_LAYER) == NULL) {
+// 		
+// 		CCSize winSize = CCDirector::sharedDirector()->getWinSize();
+// 		PopLayer* exitDialog = PopLayer::create("pop/background.png");
+// 		exitDialog->setContentSize(CCSizeMake(winSize.width*0.75,winSize.height*0.5));
+// 		exitDialog->setTitle("Setting",50);
+// 		exitDialog->setContentText("Setting Loose or tight!",60,100,150);
+// 		exitDialog->setCallBackFunc(this,callfuncN_selector(MainScene::settingCallBack));
+// 		exitDialog->addButton("sure_up.png","sure_down.png","Y",0);
+// 		exitDialog->addButton("cancer_up.png","cancer_down.png","N",1);
+// 		CCDirector::sharedDirector()->getRunningScene()->addChild(exitDialog,100,TAG_SETTING_LAYER);
+// 	}
+// }
 
-void MainScene::settingCallBack(CCNode* pNode){
-	if (pNode->getTag() == 0) {
-		//if click Y , end app	将设置写入配置文件 tight
-		DataTool::storeToFile("2","setting.xml");
-	}else {
-		DataTool::storeToFile("1","setting.xml");
-	}
-}
+// void MainScene::settingCallBack(CCNode* pNode){
+// 	if (pNode->getTag() == 0) {
+// 		//if click Y , end app	将设置写入配置文件 tight
+// 		DataTool::storeToFile("2","setting.xml");
+// 	}else {
+// 		DataTool::storeToFile("1","setting.xml");
+// 	}
+// }
 
 CCObject* MainScene::gridviewDataSource(CCObject* pConvertView, unsigned int idx){
 	CGridViewCell* pCell = (CGridViewCell*) pConvertView;
@@ -220,10 +224,25 @@ void MainScene::buttonClick(CCObject* pSender){
 bool  MainScene::buttonLongClick(CCObject* pSender, CCTouch* pTouch){
 	CCLog("Long click");
 	//长按进入编辑界面
-	CButton* pButton = (CButton*)pSender;
-	int idx = pButton->getUserTag();
-	string unitID = unit_ids.at(idx);
-	CCDirector::sharedDirector()->replaceScene(NewUnitLayer::scene(unitID));
+
+	CCSprite* backgroundIMG = CCSprite::create("strangedesign/Dlg_background.png");
+	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
+	PopCancelLayer* exitDialog = PopCancelLayer::create("strangedesign/Dlg_background.png");
+	CCSize originSize = CCSizeMake(winSize.width*0.75,winSize.height*0.5);
+	exitDialog->setContentSize(backgroundIMG->getContentSize());
+	//exitDialog->setTitle("Setting",50);
+	//exitDialog->setContentText("Setting Loose or tight!",60,100,150);
+	exitDialog->setCallBackFunc(this,callfuncN_selector(MainScene::dlgCallBack));
+	exitDialog->addButton("strangedesign/Dlg_delete_button.png","strangedesign/Dlg_delete_button_down.png","Y",0);
+	exitDialog->addButton("strangedesign/Dlg_edit_button.png","strangedesign/Dlg_edit_button_down.png","N",1);
+//	exitDialog->addButton("strangedesign/Dlg_cancel_button.png","strangedesign/Dlg_cancel_button_down.png","N",2);
+	CCDirector::sharedDirector()->getRunningScene()->addChild(exitDialog,100,TAG_SETTING_LAYER);
+
+
+// 	CButton* pButton = (CButton*)pSender;
+// 	int idx = pButton->getUserTag();
+// 	string unitID = unit_ids.at(idx);
+// 	CCDirector::sharedDirector()->replaceScene(NewUnitLayer::scene(unitID));
 	return true;
 }
 
@@ -245,4 +264,23 @@ void MainScene::addButtonCallback(CCObject* pSender){
 //  	pGridView->setCountOfCell(unit_count);
 //  	unit_ids = SQLiteData::getUnitIDs();
 //  	pGridView->reloadData();
+}
+
+void MainScene::dlgCallBack(CCNode* pNode){
+
+	CCLog("dlgCallback");
+
+	int tag = pNode->getTag();
+	if (tag == 0)
+	{
+
+	}else{
+
+	}
+	// 	CButton* pButton = (CButton*)pSender;
+	// 	int idx = pButton->getUserTag();
+	// 	string unitID = unit_ids.at(idx);
+	// 	CCDirector::sharedDirector()->replaceScene(NewUnitLayer::scene(unitID));
+
+
 }

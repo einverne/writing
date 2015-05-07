@@ -252,6 +252,9 @@
     <ClCompile Include="..\Classes\NewUnit.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\PopCancelLayer.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -478,6 +481,9 @@
       <Filter>cocoswidget</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\NewUnit.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\PopCancelLayer.h">
       <Filter>Classes</Filter>
     </ClInclude>
   </ItemGroup>

@@ -25,11 +25,11 @@ public:
 
 private:
 	void isExit(CCNode* pNode);
-	void Setting(CCObject* pSender);
 	void settingCallBack(CCNode* pNode);
 	void buttonClick(CCObject* pSender);
 	bool buttonLongClick(CCObject* pSender,CCTouch* pTouch);
 	void addButtonCallback(CCObject* pSender);
+	void dlgCallBack(CCNode* pNode);			//Dialog callback
 	CCObject* gridviewDataSource(CCObject* pConvertView, unsigned int idx);
 
 	int unit_count;
