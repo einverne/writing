@@ -39,10 +39,9 @@ bool NewUnitLayer::init()
 	}
 	CCLog("NewUnitLayer::init");
 
-
 	//注册触摸事件
 	CCPoint changepoint=ccp(0,0);
-	this->setTouchEnabled(true);
+//	this->setTouchEnabled(true);
 	this->setKeypadEnabled(true);			//android back key
 
 	return true;
@@ -58,9 +57,9 @@ void NewUnitLayer::onEnter(){
 	addChild(titlebar,10);
 	titlebar->setPosition(ccp(visibleSize.width/2,visibleSize.height-titlebar->getContentSize().height/2));
 
-	CCSprite* selectionMode = CCSprite::create("strangedesign/Page_selectionmode_character.png");
-	addChild(selectionMode,11);
-	selectionMode->setPosition(titlebar->getPosition());
+// 	CCSprite* selectionMode = CCSprite::create("strangedesign/Page_selectionmode_character.png");
+// 	addChild(selectionMode,11);
+// 	selectionMode->setPosition(titlebar->getPosition());
 
 	CCSprite* wall_tail = CCSprite::create("strangedesign/title bar_background.png");
 	addChild(wall_tail,2);
@@ -80,24 +79,19 @@ void NewUnitLayer::onEnter(){
 
 	if (unitID != "add")
 	{
-		CCMenuItemImage* deleteBtn = CCMenuItemImage::create("strangedesign/Dlg_delete_button.png",
-			"strangedesign/Dlg_delete_button_down.png",
-			this,
-			menu_selector(NewUnitLayer::del));
-		deleteBtn->setPosition(wall_tail->getPosition()-ccp(wall_tail->getPositionX()/2,0));
-		CCMenuItemImage* updateBtn = CCMenuItemImage::create("strangedesign/Dlg_edit_button.png",
-			"strangedesign/Dlg_edit_button_down.png",
+		CCMenuItemImage* updateBtn = CCMenuItemImage::create("strangedesign/Edit_Finish_button.png",
+			"strangedesign/Edit_Finish_button_down.png",
 			this,
 			menu_selector(NewUnitLayer::updateUnit));
-		updateBtn->setPosition(wall_tail->getPosition()+ccp(wall_tail->getPositionX()/2,0));
-		menu->addChild(deleteBtn);
+		CCPoint updateBtnPosition = ccp(visibleSize.width, visibleSize.height) - ccp(updateBtn->getContentSize().width/2,updateBtn->getContentSize().height/2);
+		updateBtn->setPosition(updateBtnPosition);
 		menu->addChild(updateBtn);
 	}else
 	{
 		CCMenuItemImage* finishBtn = CCMenuItemImage::create("main_button.png",
 			"mail_button.png",
 			this,
-			menu_selector(NewUnitLayer::finish));
+			menu_selector(NewUnitLayer::finishAddUnit));
 		finishBtn->setPosition(wall_tail->getPosition());
 		menu->addChild(finishBtn);
 	}
@@ -194,7 +188,6 @@ void NewUnitLayer::onEnter(){
 			string strtimesposy=timesposy->GetText();
 			int inttimesposy=atoi((strtimesposy.substr(0, strtimesposy.size())).c_str());
 
-
 			//坐标系重定位 将XML中第四象限坐标转成第一象限
 			x+=w/2;
 			y=height-y-h/2;
@@ -203,7 +196,6 @@ void NewUnitLayer::onEnter(){
 			intcharacterposx=height-intcharacterposx;
 			intscoreposy=height-intscoreposy;
 			inttimesposy=height-inttimesposy;
-
 
 			//缩放
 			x*=width_rescale;
@@ -230,8 +222,6 @@ void NewUnitLayer::onEnter(){
 			CCSprite* pSprite1 = CCSprite::create(tempfilename.c_str());
 			pSprite1->setScaleY(rescale);
 			pSprite1->setScaleX(width_rescale);
-// 			pSprite1->setPosition(ccp(origin.x+x, origin.y+y));
-
 
 			CCSize originsize = pSprite1->getContentSize();
 			CCRect fullRect = CCRectMake(0,0,originsize.width,originsize.height);
@@ -239,33 +229,29 @@ void NewUnitLayer::onEnter(){
 			CCScale9Sprite* scalesprite = CCScale9Sprite::create(tempfilename.c_str(),fullRect, insetRect);
 
 			CCSize editBoxSize = ccp(scalesprite->getContentSize().width*width_rescale, scalesprite->getContentSize().height*rescale);
-			CCEditBox* editbox1 = CCEditBox::create(editBoxSize,scalesprite);
-			editbox1->setPosition(ccp(origin.x+x, origin.y+y));
-			addChild(editbox1, 1);
+			CCEditBox* editboxtemp = CCEditBox::create(editBoxSize,scalesprite);
+			editboxtemp->setPosition(ccp(origin.x+x, origin.y+y));
+			addChild(editboxtemp, 1);
 
 			hanzis.push_back(groupCharacter.at(indexOfCharacter).at(0));
 
 			//添加汉字
-			editbox1->setPlaceHolder("Input Chinese Character:");
-			editbox1->setPlaceholderFontColor(ccBLACK);
-			editbox1->setPlaceholderFontSize(100);
+			editboxtemp->setPlaceHolder("Input Chinese Character:");
+			editboxtemp->setPlaceholderFontColor(ccBLACK);
+			editboxtemp->setPlaceholderFont("Arial",25);
+// 			editboxtemp->setPlaceholderFontSize(100);
 
-			editbox1->setFontName("Arial");
+			editboxtemp->setText(groupCharacter.at(indexOfCharacter).at(0).c_str());
+			editboxtemp->setFontName("Arial");
+			editboxtemp->setFontSize(100);
+			editboxtemp->setFontColor(ccBLACK);
+			editboxtemp->setMaxLength(1);
+			editboxtemp->setInputMode(kEditBoxInputModeSingleLine);
 
-			editbox1->setText(groupCharacter.at(indexOfCharacter).at(0).c_str());
-			editbox1->setFontSize(100);
-			editbox1->setFontColor(ccBLACK);
-			editbox1->setMaxLength(1);
-			editbox1->setInputMode(kEditBoxInputModeSingleLine);
-
-			editbox1->setDelegate(this);
-			editbox1->setTag(tag);
+			editboxtemp->setDelegate(this);
+			editboxtemp->setTag(tag);
 			tag++;
 
-// 			CCLabelTTF* pLabel = CCLabelTTF::create(groupCharacter.at(indexOfCharacter).at(0).c_str(), "Arial", 100);
-// 			pLabel->setPosition(ccp(origin.x + x, origin.y + y));
-// 			pLabel->setColor(ccc3(0,0,0));
-// 			this->addChild(pLabel, 2);
 			//添加次数
 			CCLabelTTF* timesLabel = CCLabelTTF::create(groupCharacter.at(indexOfCharacter).at(1).c_str(),"Arial",35);
 			timesLabel->setPosition(ccp(origin.x+inttimesposx,origin.y+inttimesposy));
@@ -295,9 +281,9 @@ void NewUnitLayer::onEnter(){
 
 void NewUnitLayer::onExit(){
 	CCLayer::onExit();
-	CCLog("WallSingleScene::onExit");
-	removeAllChildren();
-	hanzis.clear();
+// 	CCLog("WallSingleScene::onExit");
+// 	removeAllChildren();
+// 	hanzis.clear();
 }
 
 void NewUnitLayer::registerWithTouchDispatcher(){
@@ -338,14 +324,14 @@ void NewUnitLayer::back(CCObject* pSender){
 	CCDirector::sharedDirector()->replaceScene(MainScene::scene());
 }
 
-void NewUnitLayer::finish(CCObject* pSender){
+void NewUnitLayer::finishAddUnit(CCObject* pSender){
 	CCLog("finish");
 	SQLiteData::insertUnit(groupCharacter);
 	CCDirector::sharedDirector()->replaceScene(MainScene::scene());
 }
 
-void NewUnitLayer::del(CCObject* pSender){
-	CCLog("del");
+void NewUnitLayer::deleteUnit(CCObject* pSender){
+	//delete unit with unitID method has deprecated
 	SQLiteData::deleteUnit(unitID);
 	CCDirector::sharedDirector()->replaceScene(MainScene::scene());
 }
@@ -354,6 +340,7 @@ void NewUnitLayer::updateUnit(CCObject* pSender){
 	CCLog("updateUnit");
 	SQLiteData::updateUnit(unitID,groupCharacter);
 	MyToast::showToast(this,DataTool::getChinese("update_unit"),TOAST_LONG);
+	CCDirector::sharedDirector()->replaceScene(MainScene::scene());
 }
 
 void NewUnitLayer::editBoxEditingDidBegin(CCEditBox* editBox){

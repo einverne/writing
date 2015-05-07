@@ -68,8 +68,8 @@ public:
 private:
 	void backtoMainScene(CCNode* pNode);
 	void back(CCObject* pSender);
-	void finish(CCObject* pSender);
-	void del(CCObject* pSender);
+	void finishAddUnit(CCObject* pSender);
+	void deleteUnit(CCObject* pSender);
 	void updateUnit(CCObject* pSender);
 	PopLayer* popL;
 	vector<CHanziManage>::iterator selectedCHanziManageIter;
