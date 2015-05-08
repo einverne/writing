@@ -15,6 +15,9 @@ public:
 //	static string GBKToUTF8(string gbk);
 	//将int转成string字符串
 	static string intTostring(int a);
+
+	static int stringToInt(string str);
+
 	/**
 		将字符串保存到文件中
 	*/

@@ -60,10 +60,10 @@ bool ViewScene::init(string unitid, string ziid){
 
 	CCSize visualSize = CCSizeMake(winSize.width,winSize.height-titlebar->getContentSize().height-10);
 	CCSize gridcellSize = CCSizeMake(360 , 350);
-	int count = Notes.size();
+	writingCount = Notes.size();
 	pGridView = CGridView::create(visualSize,
 		gridcellSize,
-		count,
+		writingCount,
 		this,
 		ccw_datasource_adapter_selector(ViewScene::gridViewDataSource));
 	pGridView->setColumns(2);
@@ -77,22 +77,21 @@ bool ViewScene::init(string unitid, string ziid){
 CCObject* ViewScene::gridViewDataSource(CCObject* pContentView, unsigned int idx){
 	CGridViewCell* pCell = (CGridViewCell*) pContentView;
 	CButton* pButton = NULL;
-	
+	vector<string> oneNote = Notes.at(idx);			//oneNote 中第一个元素为ID，第二个元素为笔画序列
+
 	if (!pCell)
 	{
 		pCell = new CGridViewCell();
 		pCell->autorelease();
 
+
 		pButton = CButton::create("strangedesign/main_clincher.png","strangedesign/main_clincher_down.png");
 		pButton->setPosition(CCPoint(360/2, 350-pButton->getContentSize().height/2));
-		pButton->getLabel()->setFontSize(40.0f);
-		pButton->setTag(1);
 
 		pCell->addChild(pButton,10);
 
 		HcharacterDrawnode* handwritingHz = HcharacterDrawnode::create();
 		
-		vector<string> oneNote = Notes.at(idx);			//oneNote 中第一个元素为ID，第二个元素为笔画序列
 		vector< vector<CCPoint> > strokesvec = DataTool::spliteString(oneNote.at(1));
 		for (int i = 0; i < strokesvec.size(); i++)
 		{
@@ -112,19 +111,30 @@ CCObject* ViewScene::gridViewDataSource(CCObject* pContentView, unsigned int idx
 	{
 		pButton = CButton::create("strangedesign/main_clincher.png","strangedesign/main_clincher_down.png");
 		pButton->setPosition(CCPoint(360/2, 350-pButton->getContentSize().height/2));
-		pButton->getLabel()->setFontSize(40.0f);
-		pButton->setTag(1);
 
 		pCell->addChild(pButton,10);
 
 		HcharacterDrawnode* handwritingHz = HcharacterDrawnode::create();
+		vector<string> oneNote = Notes.at(idx);			//oneNote 中第一个元素为ID，第二个元素为笔画序列
+		vector< vector<CCPoint> > strokesvec = DataTool::spliteString(oneNote.at(1));
+		for (int i = 0; i < strokesvec.size(); i++)
+		{
+			vector<CCPoint> oneStrokeVec = strokesvec[i];
+			Stroke stroke(oneStrokeVec);
+			handwritingHz->addStroke(stroke);
+		}
 
-// 		CCSprite* sprite = CCSprite::create("tianzige.png");
  		handwritingHz->setContentSize(CCSize(320,320));
 		CCPoint position = ccp(360/2- handwritingHz->getContentSize().width/2, 350/2- handwritingHz->getContentSize().height/2);
 		handwritingHz->setPosition(position);
 		pCell->addChild(handwritingHz,1);
 	}
+
+	char buff[64];
+	sprintf(buff, "%u", idx);
+	pButton->getLabel()->setString(buff);
+	int userTag = DataTool::stringToInt(oneNote.at(0));
+	pButton->setUserTag(userTag);
 
 	pButton->setOnClickListener(this,ccw_click_selector(ViewScene::buttonClick));
 
@@ -134,10 +144,34 @@ CCObject* ViewScene::gridViewDataSource(CCObject* pContentView, unsigned int idx
 void ViewScene::buttonClick(CCObject* pSender){
 	CCLog("ViewScene::buttonClick");
 	CButton* pBtn = (CButton*)pSender;
-	
+	selectDeleteNote = pBtn->getUserTag();
+
+	//delete function
+	CCSprite* backgroundImg = CCSprite::create("strangedesign/Dlg_background.png");
+	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
+	PopCancelLayer* dialog = PopCancelLayer::create("strangedesign/Dlg_background.png");
+	dialog->setContentSize(backgroundImg->getContentSize());
+	dialog->addButton("strangedesign/Dlg_delete_button.png","strangedesign/Dlg_delete_button_down.png","Y",0);
+	dialog->setCallBackFunc(this,callfuncN_selector(ViewScene::dlgCallback));
+	CCDirector::sharedDirector()->getRunningScene()->addChild(dialog,10,1001);
+
+
 }
 
 void ViewScene::back(CCObject* pSender){
 	
 	CCDirector::sharedDirector()->popScene();
+}
+
+void ViewScene::dlgCallback(CCNode* pNode){
+	CCLog("callback");
+	int tag = pNode->getTag();
+	if (tag == 0)
+	{
+		// delete writing
+		SQLiteData::deleteNote(DataTool::intTostring(selectDeleteNote));
+		writingCount--;
+		pGridView->setCountOfCell(writingCount);
+		pGridView->reloadData();
+	}
 }

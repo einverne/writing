@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include "SQLiteData.h"
 #include "HcharacterDrawnode.h"
+#include "PopCancelLayer.h"
 #include "../CocosWidget/cocos-widget.h"
 using namespace cocos2d::cocoswidget;
 using namespace std;
@@ -23,10 +24,13 @@ private:
 	CCObject* gridViewDataSource(CCObject* pContentView, unsigned int idx);
 	void buttonClick(CCObject* pSender);
 	void back(CCObject* pSender);
+	void dlgCallback(CCNode* pNode);
 	CGridView* pGridView;
 	vector< vector <string> > Notes;		//store the data read from sqlite
 	string unit_id;			//需要根据 unit_id 和 zi_id 来显示
 	string zi_id;
+	int writingCount;		//记录总共的Note 数量为Notes 的 size
+	int selectDeleteNote;
 };
 
 #endif

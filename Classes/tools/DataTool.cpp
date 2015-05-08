@@ -71,6 +71,16 @@ string DataTool::intTostring(int a){
 	return s.str();
 }
 
+int DataTool::stringToInt(string str){
+	stringstream ss(str);
+	int t = 0;
+	if (! (ss >> t))
+	{
+		CCLog("Error convert string to int");
+	}
+	return t;
+}
+
 string DataTool::floatToString(float f){
 	stringstream s;
 	s << f;
