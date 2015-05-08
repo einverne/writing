@@ -135,3 +135,45 @@ string DataTool::getChinese(string key){
 //	CC_SAFE_RELEASE(strings);
 	return strChinese;
 }
+
+vector< vector<CCPoint> > DataTool::spliteString(string str){
+	//str   point x/ point y/x/y/x/y/@
+	vector< vector<CCPoint> > ret;
+	vector<string> oneStroke = DataTool::spliteStringBy(str,"@");
+	vector<string>::iterator iter;
+	for (iter = oneStroke.begin(); iter != oneStroke.end(); iter++)
+	{
+		string strokeStr = (string)*iter;
+		vector<string> pointxy = DataTool::spliteStringBy(strokeStr,"/");
+		vector<string>::iterator iterxy;
+		vector<CCPoint> pointsStroke;
+		for (iterxy = pointxy.begin(); iterxy != pointxy.end(); iterxy++)
+		{
+			string pointx = (string)*iterxy;
+			float x = DataTool::stringToFloat(pointx);
+			iterxy++;
+			string pointy = (string)*iterxy;
+			float y = DataTool::stringToFloat(pointy);
+			CCPoint point = ccp(x,y);
+			
+			pointsStroke.push_back(point);
+		}
+		ret.push_back(pointsStroke);
+	}
+	return ret;
+}
+
+vector<string> DataTool::spliteStringBy(string str, string splitSymbols){
+	string::size_type pos1,pos2;
+	vector<string> strvec;
+	pos2 = str.find(splitSymbols);
+	pos1 = 0;
+	while (string::npos != pos2)
+	{
+		strvec.push_back(str.substr(pos1,pos2-pos1));
+		pos1 = pos2 +1;
+		pos2 = str.find(splitSymbols,pos1);
+	}
+	// 	strvec.push_back(seq.substr(pos1));
+	return strvec;
+}

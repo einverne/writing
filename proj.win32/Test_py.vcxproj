@@ -171,6 +171,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\tools\DataTool.cpp" />
     <ClCompile Include="..\Classes\TouchLayer.cpp" />
     <ClCompile Include="..\Classes\UTF8ToGBK.cpp" />
+    <ClCompile Include="..\Classes\ViewScene.cpp" />
     <ClCompile Include="..\Classes\WallScene.cpp" />
     <ClCompile Include="..\Classes\WallSingleScene.cpp" />
     <ClCompile Include="..\CocosWidget\Button.cpp" />
@@ -247,6 +248,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\tools\DataTool.h" />
     <ClInclude Include="..\Classes\TouchLayer.h" />
     <ClInclude Include="..\Classes\UTF8ToGBK.h" />
+    <ClInclude Include="..\Classes\ViewScene.h" />
     <ClInclude Include="..\Classes\WallScene.h" />
     <ClInclude Include="..\Classes\WallSingleScene.h" />
     <ClInclude Include="..\CocosWidget\Button.h" />

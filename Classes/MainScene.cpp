@@ -46,16 +46,6 @@ bool MainScene::init(){
 	addChild(selectionMode,2);
 	selectionMode->setPosition(titlebar->getPosition());
 	
-// 	CCMenuItemImage* setting_btn = CCMenuItemImage::create("setting.png",
-// 		"setting.png",
-// 		this,
-// 		menu_selector(MainScene::Setting)
-// 		);
-// 	setting_btn->setPosition(ccp(winSize.width- setting_btn->getContentSize().width -100, setting_btn->getContentSize().height));
-// 	CCMenu* m = CCMenu::create(setting_btn,NULL);
-// 	m->setPosition(CCPointZero);
-// 	addChild(m,3);
-	
 	CButton* add_btn = CButton::create("strangedesign/Main_add_button.png","strangedesign/Main_add_button_down.png");
 	add_btn->setPosition(ccp(winSize.width -50, winSize.height- titlebar->getContentSize().height/2));
 	add_btn->setOnClickListener(this,ccw_click_selector(MainScene::addButtonCallback));
@@ -173,7 +163,7 @@ CCObject* MainScene::gridviewDataSource(CCObject* pConvertView, unsigned int idx
 	}
 	else
 	{
-		pButton = CButton::create("strangedesign/main_clincher.png");
+		pButton = CButton::create("strangedesign/main_clincher.png","strangedesign/main_clincher_down.png");
 		pButton->setPosition(CCPoint(360/2, 350-pButton->getContentSize().height/2));
 		pButton->getLabel()->setFontSize(40.0f);
 		pButton->setTag(1);

@@ -91,7 +91,7 @@ void JudgeLayer::menuSave(CCObject* pSender){
 	{
 		string unit_id = scene->getUnitID();
 		string zi_id = scene->getZiID();
-		string note = scene->getHLayer()->getPointsOutput();
+		string note = scene->getHLayer()->getOriginPoints();			//获取未变形的笔记
 
 		SQLiteData::insertNote(unit_id,zi_id,note);
 		MyToast::showToast(this,DataTool::getChinese("insert_into_sqlite"),TOAST_LONG);
@@ -105,9 +105,13 @@ void JudgeLayer::menuSave(CCObject* pSender){
 
 void JudgeLayer::menuView(CCObject* pSender){
 
-	vector<vector <string> > ret = SQLiteData::getNote("1","32");
+//	vector<vector <string> > ret = SQLiteData::getNote("1","32");
+	JudgeScene* scene = (JudgeScene*)this->getParent();
+	string unitid = scene->getUnitID();
+	string ziid = scene->getZiID();
 
-	CCLog("menuView");
+	CCDirector::sharedDirector()->pushScene(ViewScene::scene(unitid,ziid));
+
 }
 
 void JudgeLayer::SaveProToFile(float pro){

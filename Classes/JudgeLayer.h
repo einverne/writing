@@ -5,6 +5,7 @@
 #include "SQLiteData.h"
 #include "constants.h"
 #include "MyToast.h"
+#include "ViewScene.h"
 USING_NS_CC;
 
 class JudgeLayer : public CCLayer

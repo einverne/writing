@@ -78,8 +78,6 @@ public:
 
 	int getStrokeCount();
 
-// 	vector<StrokeDrawnode*> getStrokeDrawnodeList(){ return this->strokeDrawlist; }
-// 	vector<StrokeDrawnode*> strokeDrawlist;
 	CC_SYNTHESIZE_RETAIN(CCArray*,strokeDrawlist,StrokeDrawnodeList);
 private:
 	CCSprite* tianziged;

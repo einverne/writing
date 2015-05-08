@@ -77,6 +77,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
    ../../Classes/RightZiAnimationAction.cpp \
    ../../Classes/tools/DataTool.cpp \
    ../../Classes/NewUnit.cpp \
+   ../../Classes/ViewScene.cpp \
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 

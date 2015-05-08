@@ -29,6 +29,7 @@ public:
 	float getWrongPercent();
 	void isJudge(bool isjudge);
 	string getPointsOutput()	{ return pointsOutput; }
+	string getOriginPoints()	{ return pointsOrigin; }
 
 	CC_SYNTHESIZE_RETAIN(HcharacterDrawnode*,m_HDrawnode,m_HDrawnode);
 	CC_SYNTHESIZE_RETAIN(CCLabelTTF*, bihuaCount,bihuaCount);
@@ -47,6 +48,7 @@ private:
 	float scale;				//缩放比率
 	bool ijudge;				//是否评判 false不评判，true评判
 	string pointsOutput;		//输出字符串
+	string pointsOrigin;		//手写汉字Origin字符串 未作Points 的变形
 };
 
 

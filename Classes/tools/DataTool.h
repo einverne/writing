@@ -35,5 +35,20 @@ public:
 	 * @return
 	 */
 	static string getChinese(string key);
+
+	/**
+	* 将str分割成 多笔画 序列
+	* @param str
+	* @return
+	*/
+	static vector< vector<CCPoint> > spliteString(string str);
+
+	/**
+	* 将字符串以splitsymbol分割成数组
+	* @param str
+	* @param splitSymbols
+	* @return
+	*/
+	static vector<string> spliteStringBy(string str, string splitSymbols);
 };
 #endif

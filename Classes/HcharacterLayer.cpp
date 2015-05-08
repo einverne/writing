@@ -72,6 +72,24 @@ HcharacterLayer* HcharacterLayer::create(string hanzi,CCSprite* tianzige_draw){
 void HcharacterLayer::judge(){
 	CCArray* strokes = m_HDrawnode->getStrokeDrawnodeList();
 	string output = "";
+	string originOutput = "";
+
+	CCObject* originob;
+	CCARRAY_FOREACH(strokes,originob){
+		StrokeDrawnode* node = (StrokeDrawnode*)originob;
+		vector<CCPoint> points = node->getStroke().getpointList();
+		for (vector<CCPoint>::iterator iter = points.begin(); iter != points.end() ; ++iter)
+		{
+			CCPoint temp = *iter;
+			string t = DataTool::floatToString(ceil(temp.x)) + "/" + DataTool::floatToString(ceil(temp.y)) + "/";
+			originOutput += t;
+		}
+		originOutput += "@";
+	}
+
+	this->pointsOrigin=originOutput;
+
+
 	CCObject* ob;
 	CCARRAY_FOREACH(strokes,ob){
 		StrokeDrawnode* node = (StrokeDrawnode*)ob;
