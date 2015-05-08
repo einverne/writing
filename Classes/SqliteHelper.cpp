@@ -234,7 +234,7 @@ vector<string> SQLiteHelper::getUnitIDs(string sql){
 }
 
 int getNotes(void* para, int n_column, char** column_value, char** column_name){
-	vector<vector <string>>* ret = (vector<vector <string>>*) para;
+	vector<vector <string> >* ret = (vector< vector <string> >*) para;
 	vector<string> temp;
 	if (strcmp(column_name[3],"note") == 0)
 	{
@@ -246,8 +246,8 @@ int getNotes(void* para, int n_column, char** column_value, char** column_name){
 	return 0;
 }
 
-vector<vector <string>> SQLiteHelper::getNote(string sql){
-	vector<vector <string>> result;
+vector<vector <string> > SQLiteHelper::getNote(string sql){
+	vector<vector <string> > result;
 	int ret = sqlite3_exec(pDB, sql.c_str(), getNotes, &result, &errMsg);
 	if (errMsg)
 	{
