@@ -21,9 +21,18 @@ public:
 	CREATE_FUNC(MainScene);
 	static CCScene* scene();
 	virtual bool init();
+	/**
+	* 返回键响应函数
+	* @return
+	*/
 	virtual void keyBackClicked();
 
 private:
+	/**
+	* 返回键回调函数
+	* @param pNode
+	* @return
+	*/
 	void isExit(CCNode* pNode);
 	void settingCallBack(CCNode* pNode);
 	void buttonClick(CCObject* pSender);

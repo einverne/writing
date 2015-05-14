@@ -73,12 +73,12 @@ bool MainScene::init(){
 void MainScene::keyBackClicked(){
 	CCLog("MainScene::keyBackClicked");
 	if (CCDirector::sharedDirector()->getRunningScene()->getChildByTag(1001) == NULL) {
-		CCLog("MainScene::NULL");
+// 		CCLog("MainScene::NULL");
 		CCSize winSize = CCDirector::sharedDirector()->getWinSize();
 		PopLayer* exitDialog = PopLayer::create("pop/background.png");
 		exitDialog->setContentSize(CCSizeMake(winSize.width*0.8,winSize.height*0.5));
-		exitDialog->setTitle("Exit",50);
-		exitDialog->setContentText("Are you sure to exit app!",60,100,150);
+//		exitDialog->setTitle("Exit",50);
+//		exitDialog->setContentText("Are you sure to exit app!",60,100,150);
 		exitDialog->setCallBackFunc(this,callfuncN_selector(MainScene::isExit));
 		exitDialog->addButton("sure_up.png","sure_down.png","Y",0);
 		exitDialog->addButton("cancer_up.png","cancer_down.png","N",1);
@@ -129,7 +129,6 @@ CCObject* MainScene::gridviewDataSource(CCObject* pConvertView, unsigned int idx
 		pCell = new CGridViewCell();
 		pCell->autorelease();
 
-		//pButton = CButton::createWith9Sprite(CCSizeMake(70, 70), "sprite9_btn1.png", "sprite9_btn2.png");
 		pButton = CButton::create("strangedesign/main_clincher.png","strangedesign/main_clincher_down.png");
 		pButton->setPosition(CCPoint(360/2, 350-pButton->getContentSize().height/2));
 		pButton->getLabel()->setFontSize(40.0f);
@@ -141,8 +140,6 @@ CCObject* MainScene::gridviewDataSource(CCObject* pConvertView, unsigned int idx
 		sprite->setContentSize(CCSize(320,320));
 		sprite->setPosition(CCPoint(360/2,350/2));
 		pCell->addChild(sprite,1);
-
-// 		vector<string> groupCharacter = SQLiteData::getGroupCharacter(DataTool::intTostring(0));
 		
 		CCLog("idx %d",idx);
 		vector<vector<string> > groupCharacter = SQLiteData::getUnit(unit_ids.at(idx));
@@ -175,7 +172,6 @@ CCObject* MainScene::gridviewDataSource(CCObject* pConvertView, unsigned int idx
 		sprite->setPosition(CCPoint(360/2,350/2));
 		pCell->addChild(sprite,1);
 
-		// 		vector<string> groupCharacter = SQLiteData::getGroupCharacter(DataTool::intTostring(0));
 		CCLog("idx %d",idx);
 		vector<vector<string> > groupCharacter = SQLiteData::getUnit(unit_ids.at(idx));
 
@@ -195,7 +191,8 @@ CCObject* MainScene::gridviewDataSource(CCObject* pConvertView, unsigned int idx
 	}
 
 	char buff[64];
-	sprintf(buff, "%u", idx);
+	unsigned int labelidx = idx+1;
+	sprintf(buff, "%u", labelidx);
 	pButton->getLabel()->setString(buff);
 	pButton->setUserTag(idx);
 
