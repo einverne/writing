@@ -22,7 +22,7 @@
 
 HcharacterLayer::HcharacterLayer():m_sprite_draw(NULL),
 	bihuaCount(NULL),m_HDrawnode(NULL),m_sprite_info(NULL),m_exChar(NULL),
-	writeCount(0),wrongCount(0),scale(1),ijudge(false)
+	writeCount(0),wrongCount(0),scale(1.6),ijudge(false)
 {
 }
 
