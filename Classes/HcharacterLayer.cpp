@@ -227,8 +227,8 @@ void HcharacterLayer::writeWrong(){
 	int t = getm_HDrawnode()->getStrokeDrawnodeList()->count();
 	string strToshow = DataTool::intTostring(t)+"/"+DataTool::intTostring(totalCount);
 	bihuaCountAndTotal->setString(strToshow.c_str());
-	getInfoSprite()->setVisible(true);
-	getInfoSprite()->setTexture(CCTextureCache::sharedTextureCache()->addImage("wrong.png"));
+	//getInfoSprite()->setVisible(true);
+	//getInfoSprite()->setTexture(CCTextureCache::sharedTextureCache()->addImage("wrong.png"));
 	CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect(WRONG_EFFECT_FILE);
 	writeCount++;
 	wrongCount++;
