@@ -15,8 +15,8 @@ public:
 	~HcharacterLayer();
 	static HcharacterLayer* create(string hanzi,CCSprite* tianzige_draw);
 	virtual bool init(string hanzi,CCSprite* tianzige_draw);
-	virtual void onExit();
 	virtual void onEnter();
+	virtual void onExit();
 
 	/**
 	* convert512 转换成512*512 并将坐标原点放置到左上角
@@ -32,13 +32,28 @@ public:
 	string getOriginPoints()	{ return pointsOrigin; }
 
 	CC_SYNTHESIZE_RETAIN(HcharacterDrawnode*,m_HDrawnode,m_HDrawnode);
-	CC_SYNTHESIZE_RETAIN(CCLabelTTF*, bihuaCount,bihuaCount);
+	CC_SYNTHESIZE_RETAIN(CCLabelTTF*, bihuaCountAndTotal,bihuaCountAndTotal);
 	CC_SYNTHESIZE_RETAIN(CCSprite* , m_sprite_draw, Sprite);
 	CC_SYNTHESIZE_RETAIN(CCSprite* , m_sprite_info, InfoSprite);
 	CC_SYNTHESIZE_RETAIN(CharacterExtend* , m_exChar, ExChar);
 private:
+	/**
+	* 重写回调方法
+	* @param pSender
+	* @return
+	*/
 	void rewrite(CCObject* pSender);		//
+	/**
+	* 放大回调方法
+	* @param pSender
+	* @return
+	*/
 	void zoomin(CCObject* pSender);			//
+	/**
+	* 缩小回调方法
+	* @param pSender
+	* @return
+	*/
 	void zoomout(CCObject* pSender);		//
 	void writeWrong();
 	void writeRight();
@@ -49,6 +64,7 @@ private:
 	bool ijudge;				//是否评判 false不评判，true评判
 	string pointsOutput;		//输出字符串
 	string pointsOrigin;		//手写汉字Origin字符串 未作Points 的变形
+	int totalCount;				//该汉字总共有的笔画数
 };
 
 
