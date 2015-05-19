@@ -1,7 +1,7 @@
 #include "ViewScene.h"
 
 
-ViewScene::ViewScene():pGridView(NULL),Notes(NULL)
+ViewScene::ViewScene():pGridView(NULL)
 {
 }
 
@@ -40,7 +40,6 @@ bool ViewScene::init(string unitid, string ziid){
 	this->unit_id = unitid;
 	this->zi_id = ziid;
  	Notes = SQLiteData::getNote(unit_id,zi_id);
-
 
 	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
 	CCSize visiableSize = CCDirector::sharedDirector()->getVisibleSize();
@@ -82,6 +81,7 @@ bool ViewScene::init(string unitid, string ziid){
 CCObject* ViewScene::gridViewDataSource(CCObject* pContentView, unsigned int idx){
 	CGridViewCell* pCell = (CGridViewCell*) pContentView;
 	CButton* pButton = NULL;
+	CCheckBox* pCheckbox = NULL;
 	Notes = SQLiteData::getNote(unit_id,zi_id);
 	vector<string> oneNote = Notes.at(idx);			//oneNote 中第一个元素为ID，第二个元素为笔画序列
 
@@ -90,19 +90,20 @@ CCObject* ViewScene::gridViewDataSource(CCObject* pContentView, unsigned int idx
 		pCell = new CGridViewCell();
 		pCell->autorelease();
 
-
 		pButton = CButton::create("strangedesign/Dlg_cancel_button.png","strangedesign/Dlg_cancel_button_down.png");
 		pButton->setPosition(CCPoint(360/2, 350-pButton->getContentSize().height/2));
 
-		CCheckBox* pCheckbox = CCheckBox::create();
+		pCheckbox = CCheckBox::create();
 		pCheckbox->setNormalImage("ckb_normal_01.png");
 		pCheckbox->setNormalPressImage("ckb_normal_02.png");
 		pCheckbox->setCheckedImage("ckb_selected_01.png");
 		pCheckbox->setCheckedPressImage("ckb_selected_02.png");
 		pCheckbox->setDisabledNormalImage("ckb_disable_01.png");
 		pCheckbox->setDisabledCheckedImage("ckb_disable_02.png");
+		pCheckbox->setPosition(CCPoint(360-pCheckbox->getContentSize().width, 350-pButton->getContentSize().height/2));
 
-		pCell->addChild(pButton,10);
+		pCell->addChild(pCheckbox,10);
+		//pCell->addChild(pButton,10);
 
 		HcharacterDrawnode* handwritingHz = HcharacterDrawnode::create();
 		
@@ -126,7 +127,18 @@ CCObject* ViewScene::gridViewDataSource(CCObject* pContentView, unsigned int idx
 		pButton = CButton::create("strangedesign/Dlg_cancel_button.png","strangedesign/Dlg_cancel_button_down.png");
 		pButton->setPosition(CCPoint(360/2, 350-pButton->getContentSize().height/2));
 
-		pCell->addChild(pButton,10);
+		pCheckbox = CCheckBox::create();
+		pCheckbox->setNormalImage("ckb_normal_01.png");
+		pCheckbox->setNormalPressImage("ckb_normal_02.png");
+		pCheckbox->setCheckedImage("ckb_selected_01.png");
+		pCheckbox->setCheckedPressImage("ckb_selected_02.png");
+		pCheckbox->setDisabledNormalImage("ckb_disable_01.png");
+		pCheckbox->setDisabledCheckedImage("ckb_disable_02.png");
+		pCheckbox->setPosition(CCPoint(360-pCheckbox->getContentSize().width, 350-pButton->getContentSize().height/2));
+
+		pCell->addChild(pCheckbox,10);
+
+		//pCell->addChild(pButton,10);
 
 		HcharacterDrawnode* handwritingHz = HcharacterDrawnode::create();
 		vector<string> oneNote = Notes.at(idx);			//oneNote 中第一个元素为ID，第二个元素为笔画序列
@@ -149,8 +161,10 @@ CCObject* ViewScene::gridViewDataSource(CCObject* pContentView, unsigned int idx
 	pButton->getLabel()->setString(buff);
 	int userTag = DataTool::stringToInt(oneNote.at(0));
 	pButton->setUserTag(userTag);
+	pCheckbox->setUserTag(userTag);
 
 	pButton->setOnClickListener(this,ccw_click_selector(ViewScene::buttonClick));
+	pCheckbox->setOnClickListener(this,ccw_click_selector(ViewScene::checkBoxClick));
 
 	return pCell;
 }
@@ -192,4 +206,32 @@ void ViewScene::dlgCallback(CCNode* pNode){
 
 void ViewScene::deleteBtnClick(CCObject* pSender){
 	CCLog("delete btn click");
+	vector<int>::iterator iter= dltList.begin();
+	for (iter ; iter != dltList.end(); iter++)
+	{
+		int tag = (int)*iter;
+		SQLiteData::deleteNote(DataTool::intTostring(tag));
+		writingCount--;
+	}
+	if (dltList.size()>0)
+	{
+		pGridView->setCountOfCell(writingCount);
+		pGridView->reloadData();
+		dltList.clear();
+	}
+}
+
+void ViewScene::checkBoxClick(CCObject* pSender){
+	CCheckBox* pCheckBox = (CCheckBox*) pSender;
+	int userTag = pCheckBox->getUserTag();
+	if (pCheckBox->isChecked())
+	{
+		dltList.push_back(userTag);
+	}else{
+		std::vector<int>::iterator pos = std::find(dltList.begin(),dltList.end(),userTag);
+		if (pos != dltList.end())
+		{
+			dltList.erase(pos);
+		}
+	}
 }

@@ -6,6 +6,7 @@
 #include "HcharacterDrawnode.h"
 #include "PopCancelLayer.h"
 #include "../CocosWidget/cocos-widget.h"
+#include <algorithm>
 using namespace cocos2d::cocoswidget;
 using namespace std;
 USING_NS_CC;
@@ -19,11 +20,11 @@ public:
 	static ViewScene* create(string unit_id, string zi_id);
 	virtual bool init(string unit_id, string zi_id);
 	
-
 private:
 	CCObject* gridViewDataSource(CCObject* pContentView, unsigned int idx);
 	void buttonClick(CCObject* pSender);
 	void deleteBtnClick(CCObject* pSender);
+	void checkBoxClick(CCObject* pSender);
 	void back(CCObject* pSender);
 	void dlgCallback(CCNode* pNode);
 	CGridView* pGridView;
@@ -32,6 +33,7 @@ private:
 	string zi_id;
 	int writingCount;		//记录总共的Note 数量为Notes 的 size
 	int selectDeleteNote;
+	vector<int> dltList;					//需要删除的元素
 };
 
 #endif
