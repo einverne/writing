@@ -54,6 +54,8 @@ public:
 	string getCharacter()		{ return currentCharacter;}
 
 private:
+
+	void lastCharacter(CCNode* pNode);
 	string unit_id;						//保存单元id
 	string zi_id;
 	vector<string> hanziList;			//保存汉字列表
