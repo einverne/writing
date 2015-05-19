@@ -58,6 +58,11 @@ bool ViewScene::init(string unitid, string ziid){
 	backBtn->setPosition(ccp(backBtn->getContentSize().width/2+10, visiableSize.height -backBtn->getContentSize().height/2-50));
 	m_pWindow->addChild(backBtn);
 
+	CButton* deleteBtn = CButton::create("strangedesign/Free_writting_delete_button_up.png","strangedesign/Free_writting_delete_button_down.png");
+	deleteBtn->setOnClickListener(this, ccw_click_selector(ViewScene::deleteBtnClick));
+	deleteBtn->setPosition(ccp(winSize.width-deleteBtn->getContentSize().width/2, winSize.height-deleteBtn->getContentSize().height/2));
+	m_pWindow->addChild(deleteBtn);
+
 	CCSize visualSize = CCSizeMake(winSize.width,winSize.height-titlebar->getContentSize().height-10);
 	CCSize gridcellSize = CCSizeMake(360 , 350);
 	writingCount = Notes.size();
@@ -77,6 +82,7 @@ bool ViewScene::init(string unitid, string ziid){
 CCObject* ViewScene::gridViewDataSource(CCObject* pContentView, unsigned int idx){
 	CGridViewCell* pCell = (CGridViewCell*) pContentView;
 	CButton* pButton = NULL;
+	Notes = SQLiteData::getNote(unit_id,zi_id);
 	vector<string> oneNote = Notes.at(idx);			//oneNote 中第一个元素为ID，第二个元素为笔画序列
 
 	if (!pCell)
@@ -85,8 +91,16 @@ CCObject* ViewScene::gridViewDataSource(CCObject* pContentView, unsigned int idx
 		pCell->autorelease();
 
 
-		pButton = CButton::create("strangedesign/main_clincher.png","strangedesign/main_clincher_down.png");
+		pButton = CButton::create("strangedesign/Dlg_cancel_button.png","strangedesign/Dlg_cancel_button_down.png");
 		pButton->setPosition(CCPoint(360/2, 350-pButton->getContentSize().height/2));
+
+		CCheckBox* pCheckbox = CCheckBox::create();
+		pCheckbox->setNormalImage("ckb_normal_01.png");
+		pCheckbox->setNormalPressImage("ckb_normal_02.png");
+		pCheckbox->setCheckedImage("ckb_selected_01.png");
+		pCheckbox->setCheckedPressImage("ckb_selected_02.png");
+		pCheckbox->setDisabledNormalImage("ckb_disable_01.png");
+		pCheckbox->setDisabledCheckedImage("ckb_disable_02.png");
 
 		pCell->addChild(pButton,10);
 
@@ -109,7 +123,7 @@ CCObject* ViewScene::gridViewDataSource(CCObject* pContentView, unsigned int idx
 
 	}else
 	{
-		pButton = CButton::create("strangedesign/main_clincher.png","strangedesign/main_clincher_down.png");
+		pButton = CButton::create("strangedesign/Dlg_cancel_button.png","strangedesign/Dlg_cancel_button_down.png");
 		pButton->setPosition(CCPoint(360/2, 350-pButton->getContentSize().height/2));
 
 		pCell->addChild(pButton,10);
@@ -174,4 +188,8 @@ void ViewScene::dlgCallback(CCNode* pNode){
 		pGridView->setCountOfCell(writingCount);
 		pGridView->reloadData();
 	}
+}
+
+void ViewScene::deleteBtnClick(CCObject* pSender){
+	CCLog("delete btn click");
 }

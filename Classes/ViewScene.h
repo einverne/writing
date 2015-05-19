@@ -23,6 +23,7 @@ public:
 private:
 	CCObject* gridViewDataSource(CCObject* pContentView, unsigned int idx);
 	void buttonClick(CCObject* pSender);
+	void deleteBtnClick(CCObject* pSender);
 	void back(CCObject* pSender);
 	void dlgCallback(CCNode* pNode);
 	CGridView* pGridView;
