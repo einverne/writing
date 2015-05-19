@@ -75,13 +75,13 @@ void MainScene::keyBackClicked(){
 	if (CCDirector::sharedDirector()->getRunningScene()->getChildByTag(1001) == NULL) {
 // 		CCLog("MainScene::NULL");
 		CCSize winSize = CCDirector::sharedDirector()->getWinSize();
-		PopLayer* exitDialog = PopLayer::create("pop/background.png");
-		exitDialog->setContentSize(CCSizeMake(winSize.width*0.8,winSize.height*0.5));
+		PopLayer* exitDialog = PopLayer::create("strangedesign/Dlg_background_Appquit.png");
+//		exitDialog->setContentSize(CCSizeMake(winSize.width*0.8,winSize.height*0.5));
 //		exitDialog->setTitle("Exit",50);
 //		exitDialog->setContentText("Are you sure to exit app!",60,100,150);
 		exitDialog->setCallBackFunc(this,callfuncN_selector(MainScene::isExit));
-		exitDialog->addButton("sure_up.png","sure_down.png","Y",0);
-		exitDialog->addButton("cancer_up.png","cancer_down.png","N",1);
+		exitDialog->addButton("strangedesign/Dlg_appquit_ok_button_up.png","strangedesign/Dlg_appquit_ok_button_down.png","Y",0);
+		exitDialog->addButton("strangedesign/Dlg_appquit_cancel_button_up.png","strangedesign/Dlg_appquit_cancel_button_down.png","N",1);
 		CCDirector::sharedDirector()->getRunningScene()->addChild(exitDialog,100,TAG_LAYER_EXIT);
 	}
 }
