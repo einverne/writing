@@ -24,6 +24,13 @@ HcharacterLayer::HcharacterLayer():m_sprite_draw(NULL),
 	bihuaCountAndTotal(NULL),m_HDrawnode(NULL),m_sprite_info(NULL),m_exChar(NULL),
 	writeCount(0),wrongCount(0),scale(1.6),ijudge(false),totalCount(0)
 {
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)  
+#define RIGHT_EFFECT_FILE   "right_android.ogg"
+#define WRONG_EFFECT_FILE	"wrong_android.ogg"
+#elif( CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
+#define RIGHT_EFFECT_FILE   "right.wav"
+#define WRONG_EFFECT_FILE	"wrong.wav"
+#endif
 }
 
 HcharacterLayer::~HcharacterLayer()
@@ -111,16 +118,16 @@ void HcharacterLayer::onEnter(){
 	zoomout->setPosition(ccp(visiableSize.width/4*2,zoomout->getContentSize().height+5));
 	zoomout->setOnClickListener(this,ccw_click_selector(HcharacterLayer::zoomout));
 
-	CButton* rewrite = CButton::create("strangedesign/Judge_writting_cancel_button.png",
+	CButton* rewriteBtn = CButton::create("strangedesign/Judge_writting_cancel_button.png",
 		"strangedesign/Judge_writting_cancel_button_down.png");
-	rewrite->setPosition(ccp(visiableSize.width/4*3,rewrite->getContentSize().height+5));
-	rewrite->setOnClickListener(this,ccw_click_selector(HcharacterLayer::rewrite));
+	rewriteBtn->setPosition(ccp(visiableSize.width/4*3,rewriteBtn->getContentSize().height+5));
+	rewriteBtn->setOnClickListener(this,ccw_click_selector(HcharacterLayer::rewrite));
 
 	if (scene->getIsJudge() == false)
 	{
 		zoomin->setPosition(ccp(visiableSize.width/5,zoomin->getContentSize().height+5));
 		zoomout->setPosition(ccp(visiableSize.width/5*2,zoomout->getContentSize().height+5));
-		rewrite->setPosition(ccp(visiableSize.width/5*3,rewrite->getContentSize().height+5));
+		rewriteBtn->setPosition(ccp(visiableSize.width/5*3,rewriteBtn->getContentSize().height+5));
 
 	}
 
@@ -130,7 +137,7 @@ void HcharacterLayer::onEnter(){
 
 	m_pWindow->addChild(zoomin);
 	m_pWindow->addChild(zoomout);
-	m_pWindow->addChild(rewrite);
+	m_pWindow->addChild(rewriteBtn);
 }
 
 void HcharacterLayer::onExit(){
@@ -268,6 +275,10 @@ void HcharacterLayer::rewrite(CCObject* pSender){
 		this->getbihuaCountAndTotal()->setString(strToshow.c_str());
 		getInfoSprite()->setVisible(false);
 	}
+}
+
+void HcharacterLayer::clearWriting(){
+	rewrite(this);
 }
 
 void HcharacterLayer::zoomin(CCObject* pSender){

@@ -77,13 +77,11 @@ void JudgeLayer::menuNext(CCObject* pSender){
 
 void JudgeLayer::menuPrevious(CCObject* pSender){
 	//调用上一个
-	CCLog("previous");
 	JudgeScene* scene = (JudgeScene*)CCDirector::sharedDirector()->getRunningScene();
 	scene->previous();
 }
 
 void JudgeLayer::menuSave(CCObject* pSender){
-	CCLog("save to sqlite");
 	JudgeScene* scene = (JudgeScene*)CCDirector::sharedDirector()->getRunningScene();
 
 	//判断是否写完
@@ -95,6 +93,11 @@ void JudgeLayer::menuSave(CCObject* pSender){
 
 		SQLiteData::insertNote(unit_id,zi_id,note);
 		MyToast::showToast(this,DataTool::getChinese("insert_into_sqlite"),TOAST_LONG);
+
+		//delete strokes
+		JudgeScene* scene = (JudgeScene*)CCDirector::sharedDirector()->getRunningScene();
+		HcharacterLayer* HLayer = scene->getHLayer();
+		HLayer->clearWriting();
 
 	}else
 	{

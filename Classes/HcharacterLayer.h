@@ -31,6 +31,12 @@ public:
 	string getPointsOutput()	{ return pointsOutput; }
 	string getOriginPoints()	{ return pointsOrigin; }
 
+	/**
+	* clear all writing like function rewrite(CCOject* pSender)
+	* @return
+	*/
+	void clearWriting();
+
 	CC_SYNTHESIZE_RETAIN(HcharacterDrawnode*,m_HDrawnode,m_HDrawnode);
 	CC_SYNTHESIZE_RETAIN(CCLabelTTF*, bihuaCountAndTotal,bihuaCountAndTotal);
 	CC_SYNTHESIZE_RETAIN(CCSprite* , m_sprite_draw, Sprite);
@@ -42,7 +48,7 @@ private:
 	* @param pSender
 	* @return
 	*/
-	void rewrite(CCObject* pSender);		//
+	void rewrite(CCObject* pSender);
 	/**
 	* 放大回调方法
 	* @param pSender
