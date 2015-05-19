@@ -240,7 +240,6 @@ void NewUnitLayer::onEnter(){
 			editboxtemp->setPlaceHolder("Input Chinese Character:");
 			editboxtemp->setPlaceholderFontColor(ccBLACK);
 			editboxtemp->setPlaceholderFont("Arial",25);
-// 			editboxtemp->setPlaceholderFontSize(100);
 
 			editboxtemp->setText(groupCharacter.at(indexOfCharacter).at(0).c_str());
 			editboxtemp->setFontName("Arial");
@@ -298,28 +297,29 @@ void NewUnitLayer::menuCloseCallback(CCObject* pSender)
 
 void NewUnitLayer::keyBackClicked(){
 	CCLog("WallSingleScene::keyBackClicked");
-	if (CCDirector::sharedDirector()->getRunningScene()->getChildByTag(TAG_LAYER_EXIT) == NULL) {
-		CCLog("WallSingleScene::NULL");
-		CCSize winSize = CCDirector::sharedDirector()->getWinSize();
-		PopLayer* exitDialog = PopLayer::create("pop/background.png");
-		exitDialog->setContentSize(CCSizeMake(winSize.width*0.8,winSize.height*0.5));
-		exitDialog->setTitle("back",50);
-		exitDialog->setContentText("back",60,100,150);
-		exitDialog->setCallBackFunc(this,callfuncN_selector(NewUnitLayer::backtoMainScene));
-		exitDialog->addButton("sure_up.png","sure_down.png","Y",0);
-		exitDialog->addButton("cancer_up.png","cancer_down.png","N",1);
-		CCDirector::sharedDirector()->getRunningScene()->addChild(exitDialog,100,TAG_LAYER_EXIT);
-	}
+	CCDirector::sharedDirector()->replaceScene(MainScene::scene());
+// 	if (CCDirector::sharedDirector()->getRunningScene()->getChildByTag(TAG_LAYER_EXIT) == NULL) {
+// 		CCLog("WallSingleScene::NULL");
+// 		CCSize winSize = CCDirector::sharedDirector()->getWinSize();
+// 		PopLayer* exitDialog = PopLayer::create("pop/background.png");
+// 		exitDialog->setContentSize(CCSizeMake(winSize.width*0.8,winSize.height*0.5));
+// 		exitDialog->setTitle("back",50);
+// 		exitDialog->setContentText("back",60,100,150);
+// 		exitDialog->setCallBackFunc(this,callfuncN_selector(NewUnitLayer::backtoMainScene));
+// 		exitDialog->addButton("sure_up.png","sure_down.png","Y",0);
+// 		exitDialog->addButton("cancer_up.png","cancer_down.png","N",1);
+// 		CCDirector::sharedDirector()->getRunningScene()->addChild(exitDialog,100,TAG_LAYER_EXIT);
+// 	}
 }
 
-void NewUnitLayer::backtoMainScene(CCNode* pNode){
-	if (pNode->getTag() == 0)
-	{
-		CCDirector::sharedDirector()->replaceScene(MainScene::scene());
-	}else{
-		CCDirector::sharedDirector()->getRunningScene()->removeChildByTag(TAG_LAYER_EXIT);
-	}
-}
+// void NewUnitLayer::backtoMainScene(CCNode* pNode){
+// 	if (pNode->getTag() == 0)
+// 	{
+// 		CCDirector::sharedDirector()->replaceScene(MainScene::scene());
+// 	}else{
+// 		CCDirector::sharedDirector()->getRunningScene()->removeChildByTag(TAG_LAYER_EXIT);
+// 	}
+// }
 
 void NewUnitLayer::back(CCObject* pSender){
 	CCDirector::sharedDirector()->replaceScene(MainScene::scene());

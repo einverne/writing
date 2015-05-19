@@ -66,7 +66,7 @@ public:
 	bool setProficiency(string character,string proficiency);
 	
 private:
-	void backtoMainScene(CCNode* pNode);
+// 	void backtoMainScene(CCNode* pNode);
 	void back(CCObject* pSender);
 	void finishAddUnit(CCObject* pSender);
 	void deleteUnit(CCObject* pSender);
