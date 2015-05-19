@@ -108,8 +108,11 @@ void WallSingleLayer::onEnter(){
 	wall_tail->setScaleX(visibleSize.width/wall_tail->getContentSize().width);
 
 	//Screenshot function 截屏功能待后续加入
-	CCSprite* screenshot = CCSprite::create("strangedesign/Page_Screenshot_button.png");
-	addChild(screenshot,12);
+	CCMenuItemImage* screenshot = CCMenuItemImage::create("strangedesign/Page_Screenshot_button.png",
+		"strangedesign/Page_Screenshot_button_down.png",
+		this,
+		menu_selector(WallSingleLayer::screenshot));
+	menu->addChild(screenshot,12);
 	screenshot->setPosition(wall_tail->getPosition());
 
 	CCLog("SQLiteData::getUnit(unitID)");
@@ -484,19 +487,20 @@ void WallSingleLayer::longPressUpdate(float fDelta){
 }
 
 void WallSingleLayer::keyBackClicked(){
-	CCLog("WallSingleScene::keyBackClicked");
-	if (CCDirector::sharedDirector()->getRunningScene()->getChildByTag(TAG_LAYER_EXIT) == NULL) {
-		CCLog("WallSingleScene::NULL");
-		CCSize winSize = CCDirector::sharedDirector()->getWinSize();
-		PopLayer* exitDialog = PopLayer::create("pop/background.png");
-		exitDialog->setContentSize(CCSizeMake(winSize.width*0.8,winSize.height*0.5));
-		exitDialog->setTitle("back",50);
-		exitDialog->setContentText("back",60,100,150);
-		exitDialog->setCallBackFunc(this,callfuncN_selector(WallSingleLayer::backtoMainScene));
-		exitDialog->addButton("sure_up.png","sure_down.png","Y",0);
-		exitDialog->addButton("cancer_up.png","cancer_down.png","N",1);
-		CCDirector::sharedDirector()->getRunningScene()->addChild(exitDialog,100,TAG_LAYER_EXIT);
-	}
+// 	CCLog("WallSingleScene::keyBackClicked");
+// 	if (CCDirector::sharedDirector()->getRunningScene()->getChildByTag(TAG_LAYER_EXIT) == NULL) {
+// 		CCLog("WallSingleScene::NULL");
+// 		CCSize winSize = CCDirector::sharedDirector()->getWinSize();
+// 		PopLayer* exitDialog = PopLayer::create("pop/background.png");
+// 		exitDialog->setContentSize(CCSizeMake(winSize.width*0.8,winSize.height*0.5));
+// 		exitDialog->setTitle("back",50);
+// 		exitDialog->setContentText("back",60,100,150);
+// 		exitDialog->setCallBackFunc(this,callfuncN_selector(WallSingleLayer::backtoMainScene));
+// 		exitDialog->addButton("sure_up.png","sure_down.png","Y",0);
+// 		exitDialog->addButton("cancer_up.png","cancer_down.png","N",1);
+// 		CCDirector::sharedDirector()->getRunningScene()->addChild(exitDialog,100,TAG_LAYER_EXIT);
+// 	}
+	CCDirector::sharedDirector()->replaceScene(MainScene::scene());
 }
 
 void WallSingleLayer::backtoMainScene(CCNode* pNode){
@@ -524,6 +528,23 @@ void WallSingleLayer::freewriting(CCObject* pSender){
 	JudgeScene* scene = JudgeScene::create(unitID,hanzis);
 	scene->setIsJudge(false);
 	CCDirector::sharedDirector()->pushScene(scene);
+}
+
+void WallSingleLayer::screenshot(CCObject* pSender){
+	CCLog("screenshot");
+	CCSize size = CCDirector::sharedDirector()->getWinSize();
+	CCRenderTexture* texture = CCRenderTexture::create(size.width,size.height);
+	texture->setPosition(ccp(size.width/2, size.height/2));
+	texture->begin();
+	CCDirector::sharedDirector()->getRunningScene()->visit();
+	texture->end();
+	texture->saveToFile("screenshot.png", kCCImageFormatPNG);
+	MyToast::showToast(this,DataTool::getChinese("save_to_sd"),TOAST_LONG);
+
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	string path = CCFileUtils::sharedFileUtils()->getWritablePath();
+	
+#endif
 }
 
 void WallSingleLayer::back(CCObject* pSender){

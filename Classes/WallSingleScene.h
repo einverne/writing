@@ -115,6 +115,13 @@ private:
 	*/
 	void freewriting(CCObject* pSender);
 
+	/**
+	* ScreenShot callback
+	* @param pSender
+	* @return
+	*/
+	void screenshot(CCObject* pSender);
+
 	vector<string> hanzis;			//墙上的汉字
 	bool isLongPressAllow;			//是否允许长按操作
 	string unitID;				//用以区别不同单元，与数据库中单元ID列对应

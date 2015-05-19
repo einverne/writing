@@ -23,5 +23,7 @@
 	<string>字</string>
 	<key>update_unit</key>
 	<string>已更新单元数据库</string>
+	<key>save_to_sd</key>
+	<string>屏幕截图已经保存到SD卡</string>
 </dict>  
 </plist>  
