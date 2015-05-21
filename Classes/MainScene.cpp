@@ -149,7 +149,7 @@ CCObject* MainScene::gridviewDataSource(CCObject* pConvertView, unsigned int idx
 			ccp(40,120),ccp(120,120),ccp(200,120),ccp(280,120),
 			ccp(40,40),ccp(120,40),ccp(200,40),ccp(280,40)
 		};
-		for (int i = 0; i < groupCharacter.size(); i++)
+		for (unsigned int i = 0; i < groupCharacter.size(); i++)
 		{
 			string hanzi = groupCharacter.at(i).at(0);
 			CCLabelTTF* clabel = CCLabelTTF::create(hanzi.c_str(),"Arial",40);

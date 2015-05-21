@@ -27,5 +27,9 @@
 	<string>已更新单元数据库</string>
 	<key>save_to_sd</key>
 	<string>屏幕截图已经保存到SD卡</string>
+	<key>bihuashu</key>
+	<string>笔画数:</string>
+	<key>defen</key>
+	<string>得分:</string>
 </dict>  
 </plist>  

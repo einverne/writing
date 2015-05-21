@@ -213,9 +213,6 @@ void ViewScene::deleteBtnClick(CCObject* pSender){
 		int tag = (int)*iter;
 		SQLiteData::deleteNote(DataTool::intTostring(tag));
 		writingCount--;
-
-		
-
 	}
 	//update sqlite zinote Count
 	vector< vector<string> > groupunit = SQLiteData::getUnit(unit_id);
