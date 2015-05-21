@@ -539,6 +539,7 @@ void WallSingleLayer::screenshot(CCObject* pSender){
 	CCDirector::sharedDirector()->getRunningScene()->visit();
 	texture->end();
 	texture->saveToFile("screenshot.png", kCCImageFormatPNG);
+	DataTool::copyFileToSD("screenshot.png");
 	MyToast::showToast(this,DataTool::getChinese("save_to_sd"),TOAST_LONG);
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID

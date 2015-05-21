@@ -26,9 +26,18 @@ public:
 
 	static float stringToFloat(string str);
 
-	static void storeToFile(const char* str,char* filename);
 	/**
-		从文件中读取字符串
+	* 保存字符串到文件
+	* @param str
+	* @param filename
+	* @return
+	*/
+	static void storeToFile(const char* str,char* filename);
+
+	/**
+	* 从文件中读取字符串
+	* @param filename
+	* @return
 	*/
 	static string readFromFile(char* filename);
 
@@ -53,5 +62,12 @@ public:
 	* @return
 	*/
 	static vector<string> spliteStringBy(string str, string splitSymbols);
+
+	/**
+	* 将文件拷贝到SD卡 根目录
+	* @param filename
+	* @return
+	*/
+	static void copyFileToSD(string filename);
 };
 #endif

@@ -187,3 +187,23 @@ vector<string> DataTool::spliteStringBy(string str, string splitSymbols){
 	// 	strvec.push_back(seq.substr(pos1));
 	return strvec;
 }
+
+void DataTool::copyFileToSD(string filename){
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	unsigned long size = 0;
+	string originpath = CCFileUtils::sharedFileUtils()->getWritablePath()+filename;
+	char* pFileContent = (char*)CCFileUtils::sharedFileUtils()->getFileData(originpath.c_str(),"rb",&size);
+	string destFilePath = "/mnt/sdcard/writing/"+filename;
+
+	FILE* file = fopen(destFilePath.c_str(),"w");
+	if (file != NULL)
+	{
+		file = fopen(destFilePath.c_str(),"wb");
+		fwrite(pFileContent,size,1,file);
+		CC_SAFE_DELETE_ARRAY(pFileContent);
+	}else{
+
+	}
+	fclose(file);
+#endif
+}

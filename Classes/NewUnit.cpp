@@ -57,10 +57,6 @@ void NewUnitLayer::onEnter(){
 	addChild(titlebar,10);
 	titlebar->setPosition(ccp(visibleSize.width/2,visibleSize.height-titlebar->getContentSize().height/2));
 
-// 	CCSprite* selectionMode = CCSprite::create("strangedesign/Page_selectionmode_character.png");
-// 	addChild(selectionMode,11);
-// 	selectionMode->setPosition(titlebar->getPosition());
-
 	CCSprite* wall_tail = CCSprite::create("strangedesign/title bar_background.png");
 	addChild(wall_tail,2);
 	CCSize tailSize = wall_tail->getContentSize();
@@ -96,8 +92,6 @@ void NewUnitLayer::onEnter(){
 		finishBtn->setPosition(finishBtnPosition);
 		menu->addChild(finishBtn);
 	}
-	
-
 
 	if (unitID != "add")
 	{
@@ -281,9 +275,6 @@ void NewUnitLayer::onEnter(){
 
 void NewUnitLayer::onExit(){
 	CCLayer::onExit();
-// 	CCLog("WallSingleScene::onExit");
-// 	removeAllChildren();
-// 	hanzis.clear();
 }
 
 void NewUnitLayer::registerWithTouchDispatcher(){
