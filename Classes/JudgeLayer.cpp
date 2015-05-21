@@ -90,6 +90,7 @@ void JudgeLayer::menuSave(CCObject* pSender){
 		string unit_id = scene->getUnitID();
 		string zi_id = scene->getZiID();
 		string note = scene->getHLayer()->getOriginPoints();			//获取未变形的笔记
+		string curChar = scene->getCharacter();
 
 		SQLiteData::insertNote(unit_id,zi_id,note);
 		MyToast::showToast(this,DataTool::getChinese("insert_into_sqlite"),TOAST_LONG);
@@ -98,6 +99,20 @@ void JudgeLayer::menuSave(CCObject* pSender){
 		JudgeScene* scene = (JudgeScene*)CCDirector::sharedDirector()->getRunningScene();
 		HcharacterLayer* HLayer = scene->getHLayer();
 		HLayer->clearWriting();
+
+		//update sqlite unit
+		vector< vector <string> > groupUnit = SQLiteData::getUnit(unit_id);
+		int i = 0;
+		for (i; i < groupUnit.size(); i++)
+		{
+			if (curChar == groupUnit[i][0])
+			{
+				string count = DataTool::intTostring(DataTool::stringToInt(groupUnit[i][1])+1);
+				groupUnit[i][1]=count;
+				break;
+			}
+		}
+		SQLiteData::updateUnit(unit_id,groupUnit);
 
 	}else
 	{
@@ -112,8 +127,9 @@ void JudgeLayer::menuView(CCObject* pSender){
 	JudgeScene* scene = (JudgeScene*)this->getParent();
 	string unitid = scene->getUnitID();
 	string ziid = scene->getZiID();
+	string curChar = scene->getCharacter();
 
-	CCDirector::sharedDirector()->pushScene(ViewScene::scene(unitid,ziid));
+	CCDirector::sharedDirector()->pushScene(ViewScene::scene(unitid,ziid,curChar));
 
 }
 

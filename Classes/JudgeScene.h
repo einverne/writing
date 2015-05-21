@@ -55,7 +55,7 @@ public:
 
 private:
 
-	void lastCharacter(CCNode* pNode);
+	void lastCharacter(CCNode* pNode);	//单元最后一个汉字回调函数
 	string unit_id;						//保存单元id
 	string zi_id;
 	vector<string> hanziList;			//保存汉字列表

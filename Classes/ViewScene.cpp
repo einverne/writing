@@ -9,16 +9,16 @@ ViewScene::~ViewScene()
 {
 }
 
-CCScene* ViewScene::scene(string unit_id, string zi_id){
+CCScene* ViewScene::scene(string unit_id, string zi_id, string curChar){
 	CCScene* scene = CCScene::create();
-	ViewScene* layer = ViewScene::create(unit_id, zi_id);
+	ViewScene* layer = ViewScene::create(unit_id, zi_id, curChar);
 	scene->addChild(layer);
 	return scene;
 }
 
-ViewScene* ViewScene::create(string unit_id, string zi_id){
+ViewScene* ViewScene::create(string unit_id, string zi_id,string curChar){
 	ViewScene* pret = new ViewScene();
-	if (pret && pret->init(unit_id, zi_id))
+	if (pret && pret->init(unit_id, zi_id, curChar))
 	{
 		pret->autorelease();
 		return pret;
@@ -30,7 +30,7 @@ ViewScene* ViewScene::create(string unit_id, string zi_id){
 	}
 }
 
-bool ViewScene::init(string unitid, string ziid){
+bool ViewScene::init(string unitid, string ziid, string curChar){
 	CCLog("ViewScene init");
 	if (!CCLayerColor::initWithColor(ccc4(255,255,255,255)))
 	{
@@ -39,6 +39,7 @@ bool ViewScene::init(string unitid, string ziid){
 
 	this->unit_id = unitid;
 	this->zi_id = ziid;
+	this->currentChar = curChar;
  	Notes = SQLiteData::getNote(unit_id,zi_id);
 
 	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
@@ -212,7 +213,21 @@ void ViewScene::deleteBtnClick(CCObject* pSender){
 		int tag = (int)*iter;
 		SQLiteData::deleteNote(DataTool::intTostring(tag));
 		writingCount--;
+
+		
+
 	}
+	//update sqlite zinote Count
+	vector< vector<string> > groupunit = SQLiteData::getUnit(unit_id);
+	for (int i = 0; i < groupunit.size(); i++)
+	{
+		if (currentChar == groupunit[i][0])
+		{
+			string count = DataTool::intTostring(writingCount);
+			groupunit[i][1]=count;
+		}
+	}
+	SQLiteData::updateUnit(unit_id,groupunit);
 	if (dltList.size()>0)
 	{
 		pGridView->setCountOfCell(writingCount);

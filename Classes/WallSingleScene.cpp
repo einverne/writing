@@ -115,7 +115,7 @@ void WallSingleLayer::onEnter(){
 	menu->addChild(screenshot,12);
 	screenshot->setPosition(wall_tail->getPosition());
 
-	CCLog("SQLiteData::getUnit(unitID)");
+	//CCLog("SQLiteData::getUnit(unitID)");
 	groupCharacter = SQLiteData::getUnit(unitID);
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
@@ -450,7 +450,7 @@ void WallSingleLayer::buttonCallBack(CCNode* pNode){
 						vector<string> newSingle;
 						newSingle.push_back(string(h));
 						newSingle.push_back(DataTool::intTostring(0));
-						newSingle.push_back(DataTool::intTostring(2));
+						newSingle.push_back(DataTool::intTostring(0));
 						groupCharacter[i] = newSingle;
 						break;
 					}
