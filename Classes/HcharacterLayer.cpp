@@ -97,7 +97,7 @@ void HcharacterLayer::onEnter(){
 	this->setInfoSprite(CCSprite::create("right.png"));
 	this->addChild(getInfoSprite(),2000);
 	getInfoSprite()->setPosition(ccp(visiableSize.width/4*3+50,tianzige->getPositionY()-50));
-	getInfoSprite()->setScale(scale);
+//	getInfoSprite()->setScale(scale);
 	getInfoSprite()->setVisible(false);
 
 	CCPoint tianzige_draw_position = getSprite()->getPosition();
