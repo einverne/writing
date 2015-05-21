@@ -2765,7 +2765,7 @@ function IsHengZheWan(bh,bl)
 		turning_pt_1 = fpt
 		turning_index_1 = fpt_index
 		local bdTemp = GetTempBD(bh,startindex,turning_index_1)
-		local lineTemp = GetLine(turning_pt_0,turning_pt_1)
+		local lineTemp = GetLine(startpt,turning_pt_1)
 		turning_pt_0,turning_index_0 = GetFarthestPt2Line(bdTemp,lineTemp)
 	else
 		turning_pt_0 = fpt
