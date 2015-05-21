@@ -157,7 +157,7 @@ end
 --对于点的插值 ptSet 和 dstPts 是每一个笔画的点集
 function adjustPtDensity(ptSet,dstPts)
 	local nCount = getLength(ptSet)
-	countInter,countFloat = math.modf (nCount)
+	countInter,countFloat = math.modf (nCount)--取整数和小数部分
 	if (countFloat > 0.5) then
 		nCount = countInter + 1
 	else
