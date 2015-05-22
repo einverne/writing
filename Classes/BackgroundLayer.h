@@ -22,7 +22,7 @@ public:
 	CCSprite* title_bar;
 private:
 	void menuBack(CCObject* pSender);			//·µ»Ø²Ëµ¥
-	void onClick(CCObject* pSender);			//Toggle onClick
+	void onToggle(CCObject* pSender);			//Toggle onClick
 // 	void menuNext(CCObject* pSender);
 };
 

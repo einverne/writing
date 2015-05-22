@@ -63,10 +63,18 @@ void BackgroundLayer::onEnter(){
 		addChild(m_pWindow,10);
 
 		CToggleView* pToggle = CToggleView::create("strangedesign/Judge_writting_easy_button.png","strangedesign/Judge_writting_difficult_button.png");
-		pToggle->setOnClickListener(this,ccw_click_selector(BackgroundLayer::onClick));
+		pToggle->setOnClickListener(this,ccw_click_selector(BackgroundLayer::onToggle));
 		pToggle->setPosition(title_bar->getPosition());
 		m_pWindow->addChild(pToggle);
 
+		string str = DataTool::readFromFile("setting.xml");
+		if (str == "1")
+		{
+			pToggle->setChecked(false);
+		}else if (str == "2")
+		{
+			pToggle->setChecked(true);
+		}
 	}
 }
 
@@ -83,7 +91,7 @@ void BackgroundLayer::keyBackClicked(){
 	CCDirector::sharedDirector()->popScene();
 }
 
-void BackgroundLayer::onClick(CCObject* pSender){
+void BackgroundLayer::onToggle(CCObject* pSender){
 	CCLog("onClick");
 	CToggleView* pToggle = (CToggleView*) pSender;
 	if( pToggle->isChecked() )
