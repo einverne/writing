@@ -48,7 +48,6 @@ void TouchLayer::onExit(){
 	CCLayer::onExit();
 }
 void TouchLayer::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
-	CCLog("TouchLayer TouchesBegan");	
 	getHlayer()->getInfoSprite()->setVisible(false);
 	//判断写了几笔 超过笔数就不
 	if (isFinish())
@@ -81,7 +80,6 @@ void TouchLayer::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 }
 
 void TouchLayer::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
-	CCLog("TouchLayer TouchesMoved");
 	if (isFinish())
 	{
 		return;
@@ -111,7 +109,6 @@ void TouchLayer::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
 	//CCLog("isStartOutside = %d, isOutside = %d",isStartOutside,isOutside);
 }
 void TouchLayer::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
-	CCLog("TouchLayer TouchesEnded m_uRef: %d",this->m_uReference);
 	if (isFinish())
 	{
 		return;
