@@ -1,7 +1,7 @@
 #ifndef __CONSTANTS_H__
 #define __CONSTANTS_H__
 
-typedef enum layers
+enum layers
 {
 	kBgLayerTag,
 	kHLayerTag,
