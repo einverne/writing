@@ -80,9 +80,7 @@ void BackgroundLayer::onEnter(){
 
 
 void BackgroundLayer::menuBack(CCObject* pSender){
-	this->unscheduleAllSelectors();
-	CCDirector::sharedDirector()->getTouchDispatcher()->removeAllDelegates();
-	CCDirector::sharedDirector()->popScene();
+	this->keyBackClicked();
 }
 
 void BackgroundLayer::keyBackClicked(){

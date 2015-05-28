@@ -65,6 +65,8 @@ public:
 	*/
 	bool setProficiency(string character,string proficiency);
 	
+	CC_SYNTHESIZE_RETAIN(CCEditBox*, m_editBox, m_editBox);
+
 private:
 // 	void backtoMainScene(CCNode* pNode);
 	void back(CCObject* pSender);

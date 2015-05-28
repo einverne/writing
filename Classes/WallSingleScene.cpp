@@ -443,7 +443,7 @@ void WallSingleLayer::buttonCallBack(CCNode* pNode){
 				//saveToFile(iter->character, h);
 
 				//将汉字更新到数据库中
-				for (int i = 0 ;i < groupCharacter.size(); ++i)
+				for (unsigned int i = 0 ;i < groupCharacter.size(); ++i)
 				{
 					if (iter->character == groupCharacter.at(i).at(0))
 					{

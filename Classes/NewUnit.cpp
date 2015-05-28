@@ -2,7 +2,9 @@
 
 #define TAG_LAYER_EXIT 1001
 
-NewUnitLayer::NewUnitLayer(string unitID):tag(0){
+NewUnitLayer::NewUnitLayer(string unitID):tag(0),
+	m_editBox(NULL)
+{
 	this->unitID = unitID;
 }
 
@@ -25,8 +27,7 @@ NewUnitLayer* NewUnitLayer::create(string unitID){
 		pret->autorelease();
 		return pret;
 	}else{
-		delete pret;
-		pret = NULL;
+		CC_SAFE_DELETE(pret);
 		return pret;
 	}
 }
@@ -146,6 +147,7 @@ void NewUnitLayer::onEnter(){
 
 		string flag1("wordbox");
 		string flag3(typeElement->GetText());
+		CCLog("New Unit stone");
 		if(flag3==flag1)
 		{
 			//wordbox
@@ -224,26 +226,25 @@ void NewUnitLayer::onEnter(){
 			CCScale9Sprite* scalesprite = CCScale9Sprite::create(tempfilename.c_str(),fullRect, insetRect);
 
 			CCSize editBoxSize = ccp(scalesprite->getContentSize().width*width_rescale, scalesprite->getContentSize().height*rescale);
-			CCEditBox* editboxtemp = CCEditBox::create(editBoxSize,scalesprite);
-			editboxtemp->setPosition(ccp(origin.x+x, origin.y+y));
-			addChild(editboxtemp, 1);
+			m_editBox = CCEditBox::create(editBoxSize,scalesprite);
+			m_editBox->setPosition(ccp(origin.x+x, origin.y+y));
+			addChild(m_editBox, 1);
 
 			hanzis.push_back(groupCharacter.at(indexOfCharacter).at(0));
 
 			//添加汉字
-			editboxtemp->setPlaceHolder("Input Chinese Character:");
-			editboxtemp->setPlaceholderFontColor(ccBLACK);
-			editboxtemp->setPlaceholderFont("Arial",25);
+			m_editBox->setPlaceHolder("Input Chinese Character:");
+			m_editBox->setPlaceholderFontColor(ccBLACK);
 
-			editboxtemp->setText(groupCharacter.at(indexOfCharacter).at(0).c_str());
-			editboxtemp->setFontName("Arial");
-			editboxtemp->setFontSize(100);
-			editboxtemp->setFontColor(ccBLACK);
-			editboxtemp->setMaxLength(1);
-			editboxtemp->setInputMode(kEditBoxInputModeSingleLine);
+			m_editBox->setText(groupCharacter.at(indexOfCharacter).at(0).c_str());
+			m_editBox->setFontName("Arial");
+			m_editBox->setFontSize(100);
+			m_editBox->setFontColor(ccBLACK);
+			m_editBox->setMaxLength(1);
+			m_editBox->setInputMode(kEditBoxInputModeSingleLine);
 
-			editboxtemp->setDelegate(this);
-			editboxtemp->setTag(tag);
+			m_editBox->setDelegate(this);
+			m_editBox->setTag(tag);
 			tag++;
 
 			//添加次数
@@ -347,14 +348,13 @@ void NewUnitLayer::editBoxEditingDidEnd(CCEditBox* editBox){
 
 void NewUnitLayer::editBoxTextChanged(CCEditBox* editBox, const std::string& text){
 	CCLog("editbox changed");
-
 }
 
-void NewUnitLayer::editBoxReturn(CCEditBox* editBox){
+void NewUnitLayer::editBoxReturn(CCEditBox* returnEditBox){
 	CCLog("editbox return");
-	int i = editBox->getTag();
+	int i = returnEditBox->getTag();
 	vector<string> newSingle;
-	newSingle.push_back(string(editBox->getText()));
+	newSingle.push_back(string(returnEditBox->getText()));
 	newSingle.push_back(DataTool::intTostring(0));
 	newSingle.push_back(DataTool::intTostring(2));
 	groupCharacter[i] = newSingle;
