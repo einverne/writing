@@ -179,6 +179,8 @@ void JudgeScene::lastCharacter(CCNode* pNode){
 		next();
 	}else if (pNode->getTag() == 1)
 	{
+		this->unscheduleAllSelectors();
+		CCDirector::sharedDirector()->getTouchDispatcher()->removeAllDelegates();
 		CCDirector::sharedDirector()->popScene();
 	}
 }
