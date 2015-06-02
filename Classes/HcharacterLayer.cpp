@@ -169,14 +169,13 @@ void HcharacterLayer::judge(){
 		for (vector<CCPoint>::iterator iter = points.begin(); iter != points.end() ; ++iter)
 		{
 			CCPoint temp = *iter;
-			string t = DataTool::floatToString(ceil(temp.x)) + "/" + DataTool::floatToString(ceil(temp.y)) + "/";
+			string t = DataTool::to_string(ceil(temp.x)) + "/" + DataTool::to_string(ceil(temp.y)) + "/";
 			originOutput += t;
 		}
 		originOutput += "@";
 	}
 
 	this->pointsOrigin=originOutput;
-
 
 	CCObject* ob;
 	CCARRAY_FOREACH(strokes,ob){
@@ -186,7 +185,7 @@ void HcharacterLayer::judge(){
 		{
 			CCPoint temp = *iter;
 			temp = convert512(temp);
-			string t = DataTool::floatToString(ceil(temp.x)) + "/" + DataTool::floatToString(ceil(temp.y)) + "/";
+			string t = DataTool::to_string(ceil(temp.x)) + "/" + DataTool::to_string(ceil(temp.y)) + "/";
 			output += t;
 		}
 		output += "@";
@@ -307,7 +306,7 @@ void HcharacterLayer::writeRight(){
 	{
 		if (curChar == groupUnit[i][0])
 		{
-			string scorestr = DataTool::floatToString(score);
+			string scorestr = DataTool::to_string(score);
 			groupUnit[i][2]=scorestr;
 			break;
 		}

@@ -72,6 +72,14 @@ public:
 	static void copyFileToSD(string filename);
 
 	/**
+	* convert a_value int float double to string
+	* @param a_value
+	* @return
+	*/
+	template <typename T>
+	static string to_string(const T a_value);
+
+	/**
 	* output a string with n decimal points default n = 2
 	* @param a_value
 	* @param n
