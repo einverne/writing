@@ -3,13 +3,14 @@
 #define TAG_LAYER_EXIT 1001
 
 NewUnitLayer::NewUnitLayer(string unitID):tag(0),
-	m_editBox(NULL)
+	m_editBox(NULL),m_TextList(NULL)
 {
 	this->unitID = unitID;
 }
 
 NewUnitLayer::~NewUnitLayer(){
-
+	CC_SAFE_RELEASE(m_editBox);
+	CC_SAFE_RELEASE(m_TextList);
 }
 
 CCScene* NewUnitLayer::scene(string unitID)
@@ -42,9 +43,11 @@ bool NewUnitLayer::init()
 
 	//注册触摸事件
 	CCPoint changepoint=ccp(0,0);
-//	this->setTouchEnabled(true);
+	this->setTouchEnabled(true);
 	this->setKeypadEnabled(true);			//android back key
 
+	m_TextList = CCArray::create();
+	m_TextList->retain();
 	return true;
 }
 
@@ -148,8 +151,7 @@ void NewUnitLayer::onEnter(){
 		string flag1("wordbox");
 		string flag3(typeElement->GetText());
 		CCLog("New Unit stone");
-		if(flag3==flag1)
-		{
+
 			//wordbox
 			TiXmlElement* xElement = typeElement->NextSiblingElement();  // x
 			TiXmlElement* yElement = xElement->NextSiblingElement();  // y
@@ -219,32 +221,49 @@ void NewUnitLayer::onEnter(){
 			CCSprite* pSprite1 = CCSprite::create(tempfilename.c_str());
 			pSprite1->setScaleY(rescale);
 			pSprite1->setScaleX(width_rescale);
+			pSprite1->setPosition(ccp(origin.x+x, origin.y+y));
+			addChild(pSprite1,1);
 
 			CCSize originsize = pSprite1->getContentSize();
 			CCRect fullRect = CCRectMake(0,0,originsize.width,originsize.height);
 			CCRect insetRect = fullRect;
 			CCScale9Sprite* scalesprite = CCScale9Sprite::create(tempfilename.c_str(),fullRect, insetRect);
 
-			CCSize editBoxSize = ccp(scalesprite->getContentSize().width*width_rescale, scalesprite->getContentSize().height*rescale);
-			m_editBox = CCEditBox::create(editBoxSize,scalesprite);
-			m_editBox->setPosition(ccp(origin.x+x, origin.y+y));
-			addChild(m_editBox, 1);
+			CCLog("add editbox");
+
+			string placeholder = groupCharacter.at(indexOfCharacter).at(0);
+			CCTextFieldTTF*	m_TextFieldTTF = CCTextFieldTTF::textFieldWithPlaceHolder(placeholder.c_str(), "Arial", 80);
+			m_TextFieldTTF->setPosition(ccp(origin.x+x, origin.y+y));
+			addChild(m_TextFieldTTF, 1);
+
+			m_TextFieldTTF->setColor(ccBLACK);
+
+			m_TextFieldTTF->setDelegate(this);
+			
+			m_TextList->addObject(m_TextFieldTTF);
+
+// 			CCSize editBoxSize = ccp(scalesprite->getContentSize().width*width_rescale, scalesprite->getContentSize().height*rescale);
+// 			m_editBox = CCEditBox::create(editBoxSize,scalesprite);
+// 			m_editBox->setPosition(ccp(origin.x+x, origin.y+y));
+// 			addChild(m_editBox, 1);
 
 			hanzis.push_back(groupCharacter.at(indexOfCharacter).at(0));
+// 
+// 			//添加汉字
+// 			m_editBox->setPlaceHolder("Input Chinese Character:");
+// 			m_editBox->setPlaceholderFontColor(ccBLACK);
+// 
+// 			m_editBox->setText(groupCharacter.at(indexOfCharacter).at(0).c_str());
+// 			m_editBox->setFontName("Arial");
+// 			m_editBox->setFontSize(100);
+// 			m_editBox->setFontColor(ccBLACK);
+// 			m_editBox->setMaxLength(1);
+// 			m_editBox->setInputMode(kEditBoxInputModeSingleLine);
+// 
+// 			m_editBox->setDelegate(this);
+// 			m_editBox->setTag(tag);
 
-			//添加汉字
-			m_editBox->setPlaceHolder("Input Chinese Character:");
-			m_editBox->setPlaceholderFontColor(ccBLACK);
-
-			m_editBox->setText(groupCharacter.at(indexOfCharacter).at(0).c_str());
-			m_editBox->setFontName("Arial");
-			m_editBox->setFontSize(100);
-			m_editBox->setFontColor(ccBLACK);
-			m_editBox->setMaxLength(1);
-			m_editBox->setInputMode(kEditBoxInputModeSingleLine);
-
-			m_editBox->setDelegate(this);
-			m_editBox->setTag(tag);
+			m_TextFieldTTF->setTag(tag);
 			tag++;
 
 			//添加次数
@@ -270,7 +289,6 @@ void NewUnitLayer::onEnter(){
 			stoneElement=stoneElement->NextSiblingElement();
 
 			indexOfCharacter++;
-		}
 	}
 }
 
@@ -279,7 +297,7 @@ void NewUnitLayer::onExit(){
 }
 
 void NewUnitLayer::registerWithTouchDispatcher(){
-	CCDirector::sharedDirector()->getTouchDispatcher()->addStandardDelegate(this,1);
+	CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this,1,false);
 }
 
 void NewUnitLayer::menuCloseCallback(CCObject* pSender)
@@ -336,26 +354,111 @@ void NewUnitLayer::updateUnit(CCObject* pSender){
 	CCDirector::sharedDirector()->replaceScene(MainScene::scene());
 }
 
-void NewUnitLayer::editBoxEditingDidBegin(CCEditBox* editBox){
-	CCLog("editbox begin");
-
+bool NewUnitLayer::ccTouchBegan(CCTouch* touch, CCEvent* event){
+	CCLog("touch began");
+	return true;
 }
 
-void NewUnitLayer::editBoxEditingDidEnd(CCEditBox* editBox){
-	CCLog("editbox end");
-
+void NewUnitLayer::ccTouchMoved(CCTouch* touch, CCEvent* event){
+	CCLog("touch moved");
 }
 
-void NewUnitLayer::editBoxTextChanged(CCEditBox* editBox, const std::string& text){
-	CCLog("editbox changed");
+void NewUnitLayer::ccTouchEnded(CCTouch* touch, CCEvent* event){
+	CCLog("touch ended");
+	CCPoint pos = touch->getLocation();
+
+	CCObject* it = NULL;
+	CCARRAY_FOREACH(m_TextList,it){
+		CCTextFieldTTF* textField = dynamic_cast<CCTextFieldTTF*>(it);
+		float x = textField->getPositionX() - textField->getContentSize().width/2;
+		float y = textField->getPositionY() - textField->getContentSize().height/2;
+		float width = textField->getContentSize().width;
+		float height = textField->getContentSize().height;
+		CCRect rect = CCRectMake(x, y, width, height);
+		//判断触点是否触摸到编辑框内部
+		if( rect.containsPoint(pos) ) {
+			CCLOG("attachWithIME");
+			textField->attachWithIME(); //开启虚拟键盘
+			break;
+		}else {
+			CCLOG("detachWithIME");
+			textField->detachWithIME(); //关闭虚拟键盘
+		}
+	}
 }
 
-void NewUnitLayer::editBoxReturn(CCEditBox* returnEditBox){
+// void NewUnitLayer::editBoxEditingDidBegin(CCEditBox* editBox){
+// 	CCLog("editbox begin");
+// 
+// }
+// 
+// void NewUnitLayer::editBoxEditingDidEnd(CCEditBox* editBox){
+// 	CCLog("editbox end");
+// 
+// }
+// 
+// void NewUnitLayer::editBoxTextChanged(CCEditBox* editBox, const std::string& text){
+// 	CCLog("editbox changed");
+// }
+// 
+// void NewUnitLayer::editBoxReturn(CCEditBox* returnEditBox){
+// 	CCLog("editbox return");
+// 	int i = returnEditBox->getTag();
+// 	vector<string> newSingle;
+// 	newSingle.push_back(string(returnEditBox->getText()));
+// 	newSingle.push_back(DataTool::intTostring(0));
+// 	newSingle.push_back(DataTool::intTostring(2));
+// 	groupCharacter[i] = newSingle;
+// }
+
+
+//当用户启动虚拟键盘时的回调函数
+//启用键盘false; 不启用键盘true
+bool NewUnitLayer::onTextFieldAttachWithIME(CCTextFieldTTF* sender){
+	sender->setFontSize(100);
+	sender->setColor(ccRED);
+	return false;
+}
+
+//当用户关闭虚拟键盘时的回调函数
+//关闭键盘false; 不关闭键盘true
+bool NewUnitLayer::onTextFieldDetachWithIME(CCTextFieldTTF* sender){
 	CCLog("editbox return");
-	int i = returnEditBox->getTag();
+	
+	sender->setFontSize(80);
+	sender->setColor(ccBLACK);
+
+	int i = sender->getTag();
 	vector<string> newSingle;
-	newSingle.push_back(string(returnEditBox->getText()));
+	newSingle.push_back(sender->getString());
 	newSingle.push_back(DataTool::intTostring(0));
 	newSingle.push_back(DataTool::intTostring(2));
 	groupCharacter[i] = newSingle;
+	return false;
+}
+
+//当用户输入时的回调函数
+//允许输入字符false; 不允许输入字符true
+bool NewUnitLayer::onTextFieldInsertText(CCTextFieldTTF* sender, const char* text, int nLen){
+	
+	if (*text == ' '||*text == '\n')
+	{
+		sender->detachWithIME();
+		return true;
+	}
+	if (nLen>3)
+	{
+		return true;
+	}
+
+
+
+
+	return false;
+}
+
+//当用户删除文字时的回调函数
+//允许删除字符false; 不允许删除字符true
+bool NewUnitLayer::onTextFieldDeleteBackward(CCTextFieldTTF* sender, const char* delText, int nLen){
+	return false;
 }

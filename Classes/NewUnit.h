@@ -79,7 +79,6 @@ private:
 	vector<string> hanzis;			//墙上的汉字
 	string unitID;				//用以区别不同单元，与数据库中单元ID列对应
 	vector<vector <string> > groupCharacter;		//从数据库中获取一个单元的汉字数组
-
 	int tag;
 };
 
