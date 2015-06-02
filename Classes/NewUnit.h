@@ -18,7 +18,7 @@ using namespace std;
 USING_NS_CC;
 USING_NS_CC_EXT;
 
-class NewUnitLayer : public CCLayerColor, CCEditBoxDelegate
+class NewUnitLayer : public CCLayerColor, CCTextFieldDelegate
 {
 public:
 	NewUnitLayer(string unitID);
@@ -44,19 +44,30 @@ public:
 // 	virtual void ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent);
 // 	virtual void ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent);
 // 	virtual void ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent);
+	virtual bool ccTouchBegan(CCTouch* touch, CCEvent* event);
+	virtual void ccTouchMoved(CCTouch* touch, CCEvent* event);
+	virtual void ccTouchEnded(CCTouch* touch, CCEvent* event);
 	virtual void registerWithTouchDispatcher();
 
 	static NewUnitLayer* create(string unitID);
 
-	//开始编辑时
-	virtual void editBoxEditingDidBegin(CCEditBox* editBox);
-	//结束编辑时
-	virtual void editBoxEditingDidEnd(CCEditBox* editBox);
-	//编辑框文字改变时
-	virtual void editBoxTextChanged(CCEditBox* editBox, const std::string& text);
-	//触发return后
-	virtual void editBoxReturn(CCEditBox* editBox);
-	
+	//当用户启动虚拟键盘时的回调函数
+	//启用键盘false; 不启用键盘true
+	virtual bool onTextFieldAttachWithIME(CCTextFieldTTF* sender);
+
+	//当用户关闭虚拟键盘时的回调函数
+	//关闭键盘false; 不关闭键盘true
+	virtual bool onTextFieldDetachWithIME(CCTextFieldTTF* sender);
+
+	//当用户输入时的回调函数
+	//允许输入字符false; 不允许输入字符true
+	virtual bool onTextFieldInsertText(CCTextFieldTTF* sender, const char* text, int nLen);
+
+	//当用户删除文字时的回调函数
+	//允许删除字符false; 不允许删除字符true
+	virtual bool onTextFieldDeleteBackward(CCTextFieldTTF* sender, const char* delText, int nLen);
+
+
 	/**
 	* 修改xml文件中汉字对应proficiency值
 	* @param character 要修改prof值对应的字
@@ -66,6 +77,7 @@ public:
 	bool setProficiency(string character,string proficiency);
 	
 	CC_SYNTHESIZE_RETAIN(CCEditBox*, m_editBox, m_editBox);
+	CC_SYNTHESIZE_RETAIN(CCArray*, m_TextList, m_TextList);
 
 private:
 // 	void backtoMainScene(CCNode* pNode);
