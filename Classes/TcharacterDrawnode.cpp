@@ -46,7 +46,7 @@ bool TcharacterDrawnode::init(string hz,CCSize showrect,CharacterEntity* p){
 	{
 		Bujian bujian = (Bujian)*iter;
 		vector<Stroke> strokeList = bujian.strokeList;
-		for (int i = 0 ; i < strokeList.size() ; i++)
+		for (unsigned int i = 0 ; i < strokeList.size() ; i++)
 		{
 			this->getstrokedrawList()->addObject(StrokeDrawnode::create(strokeList.at(i)));
 		}

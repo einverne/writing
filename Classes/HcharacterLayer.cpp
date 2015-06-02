@@ -10,6 +10,7 @@
 #include "tools\DataTool.h"
 #include "constants.h"
 #include "JudgeScene.h"
+#include <iomanip>
 
 HcharacterLayer::HcharacterLayer():m_sprite_draw(NULL),
 	bihuaCountAndTotal(NULL),m_HDrawnode(NULL),m_sprite_info(NULL),m_exChar(NULL),
@@ -134,7 +135,8 @@ void HcharacterLayer::onEnter(){
 				break;
 			}
 		}
-		string scorestring = DataTool::getChinese("defen")+scorestr;
+		float scoretemp = DataTool::stringToFloat(scorestr);
+		string scorestring = DataTool::getChinese("defen")+DataTool::to_string_with_precision(scoretemp);
 		setscoreLabel(CCLabelTTF::create(scorestring.c_str(),"Arial",40));
 		getscoreLabel()->setColor(ccBLACK);
 		addChild(getscoreLabel(),10);
@@ -253,7 +255,7 @@ void HcharacterLayer::writeWrong(){
 	wrongCount++;
 	curBihuaWrong++;
 
-	string strLabel = DataTool::getChinese("defen")+DataTool::floatToString(score);
+	string strLabel = DataTool::getChinese("defen")+DataTool::to_string_with_precision(score);
 	getscoreLabel()->setString(strLabel.c_str());
 
 }
@@ -291,7 +293,7 @@ void HcharacterLayer::writeRight(){
 		score+=0*10/totalBihuaCount;
 		break;
 	}
-	string strLabel = DataTool::getChinese("defen")+DataTool::floatToString(score);
+	string strLabel = DataTool::getChinese("defen")+DataTool::to_string_with_precision(score);
 	getscoreLabel()->setString(strLabel.c_str());
 	curBihuaWrong=0;
 	writeCount++;
@@ -343,7 +345,8 @@ void HcharacterLayer::rewrite(CCObject* pSender){
 					break;
 				}
 			}
-			string scorestring = DataTool::getChinese("defen")+scorestr;
+			float scoretemp = DataTool::stringToFloat(scorestr);
+			string scorestring = DataTool::getChinese("defen")+DataTool::to_string_with_precision(scoretemp);
 			getscoreLabel()->setString(scorestring.c_str());
 			score=0;
 			curBihuaWrong=0;

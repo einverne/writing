@@ -109,7 +109,7 @@ CCObject* ViewScene::gridViewDataSource(CCObject* pContentView, unsigned int idx
 		HcharacterDrawnode* handwritingHz = HcharacterDrawnode::create();
 		
 		vector< vector<CCPoint> > strokesvec = DataTool::spliteString(oneNote.at(1));
-		for (int i = 0; i < strokesvec.size(); i++)
+		for (unsigned int i = 0; i < strokesvec.size(); i++)
 		{
 			vector<CCPoint> oneStrokeVec = strokesvec[i];
 			Stroke stroke(oneStrokeVec);
@@ -144,7 +144,7 @@ CCObject* ViewScene::gridViewDataSource(CCObject* pContentView, unsigned int idx
 		HcharacterDrawnode* handwritingHz = HcharacterDrawnode::create();
 		vector<string> oneNote = Notes.at(idx);			//oneNote 中第一个元素为ID，第二个元素为笔画序列
 		vector< vector<CCPoint> > strokesvec = DataTool::spliteString(oneNote.at(1));
-		for (int i = 0; i < strokesvec.size(); i++)
+		for (unsigned int i = 0; i < strokesvec.size(); i++)
 		{
 			vector<CCPoint> oneStrokeVec = strokesvec[i];
 			Stroke stroke(oneStrokeVec);
@@ -216,7 +216,7 @@ void ViewScene::deleteBtnClick(CCObject* pSender){
 	}
 	//update sqlite zinote Count
 	vector< vector<string> > groupunit = SQLiteData::getUnit(unit_id);
-	for (int i = 0; i < groupunit.size(); i++)
+	for (unsigned int i = 0; i < groupunit.size(); i++)
 	{
 		if (currentChar == groupunit[i][0])
 		{

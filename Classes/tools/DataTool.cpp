@@ -207,3 +207,13 @@ void DataTool::copyFileToSD(string filename){
 	fclose(file);
 #endif
 }
+
+template <typename T>
+string DataTool::to_string_with_precision(const T a_value, const int n){
+	std::ostringstream out;
+	out << std::setprecision(n) << fixed << a_value;
+	return out.str();
+}
+
+template string DataTool::to_string_with_precision<float>(const float a_value, const int n);
+template string DataTool::to_string_with_precision<double>(const double a_value, const int n);

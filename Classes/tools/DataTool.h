@@ -4,6 +4,7 @@
 #pragma once
 #include "cocos2d.h"
 #include <iostream>
+#include <iomanip>
 #include <string>
 USING_NS_CC;
 using namespace std;
@@ -69,5 +70,14 @@ public:
 	* @return
 	*/
 	static void copyFileToSD(string filename);
+
+	/**
+	* output a string with n decimal points default n = 2
+	* @param a_value
+	* @param n
+	* @return
+	*/
+	template <typename T>
+	static string to_string_with_precision(const T a_value, const int n = 2);
 };
 #endif
