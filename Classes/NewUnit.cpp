@@ -416,6 +416,7 @@ void NewUnitLayer::ccTouchEnded(CCTouch* touch, CCEvent* event){
 //启用键盘false; 不启用键盘true
 bool NewUnitLayer::onTextFieldAttachWithIME(CCTextFieldTTF* sender){
 	sender->setFontSize(100);
+	sender->setColorSpaceHolder(ccRED);
 	sender->setColor(ccRED);
 	return false;
 }
@@ -426,13 +427,17 @@ bool NewUnitLayer::onTextFieldDetachWithIME(CCTextFieldTTF* sender){
 	CCLog("editbox return");
 	
 	sender->setFontSize(80);
+	sender->setColorSpaceHolder(ccBLACK);
 	sender->setColor(ccBLACK);
+
+	const char* label = sender->getString();
+	CCLog(label);
 
 	int i = sender->getTag();
 	vector<string> newSingle;
 	newSingle.push_back(sender->getString());
 	newSingle.push_back(DataTool::intTostring(0));
-	newSingle.push_back(DataTool::intTostring(2));
+	newSingle.push_back(DataTool::intTostring(0));
 	groupCharacter[i] = newSingle;
 	return false;
 }
@@ -441,14 +446,24 @@ bool NewUnitLayer::onTextFieldDetachWithIME(CCTextFieldTTF* sender){
 //允许输入字符false; 不允许输入字符true
 bool NewUnitLayer::onTextFieldInsertText(CCTextFieldTTF* sender, const char* text, int nLen){
 	
-	if (*text == ' '||*text == '\n')
+	CCLog(text);
+	CCLog(sender->getString());
+	if ((*text>='0'&& *text<='9')||((*text>='a'&&*text<='z')||((*text>='A')&&(*text<='Z')))||*text>='_')
+	{
+		MyToast::showToast(this,DataTool::getChinese("only_chinese"),TOAST_LONG);
+		return true;
+	}
+	
+	//input ' ' or '\n' finish
+	if (*text == ' '||*text == '\n')		//遇到空格及回车detachWithIME
 	{
 		sender->detachWithIME();
 		return true;
 	}
-	if (nLen>3)
+
+	if (nLen==3)
 	{
-		return true;
+		return false;
 	}
 
 

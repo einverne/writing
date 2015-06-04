@@ -31,5 +31,7 @@
 	<string>笔画数:</string>
 	<key>defen</key>
 	<string>得分:</string>
+	<key>only_chinese</key>
+	<string>只能输入中文</string>
 </dict>  
 </plist>  
