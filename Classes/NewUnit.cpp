@@ -453,20 +453,22 @@ bool NewUnitLayer::onTextFieldInsertText(CCTextFieldTTF* sender, const char* tex
     }
 
     //中文的nlen是3  数字和字母的是1
-    //如果输入是中文  则不接受输入的内容
+    //如果输入是中文  则接受输入的内容
     if (nLen==3)
     {
         return false;//true 则不接受输入的内容 但是可以继续输入
     }
    
     //判断是否数字或者字符,和下划线_
-    //不接受数字和英文大小写字符以外的输入
+    //不接受数字和英文大小写字符的输入
     if((*text>='0'&& *text<='9')||((*text>='a'&&*text<='z')||((*text>='A')&&(*text<='Z')))||*text>='_')
     {
+		MyToast::showToast(this, DataTool::getChinese("only_chinese"),TOAST_LONG);
+		return true;
     }
     else
     {
-        return true;
+        return false;
     }
 
 	return false;
