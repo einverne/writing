@@ -80,12 +80,12 @@ public:
 	static string to_string(const T a_value);
 
 	/**
-	* output a string with n decimal points default n = 2
+	* output a string with n decimal points default n = 1
 	* @param a_value
 	* @param n
 	* @return
 	*/
 	template <typename T>
-	static string to_string_with_precision(const T a_value, const int n = 2);
+	static string to_string_with_precision(const T a_value, const int n = 1);
 };
 #endif

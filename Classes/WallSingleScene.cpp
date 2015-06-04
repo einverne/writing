@@ -245,7 +245,9 @@ void WallSingleLayer::onEnter(){
 			timesLabel->setColor(ccc3(0,0,0));
 			addChild(timesLabel,2);
 			//添加评判最高分
-			CCLabelTTF* scoreLabel = CCLabelTTF::create(groupCharacter.at(indexOfCharacter).at(2).c_str(),"Arial",35);
+			float f_scroe = DataTool::stringToFloat(groupCharacter.at(indexOfCharacter).at(2));
+			string highscore = DataTool::to_string_with_precision(f_scroe);
+			CCLabelTTF* scoreLabel = CCLabelTTF::create(highscore.c_str(),"Arial",35);
 			scoreLabel->setPosition(ccp(origin.x+intscoreposx,origin.y+intscoreposy));
 			scoreLabel->setColor(ccc3(0,0,0));
 			addChild(scoreLabel,2);

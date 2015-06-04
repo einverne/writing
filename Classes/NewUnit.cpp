@@ -430,9 +430,6 @@ bool NewUnitLayer::onTextFieldDetachWithIME(CCTextFieldTTF* sender){
 	sender->setColorSpaceHolder(ccBLACK);
 	sender->setColor(ccBLACK);
 
-	const char* label = sender->getString();
-	CCLog(label);
-
 	int i = sender->getTag();
 	vector<string> newSingle;
 	newSingle.push_back(sender->getString());
@@ -445,29 +442,32 @@ bool NewUnitLayer::onTextFieldDetachWithIME(CCTextFieldTTF* sender){
 //当用户输入时的回调函数
 //允许输入字符false; 不允许输入字符true
 bool NewUnitLayer::onTextFieldInsertText(CCTextFieldTTF* sender, const char* text, int nLen){
-	
-	CCLog(text);
-	CCLog(sender->getString());
-	if ((*text>='0'&& *text<='9')||((*text>='a'&&*text<='z')||((*text>='A')&&(*text<='Z')))||*text>='_')
-	{
-		MyToast::showToast(this,DataTool::getChinese("only_chinese"),TOAST_LONG);
-		return true;
-	}
-	
-	//input ' ' or '\n' finish
-	if (*text == ' '||*text == '\n')		//遇到空格及回车detachWithIME
-	{
-		sender->detachWithIME();
-		return true;
-	}
+	//if insert enter, treat as default to detach with ime
+    CCLOG("%d",nLen);//当前输入的单个字符长度
+   
+    //空格和\n作为输入结束符
+    if (*text==' '||'\n' == *text)
+    {
+        sender->detachWithIME(); //关闭输入 隐藏键盘
+        return true;
+    }
 
-	if (nLen==3)
-	{
-		return false;
-	}
-
-
-
+    //中文的nlen是3  数字和字母的是1
+    //如果输入是中文  则不接受输入的内容
+    if (nLen==3)
+    {
+        return false;//true 则不接受输入的内容 但是可以继续输入
+    }
+   
+    //判断是否数字或者字符,和下划线_
+    //不接受数字和英文大小写字符以外的输入
+    if((*text>='0'&& *text<='9')||((*text>='a'&&*text<='z')||((*text>='A')&&(*text<='Z')))||*text>='_')
+    {
+    }
+    else
+    {
+        return true;
+    }
 
 	return false;
 }
