@@ -16,8 +16,6 @@ build/
 [Oo]bj/
 
 *.zip
-proj.ios/
-proj.mac/
 proj.win32/Debug.win32/
 
 proj.android/libs/*
