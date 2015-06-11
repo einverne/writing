@@ -55,8 +55,9 @@ function GetBH( idx )
 end
 
 --娉ㄦ剰涓嶨etBH鐨勫尯鍒紝杩欓噷鍙栧緱鐨勬槸鏍囧噯瀛楃殑绗旂敾
-function GetPreBH(idx)
-	local bh = StdHZ.strokes[idx + 1]
+function GetPreBH(idx)--改动！
+	--local bh = StdHZ.strokes[idx + 1]
+	local bh = WriteHZ.strokes[idx + 1]
 	return bh
 end
 
@@ -76,7 +77,7 @@ function GetEndPoint(bh)
 end
 
 --鑾峰緱涓偣
-function	GetMidPoint ( bh )
+function GetMidPoint ( bh )
  	local point = WZEnv.POINT:new()
 	local len= #bh.ptSet
 	local tmpIdx = math.floor ( len / 2 )
@@ -108,6 +109,10 @@ function GetBDByBH(bh,bdIdx)
 	local bd = WZEnv.BD:new()
 	local preIdx = 1
 	local postIdx = #bh.ptSet
+	print(bdIdx)
+	print(postIdx)
+	print(bdIdx)
+	print(bh.InflectionPoint[bdIdx]) 
 	if (bdIdx ~= 0) then
 		preIdx = bh.InflectionPoint[bdIdx] + 1
 	end
@@ -118,6 +123,8 @@ function GetBDByBH(bh,bdIdx)
 	for i = preIdx, postIdx do
 		bd.ptSet[#bd.ptSet + 1] = bh.ptSet[i]
 	end
+	print("getBD!")
+	print(preIdx,postIdx)
 	return bd
 end
 
@@ -948,7 +955,8 @@ function SmallXiangJiao(pt11,pt12,pt21,pt22)
 		if (pt21.x == pt22.x) then
 			flag2 = 1
 		end
-
+		--print("falg")
+		--print(flag1,flag2)
 		local vp = {}  --vp鏄袱涓洿绾挎鐨勪氦鐐?
 		local k1,c1
 		local k2,c2
@@ -964,6 +972,8 @@ function SmallXiangJiao(pt11,pt12,pt21,pt22)
 			k1 = (pt12.y - pt11.y) /(pt12.x - pt11.x)
 			c1 = pt11.y - pt11.x*k1
 			vp.y = k1*(vp.x) + c1
+			--print("如果2垂直，那么2上的点，相交于1的x，Y")
+			--print(vp.x,vp.y)
 		else  --濡傛灉涓や釜鐩寸嚎娈靛潎涓嶅钩琛屼簬y杞?
 			k1 = (pt12.y - pt11.y)/(pt12.x - pt11.x)
 			c1 = pt11.y - pt11.x*k1
@@ -972,8 +982,13 @@ function SmallXiangJiao(pt11,pt12,pt21,pt22)
 			vp.x = (c1 - c2) /(k2 - k1)
 			vp.y = (vp.x*k1) + c1
 		end
+		
 			local maxX1 = pt11.x
 			local minX1 = pt12.x
+			--print(pt11.x,pt11.y)
+			--print(pt12.x,pt12.y)
+			--print(pt21.x,pt21.y)
+			--print(pt22.x,pt22.y)
 			if(pt11.x < pt12.x) then
 				maxX1 = pt12.x
 				minX1 = pt11.x
@@ -998,11 +1013,11 @@ function SmallXiangJiao(pt11,pt12,pt21,pt22)
 				maxY2 = pt22.y
 				minY2 = pt21.y
 			end
-
 			if (vp.x >= minX1  and vp.x <= maxX1
 			and vp.x >= minX2 and vp.x <= maxX2
 			and vp.y >= minY1 and vp.y <= maxY1
 			and vp.y >= minY2 and vp.y <= maxY2) then
+				--print("xiangjiaola!")
 				return true
 			else
 				return false
@@ -1017,18 +1032,24 @@ function BH2BHXiangJiao(bh1,bh2)
 	local flag = false
 	for i = 1, #bh2.ptSet - 1 do
 		for j = 1, #bh1.ptSet - 1 do
-			flag = SmallXiangJiao(bh1.ptSet[j],bh1.ptSet[j+1],bh2.ptSet[i],bh2.ptSet[i+1])
+			flag = SmallXiangJiao(bh1.ptSet[j],bh1.ptSet[j+1],bh2.ptSet[i],bh2.ptSet[i+1])		
+			if (flag == true) then
+			break
+			end
 		end
 		if (flag == true) then
 			break
-		end
+		end		
 	end
+	--print("xiaojiaoing")
+	--print(flag)
 	return flag
 end
 
 
 function Judge2Dots(pt1,pt2)
 	local disThreshold =  50
+	print("Judge2Dots")
 	local distance = GetDistance(pt1,pt2)
 	if (distance < disThreshold) then
 		return true
@@ -1154,7 +1175,9 @@ function BH2BHXiangJie(bd1,bd2,type1,type2)
 		if(type2 == 0) then
 			flag = JudgeDotLine(bd2.ptSet[1],bd1)
 				elseif (type2 == 1) then
-					flag = Judge2Dots(bd2.ptSet[#bd2.ptSet],bd1)
+					flag = JudgeDotLine(bd2.ptSet[#bd2.ptSet],bd1)
+					print("======flag")
+					print(flag)
 				end
 	end
 
@@ -1306,25 +1329,28 @@ function IsHengZhe(bh,bl)
 	if (endpt.y ~= turning_pt_0.y) then
 		 angel1 = GetYAngel(turning_pt_0,endpt);
 	end
+	print("here")
+	print(angel0,angel1,wanqu1)
 	if(angel0 > 21.6 )then
 		return false
-	elseif(angel0 <= 9.95 and angel1 <= 13.7 and wanqu1 > 1.1)then
+	elseif(angel0 <= 9.95 and angel1 <= 13.7 and wanqu1 > 1.3)then
 		return false
 	end
+	
 
 	if(bl == 1)then
-		if(angel0 > 9.95 and angel0 <= 21.6 and wanqu1 <= 1.1)then
+		if(angel0 > 9.95 and angel0 <= 21.6 and wanqu1 <= 1.3)then
 			return true
-		elseif(angel0 <= 9.95 and angel1 > 13.7 and wanqu1 <= 1.1)then
+		elseif(angel0 <= 9.95 and angel1 > 13.7 and wanqu1 <= 1.3)then
 			return true
-		elseif(angel0 <= 9.95 and angel1 <= 13.7 and wanqu1 <= 1.1)then
+		elseif(angel0 <= 9.95 and angel1 <= 13.7 and wanqu1 <= 1.3)then
 			return true
 		else
 			return false
 		end
 	end
 	if(bl == 2)then
-		if(angel0 <= 9.95 and angel1 <= 13.7 and wanqu1 <= 1.02)then
+		if(angel0 <= 9.95 and angel1 <= 13.7 and wanqu1 <= 1.08)then
 			return true
 		else
 			return false
@@ -1460,6 +1486,12 @@ function IsHengZheXieGou(bh,bl)
 	local fpt,findex = GetFarthestPt2Line(bd1,line1)
 	findex = findex + turning_index_0
 	fpt = bh.ptSet[findex]
+	
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
+	
+	
+	
 	if (len_bd0 == 0 or len_bd1 == 0 or len_bd2 == 0) then
 		return false
 	end
@@ -1695,6 +1727,10 @@ function IsHengZheZhePie(bh,bl)
 			end
 		end
 	end
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_pt0_index
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_pt1_index
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_pt2_index
+	
 	local angel0 = 90
 	local wanqu23 = 1
 	local angel2 = 90
@@ -1788,6 +1824,7 @@ function  IsPie(bh,bl)
 	local curve = len1 / dis
 	local angel = 90
 	angel = GetYAngel(startpt,endpt);
+	bh.InflectionPoint[#bh.InflectionPoint + 1] =  endindex
 
 	if (startpt.y >= endpt.y or startpt.x <= endpt.x) then
 		return false
@@ -1902,18 +1939,18 @@ function IsHengGou(bh,bl)--去掉夹角和钩的斜率
 		return false
 	elseif(angel0 <= 7.4 and scale > 0.75)then
 		return false
-	elseif(angel0 <= -10.9 and scale <= 0.55 and wanqu0 > 1.1)then
+	elseif(angel0 <= -10.9 and scale <= 0.65 and wanqu0 > 1.1)then
 		return false
 	end
 
 	if( bl == 1)then
-		if(angel0 <= 7.4 and scale > 0.55 and scale <= 0.75)then
+		if(angel0 <= 7.4 and scale > 0.65 and scale <= 0.75)then
 			return true
-		elseif(angel0 <= -10.9 and scale <= 0.55 and wanqu0 <= 1.1)then
+		elseif(angel0 <= -10.9 and scale <= 0.65 and wanqu0 <= 1.1)then
 			return true
-		elseif(angel0 > -10.9 and angel0 <= 7.4 and scale <= 0.55 and wanqu0 > 1.04 and wanqu0 <= 1.13)then
+		elseif(angel0 > -10.9 and angel0 <= 7.4 and scale <= 0.65 and wanqu0 > 1.04 and wanqu0 <= 1.13)then
 			return true
-		elseif(angel0 > -10.9 and angel0 <= 7.4 and scale <= 0.55 and wanqu0 <= 1.4)then
+		elseif(angel0 > -10.9 and angel0 <= 7.4 and scale <= 0.65 and wanqu0 <= 1.4)then
 			return true
 		else
 			return false
@@ -1921,9 +1958,9 @@ function IsHengGou(bh,bl)--去掉夹角和钩的斜率
 	end
 
 	if(bl == 2)then
-		if(angel0 > -10.9 and angel0 <= 7.4 and scale <= 0.55 and wanqu0 <= 1.05 and wanqu1 <= 1.2)then
+		if(angel0 > -10.9 and angel0 <= 7.4 and scale <= 0.65 and wanqu0 <= 1.05 and wanqu1 <= 1.2)then
 			return true
-		elseif(angel0 > -8.7 and angel0 <=7.4 and scale <= 0.42 and wanqu0 <= 1.05 and wanqu1 <= 1.2)then
+		elseif(angel0 > -8.7 and angel0 <=7.4 and scale <= 0.65 and wanqu0 <= 1.05 and wanqu1 <= 1.2)then
 			return true
 		else
 			return false
@@ -2031,6 +2068,10 @@ function IsHengZheGou(bh,bl)
 	local dis_bd0 = GetDistance(startpt,turning_pt_0)
 	local dis_bd1 = GetDistance(turning_pt_0,turning_pt_1)
 	local dis_line = GetDistance(startpt,turning_pt_1)
+	
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
+	
 	if (len_bd0 == 0 or len_bd1 == 0 or len_bd2 == 0) then
 		return false
 	end
@@ -2062,9 +2103,9 @@ function IsHengZheGou(bh,bl)
 	if (turning_pt_1.y~= turning_pt_0.y) then
 		angel1 = GetYAngel2(turning_pt_0,turning_pt_1);
 	end
-	print("jisuanliang==========")
-	print(angel0,angel1)
-	print(wanqu0,wanqu1)
+	--print("jisuanliang==========")
+	--print(angel0,angel1)
+	--print(wanqu0,wanqu1)
 	if(angel0 <= (-25.4) or angel0 > 8.7)then
 		return false
 	end
@@ -2248,6 +2289,14 @@ function IsXieWanGou(bh,bl)
 	local dis_bd0 = GetDistance(startpt,turning_pt_0)
 	local dis_bd1 = GetDistance(turning_pt_0,turning_pt_1)
 	print("111111111111")
+	print(turning_index_0)
+	print(turning_index_1)
+	
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
+	
+	print("inflectionPoint:")
+	print(bh.InflectionPoint[1])
 
 	if (len_bd0 == 0 or len_bd1 == 0 or len_bd2 == 0) then
 		return false
@@ -2353,6 +2402,8 @@ function IsShuWanGou(bh,bl)
 		end
 	end
 
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
 	local line0 = GetLine(startpt,turning_pt_1)
 
 	local bd0 = GetTempBD(bh,startindex,turning_index_0)
@@ -2676,13 +2727,9 @@ function IsShuZheZheGou(bh,bl)
 		 angel1 = GetYAngel2(turning_pt_1,turning_pt_2);
 	end
 	
-	if(turning_pt_0.x ~= turning_pt_1.x)then
-		angelTemp=GetXAngel(turning_pt_0,turning_pt_1);
-	end
+	
 
 	if(wanqu1 <= 0.09 and angel0 > -16.6)then
-		return false
-	elseif(angelTemp > 30)then
 		return false
 	end
 
@@ -2726,6 +2773,7 @@ function IsShuZhe(bh,bl)
 	local len_bd1 = GetBDLen(bd1)
 	local dis_bd0 = GetDistance(startpt,turning_pt_0)
 	local dis_bd1 = GetDistance(turning_pt_0,endpt)
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
 	print("shuzhe is ok")
 
 	if (len_bd0 == 0 or len_bd1 == 0 ) then
@@ -3226,8 +3274,11 @@ function IsShuZheZhe(bh,bl)
 	if (endpt.y ~= turning_pt_0.y) then
 		 angel1 = GetYAngel2(turning_pt_1,endpt);
 	end
+	if(turning_pt_0.x ~= turning_pt_1.x)then
+		angelTemp=GetXAngel(turning_pt_0,turning_pt_1);
+	end
 
-	if(angel0 > 10.7)then
+	if(angel0 > 10.7 or angelTemp > 50)then
 		return false
 	elseif(angel0 > -15.3 and angel0 <= 10.7 and angel1 >17)then
 		return false
@@ -3245,7 +3296,7 @@ function IsShuZheZhe(bh,bl)
 		end
 	end
 	if(bl == 2)then
-		if(angel0 > -15.3 and angel0 <= 10.7 and angel1 > -17.7 and angel1 <= 6.7)then
+		if(angel0 > -15.3 and angel0 <= 10.7 and angel1 > -17.7 and angel1 <= 6.7 and angelTemp <= 30)then
 			return true
 		else
 			return false
@@ -3376,6 +3427,7 @@ function IsPieZhe(bh,bl)
 	local len_bd1 = GetBDLen(bd1)
 	local dis_bd0 = GetDistance(startpt,turning_pt_0)
 	local dis_bd1 = GetDistance(turning_pt_0,endpt)
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
 	if (len_bd0 == 0 or len_bd1 == 0 ) then
 
 		return false
@@ -3651,11 +3703,11 @@ function IsPieTi(bh,bl)
 	if (bl == 1 )then	
 		return true
 	end
-
+	print(angel0,angel1,wanqu0,wanqu1)
 	if (bl == 2 )then
 		if(angel0 > 9.2 and wanqu0 <= 1.02 and angel1 <10 )then
 			return true
-		elseif(angel0 > 9.2 and wanqu0 > 1.02 and wanqu1 <= 1.02 and angel1 <10 )then
+		elseif(angel0 > 9.2 and wanqu0 > 1.02 and wanqu1 <= 1.05 and angel1 <10 )then
 			return true
 		else
 			return false
@@ -3920,7 +3972,7 @@ function IsShuTi(bh,bl)
 	if (turning_pt_0.y ~= startpt.y) then
 		 angel0 = GetYAngel2(startpt,turning_pt_0);
 	end
-	if(scale > 0.82)then
+	if(scale > 0.82 or angel0 > 20 or angel0 <= -30)then
 		return false
 	elseif(scale <= 0.64 and wanqu0 > 1.03 and angel0 > 13)then
 		return false
@@ -3931,7 +3983,7 @@ function IsShuTi(bh,bl)
 	end
 
 	if(bl == 1)then
-		if(scale > 0.64 and scale <= 0.82)then
+		if(scale > 0.64 and scale <= 0.82 )then
 			return true
 		elseif(scale <= 0.64 and wanqu0 <= 1.03)then
 			return true
@@ -3943,11 +3995,12 @@ function IsShuTi(bh,bl)
 			return false
 		end
 	end
-
+print("here")
+print(scale,wanqu0,wanqu1,angel0)
 	if(bl == 2 )then
-		if(scale <= 0.64 and wanqu0 > 1.03 and wanqu0 <= 1.26 and angel0 > -1.4 and angel0 <= 13 and wanqu1 <= 1.02)then
+		if(scale <= 0.64 and wanqu0 > 1.03 and wanqu0 <= 1.26 and angel0 > -1.4 and angel0 <= 13 and wanqu1 <= 1.05)then
 			return true
-		elseif(scale <= 0.64 and wanqu0 <= 1.03 and angel0 > -4.5)then
+		elseif(scale <= 0.64 and wanqu0 <= 1.03 and angel0 > -8.5 and angel0 <= 13)then
 			return true
 		else
 			return false
@@ -3957,7 +4010,6 @@ end
 function IsHengZheZheZhe(bh,bl)
 	local startpt,startindex = GetStartPoint(bh)
 	local endpt,endindex = GetEndPoint(bh)
-
 		local turning_pt_1 = bh.ptSet[1]
 		local turning_index_1 = 1
 		local temp = 90
@@ -4001,6 +4053,7 @@ function IsHengZheZheZhe(bh,bl)
 	local len_bd2 = GetBDLen(bd2)
 	local len_bd3 = GetBDLen(bd3)
 	local dis_bd0 = GetDistance(startpt,turning_pt_0)
+	local dis_bd2 = GetDistance(turning_pt_1,turning_pt_2)
 
 	if (len_bd0 == 0) then
 	print(1)
@@ -4035,8 +4088,10 @@ function IsHengZheZheZhe(bh,bl)
 	end
 
 	local wanqu0 = len_bd0/dis_bd0
+	local wanqu1 = len_bd2/dis_bd2
 	local angel0 = 90
 	local angel1 = 90
+	
 
 	if (turning_pt_0.x ~= startpt.x) then
 		 angel0 = GetXAngel2(startpt,turning_pt_0);
@@ -4049,22 +4104,26 @@ function IsHengZheZheZhe(bh,bl)
 		 angel2 = GetYAngel2(turning_pt_2,endpt);
 	end
 
-	if(angel2 > 6.9 or angel2 <= -34.5)then
+	if(angel2 > 6.9 or angel2 <= -34.5 )then
 		return false
 	end
 
 	if(bl == 1)then
-		if(angel2 > -12.4 and angel2 <= 6.9)then
+		if(angel2 > -12.4 and angel2 <= 6.9 and angel1 > -30 and angel1 <= 30)then
 			return true
 		else
 			return false
 		end
 	end
-
+	print("here")
+	print(angel0,angel1,angel2,wanqu1)
 	if(bl == 2)then
-		if(angel2 > -12.4 and angel2 <= 6.9 and angel1 <= 22.9 and angel0 > -11.6 and angel1 <= 6.7)then
+		if(angel2 > -12.4 and angel2 <= 6.9  and angel0 > -11.6 and angel1 > -15 and angel1 <= 11.7 and wanqu1 <= 1.15)then
 			return true
+		else
+			return false
 		end
+		--return false
 	end
 end
 function IsHengZheWanGou2(bh,bl)--横折弯钩（折比较弯）
@@ -4376,7 +4435,7 @@ function IsXieGou(bh,bl)--删掉钩的斜率
 		return false
 	elseif(scale > 0.61)then
 		return false
-	elseif(scale > 0.38 and scale <= 0.61 and wanqu > 1.05)then
+	elseif(scale > 0.38 and scale <= 0.61 and wanqu0 > 1.05)then
 		return false
 	end
 
@@ -4544,6 +4603,7 @@ local startpt,startindex = GetStartPoint(bh)
 	local len_bd1 = GetBDLen(bd1)
 	local dis_bd0 = GetDistance(startpt,turning_pt_0)
 	local dis_bd1 = GetDistance(turning_pt_0,endpt)
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
 
 	if (len_bd0 == 0 or len_bd1 == 0 ) then
 		return false
@@ -4733,6 +4793,8 @@ function	IsHengZheZheZheGou(bh,bl)
 					local len_bd4 = GetBDLen(bd4)
 	local dis_bd0 = GetDistance(startpt,turning_pt_0)
 	local dis_bd3 = GetDistance(turning_pt_2,turning_pt_3)
+	local dis_bd1 = GetDistance(turning_pt_0,turning_pt_1)
+	local dis_bd2 = GetDistance(turning_pt_1,turning_pt_2)
 
 	if (len_bd0 == 0) then
 	print(1)
@@ -4771,16 +4833,18 @@ function	IsHengZheZheZheGou(bh,bl)
 
 	local wanqu0 = len_bd0/dis_bd0
 	local wanqu1 = len_bd3/dis_bd3
+	local wanqu23 = len_bd1/dis_bd1 + len_bd2/dis_bd2
 	local angel0 = 90
 	local angel1 = 90
 
 	if (turning_pt_0.x ~= startpt.x) then
 		 angel0 = GetXAngel2(startpt,turning_pt_0)
 	end
-	if (turning_pt_2.y ~= turning_pt_1.y) then
+	if (turning_pt_2.x ~= turning_pt_1.x) then
 		 angel1 = GetXAngel2(turning_pt_1,turning_pt_2)
 	end
-	if(angel1 > 38)then
+	print(angel0,angel1,wanqu0,wanqu1,wanqu23)
+	if(angel1 > 38 or wanqu23 > 2.6)then
 		return false
 	elseif(angel1 <= 22.6 and angel0 <= -22.6)then
 		return false
@@ -4794,8 +4858,9 @@ function	IsHengZheZheZheGou(bh,bl)
 			return false
 		end
 	end
+	
 	if(bl == 2)then
-		if(angel1 <= 22.6 and angel0 > -17.9 and wanqu0 <= 1.06 and wanqu1 <= 1.08)then
+		if(angel1 <= 22.6 and angel0 > -17.9 and wanqu0 <= 1.06 and wanqu1 <= 1.08 and wanqu23 <= 2.5)then
 			return true
 		else
 			return false
