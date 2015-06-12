@@ -2667,6 +2667,9 @@ function IsShuZheZheGou(bh,bl)
 		print (turning_index_1)
 		print (turning_index_2)
 		print (endindex)
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_2
 
 	local bd0 = GetTempBD(bh,startindex,turning_index_0)
 	local bd1 = GetTempBD(bh,turning_index_0,turning_index_1)
