@@ -15,6 +15,12 @@ class JudgeScene : public CCScene
 {
 public:
 	JudgeScene();
+	/**
+	* 传入unit_id 和 hanzis 列表
+	* @param unit_id 对应数据库中单元ID
+	* @param hanzis 汉字列表
+	* @return
+	*/
 	JudgeScene(string unit_id,vector<string> hanzis);
 	~JudgeScene();
 	static JudgeScene* create(string unit_id,vector<string> hanzis);

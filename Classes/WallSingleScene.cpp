@@ -517,19 +517,50 @@ void WallSingleLayer::backtoMainScene(CCNode* pNode){
 void WallSingleLayer::pingpanwriting(CCObject* pSender){
 	CCLog("WallSingleScene::pin clicked");
 
-// 	MyToast::showToast(this,DataTool::getChinese("stroke_wrong"),2);
+	bool isAllExist = false;
+	for (unsigned int i = 0; i < hanzis.size(); i++)
+	{
+		string hanzi = hanzis.at(i);
+		isAllExist = SQLiteData::isExist(hanzi);
+		if (!isAllExist)
+		{
+			break;
+		}
+	}
 
-	JudgeScene* scene = JudgeScene::create(unitID,hanzis);
-	scene->setIsJudge(true);
-	CCDirector::sharedDirector()->pushScene(scene);
+	if (isAllExist)
+	{
+		JudgeScene* scene = JudgeScene::create(unitID,hanzis);
+		scene->setIsJudge(true);
+		CCDirector::sharedDirector()->pushScene(scene);
+	}else{
+		MyToast::showToast(this,DataTool::getChinese("not_all_exist_in_unit"),TOAST_LONG);
+	}
 }
 
 
 void WallSingleLayer::freewriting(CCObject* pSender){
 	CCLog("Free writing~");
-	JudgeScene* scene = JudgeScene::create(unitID,hanzis);
-	scene->setIsJudge(false);
-	CCDirector::sharedDirector()->pushScene(scene);
+
+	bool isAllExist = false;
+	for (unsigned int i = 0; i < hanzis.size(); i++)
+	{
+		string hanzi = hanzis.at(i);
+		isAllExist = SQLiteData::isExist(hanzi);
+		if (!isAllExist)
+		{
+			break;
+		}
+	}
+	if (isAllExist)
+	{
+		JudgeScene* scene = JudgeScene::create(unitID,hanzis);
+		scene->setIsJudge(false);
+		CCDirector::sharedDirector()->pushScene(scene);
+	}else{
+		MyToast::showToast(this,DataTool::getChinese("not_all_exist_in_unit"),TOAST_LONG);
+	}
+
 }
 
 void WallSingleLayer::screenshot(CCObject* pSender){
