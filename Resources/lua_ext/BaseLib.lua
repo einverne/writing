@@ -2301,7 +2301,7 @@ function IsXieWanGou(bh,bl)
 	if (len_bd0 == 0 or len_bd1 == 0 or len_bd2 == 0) then
 		return false
 	end
-	--拐点0在s点右边，在拐点1上
+	--拐点0在s点右边，在拐点1上。
 	if (startpt.x >= turning_pt_0.x or turning_pt_0.y >= turning_pt_1.y) then
 		return false
 	end
