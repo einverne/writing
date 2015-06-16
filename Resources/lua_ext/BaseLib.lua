@@ -2153,12 +2153,12 @@ function IsHengZheGou(bh,bl)
 	--print("jisuanliang==========")
 	--print(angel0,angel1)
 	--print(wanqu0,wanqu1)
-	if(angel0 <= (-25.4) or angel0 > 8.7)then
+	if(angel0 <= (-25.4) or angel0 > 12.7)then
 		return false
 	end
 
 	if(bl == 1)then
-		if(angel0 <=8.7 and angel0 > -25.4)then
+		if(angel0 <=12.7 and angel0 > -25.4)then
 			return true
 		else
 			return false
@@ -2166,7 +2166,7 @@ function IsHengZheGou(bh,bl)
 	end
 
 	if(bl == 2)then
-		if(angel0 > -16 and angel0 <= 8.7 and angel1 > -31.4 and angel1 <= 10.56 and wanqu0 <= 1.06 and wanqu1 <= 1.06)then
+		if(angel0 > -16 and angel0 <= 12.7 and angel1 > -31.4 and angel1 <= 10.56 and wanqu0 <= 1.06 and wanqu1 <= 1.06)then
 			return true
 		else
 			return false
@@ -2383,9 +2383,10 @@ function IsXieWanGou(bh,bl)
 			return false
 		end
 	end
-
+print("============")
+print(angel0,angel1,wanqu0,wanqu1)
 	if(bl == 2)then
-		if(angel1 > -23.1 and angel0 <= -8.4 and wanqu0 <= 1.04 and wanqu1 <= 1.04)then
+		if(angel1 > -23.1 and angel0 <= -8.4 and wanqu0 <= 1.04 and wanqu1 <= 1.06)then
 			return true
 		else
 			return false
