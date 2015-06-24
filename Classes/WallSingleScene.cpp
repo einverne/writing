@@ -145,8 +145,8 @@ void WallSingleLayer::onEnter(){
 	groupCharacter = SQLiteData::getUnit(unitID);
 
 	vector<string> unitsbg;
-	unitsbg.push_back("strangedesign/unit1.png");
-	unitsbg.push_back("strangedesign/unit2.png");
+	unitsbg.push_back("strangedesign/unitOne.png");
+	unitsbg.push_back("strangedesign/unitTwo.png");
 	CCSprite* bgsprite = CCSprite::create(unitsbg.at(unitIdx).c_str());
 	addChild(bgsprite);
 
@@ -186,7 +186,7 @@ void WallSingleLayer::onEnter(){
 
 	bgsprite->setScaleY(rescale);
 	bgsprite->setScaleX(width_rescale);
-	bgsprite->setPosition(ccp(visibleSize.width/2,visibleSize.height/2));
+	bgsprite->setPosition(ccp(visibleSize.width/2,visibleSize.height/2+45));
 
 	while (stoneElement) {
 		CHanziManage temphanziManage;
