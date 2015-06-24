@@ -38,11 +38,27 @@ public:
 	static cocos2d::CCScene* scene(string unitID);
 
 	/**
+	* unitId and unitidx to create 
+	* @param unitID
+	* @param unitidx unitidx 0,1,2
+	* @return
+	*/
+	static cocos2d::CCScene* scene(string unitID,int unitidx);
+
+	/**
 	 * 用UnitID创建
 	 * @param unitID
 	 * @return
 	 */
 	static WallSingleLayer* create(string unitID);
+
+	/**
+	* 使用unitID 以及 unitIdx 共同创建，识别当前单元
+	* @param unitID
+	* @param unitIdx 当前单元 从0开始 1，2，3.
+	* @return
+	*/
+	static WallSingleLayer* create(string unitID,int unitIdx);
 
 	void menuCloseCallback(CCObject* pSender);
 
@@ -87,6 +103,13 @@ public:
 	* @return
 	*/
 	bool setProficiency(string character,string proficiency);
+
+	/**
+	* set the unitidx
+	* @param unitidx
+	* @return
+	*/
+	void setUnitIdx(int unitidx);
 	
 private:
 	void backtoMainScene(CCNode* pNode);
@@ -125,6 +148,7 @@ private:
 	vector<string> hanzis;			//墙上的汉字
 	bool isLongPressAllow;			//是否允许长按操作
 	string unitID;				//用以区别不同单元，与数据库中单元ID列对应
+	int unitIdx;				//用以识别当前单元ID  0 1 2 3
 	vector<vector <string> > groupCharacter;		//从数据库中获取一个单元的汉字数组
 };
 

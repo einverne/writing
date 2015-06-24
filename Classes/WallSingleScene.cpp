@@ -19,6 +19,13 @@ CCScene* WallSingleLayer::scene(string unitID)
 	return scene;
 }
 
+cocos2d::CCScene* WallSingleLayer::scene(string unitID,int unitidx){
+	CCScene* scene = CCScene::create();
+	WallSingleLayer* layer = WallSingleLayer::create(unitID,unitidx);
+	scene->addChild(layer);
+	return scene;
+}
+
 WallSingleLayer* WallSingleLayer::create(string unitID){
 	WallSingleLayer* pret = new WallSingleLayer(unitID);
 	if (pret && pret->init())
@@ -30,6 +37,25 @@ WallSingleLayer* WallSingleLayer::create(string unitID){
 		pret = NULL;
 		return pret;
 	}
+}
+
+WallSingleLayer* WallSingleLayer::create(string unitID,int unitIdx){
+	WallSingleLayer* pret = new WallSingleLayer(unitID);
+	pret->setUnitIdx(unitIdx);
+	if (pret && pret->init())
+	{
+		pret->autorelease();
+		return pret;
+	}else{
+		delete pret;
+		pret = NULL;
+		return pret;
+	}
+}
+
+
+void WallSingleLayer::setUnitIdx(int unitidx){
+	this->unitIdx = unitidx;
 }
 
 bool WallSingleLayer::init()
@@ -118,6 +144,13 @@ void WallSingleLayer::onEnter(){
 	//CCLog("SQLiteData::getUnit(unitID)");
 	groupCharacter = SQLiteData::getUnit(unitID);
 
+	vector<string> unitsbg;
+	unitsbg.push_back("strangedesign/unit1.png");
+	unitsbg.push_back("strangedesign/unit2.png");
+	CCSprite* bgsprite = CCSprite::create(unitsbg.at(unitIdx).c_str());
+	addChild(bgsprite);
+
+
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	string str_filename = "strangedesign/scoretable.xml";
 	string myfilename = CCFileUtils::sharedFileUtils()->fullPathForFilename(str_filename.c_str());
@@ -150,6 +183,11 @@ void WallSingleLayer::onEnter(){
 
 	hanzilist.clear();
 	int indexOfCharacter = 0;
+
+	bgsprite->setScaleY(rescale);
+	bgsprite->setScaleX(width_rescale);
+	bgsprite->setPosition(ccp(visibleSize.width/2,visibleSize.height/2));
+
 	while (stoneElement) {
 		CHanziManage temphanziManage;
 		TiXmlElement* typeElement = stoneElement->FirstChildElement();  // type
@@ -226,19 +264,19 @@ void WallSingleLayer::onEnter(){
 			string tempfilename=imgElement->GetText();
 
 			//添加田字格背景图
-			CCSprite* pSprite1 = CCSprite::create(tempfilename.c_str());
-			pSprite1->setScaleY(rescale);
-			pSprite1->setScaleX(width_rescale);
-			pSprite1->setPosition(ccp(origin.x+x, origin.y+y));
-			addChild(pSprite1, 1);
+//			CCSprite* pSprite1 = CCSprite::create(tempfilename.c_str());
+//			pSprite1->setScaleY(rescale);
+//			pSprite1->setScaleX(width_rescale);
+//			pSprite1->setPosition(ccp(origin.x+x, origin.y+y));
+//			addChild(pSprite1, 1);
 
 			hanzis.push_back(groupCharacter.at(indexOfCharacter).at(0));
 
 			//添加汉字
-			CCLabelTTF* pLabel = CCLabelTTF::create(groupCharacter.at(indexOfCharacter).at(0).c_str(), "Arial", 100);
-			pLabel->setPosition(ccp(origin.x + x, origin.y + y));
-			pLabel->setColor(ccc3(0,0,0));
-			this->addChild(pLabel, 2);
+//			CCLabelTTF* pLabel = CCLabelTTF::create(groupCharacter.at(indexOfCharacter).at(0).c_str(), "Arial", 100);
+//			pLabel->setPosition(ccp(origin.x + x, origin.y + y));
+//			pLabel->setColor(ccc3(0,0,0));
+//			this->addChild(pLabel, 2);
 			//添加次数
 			CCLabelTTF* timesLabel = CCLabelTTF::create(groupCharacter.at(indexOfCharacter).at(1).c_str(),"Arial",35);
 			timesLabel->setPosition(ccp(origin.x+inttimesposx,origin.y+inttimesposy));
@@ -254,7 +292,7 @@ void WallSingleLayer::onEnter(){
 
 			//汉字管理
 			temphanziManage.character=groupCharacter.at(indexOfCharacter).at(0);
-			temphanziManage.textbox=pLabel;
+//			temphanziManage.textbox=pLabel;
 			temphanziManage.pos=CCPoint(x,y);
 			temphanziManage.filename=tempfilename;
 // 			temphanziManage.proficiency=atoi(temppro.c_str());

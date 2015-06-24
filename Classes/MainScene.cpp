@@ -124,10 +124,20 @@ CCObject* MainScene::gridviewDataSource(CCObject* pConvertView, unsigned int idx
 	CGridViewCell* pCell = (CGridViewCell*) pConvertView;
 	CButton* pButton = NULL;
 	CCLog("idx %d",idx);
+
+	vector<string> unitsbg;
+	unitsbg.push_back("strangedesign/table4mul4_1.png");
+	unitsbg.push_back("strangedesign/table4mul4_2.png");
 	if(!pCell)
 	{
 		pCell = new CGridViewCell();
 		pCell->autorelease();
+
+		CCSprite* pSprite = CCSprite::create(unitsbg.at(idx).c_str());
+
+		pSprite->setContentSize(CCSize(320,320));
+		pSprite->setPosition(ccp(360/2,350/2));
+		pCell->addChild(pSprite,1);
 
 		pButton = CButton::create("strangedesign/main_clincher.png","strangedesign/main_clincher_down.png");
 		pButton->setPosition(CCPoint(360/2, 350-pButton->getContentSize().height/2));
@@ -136,27 +146,27 @@ CCObject* MainScene::gridviewDataSource(CCObject* pConvertView, unsigned int idx
 
 		pCell->addChild(pButton,10);
 
-		CCSprite* sprite = CCSprite::create("strangedesign/table4mul4.png");
-		sprite->setContentSize(CCSize(320,320));
-		sprite->setPosition(CCPoint(360/2,350/2));
-		pCell->addChild(sprite,1);
-		
-		CCLog("idx %d",idx);
-		vector<vector<string> > groupCharacter = SQLiteData::getUnit(unit_ids.at(idx));
+//		CCSprite* sprite = CCSprite::create("strangedesign/table4mul4.png");
+//		sprite->setContentSize(CCSize(320,320));
+//		sprite->setPosition(CCPoint(360/2,350/2));
+//		pCell->addChild(sprite,1);
+//		
+//		CCLog("idx %d",idx);
+//		vector<vector<string> > groupCharacter = SQLiteData::getUnit(unit_ids.at(idx));
 
-		CCPoint positions[16] = {ccp(40,280),ccp(120,280),ccp(200,280),ccp(280,280),
-			ccp(40,200),ccp(120,200),ccp(200,200),ccp(280,200),
-			ccp(40,120),ccp(120,120),ccp(200,120),ccp(280,120),
-			ccp(40,40),ccp(120,40),ccp(200,40),ccp(280,40)
-		};
-		for (unsigned int i = 0; i < groupCharacter.size(); i++)
-		{
-			string hanzi = groupCharacter.at(i).at(0);
-			CCLabelTTF* clabel = CCLabelTTF::create(hanzi.c_str(),"Arial",40);
-			clabel->setPosition(positions[i]);
-			clabel->setColor(ccc3(0,0,0));
-			sprite->addChild(clabel);
-		}
+//		CCPoint positions[16] = {ccp(40,280),ccp(120,280),ccp(200,280),ccp(280,280),
+//			ccp(40,200),ccp(120,200),ccp(200,200),ccp(280,200),
+//			ccp(40,120),ccp(120,120),ccp(200,120),ccp(280,120),
+//			ccp(40,40),ccp(120,40),ccp(200,40),ccp(280,40)
+//		};
+//		for (unsigned int i = 0; i < groupCharacter.size(); i++)
+//		{
+//			string hanzi = groupCharacter.at(i).at(0);
+//			CCLabelTTF* clabel = CCLabelTTF::create(hanzi.c_str(),"Arial",40);
+//			clabel->setPosition(positions[i]);
+//			clabel->setColor(ccc3(0,0,0));
+//			sprite->addChild(clabel);
+//		}
 	}
 	else
 	{
@@ -167,27 +177,32 @@ CCObject* MainScene::gridviewDataSource(CCObject* pConvertView, unsigned int idx
 
 		pCell->addChild(pButton,10);
 
-		CCSprite* sprite = CCSprite::create("strangedesign/table4mul4.png");
-		sprite->setContentSize(CCSize(320,320));
-		sprite->setPosition(CCPoint(360/2,350/2));
-		pCell->addChild(sprite,1);
+		CCSprite* pSprite = CCSprite::create(unitsbg.at(idx).c_str());
 
-		CCLog("idx %d",idx);
-		vector<vector<string> > groupCharacter = SQLiteData::getUnit(unit_ids.at(idx));
+		pSprite->setContentSize(CCSize(320,320));
+		pSprite->setPosition(ccp(360/2,350/2));
+		pCell->addChild(pSprite,1);
+//		CCSprite* sprite = CCSprite::create("strangedesign/table4mul4.png");
+//		sprite->setContentSize(CCSize(320,320));
+//		sprite->setPosition(CCPoint(360/2,350/2));
+//		pCell->addChild(sprite,1);
 
-		CCPoint positions[16] = {ccp(40,280),ccp(120,280),ccp(200,280),ccp(280,280),
-			ccp(40,200),ccp(120,200),ccp(200,200),ccp(280,200),
-			ccp(40,120),ccp(120,120),ccp(200,120),ccp(280,120),
-			ccp(40,40),ccp(120,40),ccp(200,40),ccp(280,40)
-		};
-		for (unsigned int i = 0; i < groupCharacter.size(); i++)
-		{
-			string hanzi = groupCharacter.at(i).at(0);
-			CCLabelTTF* clabel = CCLabelTTF::create(hanzi.c_str(),"Arial",40);
-			clabel->setPosition(positions[i]);
-			clabel->setColor(ccc3(0,0,0));
-			sprite->addChild(clabel);
-		}
+//		CCLog("idx %d",idx);
+//		vector<vector<string> > groupCharacter = SQLiteData::getUnit(unit_ids.at(idx));
+
+//		CCPoint positions[16] = {ccp(40,280),ccp(120,280),ccp(200,280),ccp(280,280),
+//			ccp(40,200),ccp(120,200),ccp(200,200),ccp(280,200),
+//			ccp(40,120),ccp(120,120),ccp(200,120),ccp(280,120),
+//			ccp(40,40),ccp(120,40),ccp(200,40),ccp(280,40)
+//		};
+//		for (unsigned int i = 0; i < groupCharacter.size(); i++)
+//		{
+//			string hanzi = groupCharacter.at(i).at(0);
+//			CCLabelTTF* clabel = CCLabelTTF::create(hanzi.c_str(),"Arial",40);
+//			clabel->setPosition(positions[i]);
+//			clabel->setColor(ccc3(0,0,0));
+//			sprite->addChild(clabel);
+//		}
 	}
 
 	char buff[64];
@@ -205,7 +220,7 @@ void MainScene::buttonClick(CCObject* pSender){
 	CButton* pButton = (CButton*)pSender;
 	int idx = pButton->getUserTag();
 	string id = unit_ids.at(idx);		//将顺序数字转化成数据库中id
-	CCDirector::sharedDirector()->replaceScene(WallSingleLayer::scene(id));
+	CCDirector::sharedDirector()->replaceScene(WallSingleLayer::scene(id,idx));
 }
 
 bool  MainScene::buttonLongClick(CCObject* pSender, CCTouch* pTouch){
