@@ -3859,14 +3859,19 @@ function IsWoGou(bh,bl)
 	local wanqu1 = len_bd1/dis_bd1
 	local angel0 = 90
 	local angel1 = 90
-	angel1 =GetYAngel2(turning_pt_0,endpt);
-	if (angel1 < -10) then
+	if (turning_pt_0.y ~= endpt.y) then
+	angel1 =GetYAngel2(turning_pt_0,endpt)
+	end
+		if (turning_pt_0.x ~= startpt.x) then
+		 angel0 = GetXAngel2(startpt,turning_pt_0);
+	end
+	print("=========")
+	print(angel0,angel1,wanqu0,wanqu1)
+	if (angel1 < -10 or angel0 >55 or angel0 < -10) then
 		print ("6")
 		return false
 	end
-	if (turning_pt_0.y ~= startpt.y) then
-		 angel0 = GetXAngel2(startpt,turning_pt_0);
-	end
+
 	if(scale <= 0.383 and wanqu0 > 1.312)then
 		return false
 	end
@@ -3876,7 +3881,7 @@ function IsWoGou(bh,bl)
 	end
 
 	if (bl == 2 )then
-		if(scale <= 0.383 and wanqu0 > 1.02)then
+		if(angel0 <=45 and scale <= 0.383 and wanqu0 > 1.02)then
 			return true
 		else
 			return false
