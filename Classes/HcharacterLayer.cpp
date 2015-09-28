@@ -7,7 +7,7 @@
 #include "MoveToRightPlaceInterval.h"
 #include "SimpleAudioEngine.h"
 #include "MyToast.h"
-#include "tools\DataTool.h"
+#include "tools/DataTool.h"
 #include "constants.h"
 #include "JudgeScene.h"
 #include <iomanip>
@@ -22,6 +22,10 @@ HcharacterLayer::HcharacterLayer():m_sprite_draw(NULL),
 #elif( CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
 #define RIGHT_EFFECT_FILE   "right.wav"
 #define WRONG_EFFECT_FILE	"wrong.wav"
+#endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+#define RIGHT_EFFECT_FILE   "right_android.ogg"
+#define WRONG_EFFECT_FILE	"wrong_android.ogg"
 #endif
 	scale=1.6f;
 }

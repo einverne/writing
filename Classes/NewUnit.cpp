@@ -126,8 +126,13 @@ void NewUnitLayer::onEnter(){
 	TiXmlDocument* myDocument = new TiXmlDocument(myfilename.c_str());
 	myDocument->LoadFile();
 #endif
-
-	TiXmlElement* rootElement = myDocument->RootElement();  // Class
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+    string str_filename = "strangedesign/scoretable.xml";
+    string myfilename=CCFileUtils::sharedFileUtils()->fullPathForFilename(str_filename.c_str());
+    TiXmlDocument* myDocument = new TiXmlDocument(myfilename.c_str());
+    myDocument->LoadFile();
+#endif
+    TiXmlElement* rootElement = myDocument->RootElement();  // Class
 	TiXmlElement* metaElement = rootElement->FirstChildElement();  // meta   
 	TiXmlElement* heightElement = metaElement->FirstChildElement(); //获得meta的height元素
 	string mheight=heightElement->GetText();

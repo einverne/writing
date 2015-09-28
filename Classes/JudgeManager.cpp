@@ -2,7 +2,7 @@
 #include "SqliteHelper.h"
 #include "CharacterEntity.h"
 #include "SQLiteData.h"
-#include "tools\DataTool.h"
+#include "tools/DataTool.h"
 
 #include <algorithm>
 using namespace std;

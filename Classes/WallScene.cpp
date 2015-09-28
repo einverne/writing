@@ -77,8 +77,12 @@ bool WallScene::init()
 	TiXmlDocument* myDocument = new TiXmlDocument(myfilename.c_str());
 	myDocument->LoadFile();
 #endif
-
-	TiXmlElement* rootElement = myDocument->RootElement();  // Class
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+    string myfilename=CCFileUtils::sharedFileUtils()->fullPathForFilename("wall.xml");
+    TiXmlDocument* myDocument = new TiXmlDocument(myfilename.c_str());
+    myDocument->LoadFile();
+#endif
+    TiXmlElement* rootElement = myDocument->RootElement();  // Class
 	TiXmlElement* metaElement = rootElement->FirstChildElement();  // meta   
 	TiXmlElement* heightElement = metaElement->FirstChildElement(); //获得meta的height元素
 	string mheight=heightElement->GetText();
@@ -499,6 +503,9 @@ void WallScene::saveToFile(string src,const char* dst){
 #endif
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	string myfilename = CCFileUtils::sharedFileUtils()->getWritablePath()+"wall.xml";
+#endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+    string myfilename=CCFileUtils::sharedFileUtils()->fullPathForFilename("wall.xml");
 #endif
 	TiXmlDocument* myDocument = new TiXmlDocument(myfilename.c_str());
 	myDocument->LoadFile();
