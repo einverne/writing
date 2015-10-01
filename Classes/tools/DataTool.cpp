@@ -107,7 +107,7 @@ void DataTool::storeToFile(const char* str,char* filename){
 		file = fopen(path.c_str(),"wb");
 		fwrite(str,strlen(str),1,file);
 	}else{
-		// 		CCLog("CLuaScriptReader::Print2File file NULL");
+        CCLog("DataTool storeToFile failed");
 	}
 	fclose(file);
 #endif
@@ -118,6 +118,20 @@ void DataTool::storeToFile(const char* str,char* filename){
 	fwrite (str, strlen(str), 1 , pFile );
 	fclose (pFile);
 #endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+    unsigned long size = 0;
+    string finame(filename);
+    string path = CCFileUtils::sharedFileUtils()->getWritablePath()+finame;
+    FILE* file = fopen(path.c_str(),"w");
+    if (file != NULL)
+    {
+        file = fopen(path.c_str(),"wb");
+        fwrite(str,strlen(str),1,file);
+    }else{
+        CCLog("DataTool storeToFile failed");
+    }
+    fclose(file);
+#endif
 }
 
 string DataTool::readFromFile(char* filename){
@@ -127,6 +141,9 @@ string DataTool::readFromFile(char* filename){
 #endif
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 	string filepath = CCFileUtils::sharedFileUtils()->fullPathForFilename(filename);
+#endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+    string filepath = CCFileUtils::sharedFileUtils()->getWritablePath()+filename;
 #endif
 	unsigned long size = 0;
 	unsigned char* filecontent = CCFileUtils::sharedFileUtils()->getFileData(filepath.c_str(),"r",&size);

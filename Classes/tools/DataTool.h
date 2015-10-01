@@ -14,13 +14,13 @@ class DataTool
 public:
 //	static string GB2312ToUTF8(string strGBK);
 //	static string GBKToUTF8(string gbk);
-	//½«int×ª³Éstring×Ö·û´®
+	//ï¿½ï¿½int×ªï¿½ï¿½stringï¿½Ö·ï¿½ï¿½ï¿½
 	static string intTostring(int a);
 
 	static int stringToInt(string str);
 
 	/**
-		½«×Ö·û´®±£´æµ½ÎÄ¼þÖÐ
+		ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æµ½ï¿½Ä¼ï¿½ï¿½ï¿½
 	*/
 
 	static string floatToString(float f);
@@ -28,7 +28,7 @@ public:
 	static float stringToFloat(string str);
 
 	/**
-	* ±£´æ×Ö·û´®µ½ÎÄ¼þ
+	* ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
 	* @param str
 	* @param filename
 	* @return
@@ -36,28 +36,28 @@ public:
 	static void storeToFile(const char* str,char* filename);
 
 	/**
-	* ´ÓÎÄ¼þÖÐ¶ÁÈ¡×Ö·û´®
+	* ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Ð¶ï¿½È¡ï¿½Ö·ï¿½ï¿½ï¿½
 	* @param filename
 	* @return
 	*/
 	static string readFromFile(char* filename);
 
 	/**
-	 * »ñÈ¡ÖÐÎÄ×Ö·û
-	 * @param key ÖÐÎÄ×Ö·û´®ÒÑkey value±£´æÔÚxmlÖÐ
+	 * ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½
+	 * @param key ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½key valueï¿½ï¿½ï¿½ï¿½ï¿½ï¿½xmlï¿½ï¿½
 	 * @return
 	 */
 	static string getChinese(string key);
 
 	/**
-	* ½«str·Ö¸î³É ¶à±Ê»­ ÐòÁÐ
+	* ï¿½ï¿½strï¿½Ö¸ï¿½ï¿½ ï¿½ï¿½Ê»ï¿½ ï¿½ï¿½ï¿½ï¿½
 	* @param str
 	* @return
 	*/
 	static vector< vector<CCPoint> > spliteString(string str);
 
 	/**
-	* ½«×Ö·û´®ÒÔsplitsymbol·Ö¸î³ÉÊý×é
+	* ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½splitsymbolï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	* @param str
 	* @param splitSymbols
 	* @return
@@ -65,7 +65,7 @@ public:
 	static vector<string> spliteStringBy(string str, string splitSymbols);
 
 	/**
-	* ½«ÎÄ¼þ¿½±´µ½SD¿¨ ¸ùÄ¿Â¼
+	* ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½SDï¿½ï¿½ ï¿½ï¿½Ä¿Â¼
 	* @param filename
 	* @return
 	*/

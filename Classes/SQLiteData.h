@@ -28,7 +28,7 @@ public:
 	* @param strokeID
 	* @return
 	*/
-	static string getstrokeFunc(string strokeID);
+//	static string getstrokeFunc(string strokeID);
 
 	/**
 	* 解析数据库中strokeIDSeq字段
@@ -102,7 +102,7 @@ public:
 	* @param unit 包含的unit的数据
 	* @return 返回该Unit的ID
 	*/
-	static string insertUnit(string unit_info,vector<vector <string> > unit);
+    static string insertUnit(string unit_info,vector<vector <string> > unit);
 
 	/**
 	* 删除数据库中unit id的单元数据

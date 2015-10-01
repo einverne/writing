@@ -102,8 +102,8 @@ void JudgeLayer::menuSave(CCObject* pSender){
 
 		//update sqlite unit
 		vector< vector <string> > groupUnit = SQLiteData::getUnit(unit_id);
-		int i = 0;
-		for (i; i < groupUnit.size(); i++)
+		
+		for (int i = 0; i < groupUnit.size(); i++)
 		{
 			if (curChar == groupUnit[i][0])
 			{

@@ -270,7 +270,7 @@ bool CLuaScriptReader::RunMixedFile(const char *filename,char *name)
 	strcat(filebuff,GlobalFunc.c_str());
 	RunScriptBuffer(filebuff,callname);
 #endif
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM ==CC_PLATFORM_IOS
 	unsigned long size = 0;
 	unsigned char* filebuff = CCFileUtils::sharedFileUtils()->getFileData(filename,"r",&size);
 	CCString* ccStr = CCString::createWithData(filebuff,size);
@@ -306,7 +306,7 @@ bool CLuaScriptReader::RunScriptFile(const char *filename,char* ret_string,char 
 	fclose(fpFile);
 	RunScriptBuffer(filebuff,ret_string,name);
 #endif
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM ==CC_PLATFORM_IOS
 	unsigned long size = 0;
 	CCLog("filepath name %s",filename);
 	unsigned char* filebuff = CCFileUtils::sharedFileUtils()->getFileData(filename,"rb",&size);
@@ -339,7 +339,7 @@ bool CLuaScriptReader::RunScriptFile(const char *filename,char *name){
 	fclose(fpFile);
 	RunScriptBuffer(filebuff,name);
 #endif
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM ==CC_PLATFORM_IOS
 	unsigned long size = 0;
 	unsigned char* filebuff = CCFileUtils::sharedFileUtils()->getFileData(filename,"r",&size);
 	CCString* ccStr = CCString::createWithData(filebuff,size);
@@ -408,7 +408,7 @@ bool CLuaScriptReader::setStandardZiInfo(string stdinfo){
 
 bool CLuaScriptReader::Print2File(char* str, char*filename)
 {
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM ==CC_PLATFORM_IOS
 	unsigned long size = 0;
 	string finame(filename);
 	string path = CCFileUtils::sharedFileUtils()->getWritablePath()+finame;
@@ -418,7 +418,7 @@ bool CLuaScriptReader::Print2File(char* str, char*filename)
 		file = fopen(path.c_str(),"wb");
 		fwrite(str,strlen(str),1,file);
 	}else{
-// 		CCLog("CLuaScriptReader::Print2File file NULL");
+ 		CCLog("CLuaScriptReader::Print2File file NULL");
 	}
 	fclose(file);
 #endif

@@ -479,18 +479,18 @@ void WallSingleLayer::buttonCallBack(CCNode* pNode){
 }
 
 void WallSingleLayer::longPressUpdate(float fDelta){
-	CCLog("longPressUpdate %f",fDelta);
-	if (isLongPressAllow == false){
-		//解除定时器
-		CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(WallSingleLayer::longPressUpdate),this);
-		return;
-	}
-	if (isMoved == false && selectedHanzi.length() > 0)
-	{
-		popup(selectedHanzi);
-	}
-	//解除定时器
-	CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(WallSingleLayer::longPressUpdate),this);
+//	CCLog("longPressUpdate %f",fDelta);
+//	if (isLongPressAllow == false){
+//		//解除定时器
+//		CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(WallSingleLayer::longPressUpdate),this);
+//		return;
+//	}
+//	if (isMoved == false && selectedHanzi.length() > 0)
+//	{
+//		popup(selectedHanzi);
+//	}
+//	//解除定时器
+//	CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(WallSingleLayer::longPressUpdate),this);
 }
 
 void WallSingleLayer::keyBackClicked(){
@@ -511,12 +511,12 @@ void WallSingleLayer::keyBackClicked(){
 }
 
 void WallSingleLayer::backtoMainScene(CCNode* pNode){
-	if (pNode->getTag() == 0)
-	{
-		CCDirector::sharedDirector()->replaceScene(MainScene::scene());
-	}else{
-		CCDirector::sharedDirector()->getRunningScene()->removeChildByTag(TAG_LAYER_EXIT);
-	}
+//	if (pNode->getTag() == 0)
+//	{
+//		CCDirector::sharedDirector()->replaceScene(MainScene::scene());
+//	}else{
+//		CCDirector::sharedDirector()->getRunningScene()->removeChildByTag(TAG_LAYER_EXIT);
+//	}
 }
 
 void WallSingleLayer::pingpanwriting(CCObject* pSender){

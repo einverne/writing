@@ -66,11 +66,13 @@ string JudgeManager::getResult(string hanzi , string points_output, string all_p
 	retStr[0] = '\0';
  	gReader.setZiName(hanzi);
 
-	//ËÉ½ô¹æÔò
+	//ï¿½É½ï¿½ï¿½ï¿½ï¿½ï¿½
 	string r = DataTool::readFromFile("setting.xml");
+    CCLog("r value %s",r.c_str());
  	gReader.setLevel(r);
  	if (r.compare("1") == 0)
  	{
+        CCLog("loose lua %s",p->getruleLoose());
  		gReader.setRulesFunc(p->getruleLoose());
  	}else if(r.compare("2") == 0){
  		gReader.setRulesFunc(p->getRuleTight());

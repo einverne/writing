@@ -206,7 +206,7 @@ void HcharacterLayer::judge(){
 	TcharacterLayer* tlayer = (TcharacterLayer*)CCDirector::sharedDirector()->getRunningScene()->getChildByTag(kTLayerTag);
 	string points = tlayer->getm_TDrawnode()->getCharacterStandardInfo();		//获取正字信息
 	string ret = JudgeManager::getResult(hanzi,output,points,m_exChar,funcs);
-	CCLog("Hcharacterlay: ret : %s %d",ret.c_str(),ret.length());
+	CCLog("Hcharacterlay: retstring:%s length:%d",ret.c_str(),ret.length());
 	//如果不评判则跳过
 	if (!ijudge)
 	{

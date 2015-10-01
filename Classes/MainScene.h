@@ -21,15 +21,16 @@ public:
 	CREATE_FUNC(MainScene);
 	static CCScene* scene();
 	virtual bool init();
-	/**
-	* ·µ»Ø¼üÏìÓ¦º¯Êı
+	
+    /**
+	* è¿”å›é”®å“åº”å‡½æ•°
 	* @return
 	*/
 	virtual void keyBackClicked();
 
 private:
 	/**
-	* ·µ»Ø¼ü»Øµ÷º¯Êı
+	* âˆ‘ÂµÂªÃ¿ÂºÂ¸ÂªÃ¿ÂµËœâˆ«Ã˜Â Ë
 	* @param pNode
 	* @return
 	*/
