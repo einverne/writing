@@ -16,7 +16,7 @@ class SQLiteData
 public:
 
 	/**
-	* »ñÈ¡Êı¾İ¿âÖĞºº×ÖĞÅÏ¢
+	* è·å–æ•°æ®åº“ä¸­æ±‰å­—ä¿¡æ¯
 	* @param hz
 	* @param p
 	* @return
@@ -24,22 +24,22 @@ public:
 	static void getHanziData(string hz,CCObject* p);
 
 	/**
-	* »ñÈ¡Êı¾İÖĞstrokeFunc±íĞÅÏ¢
+	* è·å–æ•°æ®ä¸­strokeFuncè¡¨ä¿¡æ¯
 	* @param strokeID
 	* @return
 	*/
 //	static string getstrokeFunc(string strokeID);
 
 	/**
-	* ½âÎöÊı¾İ¿âÖĞstrokeIDSeq×Ö¶Î
+	* è§£ææ•°æ®åº“ä¸­strokeIDSeqå­—æ®µ
 	* @param seq
 	* @return
 	*/
 	static vector<string> splitStrokeSeq(string seq);
 
 	/**
-	* »ñÈ¡ËÉ½ô¹æÔòµÄºº×Ö
-	* @param hz ºº×ÖÃû ¶ÔÓ¦ziNameÁĞÃû
+	* è·å–æ¾ç´§è§„åˆ™çš„æ±‰å­—
+	* @param hz æ±‰å­—å å¯¹åº”ziNameåˆ—å
 	* @param p
 	* @return
 	*/
@@ -53,18 +53,18 @@ public:
 	static bool isExist(string hz);
 
 	/**
-	* »ñÈ¡Êı¾İ¿âÖĞÒ»ĞĞ16¸ö×Ö£¬·µ»ØÊı×é
-	* @param index idºÅ£¬ÀıÈç1
+	* è·å–æ•°æ®åº“ä¸­ä¸€è¡Œ16ä¸ªå­—ï¼Œè¿”å›æ•°ç»„
+	* @param index idå·ï¼Œä¾‹å¦‚1
 	* @return vector<string>
 	*/
 //	static vector<string> getGroupCharacter(string index);
 
 	/**
-	* ¸üĞÂÒ»ĞĞÖĞµÚindexOfCharacter¸öºº×Ö
-	* @param index ĞĞºÅ
-	* @param indexOfCharacter µÚ¼¸¸öºº×Ö
-	* @param character ºº×Ö
-	* @return true³É¹¦ falseÊ§°Ü
+	* æ›´æ–°ä¸€è¡Œä¸­ç¬¬indexOfCharacterä¸ªæ±‰å­—
+	* @param index è¡Œå·
+	* @param indexOfCharacter ç¬¬å‡ ä¸ªæ±‰å­—
+	* @param character æ±‰å­—
+	* @return trueæˆåŠŸ falseå¤±è´¥
 	*/
 //	static bool updateGroupCharacter(string index, string indexOfCharacter, string character);
 
@@ -74,75 +74,75 @@ public:
 
 
 	/**
-	* ´ÓÊı¾İ¿âÖĞ²éÑ¯indexºÅUnitÖĞÇ°count¸ö×Ö£¬±£´æµ½Êı×é×ÀÅ¶Äã
-	* @param index UnitµÄ±àºÅ
-	* @param count ¸Ãµ¥ÔªÖĞÇ°count¸öµ¥´Ê
+	* ä»æ•°æ®åº“ä¸­æŸ¥è¯¢indexå·Unitä¸­å‰countä¸ªå­—ï¼Œä¿å­˜åˆ°æ•°ç»„æ¡Œå“¦ä½ 
+	* @param index Unitçš„ç¼–å·
+	* @param count è¯¥å•å…ƒä¸­å‰countä¸ªå•è¯
 	* @return
 	*/
 	static vector<vector <string> > getUnit(string unit_id,int count=16);
 
 	/**
-	* ¸üĞÂÒ»µ¥ÔªÊı¾İ
-	* @param index µ¥ÔªID
-	* @param unit µ¥ÔªµÄÊı×é
+	* æ›´æ–°ä¸€å•å…ƒæ•°æ®
+	* @param index å•å…ƒID
+	* @param unit å•å…ƒçš„æ•°ç»„
 	* @return
 	*/
 	static bool updateUnit(string unit_id,vector<vector <string> > unit);
 
 	/**
-	* ÏòÊı¾İ¿âÖĞ²åÈëÒ»µ¥ÔªÊı¾İ
-	* @param unit °üº¬µÄunitµÄÊı¾İ
-	* @return ·µ»Ø¸ÃUnitµÄID
+	* å‘æ•°æ®åº“ä¸­æ’å…¥ä¸€å•å…ƒæ•°æ®
+	* @param unit åŒ…å«çš„unitçš„æ•°æ®
+	* @return è¿”å›è¯¥Unitçš„ID
 	*/
 	static string insertUnit(vector<vector <string> > unit);
 
 	/**
-	* ÏòÊı¾İ¿âÖĞ²åÈëÒ»µ¥ÔªÊı¾İ
-	* @param unit_info ¸Ãµ¥ÔªµÄ»ù±¾ĞÅÏ¢½éÉÜ
-	* @param unit °üº¬µÄunitµÄÊı¾İ
-	* @return ·µ»Ø¸ÃUnitµÄID
+	* å‘æ•°æ®åº“ä¸­æ’å…¥ä¸€å•å…ƒæ•°æ®
+	* @param unit_info è¯¥å•å…ƒçš„åŸºæœ¬ä¿¡æ¯ä»‹ç»
+	* @param unit åŒ…å«çš„unitçš„æ•°æ®
+	* @return è¿”å›è¯¥Unitçš„ID
 	*/
     static string insertUnit(string unit_info,vector<vector <string> > unit);
 
 	/**
-	* É¾³ıÊı¾İ¿âÖĞunit idµÄµ¥ÔªÊı¾İ
+	* åˆ é™¤æ•°æ®åº“ä¸­unit idçš„å•å…ƒæ•°æ®
 	* @param unit_id
 	* @return
 	*/
 	static bool deleteUnit(string unit_id);
 
 	/**
-	* »ñÈ¡UnitµÄÊıÁ¿
+	* è·å–Unitçš„æ•°é‡
 	* @return
 	*/
 	static int getUnitCount();
 
 	/**
-	* »ñÈ¡Êı¾İ¿âÖĞµ¥ÔªID
+	* è·å–æ•°æ®åº“ä¸­å•å…ƒID
 	* @return
 	*/
 	static vector<string> getUnitIDs();
 
 	/**
-	* ÏòÊı¾İ¿âÖĞ²åÈëÒ»Ìõ±Ê¼Ç¼ÇÂ¼
-	* @param unit_id	µ¥Ôªid
-	* @param zi_id		ºº×Öid
-	* @param note		±Ê¼Ç µãÊı¾İĞÅÏ¢
-	* @return			·µ»Ø²åÈëµÄĞĞid
+	* å‘æ•°æ®åº“ä¸­æ’å…¥ä¸€æ¡ç¬”è®°è®°å½•
+	* @param unit_id	å•å…ƒid
+	* @param zi_id		æ±‰å­—id
+	* @param note		ç¬”è®° ç‚¹æ•°æ®ä¿¡æ¯
+	* @return			è¿”å›æ’å…¥çš„è¡Œid
 	*/
 	static string insertNote(string unit_id,string zi_id,string note);
 
 	/**
-	* ´ÓÊı¾İ¿âÖĞÉ¾³ıÒ»Ìõ¼ÇÂ¼
-	* @param id	¼ÇÂ¼µÄid
+	* ä»æ•°æ®åº“ä¸­åˆ é™¤ä¸€æ¡è®°å½•
+	* @param id	è®°å½•çš„id
 	* @return
 	*/
 	static bool deleteNote(string id);
 
 	/**
-	* ´ÓÊı¾İ¿â ziNotes ±íÖĞ¶ÁÈ¡ unit_id ²¢ÇÒ ziid µÄÊÖĞ´ºº×ÖÖµ
-	* @param unit_id µ¥ÔªID
-	* @param zi_id ×ÖID£¬Ã¿¸öºº×ÖµÄIDÊÇÎ¨Ò»µÄ
+	* ä»æ•°æ®åº“ ziNotes è¡¨ä¸­è¯»å– unit_id å¹¶ä¸” ziid çš„æ‰‹å†™æ±‰å­—å€¼
+	* @param unit_id å•å…ƒID
+	* @param zi_id å­—IDï¼Œæ¯ä¸ªæ±‰å­—çš„IDæ˜¯å”¯ä¸€çš„
 	* @return vector<vector <string> >
 	*/
 	static vector<vector <string> > getNote(string unit_id, string zi_id);
