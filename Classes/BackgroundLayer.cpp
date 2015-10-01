@@ -53,7 +53,8 @@ bool BackgroundLayer::init(){
 void BackgroundLayer::onEnter(){
 	CCLayerColor::onEnter();
 
-	//Ö»ÓĞÆÀ·ÖÊéĞ´Ê±²ÅÏÔÊ¾ ÄÑÒ×
+	//åªæœ‰è¯„åˆ†ä¹¦å†™æ—¶æ‰æ˜¾ç¤º éš¾æ˜“
+	// only judgement to show the easy and hard button
 	JudgeScene* parentScene = (JudgeScene*)this->getParent();
 	bool isjudge = parentScene->getIsJudge();
 	if (isjudge == true)
@@ -90,11 +91,10 @@ void BackgroundLayer::keyBackClicked(){
 }
 
 void BackgroundLayer::onToggle(CCObject* pSender){
-	CCLog("onClick");
 	CToggleView* pToggle = (CToggleView*) pSender;
 	if( pToggle->isChecked() )
 	{
-		//if click Y , end app	½«ÉèÖÃĞ´ÈëÅäÖÃÎÄ¼ş tight
+		// å°†è®¾ç½®å†™å…¥é…ç½®æ–‡ä»¶ write the setting to config setting.xml
 		CCLog("checked");
 		DataTool::storeToFile("2","setting.xml");
 	}

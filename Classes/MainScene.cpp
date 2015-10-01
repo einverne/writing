@@ -113,7 +113,6 @@ void MainScene::isExit(CCNode* pNode){
 
 // void MainScene::settingCallBack(CCNode* pNode){
 // 	if (pNode->getTag() == 0) {
-// 		//if click Y , end app	Ω´…Ë÷√–¥»Î≈‰÷√Œƒº˛ tight
 // 		DataTool::storeToFile("2","setting.xml");
 // 	}else {
 // 		DataTool::storeToFile("1","setting.xml");
@@ -204,13 +203,13 @@ CCObject* MainScene::gridviewDataSource(CCObject* pConvertView, unsigned int idx
 void MainScene::buttonClick(CCObject* pSender){
 	CButton* pButton = (CButton*)pSender;
 	int idx = pButton->getUserTag();
-	string id = unit_ids.at(idx);		//Ω´À≥–Ú ˝◊÷◊™ªØ≥… ˝æ›ø‚÷–id
+	string id = unit_ids.at(idx);		// 将顺序数字转化成数据库中的id
 	CCDirector::sharedDirector()->replaceScene(WallSingleLayer::scene(id));
 }
 
 bool  MainScene::buttonLongClick(CCObject* pSender, CCTouch* pTouch){
 	CCLog("Long click");
-	//≥§∞¥Ω¯»Î±‡º≠ΩÁ√Ê
+	// long press enter edit UI
 
 	CCSprite* backgroundIMG = CCSprite::create("strangedesign/Dlg_background.png");
 	CCSize winSize = CCDirector::sharedDirector()->getWinSize();

@@ -21,7 +21,7 @@ public:
 	CCSprite* tianzige_draw;
 	CCSprite* title_bar;
 private:
-	void menuBack(CCObject* pSender);			//·µ»Ø²Ëµ¥
+	void menuBack(CCObject* pSender);			//menu Back callback
 	void onToggle(CCObject* pSender);			//Toggle onClick
 // 	void menuNext(CCObject* pSender);
 };

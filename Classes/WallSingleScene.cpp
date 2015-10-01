@@ -3,7 +3,7 @@
 #define TAG_LAYER_EXIT 1001
 
 WallSingleLayer::WallSingleLayer(string unitID){
-	isLongPressAllow = false;		//ÔÊĞí³¤°´ÏìÓ¦
+	isLongPressAllow = false;		//å…è®¸é•¿æŒ‰å“åº”
 	this->unitID = unitID;
 }
 
@@ -45,12 +45,12 @@ bool WallSingleLayer::init()
 	isMoved = false;
 	touched = false;
 
-	//×¢²á´¥ÃşÊÂ¼ş
+	//æ³¨å†Œè§¦æ‘¸äº‹ä»¶
 	CCPoint changepoint=ccp(0,0);
 	touched=false;
 	this->setTouchEnabled(true);
 	this->setKeypadEnabled(true);			//android back key
-	//Ô­±¾Èç¹ûÃ»ÓĞÖØÔØregisterÄÇ¸öº¯Êı£¬ĞèÒªµ÷ÓÃÈçÏÂÁ½¸öÆäÖĞÖ®Ò»
+	//åŸæœ¬å¦‚æœæ²¡æœ‰é‡è½½registeré‚£ä¸ªå‡½æ•°ï¼Œéœ€è¦è°ƒç”¨å¦‚ä¸‹ä¸¤ä¸ªå…¶ä¸­ä¹‹ä¸€
 	//CCDirector::sharedDirector()->getTouchDispatcher()->addStandardDelegate(this,1);
 	//CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 0, true);
 
@@ -74,13 +74,13 @@ void WallSingleLayer::onEnter(){
 		menu_selector(WallSingleLayer::back));
 	back_button->setPosition(ccp(back_button->getContentSize().width/2+10,visibleSize.height-back_button->getContentSize().height/2-50));
 
-	//ÆÀÅĞÊéĞ´
+	//è¯„åˆ¤ä¹¦å†™
 	CCMenuItemImage* judge_button = CCMenuItemImage::create("strangedesign/Page_judgewritting_button.png",
 		"strangedesign/Page_judgewritting_button_down.png",
 		this,
 		menu_selector(WallSingleLayer::pingpanwriting));
 
-	//×ÔÓÉÁ·Ï°
+	//è‡ªç”±ç»ƒä¹ 
 	CCMenuItemImage* free_button = CCMenuItemImage::create("strangedesign/Page_freewritting_button.png",
 		"strangedesign/Page_freewritting_button_down.png",
 		this,
@@ -107,7 +107,7 @@ void WallSingleLayer::onEnter(){
 	wall_tail->setPosition(ccp(visibleSize.width/2,wall_tail->getContentSize().height/2));
 	wall_tail->setScaleX(visibleSize.width/wall_tail->getContentSize().width);
 
-	//Screenshot function ½ØÆÁ¹¦ÄÜ´ıºóĞø¼ÓÈë
+	//Screenshot function æˆªå±åŠŸèƒ½å¾…åç»­åŠ å…¥
 	CCMenuItemImage* screenshot = CCMenuItemImage::create("strangedesign/Page_Screenshot_button.png",
 		"strangedesign/Page_Screenshot_button_down.png",
 		this,
@@ -140,10 +140,10 @@ void WallSingleLayer::onEnter(){
 #endif
     TiXmlElement* rootElement = myDocument->RootElement();  // Class
 	TiXmlElement* metaElement = rootElement->FirstChildElement();  // meta   
-	TiXmlElement* heightElement = metaElement->FirstChildElement(); //»ñµÃmetaµÄheightÔªËØ
+	TiXmlElement* heightElement = metaElement->FirstChildElement(); //è·å¾—metaçš„heightå…ƒç´ 
 	string mheight=heightElement->GetText();
 	int height=atoi(mheight.c_str());
-	TiXmlElement* widthElement = heightElement->NextSiblingElement(); //»ñµÃmetaµÄwidthÔªËØ
+	TiXmlElement* widthElement = heightElement->NextSiblingElement(); //è·å¾—metaçš„widthå…ƒç´ 
 	string mwidth=widthElement->GetText(); 
 	int width=atoi(mwidth.c_str());
 
@@ -199,7 +199,7 @@ void WallSingleLayer::onEnter(){
 			int inttimesposy=atoi((strtimesposy.substr(0, strtimesposy.size())).c_str());
 
 
-			//×ø±êÏµÖØ¶¨Î» ½«XMLÖĞµÚËÄÏóÏŞ×ø±ê×ª³ÉµÚÒ»ÏóÏŞ
+			//åæ ‡ç³»é‡å®šä½ å°†XMLä¸­ç¬¬å››è±¡é™åæ ‡è½¬æˆç¬¬ä¸€è±¡é™
 			x+=w/2;
 			y=height-y-h/2;
 
@@ -209,7 +209,7 @@ void WallSingleLayer::onEnter(){
 			inttimesposy=height-inttimesposy;
 
 
-			//Ëõ·Å
+			//ç¼©æ”¾
 			x*=width_rescale;
 			y*=rescale;
 
@@ -230,7 +230,7 @@ void WallSingleLayer::onEnter(){
 
 			string tempfilename=imgElement->GetText();
 
-			//Ìí¼ÓÌï×Ö¸ñ±³¾°Í¼
+			//æ·»åŠ ç”°å­—æ ¼èƒŒæ™¯å›¾
 			CCSprite* pSprite1 = CCSprite::create(tempfilename.c_str());
 			pSprite1->setScaleY(rescale);
 			pSprite1->setScaleX(width_rescale);
@@ -239,17 +239,17 @@ void WallSingleLayer::onEnter(){
 
 			hanzis.push_back(groupCharacter.at(indexOfCharacter).at(0));
 
-			//Ìí¼Óºº×Ö
+			//æ·»åŠ æ±‰å­—
 			CCLabelTTF* pLabel = CCLabelTTF::create(groupCharacter.at(indexOfCharacter).at(0).c_str(), "Arial", 100);
 			pLabel->setPosition(ccp(origin.x + x, origin.y + y));
 			pLabel->setColor(ccc3(0,0,0));
 			this->addChild(pLabel, 2);
-			//Ìí¼Ó´ÎÊı
+			//æ·»åŠ æ¬¡æ•°
 			CCLabelTTF* timesLabel = CCLabelTTF::create(groupCharacter.at(indexOfCharacter).at(1).c_str(),"Arial",35);
 			timesLabel->setPosition(ccp(origin.x+inttimesposx,origin.y+inttimesposy));
 			timesLabel->setColor(ccc3(0,0,0));
 			addChild(timesLabel,2);
-			//Ìí¼ÓÆÀÅĞ×î¸ß·Ö
+			//æ·»åŠ è¯„åˆ¤æœ€é«˜åˆ†
 			float f_scroe = DataTool::stringToFloat(groupCharacter.at(indexOfCharacter).at(2));
 			string highscore = DataTool::to_string_with_precision(f_scroe);
 			CCLabelTTF* scoreLabel = CCLabelTTF::create(highscore.c_str(),"Arial",35);
@@ -257,7 +257,7 @@ void WallSingleLayer::onEnter(){
 			scoreLabel->setColor(ccc3(0,0,0));
 			addChild(scoreLabel,2);
 
-			//ºº×Ö¹ÜÀí
+			//æ±‰å­—ç®¡ç†
 			temphanziManage.character=groupCharacter.at(indexOfCharacter).at(0);
 			temphanziManage.textbox=pLabel;
 			temphanziManage.pos=CCPoint(x,y);
@@ -290,7 +290,7 @@ void WallSingleLayer::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 	touched=true;
 
 	beginTime = millisecondNow();
-	//¶¨Ê±Æ÷,Ö±½ÓÊ¹ÓÃscheduleUpdateÎŞĞ§
+	//å®šæ—¶å™¨,ç›´æ¥ä½¿ç”¨scheduleUpdateæ— æ•ˆ
 	//this->scheduleUpdate();
 	CCDirector::sharedDirector()->getScheduler()->scheduleSelector(schedule_selector(WallSingleLayer::longPressUpdate),this,1.5f,false);
 	for (vector<CHanziManage>::iterator iter = hanzilist.begin();iter!=hanzilist.end();++iter)
@@ -350,7 +350,7 @@ void WallSingleLayer::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 			CCPoint realPos = ccp(hanziPos.x+changepoint.x,hanziPos.y+changepoint.y);
 			//CCLog("hanziPos %f %f",hanziPos.x,hanziPos.y);
 			CCRect rect = CCRectMake(realPos.x-100,realPos.y-100,200,200);
-			//ÔÚ×ÖÖÜÎ§200ÏñËØÄÚ£¬ÅĞ¶ÏÎªµãÖĞ
+			//åœ¨å­—å‘¨å›´200åƒç´ å†…ï¼Œåˆ¤æ–­ä¸ºç‚¹ä¸­
 			if (rect.containsPoint(touchpoint))
 			{
 				CCLog(iter->character.c_str());
@@ -364,7 +364,7 @@ void WallSingleLayer::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 	isMoved = false;
 	selectedHanzi = "";
 
-	//½â³ı¶¨Ê±Æ÷
+	//è§£é™¤å®šæ—¶å™¨
 	CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(WallSingleLayer::longPressUpdate),this);
 
 }
@@ -386,15 +386,15 @@ void WallSingleLayer::menuCloseCallback(CCObject* pSender)
 }
 
 bool WallSingleLayer::isInSprite(CCTouch* pTouch){
-	// ·µ»Øµ±Ç°´¥ÃşÎ»ÖÃÔÚOpenGL×ø±ê 
+	// è¿”å›å½“å‰è§¦æ‘¸ä½ç½®åœ¨OpenGLåæ ‡ 
 	CCPoint touchPoint=pTouch->getLocation();
-	// ½«ÊÀ½ç×ø±ê×ª»»Îªµ±Ç°¸¸ViewµÄ±¾µØ×ø±êÏµ
+	// å°†ä¸–ç•Œåæ ‡è½¬æ¢ä¸ºå½“å‰çˆ¶Viewçš„æœ¬åœ°åæ ‡ç³»
 
 	CCPoint reallyPoint=this->getParent()->convertToNodeSpace(touchPoint);
-	// »ñÈ¡µ±Ç°»ùÓÚ¸¸viewµÄ×ø±êÏµ
+	// è·å–å½“å‰åŸºäºçˆ¶viewçš„åæ ‡ç³»
 
 	CCRect rect=this->boundingBox();
-	// CCnode->convertToNodeSpace »òÕß  convertToWorldSpace ÊÇ»ùÓÚµ±Ç°NodeµÄ  Óëµ±Ç°NodeÏà¹Ø
+	// CCnode->convertToNodeSpace æˆ–è€…  convertToWorldSpace æ˜¯åŸºäºå½“å‰Nodeçš„  ä¸å½“å‰Nodeç›¸å…³
 
 	if(rect.containsPoint(reallyPoint)){
 		return true;
@@ -403,11 +403,11 @@ bool WallSingleLayer::isInSprite(CCTouch* pTouch){
 }
 
 /************************************************************************/
-/* string hanzi ´«¸ølianxi½çÃæÊéĞ´                                                                      */
+/* string hanzi ä¼ ç»™lianxiç•Œé¢ä¹¦å†™                                                                      */
 /************************************************************************/
 void WallSingleLayer::singleClick(string hanzi){
-	//½â³ıschedule,²»È»¿ÉÄÜ³öÏÖ²»¿ÉÔ¤²âÎÊÌâ¡£
-	//ÅĞ¶Ï¸Ã×ÖÔÚÊı¾İ¿âÖĞÊÇ·ñ´æÔÚ£¬´æÔÚÌø×ª£¬·ñÔòÌáÊ¾
+	//è§£é™¤schedule,ä¸ç„¶å¯èƒ½å‡ºç°ä¸å¯é¢„æµ‹é—®é¢˜ã€‚
+	//åˆ¤æ–­è¯¥å­—åœ¨æ•°æ®åº“ä¸­æ˜¯å¦å­˜åœ¨ï¼Œå­˜åœ¨è·³è½¬ï¼Œå¦åˆ™æç¤º
 	this->unscheduleAllSelectors();
 // 	if (SQLiteData::isExist(hanzi))
 // 	{
@@ -432,7 +432,7 @@ void WallSingleLayer::popup(string hanzi){
 	popL->addButton("sure_up.png","sure_down.png","Y",0);
 	popL->addButton("cancer_up.png","cancer_down.png","N",1);
 	CCDirector::sharedDirector()->getRunningScene()->addChild(popL,100);
-	//½â³ı¶¨Ê±Æ÷
+	//è§£é™¤å®šæ—¶å™¨
 	CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(WallSingleLayer::longPressUpdate),this);
 }
 
@@ -440,16 +440,16 @@ void WallSingleLayer::buttonCallBack(CCNode* pNode){
 	CCLog("button call back. tag: %d", pNode->getTag());
 	if (pNode->getTag() == 0)
 	{
-		//µ¯³ö¶Ô»°¿ò£¬È·ÈÏ£¬½«ºº×ÖĞ´µ½¶ÔÓ¦Î»ÖÃ
+		//å¼¹å‡ºå¯¹è¯æ¡†ï¼Œç¡®è®¤ï¼Œå°†æ±‰å­—å†™åˆ°å¯¹åº”ä½ç½®
 		for (vector<CHanziManage>::iterator iter = hanzilist.begin(); iter != hanzilist.end(); ++iter)
 		{
 			if (iter == selectedCHanziManageIter)
 			{
-				// ½«¸Ä¶¯µÄºº×ÖĞ´Èëµ½xmlÎÄ¼ş£¬saveToFile()
-				const char* h = popL->getHanzi();			//¸Ä¶¯µÄºº×Ö
+				// å°†æ”¹åŠ¨çš„æ±‰å­—å†™å…¥åˆ°xmlæ–‡ä»¶ï¼ŒsaveToFile()
+				const char* h = popL->getHanzi();			//æ”¹åŠ¨çš„æ±‰å­—
 				//saveToFile(iter->character, h);
 
-				//½«ºº×Ö¸üĞÂµ½Êı¾İ¿âÖĞ
+				//å°†æ±‰å­—æ›´æ–°åˆ°æ•°æ®åº“ä¸­
 				for (unsigned int i = 0 ;i < groupCharacter.size(); ++i)
 				{
 					if (iter->character == groupCharacter.at(i).at(0))
@@ -474,23 +474,23 @@ void WallSingleLayer::buttonCallBack(CCNode* pNode){
 
 	}else
 	{
-		//µ¯³ö¶Ô»°¿ò£¬È¡Ïû£¬Ê²Ã´¶¼²»×ö
+		//å¼¹å‡ºå¯¹è¯æ¡†ï¼Œå–æ¶ˆï¼Œä»€ä¹ˆéƒ½ä¸åš
 	}
 }
 
 void WallSingleLayer::longPressUpdate(float fDelta){
-//	CCLog("longPressUpdate %f",fDelta);
-//	if (isLongPressAllow == false){
-//		//½â³ı¶¨Ê±Æ÷
-//		CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(WallSingleLayer::longPressUpdate),this);
-//		return;
-//	}
-//	if (isMoved == false && selectedHanzi.length() > 0)
-//	{
-//		popup(selectedHanzi);
-//	}
-//	//½â³ı¶¨Ê±Æ÷
-//	CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(WallSingleLayer::longPressUpdate),this);
+	CCLog("longPressUpdate %f",fDelta);
+	if (isLongPressAllow == false){
+		//è§£é™¤å®šæ—¶å™¨
+		CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(WallSingleLayer::longPressUpdate),this);
+		return;
+	}
+	if (isMoved == false && selectedHanzi.length() > 0)
+	{
+		popup(selectedHanzi);
+	}
+	//è§£é™¤å®šæ—¶å™¨
+	CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(WallSingleLayer::longPressUpdate),this);
 }
 
 void WallSingleLayer::keyBackClicked(){
@@ -511,12 +511,12 @@ void WallSingleLayer::keyBackClicked(){
 }
 
 void WallSingleLayer::backtoMainScene(CCNode* pNode){
-//	if (pNode->getTag() == 0)
-//	{
-//		CCDirector::sharedDirector()->replaceScene(MainScene::scene());
-//	}else{
-//		CCDirector::sharedDirector()->getRunningScene()->removeChildByTag(TAG_LAYER_EXIT);
-//	}
+	if (pNode->getTag() == 0)
+	{
+		CCDirector::sharedDirector()->replaceScene(MainScene::scene());
+	}else{
+		CCDirector::sharedDirector()->getRunningScene()->removeChildByTag(TAG_LAYER_EXIT);
+	}
 }
 
 void WallSingleLayer::pingpanwriting(CCObject* pSender){

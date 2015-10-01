@@ -14,21 +14,28 @@ class DataTool
 public:
 //	static string GB2312ToUTF8(string strGBK);
 //	static string GBKToUTF8(string gbk);
-	//��intת��string�ַ���
+
+	// convert int to string
 	static string intTostring(int a);
 
 	static int stringToInt(string str);
 
 	/**
-		���ַ������浽�ļ���
+	* convert float to string
+	* @param f
+	* @return
 	*/
-
 	static string floatToString(float f);
 
+	/**
+	* convert string to float
+	* @param str
+	* @return
+	*/
 	static float stringToFloat(string str);
 
 	/**
-	* �����ַ������ļ�
+	* save string to file
 	* @param str
 	* @param filename
 	* @return
@@ -36,28 +43,28 @@ public:
 	static void storeToFile(const char* str,char* filename);
 
 	/**
-	* ���ļ��ж�ȡ�ַ���
+	* read string from file
 	* @param filename
 	* @return
 	*/
 	static string readFromFile(char* filename);
 
 	/**
-	 * ��ȡ�����ַ�
-	 * @param key �����ַ�����key value������xml��
+	 * get Chinese string
+	 * @param key Chinese character has been saved in xml as key and value
 	 * @return
 	 */
 	static string getChinese(string key);
 
 	/**
-	* ��str�ָ�� ��ʻ� ����
+	* split string into multi strokes vector
 	* @param str
 	* @return
 	*/
 	static vector< vector<CCPoint> > spliteString(string str);
 
 	/**
-	* ���ַ�����splitsymbol�ָ������
+	* split string by splitSymbols into vector
 	* @param str
 	* @param splitSymbols
 	* @return
@@ -65,7 +72,7 @@ public:
 	static vector<string> spliteStringBy(string str, string splitSymbols);
 
 	/**
-	* ���ļ�������SD�� ��Ŀ¼
+	* copy file into SD root
 	* @param filename
 	* @return
 	*/

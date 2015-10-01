@@ -30,7 +30,7 @@ public:
 
 private:
 	/**
-	* ∑µªÿº¸ªÿµ˜∫Ø ˝
+	* 返回键回调函数
 	* @param pNode
 	* @return
 	*/

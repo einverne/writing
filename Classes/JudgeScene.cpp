@@ -104,7 +104,7 @@ bool JudgeScene::init(){
 }
 
 void JudgeScene::next(){
-	//ÔÚ×îºóÒ»¸ö×ÖÌáĞÑÓÃ»§×îºóÒ»¸ö×Ö
+	//åœ¨æœ€åä¸€ä¸ªå­—æé†’ç”¨æˆ·æœ€åä¸€ä¸ªå­—
 	
 	index++;
 	if (index >= 16)
@@ -127,7 +127,7 @@ void JudgeScene::next(){
 // 	string hz = *iter;
 // 	if (currentCharacter == hz)
 // 	{
-// 		 next = hanziList.erase(iter);		²»ÔÚlistÖĞÈ¥³ıºº×Ö
+// 		 next = hanziList.erase(iter);		ä¸åœ¨listä¸­å»é™¤æ±‰å­—
 // 		
 // 	}
 // 	currentCharacter = *next;

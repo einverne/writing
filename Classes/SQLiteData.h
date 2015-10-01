@@ -28,7 +28,7 @@ public:
 	* @param strokeID
 	* @return
 	*/
-//	static string getstrokeFunc(string strokeID);
+	static string getstrokeFunc(string strokeID);
 
 	/**
 	* 解析数据库中strokeIDSeq字段

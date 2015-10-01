@@ -34,7 +34,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 //    fileUtils->setSearchPaths(searchPaths);
     // create a scene. it's an autorelease object
 // 	CCScene *pScene = TestMoveSprite::scene();
-     CCScene* pScene = Splash::scene();
+    CCScene* pScene = Splash::scene();
 //    CCScene* pScene = WallScene::scene();
 
     // run
@@ -44,7 +44,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 }
 
 // This function will be called when the app is inactive. When comes a phone call,it's be invoked too
-// µ±Ó¦ÓÃ³ÌÐò²»ÔÙ»î¶¯Ê±£¬»áµ÷ÓÃ´Ë·½·¨¡£µ±ÊÖ»ú½Óµ½µç»°Ê±£¬ËüÒ²»á±»µ÷ÓÃ
+// å½“åº”ç”¨ç¨‹åºä¸å†æ´»åŠ¨æ—¶ï¼Œä¼šè°ƒç”¨æ­¤æ–¹æ³•ã€‚å½“æ‰‹æœºæŽ¥åˆ°ç”µè¯æ—¶ï¼Œå®ƒä¹Ÿä¼šè¢«è°ƒç”¨
 void AppDelegate::applicationDidEnterBackground() {
     CCDirector::sharedDirector()->stopAnimation();
 
@@ -53,7 +53,7 @@ void AppDelegate::applicationDidEnterBackground() {
 }
 
 // this function will be called when the app is active again
-// µ±Ó¦ÓÃ³ÌÐòÖØÐÂ»î¶¯Ê±£¬»áµ÷ÓÃ´Ë·½·¨
+// å½“åº”ç”¨ç¨‹åºé‡æ–°æ´»åŠ¨æ—¶ï¼Œä¼šè°ƒç”¨æ­¤æ–¹æ³•
 void AppDelegate::applicationWillEnterForeground() {
     CCDirector::sharedDirector()->startAnimation();
 

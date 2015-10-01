@@ -8,11 +8,11 @@ USING_NS_CC;
 using namespace std;
 
 
-// char StandardZiInfo[10240] = "";		//ÓÃÓÚ½ÓÊÕ±ê×¼×ÖĞÅÏ¢
-// char WriteZiInfo[1024*100] = "";		//ÊÖĞ´×ÖĞÅÏ¢
+// char StandardZiInfo[10240] = "";		//ç”¨äºæ¥æ”¶æ ‡å‡†å­—ä¿¡æ¯
+// char WriteZiInfo[1024*100] = "";		//æ‰‹å†™å­—ä¿¡æ¯
 // char Hanzi[50] = "";
-// char RuleInfo[1024*100] = "";		//¹æÔòĞÅÏ¢
-// char GlobalFunc[1024*100] = "";		//È«¾Öº¯ÊıĞÅÏ¢
+// char RuleInfo[1024*100] = "";		//è§„åˆ™ä¿¡æ¯
+// char GlobalFunc[1024*100] = "";		//å…¨å±€å‡½æ•°ä¿¡æ¯
 // char Rules[1024*100] = "";
 // char Level[10] = "";
 string StandardZiInfo;
@@ -23,20 +23,20 @@ string GlobalFunc;
 string Rules;
 string Level;
 
-int RunLevel;						//1:×Ö 2£º²¿¼ş 3£º±Ê»­
-int StepFlag;						//1:µ¥²½Ö´ĞĞ 0:Õû×ÖÖ´ĞĞ
-int UnitIndex;						//µ±Ç°²¿¼şµÄË÷Òı
-int StrokeIndex;					//µ±Ç°±Ê»­µÄË÷Òı
+int RunLevel;						//1:å­— 2ï¼šéƒ¨ä»¶ 3ï¼šç¬”ç”»
+int StepFlag;						//1:å•æ­¥æ‰§è¡Œ 0:æ•´å­—æ‰§è¡Œ
+int UnitIndex;						//å½“å‰éƒ¨ä»¶çš„ç´¢å¼•
+int StrokeIndex;					//å½“å‰ç¬”ç”»çš„ç´¢å¼•
 
 // This is the constructor of a class that has been exported.
 // see LuaScriptReader.h for the class definition
 CLuaScriptReader::CLuaScriptReader():m_plua(NULL)
 {
-// 	StandardZiInfo[0] = '\0';		//ÓÃÓÚ½ÓÊÕ±ê×¼×ÖĞÅÏ¢
-// 	WriteZiInfo[0] = '\0';		//ÊÖĞ´×ÖĞÅÏ¢
+// 	StandardZiInfo[0] = '\0';		//ç”¨äºæ¥æ”¶æ ‡å‡†å­—ä¿¡æ¯
+// 	WriteZiInfo[0] = '\0';		//æ‰‹å†™å­—ä¿¡æ¯
 // 	Hanzi[0] = '\0';
-// 	RuleInfo[0] = '\0';		//¹æÔòĞÅÏ¢
-// 	GlobalFunc[0] = '\0';		//È«¾Öº¯ÊıĞÅÏ¢
+// 	RuleInfo[0] = '\0';		//è§„åˆ™ä¿¡æ¯
+// 	GlobalFunc[0] = '\0';		//å…¨å±€å‡½æ•°ä¿¡æ¯
 // 	Rules[0] = '\0';
 //  	Level[0] = '\0';
 	m_plua = NULL;

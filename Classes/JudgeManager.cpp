@@ -66,7 +66,7 @@ string JudgeManager::getResult(string hanzi , string points_output, string all_p
 	retStr[0] = '\0';
  	gReader.setZiName(hanzi);
 
-	//�ɽ�����
+	// get easy or hard setting from setting.xml config file
 	string r = DataTool::readFromFile("setting.xml");
     CCLog("r value %s",r.c_str());
  	gReader.setLevel(r);
