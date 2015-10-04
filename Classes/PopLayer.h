@@ -86,13 +86,13 @@ private:
 	int m_contentPadding;
 	int m_contentPaddingTop;
 
-	//保存汉字
+	//淇濆瓨姹夊瓧
 	string hanzi;
 
 	CCObject* m_callbackListener;
 	SEL_CallFuncN m_callback;
 
-	//内存管理相关
+	//鍐呭瓨绠＄悊鐩稿叧
 	CC_SYNTHESIZE_RETAIN(CCMenu*, m__pMenu,MenuButton);
 	CC_SYNTHESIZE_RETAIN(CCSprite*, m__sfBackGround, SpriteBackGround);
 	CC_SYNTHESIZE_RETAIN(CCScale9Sprite*, m__s9BackGround, Sprite9BackGround);

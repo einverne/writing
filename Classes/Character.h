@@ -12,13 +12,13 @@ public:
 	bool addBujian(Bujian bujian);
 
 	/**
-	* getBox »ñÈ¡°üÎ§ºĞ
+	* getBox è·å–åŒ…å›´ç›’
 	* @return
 	*/
 	CCSize getBox();
 
 	/**
-	* getStrokeCount »ñÈ¡×ÖµÄ±Ê»­Êı
+	* getStrokeCount è·å–å­—çš„ç¬”ç”»æ•°
 	* @return
 	*/
 	int getStrokeCount();
@@ -27,7 +27,7 @@ public:
 	void prepareDrawNode();
 
 	/**
-	* getStroke »ñÈ¡µÚno±Ê£¬±Ê»­´Ó1¿ªÊ¼
+	* getStroke è·å–ç¬¬noç¬”ï¼Œç¬”ç”»ä»1å¼€å§‹
 	* @param no
 	* @return
 	*/
@@ -36,7 +36,7 @@ public:
 	Character(void);
 	~Character(void);
 	int bujianCount;
-	int fontSize;		//ºº×Ö´óĞ¡£¬Ä¬ÈÏ512
+	int fontSize;		//æ±‰å­—å¤§å°ï¼Œé»˜è®¤512
 	vector<Bujian> bujianList;
 private:
 	void transformCoordinate(CCPoint point,float length);

@@ -39,17 +39,17 @@
 //}
 //
 //
-////UTF8¡¢GBKÖ®¼äµÄ×ª»»
+////UTF8ã€GBKä¹‹é—´çš„è½¬æ¢
 //string DataTool::GBKToUTF8(string gbk)
 //{
-//	//½¨Á¢Ò»¿éÄÚ´æ¿é
+//	//å»ºç«‹ä¸€å—å†…å­˜å—
 //	char *szOut=new char[gbk.size()+2];
-//	//½«ÄÚ´æÈ«ÉèÎª0;
+//	//å°†å†…å­˜å…¨è®¾ä¸º0;
 //	memset(szOut,0,gbk.size()+2);
-//	//¿½±´£¬ÏàÊ¶ÓÚStrcpy
+//	//æ‹·è´ï¼Œç›¸è¯†äºStrcpy
 //	memcpy(szOut,gbk.c_str(),strlen(gbk.c_str()));
 //	char* strGBK = szOut;
-//	//Ó³ÉäÒ»¸ö×Ö·û´®µ½Ò»¸ö¿í×Ö·û£¨unicode£©µÄ×Ö·û´®
+//	//æ˜ å°„ä¸€ä¸ªå­—ç¬¦ä¸²åˆ°ä¸€ä¸ªå®½å­—ç¬¦ï¼ˆunicodeï¼‰çš„å­—ç¬¦ä¸²
 //	int len=MultiByteToWideChar(CP_ACP, 0, (LPCSTR)strGBK, -1, NULL,0);
 //	unsigned short * wszUtf8 = new unsigned short[len+1];
 //	memset(wszUtf8, 0, len * 2 + 2);

@@ -9,7 +9,7 @@
 USING_NS_CC;
 
 /************************************************************************/
-/* ¼Ì³ĞCCNode,ÓÃÓÚÏÔÊ¾ÕıÈ·ºº×Ö                                                                     */
+/* ç»§æ‰¿CCNode,ç”¨äºæ˜¾ç¤ºæ­£ç¡®æ±‰å­—                                                                     */
 /************************************************************************/
 class TcharacterDrawnode : public CCNode
 {
@@ -17,12 +17,12 @@ public:
 	TcharacterDrawnode();
 	~TcharacterDrawnode();
 	/**
-	* ÊµÏÖCCNode»æÍ¼º¯Êı£¬¸ù¾İ×ÔÉí±Ê»­ÁĞ±í»æÍ¼
+	* å®ç°CCNodeç»˜å›¾å‡½æ•°ï¼Œæ ¹æ®è‡ªèº«ç¬”ç”»åˆ—è¡¨ç»˜å›¾
 	* @return
 	*/
 	virtual void draw();
 	/**
-	* ÓÃºº×ÖºÍÏÔÊ¾ÇøÓò³õÊ¼»¯TcharacterDrawnode
+	* ç”¨æ±‰å­—å’Œæ˜¾ç¤ºåŒºåŸŸåˆå§‹åŒ–TcharacterDrawnode
 	* @param hz 
 	* @param showrect
 	* @return
@@ -33,7 +33,7 @@ public:
 	virtual bool init(string hz,CCSize showrect,CharacterExtend* p);
 
 	/**
-	* ÓÃºº×ÖºÍÏÔÊ¾ÇøÓò´´½¨TcharacterDrawnode
+	* ç”¨æ±‰å­—å’Œæ˜¾ç¤ºåŒºåŸŸåˆ›å»ºTcharacterDrawnode
 	* @param hz
 	* @param showrect
 	* @return
@@ -43,7 +43,7 @@ public:
 	static TcharacterDrawnode* create(string hz,CCSize showrect,CharacterExtend* p);
 
 	/**
-	* ·µ»Øµ±Ç°Õı×ÖCharacter
+	* è¿”å›å½“å‰æ­£å­—Character
 	* @return
 	*/
 	Character getCharacter(){return m_character;}
@@ -58,15 +58,15 @@ public:
 	int getVisibleIndex()    { return visibleIndex; }
 
 	/**
-		²úÉúÕû¸öºº×ÖxmlÖĞ±ê×¼ºº×Ö×ø±êµãĞÅÏ¢
+		äº§ç”Ÿæ•´ä¸ªæ±‰å­—xmlä¸­æ ‡å‡†æ±‰å­—åæ ‡ç‚¹ä¿¡æ¯
 	*/
 	string getCharacterStandardInfo();
 
 	CC_SYNTHESIZE_RETAIN(CCArray*,strokedrawList,strokedrawList);
 
 private:
-	CCSize showRect;				//¸ù¾İ´«ÈëµÄÏÔÊ¾·¶Î§¶¨ÒåÏÔÊ¾·¶Î§
-	Character m_character;			//¸ù¾İºº×Ö¶ÁÈ¡×Ö·ûxmlÎÄ¼ş£¬¹¹ÔìCharacter
+	CCSize showRect;				//æ ¹æ®ä¼ å…¥çš„æ˜¾ç¤ºèŒƒå›´å®šä¹‰æ˜¾ç¤ºèŒƒå›´
+	Character m_character;			//æ ¹æ®æ±‰å­—è¯»å–å­—ç¬¦xmlæ–‡ä»¶ï¼Œæ„é€ Character
 	int visibleIndex;
 	Character myChar;
 	CCSprite* tiangzige;

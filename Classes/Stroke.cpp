@@ -29,7 +29,7 @@ int Stroke::getPointsCount(){
 }
 
 /************************************************************************/
-/* ½«µã¼ÓÈëµ½pointListÎ²                                                                     */
+/* å°†ç‚¹åŠ å…¥åˆ°pointListå°¾                                                                     */
 /************************************************************************/
 bool Stroke::addPoint(CCPoint point){
 	this->pointCount++;
@@ -65,8 +65,8 @@ int Stroke::getStrokeBox(){
 }
 
 void Stroke::resample(int n){
-// 	int n = getStrokeBox()/10;			//»ñÈ¡³¤¿í×î´óÏñËØÖµ
-	float I = strokeLength() / (n-1);		//10¸öÏñËØÒ»¶Î
+// 	int n = getStrokeBox()/10;			//è·å–é•¿å®½æœ€å¤§åƒç´ å€¼
+	float I = strokeLength() / (n-1);		//10ä¸ªåƒç´ ä¸€æ®µ
 	float D = 0;
 
 	vector<CCPoint> dstpoList;

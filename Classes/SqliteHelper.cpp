@@ -3,23 +3,23 @@
 #include "strokeFunc.h"
 #include "CharacterExtend.h"
 
-sqlite3 *pDB = NULL;//Êı¾İ¿âÖ¸Õë 
-char * errMsg = NULL;//´íÎóĞÅÏ¢ 
-std::string sqlstr;//SQLÖ¸Áî 
-int result;//sqlite3_exec·µ»ØÖµ		
+sqlite3 *pDB = NULL;//æ•°æ®åº“æŒ‡é’ˆ 
+char * errMsg = NULL;//é”™è¯¯ä¿¡æ¯ 
+std::string sqlstr;//SQLæŒ‡ä»¤ 
+int result;//sqlite3_execè¿”å›å€¼		
 
 void SQLiteHelper::initDB(const char* db){
-	//´ò¿ªÒ»¸öÊı¾İ¿â£¬Èç¹û¸ÃÊı¾İ¿â²»´æÔÚ£¬Ôò´´½¨Ò»¸öÊı¾İ¿âÎÄ¼ş
+	//æ‰“å¼€ä¸€ä¸ªæ•°æ®åº“ï¼Œå¦‚æœè¯¥æ•°æ®åº“ä¸å­˜åœ¨ï¼Œåˆ™åˆ›å»ºä¸€ä¸ªæ•°æ®åº“æ–‡ä»¶
 	result = sqlite3_open(db,&pDB);
 	if (result != SQLITE_OK)
 	{
-		CCLog("open sqlite failed,error:%d £¬error reason:%s\n" , result, errMsg );
+		CCLog("open sqlite failed,error:%d ï¼Œerror reason:%s\n" , result, errMsg );
 	}else{
 		CCLog("open sqlite success~ code:%d",result);
 	}
 }
 
-//tableIsExistµÄ»Øµ÷º¯Êı
+//tableIsExistçš„å›è°ƒå‡½æ•°
 int isExisted( void * para, int n_column, char ** column_value, char ** column_name ) 
 { 
 	bool *isExisted_=(bool*)para; 
@@ -31,7 +31,7 @@ bool SQLiteHelper::tableIsExist( string name )
 {
 	if (pDB!=NULL)
 	{
-		//ÅĞ¶Ï±íÊÇ·ñ´æÔÚ
+		//åˆ¤æ–­è¡¨æ˜¯å¦å­˜åœ¨
 		bool tableIsExisted;
 		sqlstr = "select count(type) from sqlite_master where type='table' and name ='"+name+"'";
 		result =sqlite3_exec(pDB,sqlstr.c_str(),isExisted,&tableIsExisted,&errMsg);
@@ -40,35 +40,35 @@ bool SQLiteHelper::tableIsExist( string name )
 	return false;
 }
 
-//ÔÚÊı¾İ¿âÖĞÅĞ¶ÏÃûÎªnameµÄ±íÊ¾·ñ´æÔÚ£¬Èç¹û²»´æÔÚÔò´´½¨ÕâÕÅ±í
-//@Ê¾ÀıÓï¾ästring sqls = "create table user(id integer,username text,password text)";
+//åœ¨æ•°æ®åº“ä¸­åˆ¤æ–­åä¸ºnameçš„è¡¨ç¤ºå¦å­˜åœ¨ï¼Œå¦‚æœä¸å­˜åœ¨åˆ™åˆ›å»ºè¿™å¼ è¡¨
+//@ç¤ºä¾‹è¯­å¥string sqls = "create table user(id integer,username text,password text)";
 void SQLiteHelper::createTable( string sql,string name )
 {
 	if (!tableIsExist(name))
 	{
-		//´´½¨±í£¬ÉèÖÃIDÎªÖ÷¼ü£¬ÇÒ×Ô¶¯Ôö¼Ó 
+		//åˆ›å»ºè¡¨ï¼Œè®¾ç½®IDä¸ºä¸»é”®ï¼Œä¸”è‡ªåŠ¨å¢åŠ  
 		result = sqlite3_exec(pDB,sql.c_str(),NULL,NULL,&errMsg);
 		if( result != SQLITE_OK ) 
-			CCLog( "´´½¨±íÊ§°Ü£¬´íÎóÂë:%d £¬´íÎóÔ­Òò:%s\n" , result, errMsg ); 
+			CCLog( "åˆ›å»ºè¡¨å¤±è´¥ï¼Œé”™è¯¯ç :%d ï¼Œé”™è¯¯åŸå› :%s\n" , result, errMsg ); 
 	}
 }
 
-//É¾³ı±í¸ñ
-//@Ê¾ÀıÓï¾äsqlstr="drop table name"; 
+//åˆ é™¤è¡¨æ ¼
+//@ç¤ºä¾‹è¯­å¥sqlstr="drop table name"; 
 void SQLiteHelper::deleteTable( string sql,string name )
 {
 	if (tableIsExist(name))
 	{
 		result = sqlite3_exec(pDB,sql.c_str(),NULL,NULL,&errMsg);
 		if( result != SQLITE_OK ) 
-			CCLog( "´´½¨±íÊ§°Ü£¬´íÎóÂë:%d £¬´íÎóÔ­Òò:%s\n" , result, errMsg ); 
+			CCLog( "åˆ›å»ºè¡¨å¤±è´¥ï¼Œé”™è¯¯ç :%d ï¼Œé”™è¯¯åŸå› :%s\n" , result, errMsg ); 
 	}
 }
 
 int SQLiteHelper::insertData( string sql ){
 	result = sqlite3_exec( pDB, sql.c_str() , NULL, NULL, &errMsg ); 
 	if(result != SQLITE_OK ) 
-		CCLog( "²åÈë¼ÇÂ¼Ê§°Ü£¬´íÎóÂë:%d £¬´íÎóÔ­Òò:%s\n" , result, errMsg );
+		CCLog( "æ’å…¥è®°å½•å¤±è´¥ï¼Œé”™è¯¯ç :%d ï¼Œé”™è¯¯åŸå› :%s\n" , result, errMsg );
 	sqlite3_int64 id = sqlite3_last_insert_rowid(pDB);
 	return id;
 }
@@ -77,19 +77,19 @@ void SQLiteHelper::deleteData( string sql )
 {
 	result=sqlite3_exec( pDB, sql.c_str() , NULL, NULL, &errMsg );
 	if(result != SQLITE_OK ) 
-		CCLog( "²åÈë¼ÇÂ¼Ê§°Ü£¬´íÎóÂë:%d £¬´íÎóÔ­Òò:%s\n" , result, errMsg ); 
+		CCLog( "æ’å…¥è®°å½•å¤±è´¥ï¼Œé”™è¯¯ç :%d ï¼Œé”™è¯¯åŸå› :%s\n" , result, errMsg ); 
 }
 
-//ĞŞ¸ÄÊı¾İ
-//@Ê¾ÀıÓï¾ä        sqlstr="update MyTable_1 set name='ÍşÕğÌì' where ID = 3"; 
+//ä¿®æ”¹æ•°æ®
+//@ç¤ºä¾‹è¯­å¥        sqlstr="update MyTable_1 set name='å¨éœ‡å¤©' where ID = 3"; 
 void SQLiteHelper::updateData( string sql )
 {
 	result = sqlite3_exec( pDB, sql.c_str() , NULL, NULL, &errMsg );
 	if(result != SQLITE_OK ) 
-		CCLog( "²åÈë¼ÇÂ¼Ê§°Ü£¬´íÎóÂë:%d £¬´íÎóÔ­Òò:%s\n" , result, errMsg ); 
+		CCLog( "æ’å…¥è®°å½•å¤±è´¥ï¼Œé”™è¯¯ç :%d ï¼Œé”™è¯¯åŸå› :%s\n" , result, errMsg ); 
 }
 
-//getDataCountµÄ»Øµ÷º¯Êı
+//getDataCountçš„å›è°ƒå‡½æ•°
 int loadRecordCount( void * para, int n_column, char ** column_value, char ** column_name ) 
 { 
 	int *count=(int*)para; 
@@ -108,7 +108,7 @@ int SQLiteHelper::getDataCount( string sql )
 	return count;
 }
 
-//getDataInfoµÄ»Øµ÷º¯Êı
+//getDataInfoçš„å›è°ƒå‡½æ•°
 int loadRecord( void * para, int n_column, char ** column_value, char ** column_name)
 { 
 // 	CCLog("ID=%s,name=%s,password=%s,word=%s",column_value[0],column_value[1],column_value[2],column_value[3]);
@@ -119,7 +119,7 @@ int loadRecord( void * para, int n_column, char ** column_value, char ** column_
 	((CharacterEntity*)para)->setRules(ccs(column_value[3]));
 	return 0;
 }
-//»ñÈ¡Ò»Ìõ¼ÇÂ¼µÄĞÅÏ¢ ÆäÖĞµÄpSendÊÇÒ»¸öÊµÌåÀàÎÒÃÇÒÔºó¿ÉÒÔ×Ô¶¨ÒåÒ»¸ö¼Ì³ĞÁËCCObjectµÄÀàÀ´´úÌæËû±£´æÊı¾İ¿âÖĞÈ¡³öÀ´µÄÊı¾İ
+//è·å–ä¸€æ¡è®°å½•çš„ä¿¡æ¯ å…¶ä¸­çš„pSendæ˜¯ä¸€ä¸ªå®ä½“ç±»æˆ‘ä»¬ä»¥åå¯ä»¥è‡ªå®šä¹‰ä¸€ä¸ªç»§æ‰¿äº†CCObjectçš„ç±»æ¥ä»£æ›¿ä»–ä¿å­˜æ•°æ®åº“ä¸­å–å‡ºæ¥çš„æ•°æ®
 void SQLiteHelper::getDataInfo( string sql,CCObject *pSend )
 {
 	int ret = sqlite3_exec( pDB, sql.c_str() , loadRecord, pSend, &errMsg );
@@ -238,7 +238,7 @@ int getNotes(void* para, int n_column, char** column_value, char** column_name){
 	vector<string> temp;
 	if (strcmp(column_name[3],"note") == 0)
 	{
-		//Èç¹ûµÚÈıÁĞÊÇnote
+		//å¦‚æœç¬¬ä¸‰åˆ—æ˜¯note
 		temp.push_back(column_value[0]);
 		temp.push_back(column_value[3]);
 	}

@@ -40,22 +40,22 @@ public:
 	CREATE_FUNC(WallScene);
 
 	/**
-	* µ¯³ö¶Ô»°¿ò
+	* å¼¹å‡ºå¯¹è¯æ¡†
 	* @param hanzi
 	* @return
 	*/
 	void popup(string hanzi);
-	//¶Ô»°¿ò»Øµ÷º¯Êı
+	//å¯¹è¯æ¡†å›è°ƒå‡½æ•°
 	void buttonCallBack(CCNode* pNode);
 
 	virtual void update(float delta);
-	//³¤°´
+	//é•¿æŒ‰
 	void longPressUpdate(float fDelta);
 
-	//±£´æµ½xmlÎÄ¼ş
+	//ä¿å­˜åˆ°xmlæ–‡ä»¶
 	void saveToFile(string src,const char* dst);
 
-	//»ñÈ¡µ±Ç°Ê±¼ä ¾«È·µ½ºÁÃëÊı
+	//è·å–å½“å‰æ—¶é—´ ç²¾ç¡®åˆ°æ¯«ç§’æ•°
 	static inline long millisecondNow()
 	{
 		struct cc_timeval now;

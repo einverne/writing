@@ -17,10 +17,10 @@ TcharacterDrawnode::~TcharacterDrawnode()
 
 /**
 * 
-* @param hz ºº×Ö
-* @param showrect ÏÔÊ¾ÇøÓò
-* @param p °üº¬Êı¾İ¿âÖĞ¶ÁÈ¡µÄºº×ÖĞÅÏ¢XMLµÈµÈ
-* @return ³õÊ¼»¯ÊÇ·ñ³É¹¦
+* @param hz æ±‰å­—
+* @param showrect æ˜¾ç¤ºåŒºåŸŸ
+* @param p åŒ…å«æ•°æ®åº“ä¸­è¯»å–çš„æ±‰å­—ä¿¡æ¯XMLç­‰ç­‰
+* @return åˆå§‹åŒ–æ˜¯å¦æˆåŠŸ
 */
 bool TcharacterDrawnode::init(string hz,CCSize showrect,CharacterEntity* p){
 

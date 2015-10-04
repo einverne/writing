@@ -51,7 +51,7 @@ void JudgeLayer::onEnter(){
 	JudgeScene* scene = (JudgeScene*)this->getParent();
 	if (!scene->getIsJudge())
 	{
-		//×ÔÓÉÊéĞ´ ĞèÔö¼ÓButton ×÷Îª±£´æ
+		//è‡ªç”±ä¹¦å†™ éœ€å¢åŠ Button ä½œä¸ºä¿å­˜
 		CCMenuItemImage* saveButton = CCMenuItemImage::create("strangedesign/Free_writting_save_button_up.png",
 			"strangedesign/Free_writting_save_button_down.png",
 			this,
@@ -76,7 +76,7 @@ void JudgeLayer::menuNext(CCObject* pSender){
 }
 
 void JudgeLayer::menuPrevious(CCObject* pSender){
-	//µ÷ÓÃÉÏÒ»¸ö
+	//è°ƒç”¨ä¸Šä¸€ä¸ª
 	JudgeScene* scene = (JudgeScene*)CCDirector::sharedDirector()->getRunningScene();
 	scene->previous();
 }
@@ -84,12 +84,12 @@ void JudgeLayer::menuPrevious(CCObject* pSender){
 void JudgeLayer::menuSave(CCObject* pSender){
 	JudgeScene* scene = (JudgeScene*)CCDirector::sharedDirector()->getRunningScene();
 
-	//ÅĞ¶ÏÊÇ·ñĞ´Íê
+	//åˆ¤æ–­æ˜¯å¦å†™å®Œ
 	if (scene->gettouchLayer()->isTimeSave())
 	{
 		string unit_id = scene->getUnitID();
 		string zi_id = scene->getZiID();
-		string note = scene->getHLayer()->getOriginPoints();			//»ñÈ¡Î´±äĞÎµÄ±Ê¼Ç
+		string note = scene->getHLayer()->getOriginPoints();			//è·å–æœªå˜å½¢çš„ç¬”è®°
 		string curChar = scene->getCharacter();
 
 		SQLiteData::insertNote(unit_id,zi_id,note);
@@ -134,7 +134,7 @@ void JudgeLayer::menuView(CCObject* pSender){
 }
 
 void JudgeLayer::SaveProToFile(float pro){
-	//filename hanzi ceshiScene  profic ¼ÆËã
+	//filename hanzi ceshiScene  profic è®¡ç®—
 	JudgeScene* scene = (JudgeScene*)CCDirector::sharedDirector()->getRunningScene();
 // 	string wallXMLCurrent = scene->getWallFileName();
 	string currhanzi = scene->getCharacter();

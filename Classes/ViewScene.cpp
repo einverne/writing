@@ -84,7 +84,7 @@ CCObject* ViewScene::gridViewDataSource(CCObject* pContentView, unsigned int idx
 	CButton* pButton = NULL;
 	CCheckBox* pCheckbox = NULL;
 	Notes = SQLiteData::getNote(unit_id,zi_id);
-	vector<string> oneNote = Notes.at(idx);			//oneNote ÖĞµÚÒ»¸öÔªËØÎªID£¬µÚ¶ş¸öÔªËØÎª±Ê»­ĞòÁĞ
+	vector<string> oneNote = Notes.at(idx);			//oneNote ä¸­ç¬¬ä¸€ä¸ªå…ƒç´ ä¸ºIDï¼Œç¬¬äºŒä¸ªå…ƒç´ ä¸ºç¬”ç”»åºåˆ—
 
 	if (!pCell)
 	{
@@ -142,7 +142,7 @@ CCObject* ViewScene::gridViewDataSource(CCObject* pContentView, unsigned int idx
 		//pCell->addChild(pButton,10);
 
 		HcharacterDrawnode* handwritingHz = HcharacterDrawnode::create();
-		vector<string> oneNote = Notes.at(idx);			//oneNote ÖĞµÚÒ»¸öÔªËØÎªID£¬µÚ¶ş¸öÔªËØÎª±Ê»­ĞòÁĞ
+		vector<string> oneNote = Notes.at(idx);			//oneNote ä¸­ç¬¬ä¸€ä¸ªå…ƒç´ ä¸ºIDï¼Œç¬¬äºŒä¸ªå…ƒç´ ä¸ºç¬”ç”»åºåˆ—
 		vector< vector<CCPoint> > strokesvec = DataTool::spliteString(oneNote.at(1));
 		for (unsigned int i = 0; i < strokesvec.size(); i++)
 		{

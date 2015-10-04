@@ -35,7 +35,7 @@ bool PopLayer::init(){
 	{
 		CC_BREAK_IF(!CCLayer::init());
 		this->setContentSize(CCSizeZero);
-		// Ìí¼Ó²Ëµ¥
+		// æ·»åŠ èœå•
 		CCMenu* menu = CCMenu::create();
 		menu->setPosition(CCPointZero);
 		setMenuButton(menu);
@@ -95,7 +95,7 @@ void PopLayer::setContentText(const char* text, int fontsize, int padding , int 
 }
 
 void PopLayer::setEditBox(){
-	//Ìí¼ÓÊäÈë¿ò
+	//æ·»åŠ è¾“å…¥æ¡†
 	CCEditBox* editbox = CCEditBox::create(CCSizeMake(300,100),CCScale9Sprite::create("strangedesign/Edit_inputframe_small.png"));
 	setEditBoxHanzi(editbox);
 }
@@ -108,12 +108,12 @@ void PopLayer::setCallBackFunc(CCObject* targer, SEL_CallFuncN callfun){
 bool PopLayer::addButton(const char* normalImage,const char* selectedImage ,const char* title, int tag){
 	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
 	CCPoint pCenter = ccp(winSize.width/2,winSize.height/2);
-	// ´´½¨Í¼Æ¬²Ëµ¥°´Å¥
+	// åˆ›å»ºå›¾ç‰‡èœå•æŒ‰é’®
 	CCMenuItemImage* menuImage = CCMenuItemImage::create(normalImage, selectedImage, this, menu_selector(PopLayer::buttonCallback));
 	menuImage->setTag(tag);
 	menuImage->setPosition(pCenter);
 
-	// Ìí¼ÓÎÄ×ÖËµÃ÷²¢ÉèÖÃÎ»ÖÃ
+	// æ·»åŠ æ–‡å­—è¯´æ˜Žå¹¶è®¾ç½®ä½ç½®
 	CCSize imenu = menuImage->getContentSize();
 	CCLabelTTF* ttf = CCLabelTTF::create(title, "XingShu", 20);
 	ttf->setColor(ccc3(0, 0, 0));
@@ -141,7 +141,7 @@ void PopLayer::onEnter(){
 	CCPoint pCenter = ccp(winSize.width / 2, winSize.height / 2);
 
 	CCSize contentSize;
-	// Éè¶¨ºÃ²ÎÊý£¬ÔÚÔËÐÐÊ±¼ÓÔØ
+	// è®¾å®šå¥½å‚æ•°ï¼Œåœ¨è¿è¡Œæ—¶åŠ è½½
 	if (getContentSize().equals(CCSizeZero)) {
 		getSpriteBackGround()->setPosition(ccp(winSize.width / 2, winSize.height / 2));
 		this->addChild(getSpriteBackGround(), 0, 0);
@@ -154,7 +154,7 @@ void PopLayer::onEnter(){
 		contentSize = getContentSize();
 	}
 
-	// Ìí¼Ó°´Å¥£¬²¢ÉèÖÃÆäÎ»ÖÃ
+	// æ·»åŠ æŒ‰é’®ï¼Œå¹¶è®¾ç½®å…¶ä½ç½®
 	this->addChild(getMenuButton());
 	float btnWidth = contentSize.width / (getMenuButton()->getChildrenCount() + 1);
 
@@ -167,13 +167,13 @@ void PopLayer::onEnter(){
 		i++;
 	}
 
-	// ÏÔÊ¾¶Ô»°¿ò±êÌâ
+	// æ˜¾ç¤ºå¯¹è¯æ¡†æ ‡é¢˜
 	if (getLabelTitle()){
 		getLabelTitle()->setPosition(ccpAdd(pCenter, ccp(0, contentSize.height / 2 - 35.0f)));
 		this->addChild(getLabelTitle());
 	}
 
-	// ÏÔÊ¾ÎÄ±¾ÄÚÈÝ
+	// æ˜¾ç¤ºæ–‡æœ¬å†…å®¹
 	if (getLabelContentText()){
 		CCLabelTTF* ltf = getLabelContentText();
 		ltf->setPosition(ccp(winSize.width / 2, winSize.height / 2));
@@ -182,23 +182,23 @@ void PopLayer::onEnter(){
 		this->addChild(ltf);
 	}
 
-	// Ìí¼ÓÊäÈë¿ò
+	// æ·»åŠ è¾“å…¥æ¡†
 	if (getEditBoxHanzi())
 	{
 		CCEditBox* editbox = getEditBoxHanzi();
 		editbox->setPosition(ccp(winSize.width/2,winSize.height/2));
-		editbox->setTouchPriority(-128);	//ÉèÖÃ´¥ÃþÓÅÏÈ¼¶£¬Ô½Ð¡ÓÅÏÈ¼¶Ô½¸ß
+		editbox->setTouchPriority(-128);	//è®¾ç½®è§¦æ‘¸ä¼˜å…ˆçº§ï¼Œè¶Šå°ä¼˜å…ˆçº§è¶Šé«˜
 		editbox->setPlaceHolder(hanzi.c_str());
 		editbox->setText(hanzi.c_str());
 		editbox->setMaxLength(1);
-		//ÉèÖÃ¼üÅÌÊäÈëÄ£Ê½
+		//è®¾ç½®é”®ç›˜è¾“å…¥æ¨¡å¼
 		editbox->setInputMode(kEditBoxInputModeAny);
-		//ÉèÖÃ¼üÅÌËõ»Ø°´Å¥Îªdone
+		//è®¾ç½®é”®ç›˜ç¼©å›žæŒ‰é’®ä¸ºdone
 		editbox->setReturnType(kKeyboardReturnTypeDone);
 		this->addChild(editbox);
 	}
 
-	// µ¯³öÐ§¹û
+	// å¼¹å‡ºæ•ˆæžœ
 	CCAction* popupLayer = CCSequence::create(CCScaleTo::create(0.0, 0.0),
 		CCScaleTo::create(0.06, 1.05),
 		CCScaleTo::create(0.08, 0.95),

@@ -30,12 +30,12 @@ private:
 	void dlgCallback(CCNode* pNode);
 	CGridView* pGridView;
 	vector< vector <string> > Notes;		//store the data read from sqlite
-	string unit_id;							//ĞèÒª¸ù¾İ unit_id ºÍ zi_id À´ÏÔÊ¾
+	string unit_id;							//éœ€è¦æ ¹æ® unit_id å’Œ zi_id æ¥æ˜¾ç¤º
 	string zi_id;
-	string currentChar;						//µ±Ç°ºº×Ö
-	int writingCount;						//¼ÇÂ¼×Ü¹²µÄNote ÊıÁ¿ÎªNotes µÄ size
-	int selectDeleteNote;					//ĞèÒªÉ¾³ıµÄÔªËØ
-	vector<int> dltList;					//ĞèÒªÉ¾³ıµÄÔªËØÁĞ±í
+	string currentChar;						//å½“å‰æ±‰å­—
+	int writingCount;						//è®°å½•æ€»å…±çš„Note æ•°é‡ä¸ºNotes çš„ size
+	int selectDeleteNote;					//éœ€è¦åˆ é™¤çš„å…ƒç´ 
+	vector<int> dltList;					//éœ€è¦åˆ é™¤çš„å…ƒç´ åˆ—è¡¨
 };
 
 #endif

@@ -10,21 +10,21 @@ class SQLiteHelper
 {
 public:
 	/**
-	* ÓÃÀ´´´½¨Ò»¸ödbÊı¾İ¿â dbÎªÊı¾İ¿âµÄÃû×Ö
+	* ç”¨æ¥åˆ›å»ºä¸€ä¸ªdbæ•°æ®åº“ dbä¸ºæ•°æ®åº“çš„åå­—
 	* @param db
 	* @return
 	*/
 	static void initDB(const char* db);
 
 	/**
-	* ÓÃÀ´ÅĞ¶Ï±í¸ñÊÇ·ñ´æÔÚ
+	* ç”¨æ¥åˆ¤æ–­è¡¨æ ¼æ˜¯å¦å­˜åœ¨
 	* @param name
 	* @return
 	*/
 	static bool tableIsExist(string name);
 
 	/**
-	* ÓÃÀ´´´½¨Ò»¸ö±íÃûÎªnameµÄ±í¸ñ£¬´´½¨Ê±»áÏÈÆ¥ÅäÊ±·ñÓĞ¸Ã±íµÄ´æÔÚÈç¹û´æÔÚÔò²»´´½¨
+	* ç”¨æ¥åˆ›å»ºä¸€ä¸ªè¡¨åä¸ºnameçš„è¡¨æ ¼ï¼Œåˆ›å»ºæ—¶ä¼šå…ˆåŒ¹é…æ—¶å¦æœ‰è¯¥è¡¨çš„å­˜åœ¨å¦‚æœå­˜åœ¨åˆ™ä¸åˆ›å»º
 	* @param sql
 	* @param name
 	* @return
@@ -32,7 +32,7 @@ public:
 	static void createTable(string sql,string name);
 
 	/**
-	* ÓÃÀ´É¾³ıÒ»ÕÅ±íÃûÎªnameµÄ±í¸ñ£¬É¾³ıÊ±»áÏÈÆ¥ÅäÊÇ·ñÓĞ¸Ã±íµÄ´æÔÚÈç¹û²»´æÔÚÔò²»Ö´ĞĞÉ¾³ı²Ù×÷
+	* ç”¨æ¥åˆ é™¤ä¸€å¼ è¡¨åä¸ºnameçš„è¡¨æ ¼ï¼Œåˆ é™¤æ—¶ä¼šå…ˆåŒ¹é…æ˜¯å¦æœ‰è¯¥è¡¨çš„å­˜åœ¨å¦‚æœä¸å­˜åœ¨åˆ™ä¸æ‰§è¡Œåˆ é™¤æ“ä½œ
 	* @param sql
 	* @param name
 	* @return
@@ -40,37 +40,37 @@ public:
 	static void deleteTable(string sql,string name);
 	
 	/**
-	* ÓÃÀ´Ïò±íÖĞ²åÈëÒ»ÌõÊı¾İ
-	* @param sql @Ê¾ÀıÓï¾äsqlstr=" insert into MyTable(name) values( 'ÇæÌìÖù')"; 
-	* @return ·µ»Ø²åÈëÊı¾İĞĞµÄid
+	* ç”¨æ¥å‘è¡¨ä¸­æ’å…¥ä¸€æ¡æ•°æ®
+	* @param sql @ç¤ºä¾‹è¯­å¥sqlstr=" insert into MyTable(name) values( 'æ“å¤©æŸ±')"; 
+	* @return è¿”å›æ’å…¥æ•°æ®è¡Œçš„id
 	*/
 	static int insertData(string sql);
 
 	/**
-	* ÓÃÀ´Ïò±íÖĞÉ¾³ıÒ»ÌõÊı¾İ
-	* @param sql @Ê¾ÀıÓï¾äsqlstr="delete from MyTable where ID = 2"; 
+	* ç”¨æ¥å‘è¡¨ä¸­åˆ é™¤ä¸€æ¡æ•°æ®
+	* @param sql @ç¤ºä¾‹è¯­å¥sqlstr="delete from MyTable where ID = 2"; 
 	* @return
 	*/
 	static void deleteData(string sql);
 
 	/**
-	* ÓÃÀ´Ïò±íÖĞĞŞ¸ÄÒ»ÌõÊı¾İ
+	* ç”¨æ¥å‘è¡¨ä¸­ä¿®æ”¹ä¸€æ¡æ•°æ®
 	* @param sql
 	* @return
 	*/
 	static void updateData(string sql);
 
 	/**
-	* »ñÈ¡Ò»¸ö¼ÇÂ¼µÄÌõÊı
-	* @Ê¾ÀıÓï¾ästring sql = "select count(*) from user";
-	* @Ê¾ÀıÓï¾ä  È¡µÃ±í¸ñ×Ö¶ÎµÄÓï¾ästring sqlsssss = "select * from user";
+	* è·å–ä¸€ä¸ªè®°å½•çš„æ¡æ•°
+	* @ç¤ºä¾‹è¯­å¥string sql = "select count(*) from user";
+	* @ç¤ºä¾‹è¯­å¥  å–å¾—è¡¨æ ¼å­—æ®µçš„è¯­å¥string sqlsssss = "select * from user";
 	* @param sql
 	* @return
 	*/
 	static int getDataCount(string sql);
 
 	/**
-	* ¶ÁÈ¡Ò»Ìõ¼ÇÂ¼µÄĞÅÏ¢
+	* è¯»å–ä¸€æ¡è®°å½•çš„ä¿¡æ¯
 	* @param sql
 	* @param pSend
 	* @return
@@ -78,7 +78,7 @@ public:
 	static void getDataInfo(string sql,CCObject* pSend);
 
 	/**
-	* ¶ÁÈ¡ziData±íÖĞÒ»ÌõÊı¾İ
+	* è¯»å–ziDataè¡¨ä¸­ä¸€æ¡æ•°æ®
 	* @param sql
 	* @param p
 	* @return
@@ -86,7 +86,7 @@ public:
 	static void getZiDataInfo(string sql,CCObject* p);
 
 	/**
-	* ËÉ½ô¹æÔò¶ÁÈ¡
+	* æ¾ç´§è§„åˆ™è¯»å–
 	* @param sql
 	* @param p
 	* @return
@@ -94,7 +94,7 @@ public:
 	static void getZiDataInfoExtend(string sql,CCObject* p);
 
 	/**
-	* ¶ÁÈ¡strokeFunc±íÖĞÒ»ÌõÊı¾İ
+	* è¯»å–strokeFuncè¡¨ä¸­ä¸€æ¡æ•°æ®
 	* @param sql
 	* @param funcbody
 	* @return
@@ -102,21 +102,21 @@ public:
 	static void getstrokeFunc(string sql,CCObject* funcbody);
 
 	/**
-	* ¹Ø±Õ´ò¿ªµÄÊı¾İ¿â
+	* å…³é—­æ‰“å¼€çš„æ•°æ®åº“
 	* @return
 	*/
 	static void closeDB();
 
 	/**
-	* ´ÓÊı¾İgroupCharacterÖĞ»ñÈ¡Ò»×é16¸ö×ÖÊı¾İ
+	* ä»æ•°æ®groupCharacterä¸­è·å–ä¸€ç»„16ä¸ªå­—æ•°æ®
 	* @param sql
 	* @return vector<string>
 	*/
 	static vector<string> getGroupCharacter(string sql);
 
 	/**
-	* ´ÓÊı¾İ¿âÖĞ»ñÈ¡Ò»µ¥ÔªÊı¾İ
-	* @param sql Óï¾ä
+	* ä»æ•°æ®åº“ä¸­è·å–ä¸€å•å…ƒæ•°æ®
+	* @param sql è¯­å¥
 	* @return
 	*/
 	static string getUnit(string sql);
@@ -129,8 +129,8 @@ public:
 	static vector<string> getUnitIDs(string sql);
 
 	/**
-	* ´ÓziNotesÖĞ ¶ÁÈ¡Êı¾İ
-	* @param sql sqlÓï¾ä
+	* ä»ziNotesä¸­ è¯»å–æ•°æ®
+	* @param sql sqlè¯­å¥
 	* @return
 	*/
 	static vector<vector <string> > getNote(string sql);

@@ -20,7 +20,7 @@ bool TouchLayer::init(TcharacterLayer* t,HcharacterLayer* h){
 		this->setTlayer(t);
 		this->setHlayer(h);
 		this->setTouchEnabled(true);
-		this->setOpacity(0);			//È«Í¸Ã÷
+		this->setOpacity(0);			//å…¨é€æ˜Ž
 
 		return true;
 	}
@@ -49,7 +49,7 @@ void TouchLayer::onExit(){
 }
 void TouchLayer::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 	getHlayer()->getInfoSprite()->setVisible(false);
-	//ÅÐ¶ÏÐ´ÁË¼¸±Ê ³¬¹ý±ÊÊý¾Í²»
+	//åˆ¤æ–­å†™äº†å‡ ç¬” è¶…è¿‡ç¬”æ•°å°±ä¸
 	if (isFinish())
 	{
 		return;
@@ -64,7 +64,7 @@ void TouchLayer::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 	HcharacterDrawnode* dnode = Hlayer->getm_HDrawnode();
 	if (dnode->boundingBox().containsPoint(touchpoint))
 	{
-		//ÔÚ·¶Î§ÄÚ
+		//åœ¨èŒƒå›´å†…
 		touchpoint = dnode->convertToNodeSpace(touchpoint);
 // 		CCLog("TouchLayer::ccTouchesBegan convertToNodeSpace x= %f, y= %f",touchpoint.x,touchpoint.y);
 		touchPoints.push_back(touchpoint);
@@ -72,7 +72,7 @@ void TouchLayer::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 		Hlayer->getm_HDrawnode()->addStroke(str);
 	}else
 	{
-		//²»ÔÚ·¶Î§ÄÚ
+		//ä¸åœ¨èŒƒå›´å†…
 		this->isStartOutside = true;
 		touchPoints.clear();
 	}
@@ -96,13 +96,13 @@ void TouchLayer::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
 	}
 	if (tianzige->boundingBox().containsPoint(touchp))
 	{
-		//ÔÚ·¶Î§ÄÚ£¬²¢ÇÒÆð±ÊÔÚ·¶Î§ÄÚ
+		//åœ¨èŒƒå›´å†…ï¼Œå¹¶ä¸”èµ·ç¬”åœ¨èŒƒå›´å†…
 		touchp = tianzige->convertToNodeSpace(touchp);
 		touchPoints.push_back(touchp);
 		Hlayer->getm_HDrawnode()->addPoint(touchp);
 	}else if(!tianzige->boundingBox().containsPoint(touchp))
 	{
-		//²»ÔÙ·¶Î§ÄÚ£¬²¢ÇÒÆð±ÊÔÚ·¶Î§ÄÚ
+		//ä¸å†èŒƒå›´å†…ï¼Œå¹¶ä¸”èµ·ç¬”åœ¨èŒƒå›´å†…
 		isOutside = true;
 	}
 	//CCLog("x= %f, y= %f",touchp.x,touchp.y);
@@ -137,18 +137,18 @@ void TouchLayer::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 	}
 	if (tianzige->boundingBox().containsPoint(touchp) && isOutside == false)
 	{
-		//ÔÚ·¶Î§ÄÚ£¬²¢ÇÒÆð±ÊÔÚ·¶Î§ÄÚ,ÖÐÍ¾Ã»ÓÐ³öÌï×Ö¸ñ
+		//åœ¨èŒƒå›´å†…ï¼Œå¹¶ä¸”èµ·ç¬”åœ¨èŒƒå›´å†…,ä¸­é€”æ²¡æœ‰å‡ºç”°å­—æ ¼
 		touchp = tianzige->convertToNodeSpace(touchp);
 		touchPoints.push_back(touchp);
 		Hlayer->getm_HDrawnode()->addPoint(touchp);
 
-		//Ò»±ÊÍê³É£¬²¢ÇÒÆðµã£¬ÖÐÍ¾£¬Î²µã¶¼ÔÚ·¶Î§ÄÚ£¬µãÊý¾Ý±£´æÔÚpointsÖÐ
-		Hlayer->judge();			//×Ô¶¯ÔÚHcharacterDrawnodeÖÐ»ñÈ¡µãÐÅÏ¢
+		//ä¸€ç¬”å®Œæˆï¼Œå¹¶ä¸”èµ·ç‚¹ï¼Œä¸­é€”ï¼Œå°¾ç‚¹éƒ½åœ¨èŒƒå›´å†…ï¼Œç‚¹æ•°æ®ä¿å­˜åœ¨pointsä¸­
+		Hlayer->judge();			//è‡ªåŠ¨åœ¨HcharacterDrawnodeä¸­èŽ·å–ç‚¹ä¿¡æ¯
 
 		touchPoints.clear();
 	}else if (!tianzige->boundingBox().containsPoint(touchp) && isOutside == false)
 	{
-		//²»ÔÚ·¶Î§ÄÚ£¬ÖÐÍ¾Ã»³öÌï×Ö¸ñ
+		//ä¸åœ¨èŒƒå›´å†…ï¼Œä¸­é€”æ²¡å‡ºç”°å­—æ ¼
 		Hlayer->getm_HDrawnode()->removeLastStroke();
 	}else if(isOutside == true)
 	{
@@ -166,7 +166,7 @@ void TouchLayer::registerWithTouchDispatcher(){
 }
 
 bool TouchLayer::isFinish(){
-	//Ð´µÄ±Ê»­Êý´óÓÚÕý×Öºº×Ö±Ê»­ÊýÔòºº×ÖÒÑ¾­Ð´Íê
+	//å†™çš„ç¬”ç”»æ•°å¤§äºŽæ­£å­—æ±‰å­—ç¬”ç”»æ•°åˆ™æ±‰å­—å·²ç»å†™å®Œ
 	if (Hlayer->getm_HDrawnode()->getStrokeCount() > Tlayer->getm_TDrawnode()->getCharacter().getStrokeCount())
 	{
 		return true;

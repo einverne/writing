@@ -10,7 +10,7 @@ UTF8ToGBK::~UTF8ToGBK(void)
 }  
 
 
-//将string转换成wstring  
+//灏唖tring杞崲鎴恮string  
 wstring UTF8ToGBK::stringToWstring(const string str)  
 {
 
@@ -27,7 +27,7 @@ wstring UTF8ToGBK::stringToWstring(const string str)
 
 }  
 
-//当在WIN32 平台下，将utf8格式编码转化成gbk，vs2010的默认的编码格式  
+//褰撳湪WIN32 骞冲彴涓嬶紝灏唘tf8鏍煎紡缂栫爜杞寲鎴恎bk锛寁s2010鐨勯粯璁ょ殑缂栫爜鏍煎紡  
 string UTF8ToGBK::UTF8TOGBK(const string text)  
 {  
 

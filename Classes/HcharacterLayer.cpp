@@ -96,7 +96,7 @@ void HcharacterLayer::onEnter(){
 	CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect(WRONG_EFFECT_FILE);
 	CocosDenshion::SimpleAudioEngine::sharedEngine()->setEffectsVolume(0.5);
 
-	//·Å´óËõĞ¡°´Å¥
+	//æ”¾å¤§ç¼©å°æŒ‰é’®
 	CButton* zoomin = CButton::create("strangedesign/Judge_writting_zoomin_button.png",
 		"strangedesign/Judge_writting_zoomin_button_down.png");
 	zoomin->setPosition(ccp(visiableSize.width/4,zoomin->getContentSize().height+5));
@@ -204,10 +204,10 @@ void HcharacterLayer::judge(){
 // 	string funcs = ((LianxiScene*)this->getParent())->funcs;
 	string funcs = "";
 	TcharacterLayer* tlayer = (TcharacterLayer*)CCDirector::sharedDirector()->getRunningScene()->getChildByTag(kTLayerTag);
-	string points = tlayer->getm_TDrawnode()->getCharacterStandardInfo();		//»ñÈ¡Õı×ÖĞÅÏ¢
+	string points = tlayer->getm_TDrawnode()->getCharacterStandardInfo();		//è·å–æ­£å­—ä¿¡æ¯
 	string ret = JudgeManager::getResult(hanzi,output,points,m_exChar,funcs);
 	CCLog("Hcharacterlay: retstring:%s length:%d",ret.c_str(),ret.length());
-	//Èç¹û²»ÆÀÅĞÔòÌø¹ı
+	//å¦‚æœä¸è¯„åˆ¤åˆ™è·³è¿‡
 	if (!ijudge)
 	{
 		return;
@@ -216,13 +216,13 @@ void HcharacterLayer::judge(){
 	{
 		if (ret.at(0) == '0')
 		{
-			//ÕâÒ»±ÊĞ´´í
+			//è¿™ä¸€ç¬”å†™é”™
 			MyToast::showToast(this,DataTool::getChinese("stroke_wrong"),TOAST_LONG);
 			
 			writeWrong();
 			
 		}else if(ret.at(0) == '1'){
-			//Ğ´¶Ô
+			//å†™å¯¹
 			//MyToast::showToast(this,DataTool::getChinese("stroke_right"),TOAST_LONG);
 
 			writeRight();
@@ -230,7 +230,7 @@ void HcharacterLayer::judge(){
 	}else if(ret.length() == 4){
 		if (ret.at(0) == '0')
 		{
-			//ÕâÒ»±ÊĞ´´í »òÕß Î»ÖÃ²»¶Ô
+			//è¿™ä¸€ç¬”å†™é”™ æˆ–è€… ä½ç½®ä¸å¯¹
 			MyToast::showToast(this,DataTool::getChinese("stroke_wrong"),TOAST_LONG);
 			writeWrong();
 			

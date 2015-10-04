@@ -19,13 +19,13 @@ public:
 	virtual void onExit();
 
 	/**
-	* convert512 ×ª»»³É512*512 ²¢½«×ø±êÔ­µã·ÅÖÃµ½×óÉÏ½Ç
+	* convert512 è½¬æ¢æˆ512*512 å¹¶å°†åæ ‡åŸç‚¹æ”¾ç½®åˆ°å·¦ä¸Šè§’
 	* @param p
 	* @return
 	*/
 	CCPoint convert512(CCPoint p);
 	void judge();
-	void reloadChar();				//ÖØĞÂ¼ÓÔØºº×ÖĞÅÏ¢
+	void reloadChar();				//é‡æ–°åŠ è½½æ±‰å­—ä¿¡æ¯
 	float getWrongPercent();
 	void isJudge(bool isjudge);
 	string getPointsOutput()	{ return pointsOutput; }
@@ -45,35 +45,35 @@ public:
 	CC_SYNTHESIZE_RETAIN(CharacterExtend* , m_exChar, ExChar);
 private:
 	/**
-	* ÖØĞ´»Øµ÷·½·¨
+	* é‡å†™å›è°ƒæ–¹æ³•
 	* @param pSender
 	* @return
 	*/
 	void rewrite(CCObject* pSender);
 	/**
-	* ·Å´ó»Øµ÷·½·¨
+	* æ”¾å¤§å›è°ƒæ–¹æ³•
 	* @param pSender
 	* @return
 	*/
 	void zoomin(CCObject* pSender);			//
 	/**
-	* ËõĞ¡»Øµ÷·½·¨
+	* ç¼©å°å›è°ƒæ–¹æ³•
 	* @param pSender
 	* @return
 	*/
 	void zoomout(CCObject* pSender);		//
 	void writeWrong();
 	void writeRight();
-	int writeCount;				//ÊéĞ´´ÎÊı
-	int wrongCount;				//´íÎó´ÎÊı
-	string hanzi;				//±£´æ¸Ã²ãÊ¹ÓÃºº×Ö
-	float scale;				//Ëõ·Å±ÈÂÊ
-	bool ijudge;				//ÊÇ·ñÆÀÅĞ false²»ÆÀÅĞ£¬trueÆÀÅĞ
-	string pointsOutput;		//Êä³ö×Ö·û´®
-	string pointsOrigin;		//ÊÖĞ´ºº×ÖOrigin×Ö·û´® Î´×÷Points µÄ±äĞÎ
-	int totalBihuaCount;				//¸Ãºº×Ö×Ü¹²ÓĞµÄ±Ê»­Êı
-	float score;				//µ±Ç°ºº×ÖÆÀ·Ö
-	int curBihuaWrong;			//µ±Ç°±Ê»­´íÎóµÄ´ÎÊı
+	int writeCount;				//ä¹¦å†™æ¬¡æ•°
+	int wrongCount;				//é”™è¯¯æ¬¡æ•°
+	string hanzi;				//ä¿å­˜è¯¥å±‚ä½¿ç”¨æ±‰å­—
+	float scale;				//ç¼©æ”¾æ¯”ç‡
+	bool ijudge;				//æ˜¯å¦è¯„åˆ¤ falseä¸è¯„åˆ¤ï¼Œtrueè¯„åˆ¤
+	string pointsOutput;		//è¾“å‡ºå­—ç¬¦ä¸²
+	string pointsOrigin;		//æ‰‹å†™æ±‰å­—Originå­—ç¬¦ä¸² æœªä½œPoints çš„å˜å½¢
+	int totalBihuaCount;				//è¯¥æ±‰å­—æ€»å…±æœ‰çš„ç¬”ç”»æ•°
+	float score;				//å½“å‰æ±‰å­—è¯„åˆ†
+	int curBihuaWrong;			//å½“å‰ç¬”ç”»é”™è¯¯çš„æ¬¡æ•°
 };
 
 

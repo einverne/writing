@@ -28,8 +28,8 @@ public:
 	float rescale;
 
 	/**
-	* ´«Èëadd ÔòÔö¼ÓÒ»¸öµ¥Ôª£¬Èç¹û´«Èë>=0µÄÖµÔòÎªĞŞ¸Ä¸ÃIDµÄµ¥Ôª
-	* @param unitID add »òÕß >=0 µÄÊı×ÖID µ¥ÔªID
+	* ä¼ å…¥add åˆ™å¢åŠ ä¸€ä¸ªå•å…ƒï¼Œå¦‚æœä¼ å…¥>=0çš„å€¼åˆ™ä¸ºä¿®æ”¹è¯¥IDçš„å•å…ƒ
+	* @param unitID add æˆ–è€… >=0 çš„æ•°å­—ID å•å…ƒID
 	* @return
 	*/
 	static cocos2d::CCScene* scene(string unitID);
@@ -51,27 +51,27 @@ public:
 
 	static NewUnitLayer* create(string unitID);
 
-	//µ±ÓÃ»§Æô¶¯ĞéÄâ¼üÅÌÊ±µÄ»Øµ÷º¯Êı
-	//ÆôÓÃ¼üÅÌfalse; ²»ÆôÓÃ¼üÅÌtrue
+	//å½“ç”¨æˆ·å¯åŠ¨è™šæ‹Ÿé”®ç›˜æ—¶çš„å›è°ƒå‡½æ•°
+	//å¯ç”¨é”®ç›˜false; ä¸å¯ç”¨é”®ç›˜true
 	virtual bool onTextFieldAttachWithIME(CCTextFieldTTF* sender);
 
-	//µ±ÓÃ»§¹Ø±ÕĞéÄâ¼üÅÌÊ±µÄ»Øµ÷º¯Êı
-	//¹Ø±Õ¼üÅÌfalse; ²»¹Ø±Õ¼üÅÌtrue
+	//å½“ç”¨æˆ·å…³é—­è™šæ‹Ÿé”®ç›˜æ—¶çš„å›è°ƒå‡½æ•°
+	//å…³é—­é”®ç›˜false; ä¸å…³é—­é”®ç›˜true
 	virtual bool onTextFieldDetachWithIME(CCTextFieldTTF* sender);
 
-	//µ±ÓÃ»§ÊäÈëÊ±µÄ»Øµ÷º¯Êı
-	//ÔÊĞíÊäÈë×Ö·ûfalse; ²»ÔÊĞíÊäÈë×Ö·ûtrue
+	//å½“ç”¨æˆ·è¾“å…¥æ—¶çš„å›è°ƒå‡½æ•°
+	//å…è®¸è¾“å…¥å­—ç¬¦false; ä¸å…è®¸è¾“å…¥å­—ç¬¦true
 	virtual bool onTextFieldInsertText(CCTextFieldTTF* sender, const char* text, int nLen);
 
-	//µ±ÓÃ»§É¾³ıÎÄ×ÖÊ±µÄ»Øµ÷º¯Êı
-	//ÔÊĞíÉ¾³ı×Ö·ûfalse; ²»ÔÊĞíÉ¾³ı×Ö·ûtrue
+	//å½“ç”¨æˆ·åˆ é™¤æ–‡å­—æ—¶çš„å›è°ƒå‡½æ•°
+	//å…è®¸åˆ é™¤å­—ç¬¦false; ä¸å…è®¸åˆ é™¤å­—ç¬¦true
 	virtual bool onTextFieldDeleteBackward(CCTextFieldTTF* sender, const char* delText, int nLen);
 
 
 	/**
-	* ĞŞ¸ÄxmlÎÄ¼şÖĞºº×Ö¶ÔÓ¦proficiencyÖµ
-	* @param character ÒªĞŞ¸ÄprofÖµ¶ÔÓ¦µÄ×Ö
-	* @param proficiencyÒªĞŞ¸Äµ½µÄÖµ
+	* ä¿®æ”¹xmlæ–‡ä»¶ä¸­æ±‰å­—å¯¹åº”proficiencyå€¼
+	* @param character è¦ä¿®æ”¹profå€¼å¯¹åº”çš„å­—
+	* @param proficiencyè¦ä¿®æ”¹åˆ°çš„å€¼
 	* @return
 	*/
 	bool setProficiency(string character,string proficiency);
@@ -88,9 +88,9 @@ private:
 	PopLayer* popL;
 	vector<CHanziManage>::iterator selectedCHanziManageIter;
 
-	vector<string> hanzis;			//Ç½ÉÏµÄºº×Ö
-	string unitID;				//ÓÃÒÔÇø±ğ²»Í¬µ¥Ôª£¬ÓëÊı¾İ¿âÖĞµ¥ÔªIDÁĞ¶ÔÓ¦
-	vector<vector <string> > groupCharacter;		//´ÓÊı¾İ¿âÖĞ»ñÈ¡Ò»¸öµ¥ÔªµÄºº×ÖÊı×é
+	vector<string> hanzis;			//å¢™ä¸Šçš„æ±‰å­—
+	string unitID;				//ç”¨ä»¥åŒºåˆ«ä¸åŒå•å…ƒï¼Œä¸æ•°æ®åº“ä¸­å•å…ƒIDåˆ—å¯¹åº”
+	vector<vector <string> > groupCharacter;		//ä»æ•°æ®åº“ä¸­è·å–ä¸€ä¸ªå•å…ƒçš„æ±‰å­—æ•°ç»„
 	int tag;
 };
 

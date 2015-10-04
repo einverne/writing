@@ -41,7 +41,7 @@ bool NewUnitLayer::init()
 	}
 	CCLog("NewUnitLayer::init");
 
-	//×¢²á´¥ÃşÊÂ¼ş
+	//æ³¨å†Œè§¦æ‘¸äº‹ä»¶
 	CCPoint changepoint=ccp(0,0);
 	this->setTouchEnabled(true);
 	this->setKeypadEnabled(true);			//android back key
@@ -134,10 +134,10 @@ void NewUnitLayer::onEnter(){
 #endif
     TiXmlElement* rootElement = myDocument->RootElement();  // Class
 	TiXmlElement* metaElement = rootElement->FirstChildElement();  // meta   
-	TiXmlElement* heightElement = metaElement->FirstChildElement(); //»ñµÃmetaµÄheightÔªËØ
+	TiXmlElement* heightElement = metaElement->FirstChildElement(); //è·å¾—metaçš„heightå…ƒç´ 
 	string mheight=heightElement->GetText();
 	int height=atoi(mheight.c_str());
-	TiXmlElement* widthElement = heightElement->NextSiblingElement(); //»ñµÃmetaµÄwidthÔªËØ
+	TiXmlElement* widthElement = heightElement->NextSiblingElement(); //è·å¾—metaçš„widthå…ƒç´ 
 	string mwidth=widthElement->GetText(); 
 	int width=atoi(mwidth.c_str());
 
@@ -192,7 +192,7 @@ void NewUnitLayer::onEnter(){
 			string strtimesposy=timesposy->GetText();
 			int inttimesposy=atoi((strtimesposy.substr(0, strtimesposy.size())).c_str());
 
-			//×ø±êÏµÖØ¶¨Î» ½«XMLÖĞµÚËÄÏóÏŞ×ø±ê×ª³ÉµÚÒ»ÏóÏŞ
+			//åæ ‡ç³»é‡å®šä½ å°†XMLä¸­ç¬¬å››è±¡é™åæ ‡è½¬æˆç¬¬ä¸€è±¡é™
 			x+=w/2;
 			y=height-y-h/2;
 
@@ -201,7 +201,7 @@ void NewUnitLayer::onEnter(){
 			intscoreposy=height-intscoreposy;
 			inttimesposy=height-inttimesposy;
 
-			//Ëõ·Å
+			//ç¼©æ”¾
 			x*=width_rescale;
 			y*=rescale;
 
@@ -222,7 +222,7 @@ void NewUnitLayer::onEnter(){
 
 			string tempfilename=imgElement->GetText();
 
-			//Ìí¼ÓÌï×Ö¸ñ±³¾°Í¼
+			//æ·»åŠ ç”°å­—æ ¼èƒŒæ™¯å›¾
 			CCSprite* pSprite1 = CCSprite::create(tempfilename.c_str());
 			pSprite1->setScaleY(rescale);
 			pSprite1->setScaleX(width_rescale);
@@ -254,7 +254,7 @@ void NewUnitLayer::onEnter(){
 
 			hanzis.push_back(groupCharacter.at(indexOfCharacter).at(0));
 // 
-// 			//Ìí¼Óºº×Ö
+// 			//æ·»åŠ æ±‰å­—
 // 			m_editBox->setPlaceHolder("Input Chinese Character:");
 // 			m_editBox->setPlaceholderFontColor(ccBLACK);
 // 
@@ -271,18 +271,18 @@ void NewUnitLayer::onEnter(){
 			m_TextFieldTTF->setTag(tag);
 			tag++;
 
-			//Ìí¼Ó´ÎÊı
+			//æ·»åŠ æ¬¡æ•°
 			CCLabelTTF* timesLabel = CCLabelTTF::create(groupCharacter.at(indexOfCharacter).at(1).c_str(),"Arial",35);
 			timesLabel->setPosition(ccp(origin.x+inttimesposx,origin.y+inttimesposy));
 			timesLabel->setColor(ccc3(0,0,0));
 			addChild(timesLabel,2);
-			//Ìí¼ÓÆÀÅĞ×î¸ß·Ö
+			//æ·»åŠ è¯„åˆ¤æœ€é«˜åˆ†
 			CCLabelTTF* scoreLabel = CCLabelTTF::create(groupCharacter.at(indexOfCharacter).at(2).c_str(),"Arial",35);
 			scoreLabel->setPosition(ccp(origin.x+intscoreposx,origin.y+intscoreposy));
 			scoreLabel->setColor(ccc3(0,0,0));
 			addChild(scoreLabel,2);
 
-			//ºº×Ö¹ÜÀí
+			//æ±‰å­—ç®¡ç†
 			temphanziManage.character=groupCharacter.at(indexOfCharacter).at(0);
 // 			temphanziManage.textbox=pLabel;
 			temphanziManage.pos=CCPoint(x,y);
@@ -380,14 +380,14 @@ void NewUnitLayer::ccTouchEnded(CCTouch* touch, CCEvent* event){
 		float width = textField->getContentSize().width;
 		float height = textField->getContentSize().height;
 		CCRect rect = CCRectMake(x, y, width, height);
-		//ÅĞ¶Ï´¥µãÊÇ·ñ´¥Ãşµ½±à¼­¿òÄÚ²¿
+		//åˆ¤æ–­è§¦ç‚¹æ˜¯å¦è§¦æ‘¸åˆ°ç¼–è¾‘æ¡†å†…éƒ¨
 		if( rect.containsPoint(pos) ) {
 			CCLOG("attachWithIME");
-			textField->attachWithIME(); //¿ªÆôĞéÄâ¼üÅÌ
+			textField->attachWithIME(); //å¼€å¯è™šæ‹Ÿé”®ç›˜
 			break;
 		}else {
 			CCLOG("detachWithIME");
-			textField->detachWithIME(); //¹Ø±ÕĞéÄâ¼üÅÌ
+			textField->detachWithIME(); //å…³é—­è™šæ‹Ÿé”®ç›˜
 		}
 	}
 }
@@ -417,8 +417,8 @@ void NewUnitLayer::ccTouchEnded(CCTouch* touch, CCEvent* event){
 // }
 
 
-//µ±ÓÃ»§Æô¶¯ĞéÄâ¼üÅÌÊ±µÄ»Øµ÷º¯Êı
-//ÆôÓÃ¼üÅÌfalse; ²»ÆôÓÃ¼üÅÌtrue
+//å½“ç”¨æˆ·å¯åŠ¨è™šæ‹Ÿé”®ç›˜æ—¶çš„å›è°ƒå‡½æ•°
+//å¯ç”¨é”®ç›˜false; ä¸å¯ç”¨é”®ç›˜true
 bool NewUnitLayer::onTextFieldAttachWithIME(CCTextFieldTTF* sender){
 	sender->setFontSize(100);
 	sender->setColorSpaceHolder(ccRED);
@@ -426,8 +426,8 @@ bool NewUnitLayer::onTextFieldAttachWithIME(CCTextFieldTTF* sender){
 	return false;
 }
 
-//µ±ÓÃ»§¹Ø±ÕĞéÄâ¼üÅÌÊ±µÄ»Øµ÷º¯Êı
-//¹Ø±Õ¼üÅÌfalse; ²»¹Ø±Õ¼üÅÌtrue
+//å½“ç”¨æˆ·å…³é—­è™šæ‹Ÿé”®ç›˜æ—¶çš„å›è°ƒå‡½æ•°
+//å…³é—­é”®ç›˜false; ä¸å…³é—­é”®ç›˜true
 bool NewUnitLayer::onTextFieldDetachWithIME(CCTextFieldTTF* sender){
 	CCLog("editbox return");
 	
@@ -444,28 +444,28 @@ bool NewUnitLayer::onTextFieldDetachWithIME(CCTextFieldTTF* sender){
 	return false;
 }
 
-//µ±ÓÃ»§ÊäÈëÊ±µÄ»Øµ÷º¯Êı
-//ÔÊĞíÊäÈë×Ö·ûfalse; ²»ÔÊĞíÊäÈë×Ö·ûtrue
+//å½“ç”¨æˆ·è¾“å…¥æ—¶çš„å›è°ƒå‡½æ•°
+//å…è®¸è¾“å…¥å­—ç¬¦false; ä¸å…è®¸è¾“å…¥å­—ç¬¦true
 bool NewUnitLayer::onTextFieldInsertText(CCTextFieldTTF* sender, const char* text, int nLen){
 	//if insert enter, treat as default to detach with ime
-    CCLOG("%d",nLen);//µ±Ç°ÊäÈëµÄµ¥¸ö×Ö·û³¤¶È
+    CCLOG("%d",nLen);//å½“å‰è¾“å…¥çš„å•ä¸ªå­—ç¬¦é•¿åº¦
    
-    //¿Õ¸ñºÍ\n×÷ÎªÊäÈë½áÊø·û
+    //ç©ºæ ¼å’Œ\nä½œä¸ºè¾“å…¥ç»“æŸç¬¦
     if (*text==' '||'\n' == *text)
     {
-        sender->detachWithIME(); //¹Ø±ÕÊäÈë Òş²Ø¼üÅÌ
+        sender->detachWithIME(); //å…³é—­è¾“å…¥ éšè—é”®ç›˜
         return true;
     }
 
-    //ÖĞÎÄµÄnlenÊÇ3  Êı×ÖºÍ×ÖÄ¸µÄÊÇ1
-    //Èç¹ûÊäÈëÊÇÖĞÎÄ  Ôò½ÓÊÜÊäÈëµÄÄÚÈİ
+    //ä¸­æ–‡çš„nlenæ˜¯3  æ•°å­—å’Œå­—æ¯çš„æ˜¯1
+    //å¦‚æœè¾“å…¥æ˜¯ä¸­æ–‡  åˆ™æ¥å—è¾“å…¥çš„å†…å®¹
     if (nLen==3)
     {
-        return false;//true Ôò²»½ÓÊÜÊäÈëµÄÄÚÈİ µ«ÊÇ¿ÉÒÔ¼ÌĞøÊäÈë
+        return false;//true åˆ™ä¸æ¥å—è¾“å…¥çš„å†…å®¹ ä½†æ˜¯å¯ä»¥ç»§ç»­è¾“å…¥
     }
    
-    //ÅĞ¶ÏÊÇ·ñÊı×Ö»òÕß×Ö·û,ºÍÏÂ»®Ïß_
-    //²»½ÓÊÜÊı×ÖºÍÓ¢ÎÄ´óĞ¡Ğ´×Ö·ûµÄÊäÈë
+    //åˆ¤æ–­æ˜¯å¦æ•°å­—æˆ–è€…å­—ç¬¦,å’Œä¸‹åˆ’çº¿_
+    //ä¸æ¥å—æ•°å­—å’Œè‹±æ–‡å¤§å°å†™å­—ç¬¦çš„è¾“å…¥
     if((*text>='0'&& *text<='9')||((*text>='a'&&*text<='z')||((*text>='A')&&(*text<='Z')))||*text>='_')
     {
 		MyToast::showToast(this, DataTool::getChinese("only_chinese"),TOAST_LONG);
@@ -479,8 +479,8 @@ bool NewUnitLayer::onTextFieldInsertText(CCTextFieldTTF* sender, const char* tex
 	return false;
 }
 
-//µ±ÓÃ»§É¾³ıÎÄ×ÖÊ±µÄ»Øµ÷º¯Êı
-//ÔÊĞíÉ¾³ı×Ö·ûfalse; ²»ÔÊĞíÉ¾³ı×Ö·ûtrue
+//å½“ç”¨æˆ·åˆ é™¤æ–‡å­—æ—¶çš„å›è°ƒå‡½æ•°
+//å…è®¸åˆ é™¤å­—ç¬¦false; ä¸å…è®¸åˆ é™¤å­—ç¬¦true
 bool NewUnitLayer::onTextFieldDeleteBackward(CCTextFieldTTF* sender, const char* delText, int nLen){
 	return false;
 }
