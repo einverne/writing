@@ -96,7 +96,7 @@ float DataTool::stringToFloat(string str){
 	return f;
 }
 
-void DataTool::storeToFile(const char* str,char* filename){
+void DataTool::storeToFile(const char* str, const char* filename){
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	unsigned long size = 0;
 	string finame(filename);
@@ -119,7 +119,6 @@ void DataTool::storeToFile(const char* str,char* filename){
 	fclose (pFile);
 #endif
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-    unsigned long size = 0;
     string finame(filename);
     string path = CCFileUtils::sharedFileUtils()->getWritablePath()+finame;
     FILE* file = fopen(path.c_str(),"w");
@@ -134,7 +133,7 @@ void DataTool::storeToFile(const char* str,char* filename){
 #endif
 }
 
-string DataTool::readFromFile(char* filename){
+string DataTool::readFromFile(const char* filename){
 	string ret;
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	string filepath = CCFileUtils::sharedFileUtils()->getWritablePath()+filename;

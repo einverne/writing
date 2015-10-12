@@ -9,9 +9,7 @@
 // defined with this macro as being exported.
 
 #include <string>
-#include <cocos2d.h>
 using namespace std;
-USING_NS_CC;
 
 
 extern "C"{
@@ -48,7 +46,7 @@ public:
 	* @param name
 	* @return
 	*/
-	bool RunScriptBuffer(const char *buff,char *name);
+	bool RunScriptBuffer(const char *buff,const char *name);
 
 	/**
 	* 运行buff中lua代码，带返回值
@@ -57,7 +55,7 @@ public:
 	* @param name
 	* @return
 	*/
-	bool RunScriptBuffer(const char *buff,char* ret_string,char *name);
+	bool RunScriptBuffer(const char *buff,char* ret_string,const char* name);
 
 	/**
 	* 运行buff中lua文件
@@ -65,7 +63,7 @@ public:
 	* @param name
 	* @return
 	*/
-	bool RunScriptFile(const char *filename,char *name);
+	bool RunScriptFile(const char *filename,const char *name);
 
 	/**
 	* 运行buff中lua文件,带返回值
@@ -74,7 +72,7 @@ public:
 	* @param name
 	* @return
 	*/
-	bool RunScriptFile(const char *filename,char* ret_string,char *name);
+	bool RunScriptFile(const char *filename,char* ret_string,const char *name);
 
 	bool GetSourceCode(char *sourcecode);
 
@@ -137,10 +135,10 @@ public:
 //	void SetRulesFunc(const char* filename);
 	
 	/**
-	 *
+	 * pass lua to lus judge engine
 	 * @param rules
 	 */
-	void setRulesFunc(CCString* rules);
+	void setRulesFunc(string rules);
 
 	/**
 	* 
@@ -148,7 +146,7 @@ public:
 	* @param name
 	* @return
 	*/
-	bool RunMixedFile(const char *filename,char *name);
+	bool RunMixedFile(const char *filename,const char *name);
 
 	/**
 	* write buff to file

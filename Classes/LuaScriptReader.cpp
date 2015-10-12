@@ -7,19 +7,11 @@
 USING_NS_CC;
 using namespace std;
 
-
-// char StandardZiInfo[10240] = "";		//用于接收标准字信息
-// char WriteZiInfo[1024*100] = "";		//手写字信息
-// char Hanzi[50] = "";
-// char RuleInfo[1024*100] = "";		//规则信息
-// char GlobalFunc[1024*100] = "";		//全局函数信息
-// char Rules[1024*100] = "";
-// char Level[10] = "";
-string StandardZiInfo;
-string WriteZiInfo;
+string StandardZiInfo;                  //用于接收标准字信息
+string WriteZiInfo;                     //手写字信息
 string Hanzi;
-string RuleInfo;
-string GlobalFunc;
+string RuleInfo;                        //规则信息
+string GlobalFunc;                      //全局函数信息
 string Rules;
 string Level;
 
@@ -32,13 +24,6 @@ int StrokeIndex;					//当前笔画的索引
 // see LuaScriptReader.h for the class definition
 CLuaScriptReader::CLuaScriptReader():m_plua(NULL)
 {
-// 	StandardZiInfo[0] = '\0';		//用于接收标准字信息
-// 	WriteZiInfo[0] = '\0';		//手写字信息
-// 	Hanzi[0] = '\0';
-// 	RuleInfo[0] = '\0';		//规则信息
-// 	GlobalFunc[0] = '\0';		//全局函数信息
-// 	Rules[0] = '\0';
-//  	Level[0] = '\0';
 	m_plua = NULL;
 	return; 
 }
@@ -106,7 +91,8 @@ int GetStrokeLevelFromC(lua_State *plua){
 
 bool CLuaScriptReader::InitLuaScriptReader(){
 	if( m_plua == NULL ){
-		m_plua = lua_open();
+        m_plua = luaL_newstate();
+        luaL_openlibs(m_plua);
 		if( m_plua == NULL ) return false;
 		luaL_openlibs(m_plua);
 		lua_register(m_plua, "GetWriteInfoFromC", GetWriteInfoFromC);
@@ -128,14 +114,13 @@ bool CLuaScriptReader::InitLuaScriptReader(){
 void CLuaScriptReader::ExitLuaScriptReader(){
 	if( m_plua != NULL ){
 		lua_close(m_plua);
-		//hrf
 		m_plua = NULL;
 	}
 }
 
 
 
-bool CLuaScriptReader::RunScriptBuffer(const char *buff,char *name){
+bool CLuaScriptReader::RunScriptBuffer(const char *buff,const char *name){
 	int error = 0;
 	char callname[256] = "";
 
@@ -149,20 +134,18 @@ bool CLuaScriptReader::RunScriptBuffer(const char *buff,char *name){
 	error = luaL_loadbuffer(m_plua, buff, strlen(buff),callname) || lua_pcall(m_plua, 0, 0, 0);
 	if (error){
 		fprintf(stderr, "%s", lua_tostring(m_plua, -1));
-		CCLog("luaL_loadbuffer2 error : %s",lua_tostring(m_plua,-1));
 		lua_pop(m_plua, 1);
 	}else{
-		CCLog("luaL_loadbuffer2 success");
+		//CCLog("luaL_loadbuffer2 success");
 	}
 	return true;
 }
 
 
-bool CLuaScriptReader::RunScriptBuffer(const char *buff,char* ret_string,char *name){
+bool CLuaScriptReader::RunScriptBuffer(const char *buff,char* ret_string,const char *name){
 	int error = 0;
 	char callname[256] = "";
 	//*ret_string = 0;
-	CCLog("CLuaScriptReader::RunScriptBuffer");
 	if( m_plua == NULL || buff == NULL || ret_string == NULL ) return false;
 	if( name == NULL ){
 		strcpy(callname,"noname");
@@ -170,14 +153,14 @@ bool CLuaScriptReader::RunScriptBuffer(const char *buff,char* ret_string,char *n
 		strcpy(callname,name);
 	}
 	error = luaL_loadbuffer(m_plua, buff, strlen(buff),callname) || lua_pcall(m_plua, 0, 1, 0);
-	CCLog("CLuaScriptReader::RunScriptBuffer 2");
+	//CCLog("CLuaScriptReader::RunScriptBuffer 2");
 	if (error){
 		fprintf(stderr, "%s", lua_tostring(m_plua, -1));
-		CCLog("luaL_loadbuffer3 %s",lua_tostring(m_plua,-1));
+		//CCLog("luaL_loadbuffer3 %s",lua_tostring(m_plua,-1));
 		lua_pop(m_plua, 1);
 	}else{
  		sprintf(ret_string, "%s", lua_tostring(m_plua, -1));
-		CCLog("luaL_loadbuffer3 %s",lua_tostring(m_plua,-1));
+		//CCLog("luaL_loadbuffer3 %s",lua_tostring(m_plua,-1));
 	}
 	return true;
 }
@@ -207,7 +190,6 @@ bool CLuaScriptReader::RunScriptBuffer(const char *buff,char* ret_string,char *n
 // }
 
 void CLuaScriptReader::setGlobalFunc(string funcs){
-// 	strcpy(GlobalFunc,funcs.c_str());
 	GlobalFunc = funcs;
 }
 
@@ -236,16 +218,13 @@ void CLuaScriptReader::setGlobalFunc(string funcs){
 // 	return;
 // }
 // 
-void CLuaScriptReader::setRulesFunc(CCString* rules){
-	CCLog("SetRulesFunc(CCString* rules)");
-	Rules = rules->getCString();
-
+void CLuaScriptReader::setRulesFunc(string rules){
+	Rules = rules.c_str();
 }
 
 
-bool CLuaScriptReader::RunMixedFile(const char *filename,char *name)
+bool CLuaScriptReader::RunMixedFile(const char *filename,const char *name)
 {
-	int error = 0;
 	char callname[256] = "";
 	if (m_plua == NULL || filename == NULL ) return false;
 	if( name == NULL ){
@@ -280,9 +259,7 @@ bool CLuaScriptReader::RunMixedFile(const char *filename,char *name)
 	}
 	char* filebuff1 = (char*)ccStr->getCString();
 	strcat(filebuff1,"\n");
-	CCLog("GlobalFunc");
 	strcat(filebuff1,GlobalFunc.c_str());
-	CCLog("mixed");
 //	Print2File(filebuff1,"mixed.txt");
 	RunScriptBuffer(filebuff1,callname);
 #endif
@@ -290,7 +267,7 @@ bool CLuaScriptReader::RunMixedFile(const char *filename,char *name)
 }
 
 
-bool CLuaScriptReader::RunScriptFile(const char *filename,char* ret_string,char *name){
+bool CLuaScriptReader::RunScriptFile(const char *filename,char* ret_string,const char *name){
 	if( m_plua == NULL || ret_string == NULL || filename == NULL ) return false;
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 	char filebuff[MAX_LUA_FILE_LEN] = "";
@@ -310,7 +287,6 @@ bool CLuaScriptReader::RunScriptFile(const char *filename,char* ret_string,char 
 	unsigned long size = 0;
 	CCLog("filepath name %s",filename);
 	unsigned char* filebuff = CCFileUtils::sharedFileUtils()->getFileData(filename,"rb",&size);
-	CCLog("filebuff %l",size);
 	CCString* ccStr = CCString::createWithData(filebuff,size);
 	if (!filebuff)
 	{
@@ -323,7 +299,7 @@ bool CLuaScriptReader::RunScriptFile(const char *filename,char* ret_string,char 
 }
 
 
-bool CLuaScriptReader::RunScriptFile(const char *filename,char *name){
+bool CLuaScriptReader::RunScriptFile(const char *filename,const char* name){
 	if( m_plua == NULL || filename == NULL ) return false;
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 	char filebuff[MAX_LUA_FILE_LEN] = "";
@@ -409,7 +385,6 @@ bool CLuaScriptReader::setStandardZiInfo(string stdinfo){
 bool CLuaScriptReader::Print2File(char* str, char*filename)
 {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM ==CC_PLATFORM_IOS
-	unsigned long size = 0;
 	string finame(filename);
 	string path = CCFileUtils::sharedFileUtils()->getWritablePath()+finame;
 	FILE* file = fopen(path.c_str(),"w");

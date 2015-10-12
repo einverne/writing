@@ -34,12 +34,16 @@ string JudgeManager::getResult(string hanzi,string points_output,CharacterEntity
  	char * retStr = new char[50];
  	gReader.setZiName(hanzi);
 
-  	gReader.setRulesFunc(p->getRules());
+    string luas = p->getRules()->getCString();
+  	gReader.setRulesFunc(luas);
 
-	gReader.RunScriptFile(filepath.c_str(),"WriteZiInfo.lua");
+    const char* writeziinfo = "WriteZiInfo.lua";
+	gReader.RunScriptFile(filepath.c_str(),writeziinfo);
 	gReader.setGlobalFunc(funcs);
- 	gReader.RunMixedFile(basepath.c_str(),"BaseLib.lua");
- 	gReader.RunScriptFile(apipath.c_str(),retStr,"RunAPI.lua");
+    const char* baselua = "BaseLib.lua";
+ 	gReader.RunMixedFile(basepath.c_str(),baselua);
+    const char* runapilua = "RunAPI.lua";
+ 	gReader.RunScriptFile(apipath.c_str(),retStr,runapilua);
  	gReader.ExitLuaScriptReader();
  	CCLog("retStr after judge %s",retStr);
 	string ret(retStr);
@@ -67,15 +71,17 @@ string JudgeManager::getResult(string hanzi , string points_output, string all_p
  	gReader.setZiName(hanzi);
 
 	// get easy or hard setting from setting.xml config file
-	string r = DataTool::readFromFile("setting.xml");
+    const char* settingname = "setting.xml";
+	string r = DataTool::readFromFile(settingname);
     CCLog("r value %s",r.c_str());
  	gReader.setLevel(r);
  	if (r.compare("1") == 0)
  	{
-        CCLog("loose lua %s",p->getruleLoose());
- 		gReader.setRulesFunc(p->getruleLoose());
+        string looselua = p->getruleLoose()->getCString();
+ 		gReader.setRulesFunc(looselua);
  	}else if(r.compare("2") == 0){
- 		gReader.setRulesFunc(p->getRuleTight());
+        string tightlua = p->getRuleTight()->getCString();
+ 		gReader.setRulesFunc(tightlua);
  	}
 
 // 	DataTool::storeToFile(funcs.c_str(),"func.txt");

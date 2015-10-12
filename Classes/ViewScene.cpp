@@ -177,7 +177,6 @@ void ViewScene::buttonClick(CCObject* pSender){
 
 	//delete function
 	CCSprite* backgroundImg = CCSprite::create("strangedesign/Dlg_background.png");
-	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
 	PopCancelLayer* dialog = PopCancelLayer::create("strangedesign/Dlg_background.png");
 	dialog->setContentSize(backgroundImg->getContentSize());
 	dialog->addButton("strangedesign/Dlg_delete_button.png","strangedesign/Dlg_delete_button_down.png","Y",0);
@@ -207,8 +206,8 @@ void ViewScene::dlgCallback(CCNode* pNode){
 
 void ViewScene::deleteBtnClick(CCObject* pSender){
 	CCLog("delete btn click");
-	vector<int>::iterator iter= dltList.begin();
-	for (iter ; iter != dltList.end(); iter++)
+	vector<int>::iterator iter;
+	for (iter = dltList.begin(); iter != dltList.end(); iter++)
 	{
 		int tag = (int)*iter;
 		SQLiteData::deleteNote(DataTool::intTostring(tag));

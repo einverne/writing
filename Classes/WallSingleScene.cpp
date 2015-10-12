@@ -39,14 +39,10 @@ bool WallSingleLayer::init()
 		return false;
 	}
 	CCLog("WallSingleScene::init");
-	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
-	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
-
 	isMoved = false;
 	touched = false;
 
 	//注册触摸事件
-	CCPoint changepoint=ccp(0,0);
 	touched=false;
 	this->setTouchEnabled(true);
 	this->setKeypadEnabled(true);			//android back key
@@ -353,7 +349,6 @@ void WallSingleLayer::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 			//在字周围200像素内，判断为点中
 			if (rect.containsPoint(touchpoint))
 			{
-				CCLog(iter->character.c_str());
 				this->singleClick(iter->character);
 				return;
 			}

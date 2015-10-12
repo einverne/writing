@@ -2,9 +2,7 @@
 
 using namespace std;
 
-/************************************************************************/
-/* 读取并解析每一个汉字，笔画xml
-/************************************************************************/
+// 读取并解析每一个汉字，笔画xml
 class CReadXML
 {
 public:
@@ -13,7 +11,7 @@ public:
 	* @return Character
 	*/
 	Character getCharacter();
-public:
+
 	/**
 	* use xml content to create a character
 	* @param xmlcontent

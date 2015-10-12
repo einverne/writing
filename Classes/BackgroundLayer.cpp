@@ -53,7 +53,7 @@ bool BackgroundLayer::init(){
 void BackgroundLayer::onEnter(){
 	CCLayerColor::onEnter();
 
-	//只有评分书写时才显示 难易
+	// 只有评分书写时才显示 难易
 	// only judgement to show the easy and hard button
 	JudgeScene* parentScene = (JudgeScene*)this->getParent();
 	bool isjudge = parentScene->getIsJudge();

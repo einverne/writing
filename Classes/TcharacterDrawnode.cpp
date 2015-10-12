@@ -41,8 +41,8 @@ bool TcharacterDrawnode::init(string hz,CCSize showrect,CharacterEntity* p){
 	this->m_character.resample();
 
 	vector<Bujian> bujianList = this->m_character.bujianList;
-	vector<Bujian>::iterator iter = bujianList.begin();
-	for (iter ; iter != bujianList.end() ; ++ iter)
+	vector<Bujian>::iterator iter ;
+	for (iter = bujianList.begin(); iter != bujianList.end() ; ++ iter)
 	{
 		Bujian bujian = (Bujian)*iter;
 		vector<Stroke> strokeList = bujian.strokeList;
@@ -82,8 +82,8 @@ bool TcharacterDrawnode::init(string hz,CCSize showrect,CharacterExtend* p){
 	this->m_character.resample();
 
 	vector<Bujian> bujianList = this->m_character.bujianList;
-	vector<Bujian>::iterator iter = bujianList.begin();
-	for (iter ; iter != bujianList.end() ; ++ iter)
+	vector<Bujian>::iterator iter;
+	for (iter  = bujianList.begin(); iter != bujianList.end() ; ++ iter)
 	{
 		Bujian bujian = (Bujian)*iter;
 		vector<Stroke> strokeList = bujian.strokeList;

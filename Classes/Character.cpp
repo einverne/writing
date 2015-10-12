@@ -25,18 +25,18 @@ bool Character::addBujian(Bujian bujian){
 CCSize Character::getBox(){
 	float xmin=1000000,ymin=1000000;
 	float xmax=0,ymax=0;
-	vector<Bujian>::iterator iter = bujianList.begin();
-	for (iter;iter != bujianList.end(); ++iter)
+	vector<Bujian>::iterator iter;
+	for (iter = bujianList.begin();iter != bujianList.end(); ++iter)
 	{
 		Bujian bujian = (Bujian)*iter;
 		vector<Stroke> strokeList = bujian.strokeList;
-		vector<Stroke>::iterator stro_iter = strokeList.begin();
-		for (stro_iter; stro_iter != strokeList.end(); ++stro_iter)
+		vector<Stroke>::iterator stro_iter ;
+		for (stro_iter= strokeList.begin(); stro_iter != strokeList.end(); ++stro_iter)
 		{
 			Stroke stroke = (Stroke)*stro_iter;
 			vector<CCPoint> pointList = stroke.getpointList();
-			vector<CCPoint>::iterator point_iter = pointList.begin();
-			for (point_iter; point_iter != pointList.end() ; ++point_iter)
+			vector<CCPoint>::iterator point_iter;
+			for (point_iter = pointList.begin(); point_iter != pointList.end() ; ++point_iter)
 			{
 				CCPoint point = (CCPoint)*point_iter;
 				if (xmin>point.x)
@@ -83,12 +83,11 @@ CCSize Character::getBox(){
 // 改变坐标系，将读取的xml坐标系做转换，符合cocos2d-x第一象限坐标系
 //////////////////////////////////////////////////////////////////////////
 void Character::transformCoordinate(CCPoint point,float length){
-	vector<Bujian>::iterator iter = bujianList.begin();
-	for (int bujiani = 0 ; bujiani < bujianCount ; ++ bujiani)
+
+    for (int bujiani = 0 ; bujiani < bujianCount ; ++ bujiani)
 	{
 		Bujian bujian = bujianList.at(bujiani);//(Bujian)*iter;
 		vector<Stroke> strokeList = bujian.strokeList;
-		vector<Stroke>::iterator stro_iter = strokeList.begin();
 		for (int strokei = 0; strokei < bujian.strokeCount; ++strokei)
 		{
 			Stroke stroke = strokeList.at(strokei);//(Stroke)*stro_iter;
@@ -130,7 +129,6 @@ void Character::prepareDrawNode(){
 	{
 		Bujian bujian = (Bujian)*iter;
 		vector<Stroke> strokeList = bujian.strokeList;
-		vector<Stroke>::iterator stro_iter = strokeList.begin();
 		for (int strokei = 0; strokei < bujian.strokeCount; ++strokei)
 		{
 			Stroke stroke = strokeList[strokei];//(Stroke)*stro_iter;

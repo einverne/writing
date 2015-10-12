@@ -40,14 +40,14 @@ public:
 	* @param filename
 	* @return
 	*/
-	static void storeToFile(const char* str,char* filename);
+	static void storeToFile(const char* str, const char* filename);
 
 	/**
 	* read string from file
 	* @param filename
 	* @return
 	*/
-	static string readFromFile(char* filename);
+	static string readFromFile(const char* filename);
 
 	/**
 	 * get Chinese string

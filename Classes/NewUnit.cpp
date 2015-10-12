@@ -42,7 +42,6 @@ bool NewUnitLayer::init()
 	CCLog("NewUnitLayer::init");
 
 	//注册触摸事件
-	CCPoint changepoint=ccp(0,0);
 	this->setTouchEnabled(true);
 	this->setKeypadEnabled(true);			//android back key
 
