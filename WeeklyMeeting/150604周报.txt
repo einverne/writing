@@ -1,0 +1,8 @@
+
+修改CCEditbox 为 CCTextFieldTTF , 重写 NewUnit ，将16个田字格作为Sprite填充到背景，而单独处理界面文字
+
+NewUnit 界面增加输入判断，只能输入中文
+
+修改得分，保留一位小数点
+
+修改 DataTool 类，增加 to_string_with_precision 函数， 单独处理小数点

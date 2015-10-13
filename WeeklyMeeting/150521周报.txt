@@ -1,0 +1,26 @@
+
+##MainScene
+
+返回对话框改 done
+单元编号从1开始 done
+
+##NewUnit
+
+- 去除返回对话框 done
+
+- 截屏方法 done
+
+错误icon去除 done
+当前几笔/全部几笔  初始状态最大值 done
+
+写字窗口最大化 done
+声音问题 done
+
+最后一个字添加对话框 done
+第一个汉字增加提醒 done
+
+##自由书写界面
+
+保存之后笔画消失 done
+
+增加垃圾箱 done

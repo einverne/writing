@@ -1,0 +1,21 @@
+修改App名字
+
+数据库初始化
+	将Unit表中数值清零
+	将Note表中保存笔迹清空
+
+编译到iOS
+
+经过尝试已经可以编译 Cocos2d-x
+demo项目，现在的目标变为将我们的文件一个个移植到iOS
+
+下载 cocos2d-x 2.0.2 安装Xcode 模板文件
+
+然后通过模板生成工程
+
+http://www.bold-it.com/ios/cocos2d-x-box2d-iosandroid-hybrid-tutorial/
+
+配置iOS 模拟器
+
+http://www.crifan.com/intro_ios_simulator_in_xcode_and_usage_summary/
+
