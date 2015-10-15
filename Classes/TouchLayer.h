@@ -13,7 +13,7 @@ public:
 	TouchLayer();
 	~TouchLayer();
 	/**
-	* ÀûÓÃTcharacterLayer£¬HcharacterLayer³õÊ¼»¯TouchLayer
+	* åˆ©ç”¨TcharacterLayerï¼ŒHcharacterLayeråˆå§‹åŒ–TouchLayer
 	* @param t
 	* @param h
 	* @return
@@ -22,7 +22,7 @@ public:
 	virtual void onEnter();
 	virtual void onExit();
 	/**
-	* ÀûÓÃTcharacterLayer£¬HcharacterLayer´´½¨TouchLayer
+	* åˆ©ç”¨TcharacterLayerï¼ŒHcharacterLayeråˆ›å»ºTouchLayer
 	* @param t
 	* @param h
 	* @return
@@ -38,21 +38,21 @@ public:
 	CC_SYNTHESIZE_RETAIN(HcharacterLayer* ,Hlayer,Hlayer);
 
 	/**
-	* ÅĞ¶Ï¸Ã×ÖÊÇ·ñĞ´Íê
-	* @return Ğ´Íê·µ»Øtrue£¬·ñÔò·µ»Øfalse
+	* åˆ¤æ–­è¯¥å­—æ˜¯å¦å†™å®Œ
+	* @return å†™å®Œè¿”å›trueï¼Œå¦åˆ™è¿”å›false
 	*/
 	bool isFinish();
 
 	/**
-	* ÊÇ·ñÊÇ±£´æ±Ê¼£µÄÊ±ºò
-	* @return true ÒÑ¾­Ğ´Íê¿ÉÒÔ±£´æ
+	* æ˜¯å¦æ˜¯ä¿å­˜ç¬”è¿¹çš„æ—¶å€™
+	* @return true å·²ç»å†™å®Œå¯ä»¥ä¿å­˜
 	*/
 	bool isTimeSave();
 private:
-	int index;				//±£´æµ±Ç°ÊéĞ´µÄµÚ¼¸±Ê
-	int errorType;			//µ±Ç°ÊéĞ´±Ê»­´íÎóÀàĞÍ
-	vector<CCPoint> touchPoints;		//±£´æÊéĞ´µã
-	CCPoint beginPoint;			//±£´æÊéĞ´µÄµÚÒ»¸öµã
+	int index;				//ä¿å­˜å½“å‰ä¹¦å†™çš„ç¬¬å‡ ç¬”
+	int errorType;			//å½“å‰ä¹¦å†™ç¬”ç”»é”™è¯¯ç±»å‹
+	vector<CCPoint> touchPoints;		//ä¿å­˜ä¹¦å†™ç‚¹
+	CCPoint beginPoint;			//ä¿å­˜ä¹¦å†™çš„ç¬¬ä¸€ä¸ªç‚¹
 	bool isOutside;
 	bool isStartOutside;
 };

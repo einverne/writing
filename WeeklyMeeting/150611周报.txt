@@ -1,0 +1,30 @@
+
+##iOS开发尝试
+
+##Ray Wenderlich方法
+
+http://www.raywenderlich.com/33750/cocos2d-x-tutorial-for-ios-and-android-getting-started
+
+使用Xcode模板, 自动创建样例工程
+
+	cd $COCOS2DX_HOME
+	./install-templates-xcode.sh -f -u
+
+尝试失败，cocos2d-x 自2.2版本开始放弃使用模板创建工程
+
+
+##尝试在2.2.6版本下重新新建工程
+
+	python create_project.py -project HelloWorld -package com.einverne.helloworld -language cpp
+
+导入Xcode，运行实例，iOS工程，build
+成功，却无法运行，可能和模拟器相关。为尝试iOS模拟器，新建mac工程，运行成功。排除模拟器问题。
+
+##视频教程，尝试在v3.x版本下创建工程
+
+- https://www.youtube.com/watch?v=qXqgSNUf9Cc
+- http://www.cocos2d-x.org/wiki/How_to_run_cpp-tests_on_iOS
+
+	cocos new -l cpp -p org.cocos2dx.mygame -d ./projects MyGame
+
+正在尝试

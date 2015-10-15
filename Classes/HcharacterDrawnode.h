@@ -13,14 +13,14 @@ public:
 	~HcharacterDrawnode();
 	CREATE_FUNC(HcharacterDrawnode);
 	virtual bool init();
-	//½Úµã¿ªÊ¼½øÈë´¥·¢  
+	//èŠ‚ç‚¹å¼€å§‹è¿›å…¥è§¦å‘  
 	virtual void onEnter();
-	//½ÚµãÍË³ö´¥·¢  
+	//èŠ‚ç‚¹é€€å‡ºè§¦å‘  
 	virtual void onExit();
 	virtual void draw();
 
 	//************************************
-	// Method:    addPoint ÔÚ×îºóÒ»±Ê×îºóÌí¼Óµã
+	// Method:    addPoint åœ¨æœ€åä¸€ç¬”æœ€åæ·»åŠ ç‚¹
 	// FullName:  HcharacterDrawnode::addPoint
 	// Access:    public 
 	// Returns:   void
@@ -30,7 +30,7 @@ public:
 	void addPoint(CCPoint point);
 
 	//************************************
-	// Method:    addStroke Ìí¼ÓÒ»±Ê
+	// Method:    addStroke æ·»åŠ ä¸€ç¬”
 	// FullName:  HcharacterDrawnode::addStroke
 	// Access:    public 
 	// Returns:   void
@@ -40,7 +40,7 @@ public:
 	void addStroke(Stroke s);
 
 	//************************************
-	// Method:    removeLastStroke É¾³ı×îºóÒ»±Ê
+	// Method:    removeLastStroke åˆ é™¤æœ€åä¸€ç¬”
 	// FullName:  HcharacterDrawnode::removeLastStroke
 	// Access:    public 
 	// Returns:   void
@@ -55,13 +55,13 @@ public:
 	// Access:    public 
 	// Returns:   void
 	// Qualifier:
-	// Parameter: int index µÚ¼¸±Ê£¬´Ó0¿ªÊ¼
-	// Parameter: Stroke s ½«num±ÊÌæ»»³É´«ÈëµÄstroke
+	// Parameter: int index ç¬¬å‡ ç¬”ï¼Œä»0å¼€å§‹
+	// Parameter: Stroke s å°†numç¬”æ›¿æ¢æˆä¼ å…¥çš„stroke
 	//************************************
 	void changeStroke(int index,Stroke s);
 
 	//************************************
-	// Method:    getStroke »ñÈ¡µÚ¼¸±Ê ´Ó1¿ªÊ¼
+	// Method:    getStroke è·å–ç¬¬å‡ ç¬” ä»1å¼€å§‹
 	// FullName:  HcharacterDrawnode::getStroke
 	// Access:    public 
 	// Returns:   Stroke
@@ -71,7 +71,7 @@ public:
 	Stroke getStroke(int index);
 
 	/**
-	* ÖØĞ´£¬ÒÆ³ıº¯ÊıÄÚÈİ
+	* é‡å†™ï¼Œç§»é™¤å‡½æ•°å†…å®¹
 	* @return
 	*/
 	void rewrite();

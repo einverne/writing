@@ -4,7 +4,7 @@
 
 #include "cocos2d.h"
 #include "../CocosWidget/cocos-widget.h"
-#include "tools\DataTool.h"
+#include "tools/DataTool.h"
 USING_NS_CC;
 using namespace cocos2d::cocoswidget;
 
@@ -21,7 +21,7 @@ public:
 	CCSprite* tianzige_draw;
 	CCSprite* title_bar;
 private:
-	void menuBack(CCObject* pSender);			//·µ»Ø²Ëµ¥
+	void menuBack(CCObject* pSender);			//menu Back callback
 	void onToggle(CCObject* pSender);			//Toggle onClick
 // 	void menuNext(CCObject* pSender);
 };

@@ -9,9 +9,7 @@
 // defined with this macro as being exported.
 
 #include <string>
-#include <cocos2d.h>
 using namespace std;
-USING_NS_CC;
 
 
 extern "C"{
@@ -31,50 +29,50 @@ protected:
 	string sourcecode;
 public:
 	/**
-	* ³õÊ¼»¯lua¼°luaµÄµ×²ã¿â
+	* åˆå§‹åŒ–luaåŠluaçš„åº•å±‚åº“
 	* @return
 	*/
 	bool InitLuaScriptReader();
 
 	/**
-	* ÊÍ·Ålua
+	* é‡Šæ”¾lua
 	* @return
 	*/
 	void ExitLuaScriptReader();
 
 	/**
-	* ÔËĞĞbuffÖĞµÄlua´úÂë,²»´ø·µ»ØÖµ luaL_loadbuffer
+	* è¿è¡Œbuffä¸­çš„luaä»£ç ,ä¸å¸¦è¿”å›å€¼ luaL_loadbuffer
 	* @param buff
 	* @param name
 	* @return
 	*/
-	bool RunScriptBuffer(const char *buff,char *name);
+	bool RunScriptBuffer(const char *buff,const char *name);
 
 	/**
-	* ÔËĞĞbuffÖĞlua´úÂë£¬´ø·µ»ØÖµ
+	* è¿è¡Œbuffä¸­luaä»£ç ï¼Œå¸¦è¿”å›å€¼
 	* @param buff
 	* @param ret_string
 	* @param name
 	* @return
 	*/
-	bool RunScriptBuffer(const char *buff,char* ret_string,char *name);
+	bool RunScriptBuffer(const char *buff,char* ret_string,const char* name);
 
 	/**
-	* ÔËĞĞbuffÖĞluaÎÄ¼ş
+	* è¿è¡Œbuffä¸­luaæ–‡ä»¶
 	* @param filename
 	* @param name
 	* @return
 	*/
-	bool RunScriptFile(const char *filename,char *name);
+	bool RunScriptFile(const char *filename,const char *name);
 
 	/**
-	* ÔËĞĞbuffÖĞluaÎÄ¼ş,´ø·µ»ØÖµ
+	* è¿è¡Œbuffä¸­luaæ–‡ä»¶,å¸¦è¿”å›å€¼
 	* @param filename
 	* @param ret_string
 	* @param name
 	* @return
 	*/
-	bool RunScriptFile(const char *filename,char* ret_string,char *name);
+	bool RunScriptFile(const char *filename,char* ret_string,const char *name);
 
 	bool GetSourceCode(char *sourcecode);
 
@@ -137,10 +135,10 @@ public:
 //	void SetRulesFunc(const char* filename);
 	
 	/**
-	 *
+	 * pass lua to lus judge engine
 	 * @param rules
 	 */
-	void setRulesFunc(CCString* rules);
+	void setRulesFunc(string rules);
 
 	/**
 	* 
@@ -148,7 +146,7 @@ public:
 	* @param name
 	* @return
 	*/
-	bool RunMixedFile(const char *filename,char *name);
+	bool RunMixedFile(const char *filename,const char *name);
 
 	/**
 	* write buff to file

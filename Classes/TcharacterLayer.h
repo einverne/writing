@@ -23,10 +23,12 @@ public:
 	void reloadChar();
 	CC_SYNTHESIZE_RETAIN(TcharacterDrawnode*, m_TDrawnode,m_TDrawnode);
 	CC_SYNTHESIZE_RETAIN(CCSprite*,m_sprite,Sprite);
-	CC_SYNTHESIZE_RETAIN(CharacterExtend*,m_exChar,ExChar);
+	CharacterExtend* getExChar()	{ return m_exChar; }
+	void setExChar(CharacterExtend* exchar) { m_exChar = exchar; }
 private:
-	bool isPause;					//动画是否暂停
-	string curCharacter;			//当前字符
+	bool isPause;					//鍔ㄧ敾鏄惁鏆傚仠
+	string curCharacter;			//褰撳墠瀛楃
+	CharacterExtend* m_exChar;
 };
 
 

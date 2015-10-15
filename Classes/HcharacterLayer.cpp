@@ -7,13 +7,13 @@
 #include "MoveToRightPlaceInterval.h"
 #include "SimpleAudioEngine.h"
 #include "MyToast.h"
-#include "tools\DataTool.h"
+#include "tools/DataTool.h"
 #include "constants.h"
 #include "JudgeScene.h"
 #include <iomanip>
 
 HcharacterLayer::HcharacterLayer():m_sprite_draw(NULL),
-	bihuaCountAndTotal(NULL),m_HDrawnode(NULL),m_sprite_info(NULL),m_exChar(NULL),
+	bihuaCountAndTotal(NULL),m_HDrawnode(NULL),m_sprite_info(NULL),
 	writeCount(0),wrongCount(0),ijudge(false),totalBihuaCount(0),scoreLabel(NULL),score(0.0),curBihuaWrong(0)
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)  
@@ -23,7 +23,12 @@ HcharacterLayer::HcharacterLayer():m_sprite_draw(NULL),
 #define RIGHT_EFFECT_FILE   "right.wav"
 #define WRONG_EFFECT_FILE	"wrong.wav"
 #endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+#define RIGHT_EFFECT_FILE   "right_android.ogg"
+#define WRONG_EFFECT_FILE	"wrong_android.ogg"
+#endif
 	scale=1.6f;
+	m_exChar = new CharacterExtend();
 }
 
 HcharacterLayer::~HcharacterLayer()
@@ -33,7 +38,6 @@ HcharacterLayer::~HcharacterLayer()
 	CC_SAFE_RELEASE(bihuaCountAndTotal);
 	CC_SAFE_RELEASE(m_HDrawnode);
 	CC_SAFE_RELEASE(m_sprite_info);
-	CC_SAFE_RELEASE(m_exChar);
 	CC_SAFE_RELEASE(scoreLabel);
 }
 
@@ -92,7 +96,7 @@ void HcharacterLayer::onEnter(){
 	CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect(WRONG_EFFECT_FILE);
 	CocosDenshion::SimpleAudioEngine::sharedEngine()->setEffectsVolume(0.5);
 
-	//·Å´óËõĞ¡°´Å¥
+	//æ”¾å¤§ç¼©å°æŒ‰é’®
 	CButton* zoomin = CButton::create("strangedesign/Judge_writting_zoomin_button.png",
 		"strangedesign/Judge_writting_zoomin_button_down.png");
 	zoomin->setPosition(ccp(visiableSize.width/4,zoomin->getContentSize().height+5));
@@ -200,10 +204,10 @@ void HcharacterLayer::judge(){
 // 	string funcs = ((LianxiScene*)this->getParent())->funcs;
 	string funcs = "";
 	TcharacterLayer* tlayer = (TcharacterLayer*)CCDirector::sharedDirector()->getRunningScene()->getChildByTag(kTLayerTag);
-	string points = tlayer->getm_TDrawnode()->getCharacterStandardInfo();		//»ñÈ¡Õı×ÖĞÅÏ¢
+	string points = tlayer->getm_TDrawnode()->getCharacterStandardInfo();		//è·å–æ­£å­—ä¿¡æ¯
 	string ret = JudgeManager::getResult(hanzi,output,points,m_exChar,funcs);
-	CCLog("Hcharacterlay: ret : %s %d",ret.c_str(),ret.length());
-	//Èç¹û²»ÆÀÅĞÔòÌø¹ı
+	CCLog("Hcharacterlay: retstring:%s length:%d",ret.c_str(),ret.length());
+	//å¦‚æœä¸è¯„åˆ¤åˆ™è·³è¿‡
 	if (!ijudge)
 	{
 		return;
@@ -212,13 +216,13 @@ void HcharacterLayer::judge(){
 	{
 		if (ret.at(0) == '0')
 		{
-			//ÕâÒ»±ÊĞ´´í
+			//è¿™ä¸€ç¬”å†™é”™
 			MyToast::showToast(this,DataTool::getChinese("stroke_wrong"),TOAST_LONG);
 			
 			writeWrong();
 			
 		}else if(ret.at(0) == '1'){
-			//Ğ´¶Ô
+			//å†™å¯¹
 			//MyToast::showToast(this,DataTool::getChinese("stroke_right"),TOAST_LONG);
 
 			writeRight();
@@ -226,7 +230,7 @@ void HcharacterLayer::judge(){
 	}else if(ret.length() == 4){
 		if (ret.at(0) == '0')
 		{
-			//ÕâÒ»±ÊĞ´´í »òÕß Î»ÖÃ²»¶Ô
+			//è¿™ä¸€ç¬”å†™é”™ æˆ–è€… ä½ç½®ä¸å¯¹
 			MyToast::showToast(this,DataTool::getChinese("stroke_wrong"),TOAST_LONG);
 			writeWrong();
 			

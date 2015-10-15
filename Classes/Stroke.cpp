@@ -28,9 +28,7 @@ int Stroke::getPointsCount(){
 	return pointList.size();
 }
 
-/************************************************************************/
-/* ½«µã¼ÓÈëµ½pointListÎ²                                                                     */
-/************************************************************************/
+// å°†ç‚¹åŠ å…¥åˆ°pointListå°¾
 bool Stroke::addPoint(CCPoint point){
 	this->pointCount++;
 	if (pointList.empty())
@@ -65,8 +63,8 @@ int Stroke::getStrokeBox(){
 }
 
 void Stroke::resample(int n){
-// 	int n = getStrokeBox()/10;			//»ñÈ¡³¤¿í×î´óÏñËØÖµ
-	float I = strokeLength() / (n-1);		//10¸öÏñËØÒ»¶Î
+// 	int n = getStrokeBox()/10;			//è·å–é•¿å®½æœ€å¤§åƒç´ å€¼
+	float I = strokeLength() / (n-1);		//10ä¸ªåƒç´ ä¸€æ®µ
 	float D = 0;
 
 	vector<CCPoint> dstpoList;
@@ -182,12 +180,12 @@ void Stroke::addStatus(const char* status){
 string Stroke::sendOutputWithStatus(){
 	string ret;
 	vector<string>::const_iterator statusIter = statusList.begin();
-	vector<CCPoint>::const_iterator pointIter = pointList.begin();
+	vector<CCPoint>::const_iterator pointIter;
 	if (pointList.size() != statusList.size())
 	{
 		return ret;
 	}
-	for (pointIter ; pointIter != pointList.end() && statusIter!= statusList.end(); pointIter++,statusIter++)
+	for (pointIter = pointList.begin(); pointIter != pointList.end() && statusIter!= statusList.end(); pointIter++,statusIter++)
 	{
 		CCPoint temp = (*pointIter);
 		ret += convertToString(ceil(temp.x))+ "/" + convertToString(ceil(temp.y)) + "/";

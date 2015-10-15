@@ -48,6 +48,13 @@ bool Splash::init(){
 		DataTool::storeToFile("1","setting.xml");
 	}
 #endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+    string settingxml = CCFileUtils::sharedFileUtils()->getWritablePath()+"setting.xml";
+    if (!CCFileUtils::sharedFileUtils()->isFileExist(settingxml)) {
+        CCLog("Splash::init first time init ios setting.xml");
+        DataTool::storeToFile("1","setting.xml");
+    }
+#endif
     return true;
 }
 

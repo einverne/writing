@@ -16,8 +16,8 @@ public:
 	// Access:    public static 
 	// Returns:   MoveToRightPlace*
 	// Qualifier:
-	// Parameter: int index µÚ¼¸±Ê
-	// Parameter: Stroke s ÕýÈ·µÄ±Ê»­
+	// Parameter: int index ç¬¬å‡ ç¬”
+	// Parameter: Stroke s æ­£ç¡®çš„ç¬”ç”»
 	//************************************
 	static MoveToRightPlace* create(int index,Stroke s);
 	CCObject* copyWithZone(CCZone* pZone);

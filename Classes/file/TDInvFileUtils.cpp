@@ -2,37 +2,37 @@
 //  TDInvFileUtils.cpp
 //  MyCocoa2DTest
 //
-//  Created by Î¤ ÖùÈ« on 13-2-27.
+//  Created by éŸ¦ æŸ±å…¨ on 13-2-27.
 //
 //
 
 #include "TDInvFileUtils.h"
 
 string TDInvFileUtils::getFileByName(string pFileName){
-    //µÚÒ»ÏÈ»ñÈ¡ÎÄ¼şµÄÂ·¾¶
+    //ç¬¬ä¸€å…ˆè·å–æ–‡ä»¶çš„è·¯å¾„
     string path = CCFileUtils::sharedFileUtils()->getWritablePath() + pFileName;
     CCLOG("path = %s",path.c_str());
     
-    //´´½¨Ò»¸öÎÄ¼şÖ¸Õë
+    //åˆ›å»ºä¸€ä¸ªæ–‡ä»¶æŒ‡é’ˆ
     FILE* file = fopen(path.c_str(), "r");
     
     if (file) {
-        char* buf;  //Òª»ñÈ¡µÄ×Ö·û´®
-        int len;    //»ñÈ¡µÄ³¤¶È
-        /*»ñÈ¡³¤¶È*/
-        fseek(file, 0, SEEK_END);   //ÒÆµ½Î²²¿
-        len = ftell(file);          //ÌáÈ¡³¤¶È
-        rewind(file);               //»Ø¹éÔ­Î»
+        char* buf;  //è¦è·å–çš„å­—ç¬¦ä¸²
+        int len;    //è·å–çš„é•¿åº¦
+        /*è·å–é•¿åº¦*/
+        fseek(file, 0, SEEK_END);   //ç§»åˆ°å°¾éƒ¨
+        len = ftell(file);          //æå–é•¿åº¦
+        rewind(file);               //å›å½’åŸä½
         CCLOG("count the file content len = %d",len);
-        //·ÖÅäbuf¿Õ¼ä
+        //åˆ†é…bufç©ºé—´
         buf = (char*)malloc(sizeof(char) * len + 1);
         if (!buf) {
             CCLOG("malloc space is not enough.");
             return NULL;
         }
         
-        //¶ÁÈ¡ÎÄ¼ş
-        //¶ÁÈ¡½øµÄbuf£¬µ¥Î»´óĞ¡£¬³¤¶È£¬ÎÄ¼şÖ¸Õë
+        //è¯»å–æ–‡ä»¶
+        //è¯»å–è¿›çš„bufï¼Œå•ä½å¤§å°ï¼Œé•¿åº¦ï¼Œæ–‡ä»¶æŒ‡é’ˆ
         int rLen = fread(buf, sizeof(char), len, file);
         buf[rLen] = '\0';
         CCLOG("has read Length = %d",rLen);
@@ -50,12 +50,12 @@ string TDInvFileUtils::getFileByName(string pFileName){
 }
 
 bool TDInvFileUtils::saveFile(char *pContent, string pFileName){
-    //µÚÒ»»ñÈ¡´¢´æµÄÎÄ¼şÂ·¾¶
+    //ç¬¬ä¸€è·å–å‚¨å­˜çš„æ–‡ä»¶è·¯å¾„
     string path = CCFileUtils::sharedFileUtils()->getWritablePath() + pFileName;
     CCLOG("wanna save file path = %s",path.c_str());
     
-    //´´½¨Ò»¸öÎÄ¼şÖ¸Õë
-    //Â·¾¶¡¢Ä£Ê½
+    //åˆ›å»ºä¸€ä¸ªæ–‡ä»¶æŒ‡é’ˆ
+    //è·¯å¾„ã€æ¨¡å¼
     FILE* file = fopen(path.c_str(), "w");
     if (file) {
         fputs(pContent, file);

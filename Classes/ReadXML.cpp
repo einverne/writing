@@ -45,6 +45,10 @@ CReadXML::CReadXML(string xmlpath)
 	TiXmlDocument* document = new TiXmlDocument(xmlpath.c_str());
 	document->LoadFile();
 #endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+    TiXmlDocument* document = new TiXmlDocument(xmlpath.c_str());
+    document->LoadFile();
+#endif
 	TiXmlElement* rootElement = document->RootElement();
 	TiXmlElement* outlineElement = rootElement->FirstChildElement();
 	TiXmlElement* strokeElement = outlineElement->FirstChildElement();

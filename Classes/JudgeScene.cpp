@@ -3,7 +3,7 @@
 #include "SQLiteData.h"
 #include <algorithm>
 #include "MyToast.h"
-#include "tools\DataTool.h"
+#include "tools/DataTool.h"
 using namespace std;
 
 
@@ -12,21 +12,20 @@ JudgeScene::JudgeScene():backgroundLayer(NULL),
 	touchLayer(NULL),
 	TLayer(NULL),
 	HLayer(NULL),
-	ext_p(NULL),
 	judgeLayer(NULL),
 	index(0)
 {
-
+	ext_p = new CharacterExtend();
 }
 
 JudgeScene::JudgeScene(string unit_id,vector<string> hanzis):backgroundLayer(NULL),
 	touchLayer(NULL),
 	TLayer(NULL),
 	HLayer(NULL),
-	ext_p(NULL),
 	judgeLayer(NULL),
 	index(0)
 {
+	ext_p = new CharacterExtend();
 	this->unit_id = unit_id;
 	hanziList = hanzis;
 	if (!hanzis.empty())
@@ -41,7 +40,6 @@ JudgeScene::~JudgeScene()
 	CC_SAFE_RELEASE(TLayer);
 	CC_SAFE_RELEASE(HLayer);
 	CC_SAFE_RELEASE(touchLayer);
-	CC_SAFE_RELEASE(ext_p);
 	CC_SAFE_RELEASE(judgeLayer);
 }
 
@@ -63,9 +61,9 @@ bool JudgeScene::init(){
 	do 
 	{
 
-		this->setCharacterExt(new CharacterExtend());
+		//this->setCharacterExt(new CharacterExtend());
 		SQLiteData::getHanziDataExtend(currentCharacter,ext_p);
-		zi_id = DataTool::intTostring(ext_p->getID()->getValue());
+		zi_id = DataTool::intTostring(ext_p->getID());
 
 		this->setbackgroundLayer(BackgroundLayer::create());
 		CC_BREAK_IF(!backgroundLayer);
@@ -104,7 +102,7 @@ bool JudgeScene::init(){
 }
 
 void JudgeScene::next(){
-	//ÔÚ×îºóÒ»¸ö×ÖÌáÐÑÓÃ»§×îºóÒ»¸ö×Ö
+	//åœ¨æœ€åŽä¸€ä¸ªå­—æé†’ç”¨æˆ·æœ€åŽä¸€ä¸ªå­—
 	
 	index++;
 	if (index >= 16)
@@ -127,7 +125,7 @@ void JudgeScene::next(){
 // 	string hz = *iter;
 // 	if (currentCharacter == hz)
 // 	{
-// 		 next = hanziList.erase(iter);		²»ÔÚlistÖÐÈ¥³ýºº×Ö
+// 		 next = hanziList.erase(iter);		ä¸åœ¨listä¸­åŽ»é™¤æ±‰å­—
 // 		
 // 	}
 // 	currentCharacter = *next;
@@ -136,7 +134,7 @@ void JudgeScene::next(){
 	{
 		currentCharacter = hanziList.at(index);
 		SQLiteData::getHanziDataExtend(currentCharacter,ext_p);
-		zi_id = DataTool::intTostring(ext_p->getID()->getValue());
+		zi_id = DataTool::intTostring(ext_p->getID());
 		getTLayer()->setCharacter(currentCharacter);
 		getTLayer()->setExChar(ext_p);
 		getTLayer()->reloadChar();
@@ -157,7 +155,7 @@ void JudgeScene::previous(){
 	{
 		currentCharacter = hanziList.at(index);
 		SQLiteData::getHanziDataExtend(currentCharacter,ext_p);
-		zi_id = DataTool::intTostring(ext_p->getID()->getValue());
+		zi_id = DataTool::intTostring(ext_p->getID());
 		getTLayer()->setCharacter(currentCharacter);
 		getTLayer()->setExChar(ext_p);
 		getTLayer()->reloadChar();

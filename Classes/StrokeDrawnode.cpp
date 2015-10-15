@@ -36,16 +36,16 @@ StrokeDrawnode::~StrokeDrawnode()
 
 void StrokeDrawnode::draw(){
 	//CCLog("StrokeDrawnode::draw");
-	//ÔÚÕâÀïÉè¶¨±Ê»­µÄ´ÖÏ¸ºÍÑÕÉ«¡£ ¾ßÌåÒª²é¿´
-	glLineWidth(8.0f);					//±Ê»­´ÖÏ¸
-	ccDrawColor4F(0,0,0,1);				//±Ê»­ÑÕÉ«
+	//åœ¨è¿™é‡Œè®¾å®šç¬”ç”»çš„ç²—ç»†å’Œé¢œè‰²ã€‚ å…·ä½“è¦æŸ¥çœ‹
+	glLineWidth(8.0f);					//ç¬”ç”»ç²—ç»†
+	ccDrawColor4F(0,0,0,1);				//ç¬”ç”»é¢œè‰²
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 //	glHint(GL_POINT_SMOOTH_HINT,GL_NICEST);
 // 	glEnable(GL_LINE_SMOOTH);
 	if (visibleIndex == -1)
 	{
-		CCPoint pre = stroke.getpointListIndexAt(0);					//Ö±½ÓÄÃÁËpointListµÚÒ»¸öÖµ
+		CCPoint pre = stroke.getpointListIndexAt(0);					//ç›´æ¥æ‹¿äº†pointListç¬¬ä¸€ä¸ªå€¼
 		for (int i = 1; i< stroke.getPointsCount(); i++)
 		{
 			ccDrawLine(pre,stroke.getpointListIndexAt(i));
@@ -53,7 +53,7 @@ void StrokeDrawnode::draw(){
 		}
 	}else
 	{
-		CCPoint pre = stroke.getpointListIndexAt(0);					//Ö±½ÓÄÃÁËpointListµÚÒ»¸öÖµ
+		CCPoint pre = stroke.getpointListIndexAt(0);					//ç›´æ¥æ‹¿äº†pointListç¬¬ä¸€ä¸ªå€¼
 		for (int i = 1; i< stroke.getPointsCount() && i < visibleIndex; i++)
 		{
 			ccDrawLine(pre,stroke.getpointListIndexAt(i));

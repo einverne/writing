@@ -17,10 +17,10 @@ TcharacterDrawnode::~TcharacterDrawnode()
 
 /**
 * 
-* @param hz ºº×Ö
-* @param showrect ÏÔÊ¾ÇøÓò
-* @param p °üº¬Êý¾Ý¿âÖÐ¶ÁÈ¡µÄºº×ÖÐÅÏ¢XMLµÈµÈ
-* @return ³õÊ¼»¯ÊÇ·ñ³É¹¦
+* @param hz æ±‰å­—
+* @param showrect æ˜¾ç¤ºåŒºåŸŸ
+* @param p åŒ…å«æ•°æ®åº“ä¸­è¯»å–çš„æ±‰å­—ä¿¡æ¯XMLç­‰ç­‰
+* @return åˆå§‹åŒ–æ˜¯å¦æˆåŠŸ
 */
 bool TcharacterDrawnode::init(string hz,CCSize showrect,CharacterEntity* p){
 
@@ -41,8 +41,8 @@ bool TcharacterDrawnode::init(string hz,CCSize showrect,CharacterEntity* p){
 	this->m_character.resample();
 
 	vector<Bujian> bujianList = this->m_character.bujianList;
-	vector<Bujian>::iterator iter = bujianList.begin();
-	for (iter ; iter != bujianList.end() ; ++ iter)
+	vector<Bujian>::iterator iter ;
+	for (iter = bujianList.begin(); iter != bujianList.end() ; ++ iter)
 	{
 		Bujian bujian = (Bujian)*iter;
 		vector<Stroke> strokeList = bujian.strokeList;
@@ -72,7 +72,8 @@ bool TcharacterDrawnode::init(string hz,CCSize showrect,CharacterExtend* p){
 	strokedrawList = CCArray::create();
 	strokedrawList->retain();
 
-	CReadXML readxml(p->getXML()->getCString());
+	// be carefule readxml has two construct functions, one pass a char* and one pass a string file name
+	CReadXML readxml(p->getXML().c_str());
 	this->m_character = readxml.getCharacter();
 	myChar = readxml.getCharacter();
 	this->showRect = showrect;
@@ -82,8 +83,8 @@ bool TcharacterDrawnode::init(string hz,CCSize showrect,CharacterExtend* p){
 	this->m_character.resample();
 
 	vector<Bujian> bujianList = this->m_character.bujianList;
-	vector<Bujian>::iterator iter = bujianList.begin();
-	for (iter ; iter != bujianList.end() ; ++ iter)
+	vector<Bujian>::iterator iter;
+	for (iter  = bujianList.begin(); iter != bujianList.end() ; ++ iter)
 	{
 		Bujian bujian = (Bujian)*iter;
 		vector<Stroke> strokeList = bujian.strokeList;

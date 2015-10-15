@@ -51,7 +51,7 @@ bool MainScene::init(){
 	add_btn->setOnClickListener(this,ccw_click_selector(MainScene::addButtonCallback));
 	m_pWindow->addChild(add_btn,4);
 
-	
+
 	CCLog("unit count %d",unit_count);
 
 	CCSize visualSize = CCSizeMake(winSize.width,winSize.height-titlebar->getContentSize().height-10);
@@ -113,7 +113,6 @@ void MainScene::isExit(CCNode* pNode){
 
 // void MainScene::settingCallBack(CCNode* pNode){
 // 	if (pNode->getTag() == 0) {
-// 		//if click Y , end app	将设置写入配置文件 tight
 // 		DataTool::storeToFile("2","setting.xml");
 // 	}else {
 // 		DataTool::storeToFile("1","setting.xml");
@@ -204,13 +203,13 @@ CCObject* MainScene::gridviewDataSource(CCObject* pConvertView, unsigned int idx
 void MainScene::buttonClick(CCObject* pSender){
 	CButton* pButton = (CButton*)pSender;
 	int idx = pButton->getUserTag();
-	string id = unit_ids.at(idx);		//将顺序数字转化成数据库中id
+	string id = unit_ids.at(idx);		// 灏嗛『搴忔暟瀛楄浆鍖栨垚鏁版嵁搴撲腑鐨刬d
 	CCDirector::sharedDirector()->replaceScene(WallSingleLayer::scene(id));
 }
 
 bool  MainScene::buttonLongClick(CCObject* pSender, CCTouch* pTouch){
 	CCLog("Long click");
-	//长按进入编辑界面
+	// long press enter edit UI
 
 	CCSprite* backgroundIMG = CCSprite::create("strangedesign/Dlg_background.png");
 	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
@@ -244,14 +243,15 @@ void MainScene::addButtonCallback(CCObject* pSender){
 // 	{
 // 		unit.push_back(single);
 // 	}
-// 	SQLiteData::insertUnit(unit);
-
+// 	//SQLiteData::insertUnit(unit);
+//
 //  	unit_count++;
 //  	pGridView->setCountOfCell(unit_count);
 //  	unit_ids = SQLiteData::getUnitIDs();
 //  	pGridView->reloadData();
 }
 
+// dialog call back , 0 is delete unit , 1 is update this unit
 void MainScene::dlgCallBack(CCNode* pNode){
 
 	int tag = pNode->getTag();
@@ -264,7 +264,7 @@ void MainScene::dlgCallBack(CCNode* pNode){
 		unit_ids = SQLiteData::getUnitIDs();
 		pGridView->reloadData();
 	}else{
-		//update into the NewUnitLayer
+		//update unit in the NewUnitLayer
 		CCDirector::sharedDirector()->replaceScene(NewUnitLayer::scene(longClickSelectUnitID));
 	}
 

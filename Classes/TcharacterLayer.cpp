@@ -4,16 +4,15 @@
 #include "CharacterEntity.h"
 
 TcharacterLayer::TcharacterLayer():m_sprite(NULL),
-	m_TDrawnode(NULL),isPause(false),m_exChar(NULL)
+	m_TDrawnode(NULL),isPause(false)
 {
-
+	m_exChar = new CharacterExtend();
 }
 
 TcharacterLayer::~TcharacterLayer(){
 	CCLog("~TcharacterLayer %d",this->m_uReference);
 	CC_SAFE_RELEASE(m_sprite);
 	CC_SAFE_RELEASE(m_TDrawnode);
-	CC_SAFE_RELEASE(m_exChar);
 }
 
 bool TcharacterLayer::init(CCSprite* tianzige){
@@ -63,7 +62,7 @@ void TcharacterLayer::onEnter(){
 // 	CharacterExtend* p = ((LianxiScene*)this->getParent())->getCharacterExt();
 	this->setm_TDrawnode(TcharacterDrawnode::create(curCharacter, m_sprite->getContentSize(), m_exChar));
 	this->addChild(m_TDrawnode,1);
-	//²»ÉèÖÃAnchorpointÁË£¬Ö±½Ó×ö×ø±ê±ä»»
+	//ä¸è®¾ç½®Anchorpointäº†ï¼Œç›´æŽ¥åšåæ ‡å˜æ¢
 	m_TDrawnode->setPosition(m_sprite->getPosition());
 	getm_TDrawnode()->setScale(0.75);
 	getm_TDrawnode()->setAnchorPoint(ccp(0.5,0.5));
@@ -101,7 +100,7 @@ void TcharacterLayer::reloadChar(){
 	this->removeChild(getm_TDrawnode());
 	this->setm_TDrawnode(TcharacterDrawnode::create(curCharacter, m_sprite->getContentSize(), m_exChar));
 	this->addChild(m_TDrawnode,2000);
-	//²»ÉèÖÃAnchorpointÁË£¬Ö±½Ó×ö×ø±ê±ä»»
+	//ä¸è®¾ç½®Anchorpointäº†ï¼Œç›´æŽ¥åšåæ ‡å˜æ¢
 	m_TDrawnode->setPosition(m_sprite->getPosition());
 	getm_TDrawnode()->setScale(0.75);
 	getm_TDrawnode()->setAnchorPoint(ccp(0.5,0.5));

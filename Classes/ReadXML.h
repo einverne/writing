@@ -2,9 +2,7 @@
 
 using namespace std;
 
-/************************************************************************/
-/* ¶ÁÈ¡²¢½âÎöÃ¿Ò»¸öºº×Ö£¬±Ê»­xml
-/************************************************************************/
+// è¯»å–å¹¶è§£ææ¯ä¸€ä¸ªæ±‰å­—ï¼Œç¬”ç”»xml
 class CReadXML
 {
 public:
@@ -13,16 +11,16 @@ public:
 	* @return Character
 	*/
 	Character getCharacter();
-public:
+
 	/**
-	* use xml content to create a character
+	* use xml content to create a character, need a char*
 	* @param xmlcontent
 	* @return
 	*/
 	CReadXML(const char* xmlcontent);
 
 	/**
-	* parse xml to an Object to create a character
+	* parse xml file path to an Object to create a character
 	* @param string xmlpath
 	* @return
 	*/

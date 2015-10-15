@@ -14,10 +14,8 @@ bool MyToast::init(){
 		CC_BREAK_IF(!CCLayerColor::initWithColor(ccc4(0, 0, 0, 0)));
 		visibleSize = CCDirector::sharedDirector()->getVisibleSize();  
 		origin = CCDirector::sharedDirector()->getVisibleOrigin();  
-		//====================================  
-		bg = CCScale9Sprite::create("toast_bg.png");  
+		bg = CCScale9Sprite::create("toast_bg.png");
 		bg->setPosition(ccp(origin.x+visibleSize.width/2,origin.y+130*visibleSize.height/960));  
-		//============================  
 		bRet = true;  
 	} while (0);  
 	return bRet;  

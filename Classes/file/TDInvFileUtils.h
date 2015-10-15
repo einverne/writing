@@ -2,7 +2,7 @@
 //  TDInvFileUtils.h
 //  MyCocoa2DTest
 //
-//  Created by Î¤ ÖùÈ« on 13-2-27.
+//  Created by éŸ¦ æŸ±å…¨ on 13-2-27.
 //
 //
 
@@ -14,15 +14,15 @@
 USING_NS_CC;
 using namespace std;
 
-/** ¸ºÔğ²Ù×÷ÎÄ¼ş´¢´æºÍ¶ÁÈ¡
+/** è´Ÿè´£æ“ä½œæ–‡ä»¶å‚¨å­˜å’Œè¯»å–
  */
 
 class TDInvFileUtils {
 public:
-    /** ¶ÁÈ¡±¾µØÎÄ¼ş£¬·µ»ØÊı¾İ */
+    /** è¯»å–æœ¬åœ°æ–‡ä»¶ï¼Œè¿”å›æ•°æ® */
     static string getFileByName(string pFileName);
     
-    /** ´¢´æÄÚÈİµ½ÎÄ¼ş */
+    /** å‚¨å­˜å†…å®¹åˆ°æ–‡ä»¶ */
     static bool saveFile(char* pContent,string pFileName);
     
 };

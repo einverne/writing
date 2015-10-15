@@ -22,7 +22,7 @@ public:
 // 	static LianxiScene* create(vector<string> hanzis,string hanzi);
 	bool init();
 
-// 	string funcs;						//µ±Ç°ºº×ÖĞèÒªÊ¹ÓÃµ½Êı¾İÖĞ±Ê»­luaÆÀÅĞ¹æÔò
+// 	string funcs;						//å½“å‰æ±‰å­—éœ€è¦ä½¿ç”¨åˆ°æ•°æ®ä¸­ç¬”ç”»luaè¯„åˆ¤è§„åˆ™
 
 
 	CC_SYNTHESIZE_RETAIN(BackgroundLayer*,backgroundLayer,backgroundLayer);
@@ -30,12 +30,13 @@ public:
 	CC_SYNTHESIZE_RETAIN(TcharacterLayer*,TLayer,TLayer);
 	CC_SYNTHESIZE_RETAIN(HcharacterLayer*,HLayer,HLayer);
 //	CC_SYNTHESIZE_RETAIN(CharacterEntity*,p,CharacterP);
-	CC_SYNTHESIZE_RETAIN(CharacterExtend*,ext_p,CharacterExt);
+	CharacterExtend* getCharacterExt()		{ return ext_p; }
+	void setCharacterExt(CharacterExtend* ext) { ext_p = ext; }
 	
 private:
 // 	vector<string> hanziList;
-	string CurrentCharacter;			//µ±Ç°ÕıÔÚÁ·Ï°µÄºº×Ö×Ö·û
-
+	string CurrentCharacter;			//å½“å‰æ­£åœ¨ç»ƒä¹ çš„æ±‰å­—å­—ç¬¦
+	CharacterExtend* ext_p;
 };
 
 

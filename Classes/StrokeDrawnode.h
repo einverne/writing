@@ -6,13 +6,13 @@
 USING_NS_CC;
 using namespace std;
 
-//Ã¿Ò»¸ö±Ê»­µÄ»æÖÆÀà£¬¼Ì³Ğ×ÔCCNode
+//æ¯ä¸€ä¸ªç¬”ç”»çš„ç»˜åˆ¶ç±»ï¼Œç»§æ‰¿è‡ªCCNode
 class StrokeDrawnode : public CCNode
 {
 public:
 	StrokeDrawnode();
 	/**
-	* ÓÃStroke¹¹ÔìÒ»¸öNode
+	* ç”¨Strokeæ„é€ ä¸€ä¸ªNode
 	* @param stro
 	* @return
 	*/
@@ -26,9 +26,9 @@ public:
 	* @return
 	*/
 	static StrokeDrawnode* create(Stroke stro);
-	//½Úµã¿ªÊ¼½øÈë´¥·¢
+	//èŠ‚ç‚¹å¼€å§‹è¿›å…¥è§¦å‘
 	virtual void onEnter();
-	//½ÚµãÍË³ö´¥·¢
+	//èŠ‚ç‚¹é€€å‡ºè§¦å‘
 	virtual void onExit();
 	virtual void draw();
 
@@ -45,14 +45,14 @@ public:
 	Stroke getStroke(){return stroke;}
 
 	/**
-	* ÉèÖÃvisibleIndex
+	* è®¾ç½®visibleIndex
 	* @param vi
 	* @return
 	*/
 	void setVisibleIndex(int vi);
 
 	/**
-	* ·µ»ØvisibleIndex
+	* è¿”å›visibleIndex
 	* @return
 	*/
 	int getVisibleIndex()	{ return visibleIndex; }

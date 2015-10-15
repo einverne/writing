@@ -31,14 +31,14 @@ public:
 	virtual void keyBackClicked();
 
 	/**
-	 * unitID´´½¨
+	 * unitIDåˆ›å»º
 	 * @param unitID
 	 * @return
 	 */
 	static cocos2d::CCScene* scene(string unitID);
 
 	/**
-	 * ÓÃUnitID´´½¨
+	 * ç”¨UnitIDåˆ›å»º
 	 * @param unitID
 	 * @return
 	 */
@@ -52,24 +52,24 @@ public:
 	virtual void registerWithTouchDispatcher();
 
 	/**
-	* µ¯³ö¶Ô»°¿ò
+	* å¼¹å‡ºå¯¹è¯æ¡†
 	* @param hanzi
 	* @return
 	*/
 	void popup(string hanzi);
 	
 	/**
-	* ¶Ô»°¿ò»Øµ÷º¯Êı
+	* å¯¹è¯æ¡†å›è°ƒå‡½æ•°
 	* @param pNode
 	* @return
 	*/
 	void buttonCallBack(CCNode* pNode);
 
 	virtual void update(float delta);
-	//³¤°´
+	//é•¿æŒ‰
 	void longPressUpdate(float fDelta);
 
-	//»ñÈ¡µ±Ç°Ê±¼ä ¾«È·µ½ºÁÃëÊı
+	//è·å–å½“å‰æ—¶é—´ ç²¾ç¡®åˆ°æ¯«ç§’æ•°
 	static inline long millisecondNow()
 	{
 		struct cc_timeval now;
@@ -81,9 +81,9 @@ public:
 	void singleClick(string hanzi);
 
 	/**
-	* ĞŞ¸ÄxmlÎÄ¼şÖĞºº×Ö¶ÔÓ¦proficiencyÖµ
-	* @param character ÒªĞŞ¸ÄprofÖµ¶ÔÓ¦µÄ×Ö
-	* @param proficiencyÒªĞŞ¸Äµ½µÄÖµ
+	* ä¿®æ”¹xmlæ–‡ä»¶ä¸­æ±‰å­—å¯¹åº”proficiencyå€¼
+	* @param character è¦ä¿®æ”¹profå€¼å¯¹åº”çš„å­—
+	* @param proficiencyè¦ä¿®æ”¹åˆ°çš„å€¼
 	* @return
 	*/
 	bool setProficiency(string character,string proficiency);
@@ -102,14 +102,14 @@ private:
 	long beginTime;
 
 	/**
-	* ÆÀÅĞÊéĞ´
+	* è¯„åˆ¤ä¹¦å†™
 	* @param pSender
 	* @return
 	*/
 	void pingpanwriting(CCObject* pSender);
 
 	/**
-	* ×ÔÓÉÁ·Ï°ÏûÏ¢ÏìÓ¦
+	* è‡ªç”±ç»ƒä¹ æ¶ˆæ¯å“åº”
 	* @param pSender
 	* @return
 	*/
@@ -122,10 +122,10 @@ private:
 	*/
 	void screenshot(CCObject* pSender);
 
-	vector<string> hanzis;			//Ç½ÉÏµÄºº×Ö
-	bool isLongPressAllow;			//ÊÇ·ñÔÊĞí³¤°´²Ù×÷
-	string unitID;				//ÓÃÒÔÇø±ğ²»Í¬µ¥Ôª£¬ÓëÊı¾İ¿âÖĞµ¥ÔªIDÁĞ¶ÔÓ¦
-	vector<vector <string> > groupCharacter;		//´ÓÊı¾İ¿âÖĞ»ñÈ¡Ò»¸öµ¥ÔªµÄºº×ÖÊı×é
+	vector<string> hanzis;			//å¢™ä¸Šçš„æ±‰å­—
+	bool isLongPressAllow;			//æ˜¯å¦å…è®¸é•¿æŒ‰æ“ä½œ
+	string unitID;				//ç”¨ä»¥åŒºåˆ«ä¸åŒå•å…ƒï¼Œä¸æ•°æ®åº“ä¸­å•å…ƒIDåˆ—å¯¹åº”
+	vector<vector <string> > groupCharacter;		//ä»æ•°æ®åº“ä¸­è·å–ä¸€ä¸ªå•å…ƒçš„æ±‰å­—æ•°ç»„
 };
 
 #endif // __WallSingleScene_H__

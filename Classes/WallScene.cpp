@@ -63,8 +63,8 @@ bool WallScene::init()
 	/////////////////////////////
 	// 3. add your codes below...
 	//////////////////////////////////////////////////////////////////////////////
-	//Ìí¼ÓµØÍ¼£º
-	//1.¶ÁÈ¡xmlÎÄ¼þ£¬È·¶¨Ëõ·Å±ÈÀý//
+	//æ·»åŠ åœ°å›¾ï¼š
+	//1.è¯»å–xmlæ–‡ä»¶ï¼Œç¡®å®šç¼©æ”¾æ¯”ä¾‹//
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	string myfilename = CCFileUtils::sharedFileUtils()->getWritablePath()+"wall.xml";
 	unsigned long size = 0;
@@ -77,13 +77,17 @@ bool WallScene::init()
 	TiXmlDocument* myDocument = new TiXmlDocument(myfilename.c_str());
 	myDocument->LoadFile();
 #endif
-
-	TiXmlElement* rootElement = myDocument->RootElement();  // Class
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+    string myfilename=CCFileUtils::sharedFileUtils()->fullPathForFilename("wall.xml");
+    TiXmlDocument* myDocument = new TiXmlDocument(myfilename.c_str());
+    myDocument->LoadFile();
+#endif
+    TiXmlElement* rootElement = myDocument->RootElement();  // Class
 	TiXmlElement* metaElement = rootElement->FirstChildElement();  // meta   
-	TiXmlElement* heightElement = metaElement->FirstChildElement(); //»ñµÃmetaµÄheightÔªËØ
+	TiXmlElement* heightElement = metaElement->FirstChildElement(); //èŽ·å¾—metaçš„heightå…ƒç´ 
 	string mheight=heightElement->GetText();
 	int height=atoi(mheight.c_str());
-	TiXmlElement* widthElement = heightElement->NextSiblingElement(); //»ñµÃmetaµÄwidthÔªËØ
+	TiXmlElement* widthElement = heightElement->NextSiblingElement(); //èŽ·å¾—metaçš„widthå…ƒç´ 
 	string mwidth=widthElement->GetText(); 
 	int width=atoi(mwidth.c_str());
 
@@ -120,11 +124,11 @@ bool WallScene::init()
 			string temph=hElement->GetText();
 			int h=atoi((temph.substr(0, temph.size()-2)).c_str());
 
-			//×ø±êÏµÖØ¶¨Î»
+			//åæ ‡ç³»é‡å®šä½
 			x=x+w/2;
 			y=height-y-h/2;
 
-			//Ëõ·Å£»
+			//ç¼©æ”¾ï¼›
 			x*=rescale;
 			y*=rescale;
 			w*=rescale;
@@ -143,12 +147,12 @@ bool WallScene::init()
 			pSprite1->setPosition(ccp(origin.x+x, origin.y+y));
 			this->addChild(pSprite1, 1);
 
-			//ÎÄ±¾¿ò
+			//æ–‡æœ¬æ¡†
 			CCLabelTTF* pLabel = CCLabelTTF::create(temphanzi.c_str(), "XingShu", 100);
 			pLabel->setPosition(ccp(origin.x + x, origin.y + y));
 			this->addChild(pLabel, 2);
 
-			//ºº×Ö¹ÜÀí
+			//æ±‰å­—ç®¡ç†
 			temphanziManage.character=hanziElement->GetText();
 			temphanziManage.textbox=pLabel;
 			temphanziManage.pos=CCPoint(x,y);
@@ -178,11 +182,11 @@ bool WallScene::init()
 			string temph=hElement->GetText();
 			int h=atoi((temph.substr(0, temph.size()-2)).c_str());
 
-			//×ø±êÏµÖØ¶¨Î»
+			//åæ ‡ç³»é‡å®šä½
 			x=x+w/2;
 			y=height-y-h/2;
 
-			//Ëõ·Å£»
+			//ç¼©æ”¾ï¼›
 			x*=rescale;
 			y*=rescale;
 			w*=rescale;
@@ -206,12 +210,12 @@ bool WallScene::init()
 	pSprite->setScale(15);
 	this->addChild(pSprite, 0);
 
-	//×¢²á´¥ÃþÊÂ¼þ
+	//æ³¨å†Œè§¦æ‘¸äº‹ä»¶
 	CCPoint changepoint=ccp(0,0);
 	touched=false;
 	this->setTouchEnabled(true);
 	this->setKeypadEnabled(true);			//android back key
-	//Ô­±¾Èç¹ûÃ»ÓÐÖØÔØregisterÄÇ¸öº¯Êý£¬ÐèÒªµ÷ÓÃÈçÏÂÁ½¸öÆäÖÐÖ®Ò»
+	//åŽŸæœ¬å¦‚æžœæ²¡æœ‰é‡è½½registeré‚£ä¸ªå‡½æ•°ï¼Œéœ€è¦è°ƒç”¨å¦‚ä¸‹ä¸¤ä¸ªå…¶ä¸­ä¹‹ä¸€
 	//CCDirector::sharedDirector()->getTouchDispatcher()->addStandardDelegate(this,1);
 	//CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 0, true);
 
@@ -300,7 +304,7 @@ void WallScene::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 	touched=true;
 
 	beginTime = millisecondNow();
-	//¶¨Ê±Æ÷,Ö±½ÓÊ¹ÓÃscheduleUpdateÎÞÐ§
+	//å®šæ—¶å™¨,ç›´æŽ¥ä½¿ç”¨scheduleUpdateæ— æ•ˆ
 	//this->scheduleUpdate();
 	CCDirector::sharedDirector()->getScheduler()->scheduleSelector(schedule_selector(WallScene::longPressUpdate),this,1.5f,false);
 	for (vector<CHanziManage>::iterator iter = hanzilist.begin();iter!=hanzilist.end();++iter)
@@ -364,7 +368,7 @@ void WallScene::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 			CCPoint realPos = ccp(hanziPos.x+changepoint.x,hanziPos.y+changepoint.y);
 			//CCLog("hanziPos %f %f",hanziPos.x,hanziPos.y);
 			CCRect rect = CCRectMake(realPos.x-100,realPos.y-100,200,200);
-			//ÔÚ×ÖÖÜÎ§200ÏñËØÄÚ£¬ÅÐ¶ÏÎªµãÖÐ
+			//åœ¨å­—å‘¨å›´200åƒç´ å†…ï¼Œåˆ¤æ–­ä¸ºç‚¹ä¸­
 			if (rect.containsPoint(touchpoint))
 			{
 				CCLog(iter->character.c_str());
@@ -378,7 +382,7 @@ void WallScene::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 	isMoved = false;
 	selectedHanzi = "";
 
-	//½â³ý¶¨Ê±Æ÷
+	//è§£é™¤å®šæ—¶å™¨
 	CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(WallScene::longPressUpdate),this);
 
 }
@@ -406,15 +410,15 @@ void WallScene::menuCloseCallback(CCObject* pSender)
 }
 
 bool WallScene::isInSprite(CCTouch* pTouch){
-	// ·µ»Øµ±Ç°´¥ÃþÎ»ÖÃÔÚOpenGL×ø±ê 
+	// è¿”å›žå½“å‰è§¦æ‘¸ä½ç½®åœ¨OpenGLåæ ‡ 
 	CCPoint touchPoint=pTouch->getLocation();
-	// ½«ÊÀ½ç×ø±ê×ª»»Îªµ±Ç°¸¸ViewµÄ±¾µØ×ø±êÏµ
+	// å°†ä¸–ç•Œåæ ‡è½¬æ¢ä¸ºå½“å‰çˆ¶Viewçš„æœ¬åœ°åæ ‡ç³»
 
 	CCPoint reallyPoint=this->getParent()->convertToNodeSpace(touchPoint);
-	// »ñÈ¡µ±Ç°»ùÓÚ¸¸viewµÄ×ø±êÏµ
+	// èŽ·å–å½“å‰åŸºäºŽçˆ¶viewçš„åæ ‡ç³»
 
 	CCRect rect=this->boundingBox();
-	// CCnode->convertToNodeSpace »òÕß  convertToWorldSpace ÊÇ»ùÓÚµ±Ç°NodeµÄ  Óëµ±Ç°NodeÏà¹Ø
+	// CCnode->convertToNodeSpace æˆ–è€…  convertToWorldSpace æ˜¯åŸºäºŽå½“å‰Nodeçš„  ä¸Žå½“å‰Nodeç›¸å…³
 
 	if(rect.containsPoint(reallyPoint)){
 		return true;
@@ -423,10 +427,10 @@ bool WallScene::isInSprite(CCTouch* pTouch){
 }
 
 /************************************************************************/
-/* string hanzi ´«¸ølianxi½çÃæÊéÐ´                                                                      */
+/* string hanzi ä¼ ç»™lianxiç•Œé¢ä¹¦å†™                                                                      */
 /************************************************************************/
 void WallScene::singleClick(string hanzi){
-	//½â³ýschedule,²»È»¿ÉÄÜ³öÏÖ²»¿ÉÔ¤²âÎÊÌâ¡£
+	//è§£é™¤schedule,ä¸ç„¶å¯èƒ½å‡ºçŽ°ä¸å¯é¢„æµ‹é—®é¢˜ã€‚
 	
 // 	CCDirector::sharedDirector()->replaceScene(lianxi::scene(hanzi));
 	if (hanzi != "a")
@@ -449,7 +453,7 @@ void WallScene::popup(string hanzi){
 	popL->addButton("sure_up.png","sure_down.png","Y",0);
 	popL->addButton("cancer_up.png","cancer_down.png","N",1);
 	CCDirector::sharedDirector()->getRunningScene()->addChild(popL,100);
-	//½â³ý¶¨Ê±Æ÷
+	//è§£é™¤å®šæ—¶å™¨
 	CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(WallScene::longPressUpdate),this);
 }
 
@@ -457,13 +461,13 @@ void WallScene::buttonCallBack(CCNode* pNode){
 	CCLog("button call back. tag: %d", pNode->getTag());
 	if (pNode->getTag() == 0)
 	{
-		//µ¯³ö¶Ô»°¿ò£¬È·ÈÏ£¬½«ºº×ÖÐ´µ½¶ÔÓ¦Î»ÖÃ
+		//å¼¹å‡ºå¯¹è¯æ¡†ï¼Œç¡®è®¤ï¼Œå°†æ±‰å­—å†™åˆ°å¯¹åº”ä½ç½®
 		//const char* h = popL->getHanzi();
 		for (vector<CHanziManage>::iterator iter = hanzilist.begin(); iter != hanzilist.end(); ++iter)
 		{
 			if (iter == selectedCHanziManageIter)
 			{
-				// ½«¸Ä¶¯µÄºº×ÖÐ´Èëµ½xmlÎÄ¼þ£¬saveToFile()
+				// å°†æ”¹åŠ¨çš„æ±‰å­—å†™å…¥åˆ°xmlæ–‡ä»¶ï¼ŒsaveToFile()
 				const char* h = popL->getHanzi();
 				//				string dst(h,strlen(h)+1);
 				saveToFile(iter->character, h);
@@ -477,7 +481,7 @@ void WallScene::buttonCallBack(CCNode* pNode){
 
 	}else
 	{
-		//µ¯³ö¶Ô»°¿ò£¬È¡Ïû£¬Ê²Ã´¶¼²»×ö
+		//å¼¹å‡ºå¯¹è¯æ¡†ï¼Œå–æ¶ˆï¼Œä»€ä¹ˆéƒ½ä¸åš
 	}
 }
 
@@ -488,7 +492,7 @@ void WallScene::longPressUpdate(float fDelta){
 	{
 		popup(selectedHanzi);
 	}
-	//½â³ý¶¨Ê±Æ÷
+	//è§£é™¤å®šæ—¶å™¨
 	CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(WallScene::longPressUpdate),this);
 }
 
@@ -499,6 +503,9 @@ void WallScene::saveToFile(string src,const char* dst){
 #endif
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	string myfilename = CCFileUtils::sharedFileUtils()->getWritablePath()+"wall.xml";
+#endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+    string myfilename=CCFileUtils::sharedFileUtils()->fullPathForFilename("wall.xml");
 #endif
 	TiXmlDocument* myDocument = new TiXmlDocument(myfilename.c_str());
 	myDocument->LoadFile();

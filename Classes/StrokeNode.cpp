@@ -6,11 +6,11 @@ USING_NS_CC;
 StrokeNode::StrokeNode(Stroke stroke)
 {
 	n_stroke = stroke;
-	//ÉèÖÃCCNode´óĞ¡
+	//è®¾ç½®CCNodeå¤§å°
 	CCPoint p = n_stroke.getBigPoint();
 	this->setContentSize(CCSizeMake(p.x,p.y));
 
-	//Ìí¼Ó½Úµã,»­Ïß ÔÚdrawº¯ÊıÖĞ 
+	//æ·»åŠ èŠ‚ç‚¹,ç”»çº¿ åœ¨drawå‡½æ•°ä¸­ 
 	
 
 }
@@ -30,9 +30,9 @@ bool StrokeNode::init(){
 void StrokeNode::draw(void){
 // 	ccDrawLine(CCPointZero,CCPointMake(100,100));
 	
-	glLineWidth( 5.0f );//ÉèÖÃÏß¿í
-	ccDrawColor4B(255,0,0,255);//ÉèÖÃÏßµÄÑÕÉ«
-	//±éÀúµã£¬»­³öÏß¶Î
+	glLineWidth( 5.0f );//è®¾ç½®çº¿å®½
+	ccDrawColor4B(255,0,0,255);//è®¾ç½®çº¿çš„é¢œè‰²
+	//éå†ç‚¹ï¼Œç”»å‡ºçº¿æ®µ
 	CCPoint tmp = n_stroke.pointList[0];
 	for (int i = 0 ; i < n_stroke.pointList.size() ; ++i)
 	{
@@ -41,7 +41,7 @@ void StrokeNode::draw(void){
 	}
 	CCSize tmpSize = getContentSize();
 
-	//»­ÖĞĞÄµã
+	//ç”»ä¸­å¿ƒç‚¹
 	ccPointSize(4);
 	ccDrawColor4B(0,255,255,255);
 
@@ -67,7 +67,7 @@ CCPoint StrokeNode::getMidStrokePoint(){
 	return n_stroke.getMidPoint();
 }
 
-//½«ÖĞĞÄÉèÖÃµ½±Ê»­µÄÖĞĞÄ£¬ÓÃÍê±ØĞëÉèÖÃ»ØÈ¥
+//å°†ä¸­å¿ƒè®¾ç½®åˆ°ç¬”ç”»çš„ä¸­å¿ƒï¼Œç”¨å®Œå¿…é¡»è®¾ç½®å›å»
 void StrokeNode::setAnchorMidStroke(){
 	CCPoint midp = n_stroke.getMidPoint();
 	CCPoint p = n_stroke.getBigPoint();

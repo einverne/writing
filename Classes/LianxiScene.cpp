@@ -7,33 +7,19 @@ using namespace std;
 LianxiScene::LianxiScene():backgroundLayer(NULL),
 	touchLayer(NULL),
 	TLayer(NULL),
-	HLayer(NULL),
-	//	p(NULL),
-	ext_p(NULL)
+	HLayer(NULL)
 {
-
+	ext_p = new CharacterExtend();
 }
 
 LianxiScene::LianxiScene(string hanzi):backgroundLayer(NULL),
 	touchLayer(NULL),
 	TLayer(NULL),
-	HLayer(NULL),
-	//	p(NULL),
-	ext_p(NULL)
+	HLayer(NULL)
 {
 	CurrentCharacter = hanzi;
-	//	p = new CharacterEntity();
+	ext_p = new CharacterExtend();
 }
-
-// LianxiScene::LianxiScene(vector<string> hanzis,string hanzi):backgroundLayer(NULL),
-// 	touchLayer(NULL),
-// 	TLayer(NULL),
-// 	HLayer(NULL),
-// 	ext_p(NULL)
-// {
-// 	hanziList = hanzis;
-// 	CurrentCharacter = hanzi;
-// }
 
 LianxiScene::~LianxiScene()
 {
@@ -42,7 +28,7 @@ LianxiScene::~LianxiScene()
 	CC_SAFE_RELEASE(TLayer);
 	CC_SAFE_RELEASE(HLayer);
 	CC_SAFE_RELEASE(touchLayer);
-	CC_SAFE_RELEASE(ext_p);
+	delete ext_p;
 }
 
 LianxiScene* LianxiScene::create(string hanzi){
@@ -56,18 +42,6 @@ LianxiScene* LianxiScene::create(string hanzi){
 		return NULL;
 	}
 }
-
-// LianxiScene* LianxiScene::create(vector<string> hanzis,string hanzi){
-// 	LianxiScene* pRet = new LianxiScene(hanzis,hanzi);
-// 	if (pRet && pRet->init())
-// 	{
-// 		pRet->autorelease();
-// 		return pRet;
-// 	}else{
-//         CC_SAFE_DELETE(pRet);        
-// 		return NULL;
-// 	}
-// }
 
 bool LianxiScene::init(){
 	bool bRet = false;
@@ -110,7 +84,7 @@ bool LianxiScene::init(){
 // 	CCLog("seq %s",temp->getCString());
 // 	string str(temp->getCString());
 // 	vector<string> strvec = SQLiteData::splitStrokeSeq(str);
-// 	//»•÷ÿ
+// 	//ÂéªÈáç
 // 	std::sort(strvec.begin(),strvec.end());
 // 	strvec.erase(std::unique(strvec.begin(),strvec.end()),strvec.end());
 // 	vector<string>::iterator iter = strvec.begin(),iter2 = strvec.end();

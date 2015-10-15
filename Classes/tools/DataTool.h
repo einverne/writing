@@ -14,50 +14,57 @@ class DataTool
 public:
 //	static string GB2312ToUTF8(string strGBK);
 //	static string GBKToUTF8(string gbk);
-	//将int转成string字符串
+
+	// convert int to string
 	static string intTostring(int a);
 
 	static int stringToInt(string str);
 
 	/**
-		将字符串保存到文件中
+	* convert float to string
+	* @param f
+	* @return
 	*/
-
 	static string floatToString(float f);
 
+	/**
+	* convert string to float
+	* @param str
+	* @return
+	*/
 	static float stringToFloat(string str);
 
 	/**
-	* 保存字符串到文件
+	* save string to file
 	* @param str
 	* @param filename
 	* @return
 	*/
-	static void storeToFile(const char* str,char* filename);
+	static void storeToFile(const char* str, const char* filename);
 
 	/**
-	* 从文件中读取字符串
+	* read string from file
 	* @param filename
 	* @return
 	*/
-	static string readFromFile(char* filename);
+	static string readFromFile(const char* filename);
 
 	/**
-	 * 获取中文字符
-	 * @param key 中文字符串已key value保存在xml中
+	 * get Chinese string
+	 * @param key Chinese character has been saved in xml as key and value
 	 * @return
 	 */
 	static string getChinese(string key);
 
 	/**
-	* 将str分割成 多笔画 序列
+	* split string into multi strokes vector
 	* @param str
 	* @return
 	*/
 	static vector< vector<CCPoint> > spliteString(string str);
 
 	/**
-	* 将字符串以splitsymbol分割成数组
+	* split string by splitSymbols into vector
 	* @param str
 	* @param splitSymbols
 	* @return
@@ -65,7 +72,7 @@ public:
 	static vector<string> spliteStringBy(string str, string splitSymbols);
 
 	/**
-	* 将文件拷贝到SD卡 根目录
+	* copy file into SD root
 	* @param filename
 	* @return
 	*/

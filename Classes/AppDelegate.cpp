@@ -18,24 +18,23 @@ bool AppDelegate::applicationDidFinishLaunching() {
     CCDirector* pDirector = CCDirector::sharedDirector();
     CCEGLView* pEGLView = CCEGLView::sharedOpenGLView();
 
+    CCSize screenSize = pEGLView->getFrameSize();
+    CCSize designSize = CCSizeMake(720, 1280);
+    CCLog("screen size: %f %f",screenSize.width, screenSize.height);
+    
     pDirector->setOpenGLView(pEGLView);
-    pEGLView->setDesignResolutionSize(720,1280,kResolutionExactFit);
-
+    CCSize winSize = pDirector->getWinSize();
+    CCLog("screen size: %f %f",winSize.width, winSize.height);
+    pEGLView->setDesignResolutionSize(designSize.width,designSize.height,kResolutionExactFit);
+    
     // turn on display FPS
     pDirector->setDisplayStats(false);
 
     // set FPS. the default value is 1.0/60 if you don't call this
     pDirector->setAnimationInterval(1.0 / 60);
 
-//    int i = 0;
-//    CCFileUtils *fileUtils = CCFileUtils::sharedFileUtils();
-//    std::vector<std::string> searchPaths = fileUtils->getSearchPaths();
-//    searchPaths.insert(searchPaths.begin() + i++, "withword");
-//    fileUtils->setSearchPaths(searchPaths);
     // create a scene. it's an autorelease object
-// 	CCScene *pScene = TestMoveSprite::scene();
-     CCScene* pScene = Splash::scene();
-//    CCScene* pScene = WallScene::scene();
+    CCScene* pScene = Splash::scene();
 
     // run
     pDirector->runWithScene(pScene);
@@ -44,7 +43,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 }
 
 // This function will be called when the app is inactive. When comes a phone call,it's be invoked too
-// µ±Ó¦ÓÃ³ÌÐò²»ÔÙ»î¶¯Ê±£¬»áµ÷ÓÃ´Ë·½·¨¡£µ±ÊÖ»ú½Óµ½µç»°Ê±£¬ËüÒ²»á±»µ÷ÓÃ
+// å½“åº”ç”¨ç¨‹åºä¸å†æ´»åŠ¨æ—¶ï¼Œä¼šè°ƒç”¨æ­¤æ–¹æ³•ã€‚å½“æ‰‹æœºæŽ¥åˆ°ç”µè¯æ—¶ï¼Œå®ƒä¹Ÿä¼šè¢«è°ƒç”¨
 void AppDelegate::applicationDidEnterBackground() {
     CCDirector::sharedDirector()->stopAnimation();
 
@@ -53,7 +52,7 @@ void AppDelegate::applicationDidEnterBackground() {
 }
 
 // this function will be called when the app is active again
-// µ±Ó¦ÓÃ³ÌÐòÖØÐÂ»î¶¯Ê±£¬»áµ÷ÓÃ´Ë·½·¨
+// å½“åº”ç”¨ç¨‹åºé‡æ–°æ´»åŠ¨æ—¶ï¼Œä¼šè°ƒç”¨æ­¤æ–¹æ³•
 void AppDelegate::applicationWillEnterForeground() {
     CCDirector::sharedDirector()->startAnimation();
 

@@ -21,10 +21,10 @@ public:
 	Stroke(vector<CCPoint> points);
 	~Stroke(void);
 	vector<CCDrawNode*> nodeList;
-	CCPoint prePoint;		//±£´æÃ¿Ò»±ÊÊ×µã
+	CCPoint prePoint;		//ä¿å­˜æ¯ä¸€ç¬”é¦–ç‚¹
 public:
 	/**
-	 * »ñÈ¡µãÊıÁ¿
+	 * è·å–ç‚¹æ•°é‡
 	 * @return
 	 */
 	int getPointsCount();
@@ -43,23 +43,23 @@ public:
 	float strokeLength();
 
 	/**
-	* ÖØ²ÉÑù£¬²åÖµ´úÂë xÖá·½ÏòÃ¿10pxÒ»¶Î
-	* @param n Ä¬ÈÏÎª20£¬¿ÉÒÔ×ÔÓÉÉè¶¨
+	* é‡é‡‡æ ·ï¼Œæ’å€¼ä»£ç  xè½´æ–¹å‘æ¯10pxä¸€æ®µ
+	* @param n é»˜è®¤ä¸º20ï¼Œå¯ä»¥è‡ªç”±è®¾å®š
 	* @return
 	*/
 	void resample(int n = 20);
 
-	CCSize getRotateAng();						//»ñÈ¡Î²µãµ½Ê×µãµÄÏòÁ¿
-	CCPoint getMidPoint();						//»ñÈ¡Ò»±ÊÖĞµã£¬¼òµ¥Àí½âÎªÊ×µãºÍÎ²µãµÄÖĞµã
+	CCSize getRotateAng();						//è·å–å°¾ç‚¹åˆ°é¦–ç‚¹çš„å‘é‡
+	CCPoint getMidPoint();						//è·å–ä¸€ç¬”ä¸­ç‚¹ï¼Œç®€å•ç†è§£ä¸ºé¦–ç‚¹å’Œå°¾ç‚¹çš„ä¸­ç‚¹
 	CCSize getSize();
-	CCPoint getBigPoint();						//»ñÈ¡×ø±êÖµ×î´óµÄµã£¬°üÎ§ºĞ×îÓÒÉÏ½ÇµÄµã
+	CCPoint getBigPoint();						//è·å–åæ ‡å€¼æœ€å¤§çš„ç‚¹ï¼ŒåŒ…å›´ç›’æœ€å³ä¸Šè§’çš„ç‚¹
 
 	/**
-	* ¸øpointListÖĞÃ¿¸öpoint¼ÓÉÏÒ»¸öpointÖµ
+	* ç»™pointListä¸­æ¯ä¸ªpointåŠ ä¸Šä¸€ä¸ªpointå€¼
 	* @param point
 	* @return
 	*/
-	void addEveryPoint(CCPoint point);			//Ã¿¸öµã¼ÓÒ»¸öµã
+	void addEveryPoint(CCPoint point);			//æ¯ä¸ªç‚¹åŠ ä¸€ä¸ªç‚¹
 // 	StrokeNode* getStrokeNode();
 
 	/**
@@ -86,13 +86,13 @@ public:
 	void addStatus(const char* status);
 
 	/**
-	* ²úÉúËÍ¸øLuaµÄ×Ö·û´®
+	* äº§ç”Ÿé€ç»™Luaçš„å­—ç¬¦ä¸²
 	* @return
 	*/
 	string sendOutput();
 
 	/**
-	* ²úÉúËÍ¸øLuaµÄ×Ö·û´®
+	* äº§ç”Ÿé€ç»™Luaçš„å­—ç¬¦ä¸²
 	* @return
 	*/
 	string sendOutputWithStatus();
@@ -100,8 +100,8 @@ public:
 private:
 	int pointCount;
 
-	float distance(CCPoint p1,CCPoint p2);		//Á½µã¼ä¾àÀë
-	int getStrokeBox();					//¼ÇÂ¼Ò»±Ê°üÎ§ºĞ£¬ÖØ²ÉÑùÊ¹ÓÃ
+	float distance(CCPoint p1,CCPoint p2);		//ä¸¤ç‚¹é—´è·ç¦»
+	int getStrokeBox();					//è®°å½•ä¸€ç¬”åŒ…å›´ç›’ï¼Œé‡é‡‡æ ·ä½¿ç”¨
 	string convertToString(float f);
 
 	vector<CCPoint> pointList;				//store a group of points

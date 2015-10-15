@@ -1,0 +1,18 @@
+
+更新Windows & Android下素材
+
+修改更新单元界面，去除弹出对话框，去除触摸响应事件，去除单点已经长按操作
+增加编辑框，将每一个田字格作为单独的编辑框
+增加编辑框消息响应函数
+
+	//开始编辑时
+	virtual void editBoxEditingDidBegin(CCEditBox* editBox);
+	//结束编辑时
+	virtual void editBoxEditingDidEnd(CCEditBox* editBox);
+	//编辑框文字改变时
+	virtual void editBoxTextChanged(CCEditBox* editBox, const std::string& text);
+	//触发return后
+	virtual void editBoxReturn(CCEditBox* editBox);
+
+在编辑框消息响应函数中对界面元素进行更新，以及处理后台数据库的交互操作。
+

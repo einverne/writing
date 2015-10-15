@@ -1,0 +1,11 @@
+
+调整图片设置，完成易笔画App
+	
+	合并 strange_design 分支到 master 分支，新建分支 yihanzi
+	新建 yibihua 分支 ，将工作迁移到 yibihua 分支中进行
+	涉及工作，修改 MainScene 和 SingleWallScene 调整图片位置
+
+
+
+
+

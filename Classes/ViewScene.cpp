@@ -84,7 +84,7 @@ CCObject* ViewScene::gridViewDataSource(CCObject* pContentView, unsigned int idx
 	CButton* pButton = NULL;
 	CCheckBox* pCheckbox = NULL;
 	Notes = SQLiteData::getNote(unit_id,zi_id);
-	vector<string> oneNote = Notes.at(idx);			//oneNote ÖĞµÚÒ»¸öÔªËØÎªID£¬µÚ¶ş¸öÔªËØÎª±Ê»­ĞòÁĞ
+	vector<string> oneNote = Notes.at(idx);			//oneNote ä¸­ç¬¬ä¸€ä¸ªå…ƒç´ ä¸ºIDï¼Œç¬¬äºŒä¸ªå…ƒç´ ä¸ºç¬”ç”»åºåˆ—
 
 	if (!pCell)
 	{
@@ -142,7 +142,7 @@ CCObject* ViewScene::gridViewDataSource(CCObject* pContentView, unsigned int idx
 		//pCell->addChild(pButton,10);
 
 		HcharacterDrawnode* handwritingHz = HcharacterDrawnode::create();
-		vector<string> oneNote = Notes.at(idx);			//oneNote ÖĞµÚÒ»¸öÔªËØÎªID£¬µÚ¶ş¸öÔªËØÎª±Ê»­ĞòÁĞ
+		vector<string> oneNote = Notes.at(idx);			//oneNote ä¸­ç¬¬ä¸€ä¸ªå…ƒç´ ä¸ºIDï¼Œç¬¬äºŒä¸ªå…ƒç´ ä¸ºç¬”ç”»åºåˆ—
 		vector< vector<CCPoint> > strokesvec = DataTool::spliteString(oneNote.at(1));
 		for (unsigned int i = 0; i < strokesvec.size(); i++)
 		{
@@ -177,7 +177,6 @@ void ViewScene::buttonClick(CCObject* pSender){
 
 	//delete function
 	CCSprite* backgroundImg = CCSprite::create("strangedesign/Dlg_background.png");
-	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
 	PopCancelLayer* dialog = PopCancelLayer::create("strangedesign/Dlg_background.png");
 	dialog->setContentSize(backgroundImg->getContentSize());
 	dialog->addButton("strangedesign/Dlg_delete_button.png","strangedesign/Dlg_delete_button_down.png","Y",0);
@@ -207,8 +206,8 @@ void ViewScene::dlgCallback(CCNode* pNode){
 
 void ViewScene::deleteBtnClick(CCObject* pSender){
 	CCLog("delete btn click");
-	vector<int>::iterator iter= dltList.begin();
-	for (iter ; iter != dltList.end(); iter++)
+	vector<int>::iterator iter;
+	for (iter = dltList.begin(); iter != dltList.end(); iter++)
 	{
 		int tag = (int)*iter;
 		SQLiteData::deleteNote(DataTool::intTostring(tag));

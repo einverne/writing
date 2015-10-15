@@ -39,17 +39,17 @@
 //}
 //
 //
-////UTF8¡¢GBKÖ®¼äµÄ×ª»»
+////UTF8ã€GBKä¹‹é—´çš„è½¬æ¢
 //string DataTool::GBKToUTF8(string gbk)
 //{
-//	//½¨Á¢Ò»¿éÄÚ´æ¿é
+//	//å»ºç«‹ä¸€å—å†…å­˜å—
 //	char *szOut=new char[gbk.size()+2];
-//	//½«ÄÚ´æÈ«ÉèÎª0;
+//	//å°†å†…å­˜å…¨è®¾ä¸º0;
 //	memset(szOut,0,gbk.size()+2);
-//	//¿½±´£¬ÏàÊ¶ÓÚStrcpy
+//	//æ‹·è´ï¼Œç›¸è¯†äºŽStrcpy
 //	memcpy(szOut,gbk.c_str(),strlen(gbk.c_str()));
 //	char* strGBK = szOut;
-//	//Ó³ÉäÒ»¸ö×Ö·û´®µ½Ò»¸ö¿í×Ö·û£¨unicode£©µÄ×Ö·û´®
+//	//æ˜ å°„ä¸€ä¸ªå­—ç¬¦ä¸²åˆ°ä¸€ä¸ªå®½å­—ç¬¦ï¼ˆunicodeï¼‰çš„å­—ç¬¦ä¸²
 //	int len=MultiByteToWideChar(CP_ACP, 0, (LPCSTR)strGBK, -1, NULL,0);
 //	unsigned short * wszUtf8 = new unsigned short[len+1];
 //	memset(wszUtf8, 0, len * 2 + 2);
@@ -96,7 +96,7 @@ float DataTool::stringToFloat(string str){
 	return f;
 }
 
-void DataTool::storeToFile(const char* str,char* filename){
+void DataTool::storeToFile(const char* str, const char* filename){
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	unsigned long size = 0;
 	string finame(filename);
@@ -107,7 +107,7 @@ void DataTool::storeToFile(const char* str,char* filename){
 		file = fopen(path.c_str(),"wb");
 		fwrite(str,strlen(str),1,file);
 	}else{
-		// 		CCLog("CLuaScriptReader::Print2File file NULL");
+        CCLog("DataTool storeToFile failed");
 	}
 	fclose(file);
 #endif
@@ -118,15 +118,31 @@ void DataTool::storeToFile(const char* str,char* filename){
 	fwrite (str, strlen(str), 1 , pFile );
 	fclose (pFile);
 #endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+    string finame(filename);
+    string path = CCFileUtils::sharedFileUtils()->getWritablePath()+finame;
+    FILE* file = fopen(path.c_str(),"w");
+    if (file != NULL)
+    {
+        file = fopen(path.c_str(),"wb");
+        fwrite(str,strlen(str),1,file);
+    }else{
+        CCLog("DataTool storeToFile failed");
+    }
+    fclose(file);
+#endif
 }
 
-string DataTool::readFromFile(char* filename){
+string DataTool::readFromFile(const char* filename){
 	string ret;
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	string filepath = CCFileUtils::sharedFileUtils()->getWritablePath()+filename;
 #endif
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 	string filepath = CCFileUtils::sharedFileUtils()->fullPathForFilename(filename);
+#endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+    string filepath = CCFileUtils::sharedFileUtils()->getWritablePath()+filename;
 #endif
 	unsigned long size = 0;
 	unsigned char* filecontent = CCFileUtils::sharedFileUtils()->getFileData(filepath.c_str(),"r",&size);

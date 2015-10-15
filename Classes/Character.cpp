@@ -21,22 +21,22 @@ bool Character::addBujian(Bujian bujian){
 }
 
 //////////////////////////////////////////////////////////////////////////
-//»ñÈ¡°üÎ§ºĞ´óĞ¡
+//è·å–åŒ…å›´ç›’å¤§å°
 CCSize Character::getBox(){
 	float xmin=1000000,ymin=1000000;
 	float xmax=0,ymax=0;
-	vector<Bujian>::iterator iter = bujianList.begin();
-	for (iter;iter != bujianList.end(); ++iter)
+	vector<Bujian>::iterator iter;
+	for (iter = bujianList.begin();iter != bujianList.end(); ++iter)
 	{
 		Bujian bujian = (Bujian)*iter;
 		vector<Stroke> strokeList = bujian.strokeList;
-		vector<Stroke>::iterator stro_iter = strokeList.begin();
-		for (stro_iter; stro_iter != strokeList.end(); ++stro_iter)
+		vector<Stroke>::iterator stro_iter ;
+		for (stro_iter= strokeList.begin(); stro_iter != strokeList.end(); ++stro_iter)
 		{
 			Stroke stroke = (Stroke)*stro_iter;
 			vector<CCPoint> pointList = stroke.getpointList();
-			vector<CCPoint>::iterator point_iter = pointList.begin();
-			for (point_iter; point_iter != pointList.end() ; ++point_iter)
+			vector<CCPoint>::iterator point_iter;
+			for (point_iter = pointList.begin(); point_iter != pointList.end() ; ++point_iter)
 			{
 				CCPoint point = (CCPoint)*point_iter;
 				if (xmin>point.x)
@@ -80,15 +80,14 @@ CCSize Character::getBox(){
 }
 
 //////////////////////////////////////////////////////////////////////////
-// ¸Ä±ä×ø±êÏµ£¬½«¶ÁÈ¡µÄxml×ø±êÏµ×ö×ª»»£¬·ûºÏcocos2d-xµÚÒ»ÏóÏŞ×ø±êÏµ
+// æ”¹å˜åæ ‡ç³»ï¼Œå°†è¯»å–çš„xmlåæ ‡ç³»åšè½¬æ¢ï¼Œç¬¦åˆcocos2d-xç¬¬ä¸€è±¡é™åæ ‡ç³»
 //////////////////////////////////////////////////////////////////////////
 void Character::transformCoordinate(CCPoint point,float length){
-	vector<Bujian>::iterator iter = bujianList.begin();
-	for (int bujiani = 0 ; bujiani < bujianCount ; ++ bujiani)
+
+    for (int bujiani = 0 ; bujiani < bujianCount ; ++ bujiani)
 	{
 		Bujian bujian = bujianList.at(bujiani);//(Bujian)*iter;
 		vector<Stroke> strokeList = bujian.strokeList;
-		vector<Stroke>::iterator stro_iter = strokeList.begin();
 		for (int strokei = 0; strokei < bujian.strokeCount; ++strokei)
 		{
 			Stroke stroke = strokeList.at(strokei);//(Stroke)*stro_iter;
@@ -108,7 +107,7 @@ void Character::transformCoordinate(CCPoint point,float length){
 				///////////////////////////////////////////////
 				//pointList.erase(pointList.begin()+i);
 				//vector<CCPoint>::iterator po_iter = pointList.begin();
-				//pointList.insert(po_iter+i,ccp(temppoint.x,temppoint.y));		//×ø±ê×ª»»
+				//pointList.insert(po_iter+i,ccp(temppoint.x,temppoint.y));		//åæ ‡è½¬æ¢
 				//pointList[i] = ccp(temppoint.x,temppoint.y);
 			}
 		}
@@ -130,7 +129,6 @@ void Character::prepareDrawNode(){
 	{
 		Bujian bujian = (Bujian)*iter;
 		vector<Stroke> strokeList = bujian.strokeList;
-		vector<Stroke>::iterator stro_iter = strokeList.begin();
 		for (int strokei = 0; strokei < bujian.strokeCount; ++strokei)
 		{
 			Stroke stroke = strokeList[strokei];//(Stroke)*stro_iter;
@@ -154,12 +152,12 @@ void Character::prepareDrawNode(){
 }
 
 /************************************************************************/
-/* ÒÀ¾İ´«ÈëCCSize£¬¿í¶È£¬ÖØĞÂ¼ÆËã£¬µãµÄ×ø±êÖµ£¬½øĞĞËõ·Å²Ù×÷£¬ÊÊºÏÌï×Ö¸ñ´óĞ¡                                                                     */
+/* ä¾æ®ä¼ å…¥CCSizeï¼Œå®½åº¦ï¼Œé‡æ–°è®¡ç®—ï¼Œç‚¹çš„åæ ‡å€¼ï¼Œè¿›è¡Œç¼©æ”¾æ“ä½œï¼Œé€‚åˆç”°å­—æ ¼å¤§å°                                                                     */
 /************************************************************************/
 void Character::resize(CCSize size){
 	float width = size.width;
-	float scale = width/this->fontSize;		//È·¶¨Ëõ·Å±ÈÀı
-	//ÖØÖÃËùÓĞ±£´æµã
+	float scale = width/this->fontSize;		//ç¡®å®šç¼©æ”¾æ¯”ä¾‹
+	//é‡ç½®æ‰€æœ‰ä¿å­˜ç‚¹
 	for (int bujiani = 0 ; bujiani < bujianCount; ++ bujiani)
 	{
 		Bujian bujian = bujianList.at(bujiani);
@@ -167,7 +165,7 @@ void Character::resize(CCSize size){
 		for (int strokei = 0 ;  strokei < bujian.strokeCount; ++strokei)
 		{
 			Stroke stroke = strokeList.at(strokei);
-			//ÖØÖÃstrokeÊ×µã
+			//é‡ç½®strokeé¦–ç‚¹
 			bujianList[bujiani].strokeList[strokei].prePoint = stroke.prePoint*scale;
 
 			vector<CCPoint> pointList = stroke.getpointList();
@@ -181,7 +179,7 @@ void Character::resize(CCSize size){
 	
 }
 
-//ÖØ²ÉÑù
+//é‡é‡‡æ ·
 void Character::resample(){
 	for (int bujiani = 0 ; bujiani < bujianCount ; ++ bujiani)
 	{
@@ -194,7 +192,7 @@ void Character::resample(){
 }
 
 /************************************************************************/
-/* ´«ÈëµÚ¼¸±Êno  ±Ê»­´Ó1¿ªÊ¼                                                        */
+/* ä¼ å…¥ç¬¬å‡ ç¬”no  ç¬”ç”»ä»1å¼€å§‹                                                        */
 /************************************************************************/
 Stroke Character::getStroke(int no){
 	int totalStrokeCount = 0;
@@ -205,7 +203,7 @@ Stroke Character::getStroke(int no){
 	}
 	if (no <= totalStrokeCount)
 	{
-		//Ğ¡ÓÚÈ«²¿±Ê»­Êı
+		//å°äºå…¨éƒ¨ç¬”ç”»æ•°
 		for (int j = 0 ; j < this->bujianList.size() ; ++j )
 		{
 			Bujian bujian_temp = bujianList[j];

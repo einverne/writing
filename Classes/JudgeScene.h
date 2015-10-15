@@ -16,9 +16,9 @@ class JudgeScene : public CCScene
 public:
 	JudgeScene();
 	/**
-	* ´«Èëunit_id ºÍ hanzis ÁĞ±í
-	* @param unit_id ¶ÔÓ¦Êı¾İ¿âÖĞµ¥ÔªID
-	* @param hanzis ºº×ÖÁĞ±í
+	* ä¼ å…¥unit_id å’Œ hanzis åˆ—è¡¨
+	* @param unit_id å¯¹åº”æ•°æ®åº“ä¸­å•å…ƒID
+	* @param hanzis æ±‰å­—åˆ—è¡¨
 	* @return
 	*/
 	JudgeScene(string unit_id,vector<string> hanzis);
@@ -30,25 +30,26 @@ public:
 	CC_SYNTHESIZE_RETAIN(TouchLayer*,touchLayer,touchLayer);
 	CC_SYNTHESIZE_RETAIN(TcharacterLayer*,TLayer,TLayer);
 	CC_SYNTHESIZE_RETAIN(HcharacterLayer*,HLayer,HLayer);
-	CC_SYNTHESIZE_RETAIN(CharacterExtend*,ext_p,CharacterExt);
+	CharacterExtend* getCharacterExt()	{ return ext_p; }
+	void setCharacterExt(CharacterExtend* exp)	{ ext_p = exp; }
 
 	CC_SYNTHESIZE_RETAIN(JudgeLayer* , judgeLayer , JudgeLayer);
 
 	/**
-	* ÉÏÒ»¸öºº×Ö
+	* ä¸Šä¸€ä¸ªæ±‰å­—
 	* @return
 	*/
 	void previous();
 
 	/**
-	* ÏÂÒ»¸öºº×Ö
+	* ä¸‹ä¸€ä¸ªæ±‰å­—
 	* @return
 	*/
 	void next();
 
 	
 	/**
-	* ÉèÖÃÊÇ·ñÆÀÅĞÊéĞ´ trueÎªÆÀÅĞ falseÎª²»ÆÀÅĞ
+	* è®¾ç½®æ˜¯å¦è¯„åˆ¤ä¹¦å†™ trueä¸ºè¯„åˆ¤ falseä¸ºä¸è¯„åˆ¤
 	* @param isjudge
 	* @return
 	*/
@@ -61,13 +62,14 @@ public:
 
 private:
 
-	void lastCharacter(CCNode* pNode);	//µ¥Ôª×îºóÒ»¸öºº×Ö»Øµ÷º¯Êı
-	string unit_id;						//±£´æµ¥Ôªid
+	void lastCharacter(CCNode* pNode);	//å•å…ƒæœ€åä¸€ä¸ªæ±‰å­—å›è°ƒå‡½æ•°
+	string unit_id;						//ä¿å­˜å•å…ƒid
 	string zi_id;
-	vector<string> hanziList;			//±£´æºº×ÖÁĞ±í
-	string currentCharacter;			//µ±Ç°ÊéĞ´ºº×Ö
-	int index;							//±£´æµ±Ç°ºº×ÖĞòºÅ
-	bool b_isJudge;						//µ±Ç°SceneÊÇ·ñÅĞ¶Ï false Îª×ÔÓÉÊéĞ´
+	vector<string> hanziList;			//ä¿å­˜æ±‰å­—åˆ—è¡¨
+	string currentCharacter;			//å½“å‰ä¹¦å†™æ±‰å­—
+	int index;							//ä¿å­˜å½“å‰æ±‰å­—åºå·
+	bool b_isJudge;						//å½“å‰Sceneæ˜¯å¦åˆ¤æ–­ false ä¸ºè‡ªç”±ä¹¦å†™
+	CharacterExtend* ext_p;
 };
 
 
