@@ -47,3 +47,24 @@ iOS开发(待更新)
 
 > 将Resources中资源文件拷贝到assets文件夹中,并且适当修改Android.mk文件
 
+## 项目分支说明
+
+- master
+	
+	master 分支为最新稳定版应用
+
+- new_writing_app
+
+	历史遗留
+
+- tongji
+
+	历史遗留
+
+- yibihua 
+
+	易笔画 分支，易笔画 Android 版 分支，暂未更新至最新版
+
+- yihanzi
+
+	易汉字 分支，易汉字 Android app，未更新至最新
