@@ -13,7 +13,7 @@
 #include <iomanip>
 
 HcharacterLayer::HcharacterLayer():m_sprite_draw(NULL),
-	bihuaCountAndTotal(NULL),m_HDrawnode(NULL),m_sprite_info(NULL),m_exChar(NULL),
+	bihuaCountAndTotal(NULL),m_HDrawnode(NULL),m_sprite_info(NULL),
 	writeCount(0),wrongCount(0),ijudge(false),totalBihuaCount(0),scoreLabel(NULL),score(0.0),curBihuaWrong(0)
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)  
@@ -28,6 +28,7 @@ HcharacterLayer::HcharacterLayer():m_sprite_draw(NULL),
 #define WRONG_EFFECT_FILE	"wrong_android.ogg"
 #endif
 	scale=1.6f;
+	m_exChar = new CharacterExtend();
 }
 
 HcharacterLayer::~HcharacterLayer()
@@ -37,7 +38,6 @@ HcharacterLayer::~HcharacterLayer()
 	CC_SAFE_RELEASE(bihuaCountAndTotal);
 	CC_SAFE_RELEASE(m_HDrawnode);
 	CC_SAFE_RELEASE(m_sprite_info);
-	CC_SAFE_RELEASE(m_exChar);
 	CC_SAFE_RELEASE(scoreLabel);
 }
 

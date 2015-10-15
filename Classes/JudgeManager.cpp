@@ -77,10 +77,10 @@ string JudgeManager::getResult(string hanzi , string points_output, string all_p
  	gReader.setLevel(r);
  	if (r.compare("1") == 0)
  	{
-        string looselua = p->getruleLoose()->getCString();
+        string looselua = p->getRuleLoose();
  		gReader.setRulesFunc(looselua);
  	}else if(r.compare("2") == 0){
-        string tightlua = p->getRuleTight()->getCString();
+        string tightlua = p->getRuleTight();
  		gReader.setRulesFunc(tightlua);
  	}
 

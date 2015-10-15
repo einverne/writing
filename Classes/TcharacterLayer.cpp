@@ -4,16 +4,15 @@
 #include "CharacterEntity.h"
 
 TcharacterLayer::TcharacterLayer():m_sprite(NULL),
-	m_TDrawnode(NULL),isPause(false),m_exChar(NULL)
+	m_TDrawnode(NULL),isPause(false)
 {
-
+	m_exChar = new CharacterExtend();
 }
 
 TcharacterLayer::~TcharacterLayer(){
 	CCLog("~TcharacterLayer %d",this->m_uReference);
 	CC_SAFE_RELEASE(m_sprite);
 	CC_SAFE_RELEASE(m_TDrawnode);
-	CC_SAFE_RELEASE(m_exChar);
 }
 
 bool TcharacterLayer::init(CCSprite* tianzige){

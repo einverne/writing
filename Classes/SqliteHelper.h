@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "sqlite3.h"
+#include "CharacterExtend.h"
 using namespace std;
 USING_NS_CC;
 
@@ -91,7 +92,7 @@ public:
 	* @param p
 	* @return
 	*/
-	static void getZiDataInfoExtend(string sql,CCObject* p);
+	static void getZiDataInfoExtend(string sql,CharacterExtend* p);
 
 	/**
 	* 读取strokeFunc表中一条数据

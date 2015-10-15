@@ -30,12 +30,13 @@ public:
 	CC_SYNTHESIZE_RETAIN(TcharacterLayer*,TLayer,TLayer);
 	CC_SYNTHESIZE_RETAIN(HcharacterLayer*,HLayer,HLayer);
 //	CC_SYNTHESIZE_RETAIN(CharacterEntity*,p,CharacterP);
-	CC_SYNTHESIZE_RETAIN(CharacterExtend*,ext_p,CharacterExt);
+	CharacterExtend* getCharacterExt()		{ return ext_p; }
+	void setCharacterExt(CharacterExtend* ext) { ext_p = ext; }
 	
 private:
 // 	vector<string> hanziList;
 	string CurrentCharacter;			//当前正在练习的汉字字符
-
+	CharacterExtend* ext_p;
 };
 
 

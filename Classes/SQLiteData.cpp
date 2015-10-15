@@ -15,7 +15,7 @@ vector<string> SQLiteData::splitStrokeSeq(string seq){
 	return strvec;
 }
 
-void SQLiteData::getHanziData(string hz,CCObject* p){
+void SQLiteData::getHanziData(string hz,CharacterEntity* p){
 	
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 	string infodbpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_info.db");
@@ -51,7 +51,7 @@ void SQLiteData::getHanziData(string hz,CCObject* p){
 //	return string(ret->getFunc()->getCString());
 //}
 
-void SQLiteData::getHanziDataExtend(string hz,CCObject* p){
+void SQLiteData::getHanziDataExtend(string hz,CharacterExtend* p){
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 	string judgepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_judge.db");
 #endif

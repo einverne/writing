@@ -42,7 +42,9 @@ public:
 	CC_SYNTHESIZE_RETAIN(CCLabelTTF*, scoreLabel, scoreLabel);
 	CC_SYNTHESIZE_RETAIN(CCSprite* , m_sprite_draw, Sprite);
 	CC_SYNTHESIZE_RETAIN(CCSprite* , m_sprite_info, InfoSprite);
-	CC_SYNTHESIZE_RETAIN(CharacterExtend* , m_exChar, ExChar);
+	CharacterExtend* getExChar()	{ return m_exChar; }
+	void setExChar(CharacterExtend* exchar) { m_exChar = exchar; }
+	
 private:
 	/**
 	* 重写回调方法
@@ -74,6 +76,7 @@ private:
 	int totalBihuaCount;				//该汉字总共有的笔画数
 	float score;				//当前汉字评分
 	int curBihuaWrong;			//当前笔画错误的次数
+	CharacterExtend* m_exChar;	// characterExtend
 };
 
 

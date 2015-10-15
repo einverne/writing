@@ -13,14 +13,14 @@ public:
 	Character getCharacter();
 
 	/**
-	* use xml content to create a character
+	* use xml content to create a character, need a char*
 	* @param xmlcontent
 	* @return
 	*/
 	CReadXML(const char* xmlcontent);
 
 	/**
-	* parse xml to an Object to create a character
+	* parse xml file path to an Object to create a character
 	* @param string xmlpath
 	* @return
 	*/

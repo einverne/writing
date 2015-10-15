@@ -199,11 +199,9 @@ void WallSingleLayer::onEnter(){
 			x+=w/2;
 			y=height-y-h/2;
 
-
 			intcharacterposx=height-intcharacterposx;
 			intscoreposy=height-intscoreposy;
 			inttimesposy=height-inttimesposy;
-
 
 			//缩放
 			x*=width_rescale;
@@ -417,7 +415,6 @@ void WallSingleLayer::singleClick(string hanzi){
 }
 
 void WallSingleLayer::popup(string hanzi){
-// 	CCLog("popup wall");
 	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
 	popL = PopLayer::create(hanzi,"pop/background.png");
 	popL->setContentSize(CCSizeMake(winSize.width*0.75,winSize.height*0.75));
@@ -527,7 +524,6 @@ void WallSingleLayer::pingpanwriting(CCObject* pSender){
 			break;
 		}
 	}
-
 	if (isAllExist)
 	{
 		JudgeScene* scene = JudgeScene::create(unitID,hanzis);
@@ -540,8 +536,6 @@ void WallSingleLayer::pingpanwriting(CCObject* pSender){
 
 
 void WallSingleLayer::freewriting(CCObject* pSender){
-	CCLog("Free writing~");
-
 	bool isAllExist = false;
 	for (unsigned int i = 0; i < hanzis.size(); i++)
 	{

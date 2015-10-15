@@ -72,7 +72,8 @@ bool TcharacterDrawnode::init(string hz,CCSize showrect,CharacterExtend* p){
 	strokedrawList = CCArray::create();
 	strokedrawList->retain();
 
-	CReadXML readxml(p->getXML()->getCString());
+	// be carefule readxml has two construct functions, one pass a char* and one pass a string file name
+	CReadXML readxml(p->getXML().c_str());
 	this->m_character = readxml.getCharacter();
 	myChar = readxml.getCharacter();
 	this->showRect = showrect;

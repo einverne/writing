@@ -146,17 +146,17 @@ void SQLiteHelper::getZiDataInfo(string sql,CCObject* p){
 }
 
 int loadziR(void * para, int n_column, char ** column_value, char ** column_name){
-	((CharacterExtend*)para)->setID(CCInteger::create(atoi(column_value[0])));		//ID
-	((CharacterExtend*)para)->setName(ccs(column_value[1]));						//ziName
-	((CharacterExtend*)para)->setSEQ(ccs(column_value[2]));							//strokeIDSeq
+	((CharacterExtend*)para)->setID(atoi(column_value[0]));		//ID
+	((CharacterExtend*)para)->setName(column_value[1]);						//ziName
+	((CharacterExtend*)para)->setSEQ(column_value[2]);							//strokeIDSeq
 	CCLog("%s",column_value[2]);
-	((CharacterExtend*)para)->setruleLoose(ccs(column_value[3]));						//ruleLoose
-	((CharacterExtend*)para)->setRuleTight(ccs(column_value[4]));
-	((CharacterExtend*)para)->setXML(ccs(column_value[5]));							//xml
+	((CharacterExtend*)para)->setRuleLoose(column_value[3]);						//ruleLoose
+	((CharacterExtend*)para)->setRuleTight(column_value[4]);
+	((CharacterExtend*)para)->setXML(column_value[5]);							//xml
 	return 0;
 }
 
-void SQLiteHelper::getZiDataInfoExtend(string sql,CCObject* p){
+void SQLiteHelper::getZiDataInfoExtend(string sql,CharacterExtend* p){
 	int ret = sqlite3_exec(pDB, sql.c_str(), loadziR, p ,&errMsg);
 	if (errMsg)
 	{

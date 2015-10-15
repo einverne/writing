@@ -21,7 +21,7 @@ public:
 	* @param p
 	* @return
 	*/
-	static void getHanziData(string hz,CCObject* p);
+	static void getHanziData(string hz,CharacterEntity* p);
 
 	/**
 	* 获取数据中strokeFunc表信息
@@ -43,7 +43,7 @@ public:
 	* @param p
 	* @return
 	*/
-	static void getHanziDataExtend(string hz,CCObject* p);
+	static void getHanziDataExtend(string hz,CharacterExtend* p);
 
 	/**
 	* judge a Character is exist in db
