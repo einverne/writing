@@ -406,6 +406,9 @@
 		BA0B67191BBCC334000CF876 /* MoveToRightPlaceInterval.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA0B67161BBCC334000CF876 /* MoveToRightPlaceInterval.cpp */; };
 		BA0B671D1BBCC38C000CF876 /* ViewScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA0B671B1BBCC38C000CF876 /* ViewScene.cpp */; };
 		BA3EC75E1BC134B5007CE32D /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = BA3EC75D1BC134B5007CE32D /* Icon.png */; };
+		BA46E5091BCF3ACC0086A051 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BA46E5081BCF3ACC0086A051 /* Default-568h@2x.png */; settings = {ASSET_TAGS = (); }; };
+		BA46E50C1BCF49460086A051 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = BA46E50A1BCF49460086A051 /* Default.png */; settings = {ASSET_TAGS = (); }; };
+		BA46E50D1BCF49460086A051 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BA46E50B1BCF49460086A051 /* Default@2x.png */; settings = {ASSET_TAGS = (); }; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712461292920000B8313A /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB212928DE900B8313A /* libxml2.dylib */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
@@ -1184,6 +1187,9 @@
 		BA0B671B1BBCC38C000CF876 /* ViewScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ViewScene.cpp; sourceTree = "<group>"; };
 		BA0B671C1BBCC38C000CF876 /* ViewScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewScene.h; sourceTree = "<group>"; };
 		BA3EC75D1BC134B5007CE32D /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = SOURCE_ROOT; };
+		BA46E5081BCF3ACC0086A051 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = SOURCE_ROOT; };
+		BA46E50A1BCF49460086A051 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = SOURCE_ROOT; };
+		BA46E50B1BCF49460086A051 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = SOURCE_ROOT; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB212928DE900B8313A /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -2393,6 +2399,9 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				BA46E50A1BCF49460086A051 /* Default.png */,
+				BA46E50B1BCF49460086A051 /* Default@2x.png */,
+				BA46E5081BCF3ACC0086A051 /* Default-568h@2x.png */,
 				BA3EC75D1BC134B5007CE32D /* Icon.png */,
 				1AFAF8B916D35E4900DB1158 /* CloseNormal.png */,
 				1AFAF8BA16D35E4900DB1158 /* CloseSelected.png */,
@@ -2717,6 +2726,7 @@
 				BA0B65781BB94EF7000CF876 /* right.wav in Resources */,
 				BA0B65751BB94EF7000CF876 /* rewrite.png in Resources */,
 				BA0B65811BB94EF7000CF876 /* Test.lua in Resources */,
+				BA46E50D1BCF49460086A051 /* Default@2x.png in Resources */,
 				BA0B657F1BB94EF7000CF876 /* Target.png in Resources */,
 				BA0B657A1BB94EF7000CF876 /* setting.xml in Resources */,
 				BA0B65691BB94EF7000CF876 /* ckb_selected_02.png in Resources */,
@@ -2738,11 +2748,13 @@
 				BA0B656F1BB94EF7000CF876 /* lua_ext in Resources */,
 				BA0B65741BB94EF7000CF876 /* replay.png in Resources */,
 				BA0B654D1BB94EF7000CF876 /* back_2.png in Resources */,
+				BA46E50C1BCF49460086A051 /* Default.png in Resources */,
 				BA0B65861BB94EF7000CF876 /* wrong.png in Resources */,
 				BA0B65571BB94EF7000CF876 /* ButtonMinusSel.png in Resources */,
 				BA0B657D1BB94EF7000CF876 /* sure_up.png in Resources */,
 				BA0B65671BB94EF7000CF876 /* ckb_normal_02.png in Resources */,
 				BA0B65581BB94EF7000CF876 /* ButtonPlus.png in Resources */,
+				BA46E5091BCF3ACC0086A051 /* Default-568h@2x.png in Resources */,
 				BA0B656A1BB94EF7000CF876 /* CloseNormal.png in Resources */,
 				15A3D9961682F7F9002FB0C5 /* CMakeLists.txt in Resources */,
 				BA0B65661BB94EF7000CF876 /* ckb_normal_01.png in Resources */,
@@ -3115,9 +3127,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Qi Wang (33NH3B9HX3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Qi Wang (33NH3B9HX3)";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_BITCODE = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -3154,8 +3167,8 @@
 				);
 				OTHER_CFLAGS = "-O2";
 				PRODUCT_NAME = "易汉字";
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "9d4a54ea-1e9f-4450-b39e-fa58be7d9623";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9d4a54ea-1e9f-4450-b39e-fa58be7d9623";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
@@ -3168,9 +3181,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Qi Wang (33NH3B9HX3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Qi Wang (33NH3B9HX3)";
 				COPY_PHASE_STRIP = YES;
+				ENABLE_BITCODE = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3204,8 +3218,8 @@
 					"\"$(SRCROOT)/../../../scripting/lua/lua/ios/\"",
 				);
 				PRODUCT_NAME = "易汉字";
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "9d4a54ea-1e9f-4450-b39e-fa58be7d9623";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9d4a54ea-1e9f-4450-b39e-fa58be7d9623";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
@@ -3214,14 +3228,84 @@
 			};
 			name = Release;
 		};
-		C01FCF4F08A954540054247B /* Debug */ = {
+		BA8410BD1BCE403400384877 /* Distribution */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Qi Wang (W83GM3E328)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PROVISIONING_PROFILE = "704e73eb-a724-45d1-99f9-75613194228f";
+				SDKROOT = iphoneos;
+				VALID_ARCHS = "armv6 armv7 i386";
+			};
+			name = Distribution;
+		};
+		BA8410BE1BCE403400384877 /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Qi Wang (33NH3B9HX3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Qi Wang (33NH3B9HX3)";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_BITCODE = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					USE_FILE32API,
+					CC_TARGET_OS_IPHONE,
+					CC_ENABLE_CHIPMUNK_INTEGRATION,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = "";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../../../CocosDenshion/include",
+					"\"$(SRCROOT)/../../../external/chipmunk/include/constraints\"",
+					"\"$(SRCROOT)/../../../external/chipmunk/include/chipmunk\"",
+					"\"$(SRCROOT)/../../../extensions\"",
+					"\"$(SRCROOT)/../../../cocos2dx/kazmath/include\"",
+					"\"$(SRCROOT)/../../../external\"",
+					"\"$(SRCROOT)/../../../cocos2dx\"",
+					"\"$(SRCROOT)/../../../cocos2dx/include\"",
+					"\"$(SRCROOT)/../../../cocos2dx/platform/third_party/ios\"",
+					"\"$(SRCROOT)/../../../cocos2dx/platform/ios\"",
+					"\"$(SRCROOT)/../../../cocos2dx/platform/ios/Simulation\"",
+					"\"$(SRCROOT)/../CocosWidget\"",
+				);
+				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1.1;
+				LIBRARY_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../../../cocos2dx/platform/third_party/ios/libraries\"",
+					"\"$(SRCROOT)/../../../external/libwebsockets/ios/lib\"",
+					"\"$(SRCROOT)/../../../scripting/lua/lua/ios/\"",
+				);
+				PRODUCT_NAME = "易汉字";
+				PROVISIONING_PROFILE = "9d4a54ea-1e9f-4450-b39e-fa58be7d9623";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9d4a54ea-1e9f-4450-b39e-fa58be7d9623";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "";
+				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = "arm64 armv7 i386";
+			};
+			name = Distribution;
+		};
+		C01FCF4F08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Qi Wang (W83GM3E328)";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_VERSION = "";
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PROVISIONING_PROFILE = "704e73eb-a724-45d1-99f9-75613194228f";
 				SDKROOT = iphoneos;
 				VALID_ARCHS = "armv6 armv7 i386";
 			};
@@ -3231,11 +3315,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Qi Wang (W83GM3E328)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PROVISIONING_PROFILE = "704e73eb-a724-45d1-99f9-75613194228f";
 				SDKROOT = iphoneos;
 				VALID_ARCHS = "armv6 armv7 i386";
 			};
@@ -3249,6 +3335,7 @@
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
 				1D6058950D05DD3E006BFB54 /* Release */,
+				BA8410BE1BCE403400384877 /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -3258,6 +3345,7 @@
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
 				C01FCF5008A954540054247B /* Release */,
+				BA8410BD1BCE403400384877 /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

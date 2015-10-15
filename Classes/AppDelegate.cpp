@@ -18,24 +18,23 @@ bool AppDelegate::applicationDidFinishLaunching() {
     CCDirector* pDirector = CCDirector::sharedDirector();
     CCEGLView* pEGLView = CCEGLView::sharedOpenGLView();
 
+    CCSize screenSize = pEGLView->getFrameSize();
+    CCSize designSize = CCSizeMake(720, 1280);
+    CCLog("screen size: %f %f",screenSize.width, screenSize.height);
+    
     pDirector->setOpenGLView(pEGLView);
-    pEGLView->setDesignResolutionSize(720,1280,kResolutionExactFit);
-
+    CCSize winSize = pDirector->getWinSize();
+    CCLog("screen size: %f %f",winSize.width, winSize.height);
+    pEGLView->setDesignResolutionSize(designSize.width,designSize.height,kResolutionExactFit);
+    
     // turn on display FPS
     pDirector->setDisplayStats(false);
 
     // set FPS. the default value is 1.0/60 if you don't call this
     pDirector->setAnimationInterval(1.0 / 60);
 
-//    int i = 0;
-//    CCFileUtils *fileUtils = CCFileUtils::sharedFileUtils();
-//    std::vector<std::string> searchPaths = fileUtils->getSearchPaths();
-//    searchPaths.insert(searchPaths.begin() + i++, "withword");
-//    fileUtils->setSearchPaths(searchPaths);
     // create a scene. it's an autorelease object
-// 	CCScene *pScene = TestMoveSprite::scene();
     CCScene* pScene = Splash::scene();
-//    CCScene* pScene = WallScene::scene();
 
     // run
     pDirector->runWithScene(pScene);
