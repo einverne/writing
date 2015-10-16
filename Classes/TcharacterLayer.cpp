@@ -6,7 +6,7 @@
 TcharacterLayer::TcharacterLayer():m_sprite(NULL),
 	m_TDrawnode(NULL),isPause(false)
 {
-	m_exChar = new CharacterExtend();
+	
 }
 
 TcharacterLayer::~TcharacterLayer(){

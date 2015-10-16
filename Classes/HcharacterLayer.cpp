@@ -28,7 +28,6 @@ HcharacterLayer::HcharacterLayer():m_sprite_draw(NULL),
 #define WRONG_EFFECT_FILE	"wrong_android.ogg"
 #endif
 	scale=1.6f;
-	m_exChar = new CharacterExtend();
 }
 
 HcharacterLayer::~HcharacterLayer()

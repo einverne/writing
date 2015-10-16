@@ -34,7 +34,7 @@ string JudgeManager::getResult(string hanzi,string points_output,CharacterEntity
  	char * retStr = new char[50];
  	gReader.setZiName(hanzi);
 
-    string luas = p->getRules()->getCString();
+    string luas = p->getRules();
   	gReader.setRulesFunc(luas);
 
     const char* writeziinfo = "WriteZiInfo.lua";

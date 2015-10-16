@@ -113,10 +113,10 @@ int loadRecord( void * para, int n_column, char ** column_value, char ** column_
 { 
 // 	CCLog("ID=%s,name=%s,password=%s,word=%s",column_value[0],column_value[1],column_value[2],column_value[3]);
 	CCLog("ID=%s name=%s",column_value[0],column_value[1]);
-	((CharacterEntity*)para)->setID(CCInteger::create(atoi(column_value[0])));
-	((CharacterEntity*)para)->setName(ccs(column_value[1]));
-	((CharacterEntity*)para)->setXML(ccs(column_value[2]));
-	((CharacterEntity*)para)->setRules(ccs(column_value[3]));
+	((CharacterEntity*)para)->setID(atoi(column_value[0]));
+	((CharacterEntity*)para)->setName(column_value[1]);
+	((CharacterEntity*)para)->setXML(column_value[2]);
+	((CharacterEntity*)para)->setRules(column_value[3]);
 	return 0;
 }
 //获取一条记录的信息 其中的pSend是一个实体类我们以后可以自定义一个继承了CCObject的类来代替他保存数据库中取出来的数据
@@ -127,16 +127,16 @@ void SQLiteHelper::getDataInfo( string sql,CCObject *pSend )
 }
 
 int loadziRecord(void * para, int n_column, char ** column_value, char ** column_name){
-	((CharacterEntity*)para)->setID(CCInteger::create(atoi(column_value[0])));		//ID
-	((CharacterEntity*)para)->setName(ccs(column_value[1]));						//ziName
-	((CharacterEntity*)para)->setSEQ(ccs(column_value[2]));							//strokeIDSeq
+	((CharacterEntity*)para)->setID(atoi(column_value[0]));		//ID
+	((CharacterEntity*)para)->setName(column_value[1]);						//ziName
+	((CharacterEntity*)para)->setSEQ(column_value[2]);							//strokeIDSeq
 	CCLog("%s",column_value[2]);
-	((CharacterEntity*)para)->setRules(ccs(column_value[3]));						//rules
-	((CharacterEntity*)para)->setXML(ccs(column_value[4]));							//xml
+	((CharacterEntity*)para)->setRules(column_value[3]);						//rules
+	((CharacterEntity*)para)->setXML(column_value[4]);							//xml
 	return 0;
 }
 
-void SQLiteHelper::getZiDataInfo(string sql,CCObject* p){
+void SQLiteHelper::getZiDataInfo(string sql,CharacterEntity* p){
 	int ret = sqlite3_exec(pDB , sql.c_str() , loadziRecord , p,&errMsg);
 	CCLog("getZiDataInfo error code:%d error:%s",ret,errMsg);
 	if (errMsg)
