@@ -6,8 +6,6 @@
 #include "tools/DataTool.h"
 using namespace std;
 
-
-
 JudgeScene::JudgeScene():backgroundLayer(NULL),
 	touchLayer(NULL),
 	TLayer(NULL),
@@ -18,20 +16,17 @@ JudgeScene::JudgeScene():backgroundLayer(NULL),
 	ext_p = new CharacterExtend();
 }
 
-JudgeScene::JudgeScene(string unit_id,vector<string> hanzis):backgroundLayer(NULL),
+JudgeScene::JudgeScene(string unit_id,vector<string> hanzis, int start_index):backgroundLayer(NULL),
 	touchLayer(NULL),
 	TLayer(NULL),
 	HLayer(NULL),
-	judgeLayer(NULL),
-	index(0)
+	judgeLayer(NULL)
 {
 	ext_p = new CharacterExtend();
 	this->unit_id = unit_id;
-	hanziList = hanzis;
-	if (!hanzis.empty())
-	{
-		currentCharacter = hanzis.at(0);
-	}
+	this->hanziList = hanzis;
+    this->index = start_index;
+    currentCharacter = hanziList.at(start_index);
 }
 
 JudgeScene::~JudgeScene()
@@ -43,8 +38,8 @@ JudgeScene::~JudgeScene()
 	CC_SAFE_RELEASE(judgeLayer);
 }
 
-JudgeScene* JudgeScene::create(string unit_id,vector<string> hanzis){
-	JudgeScene* pRet = new JudgeScene(unit_id,hanzis);
+JudgeScene* JudgeScene::create(string unit_id,vector<string> hanzis, int start_index){
+	JudgeScene* pRet = new JudgeScene(unit_id,hanzis, start_index);
 	if (pRet && pRet->init())
 	{
 		pRet->autorelease();
@@ -60,9 +55,7 @@ bool JudgeScene::init(){
 	bool bRet = false;
 	do 
 	{
-
-		//this->setCharacterExt(new CharacterExtend());
-		SQLiteData::getHanziDataExtend(currentCharacter,ext_p);
+        SQLiteData::getHanziDataExtend(currentCharacter,ext_p);
 		zi_id = DataTool::intTostring(ext_p->getID());
 
 		this->setbackgroundLayer(BackgroundLayer::create());
@@ -117,19 +110,6 @@ void JudgeScene::next(){
 		CCDirector::sharedDirector()->getRunningScene()->addChild(dlg,100,10000);
 		index=16;
 	}
-//	getceshiLayer()->SaveProToFile(getHLayer()->getWrongPercent());
-
-// 	vector<string>::iterator iter = hanziList.begin();
-// 
-// 	vector<string>::iterator next;
-// 	string hz = *iter;
-// 	if (currentCharacter == hz)
-// 	{
-// 		 next = hanziList.erase(iter);		不在list中去除汉字
-// 		
-// 	}
-// 	currentCharacter = *next;
-
 	if (index <= 15)
 	{
 		currentCharacter = hanziList.at(index);
@@ -144,7 +124,6 @@ void JudgeScene::next(){
 }
 
 void JudgeScene::previous(){
-
 	index--;
 	if (index<0)
 	{
