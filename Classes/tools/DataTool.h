@@ -40,7 +40,7 @@ public:
 	* @return
 	*/
 	static void storeToFile(const char* str, const char* filename);
-
+    
 	/**
 	* read string from file
 	* @param filename

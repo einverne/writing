@@ -18,10 +18,7 @@ JudgeManager::~JudgeManager()
 	CCLog("JudgeManager destroy!");
 }
 
-
-
 string JudgeManager::getResult(string hanzi,string points_output,CharacterEntity* p, string funcs){
-	CCLog("JudgeManager %s",funcs.c_str());
 
 	string filepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/WriteZiInfo.lua");
 	string basepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/BaseLib.lua");
@@ -93,8 +90,7 @@ string JudgeManager::getResult(string hanzi , string points_output, string all_p
  	CCLog("runapi");
 	gReader.RunScriptFile(apipath.c_str(),retStr,"RunAPI.lua");
 
-	CCLog("ExitLuaScriptReader");
-	gReader.ExitLuaScriptReader();
+//	gReader.ExitLuaScriptReader();
 	CCLog("retStr after judge %s",retStr);
 	string ret = retStr;
 //	delete [] retStr;

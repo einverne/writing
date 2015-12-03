@@ -2,14 +2,12 @@
 #include "Stroke.h"
 using namespace std;
 
-#pragma once
 class Bujian
 {
 public:
-	bool addStroke(Stroke stro);
-public:
     Bujian(void);
     ~Bujian(void);
+    bool addStroke(Stroke stro);
     int strokeCount; 
     vector<Stroke> strokeList;
 };

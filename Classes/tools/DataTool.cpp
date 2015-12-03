@@ -32,8 +32,7 @@ float DataTool::stringToFloat(string str){
 }
 
 void DataTool::storeToFile(const char* str, const char* filename){
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-	unsigned long size = 0;
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 	string finame(filename);
 	string path = CCFileUtils::sharedFileUtils()->getWritablePath()+finame;
 	FILE* file = fopen(path.c_str(),"w");
@@ -48,36 +47,19 @@ void DataTool::storeToFile(const char* str, const char* filename){
 #endif
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 	FILE * pFile;
-
-	pFile = fopen (filename, "wb" );
+	pFile = fopen(filename, "wb" );
 	fwrite (str, strlen(str), 1 , pFile );
 	fclose (pFile);
-#endif
-#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-    string finame(filename);
-    string path = CCFileUtils::sharedFileUtils()->getWritablePath()+finame;
-    FILE* file = fopen(path.c_str(),"w");
-    if (file != NULL)
-    {
-        file = fopen(path.c_str(),"wb");
-        fwrite(str,strlen(str),1,file);
-    }else{
-        CCLog("DataTool storeToFile failed");
-    }
-    fclose(file);
 #endif
 }
 
 string DataTool::readFromFile(const char* filename){
 	string ret;
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 	string filepath = CCFileUtils::sharedFileUtils()->getWritablePath()+filename;
 #endif
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 	string filepath = CCFileUtils::sharedFileUtils()->fullPathForFilename(filename);
-#endif
-#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-    string filepath = CCFileUtils::sharedFileUtils()->getWritablePath()+filename;
 #endif
 	unsigned long size = 0;
 	unsigned char* filecontent = CCFileUtils::sharedFileUtils()->getFileData(filepath.c_str(),"r",&size);

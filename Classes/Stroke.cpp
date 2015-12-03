@@ -143,16 +143,10 @@ string Stroke::sendOutput(){
 	for (vector<CCPoint>::const_iterator it = pointList.begin(); it != pointList.end() ; ++it)
 	{
 		CCPoint temp = (*it);
-		ret += convertToString(ceil(temp.x))+ "/" + convertToString(ceil(temp.y)) + "/";
+        ret += DataTool::to_string(ceil(temp.x))+ "/" + DataTool::to_string(ceil(temp.y)) + "/";
 	}
 	ret += "@";
 	return ret;
-}
-
-string Stroke::convertToString(float f){
-	ostringstream buff;
-	buff<<f;
-	return buff.str();
 }
 
 vector<CCPoint> Stroke::getpointList()	{
@@ -188,7 +182,7 @@ string Stroke::sendOutputWithStatus(){
 	for (pointIter = pointList.begin(); pointIter != pointList.end() && statusIter!= statusList.end(); pointIter++,statusIter++)
 	{
 		CCPoint temp = (*pointIter);
-		ret += convertToString(ceil(temp.x))+ "/" + convertToString(ceil(temp.y)) + "/";
+		ret += DataTool::to_string(ceil(temp.x))+ "/" + DataTool::to_string(ceil(temp.y)) + "/";
 		string status = *statusIter;
 		ret += status + "/";
 	}

@@ -11,23 +11,17 @@
 #include <string>
 using namespace std;
 
-
 extern "C"{
 	#include "lua.h"
 	#include "lualib.h"
 	#include "lauxlib.h"
 }
 
-#define MAX_LUA_FILE_LEN 1024*200
-
-class  CLuaScriptReader {
+class CLuaScriptReader{
 public:
 	CLuaScriptReader();
 	~CLuaScriptReader();
-protected:
-	lua_State *m_plua;
-	string sourcecode;
-public:
+
 	/**
 	* 初始化lua及lua的底层库
 	* @return
@@ -148,15 +142,10 @@ public:
 	*/
 	bool RunMixedFile(const char *filename,const char *name);
 
-	/**
-	* write buff to file
-	* @param buff
-	* @param file
-	* @return
-	*/
-	bool Print2File(char* buff,char*file);
-
-
+protected:
+    lua_State *m_plua;
+    string sourcecode;
+    
 };
 
 

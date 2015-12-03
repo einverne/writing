@@ -205,6 +205,7 @@ void HcharacterLayer::judge(){
 	string points = tlayer->getm_TDrawnode()->getCharacterStandardInfo();		//获取正字信息
     CCLog("output %s",output.c_str());
     CCLog("all %s",points.c_str());
+    
 	string ret = JudgeManager::getResult(hanzi,output,points,m_exChar,funcs);
 	//CCLog("Hcharacterlay: retstring:%s length:%d",ret.c_str(),ret.length());
 	//如果不评判则跳过
