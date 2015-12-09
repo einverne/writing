@@ -10,7 +10,7 @@ public:
 	* get Character from xml file or xml content
 	* @return Character
 	*/
-	Character getCharacter();
+	Character getCharacter() const;
 
 	/**
 	* use xml content to create a character, need a char*
@@ -27,5 +27,6 @@ public:
 	CReadXML(string xmlpath);
 	~CReadXML(void);
 private:
+    void parseXML(const char* xmlcontent);
 	Character character;
 };

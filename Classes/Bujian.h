@@ -1,3 +1,6 @@
+#ifndef __Bujian_H__
+#define __Bujian_H__
+
 #include <vector>
 #include "Stroke.h"
 using namespace std;
@@ -12,3 +15,4 @@ public:
     vector<Stroke> strokeList;
 };
 
+#endif

@@ -1,3 +1,6 @@
+#ifndef __Character_H__
+#define __Character_H__
+
 #include "Bujian.h"
 #include <vector>
 
@@ -56,3 +59,4 @@ private:
 
 };
 
+#endif
