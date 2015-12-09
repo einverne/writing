@@ -1,15 +1,14 @@
------------------------------------------
---鍏冨嚱鏁板簱
---TODO杩斿洖瀛楃涓诧細鏈€缁堣繑鍥炰竴涓瓧绗︿覆锛岀粰鐣岄潰灞備娇鐢?
---TODO 鍘熷嚱鏁板紓甯稿鐞嗭紝鍖呮嫭绫诲瀷鍒ゆ柇锛岃竟鐣屽垽鏂瓑绛?
------------------------------------------
-
+_G.InflectionPoint = _G.InflectionPoint or {}
 local print = print
 local type = type
 local loadstring = loadstring
+local table = table
 local math = math
 local pairs = pairs
 local error = error
+local string = string
+local tonumber = tonumber
+local InflectionPoint = InflectionPoint
 module("BaseLib")
 
 local WriteHZ  = nil
@@ -17,12 +16,25 @@ local HZStruct = nil
 local RunRule = nil
 local WZEnv = nil
 local StdHZ = nil
+local BhNum = nil
+local pointstr =nil
+--local allinflection = {}
+--local InflectionPoint={}
+--AllInflectionPoint={}
+local PointStr={}
+local errorType={}
+local errorBH={}
+local errorPoint={}
+local pointstable={}
+local BasePointTableStrings={}
 
---浠ｇ爜杩愯缁撴灉杩斿洖淇℃伅
+
 allInfoStr = ""
 retInfoStr = ""
+infostr={}
 
---#####杩愯鐜璁剧疆鍑芥暟#####--
+
+
 function clearRetInfoStr()
 	retInfoStr = ""
 end
@@ -39,6 +51,9 @@ function setAllRule(RC)
 	RunRule = RC
 end
 
+function setbhNum(bhNum)
+	BhNum= bhNum
+end
 
 function setWZEnv(env)
 	WZEnv = env
@@ -47,21 +62,164 @@ end
 function setStdHZ(SZ)
 	StdHZ = SZ
 end
---#####鍏冨嚱鏁板疄鐜?####--
---鎵€鏈夋搷浣滅储寮曚粠0寮€濮?
+
+function GetPoints(str)
+	pointstr=str
+end
+
+function ReturnErrorType()
+	return errorType
+end
+function ReturnErrorPoint()
+	return errorPoint
+end
+
+function ReturnErrorBH()
+
+	return errorBH
+end
+function initStrokeStrs(PointTableStrings)
+	for i=1,#PointTableStrings do
+		BasePointTableStrings[#BasePointTableStrings+1] = PointTableStrings[i]
+	end
+end
+
+inflection2222222222=""
+
+function Write2Txt(point)
+
+	local file=io.open("inflection.txt","a") --��ǰĿ¼"2.txt"����Ҫ����
+	file:write(point.."@")
+	io.flush()
+	io.close()
+	file:close()
+end
+
+--��ȡ�յ���Ϣ�����ص���ά������
+function ReadFromTxt()
+	--[[local file=io.open("inflection.txt","r")  --��ǰĿ¼"1.txt"Ҫ���ڣ���Ȼ����
+	assert(file)
+	local str=file:read("*a")
+	io.close()
+
+	local inflections= {}
+	local oneStrinflection ={}
+	inflections= str:split(str,"@")
+	for i=1,#inflections do
+		allinflection[i]={}
+		oneStrinflection = inflections[i]:split(str,"#")
+			for j=1,#oneStrinflection do
+				allinflection[i][j]=tonumber(oneStrinflection[j])
+				print"////////////////"
+				print(allinflection[i][j])
+			end
+	end
+	return allinflection--]]
+end
+
+--[[function Resample(str, n)
+	local ptSets = {}
+	print"strstr"
+	print(str)
+	local n=
+	for strx,stry in string.gmatch(str,"(%d+)/(%d+)") do
+		local pt = {}
+		pt.x = tonumber(strx)
+		pt.y = tonumber(stry)
+		ptSets[#ptSets+1] = pt
+	end
+	print(#ptSets)
+	local I = n-- interval length
+	local D = 0.0
+	--���Ƶ�srcPts����
+	local srcPts = {}
+	for i = 1,#ptSets do
+		srcPts[i] = ptSets[i]
+		--print(srcPts[i].x,srcPts[i].y)
+	end
+
+	local dstPts = {}
+	dstPts[1] = srcPts[1]
+	for i = 2,#srcPts do
+		 local pt1={}
+		 pt1.x= srcPts[i - 1].x
+		 pt1.y= srcPts[i - 1].y
+		 local pt2 = {}
+		 pt2.x=srcPts[i].x
+		 pt2.y=srcPts[i].y
+		 local d = GetDistance(pt1, pt2)
+
+		 if ((D + d) >= I) then
+			  local qx = pt1.x + ((I - D) / d) * (pt2.x - pt1.x)
+			  local qy = pt1.y + ((I - D) / d) * (pt2.y - pt1.y)
+			  -- int qt = Convert.ToInt32(pt1.TimeDelta + ((I - D) / d) * (pt2.TimeDelta - pt1.TimeDelta))
+			  --Packet q = new Packet(qx, qy, 0, qt, 0)
+			  local pt = {}
+			  pt.x = qx
+			  pt.y = qy
+			  dstPts[i] = pt --// append new point 'q'
+			  table.insert(srcPts,i,pt)--srcPts[i] = pt --// insert 'q' at position i in points s.t. 'q' will be the next i
+			  D = 0.0
+		 else
+			  D = D + d
+		 end
+	end
+	--somtimes we fall a rounding-error short of adding the last point, so add it if so
+if()
+	dstPts[#dstPts+1]=srcPts[#srcPts]
+	print"caiyang"
+	for i = 1,#dstPts do
+	print"///////////////////////////////////////////////////////"
+	print(#dstPts)
+	print(dstPts[i].x,dstPts[i].y)
+
+	end
+
+	return dstPts
+end--]]
+
 function GetBH( idx )
 	local bh = WriteHZ.strokes[idx + 1]
+	--bh = resample(bh)
 	return bh
 end
 
---娉ㄦ剰涓嶨etBH鐨勫尯鍒紝杩欓噷鍙栧緱鐨勬槸鏍囧噯瀛楃殑绗旂敾
+
+
 function GetPreBH(idx)--改动！
 	--local bh = StdHZ.strokes[idx + 1]
 	local bh = WriteHZ.strokes[idx + 1]
+	--bh = resample(bh)
 	return bh
 end
 
---鍙傛暟涓篵d鎴朾h閮藉彲
+--[[function string:split(sep,sign)
+	local sep, fields = sep or "\t", {}
+	local pattern = string.format("([^"..sign.."]+)", sep)
+	self:gsub(pattern, function(c) fields[#fields+1] = c end)
+	return fields
+end
+
+function Points2Num(Str)
+	local strokeStrs  = {}
+	strokeStrs  = Str:split(Str,"@")--���طָ���table
+	local allstr=""
+   for i=1,#strokeStrs do
+		local str=strokeStrs[i]
+		allstr=allstr..str
+	end
+	print(allstr)
+	local ptSet = {}
+	for strx,stry in string.gmatch(allstr,"(%d+)/(%d+)") do
+		local pt = {}
+		pt.x = tonumber(strx)
+		pt.y = tonumber(stry)
+		ptSet[#ptSet+1] = pt
+	end
+	self.ptSet = ptSet
+end--]]
+
+
 function GetStartPoint(bh)
 	local point = WZEnv.POINT:new()
 	point.x = bh.ptSet[1].x
@@ -76,7 +234,7 @@ function GetEndPoint(bh)
 	return point ,#bh.ptSet
 end
 
---鑾峰緱涓偣
+
 function GetMidPoint ( bh )
  	local point = WZEnv.POINT:new()
 	local len= #bh.ptSet
@@ -96,7 +254,7 @@ end
 
 
 
---鑾峰緱鐐圭殑妯旱鍧愭爣
+
 function GetPointX ( pt )
 	return pt.x
 end
@@ -112,7 +270,7 @@ function GetBDByBH(bh,bdIdx)
 	print(bdIdx)
 	print(postIdx)
 	print(bdIdx)
-	print(bh.InflectionPoint[bdIdx]) 
+	print(bh.InflectionPoint[bdIdx])
 	if (bdIdx ~= 0) then
 		preIdx = bh.InflectionPoint[bdIdx] + 1
 	end
@@ -128,19 +286,19 @@ function GetBDByBH(bh,bdIdx)
 	return bd
 end
 
-function GetBDLen(bd)
-	local len = 0
-	for i = 1,#bd.ptSet - 1 do
-		local curpt = bd.ptSet[i]
-		local nextpt = bd.ptSet[i+1]
-		local dis = math.sqrt( math.pow(curpt.x - nextpt.x,2) + math.pow(curpt.y - nextpt.y,2))
-		len = len + dis
-	end
-	return len
-end
+--function GetBDLen(bd)
+	--local len = 0
+	--for i = 1,#bd.ptSet - 1 do
+		--local curpt = bd.ptSet[i]
+		--local nextpt = bd.ptSet[i+1]
+		--local dis = math.sqrt( math.pow(curpt.x - nextpt.x,2) + math.pow(curpt.y - nextpt.y,2))
+		--len = len + dis
+	--end
+	--return len
+--end
 
 
---璁＄畻curIdx瀵瑰簲鐨勮搴?
+
 function Cal_Angle(prePt,curPt,postPt)
 	local vecX = {}
 	local vecY = {}
@@ -185,7 +343,7 @@ function GetAngel(spt,ept)
 	return degree
 end
 
---鑾峰緱鎷愮偣锛屾殏鏈敤鍒?
+
 function GetTurningPtNum(bh,BDNum)
 	local height = 512
 	local threshold_len = height / 28
@@ -299,56 +457,47 @@ end
 
 
 ---------------------------------鍘婚櫎鎶栧姩-----------------------------------------------
---濡傛灉閫夊嚭鐨勬嫄鐐规暟鐩负0锛岀洿鎺ヨ繑鍥烇紝姝ゆ椂CInflectionPts鏄┖鐨?
+
 	if(#turning_ind <= 0) then
 		return 0
 	end
-	--濡傛灉鎷愮偣鏁扮洰姣旀爣鍑嗗皯锛屽皢鎷愮偣鏁扮粍璧嬪€硷紝杩斿洖
+
 	if (#turning_ind < BDNum - 1) then
 		bh.InflectionPoint = turning_ind
 		return #turning_ind;
 	end
 
 
-	--濡傛灉鎷愮偣鏁扮洰澶т簬鎴栬€呯瓑浜庢爣鍑嗗€?
+
 	if (#turning_ind >= BDNum-1) then
-		--濡傛灉澶氬嚭涓€涓嫄鐐癸紝浼嫄鐐逛竴瀹氭槸鍦ㄧ涓€涓垨鑰呮渶鍚庝竴涓紝鍒嗗埆璁＄畻鍏惰窛绂婚浣嶇偣鐨勮窛绂?
 		local pos1 = turning_ind[1]
 		local pos2 = turning_ind[#turning_ind]
 		local spt = bh.ptSet[1]
 		local ept = bh.ptSet[#bh.ptSet]
 		local dis1 = math.sqrt( math.pow(bh.ptSet[pos1].x - spt.x,2) + math.pow(bh.ptSet[pos1].y - spt.y,2))
 		local dis2 = math.sqrt( math.pow(bh.ptSet[pos2].x - ept.x,2) + math.pow(bh.ptSet[pos2].y - ept.y,2))
-		--1.濡傛灉绗竴涓嫄鐐规槸鎶栧姩鐐?
 		if( dis1 < 30 ) then
 			n_prePos = turning_ind[1]
 			n_postPos = #bh.ptSet
-			--鎶婃姈绗旀浠庣瑪鐢讳腑鍒犻櫎
 			for i = 1, n_prePos-1 do
 				table.remove(bh.ptSet,1)
 			end
-			--浠庢嫄鐐规暟缁勪腑鍒犻櫎璇ユ嫄鐐?
 			table.remove(turning_ind,1)
-			--绉诲姩鎷愮偣绱㈠紩鏁扮粍涓储寮曠殑浣嶇疆
 			if ( #turning_ind > 0 ) then
 				for i = 1,#turning_ind do
 					 turning_ind[i] = turning_ind[i] - n_prePos + 1
 				end
 			end
 		end
-		--2.濡傛灉鏈€鍚庝竴涓嫄鐐规槸鎶栧姩鐐?
 		if (dis2 < 30) then
 			n_prePos = 1
 			n_postPos = turning_ind[#turning_ind]
-			--浠庢嫄鐐硅〃鏍间腑鍒犻櫎璇ユ嫄鐐?
 			table.remove(turning_ind,#turning_ind)
-			--鍒犻櫎鎶栫瑪娈?
 			for i = #bh.ptSet,n_postPos+1,-1 do
 				table.remove(bh.ptSet,i)
 			end
 		end
 
-	--璁＄畻鎷愮偣涔嬮棿鐨勮窛绂?
 	if (#turning_ind > 1) then
 		for i = 1, #turning_ind - 1  do
 			print (turning_ind[i])
@@ -477,13 +626,11 @@ end
 ]]--
 
 
---鑾峰緱绗旂敾鐨勬嫄鐐?绱㈠紩浠?寮€濮?
 function GetTurningPt(bh,index)
 	local ptIdx = bh.InflectionPoint[index + 1]
 	return bh.ptSet[ptIdx]
 end
 
- --鑾峰緱涓ょ偣闂磋窛绂?
  function GetDistance(pt1,pt2)
 	local dis = math.sqrt( math.pow(pt1.x - pt2.x,2) + math.pow(pt1.y - pt2.y,2))
 	return dis
@@ -501,7 +648,7 @@ function trace(var)
 	retInfoStr = ""
 	local varType = type(var)
 	if(varType == "string") then
-		retInfoStr = var .. "\r\n"
+		retInfoStr = var .. "\r"
 	end
 	if(varType == "table") then
 			if(var.GeoType == "KBH") then
@@ -519,8 +666,30 @@ function trace(var)
 end
 
 
+function trace2(var)
+	retInfoStr = ""
+	local varType = type(var)
 
---鑾峰緱缁忚繃鐐筽t1 pt2鐨勭洿绾挎柟绋媋x+by+c = 0 杩斿洖鏁扮粍linevar涓緷娆℃槸绯绘暟a b c
+	if(varType == "string") then
+		retInfoStr = var
+	end
+	if(varType == "table") then
+			if(var.GeoType == "KBH") then
+			retInfoStr = "KBH:\r\n"
+			retInfoStr = retInfoStr .. "start point: "..var.ptSet[1].x..","..var.ptSet[1].y
+			retInfoStr = retInfoStr .. "\r\n"
+			retInfoStr = retInfoStr .. "end point: "..var.ptSet[#var.ptSet].x..","..var.ptSet[#var.ptSet].y
+			retInfoStr = retInfoStr .. "\r\n"
+			end
+	end
+	if (varType == "number") then
+		retInfoStr = var .. "\r\n"
+	end
+	--print"typettttttttttttttttttttttttttt"
+	infostr[#infostr+1] =retInfoStr
+end
+
+
 function GetLine(pt1,pt2)
 	local linevar = {}
 	linevar[1] = pt2.y - pt1.y
@@ -534,7 +703,6 @@ function GetLine(pt1,pt2)
 	return linevar
 end
 
---鍒ゆ柇鐐规槸鍚﹀湪鐩寸嚎涓嬭竟
 function Point2LineDown(pt,line)
 	local a,b,c = line[1],line[2],line[3]
 	local result = a*pt.x + b*pt.y + c
@@ -544,7 +712,6 @@ function Point2LineDown(pt,line)
 	return false
 end
 
---鍒ゆ柇鐐规槸鍚﹀湪鐩寸嚎鐨勪笂杈?
 function Point2LineUp(pt,line)
 	local a,b,c = line[1],line[2],line[3]
 	local result = a*pt.x + b*pt.y + c
@@ -555,13 +722,11 @@ function Point2LineUp(pt,line)
 end
 
 
---判断点是否在直线的右边
 function Point2LineRight(pt,line)
 	local a,b,c = line[1],line[2],line[3]
 	--line: ax + by + c = 0
 	local x = pt.x
 	local y = pt.y
-	--如果直线是平行于X轴的，那么判断点在直线的左边还是右边
 	if (a == 0) then
 			return false
 	end
@@ -575,7 +740,6 @@ function Point2LineRight(pt,line)
 end
 
 
---鑾峰緱鏈€宸﹂潰鐨勭偣 bh/bd
 function GetLeftMostPoint ( bh )
 	if ( bh == nil ) then
 		return nil
@@ -598,7 +762,6 @@ function GetLeftMostPoint ( bh )
 	return pt,index
 end
 
---鑾峰緱鏈€鍙抽潰鐨勭偣 bh/bd
 function GetRightMostPoint ( bh )
 	local pt = WZEnv.POINT:new()
 	local index = 1
@@ -617,7 +780,6 @@ function GetRightMostPoint ( bh )
 	return pt,index
 end
 
---鑾峰緱鏈€涓婃柟鐨勭偣
 function GetTopMostPoint ( bh )
 	local pt = WZEnv.POINT:new()
 	local index = 1
@@ -637,7 +799,6 @@ function GetTopMostPoint ( bh )
 	return pt,index
 end
 
---鑾峰緱鏈€涓嬫柟鐨勭偣 bd/bd
 function GetBottomMostPoint ( bh )
 	local pt = WZEnv.POINT:new()
 	local index = 1
@@ -656,7 +817,6 @@ function GetBottomMostPoint ( bh )
 	return pt,index
 end
 
---鑾峰緱bh涓婄pt鏈€杩戠殑鐐?
 function GetVPoint(bh,pt)
 	local minPtIndex = 0
 	local minDis = GetDistance(pt,bh.ptSet[1])
@@ -671,8 +831,6 @@ function GetVPoint(bh,pt)
 end
 
 
---鑾峰緱涓や釜绗旂敾鐨勪氦鐐? 濡傛灉鏈変氦鐐?杩斿洖璇ヤ氦鐐?
---							  濡傛灉娌℃湁浜ょ偣  杩斿洖nil
 function GetJoint(bh1, bh2)
 	local disThreshold = 3
 	local minDis = 256
@@ -703,7 +861,6 @@ end
 
 
 
---pt 鍒癮x + by + c = 0鐨勮窛绂?
 function Cal_Point2LineDis( pt, a, b, c)
 	local x = pt.x
 	local y = pt.y
@@ -714,7 +871,6 @@ function Cal_Point2LineDis( pt, a, b, c)
 	return dis
 end
 
---鍒ゆ柇pt鍦ㄧ洿绾縜x+by+c=0鐨勬柟浣?
 function Cal_Direction(pt, a, b,c)
 	local x = pt.x
 	local y = pt.y
@@ -723,7 +879,6 @@ function Cal_Direction(pt, a, b,c)
 end
 
 
---鑾峰緱绗旂敾鍒扮洿绾?line ax + by + c = 0璺濈鏈€杩滅殑鐐?
 function GetFarthestPt2Line(bh,line)
 
 	local a,b,c = line[1],line[2],line[3]
@@ -775,7 +930,6 @@ function GetFarDis2Line(bh,line)
 end
 
 
---鑾峰緱绗旂敾鍒扮洿绾縧ine  ax + by + c = 0鐨?
 function GetBHTrend(bh,line)
 	local a,b,c = line[1],line[2],line[3]
 	local trendArray = {}
@@ -801,7 +955,6 @@ function GetBHTrend(bh,line)
 end
 
 
---杩斿洖bh鐨刾tSet涓紝绱㈠紩涓簆reIdx鍜宲ostIdx涔嬮棿鐨勭偣闆嗙粍鎴愮殑绗旀
 function GetTempBD(bh,preIdx,postIdx)
 	local bd = WZEnv.BD:new()
 	for i = preIdx, postIdx do
@@ -811,7 +964,6 @@ function GetTempBD(bh,preIdx,postIdx)
 end
 
 
---浼犲叆鐨勫弬鏁颁负褰撳墠绗旂敾鐨勭储寮?绗旂敾绱㈠紩鍧囨槸浠?寮€濮?
 function IsPosRight(idx)
 	local wbh = WriteHZ.strokes[idx + 1]
 	local sbh = StdHZ.strokes[idx + 1]
@@ -958,10 +1110,103 @@ function GetYAngel2(spt,ept)
 	return angel
 end
 
+function SmallXiangJiaoDian(pt11,pt12,pt21,pt22)
+	local flag1 = 0
+	local flag2 = 0
+	local pt = WZEnv.POINT:new()
+	pt.x, pt.y = 0 , 0
+	local vp = {}
+	if (PointSame(pt11,pt21) or PointSame(pt11,pt22)) then
+		pt.x=pt11.x
+		pt.y=pt11.y
+			print("xiangjiaolapointsame!")
+		return pt
+	elseif (PointSame(pt12,pt21) or PointSame(pt12,pt22))then
+		pt.x=pt12.x
+		pt.y=pt12.y
+		print("xiangjiaolapointsame!")
+		return pt
+	else
+		if(pt11.x ==  pt12.x ) then
+			flag1 = 1
+		end
+
+		if (pt21.x == pt22.x) then
+			flag2 = 1
+		end
+		 --vp鏄袱涓洿绾挎鐨勪氦鐐?
+		local k1,c1
+		local k2,c2
+		if (flag1 == 1 and flag2 == 1)  then --濡傛灉涓や釜鐩寸嚎娈甸兘骞宠浜巠杞?
+			return nil
+		elseif(flag1 == 1 ) then --濡傛灉鐩寸嚎娈?骞宠浜巠杞?
+			vp.x = pt11.x
+			k2 = (pt22.y - pt21.y) /(pt22.x - pt21.x)
+			c2 = pt21.y - pt21.x*k2
+			vp.y = k2*(vp.x) + c2
+		elseif(flag2 == 1) then --濡傛灉鐩寸嚎娈?骞宠浜巠杞?
+			vp.x = pt21.x
+			k1 = (pt12.y - pt11.y) /(pt12.x - pt11.x)
+			c1 = pt11.y - pt11.x*k1
+			vp.y = k1*(vp.x) + c1
+			--return pt
+			--print("如果2垂直，那么2上的点，相交于1的x，Y")
+			--print(vp.x,vp.y)
+		else  --濡傛灉涓や釜鐩寸嚎娈靛潎涓嶅钩琛屼簬y杞?
+			k1 = (pt12.y - pt11.y)/(pt12.x - pt11.x)
+			c1 = pt11.y - pt11.x*k1
+			k2 = (pt22.y - pt21.y) /(pt22.x - pt21.x)
+			c2 = pt21.y - pt21.x*k2
+			vp.x = (c1 - c2) /(k2 - k1)
+			vp.y = (vp.x*k1) + c1
+		end
+
+		local maxX1 = pt11.x
+		local minX1 = pt12.x
+
+		if(pt11.x < pt12.x) then
+			maxX1 = pt12.x
+			minX1 = pt11.x
+		end
+		local maxY1 = pt11.y
+		local minY1 = pt12.y
+		if (pt11.y < pt12.y) then
+			maxY1 = pt12.y
+			minY1 = pt11.y
+		end
+
+		local maxX2 = pt21.x
+		local minX2 = pt22.x
+		if (pt21.x < pt22.x) then
+			maxX2 = pt22.x
+			minX2 = pt21.x
+		end
+
+		local maxY2 = pt21.y
+		local minY2 = pt22.y
+		if (pt21.y < pt22.y) then
+			maxY2 = pt22.y
+			minY2 = pt21.y
+		end
+		if (vp.x >= minX1  and vp.x <= maxX1
+		and vp.x >= minX2 and vp.x <= maxX2
+		and vp.y >= minY1 and vp.y <= maxY1
+		and vp.y >= minY2 and vp.y <= maxY2) then
+			print("xiangjiaola!")
+			pt.x=vp.x
+			pt.y=vp.y
+			return pt
+		else
+			return nil
+		end
+	end
+end
 function SmallXiangJiao(pt11,pt12,pt21,pt22)
 	local flag1 = 0
 	local flag2 = 0
-	if (PointSame(pt11,pt21) or PointSame(pt11,pt22) or PointSame(pt12,pt21) or PointSame(pt12,pt22))then
+	if (PointSame(pt11,pt21) or PointSame(pt11,pt22)) then
+		return true
+	elseif (PointSame(pt12,pt21) or PointSame(pt12,pt22))then
 		return true
 	else
 		if(pt11.x ==  pt12.x ) then
@@ -973,24 +1218,24 @@ function SmallXiangJiao(pt11,pt12,pt21,pt22)
 		end
 		--print("falg")
 		--print(flag1,flag2)
-		local vp = {}  --vp鏄袱涓洿绾挎鐨勪氦鐐?
+		local vp = {}  --vp鏄袱涓洿绾挎鐨勪氦�?
 		local k1,c1
 		local k2,c2
 		if (flag1 == 1 and flag2 == 1)  then --濡傛灉涓や釜鐩寸嚎娈甸兘骞宠浜巠杞?
 			return false
-		elseif(flag1 == 1 ) then --濡傛灉鐩寸嚎娈?骞宠浜巠杞?
+		elseif(flag1 == 1 ) then --濡傛灉鐩寸嚎�?骞宠浜巠杞?
 			vp.x = pt11.x
 			k2 = (pt22.y - pt21.y) /(pt22.x - pt21.x)
 			c2 = pt21.y - pt21.x*k2
 			vp.y = k2*(vp.x) + c2
-		elseif(flag2 == 1) then --濡傛灉鐩寸嚎娈?骞宠浜巠杞?
+		elseif(flag2 == 1) then --濡傛灉鐩寸嚎�?骞宠浜巠杞?
 			vp.x = pt21.x
 			k1 = (pt12.y - pt11.y) /(pt12.x - pt11.x)
 			c1 = pt11.y - pt11.x*k1
 			vp.y = k1*(vp.x) + c1
-			--print("如果2垂直，那么2上的点，相交于1的x，Y")
+			--print("如果2垂直，那�?上的点，相交�?的x，Y")
 			--print(vp.x,vp.y)
-		else  --濡傛灉涓や釜鐩寸嚎娈靛潎涓嶅钩琛屼簬y杞?
+		else  --濡傛灉涓や釜鐩寸嚎娈靛潎涓嶅钩琛屼簬y�?
 			k1 = (pt12.y - pt11.y)/(pt12.x - pt11.x)
 			c1 = pt11.y - pt11.x*k1
 			k2 = (pt22.y - pt21.y) /(pt22.x - pt21.x)
@@ -998,7 +1243,7 @@ function SmallXiangJiao(pt11,pt12,pt21,pt22)
 			vp.x = (c1 - c2) /(k2 - k1)
 			vp.y = (vp.x*k1) + c1
 		end
-		
+
 			local maxX1 = pt11.x
 			local minX1 = pt12.x
 			--print(pt11.x,pt11.y)
@@ -1033,32 +1278,58 @@ function SmallXiangJiao(pt11,pt12,pt21,pt22)
 			and vp.x >= minX2 and vp.x <= maxX2
 			and vp.y >= minY1 and vp.y <= maxY1
 			and vp.y >= minY2 and vp.y <= maxY2) then
-				--print("xiangjiaola!")
+				print("xiangjiaola!")
 				return true
 			else
 				return false
 			end
 	end
 end
-
-
+function BH2BHXiangJiaoDIAN(bh1,bh2)
+	local flag = false
+	local index=0
+	local pt = WZEnv.POINT:new()
+		for i = 1, #bh2.ptSet - 1 do
+		for j = 1, #bh1.ptSet - 1 do
+			flag = SmallXiangJiao(bh1.ptSet[j],bh1.ptSet[j+1],bh2.ptSet[i],bh2.ptSet[i+1])
+			pt = SmallXiangJiaoDian(bh1.ptSet[j],bh1.ptSet[j+1],bh2.ptSet[i],bh2.ptSet[i+1])
+			if (flag == true) then
+			index = j
+			break
+			end
+		end
+		if (flag == true) then
+			break
+		end
+	end
+	if (flag == true) then
+	print"xiaojiaoing"
+	print(pt.x,pt.y)
+	end
+	if(flag == false)then
+	print"weixiangjiao"
+	end
+	return pt,index
+end
 
 
 function BH2BHXiangJiao(bh1,bh2)
 	local flag = false
 	for i = 1, #bh2.ptSet - 1 do
 		for j = 1, #bh1.ptSet - 1 do
-			flag = SmallXiangJiao(bh1.ptSet[j],bh1.ptSet[j+1],bh2.ptSet[i],bh2.ptSet[i+1])		
+			flag = SmallXiangJiao(bh1.ptSet[j],bh1.ptSet[j+1],bh2.ptSet[i],bh2.ptSet[i+1])
 			if (flag == true) then
+			print"shixiangjiao"
 			break
 			end
 		end
 		if (flag == true) then
+					print"shixiangjiao"
 			break
-		end		
+		end
 	end
-	--print("xiaojiaoing")
-	--print(flag)
+
+	--print(NodePoint.x)
 	return flag
 end
 function BH2BHUp(bh1,bh2)
@@ -1075,7 +1346,7 @@ function BH2BHUp(bh1,bh2)
 			flag = true
 		end
 	end
-	if(BH2BHXiangJiao(bh1,bh2)== true) then	
+	if(BH2BHXiangJiao(bh1,bh2)== true) then
 		flag = false
 	end
 	return flag
@@ -1096,8 +1367,10 @@ end
 function resample(bh)
 	local newbh = {}
 	newbh.ptSet = {}
-	local n = 20
-	local I = GetBDLen(bh) / (n - 1)
+	--local n = GetBDLen(bh)/I
+	--local I = GetBDLen(bh) / (n - 1)
+	local I = 0.5
+	local n = GetBDLen(bh)/I
 	local D = 0
 	local dstpoList = {}
 	dstpoList[1] = bh.ptSet[1]
@@ -1128,12 +1401,17 @@ function resample(bh)
 	if (#dstpoList == n - 1 ) then
 		dstpoList[#dstpoList + 1] = bh.ptSet[#bh.ptSet]
 	end
+	--print"MMMMMMMMMMMMMMMMMM"
+	--for i=1,#dstpoList do
+	--print(dstpoList[i].x,dstpoList[i].y)
+	--end
+	--print(#dstpoList)
 	newbh.ptSet = dstpoList
 	return newbh
 end
 
 function JudgeDotLine(pt,bd)
-	local newbh = resample(bd)
+	--local newbh = resample(bd)
 	local tempDis =  512
 	local disThreshold = 50
 	for i =  1, #bd.ptSet do
@@ -1148,6 +1426,7 @@ function JudgeDotLine(pt,bd)
 		return false
 	end
 end
+
 
 
 
@@ -1217,6 +1496,7 @@ function BH2BHXiangJie(bd1,bd2,type1,type2)
 
 	return flag
 end
+
 function  IsShu(bh,bl)
 print("shu is ok")
 	local startpt,startindex = GetStartPoint(bh)
@@ -1276,15 +1556,15 @@ function  IsHeng(bh,bl)
 		local dis_var = GetBDLen(bh)
 		local line_len = GetDistance(startpt,endpt)
 		curve_var = dis_var / line_len
-
 		local angel = 90
 		if(startpt.x ~= endpt.x) then
 			local slope = (endpt.y - startpt.y) / (endpt.x - startpt.x)
 			angel = math.deg ( math.atan(slope))
 		end
-
 		angel_var = math.abs(angel)
 	end
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
+	InflectionPoint[#InflectionPoint+1] = endindex
 
 	if(angel_var > 50.3)  then
 		return false
@@ -1326,8 +1606,8 @@ function IsHengZhe(bh,bl)
 	local len_bd1 = GetBDLen(bd1)
 	local dis_bd0 = GetDistance(startpt,turning_pt_0)
 	local dis_bd1 = GetDistance(turning_pt_0,endpt)
-	
-	
+
+
 	if (len_bd0 == 0 or len_bd1 == 0 ) then
 		return false
 	end
@@ -1339,11 +1619,11 @@ function IsHengZhe(bh,bl)
 	if (startpt.x >= endpt.x or startpt.y >= endpt.y ) then
 		return false
 	end
-	
+
 	local Dindex=endindex - bottom_index
 	print("here")
 	print(endindex,bottom_index,Dindex)
-	if( Dindex > 4 )then	
+	if( Dindex > 4 )then
 		return false
 	end
 
@@ -1370,7 +1650,7 @@ function IsHengZhe(bh,bl)
 	elseif(angel0 <= 9.95 and angel1 >=30 and wanqu1 > 1.3)then
 		return false
 	end
-	
+
 
 	if(bl == 1)then
 		if(angel0 > 9.95 and angel0 <= 21.6 and wanqu1 <= 1.3)then
@@ -1420,7 +1700,7 @@ function IsHengZhe2(bh,bl)--横折折比较弯
 	local Dindex=endindex - bottom_index
 	print("here")
 	print(endindex,bottom_index,Dindex)
-	if( Dindex > 4 )then	
+	if( Dindex > 4 )then
 		return false
 	end
 
@@ -1522,12 +1802,12 @@ function IsHengZheXieGou(bh,bl)
 	local fpt,findex = GetFarthestPt2Line(bd1,line1)
 	findex = findex + turning_index_0
 	fpt = bh.ptSet[findex]
-	
+
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
-	
-	
-	
+
+
+
 	if (len_bd0 == 0 or len_bd1 == 0 or len_bd2 == 0) then
 		return false
 	end
@@ -1599,7 +1879,7 @@ function IsHengZheXieGou(bh,bl)
 		end
 	end
 
-	if(bl == 2)then 
+	if(bl == 2)then
 		if(angel1 > 3.89 and angel0 > 4.55 and angel0 <= 9.74 and wanqu1 > 1.01)then
 			--print("ok1")
 			return true
@@ -1766,7 +2046,7 @@ function IsHengZheZhePie(bh,bl)
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_pt0_index
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_pt1_index
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_pt2_index
-	
+
 	local angel0 = 90
 	local wanqu23 = 1
 	local angel2 = 90
@@ -1786,7 +2066,7 @@ function IsHengZheZhePie(bh,bl)
 		local bd3 = GetTempBD(bh,turning_pt2_index,endindex)
 
 		--bd0 的参数计算 偏离水平方向的角度 len/dis
-		
+
 		if (turning_pt_0.x ~= startpt.x) then
 			local slope0 = (turning_pt_0.y -  startpt.y)/(turning_pt_0.x - startpt.x)
 			angel0 = math.deg(math.atan(slope0))
@@ -1812,7 +2092,7 @@ function IsHengZheZhePie(bh,bl)
 
 
 		-- bd3的参数计算
-		
+
 		if (turning_pt_2.x ~= turning_pt_1.x) then
 			local slope2 = (turning_pt_2.y -  turning_pt_1.y)/(turning_pt_2.x - turning_pt_1.x)
 			angel2 = math.deg(math.atan(slope2))
@@ -1850,7 +2130,6 @@ function IsHengZheZhePie(bh,bl)
 		end
 	end
 end
-
 function  IsPie(bh,bl)
 	local startpt,startindex = GetStartPoint(bh)
 	local endpt,endindex = GetEndPoint(bh)
@@ -1861,7 +2140,14 @@ function  IsPie(bh,bl)
 	local curve = len1 / dis
 	local angel = 90
 	angel = GetYAngel(startpt,endpt);
-	bh.InflectionPoint[#bh.InflectionPoint + 1] =  endindex
+
+	--bh.InflectionPoint[#bh.InflectionPoint + 1] =  endindex
+	--local ratio = bh.InflectionPoint[#bh.InflectionPoint + 1]/endindex
+	--for i=1,#InflectionPoint do
+	--InflectionPoint[1]=endindex--bh.InflectionPoint[i]
+	--end
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
+	InflectionPoint[#InflectionPoint+1] = endindex
 
 	if (startpt.y >= endpt.y or startpt.x <= endpt.x) then
 		return false
@@ -1894,19 +2180,71 @@ function  IsPie(bh,bl)
 		end
 	end
 
+
 end
 
+function GetInflection()
+local temp = {}
+print (#InflectionPoint)
+	for i=1,#InflectionPoint do
+		temp[i]=InflectionPoint[i]
+		print"�õ��յ���$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
+		print (temp[i])
+	end
+	return temp
+end
 
+function GetBDLen(bd)
+	local len = 0
+	for i = 1,#bd.ptSet - 1 do
+		local curpt = bd.ptSet[i]
+		local nextpt = bd.ptSet[i+1]
+		local dis = math.sqrt( math.pow(curpt.x - nextpt.x,2) + math.pow(curpt.y - nextpt.y,2))
+		len = len + dis
+		--print(#bd.ptSet,i,len)
+
+	end
+	return len
+end
+--[[function Inflection2BH(bh,index)
+	print"2222222222222222222222222222222222222222222222222222222222222222222"
+	print(index)
+local totalLength= GetBDLen(bh)
+local inflcetionLength=0
+	for i = 1,index-1 do
+		local curpt = bh.ptSet[i]
+		local nextpt = bh.ptSet[i+1]
+		local dis = math.sqrt( math.pow(curpt.x - nextpt.x,2) + math.pow(curpt.y - nextpt.y,2))
+		inflcetionLength = inflcetionLength + dis
+		--print"iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii"
+		--print(i,inflcetionLength)
+	end
+local ratio = inflcetionLength/totalLength
+print(index,inflcetionLength,totalLength)
+print"NNNNNNNNNNNNNRRRRRRRRRRRRRRR"
+print(ratio)
+return ratio
+end--]]
 function  IsNa(bh,bl)
 	local startpt,startindex = GetStartPoint(bh)
 	local endpt,endindex = GetEndPoint(bh)
+
 	local line = GetLine(startpt,endpt)
 	local fpt,fpt_index = GetFarthestPt2Line(bh,line)
 	local len = GetBDLen(bh)
 	local dis = GetDistance(startpt,endpt)
 	local curve = len / dis
 	local angel = 90
-
+	--bh.InflectionPoint[#bh.InflectionPoint + 1] =  endindex
+	--local ratio = bh.InflectionPoint[#bh.InflectionPoint + 1]/endindex
+	--for i=1,#bh.InflectionPoint do
+		--InflectionPoint[1]=endindex
+	--end
+	--local temp=bh.InflectionPoint[#bh.InflectionPoint + 1]
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
+	print"?????????????????????????????????????????????????????????????????????????????????????????????????????????????"
+	InflectionPoint[#InflectionPoint+1] = endindex
+	print(#InflectionPoint,InflectionPoint[1])
 	if (startpt.y >= endpt.y or startpt.x >= endpt.x) then
 		return false
 	end
@@ -2115,10 +2453,10 @@ function IsHengZheGou(bh,bl)
 	local dis_bd0 = GetDistance(startpt,turning_pt_0)
 	local dis_bd1 = GetDistance(turning_pt_0,turning_pt_1)
 	local dis_line = GetDistance(startpt,turning_pt_1)
-	
+
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
-	
+
 	if (len_bd0 == 0 or len_bd1 == 0 or len_bd2 == 0) then
 		return false
 	end
@@ -2142,7 +2480,7 @@ function IsHengZheGou(bh,bl)
 	local wanqu1 = len_bd1/dis_bd1
 	local angel0 = 90
 	local angel1 = 90
-	
+
 	if (turning_pt_0.x ~= startpt.x) then
 		angel0 = GetXAngel2(startpt,turning_pt_0);
 	end
@@ -2338,10 +2676,10 @@ function IsXieWanGou(bh,bl)
 	print("111111111111")
 	print(turning_index_0)
 	print(turning_index_1)
-	
+
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
-	
+
 	print("inflectionPoint:")
 	print(bh.InflectionPoint[1])
 
@@ -2777,15 +3115,15 @@ function IsShuZheZheGou(bh,bl)
 	if (turning_pt_1.y ~= turning_pt_2.y) then
 		 angel1 = GetYAngel2(turning_pt_1,turning_pt_2);
 	end
-	
-	
+
+
 
 	if(wanqu1 <= 0.09 and angel0 > -16.6)then
 		return false
 	end
 
 	if(bl == 1)then
-		if(wanqu1 > 0.09)then	
+		if(wanqu1 > 0.09)then
 			return true
 		elseif(wanqu1 <= 0.09 and angel0 <= -16.6)then
 			return true
@@ -2830,7 +3168,7 @@ function IsShuZhe(bh,bl)
 	if (len_bd0 == 0 or len_bd1 == 0 ) then
 			print("111111111")
 		return false
-	
+
 	end
 
 	if (startpt.y >= turning_pt_0.y or turning_pt_0.x >= endpt.x ) then
@@ -3020,12 +3358,12 @@ function IsHengZheTi(bh,bl)
 	if (startpt.x >= turning_pt_0.x or turning_pt_0.y >= turning_pt_1.y) then
 		return false
 	end
-	
+
 	--拐点1在拐点0下方
 	if (turning_pt_0.y >= turning_pt_1.y) then
 		return false
 	end
-	
+
 	--尾点在拐点1的右上
 	if (endpt.x <= turning_pt_1.x or endpt.y >= turning_pt_1.y) then
 		return false
@@ -3042,9 +3380,9 @@ function IsHengZheTi(bh,bl)
 	if (turning_pt_1.y ~= turning_pt_0.y) then
 		angel1 = GetYAngel(turning_pt_0,turning_pt_1);
 	end
-	
+
 	if(angel0 > 37.6 and angel1 > 13.3)then
-		
+
 		return false
 	end
 
@@ -3471,7 +3809,7 @@ function IsPieZhe(bh,bl)
 	local endpt,endindex = GetEndPoint(bh)
 	local line0 = GetLine(startpt,endpt)
 	local turning_pt_0,turning_index_0 = GetFarthestPt2Line(bh,line0)
-	
+
 	local bd0 = GetTempBD(bh,startindex,turning_index_0)
 	local bd1 = GetTempBD(bh,turning_index_0,endindex)
 	local len_bd0 = GetBDLen(bd0)
@@ -3484,12 +3822,12 @@ function IsPieZhe(bh,bl)
 		return false
 	end
 	if (Point2LineDown(turning_pt_0,line0) == false ) then
-		
+
 		return false
 	end
 --拐点在首点下面，在末点左边
 	if (turning_pt_0.x >= endpt.x or turning_pt_0.y <= startpt.y) then
-	
+
 		return false
 	end
 	local wanqu0 = len_bd0/dis_bd0
@@ -3499,7 +3837,7 @@ function IsPieZhe(bh,bl)
 		angel0 = GetYAngel(startpt,turning_pt_0);
 	end
 	if(wanqu1 > 1.23)then
-	
+
 		return false
 	end
 
@@ -3749,9 +4087,9 @@ function IsPieTi(bh,bl)
 	if(turning_pt_0.x ~= endpt.x) then
 		angel1 =GetXAngel2(turning_pt_0,endpt)
 	end
-		
 
-	if (bl == 1 )then	
+
+	if (bl == 1 )then
 		return true
 	end
 	print(angel0,angel1,wanqu0,wanqu1)
@@ -4142,7 +4480,7 @@ function IsHengZheZheZhe(bh,bl)
 	local wanqu1 = len_bd2/dis_bd2
 	local angel0 = 90
 	local angel1 = 90
-	
+
 
 	if (turning_pt_0.x ~= startpt.x) then
 		 angel0 = GetXAngel2(startpt,turning_pt_0);
@@ -4699,7 +5037,7 @@ local startpt,startindex = GetStartPoint(bh)
 			return false
 		end
 	end
-	
+
 	if(bl == 2)then
 		if(angel0 <= 25.4 and angel1 > 26.8 and wanqu0 <= 1.1)then
 			return true
@@ -4912,7 +5250,7 @@ function	IsHengZheZheZheGou(bh,bl)
 			return false
 		end
 	end
-	
+
 	if(bl == 2)then
 		if(angel1 <= 22.6 and angel0 > -17.9 and wanqu0 <= 1.06 and wanqu1 <= 1.08 and wanqu23 <= 2.5)then
 			return true
@@ -4920,4 +5258,198 @@ function	IsHengZheZheZheGou(bh,bl)
 			return false
 		end
 	end
+end
+function splitPoints(ptStr)
+	local ptSet = {}
+	for strx,stry in string.gmatch(ptStr,"(%d+)/(%d+)") do
+		local pt = {}
+		pt.x = tonumber(strx)
+		pt.y = tonumber(stry)
+		ptSet[#ptSet+1] = pt
+	end
+	return ptSet
+end
+function GetBHByPoint(bh)
+	local index=0
+	local points ={}
+	for i=1,#BasePointTableStrings do
+	points=splitPoints(BasePointTableStrings[i])
+	local startdot=bh.ptSet[1]
+	local enddot=bh.ptSet[#bh.ptSet]
+		if(startdot.x == points[1].x and enddot.x == points[#points].x)then
+		index = i
+		break
+		end
+	end
+	return index-1
+end
+
+function	IsShuiPingPingQi(bh1,index1,bh2,index2)
+	local firpt = bh1.ptSet[index1]
+	local secpt = bh2.ptSet[index2]
+	local Dvalue= math.abs(secpt.y-firpt.y)
+	print"ˮƽƽ��Ĳ�ֵ%%%%%%%%%%%%"
+	print(Dvalue)
+	if(Dvalue <= 30)then--�������޸�
+		return true
+	else
+	--��������
+		table.insert(errorType,"A0001")
+	--�������
+		table.insert(errorPoint,index1/#bh1.ptSet..","..index2/#bh2.ptSet)
+	--����ʻ�
+		local strokeNum1 =GetBHByPoint(bh1)
+		local strokeNum2 =GetBHByPoint(bh2)
+		table.insert(errorBH,strokeNum1..","..strokeNum2)
+		return false
+	end
+end
+--bh1��bh2�з�
+function IsZhongDianQieFen(bh1,bh2)
+local midNode,midNodeIndex = BH2BHXiangJiaoDIAN(bh1,bh2)
+print(bh1.ptSet[1].x,midNode.x,bh1.ptSet[#bh1.ptSet].x)
+local lefthalf=math.abs(bh1.ptSet[1].x-midNode.x)
+local righthalf=math.abs(bh1.ptSet[#bh1.ptSet].x-midNode.x)
+print"�Ƿ��е��з�&&&&&&&&&&&&&"
+print(lefthalf,righthalf)
+
+	if(lefthalf == 0 or righthalf == 0)then
+			table.insert(errorType,"A0002")
+			table.insert(errorPoint,midNodeIndex/#bh1.ptSet)
+			local strokeNum =GetBHByPoint(bh1)
+			table.insert(errorBH,strokeNum)
+		return false
+	elseif(lefthalf/righthalf > 1.5 or righthalf/lefthalf > 1.5)then-- 1.5
+			table.insert(errorType,"A0002")
+			table.insert(errorPoint,midNodeIndex/#bh1.ptSet)
+			local strokeNum =GetBHByPoint(bh1)
+			table.insert(errorBH,strokeNum)
+		return false
+	else
+		return true
+	end
+
+end
+--���ڵ����֮�䣨���и�и��,0�����׵㣬1����ĩ�㣩
+function IsGoldenSection(bd1,bd2,type1)
+	local flag = 0
+	local index = 0
+	local mindis = 512
+	local tempdis = 0
+	local yValue1 = 0
+	local yValue2 = 0
+	local startPoint,startindex=GetStartPoint(bd1)
+	local endPoint,endindex=GetEndPoint(bd1)
+	if(type1 == 0) then
+		--flag = JudgeDotLinePoint(bd2.ptSet[1],bd1)
+		--index = bd2.ptSet[1]
+		for i=1,#bd1.ptSet do
+			local pt1 = bd1.ptSet[i]
+			local pt2 = bd2.ptSet[1]
+			local tempdis = math.sqrt( math.pow(pt1.x - pt2.x,2) + math.pow(pt1.y - pt2.y,2))
+			if (tempdis < mindis)then
+				mindis = tempdis
+				index = i
+			end
+		end
+	elseif(type2 == 1) then
+		--flag = JudgeDotLinePoint(bd2.ptSet[#bd2.ptSet],bd1)
+			for i=1,#bd1.ptSet do
+			local pt1 = bd1.ptSet[i]
+			local pt2 = bd2.ptSet[#bd2.ptSet]
+			local tempdis = math.sqrt( math.pow(pt1.x - pt2.x,2) + math.pow(pt1.y - pt2.y,2))
+			if (tempdis < mindis)then
+				mindis = tempdis
+				index = i
+			end
+		end
+	else
+		print"������type���ͣ�"
+	end
+		local nearestPoint =bd1.ptSet[index]
+		yValue1=math.abs(startPoint.y-nearestPoint.y)
+		yValue2=math.abs(endPoint.y-nearestPoint.y)
+
+		if(yValue1/yValue2 >= 0.5 and yValue1/yValue2 <= 0.7)then
+		return true
+	elseif(yValue2/yValue1 >= 0.5 and yValue2/yValue1 <= 0.7)then
+		return true
+	else
+		table.insert(errorType,"A0003")
+		table.insert(errorPoint,index/#bd1.ptSet)
+		local strokeNum =GetBHByPoint(bd1)
+		table.insert(errorBH,strokeNum)
+		return false
+	end
+	return flag
+end
+
+--[[function JudgeDotLinePoint(pt,bd)
+	--local newbh = resample(bd)
+	local tempDis =  512
+	local disThreshold = 50
+	local startPoint,startindex=GetStartPoint(bd)
+	local endPoint,endindex=GetEndPoint(bd)
+	--local line1 = GetLine(startindex,endindex)
+	--local near,nearIndex=GetNearestPt2Line(line1,pt)
+	local yValue1=math.abs(startPoint.y-pt.y)
+	local yValue2=math.abs(endPoint.y-pt.y)
+	--print(startPoint.y,endPoint.y,pt.y)
+
+	if(yValue1/yValue2 >= 0.5 and yValue1/yValue2 <= 0.7)then
+		return true
+	elseif(yValue2/yValue1 >= 0.5 and yValue2/yValue1 <= 0.7)then
+		return true
+	else
+		table.insert(errorType,"A0003")
+		return false
+	end
+end--]]
+
+--�����㼯�����������������ң��γ��ְ�Χ�У�������߱�
+
+function IsAspectRatio()
+	local strokeStrs  = {}
+	local tempYmin =512
+	local tempYmax =0
+	local tempXmin =512
+	local tempXmax =0
+	--print"0000000"
+	--print(pointstr)
+	local ptSets = {}
+	for strx,stry in string.gmatch(pointstr,"(%d+)/(%d+)") do
+		local pt = {}
+		pt.x = tonumber(strx)
+		pt.y = tonumber(stry)
+		ptSets[#ptSets+1] = pt
+	end
+
+	for i= 1,#ptSets do
+		--print(ptSets[i].x,ptSets[i].y)
+		if (ptSets[i].y > tempYmax) then
+		tempYmax=ptSets[i].y
+		end
+		if (ptSets[i].y < tempYmin) then
+		tempYmin=ptSets[i].y
+		end
+		if (ptSets[i].x> tempXmax) then
+		tempXmax=ptSets[i].x
+		end
+		if (ptSets[i].x < tempXmin) then
+		tempXmin=ptSets[i].x
+		end
+	end
+
+	--print"PPPPPPPPPPPPPPPPP"
+	--print(tempXmin,tempXmax,tempYmin,tempYmax)
+	Xdiff=tempXmax-tempXmin
+	Ydiff=tempYmax-tempYmin
+	if(Xdiff>Ydiff)then
+		table.insert(errorType,"A0000")
+		return false
+	else
+		--print"))))"
+		return true
+	end
+
 end
