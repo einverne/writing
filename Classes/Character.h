@@ -54,9 +54,42 @@ public:
 	*/
 	Stroke getStroke(int no);
 
+	
+	/**
+	* set Stroke sequence read from xml
+	* @param seq
+	* @return
+	*/
+	void setStrokeSeq(const string seq)	{
+		_stroke_seq = seq;
+	}
+
+	/**
+	* get Stroke sequence read from xml
+	* @return
+	*/
+	string getStrokeSeq() { return _stroke_seq; }
+
+	/**
+	* set character name
+	* @param na
+	* @return
+	*/
+	void setName(const string na) {
+		_name = na;
+	}
+
+	/**
+	* get character Name
+	* @return
+	*/
+	string getName() { return _name; }
+}
+
 private:
 	void transformCoordinate(CCPoint point,float length);
-
+	string _stroke_seq;
+	string _name;
 };
 
 #endif

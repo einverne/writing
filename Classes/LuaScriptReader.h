@@ -17,6 +17,8 @@ extern "C"{
 	#include "lauxlib.h"
 }
 
+#define MAX_LUA_FILE_LEN 1024*200
+
 class CLuaScriptReader{
 public:
 	CLuaScriptReader();

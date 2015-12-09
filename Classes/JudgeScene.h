@@ -12,7 +12,7 @@ USING_NS_CC;
 using namespace std;
 
 /**
- * 以16个字为单元进行联系
+ * 以16个字为单元进行练习
  */
 class JudgeScene : public CCScene
 {
