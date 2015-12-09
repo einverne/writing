@@ -49,20 +49,28 @@ string JudgeManager::getResult(string hanzi,string points_output,CharacterEntity
 
 }
 
+void JudgeManager::initLuaEngine(){
+	gReader.InitLuaScriptReader();
+	string filepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/WriteZiInfo.lua");
+	string basepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/BaseLib.lua");
+	string apipath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/RunAPI_1208.lua");
+	string standardpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/StandardZiInfo.lua");
+	string JSONpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/JSON.lua");
+	gReader.RunScriptFile(JSONpath.c_str(),"JSON.lua");
+ 	gReader.RunScriptFile(filepath.c_str(),"WriteZiInfo.lua");
+ 	gReader.RunScriptFile(standardpath.c_str(),"StandardZiInfo.lua");
+ 	gReader.RunScriptFile(basepath.c_str(),"BaseLib.lua");
+	gReader.RunScriptFile(apipath.c_str(),"RunAPI_1208.lua");
+
+}
+
 string JudgeManager::getResult(string hanzi , string points_output, string all_points, CharacterExtend* p , string funcs){
 	CCLog("JudgeManager %s",funcs.c_str());
+	string Mainpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/Main.lua");
 
-	string filepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua_ext/WriteZiInfo.lua");
-	string basepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua_ext/BaseLib.lua");
-	string apipath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua_ext/RunAPI.lua");
-	string standardpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua_ext/StandardZiInfo.lua");
-
-	CLuaScriptReader gReader;
-
-	gReader.InitLuaScriptReader();
 	gReader.setWriteZiInfo(points_output.c_str());
 	gReader.setStandardZiInfo(all_points);
-	char retStr[50];
+	char retStr[200];
 	retStr[0] = '\0';
  	gReader.setZiName(hanzi);
 
@@ -79,21 +87,15 @@ string JudgeManager::getResult(string hanzi , string points_output, string all_p
  		gReader.setRulesFunc(tightlua);
  	}
 
- 	CCLog("WriteZiInfo");
- 	gReader.RunScriptFile(filepath.c_str(),"WriteZiInfo.lua");
- 	CCLog("StandardZiInfo");
- 	gReader.RunScriptFile(standardpath.c_str(),"StandardZiInfo.lua");
+	gReader.RunScriptFile(Mainpath.c_str(),retStr,"Main.lua");
 
- 	CCLog("baselib");
- 	gReader.RunScriptFile(basepath.c_str(),"BaseLib.lua");
-
- 	CCLog("runapi");
-	gReader.RunScriptFile(apipath.c_str(),retStr,"RunAPI.lua");
-
-//	gReader.ExitLuaScriptReader();
 	CCLog("retStr after judge %s",retStr);
 	string ret = retStr;
 //	delete [] retStr;
 	return ret;
 //	return string("1\r\n");
+}
+
+void JudgeManager::exitLuaEngine(){
+	gReader.ExitLuaScriptReader();
 }

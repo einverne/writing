@@ -84,7 +84,7 @@ public:
 	* @return
 	*/
 	string getName() { return _name; }
-}
+
 
 private:
 	void transformCoordinate(CCPoint point,float length);

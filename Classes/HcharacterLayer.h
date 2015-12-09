@@ -5,9 +5,11 @@
 #include "../CocosWidget/cocos-widget.h"
 #include "HcharacterDrawnode.h"
 #include "CharacterExtend.h"
+#include "JudgeManager.h"
 USING_NS_CC;
 using namespace cocos2d::cocoswidget;
 
+// writing character Layer to deal with writing action
 class HcharacterLayer : public CCLayer
 {
 public:
@@ -28,8 +30,8 @@ public:
 	void reloadChar();				//重新加载汉字信息
 	float getWrongPercent();
 	void isJudge(bool isjudge);
-	string getPointsOutput()	{ return pointsOutput; }
-	string getOriginPoints()	{ return pointsOrigin; }
+	string getPointsOutput() const { return pointsOutput; }
+	string getOriginPoints() const { return pointsOrigin; }
 
 	/**
 	* clear all writing like function rewrite(CCOject* pSender)
@@ -58,26 +60,27 @@ private:
 	* @return
 	*/
 	void zoomin(CCObject* pSender);			//
+
 	/**
 	* 缩小回调方法
 	* @param pSender
 	* @return
 	*/
-	void zoomout(CCObject* pSender);		//
-	void writeWrong();
-	void writeRight();
-	int writeCount;				//书写次数
-	int wrongCount;				//错误次数
-	string hanzi;				//保存该层使用汉字
-	float scale;				//缩放比率
-	bool ijudge;				//是否评判 false不评判，true评判
+	void zoomout(CCObject* pSender);
+	void Wrong();
+	void Right();
+	int _writeCount;				//书写次数
+	int _wrongCount;				//错误次数
+	string _hanzi;				//保存该层使用汉字
+	float _scale;				//缩放比率
+	bool _ijudge;				//是否评判 false不评判，true评判
 	string pointsOutput;		//输出字符串
 	string pointsOrigin;		//手写汉字Origin字符串 未作Points 的变形
 	int totalBihuaCount;				//该汉字总共有的笔画数
 	float score;				//当前汉字评分
 	int curBihuaWrong;			//当前笔画错误的次数
 	CharacterExtend* m_exChar;	// characterExtend
+	JudgeManager _manager;		// judge manager
 };
-
 
 #endif

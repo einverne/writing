@@ -1,5 +1,4 @@
 #include "HcharacterLayer.h"
-#include "JudgeManager.h"
 #include "StrokeDrawnode.h"
 #include "Stroke.h"
 #include "MoveToRightPlace.h"
@@ -13,8 +12,16 @@
 #include <iomanip>
 
 HcharacterLayer::HcharacterLayer():m_sprite_draw(NULL),
-	bihuaCountAndTotal(NULL),m_HDrawnode(NULL),m_sprite_info(NULL),
-	writeCount(0),wrongCount(0),ijudge(false),totalBihuaCount(0),scoreLabel(NULL),score(0.0),curBihuaWrong(0)
+	bihuaCountAndTotal(NULL),
+	m_HDrawnode(NULL),
+	m_sprite_info(NULL),
+	_writeCount(0),
+	_wrongCount(0),
+	_ijudge(false),
+	totalBihuaCount(0),
+	scoreLabel(NULL),
+	score(0.0),
+	curBihuaWrong(0)
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)  
 #define RIGHT_EFFECT_FILE   "right_android.ogg"
@@ -27,7 +34,7 @@ HcharacterLayer::HcharacterLayer():m_sprite_draw(NULL),
 #define RIGHT_EFFECT_FILE   "right_android.ogg"
 #define WRONG_EFFECT_FILE	"wrong_android.ogg"
 #endif
-	scale=1.6f;
+	_scale=1.6f;
 }
 
 HcharacterLayer::~HcharacterLayer()
@@ -43,15 +50,15 @@ HcharacterLayer::~HcharacterLayer()
 bool HcharacterLayer::init(string hanzi,CCSprite* tianzige_draw){
 	if (CCLayer::init())
 	{
-
-		this->hanzi = hanzi;
+		this->_hanzi = hanzi;
 		this->setSprite(tianzige_draw);
 		this->setm_HDrawnode(HcharacterDrawnode::create());
 		m_HDrawnode->setPosition(m_sprite_draw->getPosition());
-		getm_HDrawnode()->setScale(scale);
+		getm_HDrawnode()->setScale(_scale);
 		getm_HDrawnode()->setAnchorPoint(ccp(0.5,0.5));
 		addChild(m_HDrawnode);
 
+		_manager.initLuaEngine();
 		return true;
 	}
 	return false;
@@ -158,6 +165,7 @@ void HcharacterLayer::onEnter(){
 
 void HcharacterLayer::onExit(){
 	CCLayer::onEnter();
+	_manager.exitLuaEngine();
 }
 
 void HcharacterLayer::judge(){
@@ -206,47 +214,48 @@ void HcharacterLayer::judge(){
     CCLog("output %s",output.c_str());
     CCLog("all %s",points.c_str());
     
-	string ret = JudgeManager::getResult(hanzi,output,points,m_exChar,funcs);
+	string ret = _manager.getResult(_hanzi,output,points,m_exChar,funcs);
 	//CCLog("Hcharacterlay: retstring:%s length:%d",ret.c_str(),ret.length());
 	//如果不评判则跳过
-	if (!ijudge)
+	if (!_ijudge)
 	{
 		return;
 	}
-	if (ret.length() == 3)
-	{
-		if (ret.at(0) == '0')
-		{
-			//这一笔写错
-			MyToast::showToast(this,DataTool::getChinese("stroke_wrong"),TOAST_LONG);
-			
-			writeWrong();
-			
-		}else if(ret.at(0) == '1'){
-			//写对
-			//MyToast::showToast(this,DataTool::getChinese("stroke_right"),TOAST_LONG);
 
-			writeRight();
-		}
-	}else if(ret.length() == 4){
-		if (ret.at(0) == '0')
-		{
-			//这一笔写错 或者 位置不对
-			MyToast::showToast(this,DataTool::getChinese("stroke_wrong"),TOAST_LONG);
-			writeWrong();
-			
-		}else if(ret.at(0) == '1' && ret.at(1) == '0'){
-			MyToast::showToast(this,DataTool::getChinese("position_wrong"),TOAST_LONG);
-			writeWrong();
-		}else if(ret.at(1) == '1' && ret.at(0) == '1')
-		{
-			//MyToast::showToast(this,DataTool::getChinese("position_right"),TOAST_LONG);
-			writeRight();
-		}
-	}
+	//if (ret.length() == 3)
+	//{
+	//	if (ret.at(0) == '0')
+	//	{
+	//		//这一笔写错
+	//		MyToast::showToast(this,DataTool::getChinese("stroke_wrong"),TOAST_LONG);
+	//		
+	//		Wrong();
+	//		
+	//	}else if(ret.at(0) == '1'){
+	//		//写对
+	//		//MyToast::showToast(this,DataTool::getChinese("stroke_right"),TOAST_LONG);
+
+	//		Right();
+	//	}
+	//}else if(ret.length() == 4){
+	//	if (ret.at(0) == '0')
+	//	{
+	//		//这一笔写错 或者 位置不对
+	//		MyToast::showToast(this,DataTool::getChinese("stroke_wrong"),TOAST_LONG);
+	//		Wrong();
+	//		
+	//	}else if(ret.at(0) == '1' && ret.at(1) == '0'){
+	//		MyToast::showToast(this,DataTool::getChinese("position_wrong"),TOAST_LONG);
+	//		Wrong();
+	//	}else if(ret.at(1) == '1' && ret.at(0) == '1')
+	//	{
+	//		//MyToast::showToast(this,DataTool::getChinese("position_right"),TOAST_LONG);
+	//		Right();
+	//	}
+	//}
 }
 
-void HcharacterLayer::writeWrong(){
+void HcharacterLayer::Wrong(){
 
 	this->getm_HDrawnode()->removeLastStroke();
 	int t = getm_HDrawnode()->getStrokeDrawnodeList()->count();
@@ -255,8 +264,8 @@ void HcharacterLayer::writeWrong(){
 	//getInfoSprite()->setVisible(true);
 	//getInfoSprite()->setTexture(CCTextureCache::sharedTextureCache()->addImage("wrong.png"));
 	CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect(WRONG_EFFECT_FILE);
-	writeCount++;
-	wrongCount++;
+	_writeCount++;
+	_wrongCount++;
 	curBihuaWrong++;
 
 	string strLabel = DataTool::getChinese("defen")+DataTool::to_string_with_precision(score);
@@ -264,7 +273,7 @@ void HcharacterLayer::writeWrong(){
 
 }
 
-void HcharacterLayer::writeRight(){
+void HcharacterLayer::Right(){
 	int t = getm_HDrawnode()->getStrokeDrawnodeList()->count();
 	string strToshow = DataTool::getChinese("bihuashu")+DataTool::intTostring(t)+"/"+DataTool::intTostring(totalBihuaCount);
 	getbihuaCountAndTotal()->setString(strToshow.c_str());
@@ -300,7 +309,7 @@ void HcharacterLayer::writeRight(){
 	string strLabel = DataTool::getChinese("defen")+DataTool::to_string_with_precision(score);
 	getscoreLabel()->setString(strLabel.c_str());
 	curBihuaWrong=0;
-	writeCount++;
+	_writeCount++;
 
 	JudgeScene* scene = (JudgeScene*)this->getParent();
 	string unit_id = scene->getUnitID();
@@ -364,18 +373,18 @@ void HcharacterLayer::clearWriting(){
 }
 
 void HcharacterLayer::zoomin(CCObject* pSender){
-	if (scale < 1.6)
+	if (_scale < 1.6)
 	{
-		scale += 0.1f;
-		getm_HDrawnode()->setScale(scale);
+		_scale += 0.1f;
+		getm_HDrawnode()->setScale(_scale);
 	}
 }
 
 void HcharacterLayer::zoomout(CCObject* pSender){
-	if (scale > 0.5)
+	if (_scale > 0.5)
 	{
-		scale -= 0.1f;
-		getm_HDrawnode()->setScale(scale);
+		_scale -= 0.1f;
+		getm_HDrawnode()->setScale(_scale);
 	}
 }
 
@@ -384,7 +393,7 @@ void HcharacterLayer::reloadChar(){
 	this->setm_HDrawnode(HcharacterDrawnode::create());
 	m_HDrawnode->setPosition(m_sprite_draw->getPosition());
 	m_HDrawnode->setAnchorPoint(ccp(0.5,0.5));
-	m_HDrawnode->setScale(scale);
+	m_HDrawnode->setScale(_scale);
 	this->addChild(m_HDrawnode);
 	TcharacterLayer* layer = (TcharacterLayer*)this->getParent()->getChildByTag(kTLayerTag);		//get TcharacterLayer
 	this->totalBihuaCount = layer->getm_TDrawnode()->getCharacter().getStrokeCount();
@@ -394,13 +403,13 @@ void HcharacterLayer::reloadChar(){
 }
 
 float HcharacterLayer::getWrongPercent(){
-	if (writeCount == 0)
+	if (_writeCount == 0)
 	{
 		return 0;
 	}
-	return (float)wrongCount/writeCount;
+	return (float)_wrongCount/_writeCount;
 }
 
 void HcharacterLayer::isJudge(bool isjudge){
-	this->ijudge = isjudge;
+	this->_ijudge = isjudge;
 }
