@@ -1577,7 +1577,7 @@ function  IsHeng(bh,bl)
 		angel_var = math.abs(angel)
 	end
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
-	InflectionPoint[#InflectionPoint+1] = endindex
+
 	if(angel_var > 50.3)  then
 		return false
 	end
@@ -1588,8 +1588,10 @@ function  IsHeng(bh,bl)
 
 	if (bl == 1 )then
 		if(angel_var > 14.86 and angel_var <= 50.3)then
+			InflectionPoint[#InflectionPoint+1] = endindex
 			return true
 		elseif(angel_var <= 14.86 and curve_var <= 1.3)then
+			InflectionPoint[#InflectionPoint+1] = endindex
 			return true
 		else
 			return false
@@ -1598,6 +1600,7 @@ function  IsHeng(bh,bl)
 
 	if(bl == 2)then
 		if(angel_var <= 14.86 and curve_var <= 1.1)then
+			InflectionPoint[#InflectionPoint+1] = endindex
 			return true
 		else
 			return false
@@ -2159,7 +2162,7 @@ function  IsPie(bh,bl)
 	--InflectionPoint[1]=endindex--bh.InflectionPoint[i]
 	--end
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
-	InflectionPoint[#InflectionPoint+1] = endindex
+
 
 	if (startpt.y >= endpt.y or startpt.x <= endpt.x) then
 		return false
@@ -2178,6 +2181,7 @@ function  IsPie(bh,bl)
 
 	if (bl == 1 )then
 		if(curve <= 1.46 and curve > 1.01 )then
+			InflectionPoint[#InflectionPoint+1] = endindex
 			return true
 		else
 			return false
@@ -2186,6 +2190,7 @@ function  IsPie(bh,bl)
 
 	if (bl == 2 )then
 		if(curve <= 1.3 and angel > 4.42 )then
+			InflectionPoint[#InflectionPoint+1] = endindex
 			return true
 		else
 			return false
@@ -2254,9 +2259,9 @@ function  IsNa(bh,bl)
 	--end
 	--local temp=bh.InflectionPoint[#bh.InflectionPoint + 1]
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
-	print"?????????????????????????????????????????????????????????????????????????????????????????????????????????????"
-	InflectionPoint[#InflectionPoint+1] = endindex
-	print(#InflectionPoint,InflectionPoint[1])
+	--print"?????????????????????????????????????????????????????????????????????????????????????????????????????????????"
+
+	--print(#InflectionPoint,InflectionPoint[1])
 	if (startpt.y >= endpt.y or startpt.x >= endpt.x) then
 		return false
 	end
@@ -2276,6 +2281,7 @@ function  IsNa(bh,bl)
 	end
 	if (bl == 1 )then
 		if(curve <= 1.02 and angel >10.5)then
+			InflectionPoint[#InflectionPoint+1] = endindex
 			return true
 		elseif(curve <= 1.2 and curve > 1.01)then
 			return true
@@ -2286,6 +2292,7 @@ function  IsNa(bh,bl)
 
 	if (bl == 2 )then
 		if(curve <= 1.2 and curve > 1.01)then
+			InflectionPoint[#InflectionPoint+1] = endindex
 			return true
 		else
 			return false
