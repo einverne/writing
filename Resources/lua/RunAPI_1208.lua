@@ -253,19 +253,19 @@ function RunAPI:RunZiRule(bhNum,NewZiRuleArr)
 		ret = "011"
 		--table.insert(errortype,1,"B0001")
 		errorStrokePoint={}
-		errorStrokePoint["null"]="null"
+		local errorBHPoint["null"]="null"
 		local temp={}
 		temp["errortype"]="B0001"
-		temp["errorstroke"]={}
+		temp["errorstroke"]=errorBHPoint
 		errorStrokePoint[#errorStrokePoint+1]=temp
 	elseif(wzrightinfo == 0)then
 		ret = "011"
 		--table.insert(errortype,1,"B0002")
 		errorStrokePoint={}
-		errorStrokePoint["null"]="null"
+		local errorBHPoint["null"]="null"
 		local temp={}
 		temp["errortype"]="B0001"
-		temp["errorstroke"]={}
+		temp["errorstroke"]=errorBHPoint
 		errorStrokePoint[#errorStrokePoint+1]=temp
 	elseif(bhrightinfo == 1 and wzrightinfo == 1 )then
 		ret = bhrightinfo*100 + unitrightinfo*10 + zirightinfo
