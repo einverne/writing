@@ -11,6 +11,10 @@
 #include "JudgeScene.h"
 #include <iomanip>
 
+#include "../rapidjson/document.h"
+
+using namespace rapidjson;
+
 HcharacterLayer::HcharacterLayer():m_sprite_draw(NULL),
 	bihuaCountAndTotal(NULL),
 	m_HDrawnode(NULL),
@@ -221,6 +225,38 @@ void HcharacterLayer::judge(){
 	{
 		return;
 	}
+	CCLog("%s\n", ret.c_str());
+
+	//ret = "{\"ret\":\"111\",\"error\": [] }";
+	//ret = "{\"error\":[{\"errortype\":\"B0001\",\"errorstroke\":{}}],\"ret\":\"011\"}";
+	ret = "{\"ret\":\"101\",\"error\":[{\"errortype\":\"A0001\",\"errorstroke\":{\"0\":\"0.2\",\"1\":\"0.3\"}},{\"errortype\":\"A0021\",\"errorstroke\":{\"0\":\"0.2\",\"1\":\"0.3\"}}]}";
+	rapidjson::Document doc;
+	doc.Parse<kParseDefaultFlags>(ret.c_str());
+	if(doc.HasMember("ret")){
+		string retjson = doc["ret"].GetString();
+		for (unsigned i = 0; i < retjson.length(); ++i)
+		{
+			CCLog("%c\t",retjson.at(i));
+		}
+	}
+	if (doc.HasMember("error"))
+	{
+		const Value& errorjson = doc["error"];
+		for (SizeType i = 0 ; i < errorjson.Size(); ++i)
+		{
+			if(errorjson[i].HasMember("errortype")){
+				string errortype = errorjson[i]["errortype"].GetString();
+			}
+			if(errorjson[i].HasMember("errorstroke")){
+				const Value& v = errorjson[i]["errorstroke"];
+				for (Value::ConstMemberIterator iter = v.MemberonBegin(); iter != v.MemberonEnd(); ++iter)
+				{
+					string key = iter->name.GetString();
+					string value = iter->value.GetString();
+				}
+			}
+		}
+	}
 
 	//if (ret.length() == 3)
 	//{
@@ -340,6 +376,8 @@ void HcharacterLayer::rewrite(CCObject* pSender){
 	CCLog("HcharacterLayer::rewrite");
 	if (this->getActionManager()->numberOfRunningActionsInTarget(getm_HDrawnode()) <= 0)
 	{
+		_manager.exitLuaEngine();
+		_manager.initLuaEngine();
 		this->getm_HDrawnode()->rewrite();
 		JudgeScene* scene = (JudgeScene*)this->getParent();
 		if (scene->getIsJudge()==true)
