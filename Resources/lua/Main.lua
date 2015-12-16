@@ -25,36 +25,39 @@ function func1()
 	if(BH2BHXiangJie(bh1,bh2,2,0) == false) then
 		pflag = 0
 	end
-	//&&:230082：----
+	//&&:230082＿---
 	--local inflection= ReadFromTxt()
-	--二维数组，第二笔的第一个拐点，第三笔的第一个拐点
+	--二维数组，第二笔的第一个拐点，第三笔的第一个拐炿
+	--
+	if( tonumber(bflag) ~= 0 and tonumber(pflag) ~= 0)then
 	print"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD"
 	print (InflectionPoint[2],InflectionPoint[3])
-	if(IsShuiPingPingQi(bh1,InflectionPoint[2],bh2,InflectionPoint[3]) == false)then
-		uflag = 0
-		print"shuipingpingqi"
-	end
-	if(IsZhongDianQieFen(bh0,bh1) == false)then
-		uflag = 0
-		print"zhongdianqiefen"
-	end
+		if(IsShuiPingPingQi(bh1,InflectionPoint[2],bh2,InflectionPoint[3]) == false)then
+			uflag = 0
+			print"shuipingpingqi"
+		end
+		if(IsZhongDianQieFen(bh0,bh1) == false)then
+			uflag = 0
+			print"zhongdianqiefen"
+		end
 
-	if(IsGoldenSection(bh1,bh2,0) == false)then
-		uflag = 0
-		print"huangjinfenge"
+		if(IsGoldenSection(bh1,bh2,0) == false)then
+			uflag = 0
+			print"huangjinfenge"
+		end
+		errorlist=ReturnErrorType()
+		errorBHPoint=ReturntypeInfo()
 	end
-
-	errorlist=ReturnErrorType()
-	errorBHPoint=ReturntypeInfo()
 	//##end]]
 
 	local CharacterRule = [[//##begin
 	//^^大：----
-	if(IsAspectRatio() == false)then
-		cflag = 0
-		print"宽高比budui"
+	if(  tonumber(bflag) ~= 0 and tonumber(pflag) ~= 0 and tonumber(uflag) ~= 0)then
+		if(IsAspectRatio() == false)then
+			cflag = 0
+			print"宽高比budui"
+		end
 	end
-
 	//##end]]
 
 	local RunAPI=require("RunAPI_1208")

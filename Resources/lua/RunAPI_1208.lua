@@ -250,6 +250,8 @@ function RunAPI:RunZiRule(bhNum,NewZiRuleArr)
 	--errorStrokePoint = nil
 	--end
 	if(bhrightinfo == 0 )then
+		table.remove(InflectionPoint,#InflectionPoint)
+		table.remove(baseFuncs.typeInfo,#baseFuncs.typeInfo)
 		ret = "011"
 		--table.insert(errortype,1,"B0001")
 		errorStrokePoint={}
@@ -260,6 +262,8 @@ function RunAPI:RunZiRule(bhNum,NewZiRuleArr)
 		temp["errorstroke"]=errorBHPoint
 		errorStrokePoint[#errorStrokePoint+1]=temp
 	elseif(wzrightinfo == 0)then
+		table.remove(InflectionPoint,#InflectionPoint)
+		table.remove(baseFuncs.typeInfo,#baseFuncs.typeInfo)
 		ret = "011"
 		--table.insert(errortype,1,"B0002")
 		errorStrokePoint={}
