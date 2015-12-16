@@ -58,6 +58,9 @@ function RunAPI:PassParametersToAPI(WriteZi,Level,UnitRule,CharacterRule)
 
 	local bhNum = writeHZ.strokeNum
 
+	if(bhNum == 1)then
+	_G.InflectionPoint ={}
+	end
 	--将所有手写点集存按笔画存在表中
 	PointTableStrings={}
 	for i=1,bhNum do
