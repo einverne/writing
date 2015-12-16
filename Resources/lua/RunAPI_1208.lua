@@ -253,6 +253,7 @@ function RunAPI:RunZiRule(bhNum,NewZiRuleArr)
 		ret = "011"
 		--table.insert(errortype,1,"B0001")
 		errorStrokePoint={}
+		errorStrokePoint["null"]="null"
 		local temp={}
 		temp["errortype"]="B0001"
 		temp["errorstroke"]={}
@@ -261,6 +262,7 @@ function RunAPI:RunZiRule(bhNum,NewZiRuleArr)
 		ret = "011"
 		--table.insert(errortype,1,"B0002")
 		errorStrokePoint={}
+		errorStrokePoint["null"]="null"
 		local temp={}
 		temp["errortype"]="B0001"
 		temp["errorstroke"]={}

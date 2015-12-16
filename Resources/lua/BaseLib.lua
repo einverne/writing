@@ -5500,9 +5500,8 @@ function IsAspectRatio()
 	Ydiff=tempYmax-tempYmin
 	if(Xdiff>Ydiff)then
 
-		table.insert(errorType,"A0000")
-		local StrokeAndPoint1 =nil
-		local StrokeAndPoint={}
+		local StrokeAndPoint={ }
+		StrokeAndPoint["null"]="null"
 		--typeInfo.errortype[#typeInfo.errortype+1] = "A0000"
 		--typeInfo.errorstroke[#typeInfo.errorstroke+1] = StrokeAndPoint
 
