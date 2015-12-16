@@ -45,7 +45,7 @@ function func1()
 			uflag = 0
 			print"huangjinfenge"
 		end
-		errorlist=ReturnErrorType()
+		--errorlist=ReturnErrorType()
 		errorBHPoint=ReturntypeInfo()
 	end
 	//##end]]

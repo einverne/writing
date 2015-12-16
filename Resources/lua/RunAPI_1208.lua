@@ -55,16 +55,16 @@ function RunAPI:PassParametersToAPI(WriteZi,Level,UnitRule,CharacterRule)
 	local WZ = require("WriteZiInfo")
 	writeHZ = WZ.WriteHZ:new()
 	writeHZ:initialize(WriteZi)
-
 	local bhNum = writeHZ.strokeNum
 
-	if(bhNum == 1)then
-	_G.InflectionPoint ={}
-	end
 	--将所有手写点集存按笔画存在表中
 	PointTableStrings={}
 	for i=1,bhNum do
 	PointTableStrings[#PointTableStrings+1]=writeHZ.strokeStrings[i]
+	end
+	--在笔画数为1时，清空InflectionPoint表中的数据
+	if(bhNum == 1)then
+	_G.InflectionPoint ={}
 	end
 
 	local str = trim2(WriteZi)
@@ -73,7 +73,7 @@ function RunAPI:PassParametersToAPI(WriteZi,Level,UnitRule,CharacterRule)
 	baseFuncs.setWZEnv(WZ)
 	baseFuncs.GetPoints(str)
 	baseFuncs.initStrokeStrs(PointTableStrings)
-
+	--级别
 	strokeLevel = Level
 	--部件
 	local ZiRuleList = self:parseUnitRule(UnitRule)
@@ -99,6 +99,7 @@ end
 --#########################	对部件规则进行整理，加到ZiRuleList表 ########################################
 
 function RunAPI:parseUnitRule(strUnitRule)
+
 	local ZiRuleList = {}
 	if(strokeLevel == 3 )then
 		strUnitRule  = string.gsub(strUnitRule , "//##begin", "" )
@@ -129,6 +130,7 @@ end
 function RunAPI:parseZiRule(strCharacterRule)
 
 	local CharacterRule =  {}
+
 	--对整字规则做基本处理
 	strCharacterRule  = string.gsub(strCharacterRule , "//##begin", "" )
 	strCharacterRule  = string.gsub(strCharacterRule , "//##end", "" )
@@ -153,36 +155,38 @@ end
 --#########################	将整字规则和部件规则整合到一起 ########################################
 
 function RunAPI:contractRule(ZiRuleList,CharacterRule)
---给各个笔画增加笔画数目判断语句
+
+	--给各个笔画增加笔画数目判断语句
 	local NewZiRuleArr = {}
 	local str1 = "if(bhNum == "
 	local str2 = ") then ".."\n"
 	local str3 = "end".."\n"
+
 	for i = 1,#ZiRuleList do
 		local newRule = str1.. tostring (i) ..str2
 		local newBH = ""
 
+		--得到当前笔画之前的所有笔画点集
 		if ( i > 1 ) then
 			for j = i-2,0,-1 do
 				local tempBH = "local bh"..tostring (j) .. " = GetPreBH(" ..tostring(j) .. ") "
 				newBH = newBH.."\n"..tempBH
 			end
 		end
+
 		newRule  = newRule  .. newBH .. ZiRuleList[i].codes.."\n"
+
 		if (strokeLevel == 2 ) then
 			local retInfo = "local retInfo = tostring(bflag) .. tostring(pflag)".."\n".."trace(retInfo)".."\n"
 			newRule  =  newRule ..retInfo..str3
 		elseif (strokeLevel == 3) then--检查为宽松规则，但是有bflag和pflag的信息--.. tostring(InfleRatio1)..tostring(InfleRatio2)
-
-		local retInfo1 = "local retInfo = tostring(bflag) ..tostring(pflag) .. tostring(uflag).. tostring(cflag)".."\n"
-		local endline = "GerResult(retInfo,errorBHPoint)".."\n"
-
+			local retInfo1 = "local retInfo = tostring(bflag) ..tostring(pflag) .. tostring(uflag).. tostring(cflag)".."\n"
+			local endline = "GerResult(retInfo,errorBHPoint)".."\n"
 			if (i == #ZiRuleList) then--最后一笔加载整字侧面
 				for j = 1,#CharacterRule do
-				newRule =newRule ..CharacterRule[j].codes.."\n"
+					newRule =newRule ..CharacterRule[j].codes.."\n"
 				end
 			end
-
 			newRule  =  newRule ..retInfo1..endline..str3
 		else
 			newRule  = newRule ..str3
@@ -209,73 +213,55 @@ function RunAPI:RunZiRule(bhNum,NewZiRuleArr)
 	local Pass2CStrList={}
 	Pass2CStrList = baseFuncs.resultTable
 
-	--[[for i=1,#Pass2CStrList do
-	local temp=Pass2CStrList[i]
-	print"========================================"
-		for j=1,#temp do
-			print(temp[j])
-			print"+++++++++++++++++++++++++++++++++++++"
-		end
-	print(#temp)
-	end--]]
-
+	--ret获取resultTable[1]里面的值，result由BaseLib里的GetResult赋值
 	local ret = Pass2CStrList[1]
+	--必须转换成数字
 	ret = tonumber(ret)
-	local bhinfo = 1
 
+	local errorStrokePoint= Pass2CStrList[2]
+	--当没有错误时，赋值为空
+	if(errorStrokePoint == nil)then
+		errorStrokePoint = {}
+	end
+
+	--解析ret的值
 	local bhrightinfo = math.floor(ret/1000)
 	local wzrightinfo = math.floor((ret-bhrightinfo*1000)/100)
 	local unitrightinfo =math.floor((ret-bhrightinfo*1000-wzrightinfo*100)/10)
 	local zirightinfo =math.floor(ret-bhrightinfo*1000-wzrightinfo*100-unitrightinfo*10)
 	print"//////////////////////"
 	print (bhrightinfo,wzrightinfo,unitrightinfo,zirightinfo,ret)
-	local curerrorStrokePoint  = {}
-	--local errortype = Pass2CStrList[2]
-	local errorStrokePoint= Pass2CStrList[2]
 
-	if(errorStrokePoint == nil)then
-		errorStrokePoint = {}
-		curerrorStrokePoint={}
-	else
-		--curerrorStrokePoint = errorStrokePoint[1]
-		--print">>>>>>>>>>>>>>>>>>>>>>>>>>"
-		--for k,v in pairs(curerrorStrokePoint) do
-			--print(k,v )
-		--end
-	end
-
-	--print(errorStrokePoint,#errortype)
-
-	--为了保持有些侧面，没有笔画信息时，还能返回"errorstroke":[]
-	--if(errorStrokePoint == nil and #errortype ~= 0)then
-	--errorStrokePoint = {}
-	--elseif(errorStrokePoint == nil and #errortype == 0)then
-	--errorStrokePoint = nil
-	--end
 	if(bhrightinfo == 0 )then
+
+		--笔画出现错误，清楚当前笔画的拐点信息和typeInfo里的错误类型
 		table.remove(InflectionPoint,#InflectionPoint)
 		table.remove(baseFuncs.typeInfo,#baseFuncs.typeInfo)
 		ret = "011"
-		--table.insert(errortype,1,"B0001")
+
+		--将errorBHPoint赋值成null的键值对
 		errorStrokePoint={}
-		local errorBHPoint={}
+		local errorBHPoint = {}
 		errorBHPoint["null"]="null"
 		local temp={}
 		temp["errortype"]="B0001"
 		temp["errorstroke"]=errorBHPoint
 		errorStrokePoint[#errorStrokePoint+1]=temp
+
 	elseif(wzrightinfo == 0)then
+
 		table.remove(InflectionPoint,#InflectionPoint)
-		table.remove(baseFuncs.typeInfo,#baseFuncs.typeInfo)
+		table.remove(base.typeInfo,#base.typeInfo)
 		ret = "011"
-		--table.insert(errortype,1,"B0002")
+
 		errorStrokePoint={}
-		local errorBHPoint={}
+		local errorBHPoint = {}
 		errorBHPoint["null"]="null"
 		local temp={}
 		temp["errortype"]="B0001"
 		temp["errorstroke"]=errorBHPoint
 		errorStrokePoint[#errorStrokePoint+1]=temp
+
 	elseif(bhrightinfo == 1 and wzrightinfo == 1 )then
 		ret = bhrightinfo*100 + unitrightinfo*10 + zirightinfo
 		print"笔画正确"
@@ -284,8 +270,11 @@ function RunAPI:RunZiRule(bhNum,NewZiRuleArr)
 	end
 
 	ret=tostring(ret)
+	--{"error":[{"errorstroke":{"1":"1","2":"1"},"errortype":"A0001"}],"ret":"101"}
 	--ret lua table for JSON encode
+
 	function error_json_string(errors,ret)
+		--可能有多种错误类型，分别将每一种加入到allerror的数组中
 		local allerror={}
 		if(errors == nil)then
 			allerror = {}
