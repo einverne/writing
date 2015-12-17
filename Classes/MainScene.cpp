@@ -51,7 +51,6 @@ bool MainScene::init(){
 	add_btn->setOnClickListener(this,ccw_click_selector(MainScene::addButtonCallback));
 	m_pWindow->addChild(add_btn,4);
 
-
 	CCLog("unit count %d",unit_count);
 
 	CCSize visualSize = CCSizeMake(winSize.width,winSize.height-titlebar->getContentSize().height-10);
@@ -71,10 +70,7 @@ bool MainScene::init(){
 }
 
 void MainScene::keyBackClicked(){
-	CCLog("MainScene::keyBackClicked");
 	if (CCDirector::sharedDirector()->getRunningScene()->getChildByTag(1001) == NULL) {
-// 		CCLog("MainScene::NULL");
-		CCSize winSize = CCDirector::sharedDirector()->getWinSize();
 		PopLayer* exitDialog = PopLayer::create("strangedesign/Dlg_background_Appquit.png");
 //		exitDialog->setContentSize(CCSizeMake(winSize.width*0.8,winSize.height*0.5));
 //		exitDialog->setTitle("Exit",50);
@@ -204,13 +200,11 @@ void MainScene::buttonClick(CCObject* pSender){
 	CButton* pButton = (CButton*)pSender;
 	int idx = pButton->getUserTag();
 	string id = unit_ids.at(idx);		// 将顺序数字转化成数据库中的id
-	CCDirector::sharedDirector()->replaceScene(WallSingleLayer::scene(id));
+	CCDirector::sharedDirector()->replaceScene(WallSingleScene::scene(id));
 }
 
 bool  MainScene::buttonLongClick(CCObject* pSender, CCTouch* pTouch){
-	CCLog("Long click");
 	// long press enter edit UI
-
 	CCSprite* backgroundIMG = CCSprite::create("strangedesign/Dlg_background.png");
 	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
 	PopCancelLayer* exitDialog = PopCancelLayer::create("strangedesign/Dlg_background.png");

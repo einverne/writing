@@ -7,6 +7,7 @@
 USING_NS_CC;
 using namespace std;
 
+// Right hanzi layer create using a Sprite
 class TcharacterLayer : public CCLayer
 {
 public:
@@ -19,15 +20,16 @@ public:
 	static TcharacterLayer* create(CCSprite* tianzige);
 	
 	void refresh(CCObject* pSender);
-	void setCharacter(string curChar);
+	void setCharacter(const string curChar);
 	void reloadChar();
 	CC_SYNTHESIZE_RETAIN(TcharacterDrawnode*, m_TDrawnode,m_TDrawnode);
 	CC_SYNTHESIZE_RETAIN(CCSprite*,m_sprite,Sprite);
-	CharacterExtend* getExChar()	{ return m_exChar; }
+
+	CharacterExtend* getExChar() const { return m_exChar; }
 	void setExChar(CharacterExtend* exchar) { m_exChar = exchar; }
 private:
 	bool isPause;					//动画是否暂停
-	string curCharacter;			//当前字符
+	string m_curChar;			//当前字符
 	CharacterExtend* m_exChar;
 };
 

@@ -12,7 +12,7 @@ JudgeLayer::~JudgeLayer()
 }
 
 bool JudgeLayer::init(){
-	CCLog("ceshiLayer::init()");
+	CCLog("JudgeLayer::init()");
 	if (CCLayer::init())
 	{
 
@@ -90,7 +90,7 @@ void JudgeLayer::menuSave(CCObject* pSender){
 		string unit_id = scene->getUnitID();
 		string zi_id = scene->getZiID();
 		string note = scene->getHLayer()->getOriginPoints();			//获取未变形的笔记
-		string curChar = scene->getCharacter();
+		string curChar = scene->getCurChar();
 
 		SQLiteData::insertNote(unit_id,zi_id,note);
 		MyToast::showToast(this,DataTool::getChinese("insert_into_sqlite"),TOAST_LONG);
@@ -118,7 +118,6 @@ void JudgeLayer::menuSave(CCObject* pSender){
 	{
 		MyToast::showToast(this,DataTool::getChinese("not_finish"),TOAST_LONG);
 	}
-
 }
 
 void JudgeLayer::menuView(CCObject* pSender){
@@ -127,17 +126,16 @@ void JudgeLayer::menuView(CCObject* pSender){
 	JudgeScene* scene = (JudgeScene*)this->getParent();
 	string unitid = scene->getUnitID();
 	string ziid = scene->getZiID();
-	string curChar = scene->getCharacter();
+	string curChar = scene->getCurChar();
 
 	CCDirector::sharedDirector()->pushScene(ViewScene::scene(unitid,ziid,curChar));
-
 }
 
 void JudgeLayer::SaveProToFile(float pro){
 	//filename hanzi ceshiScene  profic 计算
 	JudgeScene* scene = (JudgeScene*)CCDirector::sharedDirector()->getRunningScene();
 // 	string wallXMLCurrent = scene->getWallFileName();
-	string currhanzi = scene->getCharacter();
+	string currhanzi = scene->getCurChar();
 
 	string profic = DataTool::floatToString(pro);
 

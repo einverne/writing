@@ -62,7 +62,6 @@ bool TcharacterDrawnode::init(string hz,CCSize showrect,CharacterEntity* p){
 * @return
 */
 bool TcharacterDrawnode::init(string hz,CCSize showrect,CharacterExtend* p){
-
 	tiangzige = CCSprite::create("tianzige.png");
 	addChild(tiangzige,-1);
 	tiangzige->setAnchorPoint(ccp(0,0));

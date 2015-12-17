@@ -2,7 +2,6 @@
 #define __SPLASH_H__
 
 #include "cocos2d.h"
-#pragma once
 using namespace std;
 USING_NS_CC;
 

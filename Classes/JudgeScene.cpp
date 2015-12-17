@@ -26,7 +26,7 @@ JudgeScene::JudgeScene(string unit_id,vector<string> hanzis, int start_index):ba
 	this->unit_id = unit_id;
 	this->hanziList = hanzis;
     this->index = start_index;
-    currentCharacter = hanziList.at(start_index);
+    curChar = hanziList.at(start_index);
 }
 
 JudgeScene::~JudgeScene()
@@ -55,7 +55,7 @@ bool JudgeScene::init(){
 	bool bRet = false;
 	do 
 	{
-        SQLiteData::getHanziDataExtend(currentCharacter,ext_p);
+        SQLiteData::getHanziDataExtend(curChar,ext_p);
 		zi_id = DataTool::intTostring(ext_p->getID());
 
 		this->setbackgroundLayer(BackgroundLayer::create());
@@ -67,10 +67,10 @@ bool JudgeScene::init(){
 		CC_BREAK_IF(!TLayer);
 		TLayer->setTag(kTLayerTag);
 		this->addChild(TLayer);
-		TLayer->setCharacter(currentCharacter);
+		TLayer->setCharacter(curChar);
 		TLayer->setExChar(ext_p);
 
-		this->setHLayer(HcharacterLayer::create(currentCharacter,backgroundLayer->tianzige_draw));
+		this->setHLayer(HcharacterLayer::create(curChar,backgroundLayer->tianzige_draw));
 		CC_BREAK_IF(!HLayer);
 		HLayer->setTag(kHLayerTag);
 		this->addChild(HLayer);
@@ -112,10 +112,10 @@ void JudgeScene::next(){
 	}
 	if (index <= 15)
 	{
-		currentCharacter = hanziList.at(index);
-		SQLiteData::getHanziDataExtend(currentCharacter,ext_p);
+		curChar = hanziList.at(index);
+		SQLiteData::getHanziDataExtend(curChar,ext_p);
 		zi_id = DataTool::intTostring(ext_p->getID());
-		getTLayer()->setCharacter(currentCharacter);
+		getTLayer()->setCharacter(curChar);
 		getTLayer()->setExChar(ext_p);
 		getTLayer()->reloadChar();
 		getHLayer()->setExChar(ext_p);
@@ -132,10 +132,10 @@ void JudgeScene::previous(){
 	}
 	if (index>=0)
 	{
-		currentCharacter = hanziList.at(index);
-		SQLiteData::getHanziDataExtend(currentCharacter,ext_p);
+		curChar = hanziList.at(index);
+		SQLiteData::getHanziDataExtend(curChar,ext_p);
 		zi_id = DataTool::intTostring(ext_p->getID());
-		getTLayer()->setCharacter(currentCharacter);
+		getTLayer()->setCharacter(curChar);
 		getTLayer()->setExChar(ext_p);
 		getTLayer()->reloadChar();
 		getHLayer()->setExChar(ext_p);

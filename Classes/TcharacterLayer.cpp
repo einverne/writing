@@ -55,19 +55,15 @@ TcharacterLayer* TcharacterLayer::create(CCSprite* tianzige){
 }
 
 void TcharacterLayer::onEnter(){
-	CCLog("TcharacterLayer::onEnter");
 	CCLayer::onEnter();
-// 	CCScene* scene = CCDirector::sharedDirector()->getRunningScene();
 //	CharacterEntity* p = ((LianxiScene*)this->getParent())->getCharacterP();
 // 	CharacterExtend* p = ((LianxiScene*)this->getParent())->getCharacterExt();
-	this->setm_TDrawnode(TcharacterDrawnode::create(curCharacter, m_sprite->getContentSize(), m_exChar));
+	this->setm_TDrawnode(TcharacterDrawnode::create(m_curChar, m_sprite->getContentSize(), m_exChar));
 	this->addChild(m_TDrawnode,1);
 	//不设置Anchorpoint了，直接做坐标变换
 	m_TDrawnode->setPosition(m_sprite->getPosition());
 	getm_TDrawnode()->setScale(0.75);
 	getm_TDrawnode()->setAnchorPoint(ccp(0.5,0.5));
-
-	CCLog("TcharacterLayer::onEnter end");
 }
 
 void TcharacterLayer::onExit(){
@@ -92,13 +88,13 @@ void TcharacterLayer::refresh(CCObject* pSender){
 
 }
 
-void TcharacterLayer::setCharacter(string curChar){
-	curCharacter = curChar;
+void TcharacterLayer::setCharacter(const string curChar){
+	m_curChar = curChar;
 }
 
 void TcharacterLayer::reloadChar(){
 	this->removeChild(getm_TDrawnode());
-	this->setm_TDrawnode(TcharacterDrawnode::create(curCharacter, m_sprite->getContentSize(), m_exChar));
+	this->setm_TDrawnode(TcharacterDrawnode::create(m_curChar, m_sprite->getContentSize(), m_exChar));
 	this->addChild(m_TDrawnode,2000);
 	//不设置Anchorpoint了，直接做坐标变换
 	m_TDrawnode->setPosition(m_sprite->getPosition());

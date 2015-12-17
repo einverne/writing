@@ -22,12 +22,13 @@ public:
 	* 传入unit_id 和 hanzis 列表
 	* @param unit_id 对应数据库中单元ID
 	* @param hanzis 汉字列表
+	* @param start_index 单元开始汉字位置，默认为0
 	* @return
 	*/
 	JudgeScene(string unit_id,vector<string> hanzis, int start_index = 0);
 	~JudgeScene();
 	static JudgeScene* create(string unit_id,vector<string> hanzis, int start_index = 0);
-	virtual bool init();
+	bool init();
 
 	CC_SYNTHESIZE_RETAIN(BackgroundLayer*,backgroundLayer,backgroundLayer);
 	CC_SYNTHESIZE_RETAIN(TouchLayer*,touchLayer,touchLayer);
@@ -61,7 +62,7 @@ public:
     
 	string getUnitID() const	{ return unit_id;}
 	string getZiID() const	{ return zi_id; }
-	string getCharacter() const		{ return currentCharacter;}
+	string getCurChar() const		{ return curChar;}
 
 private:
 
@@ -69,13 +70,10 @@ private:
 	string unit_id;						//保存单元id
 	string zi_id;                       //存储汉字id
 	vector<string> hanziList;			//保存汉字列表
-	string currentCharacter;			//当前书写汉字
-	int index;							//保存当前汉字序号
+	string curChar;						//当前书写汉字
+	int index;							//保存当前汉字序号,序号从0-15
 	bool b_isJudge;						//当前Scene是否判断 false 为自由书写
-	CharacterExtend* ext_p;
+	CharacterExtend* ext_p;				//从XML中读取的汉字信息
 };
-
-
-
 
 #endif

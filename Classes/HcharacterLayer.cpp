@@ -9,6 +9,7 @@
 #include "tools/DataTool.h"
 #include "constants.h"
 #include "JudgeScene.h"
+#include "Error.h"
 #include <iomanip>
 
 #include "../rapidjson/document.h"
@@ -138,7 +139,7 @@ void HcharacterLayer::onEnter(){
 
 		JudgeScene* scene = (JudgeScene*)this->getParent();
 		string unit_id = scene->getUnitID();
-		string curChar = scene->getCharacter();
+		string curChar = scene->getCurChar();
 		vector< vector<string> > groupUnit = SQLiteData::getUnit(unit_id);
 		string scorestr;
 		for (unsigned int i = 0; i < groupUnit.size(); i++)
@@ -229,23 +230,19 @@ void HcharacterLayer::judge(){
 
 	//ret = "{\"ret\":\"111\",\"error\": [] }";
 	//ret = "{\"error\":[{\"errortype\":\"B0001\",\"errorstroke\":{}}],\"ret\":\"011\"}";
-	ret = "{\"ret\":\"101\",\"error\":[{\"errortype\":\"A0001\",\"errorstroke\":{\"0\":\"0.2\",\"1\":\"0.3\"}},{\"errortype\":\"A0021\",\"errorstroke\":{\"0\":\"0.2\",\"1\":\"0.3\"}}]}";
+	//ret = "{\"ret\":\"101\",\"error\":[{\"errortype\":\"A0001\",\"errorstroke\":{\"0\":\"0.2\",\"1\":\"0.3\"}},{\"errortype\":\"A0021\",\"errorstroke\":{\"0\":\"0.2\",\"1\":\"0.3\"}}]}";
 	rapidjson::Document doc;
 	doc.Parse<kParseDefaultFlags>(ret.c_str());
-	if(doc.HasMember("ret")){
-		string retjson = doc["ret"].GetString();
-		for (unsigned i = 0; i < retjson.length(); ++i)
-		{
-			CCLog("%c\t",retjson.at(i));
-		}
-	}
+	vector<Error> errors;
 	if (doc.HasMember("error"))
 	{
+		Error oneError;
 		const Value& errorjson = doc["error"];
 		for (SizeType i = 0 ; i < errorjson.Size(); ++i)
 		{
 			if(errorjson[i].HasMember("errortype")){
 				string errortype = errorjson[i]["errortype"].GetString();
+				oneError.errortype = errortype;
 			}
 			if(errorjson[i].HasMember("errorstroke")){
 				const Value& v = errorjson[i]["errorstroke"];
@@ -253,6 +250,41 @@ void HcharacterLayer::judge(){
 				{
 					string key = iter->name.GetString();
 					string value = iter->value.GetString();
+					int n_key = DataTool::stringToInt(key);
+					float f_value = DataTool::stringToFloat(value);
+					oneError.errorstroke.insert(make_pair(n_key,f_value));
+				}
+			}
+			errors.push_back(oneError);
+		}
+	}
+	if(doc.HasMember("ret")){
+		string retjson = doc["ret"].GetString();
+		if (retjson.length() == 3)
+		{
+			if (retjson.at(0) == '1')
+			{
+				// whether a stroke is right
+				Right();
+			}else{
+				Wrong();
+				if (errors.size()>0)
+				{
+					string type = errors.at(0).errortype;
+					MyToast::showToast(this,DataTool::getChinese(type),TOAST_LONG);
+				}
+			}
+			if (retjson.at(1) == '1')
+			{
+				// whether a radical is right
+				//MyToast::showToast(this,"radical right",TOAST_LONG);
+			}else
+			{
+				//MyToast::showToast(this,"radical wrong",TOAST_LONG);
+				if (errors.size()>0)
+				{
+					string type = errors.at(0).errortype;
+					MyToast::showToast(this,DataTool::getChinese(type),TOAST_LONG);
 				}
 			}
 		}
@@ -310,13 +342,16 @@ void HcharacterLayer::Wrong(){
 }
 
 void HcharacterLayer::Right(){
+	// set stroke count Label
 	int t = getm_HDrawnode()->getStrokeDrawnodeList()->count();
 	string strToshow = DataTool::getChinese("bihuashu")+DataTool::intTostring(t)+"/"+DataTool::intTostring(totalBihuaCount);
 	getbihuaCountAndTotal()->setString(strToshow.c_str());
+
+	// Actions
 	TcharacterLayer* layer = (TcharacterLayer*)this->getParent()->getChildByTag(kTLayerTag);		//get TcharacterLayer
-	Stroke temp = layer->getm_TDrawnode()->getCharacter().getStroke(t);								//get No. stroke
-	MoveToRightPlaceInterval* place = MoveToRightPlaceInterval::create(1,t-1,temp);
-	m_HDrawnode->runAction(place);
+	//Stroke temp = layer->getm_TDrawnode()->getCharacter().getStroke(t);								//get No. stroke
+	//MoveToRightPlaceInterval* place = MoveToRightPlaceInterval::create(1,t-1,temp);
+	//m_HDrawnode->runAction(place);
 
 	if ( t >= layer->getm_TDrawnode()->getCharacter().getStrokeCount())
 	{
@@ -324,6 +359,8 @@ void HcharacterLayer::Right(){
 		getInfoSprite()->setTexture(CCTextureCache::sharedTextureCache()->addImage("right.png"));
 		CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect(RIGHT_EFFECT_FILE);
 	}
+
+	// calculate score
 	switch (curBihuaWrong)
 	{
 	case 0:
@@ -347,11 +384,12 @@ void HcharacterLayer::Right(){
 	curBihuaWrong=0;
 	_writeCount++;
 
+	// update Character score into db
 	JudgeScene* scene = (JudgeScene*)this->getParent();
 	string unit_id = scene->getUnitID();
-	string curChar = scene->getCharacter();
+	string curChar = scene->getCurChar();
 
-	vector< vector <string> > groupUnit = SQLiteData::getUnit(unit_id);
+	vector<vector<string> > groupUnit = SQLiteData::getUnit(unit_id);
 	for (unsigned int i = 0; i < groupUnit.size(); i++)
 	{
 		if (curChar == groupUnit[i][0])
@@ -385,7 +423,7 @@ void HcharacterLayer::rewrite(CCObject* pSender){
 			string strToshow = DataTool::getChinese("bihuashu")+"0/"+ DataTool::intTostring(totalBihuaCount);
 			this->getbihuaCountAndTotal()->setString(strToshow.c_str());
 			string unit_id = scene->getUnitID();
-			string curChar = scene->getCharacter();
+			string curChar = scene->getCurChar();
 			vector< vector<string> > groupUnit = SQLiteData::getUnit(unit_id);
 			string scorestr;
 			for (unsigned int i = 0; i < groupUnit.size(); i++)

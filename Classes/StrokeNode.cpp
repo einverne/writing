@@ -30,7 +30,7 @@ bool StrokeNode::init(){
 void StrokeNode::draw(void){
 // 	ccDrawLine(CCPointZero,CCPointMake(100,100));
 	
-	glLineWidth( 5.0f );//设置线宽
+	glLineWidth(5.0f );//设置线宽
 	ccDrawColor4B(255,0,0,255);//设置线的颜色
 	//遍历点，画出线段
 	CCPoint tmp = n_stroke.pointList[0];

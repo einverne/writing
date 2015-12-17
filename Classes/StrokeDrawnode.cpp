@@ -35,7 +35,6 @@ StrokeDrawnode::~StrokeDrawnode()
 }
 
 void StrokeDrawnode::draw(){
-	//CCLog("StrokeDrawnode::draw");
 	//在这里设定笔画的粗细和颜色。 具体要查看
 	glLineWidth(8.0f);					//笔画粗细
 	ccDrawColor4F(0,0,0,1);				//笔画颜色

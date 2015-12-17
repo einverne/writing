@@ -492,6 +492,9 @@
     <ClInclude Include="..\Classes\ViewScene.h">
       <Filter>Classes</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\Error.h">
+      <Filter>Classes\Entity</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Test_py.rc" />

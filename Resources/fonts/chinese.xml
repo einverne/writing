@@ -35,5 +35,15 @@
 	<string>得分:</string>
 	<key>only_chinese</key>
 	<string>只能输入中文</string>
+	<key>A0001</key>
+	<string>水平平齐</string>
+	<key>A0002</key>
+	<string>重心平稳</string>
+	<key>A0003</key>
+	<string>黄金分割</string>
+	<key>B0001</key>
+	<string>笔画错误</string>
+	<key>B0002</key>
+	<string>笔画位置错误</string>
 </dict>  
 </plist>  

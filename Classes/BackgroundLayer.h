@@ -8,6 +8,7 @@
 USING_NS_CC;
 using namespace cocos2d::cocoswidget;
 
+// set static images and set easy/difficult button
 class BackgroundLayer : public CCLayerColor
 {
 public:
@@ -23,7 +24,6 @@ public:
 private:
 	void menuBack(CCObject* pSender);			//menu Back callback
 	void onToggle(CCObject* pSender);			//Toggle onClick
-// 	void menuNext(CCObject* pSender);
 };
 
 

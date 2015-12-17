@@ -8,14 +8,13 @@
 #include "CharacterExtend.h"
 USING_NS_CC;
 
-/************************************************************************/
-/* 继承CCNode,用于显示正确汉字                                                                     */
-/************************************************************************/
+// 继承CCNode,用于显示正确汉字                                                                     */
 class TcharacterDrawnode : public CCNode
 {
 public:
 	TcharacterDrawnode();
 	~TcharacterDrawnode();
+
 	/**
 	* 实现CCNode绘图函数，根据自身笔画列表绘图
 	* @return

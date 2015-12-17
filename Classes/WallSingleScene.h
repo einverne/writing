@@ -16,11 +16,11 @@
 using namespace std;
 USING_NS_CC;
 
-class WallSingleLayer : public CCLayerColor
+class WallSingleScene : public CCLayerColor
 {
 public:
-	WallSingleLayer(string unitID);
-	~WallSingleLayer();
+	WallSingleScene(string unitID);
+	~WallSingleScene();
 	vector<CHanziManage> hanzilist;
 	string selectedHanzi;
 	float rescale;
@@ -42,14 +42,10 @@ public:
 	 * @param unitID
 	 * @return
 	 */
-	static WallSingleLayer* create(string unitID);
+	static WallSingleScene* create(string unitID);
 
 	void menuCloseCallback(CCObject* pSender);
 
-	virtual void ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent);
-	virtual void ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent);
-	virtual void ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent);
-	virtual void registerWithTouchDispatcher();
 
 	/**
 	* 弹出对话框
@@ -88,6 +84,10 @@ public:
 	*/
 	bool setProficiency(string character,string proficiency);
 	
+	virtual void ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent);
+	virtual void ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent);
+	virtual void ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent);
+	virtual void registerWithTouchDispatcher();
 private:
 	void backtoMainScene(CCNode* pNode);
 	void back(CCObject* pSender);
@@ -125,7 +125,7 @@ private:
 	vector<string> hanzis;			//墙上的汉字
 	bool isLongPressAllow;			//是否允许长按操作
 	string unitID;				//用以区别不同单元，与数据库中单元ID列对应
-	vector<vector <string> > groupCharacter;		//从数据库中获取一个单元的汉字数组
+	vector<vector <string> > groupChar;		//从数据库中获取一个单元的汉字数组
 };
 
 #endif // __WallSingleScene_H__

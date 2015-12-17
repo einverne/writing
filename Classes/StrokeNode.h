@@ -5,7 +5,6 @@
 #include "Stroke.h"
 USING_NS_CC;
 
-#pragma once
 class StrokeNode : public CCNode
 {
 public:
