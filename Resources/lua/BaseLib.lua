@@ -2908,7 +2908,7 @@ function IsDian(bh,bl)
 	local len1 = GetBDLen(bh)
 	local dis = GetDistance(startpt,endpt)
 	local curve = len1 / dis
-
+	InflectionPoint[#InflectionPoint+1] = endindex
 	if (startpt.y >= endpt.y or startpt.x >= endpt.x ) then
 		return false
 	end
