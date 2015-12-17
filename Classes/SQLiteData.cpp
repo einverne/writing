@@ -32,34 +32,12 @@ void SQLiteData::getHanziData(string hz,CharacterEntity* p){
 	SQLiteHelper::closeDB();
 }
 
-//string SQLiteData::getstrokeFunc(string strokeID){
-//#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
-//	string judgepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_judge.db");
-//#endif
-//#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-//	string judgepath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_judge.db";
-//#endif
-//#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-//    string judgepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_judge.db");
-//#endif
-//	CCLog("SQLiteData::getstrokeFunc %s",strokeID.c_str());
-//	SQLiteHelper::initDB(judgepath.c_str());
-//	string sql = "select * from strokeFunc where strokeID ='"+strokeID+"'";
-//	strokeFunc* ret = new strokeFunc();
-//	SQLiteHelper::getstrokeFunc(sql,ret);
-//	SQLiteHelper::closeDB();
-//	return string(ret->getFunc()->getCString());
-//}
-
 void SQLiteData::getHanziDataExtend(string hz,CharacterExtend* p){
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 	string judgepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_judge.db");
 #endif
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 	string judgepath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_judge.db";
-#endif
-#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-    string judgepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_judge.db");
 #endif
 	SQLiteHelper::initDB(judgepath.c_str());
 	string sql = "select * from ziData where ziName ='"+hz+"'";

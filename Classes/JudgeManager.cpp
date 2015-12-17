@@ -87,13 +87,19 @@ string JudgeManager::getResult(string hanzi , string points_output, string all_p
  		gReader.setRulesFunc(tightlua);
  	}
 
+	//set Unit rule
+	string unitrule = p->getRuleUnit();
+	gReader.setUnitRule(unitrule);
+
+	//set zi rule
+	string zirule = p->getRuleZi();
+	gReader.setZiRule(zirule);
+
 	gReader.RunScriptFile(Mainpath.c_str(),retStr,"Main.lua");
 
 	CCLog("retStr after judge %s",retStr);
 	string ret = retStr;
-//	delete [] retStr;
 	return ret;
-//	return string("1\r\n");
 }
 
 void JudgeManager::exitLuaEngine(){

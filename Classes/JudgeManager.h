@@ -17,6 +17,7 @@ public:
 	~JudgeManager();
 	string getResult(string hanzi , string points_output,CharacterEntity* p, string funcs);
 	void initLuaEngine();
+
 	/**
 	* run Lua script get result from lua
 	* @param hanzi Chinese character judge

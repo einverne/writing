@@ -20,6 +20,10 @@ public:
 	void setRuleTight(const std::string& ruleTight)		{ _ruleTight = ruleTight; }
 	std::string getSEQ() const { return _strokeIDSeq; }
 	void setSEQ(const std::string& strokeIDSeq)			{ _strokeIDSeq = strokeIDSeq; }
+	std::string getRuleUnit() const		{ return _ruleUnit;	}
+	void setRuleUnit(const std::string& ruleUnit)		{ _ruleUnit = ruleUnit; }
+	std::string getRuleZi() const	{ return _ruleZi; }
+	void setRuleZi(const std::string& ruleZi)  { _ruleZi = ruleZi; }
 
 private:
 	int _id;							// id
@@ -28,6 +32,8 @@ private:
 	std::string _ruleLoose;				//Character rules
 	std::string _ruleTight;
 	std::string _strokeIDSeq;			//sequence
+	std::string _ruleUnit;				//character rule unit
+	std::string _ruleZi;				//character rule of whole character
 };
 
 #endif

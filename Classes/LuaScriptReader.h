@@ -137,6 +137,20 @@ public:
 	void setRulesFunc(string rules);
 
 	/**
+	* pass unit lua to lua engine
+	* @param urules
+	* @return
+	*/
+	void setUnitRule(string urules);
+
+	/**
+	* zi rule to lua engine
+	* @param zirule
+	* @return
+	*/
+	void setZiRule(string zirule);
+
+	/**
 	* 
 	* @param filename
 	* @param name

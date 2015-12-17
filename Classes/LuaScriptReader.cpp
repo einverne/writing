@@ -15,8 +15,6 @@ string GlobalFunc;                      //全局函数信息
 string Rules;							//规则信息
 string Level;
 
-// This is the constructor of a class that has been exported.
-// see LuaScriptReader.h for the class definition
 CLuaScriptReader::CLuaScriptReader():m_plua(NULL)
 {
 	m_plua = NULL;
@@ -133,63 +131,21 @@ bool CLuaScriptReader::RunScriptBuffer(const char *buff,char* ret_string,const c
 	return true;
 }
 
-// void CLuaScriptReader::SetGlobalFunc(const char * filename){
-// #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
-// 	FILE* fpFile = fopen(filename,"r");
-// 	if (fpFile == NULL)
-// 	{
-// 		printf("cannot open file");
-// 		return;
-// 	}
-// 	char line[1024] = "";
-// 	while (fgets(line, 1024,fpFile) != NULL)
-// 	{
-// 		strcat(GlobalFunc,line);
-// 	}
-// #endif
-// #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-// 		unsigned long int size =0;
-// 		unsigned char* temp = CCFileUtils::sharedFileUtils()->getFileData(filename,"r",&size);
-// 		CCString* ccStr = CCString::createWithData(temp,size);
-// 		strcpy(GlobalFunc,ccStr->getCString());
-// // 		CCLog("GlobalFunc %s",GlobalFunc);
-// #endif
-// 	return;
-// }
-
 void CLuaScriptReader::setGlobalFunc(string funcs){
 	GlobalFunc = funcs;
 }
 
-// void CLuaScriptReader::SetRulesFunc(const char* filename){
-// 	CCLog("SetRulesFunc(const char* filename)");
-// #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
-// 	FILE* fpFile = fopen(filename,"r");
-// 	if (fpFile == NULL)
-// 	{
-// 		printf("cannot open file");
-// 		return;
-// 	}
-// 	char line[1024] = "";
-// 	while (fgets(line, 1024,fpFile) != NULL)
-// 	{
-// 		strcat(Rules,line);
-// 	}
-// #endif
-// #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-// 	unsigned long int size = 0;
-// 	unsigned char* temp = CCFileUtils::sharedFileUtils()->getFileData(filename,"r",&size);
-// 	CCString* ccStr = CCString::createWithData(temp,size);
-// 	strcpy(Rules,ccStr->getCString());
-// 	CCLog("Rules %s",Rules);
-// #endif
-// 	return;
-// }
-// 
 void CLuaScriptReader::setRulesFunc(string rules){
 	Rules = rules.c_str();
 }
 
+void CLuaScriptReader::setUnitRule(string urules){
+	UnitRule = urules;
+}
+
+void CLuaScriptReader::setZiRule(string zrules){
+	ZiRule = zrules;
+}
 
 bool CLuaScriptReader::RunMixedFile(const char *filename,const char *name)
 {
@@ -307,7 +263,6 @@ void CLuaScriptReader::setLevel(string level){
 	Level = level;
 	return;
 }
-
 
 bool CLuaScriptReader::setStandardZiInfo(string stdinfo){
 	StandardZiInfo = stdinfo;

@@ -40,7 +40,7 @@ public:
 	/**
 	* 获取松紧规则的汉字
 	* @param hz 汉字名 对应ziName列名
-	* @param p
+	* @param p 返回CharacterExtend 值
 	* @return
 	*/
 	static void getHanziDataExtend(string hz,CharacterExtend* p);
