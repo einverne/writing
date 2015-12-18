@@ -28,7 +28,6 @@ HcharacterLayer::HcharacterLayer():m_sprite_draw(NULL),
 #define WRONG_EFFECT_FILE	"wrong_android.ogg"
 #endif
 	scale=1.6f;
-	m_exChar = new CharacterExtend();
 }
 
 HcharacterLayer::~HcharacterLayer()
@@ -196,7 +195,6 @@ void HcharacterLayer::judge(){
 	}
 	this->pointsOutput=output;
 
-	CCLog("output %s",output.c_str());
 // 	CharacterEntity* p =  ((LianxiScene*)this->getParent())->getCharacterP();
 // 	CharacterExtend* p = ((LianxiScene*)this->getParent())->getCharacterExt();
 // 	string funcs = ((LianxiScene*)this->getParent())->funcs;
@@ -205,8 +203,11 @@ void HcharacterLayer::judge(){
 	string funcs = "";
 	TcharacterLayer* tlayer = (TcharacterLayer*)CCDirector::sharedDirector()->getRunningScene()->getChildByTag(kTLayerTag);
 	string points = tlayer->getm_TDrawnode()->getCharacterStandardInfo();		//获取正字信息
+    CCLog("output %s",output.c_str());
+    CCLog("all %s",points.c_str());
+    
 	string ret = JudgeManager::getResult(hanzi,output,points,m_exChar,funcs);
-	CCLog("Hcharacterlay: retstring:%s length:%d",ret.c_str(),ret.length());
+	//CCLog("Hcharacterlay: retstring:%s length:%d",ret.c_str(),ret.length());
 	//如果不评判则跳过
 	if (!ijudge)
 	{

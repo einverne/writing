@@ -1,21 +1,30 @@
 #ifndef __CharacterEntity_H__
 #define __CharacterEntity_H__
 
-#include "cocos2d.h"
-USING_NS_CC;
+#include <string>
 
-class CharacterEntity : public CCObject
+class CharacterEntity
 {
 public:
 	CharacterEntity();
 	~CharacterEntity();
-	CC_SYNTHESIZE_RETAIN(CCInteger*,id,ID);			//id
-	CC_SYNTHESIZE_RETAIN(CCString*,name,Name);		//Character name
-	CC_SYNTHESIZE_RETAIN(CCString*,xml,XML);			//Character xml from sqlite
-	CC_SYNTHESIZE_RETAIN(CCString*,rules,Rules);		//Character rules
-	CC_SYNTHESIZE_RETAIN(CCString*,strokeIDSeq,SEQ);	//sequence
+    int getID()	const	{ return _id; }
+    void setID(const int id) { _id = id; }
+    std::string getName() const		{ return _name; }
+    void setName(const std::string& name) { _name = name; }
+    std::string getXML() const		{ return _xml; }
+    void setXML(const std::string& xml)	{ _xml = xml; }
+    std::string getRules() const	{ return _rules; }
+    void setRules(const std::string& rules)		{ _rules = rules; }
+    std::string getSEQ() const { return _strokeIDSeq; }
+    void setSEQ(const std::string& strokeIDSeq)			{ _strokeIDSeq = strokeIDSeq; }
+    
 private:
-	
+    int _id;							// id
+    std::string _name;					//Character name
+    std::string _xml;					//Character xml from sqlite
+    std::string _rules;                 //Character rules
+    std::string _strokeIDSeq;			//sequence
 };
 
 #endif

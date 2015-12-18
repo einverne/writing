@@ -3,26 +3,28 @@
 
 #include <vector>
 #include "cocos2d.h"
+#include "tools/DataTool.h"
 
 USING_NS_CC;
 using namespace std;
 
+// single stroke include several points
 class Stroke
 {
 public:
 	friend class StrokeNode;
 
 	Stroke(void);
+    
 	/**
 	* create a stroke with a group of points
 	* @param points
 	* @return
 	*/
 	Stroke(vector<CCPoint> points);
+    
 	~Stroke(void);
-	vector<CCDrawNode*> nodeList;
-	CCPoint prePoint;		//保存每一笔首点
-public:
+
 	/**
 	 * 获取点数量
 	 * @return
@@ -96,13 +98,27 @@ public:
 	* @return
 	*/
 	string sendOutputWithStatus();
+    
+    /**
+     set first point
+     @param pre
+     @returns void
+     */
+    void setprePoint(const CCPoint pre)   {
+        prePoint = pre;
+    };
+    
+    CCPoint getPrePoint() const {
+        return prePoint;
+    };
 
 private:
+    CCPoint prePoint;                           //保存每一笔首点
+
 	int pointCount;
 
 	float distance(CCPoint p1,CCPoint p2);		//两点间距离
-	int getStrokeBox();					//记录一笔包围盒，重采样使用
-	string convertToString(float f);
+	int getStrokeBox();                         //记录一笔包围盒，重采样使用
 
 	vector<CCPoint> pointList;				//store a group of points
 	vector<string> statusList;				//store the status read from XML to judge whether the point is inflected

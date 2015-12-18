@@ -1,5 +1,8 @@
-#include "Character.h"
+#ifndef __CREADXML_H__
+#define __CREADXML_H__
 
+#include "Character.h"
+#include "tinyxml.h"
 using namespace std;
 
 // 读取并解析每一个汉字，笔画xml
@@ -10,7 +13,7 @@ public:
 	* get Character from xml file or xml content
 	* @return Character
 	*/
-	Character getCharacter();
+	Character getCharacter() const;
 
 	/**
 	* use xml content to create a character, need a char*
@@ -27,5 +30,7 @@ public:
 	CReadXML(string xmlpath);
 	~CReadXML(void);
 private:
+    void parseXML(TiXmlDocument* document);
 	Character character;
 };
+#endif

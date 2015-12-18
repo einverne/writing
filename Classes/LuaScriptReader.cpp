@@ -1,7 +1,6 @@
 // LuaScriptReader.cpp : Defines the entry point for the DLL application.
-//
 
-// #include "stdafx.h"
+
 #include "LuaScriptReader.h"
 #include "cocos2d.h"
 USING_NS_CC;
@@ -94,7 +93,6 @@ bool CLuaScriptReader::InitLuaScriptReader(){
         m_plua = luaL_newstate();
         luaL_openlibs(m_plua);
 		if( m_plua == NULL ) return false;
-		luaL_openlibs(m_plua);
 		lua_register(m_plua, "GetWriteInfoFromC", GetWriteInfoFromC);
 		lua_register(m_plua, "GetStandardZiInfoFromC", GetStandardZiInfoFromC);
 //		lua_register(m_plua, "GetRuleInfoFromC", GetRuleInfoFromC);
@@ -118,8 +116,6 @@ void CLuaScriptReader::ExitLuaScriptReader(){
 	}
 }
 
-
-
 bool CLuaScriptReader::RunScriptBuffer(const char *buff,const char *name){
 	int error = 0;
 	char callname[256] = "";
@@ -130,7 +126,6 @@ bool CLuaScriptReader::RunScriptBuffer(const char *buff,const char *name){
 	}else{
 		strcpy(callname,name);
 	}
-// 	CCLog("RunScriptBuffer buff:%s name:%s",buff,name);
 	error = luaL_loadbuffer(m_plua, buff, strlen(buff),callname) || lua_pcall(m_plua, 0, 0, 0);
 	if (error){
 		fprintf(stderr, "%s", lua_tostring(m_plua, -1));
@@ -141,11 +136,9 @@ bool CLuaScriptReader::RunScriptBuffer(const char *buff,const char *name){
 	return true;
 }
 
-
 bool CLuaScriptReader::RunScriptBuffer(const char *buff,char* ret_string,const char *name){
 	int error = 0;
 	char callname[256] = "";
-	//*ret_string = 0;
 	if( m_plua == NULL || buff == NULL || ret_string == NULL ) return false;
 	if( name == NULL ){
 		strcpy(callname,"noname");
@@ -153,14 +146,11 @@ bool CLuaScriptReader::RunScriptBuffer(const char *buff,char* ret_string,const c
 		strcpy(callname,name);
 	}
 	error = luaL_loadbuffer(m_plua, buff, strlen(buff),callname) || lua_pcall(m_plua, 0, 1, 0);
-	//CCLog("CLuaScriptReader::RunScriptBuffer 2");
 	if (error){
-		fprintf(stderr, "%s", lua_tostring(m_plua, -1));
-		//CCLog("luaL_loadbuffer3 %s",lua_tostring(m_plua,-1));
+		fprintf(stderr, "%s\n", lua_tostring(m_plua, -1));
 		lua_pop(m_plua, 1);
 	}else{
  		sprintf(ret_string, "%s", lua_tostring(m_plua, -1));
-		//CCLog("luaL_loadbuffer3 %s",lua_tostring(m_plua,-1));
 	}
 	return true;
 }
@@ -260,12 +250,10 @@ bool CLuaScriptReader::RunMixedFile(const char *filename,const char *name)
 	char* filebuff1 = (char*)ccStr->getCString();
 	strcat(filebuff1,"\n");
 	strcat(filebuff1,GlobalFunc.c_str());
-//	Print2File(filebuff1,"mixed.txt");
 	RunScriptBuffer(filebuff1,callname);
 #endif
 	return true;
 }
-
 
 bool CLuaScriptReader::RunScriptFile(const char *filename,char* ret_string,const char *name){
 	if( m_plua == NULL || ret_string == NULL || filename == NULL ) return false;
@@ -381,28 +369,3 @@ bool CLuaScriptReader::setStandardZiInfo(string stdinfo){
 //	StrokeIndex = idx;
 //	return true;
 //}
-
-bool CLuaScriptReader::Print2File(char* str, char*filename)
-{
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM ==CC_PLATFORM_IOS
-	string finame(filename);
-	string path = CCFileUtils::sharedFileUtils()->getWritablePath()+finame;
-	FILE* file = fopen(path.c_str(),"w");
-	if (file != NULL)
-	{
-		file = fopen(path.c_str(),"wb");
-		fwrite(str,strlen(str),1,file);
-	}else{
- 		CCLog("CLuaScriptReader::Print2File file NULL");
-	}
-	fclose(file);
-#endif
-#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
-	FILE * pFile;
-
-	pFile = fopen (filename, "wb" );
-	fwrite (str, strlen(str), 1 , pFile );
-	fclose (pFile);
-#endif
-	return 0;
-}

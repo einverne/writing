@@ -133,7 +133,7 @@ void Character::prepareDrawNode(){
 		{
 			Stroke stroke = strokeList[strokei];//(Stroke)*stro_iter;
 			vector<CCPoint> pointList = stroke.getpointList();
-			vector<CCDrawNode*> nodeList = stroke.nodeList;
+//			vector<CCDrawNode*> nodeList = stroke.nodeList;
 			vector<CCPoint>::iterator point_iter = pointList.begin();
 			CCPoint prePoint = (CCPoint)(*point_iter);
 			point_iter++;
@@ -145,7 +145,7 @@ void Character::prepareDrawNode(){
 				prePoint = point;
 // 				vector<CCDrawNode*>::iterator nodeIter = nodeList.end();
 				//nodeList.insert(nodeIter,node);
-				bujianList[i].strokeList[strokei].nodeList.push_back(node);
+//				bujianList[i].strokeList[strokei].nodeList.push_back(node);
 			}
 		}
 	}
@@ -166,7 +166,7 @@ void Character::resize(CCSize size){
 		{
 			Stroke stroke = strokeList.at(strokei);
 			//重置stroke首点
-			bujianList[bujiani].strokeList[strokei].prePoint = stroke.prePoint*scale;
+            bujianList[bujiani].strokeList[strokei].setprePoint(stroke.getPrePoint()*scale);
 
 			vector<CCPoint> pointList = stroke.getpointList();
 			for (int i =0 ; i < stroke.getPointsCount() ; ++ i)
@@ -179,7 +179,6 @@ void Character::resize(CCSize size){
 	
 }
 
-//重采样
 void Character::resample(){
 	for (int bujiani = 0 ; bujiani < bujianCount ; ++ bujiani)
 	{

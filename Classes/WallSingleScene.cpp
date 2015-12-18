@@ -40,7 +40,6 @@ bool WallSingleLayer::init()
 	}
 	CCLog("WallSingleScene::init");
 	isMoved = false;
-	touched = false;
 
 	//注册触摸事件
 	touched=false;
@@ -347,6 +346,8 @@ void WallSingleLayer::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 			//在字周围200像素内，判断为点中
 			if (rect.containsPoint(touchpoint))
 			{
+                CCLog("current %s", iter->character.c_str());
+
 				this->singleClick(iter->character);
 				return;
 			}
@@ -395,22 +396,23 @@ bool WallSingleLayer::isInSprite(CCTouch* pTouch){
 	return false;
 }
 
-/************************************************************************/
-/* string hanzi 传给lianxi界面书写                                                                      */
-/************************************************************************/
+// string hanzi 传给lianxi界面书写
 void WallSingleLayer::singleClick(string hanzi){
 	//解除schedule,不然可能出现不可预测问题。
 	//判断该字在数据库中是否存在，存在跳转，否则提示
+    int pos = std::find(hanzis.begin(), hanzis.end(), hanzi) - hanzis.begin();
 	this->unscheduleAllSelectors();
-// 	if (SQLiteData::isExist(hanzi))
-// 	{
-// 		this->unscheduleAllSelectors();
-// 		CCDirector::sharedDirector()->getTouchDispatcher()->removeAllDelegates();
-// 		CCDirector::sharedDirector()->pushScene(LianxiScene::create(hanzi));
-// 	}else{
-// 		this->unscheduleAllSelectors();
-// 		MyToast::showToast(this,DataTool::getChinese("not_exist"),TOAST_LONG);
-// 	}
+ 	if (SQLiteData::isExist(hanzi))
+ 	{
+ 		this->unscheduleAllSelectors();
+ 		CCDirector::sharedDirector()->getTouchDispatcher()->removeAllDelegates();
+        JudgeScene* scene = JudgeScene::create(unitID,hanzis, pos);
+        scene->setIsJudge(true);
+ 		CCDirector::sharedDirector()->pushScene(scene);
+ 	}else{
+ 		this->unscheduleAllSelectors();
+ 		MyToast::showToast(this,DataTool::getChinese("not_exist"),TOAST_LONG);
+ 	}
 
 }
 

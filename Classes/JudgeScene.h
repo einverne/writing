@@ -11,6 +11,9 @@
 USING_NS_CC;
 using namespace std;
 
+/**
+ * 以16个字为单元进行练习
+ */
 class JudgeScene : public CCScene
 {
 public:
@@ -21,9 +24,9 @@ public:
 	* @param hanzis 汉字列表
 	* @return
 	*/
-	JudgeScene(string unit_id,vector<string> hanzis);
+	JudgeScene(string unit_id,vector<string> hanzis, int start_index = 0);
 	~JudgeScene();
-	static JudgeScene* create(string unit_id,vector<string> hanzis);
+	static JudgeScene* create(string unit_id,vector<string> hanzis, int start_index = 0);
 	virtual bool init();
 
 	CC_SYNTHESIZE_RETAIN(BackgroundLayer*,backgroundLayer,backgroundLayer);
@@ -54,17 +57,17 @@ public:
 	* @return
 	*/
 	void setIsJudge(bool isjudge);
-	bool getIsJudge()	{ return b_isJudge; }
-
-	string getUnitID()	{ return unit_id;}
-	string getZiID()	{ return zi_id; }
-	string getCharacter()		{ return currentCharacter;}
+	bool getIsJudge() const	{ return b_isJudge; }
+    
+	string getUnitID() const	{ return unit_id;}
+	string getZiID() const	{ return zi_id; }
+	string getCharacter() const		{ return currentCharacter;}
 
 private:
 
 	void lastCharacter(CCNode* pNode);	//单元最后一个汉字回调函数
 	string unit_id;						//保存单元id
-	string zi_id;
+	string zi_id;                       //存储汉字id
 	vector<string> hanziList;			//保存汉字列表
 	string currentCharacter;			//当前书写汉字
 	int index;							//保存当前汉字序号

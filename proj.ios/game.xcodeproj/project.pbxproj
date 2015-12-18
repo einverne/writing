@@ -239,7 +239,6 @@
 		1AC3624B16D4A1E8000847F2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AC3624516D4A1E8000847F2 /* main.m */; };
 		1AFAF8B716D35DE700DB1158 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AFAF8B316D35DE700DB1158 /* AppDelegate.cpp */; };
 		1AFAF8BC16D35E4900DB1158 /* CloseNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AFAF8B916D35E4900DB1158 /* CloseNormal.png */; };
-		1AFAF8BD16D35E4900DB1158 /* CloseSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AFAF8BA16D35E4900DB1158 /* CloseSelected.png */; };
 		1AFCDA8216D4A25900906EA6 /* RootViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1AFCDA8116D4A25900906EA6 /* RootViewController.mm */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
@@ -405,6 +404,7 @@
 		BA0B67181BBCC334000CF876 /* MoveToRightPlace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA0B67141BBCC334000CF876 /* MoveToRightPlace.cpp */; };
 		BA0B67191BBCC334000CF876 /* MoveToRightPlaceInterval.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA0B67161BBCC334000CF876 /* MoveToRightPlaceInterval.cpp */; };
 		BA0B671D1BBCC38C000CF876 /* ViewScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA0B671B1BBCC38C000CF876 /* ViewScene.cpp */; };
+		BA387EAB1BD8C667004337CA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA387EAA1BD8C667004337CA /* Images.xcassets */; settings = {ASSET_TAGS = (); }; };
 		BA3EC75E1BC134B5007CE32D /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = BA3EC75D1BC134B5007CE32D /* Icon.png */; };
 		BA46E5091BCF3ACC0086A051 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BA46E5081BCF3ACC0086A051 /* Default-568h@2x.png */; settings = {ASSET_TAGS = (); }; };
 		BA46E50C1BCF49460086A051 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = BA46E50A1BCF49460086A051 /* Default.png */; settings = {ASSET_TAGS = (); }; };
@@ -926,7 +926,6 @@
 		1AFAF8B316D35DE700DB1158 /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AppDelegate.cpp; path = ../Classes/AppDelegate.cpp; sourceTree = "<group>"; };
 		1AFAF8B416D35DE700DB1158 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ../Classes/AppDelegate.h; sourceTree = "<group>"; };
 		1AFAF8B916D35E4900DB1158 /* CloseNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseNormal.png; sourceTree = "<group>"; };
-		1AFAF8BA16D35E4900DB1158 /* CloseSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseSelected.png; sourceTree = "<group>"; };
 		1AFCDA8016D4A25900906EA6 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = SOURCE_ROOT; };
 		1AFCDA8116D4A25900906EA6 /* RootViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RootViewController.mm; sourceTree = SOURCE_ROOT; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -1186,6 +1185,7 @@
 		BA0B67171BBCC334000CF876 /* MoveToRightPlaceInterval.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoveToRightPlaceInterval.h; sourceTree = "<group>"; };
 		BA0B671B1BBCC38C000CF876 /* ViewScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ViewScene.cpp; sourceTree = "<group>"; };
 		BA0B671C1BBCC38C000CF876 /* ViewScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewScene.h; sourceTree = "<group>"; };
+		BA387EAA1BD8C667004337CA /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = game/Images.xcassets; sourceTree = SOURCE_ROOT; };
 		BA3EC75D1BC134B5007CE32D /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = SOURCE_ROOT; };
 		BA46E5081BCF3ACC0086A051 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = SOURCE_ROOT; };
 		BA46E50A1BCF49460086A051 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = SOURCE_ROOT; };
@@ -2399,12 +2399,12 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				BA387EAA1BD8C667004337CA /* Images.xcassets */,
 				BA46E50A1BCF49460086A051 /* Default.png */,
 				BA46E50B1BCF49460086A051 /* Default@2x.png */,
 				BA46E5081BCF3ACC0086A051 /* Default-568h@2x.png */,
 				BA3EC75D1BC134B5007CE32D /* Icon.png */,
 				1AFAF8B916D35E4900DB1158 /* CloseNormal.png */,
-				1AFAF8BA16D35E4900DB1158 /* CloseSelected.png */,
 				BA0B65101BB94EF7000CF876 /* back_1.png */,
 				BA0B65111BB94EF7000CF876 /* back_2.png */,
 				BA0B65121BB94EF7000CF876 /* bird.png */,
@@ -2749,6 +2749,7 @@
 				BA0B65741BB94EF7000CF876 /* replay.png in Resources */,
 				BA0B654D1BB94EF7000CF876 /* back_2.png in Resources */,
 				BA46E50C1BCF49460086A051 /* Default.png in Resources */,
+				BA387EAB1BD8C667004337CA /* Images.xcassets in Resources */,
 				BA0B65861BB94EF7000CF876 /* wrong.png in Resources */,
 				BA0B65571BB94EF7000CF876 /* ButtonMinusSel.png in Resources */,
 				BA0B657D1BB94EF7000CF876 /* sure_up.png in Resources */,
@@ -2769,7 +2770,6 @@
 				BA0B65801BB94EF7000CF876 /* test_layer.lua in Resources */,
 				BA0B65871BB94EF7000CF876 /* wrong.wav in Resources */,
 				BA0B65851BB94EF7000CF876 /* wrong_android.OGG in Resources */,
-				1AFAF8BD16D35E4900DB1158 /* CloseSelected.png in Resources */,
 				BA0B656B1BB94EF7000CF876 /* CloseSelected.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3127,8 +3127,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Qi Wang (33NH3B9HX3)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Qi Wang (33NH3B9HX3)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = BrandAsset;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Qi Wang (W83GM3E328)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Qi Wang (W83GM3E328)";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_BITCODE = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -3167,8 +3169,8 @@
 				);
 				OTHER_CFLAGS = "-O2";
 				PRODUCT_NAME = "易汉字";
-				PROVISIONING_PROFILE = "9d4a54ea-1e9f-4450-b39e-fa58be7d9623";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9d4a54ea-1e9f-4450-b39e-fa58be7d9623";
+				PROVISIONING_PROFILE = "a1c076dd-99f1-45fc-b60f-d50468f62351";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "a1c076dd-99f1-45fc-b60f-d50468f62351";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
@@ -3181,8 +3183,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Qi Wang (33NH3B9HX3)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Qi Wang (33NH3B9HX3)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = BrandAsset;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Qi Wang (W83GM3E328)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Qi Wang (W83GM3E328)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_BITCODE = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
@@ -3218,8 +3222,8 @@
 					"\"$(SRCROOT)/../../../scripting/lua/lua/ios/\"",
 				);
 				PRODUCT_NAME = "易汉字";
-				PROVISIONING_PROFILE = "9d4a54ea-1e9f-4450-b39e-fa58be7d9623";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9d4a54ea-1e9f-4450-b39e-fa58be7d9623";
+				PROVISIONING_PROFILE = "a1c076dd-99f1-45fc-b60f-d50468f62351";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "a1c076dd-99f1-45fc-b60f-d50468f62351";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
@@ -3238,7 +3242,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "704e73eb-a724-45d1-99f9-75613194228f";
+				PROVISIONING_PROFILE = "a1c076dd-99f1-45fc-b60f-d50468f62351";
 				SDKROOT = iphoneos;
 				VALID_ARCHS = "armv6 armv7 i386";
 			};
@@ -3249,8 +3253,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Qi Wang (33NH3B9HX3)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Qi Wang (33NH3B9HX3)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = BrandAsset;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Qi Wang (W83GM3E328)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Qi Wang (W83GM3E328)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_BITCODE = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
@@ -3286,8 +3292,8 @@
 					"\"$(SRCROOT)/../../../scripting/lua/lua/ios/\"",
 				);
 				PRODUCT_NAME = "易汉字";
-				PROVISIONING_PROFILE = "9d4a54ea-1e9f-4450-b39e-fa58be7d9623";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9d4a54ea-1e9f-4450-b39e-fa58be7d9623";
+				PROVISIONING_PROFILE = "a1c076dd-99f1-45fc-b60f-d50468f62351";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "a1c076dd-99f1-45fc-b60f-d50468f62351";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
@@ -3305,7 +3311,7 @@
 				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				PROVISIONING_PROFILE = "704e73eb-a724-45d1-99f9-75613194228f";
+				PROVISIONING_PROFILE = "a1c076dd-99f1-45fc-b60f-d50468f62351";
 				SDKROOT = iphoneos;
 				VALID_ARCHS = "armv6 armv7 i386";
 			};
@@ -3321,7 +3327,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "704e73eb-a724-45d1-99f9-75613194228f";
+				PROVISIONING_PROFILE = "a1c076dd-99f1-45fc-b60f-d50468f62351";
 				SDKROOT = iphoneos;
 				VALID_ARCHS = "armv6 armv7 i386";
 			};

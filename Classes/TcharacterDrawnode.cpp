@@ -32,7 +32,7 @@ bool TcharacterDrawnode::init(string hz,CCSize showrect,CharacterEntity* p){
 	strokedrawList = CCArray::create();
 	strokedrawList->retain();
 
-	CReadXML readxml(p->getXML()->getCString());
+	CReadXML readxml(p->getXML().c_str());
 	this->m_character = readxml.getCharacter();
 	this->showRect = showrect;
 

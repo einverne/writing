@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "sqlite3.h"
+#include "CharacterEntity.h"
 #include "CharacterExtend.h"
 using namespace std;
 USING_NS_CC;
@@ -84,7 +85,7 @@ public:
 	* @param p
 	* @return
 	*/
-	static void getZiDataInfo(string sql,CCObject* p);
+	static void getZiDataInfo(string sql,CharacterEntity* p);
 
 	/**
 	* 松紧规则读取
