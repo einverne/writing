@@ -2270,7 +2270,7 @@ function  IsNa(bh,bl)
 		angel = GetYAngel(startpt,endpt);
 	end
 
-	if(curve > 1.2)then
+	if(curve > 1.5)then
 		return false
 	elseif(curve <= 1.02 and angel <= 10.5)then
 		return false
