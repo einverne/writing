@@ -1577,7 +1577,8 @@ function  IsHeng(bh,bl)
 		angel_var = math.abs(angel)
 	end
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
-	InflectionPoint[#InflectionPoint+1] = endindex
+	--InflectionPoint[#InflectionPoint+1] = endindex
+	InflectionPoint.Heng = endindex
 	if(angel_var > 50.3)  then
 		return false
 	end
@@ -2159,7 +2160,8 @@ function  IsPie(bh,bl)
 	--InflectionPoint[1]=endindex--bh.InflectionPoint[i]
 	--end
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
-	InflectionPoint[#InflectionPoint+1] = endindex
+	--InflectionPoint[#InflectionPoint+1] = endindex
+	InflectionPoint.Pie= endindex
 
 	if (startpt.y >= endpt.y or startpt.x <= endpt.x) then
 		return false
@@ -2256,7 +2258,8 @@ function  IsNa(bh,bl)
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
 
 	print"?????????????????????????????????????????????????????????????????????????????????????????????????????????????"
-	InflectionPoint[#InflectionPoint+1] = endindex
+	--InflectionPoint[#InflectionPoint+1] = endindex
+	InflectionPoint.Na = endindex
 	print(#InflectionPoint,InflectionPoint[1])
 	if (startpt.y >= endpt.y or startpt.x >= endpt.x) then
 		return false
@@ -2908,7 +2911,8 @@ function IsDian(bh,bl)
 	local len1 = GetBDLen(bh)
 	local dis = GetDistance(startpt,endpt)
 	local curve = len1 / dis
-	InflectionPoint[#InflectionPoint+1] = endindex
+	--InflectionPoint[#InflectionPoint+1] = endindex
+	InflectionPoint.Dian = endindex
 	if (startpt.y >= endpt.y or startpt.x >= endpt.x ) then
 		return false
 	end
