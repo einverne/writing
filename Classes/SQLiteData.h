@@ -147,6 +147,7 @@ public:
 	*/
 	static vector<vector <string> > getNote(string unit_id, string zi_id);
 
+	static vector<string> getRadicalRules(vector<string> ids);
 };
 
 

@@ -44,6 +44,8 @@ void CReadXML::parseXML(TiXmlDocument* document){
 	character.setName(name);
 	const char* seq = rootElement->Attribute("stroke_seq_id");
 	character.setStrokeSeq(seq);
+	const char* unit_seq_id = rootElement->Attribute("unit_seq_id");
+	character.setRadicalSeq(unit_seq_id);
     TiXmlElement* outlineElement = rootElement->FirstChildElement();
     TiXmlElement* strokeElement = outlineElement->FirstChildElement();
     Bujian bujian;

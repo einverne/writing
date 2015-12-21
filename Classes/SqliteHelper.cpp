@@ -258,6 +258,27 @@ vector<vector <string> > SQLiteHelper::getNote(string sql){
 	return result;
 }
 
+int getRadicalR(void* para, int n_column, char** column_value, char** column_name){
+	string* ret = (string*) para;
+	if (strcmp(column_name[2],"radical_rule")==0)
+	{
+		ret->append(column_value[2]);
+	}
+	return 0;
+}
+
+string SQLiteHelper::getRadicalRule(string sql){
+	string result;
+	int ret = sqlite3_exec(pDB,sql.c_str(), getRadicalR, &result, &errMsg);
+	if (errMsg)
+	{
+		CCLog("getRadicalRule error code: %d error: %s", ret, errMsg);
+		sqlite3_free(errMsg);
+	}
+	return result;
+}
+
+
 void SQLiteHelper::closeDB()
 {
 	result = sqlite3_close(pDB); 

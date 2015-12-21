@@ -5,6 +5,7 @@
 #include "LuaScriptReader.h"
 #include "CharacterEntity.h"
 #include "CharacterExtend.h"
+#include "ReadXML.h"
 
 USING_NS_CC;
 using namespace std;

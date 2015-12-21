@@ -136,6 +136,13 @@ public:
 	* @return
 	*/
 	static vector<vector <string> > getNote(string sql);
+
+	/**
+	* get Radical rule from radical table
+	* @param sql
+	* @return
+	*/
+	static string getRadicalRule(string sql);
 private:
 
 };

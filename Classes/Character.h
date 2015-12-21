@@ -85,11 +85,28 @@ public:
 	*/
 	string getName() { return _name; }
 
+	/**
+	* set radical seq
+	* @param seq
+	* @return
+	*/
+	void setRadicalSeq(const string seq){
+		_radical_seq = seq;
+	}
+
+	/**
+	* return radical seq
+	* @return
+	*/
+	vector<string> getRadicalSeq() const {
+		return DataTool::spliteStringBy(_radical_seq,"-");
+	}
 
 private:
 	void transformCoordinate(CCPoint point,float length);
 	string _stroke_seq;
 	string _name;
+	string _radical_seq;
 };
 
 #endif

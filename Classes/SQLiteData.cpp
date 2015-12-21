@@ -317,3 +317,22 @@ vector<vector <string> > SQLiteData::getNote(string unit_id, string zi_id){
 	return notes;
 
 }
+
+vector<string> SQLiteData::getRadicalRules(vector<string> ids){
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+	string judgepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_judge.db");
+#endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+	string judgepath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_judge.db";
+#endif
+	SQLiteHelper::initDB(judgepath.c_str());
+	vector<string> result;
+	for (vector<string>::const_iterator iter = ids.begin(); iter != ids.end(); iter++)
+	{
+		string radicalid = *iter;
+		string sql = "select * from radical where radical_id = '"+radicalid+"'";
+		string onerule = SQLiteHelper::getRadicalRule(sql);
+		result.push_back(onerule);
+	}
+	return result;
+}
