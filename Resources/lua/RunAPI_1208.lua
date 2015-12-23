@@ -96,25 +96,32 @@ end
 
 function RunAPI:parseUnitRule(strUnitRule)
 	local ZiRuleList = {}
-	if(strokeLevel == 3 )then
-		strUnitRule  = string.gsub(strUnitRule , "//##begin", "" )
-		strUnitRule  = string.gsub(strUnitRule , "//##end", "" )
-		strUnitRule  = string.gsub(strUnitRule , "//##", "//##--" )
-		strUnitRule  = string.gsub(strUnitRule , "//&&", "--//&&--")
-		strUnitRule  = trim(strUnitRule)
-
-		--切割出部件中的规则
-		local tmpZiRuleList = {}
-		tmpZiRuleList = superSplit(strUnitRule ,"//##")
-		table.remove(tmpZiRuleList,1)
-		for i = 1,#tmpZiRuleList do
-			local oneNode = {}
-			oneNode.index = i-1
-			oneNode.codes = tmpZiRuleList[i]
-			ZiRuleList[#ZiRuleList+1] = oneNode
+	local allZiRuleList={}
+	strUnitRule  = trim(strUnitRule)
+	ZiRuleListTable = superSplit(strUnitRule ,"//##begin")
+	table.remove(ZiRuleListTable,1)
+	
+	for i = 1,#ZiRuleListTable do
+			local oneUnitRule = ZiRuleListTable[i]
+			--oneUnitRule  = string.gsub(oneUnitRule , "//##begin", "" )
+			oneUnitRule  = string.gsub(oneUnitRule , "//##end", "" )
+			oneUnitRule  = string.gsub(oneUnitRule , "//##", "//##--" )
+			oneUnitRule  = string.gsub(oneUnitRule , "//&&", "--//&&--")
+			oneUnitRule  = trim(oneUnitRule)
+			local ZiRuleList = {}
+			--切割出部件中的规则
+			local tmpZiRuleList = {}
+			tmpZiRuleList = superSplit(oneUnitRule ,"//##")
+			table.remove(tmpZiRuleList,1)
+			for i = 1,#tmpZiRuleList do
+				local oneNode = {}
+				oneNode.index = i-1
+				oneNode.codes = tmpZiRuleList[i]
+				ZiRuleList[#ZiRuleList+1] = oneNode
+			end
+			allZiRuleList[#allZiRuleList+1]=ZiRuleList
 		end
-	end
-	return ZiRuleList
+	return allZiRuleList
 end
 
 --#########################	对部件规则进行整理，加到ZiRuleList表 ########################################
@@ -154,36 +161,45 @@ function RunAPI:contractRule(ZiRuleList,CharacterRule)
 	local str1 = "if(bhNum == "
 	local str2 = ") then ".."\n"
 	local str3 = "end".."\n"
+	local newRule = ""
+	local last = 0
+	local temp = 0
+
 	for i = 1,#ZiRuleList do
-		local newRule = str1.. tostring (i) ..str2
-		local newBH = ""
-
-		if ( i > 1 ) then
-			for j = i-2,0,-1 do
-				local tempBH = "local bh"..tostring (j) .. " = GetPreBH(" ..tostring(j) .. ") "
-				newBH = newBH.."\n"..tempBH
+		local tempZirule = ZiRuleList[i]
+		print"kkkkkkkkkkkkkkkkkkkkkk"
+		print(#tempZirule)
+		for k = 1,#tempZirule do
+			newRule = str1.. tostring (k) ..str2
+			if(i > 1) then
+				newRule = str1.. tostring (last + k) ..str2
 			end
-		end
-		newRule  = newRule  .. newBH .. ZiRuleList[i].codes.."\n"
-		if (strokeLevel == 2 ) then
-			local retInfo = "local retInfo = tostring(bflag) .. tostring(pflag)".."\n".."trace(retInfo)".."\n"
-			newRule  =  newRule ..retInfo..str3
-		elseif (strokeLevel == 3) then--检查为宽松规则，但是有bflag和pflag的信息--.. tostring(InfleRatio1)..tostring(InfleRatio2)
-
-		local retInfo1 = "local retInfo = tostring(bflag) ..tostring(pflag) .. tostring(uflag).. tostring(cflag)".."\n"
-		local endline = "GerResult(retInfo,errorBHPoint)".."\n"
-
-			if (i == #ZiRuleList) then--最后一笔加载整字侧面
-				for j = 1,#CharacterRule do
-				newRule =newRule ..CharacterRule[j].codes.."\n"
+			local newBH = ""
+			--得到当前笔画之前的所有笔画点集
+			if ( k > 0 ) then
+			local tempBH= ""
+				for j = k-1,0,-1 do
+					if(i > 1) then
+						tempBH = "local bh"..tostring (j) .. " = GetBH(" ..tostring(last + j) .. ") "
+					else
+						tempBH = "local bh"..tostring (j) .. " = GetBH(" ..tostring(j) .. ") "
+					end
+					newBH = newBH.."\n"..tempBH
 				end
 			end
-
+			newRule  = newRule  .. newBH .. tempZirule[k].codes.."\n"
+			local retInfo1 = "local retInfo = tostring(bflag) ..tostring(pflag) .. tostring(uflag).. tostring(cflag)".."\n"
+			local endline = "GerResult(retInfo,errorBHPoint)".."\n"
+			if (i == #ZiRuleList and k == #tempZirule) then--最后一笔加载整字侧面
+				for n = 1,#CharacterRule do
+					newRule =newRule ..CharacterRule[n].codes.."\n"
+				end
+			end
 			newRule  =  newRule ..retInfo1..endline..str3
-		else
-			newRule  = newRule ..str3
+			NewZiRuleArr[#NewZiRuleArr+1] = newRule
+			temp = k
 		end
-		NewZiRuleArr[#NewZiRuleArr+1] = newRule
+		last = last + temp
 	end
 	return NewZiRuleArr
 end
@@ -225,19 +241,11 @@ function RunAPI:RunZiRule(bhNum,NewZiRuleArr)
 	local zirightinfo =math.floor(ret-bhrightinfo*1000-wzrightinfo*100-unitrightinfo*10)
 	print"//////////////////////"
 	print (bhrightinfo,wzrightinfo,unitrightinfo,zirightinfo,ret)
-	local curerrorStrokePoint  = {}
 	--local errortype = Pass2CStrList[2]
 	local errorStrokePoint= Pass2CStrList[2]
 
 	if(errorStrokePoint == nil)then
 		errorStrokePoint = {}
-		curerrorStrokePoint={}
-	else
-		--curerrorStrokePoint = errorStrokePoint[1]
-		--print">>>>>>>>>>>>>>>>>>>>>>>>>>"
-		--for k,v in pairs(curerrorStrokePoint) do
-			--print(k,v )
-		--end
 	end
 
 	--print(errorStrokePoint,#errortype)
