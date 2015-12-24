@@ -1585,7 +1585,9 @@ function  IsHeng(bh,bl)
 	if(angel_var <= 9.86 and curve_var > 1.3) then
 		return false
 	end
-
+	if(curve_var > 1.4) then
+		return false
+	end
 
 	if (bl == 1 )then
 		if(angel_var > 14.86 and angel_var <= 50.3)then
