@@ -62,7 +62,7 @@ bool JudgeScene::init(){
 		string unit_rules;
 		for (vector<string>::const_iterator iter = radicalrules.begin(); iter != radicalrules.end(); iter++)
 		{
-			unit_rules+=(*iter);
+			unit_rules+="\n"+(*iter);
 		}
 		ext_p->setRuleUnit(unit_rules);
 		zi_id = DataTool::intTostring(ext_p->getID());

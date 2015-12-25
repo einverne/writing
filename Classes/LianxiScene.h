@@ -34,7 +34,6 @@ public:
 	void setCharacterExt(CharacterExtend* ext) { ext_p = ext; }
 	
 private:
-// 	vector<string> hanziList;
 	string CurrentCharacter;			//当前正在练习的汉字字符
 	CharacterExtend* ext_p;
 };

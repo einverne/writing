@@ -149,11 +149,26 @@ int loadziR(void * para, int n_column, char ** column_value, char ** column_name
 	((CharacterExtend*)para)->setID(atoi(column_value[0]));		//ID
 	((CharacterExtend*)para)->setName(column_value[1]);						//ziName
 	((CharacterExtend*)para)->setSEQ(column_value[2]);							//strokeIDSeq
-	((CharacterExtend*)para)->setRuleLoose(column_value[3]);						//ruleLoose
-	((CharacterExtend*)para)->setRuleTight(column_value[4]);
-	((CharacterExtend*)para)->setXML(column_value[5]);							//xml
-	((CharacterExtend*)para)->setRuleUnit(column_value[6]);			// ruleUnit
-	((CharacterExtend*)para)->setRuleZi(column_value[7]);			// ruleZi
+	if (column_value[3] != NULL)
+	{
+		((CharacterExtend*)para)->setRuleLoose(column_value[3]);						//ruleLoose
+	}
+	if (column_value[4] != NULL)
+	{
+		((CharacterExtend*)para)->setRuleTight(column_value[4]);
+	}
+	if (column_value[5] != NULL)
+	{
+		((CharacterExtend*)para)->setXML(column_value[5]);					//xml
+	}
+	if (column_value[6] != NULL)
+	{
+		((CharacterExtend*)para)->setRuleUnit(column_value[6]);			// ruleUnit
+	}
+	if (column_value[7] != NULL)
+	{
+		((CharacterExtend*)para)->setRuleZi(column_value[7]);			// ruleZi
+	}
 	return 0;
 }
 
