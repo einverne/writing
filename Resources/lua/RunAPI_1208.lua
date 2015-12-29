@@ -100,7 +100,7 @@ function RunAPI:parseUnitRule(strUnitRule)
 	strUnitRule  = trim(strUnitRule)
 	ZiRuleListTable = superSplit(strUnitRule ,"//##begin")
 	table.remove(ZiRuleListTable,1)
-	
+
 	for i = 1,#ZiRuleListTable do
 			local oneUnitRule = ZiRuleListTable[i]
 			--oneUnitRule  = string.gsub(oneUnitRule , "//##begin", "" )
@@ -277,7 +277,7 @@ function RunAPI:RunZiRule(bhNum,NewZiRuleArr)
 		local errorBHPoint={}
 		errorBHPoint["null"]="null"
 		local temp={}
-		temp["errortype"]="B0001"
+		temp["errortype"]="B0002"
 		temp["errorstroke"]=errorBHPoint
 		errorStrokePoint[#errorStrokePoint+1]=temp
 	elseif(bhrightinfo == 1 and wzrightinfo == 1 )then
@@ -294,9 +294,10 @@ function RunAPI:RunZiRule(bhNum,NewZiRuleArr)
 		if(errors == nil)then
 			allerror = {}
 		else
-			for i = 1,#errorStrokePoint do
-				allerror[#allerror+1] = errorStrokePoint[i]
-			end
+			--for i = 1,#errorStrokePoint do
+				--print(#errorStrokePoint)
+				allerror[#allerror+1] = errorStrokePoint[1]--只返回一种错误类型
+			--end
 			return { error = allerror, ["ret"] = ret }
 		end
 	end

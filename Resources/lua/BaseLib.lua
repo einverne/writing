@@ -5513,7 +5513,7 @@ function IsAspectRatio()
 		--typeInfo.errorstroke[#typeInfo.errorstroke+1] = StrokeAndPoint
 
 		local temp={}
-		temp["errortype"]="A0000"
+		temp["errortype"]="C0001"
 		temp["errorstroke"]=StrokeAndPoint
 		typeInfo[#typeInfo+1]=temp
 		return false
