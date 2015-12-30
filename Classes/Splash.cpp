@@ -34,7 +34,7 @@ bool Splash::init(){
     bg->setScaleX(winSize.width/bgSize.width);
     bg->setScaleY(winSize.height/bgSize.height);
 
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     string dbpat = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_info.db";
 	if (!CCFileUtils::sharedFileUtils()->isFileExist(dbpat))
 	{
@@ -47,13 +47,6 @@ bool Splash::init(){
 		CCLog("first time init setting.xml");
 		DataTool::storeToFile("1","setting.xml");
 	}
-#endif
-#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-    string settingxml = CCFileUtils::sharedFileUtils()->getWritablePath()+"setting.xml";
-    if (!CCFileUtils::sharedFileUtils()->isFileExist(settingxml)) {
-        CCLog("Splash::init first time init ios setting.xml");
-        DataTool::storeToFile("1","setting.xml");
-    }
 #endif
     return true;
 }
@@ -84,7 +77,7 @@ void Splash::initXML(string xmlfile){
 }
 
 void Splash::initDB(string db_name){
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 	string dbpath = CCFileUtils::sharedFileUtils()->fullPathForFilename(db_name.c_str());
 	unsigned long int size = 0 ;
 	char* pFileContent = (char*)CCFileUtils::sharedFileUtils()->getFileData(dbpath.c_str(),"rb",&size);
