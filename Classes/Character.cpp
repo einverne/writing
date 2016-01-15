@@ -20,7 +20,6 @@ bool Character::addBujian(Bujian bujian){
 	return true;
 }
 
-//////////////////////////////////////////////////////////////////////////
 //获取包围盒大小
 CCSize Character::getBox(){
 	float xmin=1000000,ymin=1000000;
@@ -79,9 +78,7 @@ CCSize Character::getBox(){
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////
 // 改变坐标系，将读取的xml坐标系做转换，符合cocos2d-x第一象限坐标系
-//////////////////////////////////////////////////////////////////////////
 void Character::transformCoordinate(CCPoint point,float length){
 
     for (int bujiani = 0 ; bujiani < bujianCount ; ++ bujiani)
@@ -99,7 +96,6 @@ void Character::transformCoordinate(CCPoint point,float length){
 				temppoint.y = - temppoint.y;
 				//temppoint.y = temppoint.y + length;
 				temppoint.y += fontSize;
-				///////////////////////////////////////////////
 // 				bujianList[bujiani].strokeList[strokei].pointList.erase(pointList.begin()+i);
 // 				vector<CCPoint>::iterator po_iter = bujianList[bujiani].strokeList[strokei].pointList.begin();
 // 				bujianList[bujiani].strokeList[strokei].pointList.insert(po_iter+i,ccp(temppoint.x,temppoint.y));
@@ -114,9 +110,9 @@ void Character::transformCoordinate(CCPoint point,float length){
 	}
 }
 
-int Character::getStrokeCount(){
+int Character::getStrokeCount() const{
 	int count = 0;
-	for (vector<Bujian>::iterator iter = bujianList.begin(); iter != bujianList.end(); ++ iter)
+	for (vector<Bujian>::const_iterator iter = bujianList.begin(); iter != bujianList.end(); ++ iter)
 	{
 		count += ((Bujian)*iter).strokeCount;
 	}
@@ -176,7 +172,6 @@ void Character::resize(CCSize size){
 			}
 		}
 	}
-	
 }
 
 void Character::resample(){
@@ -190,10 +185,8 @@ void Character::resample(){
 	}
 }
 
-/************************************************************************/
-/* 传入第几笔no  笔画从1开始                                                        */
-/************************************************************************/
-Stroke Character::getStroke(int no){
+// 传入第几笔no  笔画从1开始
+Stroke Character::getStroke(int no) const{
 	int totalStrokeCount = 0;
 	int tag = 0;
 	for (int i = 0; i < this->bujianCount ; ++i)
@@ -203,10 +196,10 @@ Stroke Character::getStroke(int no){
 	if (no <= totalStrokeCount)
 	{
 		//小于全部笔画数
-		for (int j = 0 ; j < this->bujianList.size() ; ++j )
+		for (unsigned int j = 0 ; j < this->bujianList.size() ; ++j )
 		{
 			Bujian bujian_temp = bujianList[j];
-			for (int k = 0 ; k < bujian_temp.strokeList.size() ; ++k)
+			for (unsigned int k = 0 ; k < bujian_temp.strokeList.size() ; ++k)
 			{
 				tag++;
 				if (tag == no)
@@ -215,5 +208,8 @@ Stroke Character::getStroke(int no){
 				}
 			}
 		}
+	}else{
+		CCAssert(no > totalStrokeCount, "count must less than Character strokes");
+		return Stroke();
 	}
 }

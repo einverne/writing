@@ -42,8 +42,8 @@ private:
 	void dlgCallBack(CCNode* pNode);			//Dialog callback
 	CCObject* gridviewDataSource(CCObject* pConvertView, unsigned int idx);
 
-	int unit_count;
-	vector<string> unit_ids;
+	int unit_count;							// unit total count
+	vector<string> unit_ids;				// get id in database of units
 	CGridView* pGridView;
 	string longClickSelectUnitID;			//store the unit_id long click selected
 };

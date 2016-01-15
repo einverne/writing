@@ -33,14 +33,14 @@ bool TcharacterDrawnode::init(string hz,CCSize showrect,CharacterEntity* p){
 	strokedrawList->retain();
 
 	CReadXML readxml(p->getXML().c_str());
-	this->m_character = readxml.getCharacter();
+	this->m_right_character = readxml.getCharacter();
 	this->showRect = showrect;
 
-	this->m_character.getBox();
-	this->m_character.resize(showRect);
-	this->m_character.resample();
+	this->m_right_character.getBox();
+	this->m_right_character.resize(showRect);
+	this->m_right_character.resample();
 
-	vector<Bujian> bujianList = this->m_character.bujianList;
+	vector<Bujian> bujianList = this->m_right_character.bujianList;
 	vector<Bujian>::iterator iter ;
 	for (iter = bujianList.begin(); iter != bujianList.end() ; ++ iter)
 	{
@@ -54,13 +54,6 @@ bool TcharacterDrawnode::init(string hz,CCSize showrect,CharacterEntity* p){
 	return true;
 }
 
-/**
-* 
-* @param hz
-* @param showrect
-* @param p
-* @return
-*/
 bool TcharacterDrawnode::init(string hz,CCSize showrect,CharacterExtend* p){
 	tiangzige = CCSprite::create("tianzige.png");
 	addChild(tiangzige,-1);
@@ -73,15 +66,15 @@ bool TcharacterDrawnode::init(string hz,CCSize showrect,CharacterExtend* p){
 
 	// be carefule readxml has two construct functions, one pass a char* and one pass a string file name
 	CReadXML readxml(p->getXML().c_str());
-	this->m_character = readxml.getCharacter();
-	myChar = readxml.getCharacter();
+	this->m_right_character = readxml.getCharacter();
+	m_char = readxml.getCharacter();
 	this->showRect = showrect;
 
-	this->m_character.getBox();
-	this->m_character.resize(showrect);
-	this->m_character.resample();
+	this->m_right_character.getBox();
+	this->m_right_character.resize(showrect);
+	this->m_right_character.resample();
 
-	vector<Bujian> bujianList = this->m_character.bujianList;
+	vector<Bujian> bujianList = this->m_right_character.bujianList;
 	vector<Bujian>::iterator iter;
 	for (iter  = bujianList.begin(); iter != bujianList.end() ; ++ iter)
 	{
@@ -150,12 +143,11 @@ void TcharacterDrawnode::setVisibleIndex(int vi){
 	}
 }
 
-string TcharacterDrawnode::getCharacterStandardInfo(){
+string TcharacterDrawnode::getCharacterStandardInfo() const{
 	string ret = "";
-	int cout = myChar.getStrokeCount();
-	for (int i = 1 ; i <= cout ; i++)
+	for (int i = 1 ; i <= m_char.getStrokeCount(); i++)
 	{
-		Stroke stroke = myChar.getStroke(i);
+		Stroke stroke = m_char.getStroke(i);
 		ret += stroke.sendOutputWithStatus();
 	}
 	return ret;

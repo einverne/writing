@@ -9,6 +9,7 @@ USING_NS_CC;
 using namespace std;
 
 // single stroke include several points
+// 处理点相关笔画信息
 class Stroke
 {
 public:
@@ -45,11 +46,11 @@ public:
 	float strokeLength();
 
 	/**
-	* 重采样，插值代码 x轴方向每10px一段
-	* @param n 默认为20，可以自由设定
+	* 重采样，插值代码 x轴方向每n-1 px一段
+	* @param n 默认为20，可以自由设定 n越大，点与点之间间隔越小, n 为重采样之后的点数量
 	* @return
 	*/
-	void resample(int n = 20);
+	void resample(const int n = 20);
 
 	CCSize getRotateAng();						//获取尾点到首点的向量
 	CCPoint getMidPoint();						//获取一笔中点，简单理解为首点和尾点的中点
@@ -62,15 +63,14 @@ public:
 	* @return
 	*/
 	void addEveryPoint(CCPoint point);			//每个点加一个点
-// 	StrokeNode* getStrokeNode();
 
 	/**
 	* get the whole pointList
 	* @return
 	*/
-	vector<CCPoint> getpointList();
+	vector<CCPoint> getpointList() const;
 
-	CCPoint getpointListIndexAt(int i);
+	CCPoint getpointListIndexAt(unsigned int i) const;
 
 	/**
 	* set the point in pointList 
@@ -91,10 +91,10 @@ public:
 	* 产生送给Lua的字符串
 	* @return
 	*/
-	string sendOutput();
+	string sendOutput() const;
 
 	/**
-	* 产生送给Lua的字符串
+	* 产生送给Lua的字符串, 携带拐点信息
 	* @return
 	*/
 	string sendOutputWithStatus();
@@ -111,6 +111,13 @@ public:
     CCPoint getPrePoint() const {
         return prePoint;
     };
+
+	/**
+	* convert512 转换成512*512 并将坐标原点放置到左上角,转换坐标系由第一象限转成第四象限
+	* @param size 田字格大小
+	* @return
+	*/
+	void convert512(CCSize size);
 
 private:
     CCPoint prePoint;                           //保存每一笔首点

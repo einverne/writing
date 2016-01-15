@@ -49,7 +49,7 @@ float Stroke::distance(CCPoint p1,CCPoint p2){
 
 float Stroke::strokeLength(){
 	float length = 0;
-	for (int i= 1; i < pointList.size() ; ++i)
+	for (unsigned int i= 1; i < pointList.size() ; ++i)
 	{
 		length += distance(pointList.at(i-1),pointList.at(i));
 	}
@@ -62,15 +62,16 @@ int Stroke::getStrokeBox(){
 	return dx>dy?dx:dy;
 }
 
-void Stroke::resample(int n){
+void Stroke::resample(const int n){
 // 	int n = getStrokeBox()/10;			//获取长宽最大像素值
-	float I = strokeLength() / (n-1);		//10个像素一段
+	CCAssert(n > 0,"n > 0");
+	float I = strokeLength() / (n-1);		// I个像素一段
 	float D = 0;
 
 	vector<CCPoint> dstpoList;
 	dstpoList.push_back(pointList.at(0));
 
-	for (int i = 1; i < pointList.size() ; ++i )
+	for (unsigned int i = 1; i < pointList.size() ; ++i )
 	{
 		CCPoint p1 = pointList[i-1];
 		CCPoint p2 = pointList[i];
@@ -131,14 +132,14 @@ CCPoint Stroke::getBigPoint(){
 }
 
 void Stroke::addEveryPoint(CCPoint point){
-	for (int i = 0 ; i < pointList.size(); ++i)
+	for (unsigned int i = 0 ; i < pointList.size(); ++i)
 	{
 		pointList[i] = pointList[i] + point;
 	}
 }
 
 
-string Stroke::sendOutput(){
+string Stroke::sendOutput() const{
 	string ret;
 	for (vector<CCPoint>::const_iterator it = pointList.begin(); it != pointList.end() ; ++it)
 	{
@@ -149,11 +150,11 @@ string Stroke::sendOutput(){
 	return ret;
 }
 
-vector<CCPoint> Stroke::getpointList()	{
+vector<CCPoint> Stroke::getpointList() const{
 	return pointList;
 }
 
-CCPoint Stroke::getpointListIndexAt(int i){
+CCPoint Stroke::getpointListIndexAt(unsigned int i) const{
 	CCPoint p = ccp(0,0);
 	if (i < pointList.size())
 	{
@@ -188,4 +189,14 @@ string Stroke::sendOutputWithStatus(){
 	}
 	ret += "@";
 	return ret;
+}
+
+void Stroke::convert512(CCSize size){
+	for (vector<CCPoint>::iterator it = pointList.begin(); it != pointList.end(); ++it)
+	{
+		CCPoint p = *it;
+		float fx = p.x * 512 / size.width;
+		float fy = p.y * 512 / size.height;
+		*it = ccp(fx,-(fy-512));			// 将第一象限坐标系转换成第四象限坐标
+	}
 }

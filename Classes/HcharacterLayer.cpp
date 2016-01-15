@@ -175,36 +175,23 @@ void HcharacterLayer::onExit(){
 
 void HcharacterLayer::judge(){
 	CCArray* strokes = m_HDrawnode->getStrokeDrawnodeList();
-	string output = "";
-	string originOutput = "";
+	string output = "";					// 手写汉字的点集信息
 
 	CCObject* originob;
 	CCARRAY_FOREACH(strokes,originob){
 		StrokeDrawnode* node = (StrokeDrawnode*)originob;
-		vector<CCPoint> points = node->getStroke().getpointList();
-		for (vector<CCPoint>::iterator iter = points.begin(); iter != points.end() ; ++iter)
-		{
-			CCPoint temp = *iter;
-			string t = DataTool::to_string(ceil(temp.x)) + "/" + DataTool::to_string(ceil(temp.y)) + "/";
-			originOutput += t;
-		}
-		originOutput += "@";
+		Stroke stro = node->getStroke();
+		this->pointsOrigin += stro.sendOutput();
 	}
-
-	this->pointsOrigin=originOutput;
 
 	CCObject* ob;
 	CCARRAY_FOREACH(strokes,ob){
 		StrokeDrawnode* node = (StrokeDrawnode*)ob;
-		vector<CCPoint> points = node->getStroke().getpointList();
-		for (vector<CCPoint>::iterator iter = points.begin(); iter != points.end() ; ++iter)
-		{
-			CCPoint temp = *iter;
-			temp = convert512(temp);
-			string t = DataTool::to_string(ceil(temp.x)) + "/" + DataTool::to_string(ceil(temp.y)) + "/";
-			output += t;
-		}
-		output += "@";
+		Stroke stro = node->getStroke();
+		vector<CCPoint> points = stro.getpointList();
+		stro.convert512(this->m_sprite_draw->getContentSize());
+		stro.resample(100);
+		output += stro.sendOutput();
 	}
 	this->pointsOutput=output;
 
@@ -217,7 +204,7 @@ void HcharacterLayer::judge(){
 	TcharacterLayer* tlayer = (TcharacterLayer*)CCDirector::sharedDirector()->getRunningScene()->getChildByTag(kTLayerTag);
 	string points = tlayer->getm_TDrawnode()->getCharacterStandardInfo();		//获取正字信息
     CCLog("output %s",output.c_str());
-    CCLog("all %s",points.c_str());
+    CCLog("right Character info %s",points.c_str());
     
 	string ret = _manager.getResult(_hanzi,output,points,m_exChar,funcs);
 	//CCLog("Hcharacterlay: retstring:%s length:%d",ret.c_str(),ret.length());
@@ -403,12 +390,7 @@ void HcharacterLayer::Right(){
 
 }
 
-CCPoint HcharacterLayer::convert512(CCPoint p){
-	CCSize size = this->m_sprite_draw->getContentSize();
-	float fx = p.x * 512 / size.width;
-	float fy = p.y * 512 / size.height;
-	return ccp(fx,-(fy-512));
-}
+
 
 void HcharacterLayer::rewrite(CCObject* pSender){
 	CCLog("HcharacterLayer::rewrite");

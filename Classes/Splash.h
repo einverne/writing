@@ -21,7 +21,21 @@ public:
     void onExitTransitionDidStart();
 private:
     void finishSplash(float dt);
+
+	/**
+	* init db in Android and iOS device
+	* copy db file from package to writable place
+	* @param db_name full name of db file
+	* @return
+	*/
 	void initDB(string db_name);
+
+	/**
+	* init xml file 
+	* deprecated 
+	* @param xmlfile
+	* @return
+	*/
 	void initXML(string xmlfile);
 };
 

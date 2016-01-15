@@ -20,12 +20,7 @@ public:
 	virtual void onEnter();
 	virtual void onExit();
 
-	/**
-	* convert512 转换成512*512 并将坐标原点放置到左上角
-	* @param p
-	* @return
-	*/
-	CCPoint convert512(CCPoint p);
+
 	void judge();
 	void reloadChar();				//重新加载汉字信息
 	float getWrongPercent();

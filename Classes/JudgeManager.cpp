@@ -73,7 +73,6 @@ string JudgeManager::getResult(string hanzi , string points_output, string all_p
 	retStr[0] = '\0';
  	gReader.setZiName(hanzi);
 
-
 	// get easy or hard setting from setting.xml config file
     const char* settingname = "setting.xml";
 	string r = DataTool::readFromFile(settingname);
@@ -89,7 +88,6 @@ string JudgeManager::getResult(string hanzi , string points_output, string all_p
 
 	//set Unit rule
 	string unitrule = p->getRuleUnit();
-	CCLog("%s",unitrule.c_str());
 	gReader.setUnitRule(unitrule);
 
 	//set zi rule

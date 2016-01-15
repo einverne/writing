@@ -6,6 +6,7 @@
 #include "Stroke.h"
 USING_NS_CC;
 
+// 手写汉字 Node
 class HcharacterDrawnode : public CCNode
 {
 public:
@@ -19,24 +20,18 @@ public:
 	virtual void onExit();
 	virtual void draw();
 
-	//************************************
-	// Method:    addPoint 在最后一笔最后添加点
-	// FullName:  HcharacterDrawnode::addPoint
-	// Access:    public 
-	// Returns:   void
-	// Qualifier:
-	// Parameter: CCPoint point
-	//************************************
+	/**
+	* addPoint 在最后一笔最后添加点
+	* @param point
+	* @return
+	*/
 	void addPoint(CCPoint point);
 
-	//************************************
-	// Method:    addStroke 添加一笔
-	// FullName:  HcharacterDrawnode::addStroke
-	// Access:    public 
-	// Returns:   void
-	// Qualifier:
-	// Parameter: Stroke s
-	//************************************
+	/**
+	* addStroke 添加一笔
+	* @param s Stroke
+	* @return
+	*/
 	void addStroke(Stroke s);
 
 	//************************************

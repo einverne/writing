@@ -1,7 +1,9 @@
 #include "HcharacterDrawnode.h"
 #include "HcharacterLayer.h"
 
-HcharacterDrawnode::HcharacterDrawnode():strokeDrawlist(NULL),tianziged(NULL)
+HcharacterDrawnode::HcharacterDrawnode():
+	strokeDrawlist(NULL),
+	tianziged(NULL)
 {
 }
 

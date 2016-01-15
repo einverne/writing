@@ -27,6 +27,7 @@ bool Splash::init(){
 
     CCSize winSize = CCDirector::sharedDirector()->getWinSize();
 
+	// set background image
     CCSprite* bg = CCSprite::create("strangedesign/splash.jpg");
     CCSize bgSize = bg->getContentSize();
     bg->setPosition(ccp(winSize.width/2,winSize.height/2));
@@ -34,6 +35,7 @@ bool Splash::init(){
     bg->setScaleX(winSize.width/bgSize.width);
     bg->setScaleY(winSize.height/bgSize.height);
 
+	// Android and iOS need write permission to write to db
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     string dbpat = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_info.db";
 	if (!CCFileUtils::sharedFileUtils()->isFileExist(dbpat))
@@ -52,6 +54,7 @@ bool Splash::init(){
 }
 
 void Splash::initXML(string xmlfile){
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 	string xmlpath1 = CCFileUtils::sharedFileUtils()->getWritablePath()+xmlfile;
     CCLog("isexit %d",CCFileUtils::sharedFileUtils()->isFileExist(xmlpath1));
 	if(!CCFileUtils::sharedFileUtils()->isFileExist(xmlpath1)){
@@ -74,6 +77,7 @@ void Splash::initXML(string xmlfile){
 		}
 		fclose(file);
     }
+#endif
 }
 
 void Splash::initDB(string db_name){

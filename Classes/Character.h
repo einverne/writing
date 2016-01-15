@@ -29,7 +29,7 @@ public:
 	* getStrokeCount 获取字的笔画数
 	* @return
 	*/
-	int getStrokeCount();
+	int getStrokeCount() const;
     
     /**
      resize Character size
@@ -52,7 +52,7 @@ public:
 	* @param no
 	* @return
 	*/
-	Stroke getStroke(int no);
+	Stroke getStroke(int no) const;
 
 	
 	/**

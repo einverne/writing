@@ -44,9 +44,11 @@ TouchLayer* TouchLayer::create(TcharacterLayer* t,HcharacterLayer* h){
 void TouchLayer::onEnter(){
 	CCLayer::onEnter();
 }
+
 void TouchLayer::onExit(){
 	CCLayer::onExit();
 }
+
 void TouchLayer::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 	getHlayer()->getInfoSprite()->setVisible(false);
 	//判断写了几笔 超过笔数就不
