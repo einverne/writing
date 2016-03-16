@@ -209,7 +209,7 @@ void HcharacterLayer::judge(){
 	string ret = _manager.getResult(_hanzi,output,points,m_exChar,funcs);
 	//CCLog("Hcharacterlay: retstring:%s length:%d",ret.c_str(),ret.length());
 	//如果不评判则跳过
-	if (!_ijudge)
+	if (!_ijudge || ret.length() <= 0)
 	{
 		return;
 	}
