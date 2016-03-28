@@ -18,9 +18,9 @@ public:
 	virtual void onEnter();
 	virtual void keyBackClicked();
 	CREATE_FUNC(BackgroundLayer);
-	CCSprite* tianzige;
-	CCSprite* tianzige_draw;
-	CCSprite* title_bar;
+	CCSprite* tianzige;                 // standard character
+	CCSprite* tianzige_draw;            // handwrting character
+	CCSprite* title_bar;                // title bar
 private:
 	void menuBack(CCObject* pSender);			//menu Back callback
 	void onToggle(CCObject* pSender);			//Toggle onClick

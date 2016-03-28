@@ -15,15 +15,14 @@ JudgeManager::JudgeManager()
 
 JudgeManager::~JudgeManager()
 {
+    exitLuaEngine();
 }
 
 string JudgeManager::getResult(string hanzi,string points_output,CharacterEntity* p, string funcs){
 
-	string filepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/WriteZiInfo.lua");
-	string basepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/BaseLib.lua");
-	string apipath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/RunAPI.lua");
-
-	CLuaScriptReader gReader;
+	string filepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua_ext/WriteZiInfo.lua");
+	string basepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua_ext/BaseLib.lua");
+	string apipath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua_ext/RunAPI.lua");
 
 	gReader.InitLuaScriptReader();
 	gReader.setWriteZiInfo(points_output.c_str());
@@ -40,7 +39,8 @@ string JudgeManager::getResult(string hanzi,string points_output,CharacterEntity
  	gReader.RunMixedFile(basepath.c_str(),baselua);
     const char* runapilua = "RunAPI.lua";
  	gReader.RunScriptFile(apipath.c_str(),retStr,runapilua);
- 	gReader.ExitLuaScriptReader();
+ 	
+    exitLuaEngine();
  	CCLog("retStr after judge %s",retStr);
 	string ret(retStr);
 	delete [] retStr;
@@ -51,6 +51,8 @@ string JudgeManager::getResult(string hanzi,string points_output,CharacterEntity
 void JudgeManager::initLuaEngine(){
 	gReader.InitLuaScriptReader();
 	string filepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/WriteZiInfo.lua");
+//    CCLog("%s",str_path.c_str());
+//    gReader.setLuaPath(str_path.c_str());
 	string basepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/BaseLib.lua");
 	string apipath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/RunAPI_1208.lua");
 	string standardpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/StandardZiInfo.lua");
@@ -60,7 +62,6 @@ void JudgeManager::initLuaEngine(){
  	gReader.RunScriptFile(standardpath.c_str(),"StandardZiInfo.lua");
  	gReader.RunScriptFile(basepath.c_str(),"BaseLib.lua");
 	gReader.RunScriptFile(apipath.c_str(),"RunAPI_1208.lua");
-
 }
 
 string JudgeManager::getResult(string hanzi , string points_output, string all_points, CharacterExtend* p , string funcs){

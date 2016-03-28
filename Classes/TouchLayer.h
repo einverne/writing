@@ -53,8 +53,8 @@ private:
 	int errorType;			//当前书写笔画错误类型
 	vector<CCPoint> touchPoints;		//保存书写点
 	CCPoint beginPoint;			//保存书写的第一个点
-	bool isOutside;
-	bool isStartOutside;
+	bool isOutside;             // 书写过程是否在田字格外面
+	bool isStartOutside;        // 第一笔是否在田字格外面
 };
 
 

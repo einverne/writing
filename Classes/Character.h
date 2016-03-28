@@ -101,6 +101,8 @@ public:
 	vector<string> getRadicalSeq() const {
 		return DataTool::spliteStringBy(_radical_seq,"-");
 	}
+    
+    string getCharacterStandardInfo() const;
 
 private:
 	void transformCoordinate(CCPoint point,float length);

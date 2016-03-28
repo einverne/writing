@@ -11,7 +11,7 @@ public:
     Bujian(void);
     ~Bujian(void);
     bool addStroke(Stroke stro);
-    int strokeCount; 
+    int strokeCount;
     vector<Stroke> strokeList;
 };
 

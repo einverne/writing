@@ -157,6 +157,9 @@ public:
 	* @return
 	*/
 	bool RunMixedFile(const char *filename,const char *name);
+    
+    
+    int setLuaPath(const char* path);
 
 protected:
     lua_State *m_plua;

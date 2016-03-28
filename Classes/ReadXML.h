@@ -3,6 +3,8 @@
 
 #include "Character.h"
 #include "tinyxml.h"
+#include "TemplateCharacter.hpp"
+#include "ScriptCharacter.hpp"
 using namespace std;
 
 // 读取并解析每一个汉字，笔画xml
@@ -28,6 +30,10 @@ public:
 	* @return
 	*/
 	CReadXML(string xmlpath);
+    
+    
+    TemplateCharacter getTemplateCharacterFromBuffer(string xmlcontent, string mark_buffer);
+    ScriptCharacter getScriptCharacterFromBuffer(string xmlcontent, string mark_buffer);
 	~CReadXML(void);
 private:
     void parseXML(TiXmlDocument* document);

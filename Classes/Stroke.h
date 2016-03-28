@@ -25,6 +25,9 @@ public:
 	Stroke(vector<CCPoint> points);
     
 	~Stroke(void);
+    
+    Stroke& operator=(const Stroke& Right);     // assign
+    Stroke(const Stroke& Right);                // copy constructor
 
 	/**
 	 * 获取点数量
@@ -118,17 +121,35 @@ public:
 	* @return
 	*/
 	void convert512(CCSize size);
+    
+    void setname(const string n){
+        name = n;
+    }
+    
+    void setseg_count(int x){
+        seg_count = x;
+    }
+    
+    void setseg_index(int x){
+        seg_index = x;
+    }
 
-private:
+public:
+    string name;                                // stroke name
     CCPoint prePoint;                           //保存每一笔首点
 
 	int pointCount;
 
-	float distance(CCPoint p1,CCPoint p2);		//两点间距离
-	int getStrokeBox();                         //记录一笔包围盒，重采样使用
-
 	vector<CCPoint> pointList;				//store a group of points
 	vector<string> statusList;				//store the status read from XML to judge whether the point is inflected
+    
+    // segment related
+    int seg_count;                          // segment counts in this stroke
+    int seg_index;                          // first segment in this stroke index in Character
+    
+    // private function
+    float distance(CCPoint p1,CCPoint p2);		//两点间距离
+    int getStrokeBox();                         //记录一笔包围盒，重采样使用
 };
 
 #endif

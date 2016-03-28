@@ -1,7 +1,7 @@
 #ifndef _DataTool_H_
 #define _DataTool_H_
 
-#pragma once
+// 数据相关处理工具类
 #include "cocos2d.h"
 #include <iostream>
 #include <iomanip>

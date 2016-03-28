@@ -38,6 +38,7 @@ public:
 	* @return
 	*/
 	void addPoint(CCPoint point);
+    
 	/**
 	* return Stroke
 	* @return
@@ -56,6 +57,10 @@ public:
 	* @return
 	*/
 	int getVisibleIndex()	{ return visibleIndex; }
+    
+    float line_width;               // line width
+    ccColor4F color;                // line color
+    
 private:
 	Stroke stroke;					//store points in a stroke
 	ccColor4B mcolor;				//color if this stroke:have not used yet

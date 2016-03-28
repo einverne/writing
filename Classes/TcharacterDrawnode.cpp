@@ -60,15 +60,14 @@ bool TcharacterDrawnode::init(string hz,CCSize showrect,CharacterExtend* p){
 	tiangzige->setAnchorPoint(ccp(0,0));
 	setContentSize(tiangzige->getContentSize());
 
-
 	strokedrawList = CCArray::create();
 	strokedrawList->retain();
 
 	// be carefule readxml has two construct functions, one pass a char* and one pass a string file name
 	CReadXML readxml(p->getXML().c_str());
-	this->m_right_character = readxml.getCharacter();
+	m_right_character = readxml.getCharacter();
 	m_char = readxml.getCharacter();
-	this->showRect = showrect;
+	showRect = showrect;
 
 	this->m_right_character.getBox();
 	this->m_right_character.resize(showrect);
@@ -144,11 +143,5 @@ void TcharacterDrawnode::setVisibleIndex(int vi){
 }
 
 string TcharacterDrawnode::getCharacterStandardInfo() const{
-	string ret = "";
-	for (int i = 1 ; i <= m_char.getStrokeCount(); i++)
-	{
-		Stroke stroke = m_char.getStroke(i);
-		ret += stroke.sendOutputWithStatus();
-	}
-	return ret;
+    return m_char.getCharacterStandardInfo();
 }

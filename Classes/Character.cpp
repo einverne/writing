@@ -212,4 +212,14 @@ Stroke Character::getStroke(int no) const{
 		CCAssert(no > totalStrokeCount, "count must less than Character strokes");
 		return Stroke();
 	}
+    return Stroke();
+}
+
+string Character::getCharacterStandardInfo() const{
+    string ret = "";
+    for (int i = 1; i <= getStrokeCount(); ++i) {
+        Stroke stroke = getStroke(i);
+        ret += stroke.sendOutputWithStatus();
+    }
+    return ret;
 }

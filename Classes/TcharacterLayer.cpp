@@ -71,7 +71,6 @@ void TcharacterLayer::onExit(){
 }
 
 void TcharacterLayer::refresh(CCObject* pSender){
-	CCLog("TcharacterLayer::refresh");
 	RightZiAnimationAction* animation = RightZiAnimationAction::create(3.0);
 	if (m_TDrawnode->getActionManager()->numberOfRunningActionsInTarget(m_TDrawnode) <= 0)
 	{
@@ -85,7 +84,6 @@ void TcharacterLayer::refresh(CCObject* pSender){
 		this->getActionManager()->resumeTarget(m_TDrawnode);
 		isPause = false;
 	}
-
 }
 
 void TcharacterLayer::setCharacter(const string curChar){

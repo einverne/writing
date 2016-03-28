@@ -32,6 +32,13 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     // set FPS. the default value is 1.0/60 if you don't call this
     pDirector->setAnimationInterval(1.0 / 60);
+    
+    // set search path
+//    int i = 0;
+//    CCFileUtils* fileUtils = CCFileUtils::sharedFileUtils();
+//    vector<string> searchPaths = fileUtils->getSearchPaths();
+//    searchPaths.insert(searchPaths.begin()+ i++, "lua_ext");
+//    fileUtils->setSearchPaths(searchPaths);
 
     // create a scene. it's an autorelease object
     CCScene* pScene = Splash::scene();

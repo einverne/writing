@@ -28,6 +28,30 @@ int Stroke::getPointsCount(){
 	return pointList.size();
 }
 
+Stroke& Stroke::operator=(const Stroke& Right){
+    this->name = Right.name;
+    this->pointCount = Right.pointCount;
+    this->prePoint = Right.prePoint;
+    this->pointList = Right.pointList;
+    this->statusList = Right.statusList;
+    
+    this->seg_index = Right.seg_index;
+    this->seg_count = Right.seg_count;
+    return *this;
+}
+
+
+Stroke::Stroke(const Stroke& Right){
+    this->name = Right.name;
+    this->pointCount = Right.pointCount;
+    this->prePoint = Right.prePoint;
+    this->pointList = Right.pointList;
+    this->statusList = Right.statusList;
+    
+    this->seg_index = Right.seg_index;
+    this->seg_count = Right.seg_count;
+}
+
 // 将点加入到pointList尾
 bool Stroke::addPoint(CCPoint point){
 	this->pointCount++;

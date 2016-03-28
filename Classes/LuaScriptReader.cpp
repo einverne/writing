@@ -250,6 +250,19 @@ bool CLuaScriptReader::RunScriptFile(const char *filename,const char* name){
 	return true;
 }
 
+int CLuaScriptReader::setLuaPath(const char* path){
+    lua_getglobal(m_plua, "package");
+    lua_getfield(m_plua, -1, "path");
+    string cur_path = lua_tostring(m_plua, -1);
+    cur_path.append(";");
+    cur_path.append(path);
+    lua_pop(m_plua, 1);
+    lua_pushstring(m_plua, cur_path.c_str());
+    lua_setfield(m_plua, -2, "path");
+    lua_pop(m_plua, 1);
+    return 0;
+}
+
 bool CLuaScriptReader::setWriteZiInfo(const char* wz){
 	WriteZiInfo = string(wz);
 	return true;
