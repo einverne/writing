@@ -130,8 +130,8 @@ public:
         seg_count = x;
     }
     
-    void setseg_index(int x){
-        seg_index = x;
+    void setstart_index(int x){
+        start_index = x;
     }
 
 public:
@@ -145,7 +145,7 @@ public:
     
     // segment related
     int seg_count;                          // segment counts in this stroke
-    int seg_index;                          // first segment in this stroke index in Character
+    int start_index;                          // first segment in this stroke index in Character
     
     // private function
     float distance(CCPoint p1,CCPoint p2);		//两点间距离

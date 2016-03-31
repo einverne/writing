@@ -20,8 +20,24 @@ USING_NS_CC;
 class RowStroke : public Stroke{
 public:
     
-private:
-    list<CCPoint> row_list;
+    list<CCPoint> Rowplist;
+
+	RowStroke();
+	~RowStroke();
+
+	///////
+	RowStroke& operator=(const RowStroke& Right);    //赋值
+	RowStroke(const RowStroke& Right); //拷贝构造
+	
+	//////
+	void Init(list<CCPoint> Right);
+
+	void clear();
+	CCPoint getpoint(int ind);
+	void setpoint(int ind, CCPoint p);
+	void setpointlist(list<CCPoint> ptlist);
+	list<CCPoint> getpointlist();
+
 };
 
 #endif /* RowStroke_hpp */

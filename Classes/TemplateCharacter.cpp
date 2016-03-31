@@ -106,11 +106,11 @@ void TemplateCharacter::AppendStroke(string name, list<Segment> s)//添加一个
         list<Stroke>::iterator it;
         it = this->stroke_list.end();
         --it;
-        temp.setseg_index((*it).seg_index+(*it).seg_count);
+        temp.setstart_index((*it).start_index+(*it).seg_count);
     }
     else
     {
-        temp.setseg_index(0);
+        temp.setstart_index(0);
     }
     
     stroke_list.push_back(temp);
@@ -572,8 +572,8 @@ bool TemplateCharacter::InsameStroke(int segindex1,int segindex2)
     list<Stroke>::iterator it=this->stroke_list.begin();
     for (;it!=this->stroke_list.end();it++)
     {
-        if(segindex1>=it->seg_index && segindex1<it->seg_index+it->seg_count &&
-           segindex2>=it->seg_index && segindex2<it->seg_index+it->seg_count)
+        if(segindex1>=it->start_index && segindex1<it->start_index+it->seg_count &&
+           segindex2>=it->start_index && segindex2<it->start_index+it->seg_count)
         {
             yes=true;
             break;
@@ -589,7 +589,7 @@ bool TemplateCharacter::Is_Last_segment_of_OneStroke(int segindex)
     list<Stroke>::iterator it=this->stroke_list.begin();
     for(;it!=this->stroke_list.end();it++)
     {
-        if(segindex == it->seg_index+it->seg_count-1)
+        if(segindex == it->start_index+it->seg_count-1)
         {
             yes=true;
             break;

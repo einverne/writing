@@ -63,9 +63,6 @@
     <ClCompile Include="..\Classes\tools\DataTool.cpp">
       <Filter>Classes\tools</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\StrokeNode.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\LuaScriptReader.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
@@ -314,9 +311,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\tools\DataTool.h">
       <Filter>Classes\tools</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\StrokeNode.h">
-      <Filter>Classes</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\LuaScriptReader.h">
       <Filter>Classes</Filter>

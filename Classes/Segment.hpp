@@ -27,7 +27,7 @@ public:
     float dirangle;
     float len;
     
-    
+	ccColor4F color;
     
 public:
     Segment();
@@ -37,7 +37,6 @@ public:
     Segment& operator=(const Segment& Right);    //赋值
     Segment(const Segment& Right); //拷贝构造
     
-    ////
     /**
      * 名字，笔段索引号，点列表
      *

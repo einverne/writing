@@ -71,11 +71,12 @@ private:
 	bool _ijudge;				//是否评判 false不评判，true评判
 	string pointsOutput;		//输出字符串
 	string pointsOrigin;		//手写汉字Origin字符串 未作Points 的变形
-	int totalBihuaCount;				//该汉字总共有的笔画数
+	int totalBihuaCount;		//该汉字总共有的笔画数
 	float score;				//当前汉字评分
 	int curBihuaWrong;			//当前笔画错误的次数
 	CharacterExtend* m_exChar;	// characterExtend
 	JudgeManager _manager;		// judge manager
+	ScriptCharacter schar;			// 手写字
 };
 
 #endif

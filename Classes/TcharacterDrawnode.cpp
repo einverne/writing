@@ -115,12 +115,13 @@ TcharacterDrawnode* TcharacterDrawnode::create(string hz,CCSize showrect,Charact
 	}
 }
 
-
 void TcharacterDrawnode::draw(){
 	
 	CCObject* ob;
 	CCARRAY_FOREACH(strokedrawList,ob){
-		((StrokeDrawnode*)(ob))->draw();
+		StrokeDrawnode* node = (StrokeDrawnode*)ob;
+		node->color = ccc4f(1,0,0,1);
+		node->draw();
 	}
 }
 

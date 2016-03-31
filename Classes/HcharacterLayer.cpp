@@ -205,6 +205,10 @@ void HcharacterLayer::judge(){
 	string points = tlayer->getm_TDrawnode()->getCharacterStandardInfo();		//获取正字信息
     CCLog("output %s",output.c_str());
     CCLog("right Character info %s",points.c_str());
+
+	// 松弛匹配
+	//schar.divide();
+
     
 	string ret = _manager.getResult(_hanzi,output,points,m_exChar,funcs);
 	//CCLog("Hcharacterlay: retstring:%s length:%d",ret.c_str(),ret.length());
@@ -218,6 +222,8 @@ void HcharacterLayer::judge(){
 	//ret = "{\"ret\":\"111\",\"error\": [] }";
 	//ret = "{\"error\":[{\"errortype\":\"B0001\",\"errorstroke\":{}}],\"ret\":\"011\"}";
 	//ret = "{\"ret\":\"101\",\"error\":[{\"errortype\":\"A0001\",\"errorstroke\":{\"0\":\"0.2\",\"1\":\"0.3\"}},{\"errortype\":\"A0021\",\"errorstroke\":{\"0\":\"0.2\",\"1\":\"0.3\"}}]}";
+
+	// parse result get from lua
 	rapidjson::Document doc;
 	doc.Parse<kParseDefaultFlags>(ret.c_str());
 	vector<Error> errors;

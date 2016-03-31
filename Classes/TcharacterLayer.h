@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "TcharacterDrawnode.h"
+#include "ScriptCharacter.hpp"
 
 USING_NS_CC;
 using namespace std;

@@ -35,7 +35,7 @@ Stroke& Stroke::operator=(const Stroke& Right){
     this->pointList = Right.pointList;
     this->statusList = Right.statusList;
     
-    this->seg_index = Right.seg_index;
+    this->start_index = Right.start_index;
     this->seg_count = Right.seg_count;
     return *this;
 }
@@ -48,7 +48,7 @@ Stroke::Stroke(const Stroke& Right){
     this->pointList = Right.pointList;
     this->statusList = Right.statusList;
     
-    this->seg_index = Right.seg_index;
+    this->start_index = Right.start_index;
     this->seg_count = Right.seg_count;
 }
 
