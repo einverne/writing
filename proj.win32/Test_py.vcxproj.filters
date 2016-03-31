@@ -28,6 +28,9 @@
     <Filter Include="cocoswidget">
       <UniqueIdentifier>{22365bfe-6d03-4e58-bb50-297f873294b8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\Character">
+      <UniqueIdentifier>{41b60e7b-b7f0-4e14-8d62-32c286c1b04d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -42,18 +45,6 @@
     <ClCompile Include="..\Classes\Splash.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\tinystr.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\tinyxml.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\tinyxmlerror.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\tinyxmlparser.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\UTF8ToGBK.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
@@ -61,18 +52,6 @@
       <Filter>Classes</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\HanziManage.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Bujian.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Character.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Stroke.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\ReadXML.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\PopLayer.cpp">
@@ -258,6 +237,51 @@
     <ClCompile Include="..\Classes\ViewScene.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Bujian.cpp">
+      <Filter>Classes\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Character.cpp">
+      <Filter>Classes\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\tinystr.cpp">
+      <Filter>Classes\xml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\tinyxml.cpp">
+      <Filter>Classes\xml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\tinyxmlerror.cpp">
+      <Filter>Classes\xml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\tinyxmlparser.cpp">
+      <Filter>Classes\xml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Stroke.cpp">
+      <Filter>Classes\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Component.cpp">
+      <Filter>Classes\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\RowStroke.cpp">
+      <Filter>Classes\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ScriptCharacter.cpp">
+      <Filter>Classes\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Segment.cpp">
+      <Filter>Classes\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GeometryTool.cpp">
+      <Filter>Classes\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\TemplateCharacter.cpp">
+      <Filter>Classes\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ReadXML.cpp">
+      <Filter>Classes\xml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\FlagMatrix.cpp">
+      <Filter>Classes\Character</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -273,12 +297,6 @@
     <ClInclude Include="..\Classes\Splash.h">
       <Filter>Classes</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\tinystr.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\tinyxml.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\UTF8ToGBK.h">
       <Filter>Classes</Filter>
     </ClInclude>
@@ -286,18 +304,6 @@
       <Filter>Classes</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\HanziManage.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Bujian.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Character.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Stroke.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ReadXML.h">
       <Filter>Classes</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\PopLayer.h">
@@ -494,6 +500,45 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Error.h">
       <Filter>Classes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Bujian.h">
+      <Filter>Classes\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Character.h">
+      <Filter>Classes\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\tinystr.h">
+      <Filter>Classes\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\tinyxml.h">
+      <Filter>Classes\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Stroke.h">
+      <Filter>Classes\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Component.hpp">
+      <Filter>Classes\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\RowStroke.hpp">
+      <Filter>Classes\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ScriptCharacter.hpp">
+      <Filter>Classes\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Segment.hpp">
+      <Filter>Classes\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GeometryTool.hpp">
+      <Filter>Classes\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\TemplateCharacter.hpp">
+      <Filter>Classes\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ReadXML.h">
+      <Filter>Classes\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\FlagMatrix.hpp">
+      <Filter>Classes\Character</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

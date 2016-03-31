@@ -15,6 +15,14 @@
 #define R_APART      "A"
 #define R_NOTAPART   4
 
+GeometryTool::GeometryTool(){
+
+}
+
+GeometryTool::~GeometryTool(){
+
+}
+
 //判断线段p1p2和p3p4是否相交
 bool GeometryTool::judge_intersection(CCPoint p1,CCPoint p2,CCPoint p3,CCPoint p4)
 {
@@ -1227,13 +1235,13 @@ void GeometryTool::MergeTurning(list<int> pl1,list<int> pl2,list<int>& result)
         
         list<int>::iterator ittemp1=pl1.begin();
         list<int>::iterator ittemp2=ittemp1;
-        int dis=fabs(*ittemp1-*itend);
+        int dis=fabs((*ittemp1-*itend)*1.0);
         while(ittemp1 !=pl1.end())
         {
-            if (fabs(*ittemp1-*itend)<dis)
+            if (fabs((*ittemp1-*itend)*1.0)<dis)
             {
                 ittemp2=ittemp1;
-                dis=fabs(*ittemp1-*itend);
+                dis=fabs((*ittemp1-*itend)*1.0);
             }
             ittemp1++;
         }
@@ -1264,26 +1272,26 @@ void GeometryTool::MergeTurning(list<int> pl1,list<int> pl2,list<int>& result)
     {
         list<int>::iterator itb=b.begin();
         list<int>::iterator it=itb;
-        int dis=fabs(*itb-*ita);
+        int dis=fabs((*itb-*ita)*1.0);
         while(itb !=b.end())
         {
-            if (fabs(*itb-*ita)<dis)
+            if (fabs((*itb-*ita)*1.0)<dis)
             {
                 it=itb;
-                dis=fabs(*itb-*ita);
+                dis=fabs((*itb-*ita)*1.0);
             }
             itb++;
         }
         ////////////
         list<int>::iterator itx=a.begin();
         list<int>::iterator itf=itx;
-        int disx=fabs(*it - *itx);
+        int disx=fabs((*it - *itx)*1.0);
         while(itx != a.end())
         {
-            if(fabs(*it-*itx)<disx)
+            if(fabs((*it-*itx)*1.0)<disx)
             {
                 itf=itx;
-                disx=fabs(*it-*itx);
+                disx=fabs((*it-*itx)*1.0);
             }
             itx++;
         }
@@ -1338,7 +1346,7 @@ float GeometryTool::AngleInDegrees(CCPoint start, CCPoint end, bool positiveOnly
 float GeometryTool::AngleInRadians(CCPoint start, CCPoint end, bool positiveOnly)
 {
     float radians = 0.0;
-    if (fabs(start.x - end.x)>0.00001)
+    if (fabs((start.x - end.x)*1.0)>0.00001)
     {
         radians =atan2(end.y - start.y, end.x - start.x);
     }

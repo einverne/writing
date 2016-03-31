@@ -13,6 +13,7 @@
 #include "cocos2d.h"
 
 #include <list>
+#include "FlagMatrix.hpp"
 using namespace std;
 USING_NS_CC;
 

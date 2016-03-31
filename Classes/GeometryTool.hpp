@@ -12,7 +12,6 @@
 #include <stdio.h>
 #include "cocos2d.h"
 #include <list>
-
 #include "Segment.hpp"
 USING_NS_CC;
 using namespace std;
@@ -21,7 +20,7 @@ class GeometryTool
 {
 public:
     GeometryTool();
-    virtual ~GeometryTool();
+    ~GeometryTool();
     
 public:
     bool judge_intersection(CCPoint p1,CCPoint p2,CCPoint p3,CCPoint p4); //判断线段p1p2和p3p4是否相交

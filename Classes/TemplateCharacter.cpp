@@ -391,8 +391,6 @@ int TemplateCharacter::find_noturning_connecttion_segment(int segindex)
             }
         }
     }
-    
-    //////
     return m_res;
 }
 

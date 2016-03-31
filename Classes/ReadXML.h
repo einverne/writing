@@ -5,6 +5,7 @@
 #include "tinyxml.h"
 #include "TemplateCharacter.hpp"
 #include "ScriptCharacter.hpp"
+#include "Segment.hpp"
 using namespace std;
 
 // 读取并解析每一个汉字，笔画xml
