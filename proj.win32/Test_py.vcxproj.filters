@@ -31,6 +31,9 @@
     <Filter Include="Classes\Character">
       <UniqueIdentifier>{41b60e7b-b7f0-4e14-8d62-32c286c1b04d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\Layer">
+      <UniqueIdentifier>{fe5bdb80-d79e-46a5-8438-1ef4b4386715}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -42,9 +45,6 @@
     <ClCompile Include="..\Classes\HclcData.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Splash.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\UTF8ToGBK.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
@@ -54,9 +54,6 @@
     <ClCompile Include="..\Classes\HanziManage.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\PopLayer.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\file\TDInvFileUtils.cpp">
       <Filter>Classes\file</Filter>
     </ClCompile>
@@ -64,30 +61,6 @@
       <Filter>Classes\tools</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\LuaScriptReader.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\TcharacterLayer.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\TouchLayer.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\LianxiScene.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\BackgroundLayer.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\HcharacterLayer.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\StrokeDrawnode.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\TcharacterDrawnode.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\HcharacterDrawnode.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\JudgeManager.cpp">
@@ -120,17 +93,11 @@
     <ClCompile Include="..\Classes\strokeFunc.cpp">
       <Filter>Classes\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\MainScene.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\WallSingleScene.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\CharacterExtend.cpp">
       <Filter>Classes\Entity</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\MyToast.cpp">
-      <Filter>Classes</Filter>
     </ClCompile>
     <ClCompile Include="..\CocosWidget\Button.cpp">
       <Filter>cocoswidget</Filter>
@@ -219,18 +186,6 @@
     <ClCompile Include="..\CocosWidget\WitlsMacros.cpp">
       <Filter>cocoswidget</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\NewUnit.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\PopCancelLayer.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\JudgeScene.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\JudgeLayer.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\ViewScene.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
@@ -279,6 +234,57 @@
     <ClCompile Include="..\Classes\FlagMatrix.cpp">
       <Filter>Classes\Character</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\StrokeDrawnode.cpp">
+      <Filter>Classes\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\HcharacterDrawnode.cpp">
+      <Filter>Classes\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\TcharacterDrawnode.cpp">
+      <Filter>Classes\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\MyToast.cpp">
+      <Filter>Classes\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\BackgroundLayer.cpp">
+      <Filter>Classes\Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\HcharacterLayer.cpp">
+      <Filter>Classes\Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\LianxiScene.cpp">
+      <Filter>Classes\Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\JudgeScene.cpp">
+      <Filter>Classes\Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\JudgeLayer.cpp">
+      <Filter>Classes\Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\MainScene.cpp">
+      <Filter>Classes\Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\PopCancelLayer.cpp">
+      <Filter>Classes\Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\TouchLayer.cpp">
+      <Filter>Classes\Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\PopLayer.cpp">
+      <Filter>Classes\Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\TcharacterLayer.cpp">
+      <Filter>Classes\Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Splash.cpp">
+      <Filter>Classes\Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\NewUnit.cpp">
+      <Filter>Classes\Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\TCharacterMarkSet.cpp">
+      <Filter>Classes\Entity</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -291,9 +297,6 @@
       <Filter>Classes</Filter>
     </ClInclude>
     <ClInclude Include="resource.h" />
-    <ClInclude Include="..\Classes\Splash.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\UTF8ToGBK.h">
       <Filter>Classes</Filter>
     </ClInclude>
@@ -303,9 +306,6 @@
     <ClInclude Include="..\Classes\HanziManage.h">
       <Filter>Classes</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\PopLayer.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\file\TDInvFileUtils.h">
       <Filter>Classes\file</Filter>
     </ClInclude>
@@ -313,30 +313,6 @@
       <Filter>Classes\tools</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\LuaScriptReader.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\TcharacterLayer.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\TouchLayer.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\LianxiScene.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\BackgroundLayer.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\HcharacterLayer.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\StrokeDrawnode.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\TcharacterDrawnode.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\HcharacterDrawnode.h">
       <Filter>Classes</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\JudgeManager.h">
@@ -369,17 +345,11 @@
     <ClInclude Include="..\Classes\strokeFunc.h">
       <Filter>Classes\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\MainScene.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\WallSingleScene.h">
       <Filter>Classes</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\CharacterExtend.h">
       <Filter>Classes\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\MyToast.h">
-      <Filter>Classes</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\constants.h">
       <Filter>Classes</Filter>
@@ -477,18 +447,6 @@
     <ClInclude Include="..\CocosWidget\WitlsMacros.h">
       <Filter>cocoswidget</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\NewUnit.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\PopCancelLayer.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\JudgeScene.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\JudgeLayer.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\ViewScene.h">
       <Filter>Classes</Filter>
     </ClInclude>
@@ -533,6 +491,57 @@
     </ClInclude>
     <ClInclude Include="..\Classes\FlagMatrix.hpp">
       <Filter>Classes\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\StrokeDrawnode.h">
+      <Filter>Classes\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\HcharacterDrawnode.h">
+      <Filter>Classes\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\TcharacterDrawnode.h">
+      <Filter>Classes\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MyToast.h">
+      <Filter>Classes\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\BackgroundLayer.h">
+      <Filter>Classes\Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\HcharacterLayer.h">
+      <Filter>Classes\Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\LianxiScene.h">
+      <Filter>Classes\Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\JudgeScene.h">
+      <Filter>Classes\Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\JudgeLayer.h">
+      <Filter>Classes\Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MainScene.h">
+      <Filter>Classes\Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\PopCancelLayer.h">
+      <Filter>Classes\Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\TouchLayer.h">
+      <Filter>Classes\Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\PopLayer.h">
+      <Filter>Classes\Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\TcharacterLayer.h">
+      <Filter>Classes\Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Splash.h">
+      <Filter>Classes\Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\NewUnit.h">
+      <Filter>Classes\Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\TCharacterMarkSet.h">
+      <Filter>Classes\Entity</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

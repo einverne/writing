@@ -66,10 +66,6 @@ void TcharacterLayer::onEnter(){
 	getm_TDrawnode()->setAnchorPoint(ccp(0.5,0.5));
 }
 
-void TcharacterLayer::onExit(){
-	CCLayer::onExit();
-}
-
 void TcharacterLayer::refresh(CCObject* pSender){
 	RightZiAnimationAction* animation = RightZiAnimationAction::create(3.0);
 	if (m_TDrawnode->getActionManager()->numberOfRunningActionsInTarget(m_TDrawnode) <= 0)

@@ -99,18 +99,18 @@ void TemplateCharacter::clearalldata()
 void TemplateCharacter::AppendStroke(string name, list<Segment> s)//添加一个笔画
 {
     Stroke temp;
-    temp.setname(name);
-    temp.setseg_count(s.size());
+    temp.SetName(name);
+    temp.SetSegCount(s.size());
     if(this->stroke_list.size()>0)
     {
         list<Stroke>::iterator it;
         it = this->stroke_list.end();
         --it;
-        temp.setstart_index((*it).start_index+(*it).seg_count);
+        temp.setStartIndex((*it).start_index_+(*it).seg_count_);
     }
     else
     {
-        temp.setstart_index(0);
+        temp.setStartIndex(0);
     }
     
     stroke_list.push_back(temp);
@@ -572,8 +572,8 @@ bool TemplateCharacter::InsameStroke(int segindex1,int segindex2)
     list<Stroke>::iterator it=this->stroke_list.begin();
     for (;it!=this->stroke_list.end();it++)
     {
-        if(segindex1>=it->start_index && segindex1<it->start_index+it->seg_count &&
-           segindex2>=it->start_index && segindex2<it->start_index+it->seg_count)
+        if(segindex1>=it->start_index_ && segindex1<it->start_index_+it->seg_count_ &&
+           segindex2>=it->start_index_ && segindex2<it->start_index_+it->seg_count_)
         {
             yes=true;
             break;
@@ -589,7 +589,7 @@ bool TemplateCharacter::Is_Last_segment_of_OneStroke(int segindex)
     list<Stroke>::iterator it=this->stroke_list.begin();
     for(;it!=this->stroke_list.end();it++)
     {
-        if(segindex == it->start_index+it->seg_count-1)
+        if(segindex == it->start_index_+it->seg_count_-1)
         {
             yes=true;
             break;

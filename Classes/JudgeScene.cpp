@@ -77,7 +77,7 @@ bool JudgeScene::init(){
 		TLayer->setTag(kTLayerTag);
 		this->addChild(TLayer);
 		TLayer->setCharacter(curChar);
-		TLayer->setExChar(ext_p);
+		TLayer->setCharacter(ext_p);
 
 		this->setHLayer(HcharacterLayer::create(curChar,backgroundLayer->tianzige_draw));
 		CC_BREAK_IF(!HLayer);
@@ -125,7 +125,7 @@ void JudgeScene::next(){
 		SQLiteData::getHanziDataExtend(curChar,ext_p);
 		zi_id = DataTool::intTostring(ext_p->getID());
 		getTLayer()->setCharacter(curChar);
-		getTLayer()->setExChar(ext_p);
+		getTLayer()->setCharacter(ext_p);
 		getTLayer()->reloadChar();
 		getHLayer()->setExChar(ext_p);
 		getHLayer()->reloadChar();
@@ -145,7 +145,7 @@ void JudgeScene::previous(){
 		SQLiteData::getHanziDataExtend(curChar,ext_p);
 		zi_id = DataTool::intTostring(ext_p->getID());
 		getTLayer()->setCharacter(curChar);
-		getTLayer()->setExChar(ext_p);
+		getTLayer()->setCharacter(ext_p);
 		getTLayer()->reloadChar();
 		getHLayer()->setExChar(ext_p);
 		getHLayer()->reloadChar();

@@ -36,24 +36,24 @@ public:
 	int getPointsCount();
 
 	/**
-	* add a point to stroke
+	* add a point to stroke 将点加入到pointList尾
 	* @param point
 	* @return
 	*/
-	bool addPoint(CCPoint point);
+	bool AddPoint(CCPoint point);
 
 	/**
 	* length of a stroke:sum of each distance between two points
 	* @return
 	*/
-	float strokeLength();
+	float StrokeLength();
 
 	/**
 	* 重采样，插值代码 x轴方向每n-1 px一段
 	* @param n 默认为20，可以自由设定 n越大，点与点之间间隔越小, n 为重采样之后的点数量
 	* @return
 	*/
-	void resample(const int n = 20);
+	void Resample(const int n = 20);
 
 	CCSize getRotateAng();						//获取尾点到首点的向量
 	CCPoint getMidPoint();						//获取一笔中点，简单理解为首点和尾点的中点
@@ -71,7 +71,7 @@ public:
 	* get the whole pointList
 	* @return
 	*/
-	vector<CCPoint> getpointList() const;
+	vector<CCPoint> GetPointList() const;
 
 	CCPoint getpointListIndexAt(unsigned int i) const;
 
@@ -81,7 +81,7 @@ public:
 	* @param pointSet	the point you want to change
 	* @return
 	*/
-	void setpointList(int index, CCPoint pointSet);
+	void SetPointInList(int index, CCPoint pointSet);
 
 	/**
 	* to construct a list of status of points
@@ -103,16 +103,16 @@ public:
 	string sendOutputWithStatus();
     
     /**
-     set first point
-     @param pre
-     @returns void
-     */
+    * set first point
+    * @param pre
+    * @return
+    */
     void setprePoint(const CCPoint pre)   {
-        prePoint = pre;
+        pre_point_ = pre;
     };
     
     CCPoint getPrePoint() const {
-        return prePoint;
+        return pre_point_;
     };
 
 	/**
@@ -120,32 +120,30 @@ public:
 	* @param size 田字格大小
 	* @return
 	*/
-	void convert512(CCSize size);
+	void Convert512(CCSize size);
     
-    void setname(const string n){
-        name = n;
+    void SetName(const string n){
+        name_ = n;
     }
     
-    void setseg_count(int x){
-        seg_count = x;
+    void SetSegCount(int x){
+        seg_count_ = x;
     }
     
-    void setstart_index(int x){
-        start_index = x;
+    void setStartIndex(int x){
+        start_index_ = x;
     }
 
 public:
-    string name;                                // stroke name
-    CCPoint prePoint;                           //保存每一笔首点
+    string name_;                               // stroke name
+    CCPoint pre_point_;                         //保存每一笔首点
 
-	int pointCount;
-
-	vector<CCPoint> pointList;				//store a group of points
-	vector<string> statusList;				//store the status read from XML to judge whether the point is inflected
+	vector<CCPoint> point_list_;				//store a group of points
+	vector<string> status_list_;				//store the status read from XML to judge whether the point is inflected
     
     // segment related
-    int seg_count;                          // segment counts in this stroke
-    int start_index;                          // first segment in this stroke index in Character
+    int seg_count_;								// segment counts in this stroke
+    int start_index_;							// first segment in this stroke index in Character
     
     // private function
     float distance(CCPoint p1,CCPoint p2);		//两点间距离

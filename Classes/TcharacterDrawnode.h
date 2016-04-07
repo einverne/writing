@@ -6,6 +6,7 @@
 #include "StrokeDrawnode.h"
 #include "CharacterEntity.h"
 #include "CharacterExtend.h"
+#include "TemplateCharacter.hpp"
 USING_NS_CC;
 
 // 继承CCNode,用于显示正确汉字                                                                     */

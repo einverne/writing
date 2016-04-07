@@ -177,23 +177,10 @@ void HcharacterLayer::judge(){
 	CCArray* strokes = m_HDrawnode->getStrokeDrawnodeList();
 	string output = "";					// 手写汉字的点集信息
 
-	CCObject* originob;
-	CCARRAY_FOREACH(strokes,originob){
-		StrokeDrawnode* node = (StrokeDrawnode*)originob;
-		Stroke stro = node->getStroke();
-		this->pointsOrigin += stro.sendOutput();
-	}
-
-	CCObject* ob;
-	CCARRAY_FOREACH(strokes,ob){
-		StrokeDrawnode* node = (StrokeDrawnode*)ob;
-		Stroke stro = node->getStroke();
-		vector<CCPoint> points = stro.getpointList();
-		stro.convert512(this->m_sprite_draw->getContentSize());
-		stro.resample(100);
-		output += stro.sendOutput();
-	}
-	this->pointsOutput=output;
+	this->pointsOrigin = m_HDrawnode->getOriginOutput();
+	
+	this->pointsOutput = m_HDrawnode->getLuaOutput(this->m_sprite_draw->getContentSize());
+	
 
 // 	CharacterEntity* p =  ((LianxiScene*)this->getParent())->getCharacterP();
 // 	CharacterExtend* p = ((LianxiScene*)this->getParent())->getCharacterExt();
@@ -208,6 +195,11 @@ void HcharacterLayer::judge(){
 
 	// 松弛匹配
 	//schar.divide();
+
+	CCLog("output %s",pointsOutput.c_str());
+
+
+	return;
 
     
 	string ret = _manager.getResult(_hanzi,output,points,m_exChar,funcs);

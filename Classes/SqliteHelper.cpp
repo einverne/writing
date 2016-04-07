@@ -169,6 +169,10 @@ int loadziR(void * para, int n_column, char ** column_value, char ** column_name
 	{
 		((CharacterExtend*)para)->setRuleZi(column_value[7]);			// ruleZi
 	}
+	if (column_value[8] != NULL)
+	{
+		((CharacterExtend*)para)->setMark(column_value[8]);		//marked data
+	}
 	return 0;
 }
 
@@ -291,6 +295,23 @@ string SQLiteHelper::getRadicalRule(string sql){
 		sqlite3_free(errMsg);
 	}
 	return result;
+}
+
+int getMark(void* para, int n_column, char** column_value, char** column_name){
+	CCLog("ID=%s name=%s",column_value[0],column_value[1]);
+	((TCharacterMarkSet*)para)->m_zi = (column_value[0]);
+	((TCharacterMarkSet*)para)->m_code = (column_value[1]);
+	((TCharacterMarkSet*)para)->m_mark = (column_value[2]);
+	return 0;
+}
+
+void SQLiteHelper::getMarkData(string sql, TCharacterMarkSet mark){
+	int ret = sqlite3_exec(pDB, sql.c_str(), getMark, &mark, &errMsg);
+	if (errMsg)
+	{
+		CCLog("get Marked Data error, code: %d error: %s", ret, errMsg);
+	}
+	return;
 }
 
 

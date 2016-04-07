@@ -11,74 +11,81 @@
 
 RowStroke::RowStroke()
 {
-	this->Rowplist.clear();
+	this->row_list_.clear();
 }
 
 RowStroke::~RowStroke()
 {
-	this->Rowplist.clear();
+	this->row_list_.clear();
 }
 
 RowStroke& RowStroke::operator=(const RowStroke& Right)
 {
-	this->Rowplist.assign(Right.Rowplist.begin(),Right.Rowplist.end());
+	this->row_list_.assign(Right.row_list_.begin(),Right.row_list_.end());
 	return(*this);
 }
 RowStroke::RowStroke(const RowStroke& Right)
 {
-	this->Rowplist.assign(Right.Rowplist.begin(),Right.Rowplist.end());
+	this->row_list_.assign(Right.row_list_.begin(),Right.row_list_.end());
 }
 
-void RowStroke::Init(list<CCPoint> Right)
+void RowStroke::Init(vector<CCPoint> Right)
 {
-	this->Rowplist=Right;
+	this->row_list_=Right;
 }
 
 
-void RowStroke::clear()
+void RowStroke::Clear()
 {
-	this->Rowplist.clear();
+	this->row_list_.clear();
 }
 
-CCPoint RowStroke::getpoint(int ind)
-{
-	//ASSERT(ind>=0);
-	//ASSERT(ind<this->Rowplist.size());
-	
-	list<CCPoint>::iterator it = this->Rowplist.begin();
-	
-	for (int x=0;x<ind;x++)
+CCPoint RowStroke::GetPoint(int ind)
+{	
+	if (ind < 0 || ind > row_list_.size())
 	{
-		it++;
-	}
-	
-	return *it;
-}
-
-void RowStroke::setpoint(int ind, CCPoint p)
-{
-	//ASSERT(ind>=0);
-	//ASSERT(ind<this->Rowplist.size());
-	
-	list<CCPoint>::iterator it = this->Rowplist.begin();
-	
-	for (int x=0;x<ind;x++)
-	{
-		it++;
-	}
-	
-	*it=p;
-}
-void RowStroke::setpointlist(list<CCPoint> ptlist)
-{
-	if(&ptlist != &(this->Rowplist))
-	{
-		this->Rowplist.clear();
-		this->Rowplist=ptlist;
+		return ccp(0,0);
+	}else{
+		return row_list_.at(ind);
 	}
 }
-	
-list<CCPoint> RowStroke::getpointlist()
+
+void RowStroke::SetPoint(int ind, CCPoint p)
 {
-	return this->Rowplist;
+	if (ind >= 0 && ind < row_list_.size())
+	{
+		row_list_[ind] = p;
+	}
+}
+void RowStroke::SetPointList(vector<CCPoint> ptlist)
+{
+	if(&ptlist != &(this->row_list_))
+	{
+		this->row_list_.clear();
+		this->row_list_=ptlist;
+	}
+}
+
+void RowStroke::SetPointList(list<CCPoint> ptlist){
+	row_list_.clear();
+	for (list<CCPoint>::iterator itr = ptlist.begin();
+		itr != ptlist.end(); itr++)
+	{
+		row_list_.push_back(*itr);
+	}
+}
+
+vector<CCPoint> RowStroke::GetPointList()
+{
+	return this->row_list_;
+}
+
+list<CCPoint> RowStroke::GetRowPoint(){
+	list<CCPoint> list_ret;
+	for (vector<CCPoint>::iterator itr = row_list_.begin();
+		itr != row_list_.end(); itr++)
+	{
+		list_ret.push_back(*itr);
+	}
+	return list_ret;
 }

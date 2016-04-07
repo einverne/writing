@@ -16,7 +16,6 @@ public:
 	~TcharacterLayer();
 
 	virtual bool init(CCSprite* tianzige);
-	virtual void onExit();
 	virtual void onEnter();
 	static TcharacterLayer* create(CCSprite* tianzige);
 	
@@ -24,8 +23,8 @@ public:
 	void setCharacter(const string curChar);
 	void reloadChar();
 
-	CharacterExtend* getExChar() const { return m_exChar; }
-	void setExChar(CharacterExtend* exchar) { m_exChar = exchar; }
+	CharacterExtend* getCharacter() const { return m_exChar; }
+	void setCharacter(CharacterExtend* exchar) { m_exChar = exchar; }
     
     CC_SYNTHESIZE_RETAIN(TcharacterDrawnode*, m_TDrawnode,m_TDrawnode);
     CC_SYNTHESIZE_RETAIN(CCSprite*,m_sprite,Sprite);

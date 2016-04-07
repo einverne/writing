@@ -20,11 +20,8 @@ void SQLiteData::getHanziData(string hz,CharacterEntity* p){
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 	string infodbpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_info.db");
 #endif
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 	string infodbpath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_info.db";
-#endif
-#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-    string infodbpath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_info.db";
 #endif
 	SQLiteHelper::initDB(infodbpath.c_str());
 	string sql = "select * from ziData where ziName ='"+hz+"'";
@@ -302,4 +299,19 @@ vector<string> SQLiteData::getRadicalRules(vector<string> ids){
 		result.push_back(onerule);
 	}
 	return result;
+}
+
+void SQLiteData::getMarkData(string ziName, TCharacterMarkSet markData){
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+	string judgepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("character_judge.db");
+#endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+	string judgepath = CCFileUtils::sharedFileUtils()->getWritablePath()+"character_judge.db";
+#endif
+	SQLiteHelper::initDB(judgepath.c_str());
+
+	string sql = "select * from zi_markinfo where m_zi = '"+ziName+"'";
+	SQLiteHelper::getMarkData(sql, markData);
+	
+	return;	
 }

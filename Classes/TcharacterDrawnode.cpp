@@ -69,6 +69,18 @@ bool TcharacterDrawnode::init(string hz,CCSize showrect,CharacterExtend* p){
 	m_char = readxml.getCharacter();
 	showRect = showrect;
 
+	// new edit ============
+	/*
+	TemplateCharacter tc = readxml.getTemplateCharacterFromBuffer(p->getXML(),p->getMark());
+	tc.normalize(showrect.height, showrect.width);
+
+	for (list<Stroke>::iterator iter = tc.stroke_list.begin();
+		iter != tc.stroke_list.end(); iter++)
+	{
+		this->getstrokedrawList()->addObject(StrokeDrawnode::create((Stroke)*iter));
+	}
+	*/
+	// ==================
 	this->m_right_character.getBox();
 	this->m_right_character.resize(showrect);
 	this->m_right_character.resample();

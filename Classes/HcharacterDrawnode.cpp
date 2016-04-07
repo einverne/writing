@@ -13,14 +13,6 @@ HcharacterDrawnode::~HcharacterDrawnode()
 	CC_SAFE_RELEASE(strokeDrawlist);
 }
 
-void HcharacterDrawnode::onEnter(){
-	CCNode::onEnter();
-	
-}
-
-void HcharacterDrawnode::onExit(){
-	CCNode::onExit();
-}
 
 bool HcharacterDrawnode::init(){
 	tianziged = CCSprite::create("tianzige.png");
@@ -72,4 +64,44 @@ void HcharacterDrawnode::rewrite(){
 
 int HcharacterDrawnode::getStrokeCount(){
 	return this->getStrokeDrawnodeList()->count();
+}
+
+string HcharacterDrawnode::getOriginOutput(){
+	string pointOriginOutput;
+	CCObject* originob;
+	CCARRAY_FOREACH(getStrokeDrawnodeList(),originob){
+		StrokeDrawnode* node = (StrokeDrawnode*)originob;
+		Stroke stro = node->getStroke();
+		pointOriginOutput += stro.sendOutput();
+	}
+	return pointOriginOutput;
+}
+
+string HcharacterDrawnode::getLuaOutput(CCSize size){
+	string output;
+	CCObject* ob;
+	CCARRAY_FOREACH(getStrokeDrawnodeList(),ob){
+		StrokeDrawnode* node = (StrokeDrawnode*)ob;
+		Stroke stro = node->getStroke();
+		vector<CCPoint> points = stro.GetPointList();
+		stro.Convert512(size);
+		stro.Resample(100);
+		output += stro.sendOutput();
+	}
+	return output;
+}
+
+list<RowStroke> HcharacterDrawnode::GetHandWritingPoints()
+{
+	list<RowStroke> rowStrokeList;
+	list<CCPoint> listpoints;
+	string pointOriginOutput;
+	CCObject* originob;
+	CCARRAY_FOREACH(getStrokeDrawnodeList(),originob){
+		Stroke stro = ((StrokeDrawnode*)originob)->getStroke();
+		RowStroke rowstroke;
+		rowstroke.Init(stro.GetPointList());
+		rowStrokeList.push_back(rowstroke);
+	}
+	return rowStrokeList;
 }

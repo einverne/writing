@@ -6,6 +6,7 @@
 #include "CharacterEntity.h"
 #include "strokeFunc.h"
 #include "CharacterExtend.h"
+#include "TCharacterMarkSet.h"
 #include "tools/DataTool.h"
 #include <vector>
 USING_NS_CC;
@@ -148,6 +149,8 @@ public:
 	static vector<vector <string> > getNote(string unit_id, string zi_id);
 
 	static vector<string> getRadicalRules(vector<string> ids);
+	
+	static void getMarkData(string ziName, TCharacterMarkSet markData);
 };
 
 

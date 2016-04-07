@@ -4,7 +4,11 @@
 #include "cocos2d.h"
 #include "StrokeDrawnode.h"
 #include "Stroke.h"
+#include "RowStroke.hpp"
+#include <string>
+#include <list>
 USING_NS_CC;
+using namespace std;
 
 // 手写汉字 Node
 class HcharacterDrawnode : public CCNode
@@ -15,9 +19,9 @@ public:
 	CREATE_FUNC(HcharacterDrawnode);
 	virtual bool init();
 	//节点开始进入触发  
-	virtual void onEnter();
+//	virtual void onEnter();
 	//节点退出触发  
-	virtual void onExit();
+//	virtual void onExit();
 	virtual void draw();
 
 	/**
@@ -73,7 +77,26 @@ public:
 
 	int getStrokeCount();
 
-	CC_SYNTHESIZE_RETAIN(CCArray*,strokeDrawlist,StrokeDrawnodeList);
+	/**
+	* 产生屏幕上采集到的点信息
+	* @return
+	*/
+	string getOriginOutput();
+
+	/**
+	* 由采集到的点信息，整理得到Lua评判的点信息
+	* @param size
+	* @return
+	*/
+	string getLuaOutput(CCSize size);
+
+	/**
+	* 产生手写点点集列表
+	* @return
+	*/
+	list<RowStroke> GetHandWritingPoints();
+
+	CC_SYNTHESIZE_RETAIN(CCArray*,strokeDrawlist,StrokeDrawnodeList);	// 用来保存手写点
 private:
 	CCSprite* tianziged;
 };

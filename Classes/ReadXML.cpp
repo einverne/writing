@@ -58,7 +58,7 @@ void CReadXML::parseXML(TiXmlDocument* document){
             const char* y = trunpoint->Attribute("y");
             const char* statusPoint = trunpoint->Attribute("status");
             stroke.addStatus(statusPoint);
-            stroke.addPoint(ccp(atof(x),atof(y)));
+            stroke.AddPoint(ccp(atof(x),atof(y)));
         }
         bujian.addStroke(stroke);
     }
@@ -81,7 +81,7 @@ TemplateCharacter CReadXML::getTemplateCharacterFromBuffer(string xmlcontent, st
     int seg_ind=0;   // 笔段索引
     Segment seg;    // 笔段临时变量
     list<CCPoint> plist;   // 一个笔段包含的点列表
-    for (TiXmlElement* strokeElement; strokeElement!=NULL; strokeElement = strokeElement->NextSiblingElement())
+	for (TiXmlElement* strokeElement = outlineElement->FirstChildElement(); strokeElement!=NULL; strokeElement = strokeElement->NextSiblingElement())
     {
         strokename = strokeElement->Attribute("name");      // 笔画 name
         //TRACE(strokename.c_str());
@@ -90,13 +90,12 @@ TemplateCharacter CReadXML::getTemplateCharacterFromBuffer(string xmlcontent, st
         Sname = strokename.c_str();
         
         ////////////
-        TiXmlElement* trunpoint = strokeElement->FirstChildElement();
         seg.clear();
         plist.clear();
         seglist.clear();
         int name_ind=0;
         
-        for (TiXmlElement* trunpoint; trunpoint!=NULL; trunpoint = trunpoint->NextSiblingElement())
+        for (TiXmlElement* trunpoint= strokeElement->FirstChildElement(); trunpoint!=NULL; trunpoint = trunpoint->NextSiblingElement())
         {
             const char* x = trunpoint->Attribute("x");
             const char* y = trunpoint->Attribute("y");

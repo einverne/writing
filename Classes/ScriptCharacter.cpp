@@ -276,8 +276,8 @@ bool ScriptCharacter::InsameStroke(int segindex1,int segindex2)
 	list<Stroke>::iterator it=this->stroke_list.begin();
 	for (;it!=this->stroke_list.end();it++)
 	{
-		if(segindex1>=it->start_index && segindex1<it->start_index+it->seg_count &&
-		   segindex2>=it->start_index && segindex2<it->start_index+it->seg_count)
+		if(segindex1>=it->start_index_ && segindex1<it->start_index_+it->seg_count_ &&
+		   segindex2>=it->start_index_ && segindex2<it->start_index_+it->seg_count_)
 		{
 			yes=true;
 			break;
@@ -314,7 +314,7 @@ void ScriptCharacter::AnimationProgress(bool ani)
 		
 		list<RowStroke>::iterator it = this->row_stroke.end();
 		it--;
-		int maxpt=(*it).Rowplist.size();
+		int maxpt=(*it).GetPointList().size();
 		
 		if (draw_index==maxs-1 && draw_point==maxpt-1)
 		{
@@ -325,11 +325,11 @@ void ScriptCharacter::AnimationProgress(bool ani)
 		
 		//进展
 		RowStroke tempr=getrowstroke(draw_index);
-		if(draw_point < tempr.Rowplist.size()-1)
+		if(draw_point < tempr.GetPointList().size()-1)
 		{
 			draw_point++;
 		}
-		else if(draw_point == tempr.Rowplist.size()-1)
+		else if(draw_point == tempr.GetPointList().size()-1)
 		{
 			draw_index++;
 			draw_point=0;
@@ -507,19 +507,19 @@ void ScriptCharacter::removesegment(int ind)
 	list<Stroke>::iterator its=this->stroke_list.begin();
 	while(its!=this->stroke_list.end())
 	{
-		if(its->start_index==ind && its->seg_count==1)
+		if(its->start_index_==ind && its->seg_count_==1)
 		{
 			its=this->stroke_list.erase(its);
 			break;
 		}
-		else if(its->start_index==ind && its->seg_count>1)
+		else if(its->start_index_==ind && its->seg_count_>1)
 		{
-			its->seg_count-=1;
+			its->seg_count_-=1;
 			break;
 		}
-		if(its->start_index<ind && its->start_index+its->seg_count > ind)
+		if(its->start_index_<ind && its->start_index_+its->seg_count_ > ind)
 		{
-			its->seg_count-=1;
+			its->seg_count_-=1;
 			break;;
 		}
 		its++;
@@ -528,9 +528,9 @@ void ScriptCharacter::removesegment(int ind)
 	its=this->stroke_list.begin();
 	while(its!=this->stroke_list.end())
 	{				
-		if(its->start_index>ind)
+		if(its->start_index_>ind)
 		{
-			its->start_index-=1;			
+			its->start_index_-=1;			
 		}
 		its++;
 	}
@@ -570,7 +570,7 @@ void ScriptCharacter::normalize(int height,int width)  //尺寸的缩放，路�
 	float xmin, ymin, xmax,ymax;
 	
 	RowStroke temps=getrowstroke(0);
-	CCPoint tempp=temps.getpoint(0);
+	CCPoint tempp=temps.GetPoint(0);
 	
 	xmin=xmax=tempp.x;
 	ymin=ymax=tempp.y;
@@ -578,9 +578,9 @@ void ScriptCharacter::normalize(int height,int width)  //尺寸的缩放，路�
 	for (int i=0; i<this->row_stroke.size();i++)
 	{
 		temps=getrowstroke(i);
-		for (int j=0;j<temps.Rowplist.size();j++)
+		for (int j=0;j<temps.GetPointList().size();j++)
 		{
-			tempp=temps.getpoint(j);
+			tempp=temps.GetPoint(j);
 			
 			if (xmin>tempp.x)
 				xmin=tempp.x;
@@ -606,14 +606,14 @@ void ScriptCharacter::normalize(int height,int width)  //尺寸的缩放，路�
 		for (int i=0; i<this->row_stroke.size();i++)
 		{
 			temps=getrowstroke(i);
-			for (int j=0;j<temps.Rowplist.size();j++)
+			for (int j=0;j<temps.GetPointList().size();j++)
 			{
-				tempp=temps.getpoint(j);
+				tempp=temps.GetPoint(j);
 				
 				float tempx=(tempp.x-midx)*rescal2+width/2.0;
 				float tempy=(tempp.y-midy)*rescal2+height/2.0;
 				
-				temps.setpoint(j,ccp(tempx,tempy));
+				temps.SetPoint(j,ccp(tempx,tempy));
 			}
 			ReplaceRowstroke(i,temps);
 		}
@@ -624,14 +624,14 @@ void ScriptCharacter::normalize(int height,int width)  //尺寸的缩放，路�
 		for (int i=0; i<this->row_stroke.size();i++)
 		{
 			temps=getrowstroke(i);
-			for (int j=0;j<temps.Rowplist.size();j++)
+			for (int j=0;j<temps.GetPointList().size();j++)
 			{
-				tempp=temps.getpoint(j);
+				tempp=temps.GetPoint(j);
 				
 				float tempx=(tempp.x-midx)*rescal1+width/2.;
 				float tempy=(tempp.y-midy)*rescal1+height/2.;
 				
-				temps.setpoint(j,CCPoint(tempx,tempy));
+				temps.SetPoint(j,CCPoint(tempx,tempy));
 			}
 			ReplaceRowstroke(i,temps);
 		}
@@ -642,8 +642,8 @@ void ScriptCharacter::normalize(int height,int width)  //尺寸的缩放，路�
 	for (int i=0; i<this->row_stroke.size();i++)
 	{
 		temps=getrowstroke(i);
-		list<CCPoint> templ=gt.UniformpathResample(temps.getpointlist());
-		temps.setpointlist(templ);
+		list<CCPoint> templ=gt.UniformpathResample(temps.GetRowPoint());
+		temps.SetPointList(templ);
 		ReplaceRowstroke(i,temps);
 	}
 
@@ -758,10 +758,10 @@ void ScriptCharacter::divideSegment1()  //动射线方法
 		temps=getrowstroke(i);
 		list<int> turning_ind;
 		turning_ind.clear();
-		gt.TurningDivide(temps.Rowplist, turning_ind); //动射线算法切分笔画
+		gt.TurningDivide(temps.GetRowPoint(), turning_ind); //动射线算法切分笔画
 		
 		//将点序列反向，然后再次计算拐点
-		list<CCPoint>  templist=temps.Rowplist;
+		list<CCPoint>  templist=temps.GetRowPoint();
 		templist.reverse();
 		list<int> tempturning;
 		gt.TurningDivide(templist, tempturning); //动射线算法切分笔画
@@ -796,10 +796,10 @@ void ScriptCharacter::divideSegment1()  //动射线方法
 			plist.clear();
 			while(start!=*it)
 			{
-                plist.push_back(CCPoint(temps.getpoint(start)));
+                plist.push_back(CCPoint(temps.GetPoint(start)));
 				start++;
 			}
-			plist.push_back(CCPoint(temps.getpoint(start)));
+			plist.push_back(CCPoint(temps.GetPoint(start)));
 			
 			Segment seg;			
 			seg.Init("noname", ind, plist);
@@ -844,7 +844,7 @@ void ScriptCharacter::divideSegment2()   //点到直线距离，以及夹角方�
 		temps=getrowstroke(i);
 		list<int> turning_ind;
 		turning_ind.clear();
-		gt.New_TurningDivide(temps.Rowplist, turning_ind, normal_size); //将笔画切分为多个笔段（根据点到直线距离，各个分段长度，以及夹角）
+		gt.New_TurningDivide(temps.GetRowPoint(), turning_ind, normal_size); //将笔画切分为多个笔段（根据点到直线距离，各个分段长度，以及夹角）
 		
 		//构造笔画、笔段
 		int start=0;		
@@ -858,10 +858,10 @@ void ScriptCharacter::divideSegment2()   //点到直线距离，以及夹角方�
 			plist.clear();
 			while(start!=*it)
 			{
-                plist.push_back(CCPoint(temps.getpoint(start)));
+                plist.push_back(CCPoint(temps.GetPoint(start)));
 				start++;
 			}
-			plist.push_back(CCPoint(temps.getpoint(start)));
+			plist.push_back(CCPoint(temps.GetPoint(start)));
 			
 			Segment seg;			
 			seg.Init("noname", ind, plist);
@@ -1015,18 +1015,18 @@ void ScriptCharacter::SetSegmentColor(int num, ccColor4F color)
 void ScriptCharacter::Append_divide_Stroke(list<Segment> s)  //用于分割后的笔画
 {
 	Stroke temp;
-	temp.setname("noname");
-	temp.setseg_count(s.size());
+	temp.SetName("noname");
+	temp.SetSegCount(s.size());
 	if(this->stroke_list.size()>0)
 	{
 		list<Stroke>::iterator it; 
 		it = this->stroke_list.end();
 		--it;
-		temp.setstart_index((*it).start_index+(*it).seg_count);
+		temp.setStartIndex((*it).start_index_+(*it).seg_count_);
 	}
 	else
 	{
-		temp.setstart_index(0);
+		temp.setStartIndex(0);
 	}
 	
 	stroke_list.push_back(temp);
@@ -1058,9 +1058,9 @@ void ScriptCharacter::new_IdentifynoiseSegment()
 	GeometryTool gt;
 	for ( ; itstr!=stroke_list.end(); itstr++)
 	{		
-		if((*itstr).seg_count==1)//如果笔画中只有一段
+		if((*itstr).seg_count_==1)//如果笔画中只有一段
 		{
-			int start=(*itstr).start_index;
+			int start=(*itstr).start_index_;
 			itseg=segment_list.begin();
 			for (int x=0;x<start;x++)
 			{
@@ -1072,9 +1072,9 @@ void ScriptCharacter::new_IdentifynoiseSegment()
 				noise_list.push_back(start);
 			}
 		}
-		else if((*itstr).seg_count==2)//如果笔画有两段
+		else if((*itstr).seg_count_==2)//如果笔画有两段
 		{
-			int start=(*itstr).start_index;
+			int start=(*itstr).start_index_;
 			itseg=segment_list.begin();
 			for (int x=0;x<start;x++)
 			{
@@ -1139,9 +1139,9 @@ void ScriptCharacter::new_IdentifynoiseSegment()
 			}
 			
 		}
-		else if((*itstr).seg_count>2)//如果笔画有三段及以上
+		else if((*itstr).seg_count_>2)//如果笔画有三段及以上
 		{			
-			int start=(*itstr).start_index;	
+			int start=(*itstr).start_index_;	
 			itseg=segment_list.begin();
 			for (int x=0;x<start;x++)
 			{
@@ -1159,7 +1159,7 @@ void ScriptCharacter::new_IdentifynoiseSegment()
 			itseg--;
 
 			/////
-			for (int a=0;a<(*itstr).seg_count;a++)
+			for (int a=0;a<(*itstr).seg_count_;a++)
 			{
 				if(gt.PathLength((*itseg).plist)>len)
 					len=gt.PathLength((*itseg).plist);
@@ -1180,10 +1180,10 @@ void ScriptCharacter::new_IdentifynoiseSegment()
 			float angdiff2=max(180,max(b1,b2)-min(b1,b2))-min(180,max(b1,b2)-min(b1,b2));
 
 			///////////////////////////////////////////////////////////////////////////////////
-			if ((*itstr).seg_count==3 && len1*1.2<len && len2*1.2<len && len<normal_size/8.53)
+			if ((*itstr).seg_count_==3 && len1*1.2<len && len2*1.2<len && len<normal_size/8.53)
 			{
 				noise_list.push_back(start);
-				noise_list.push_back(start+(*itstr).seg_count-1);
+				noise_list.push_back(start+(*itstr).seg_count_-1);
 				continue;
 			}
 			///////////////////////////////////////////////////////////////////////////////////
@@ -1195,7 +1195,7 @@ void ScriptCharacter::new_IdentifynoiseSegment()
 				}
 				if(len2*6.0<len || len2<=seg_len_threshold3 || ( len2*3.03<len && angdiff2<=angdiff_threshold3 && bending_b2<1.39) || (len2*2.5<len && angdiff2*1.8<=angdiff_threshold3 && bending_b2<1.09)  ||(len2*3.5<len && angdiff2<=22 && bending_b2<1.009))
 				{
-					noise_list.push_back(start+(*itstr).seg_count-1);
+					noise_list.push_back(start+(*itstr).seg_count_-1);
 				}
 			}
 			else
@@ -1206,7 +1206,7 @@ void ScriptCharacter::new_IdentifynoiseSegment()
 				}
 				if(len2*4.0<len || len2<=seg_len_threshold3 || ( len2*2.0<=len && angdiff2<=angdiff_threshold3) || (len2*3.68<=len && angdiff2<=27.0 && len<160))
 				{
-					noise_list.push_back(start+(*itstr).seg_count-1);
+					noise_list.push_back(start+(*itstr).seg_count_-1);
 				}
 			}
 		}
@@ -1226,9 +1226,9 @@ void ScriptCharacter::IdentifynoiseSegment()
 
 	for ( ; itstr!=stroke_list.end(); itstr++)
 	{		
-		if((*itstr).seg_count==1)//如果笔画中只有一段，那么该段小于8个点就是抖笔
+		if((*itstr).seg_count_==1)//如果笔画中只有一段，那么该段小于8个点就是抖笔
 		{
-			int start=(*itstr).start_index;
+			int start=(*itstr).start_index_;
 			itseg=segment_list.begin();
 			for (int x=0;x<start;x++)
 			{
@@ -1240,9 +1240,9 @@ void ScriptCharacter::IdentifynoiseSegment()
 				noise_list.push_back(start);
 			}
 		}
-		else if((*itstr).seg_count==2)//如果笔画有两段，那么如果小段是大段的1/6至1/5.5以下：小段就是抖笔
+		else if((*itstr).seg_count_==2)//如果笔画有两段，那么如果小段是大段的1/6至1/5.5以下：小段就是抖笔
 		{
-			int start=(*itstr).start_index;
+			int start=(*itstr).start_index_;
 			itseg=segment_list.begin();
 			for (int x=0;x<start;x++)
 			{
@@ -1290,10 +1290,10 @@ void ScriptCharacter::IdentifynoiseSegment()
 			}
 			
 		}
-		else if((*itstr).seg_count>2)//如果笔画有三段及以上，那么：首段点数小于最长段1/7，则首段是抖笔；
+		else if((*itstr).seg_count_>2)//如果笔画有三段及以上，那么：首段点数小于最长段1/7，则首段是抖笔；
 			                                                     //未段点数小于最长段1/7，则未段是抖笔
 		{
-			int start=(*itstr).start_index;	
+			int start=(*itstr).start_index_;	
 			itseg=segment_list.begin();
 			for (int x=0;x<start;x++)
 			{
@@ -1309,7 +1309,7 @@ void ScriptCharacter::IdentifynoiseSegment()
 			itseg--;
 			/////
 
-			for (int a=0;a<(*itstr).seg_count;a++)
+			for (int a=0;a<(*itstr).seg_count_;a++)
 			{
 				if((*itseg).plist.size()-1>len)
 					len=(*itseg).plist.size()-1;
@@ -1335,7 +1335,7 @@ void ScriptCharacter::IdentifynoiseSegment()
 				}
 				if(len2*6.0<len || len2<=12 || ( len2*3.0<len && angdiff2<=17))
 				{
-					noise_list.push_back(start+(*itstr).seg_count-1);
+					noise_list.push_back(start+(*itstr).seg_count_-1);
 				}
 			}
 			else
@@ -1346,7 +1346,7 @@ void ScriptCharacter::IdentifynoiseSegment()
 				}
 				if(len2*4.0<len || len2<=12 || ( len2*2.0<=len && angdiff2<=17))
 				{
-					noise_list.push_back(start+(*itstr).seg_count-1);
+					noise_list.push_back(start+(*itstr).seg_count_-1);
 				}
 			}
 		}

@@ -17,11 +17,8 @@ using namespace std;
 #include "cocos2d.h"
 USING_NS_CC;
 
-class RowStroke : public Stroke{
+class RowStroke{
 public:
-    
-    list<CCPoint> Rowplist;
-
 	RowStroke();
 	~RowStroke();
 
@@ -30,14 +27,36 @@ public:
 	RowStroke(const RowStroke& Right); //拷贝构造
 	
 	//////
-	void Init(list<CCPoint> Right);
+	void Init(vector<CCPoint> Right);
 
-	void clear();
-	CCPoint getpoint(int ind);
-	void setpoint(int ind, CCPoint p);
-	void setpointlist(list<CCPoint> ptlist);
-	list<CCPoint> getpointlist();
+	void Clear();
+	CCPoint GetPoint(int ind);
+	void SetPoint(int ind, CCPoint p);
+	
+	/**
+	* 
+	* @param ptlist
+	* @return
+	*/
+	void SetPointList(vector<CCPoint> ptlist);
 
+	/**
+	* 从 list 设置点集信息
+	* @param ptlist
+	* @return
+	*/
+	void SetPointList(list<CCPoint> ptlist);
+
+	vector<CCPoint> GetPointList();
+
+	/**
+	* 将 RowStroke 中的 vector 转换成 list
+	* @return
+	*/
+	list<CCPoint> GetRowPoint();
+
+private:
+	vector<CCPoint> row_list_;
 };
 
 #endif /* RowStroke_hpp */

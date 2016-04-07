@@ -10,7 +10,6 @@ using namespace std;
 class StrokeDrawnode : public CCNode
 {
 public:
-	StrokeDrawnode();
 	/**
 	* 用Stroke构造一个Node
 	* @param stro
@@ -27,9 +26,9 @@ public:
 	*/
 	static StrokeDrawnode* create(Stroke stro);
 	//节点开始进入触发
-	void onEnter();
+	//void onEnter();
 	//节点退出触发
-	void onExit();
+	//void onExit();
 	void draw();
 
 	/**

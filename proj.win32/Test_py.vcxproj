@@ -168,6 +168,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\TagData.cpp" />
     <ClCompile Include="..\Classes\TcharacterDrawnode.cpp" />
     <ClCompile Include="..\Classes\TcharacterLayer.cpp" />
+    <ClCompile Include="..\Classes\TCharacterMarkSet.cpp" />
     <ClCompile Include="..\Classes\TemplateCharacter.cpp" />
     <ClCompile Include="..\Classes\tinystr.cpp" />
     <ClCompile Include="..\Classes\tinyxml.cpp" />
@@ -254,6 +255,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\TagData.h" />
     <ClInclude Include="..\Classes\TcharacterDrawnode.h" />
     <ClInclude Include="..\Classes\TcharacterLayer.h" />
+    <ClInclude Include="..\Classes\TCharacterMarkSet.h" />
     <ClInclude Include="..\Classes\TemplateCharacter.hpp" />
     <ClInclude Include="..\Classes\tinystr.h" />
     <ClInclude Include="..\Classes\tinyxml.h" />

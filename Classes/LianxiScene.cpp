@@ -60,7 +60,7 @@ bool LianxiScene::init(){
 		TLayer->setTag(kTLayerTag);
 		addChild(TLayer);
 		TLayer->setCharacter(CurrentCharacter);
-		TLayer->setExChar(ext_p);
+		TLayer->setCharacter(ext_p);
 
 		setHLayer(HcharacterLayer::create(CurrentCharacter,backgroundLayer->tianzige_draw));
 		CC_BREAK_IF(!HLayer);

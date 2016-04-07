@@ -51,12 +51,12 @@ void MoveToRightPlaceInterval::update(float time){
 // 	CCLog("MoveToRightPlaceInterval::update time = %f",time);
 // 	CCActionInterval::update(time);
 	Stroke stro = ((HcharacterDrawnode*)m_pTarget)->getStroke(index);
-	stro.resample();
-	for (unsigned int i = 0; i < this->m_stroke.getpointList().size() ; i++)
+	stro.Resample();
+	for (unsigned int i = 0; i < this->m_stroke.GetPointList().size() ; i++)
 	{
 		CCPoint p = stro.getpointListIndexAt(i) - m_stroke.getpointListIndexAt(i);
 		CCPoint temp = stro.getpointListIndexAt(i) - p * time;
-		stro.setpointList(i,temp);		
+		stro.SetPointInList(i,temp);		
 	}
 	((HcharacterDrawnode*)m_pTarget)->changeStroke(index,stro);
 }

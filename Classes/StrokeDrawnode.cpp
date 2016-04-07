@@ -1,24 +1,10 @@
 #include "StrokeDrawnode.h"
 
-StrokeDrawnode::StrokeDrawnode():visibleIndex(-1)
-{
-    this->line_width = 8.0f;
-    this->color = ccc4f(0, 0, 0, 1);
-}
-
 StrokeDrawnode::StrokeDrawnode(Stroke stro):visibleIndex(-1){
     this->line_width = 8.0f;
     this->color = ccc4f(0, 0, 0, 1);
 
     this->stroke = stro;
-}
-
-void StrokeDrawnode::onEnter(){
-	CCNode::onEnter();
-}
-
-void StrokeDrawnode::onExit(){
-	CCNode::onExit();
 }
 
 StrokeDrawnode* StrokeDrawnode::create(Stroke stro){
@@ -68,7 +54,7 @@ void StrokeDrawnode::draw(){
 }
 
 void StrokeDrawnode::addPoint(CCPoint point){
-	this->stroke.addPoint(point);
+	this->stroke.AddPoint(point);
 }
 
 void StrokeDrawnode::setVisibleIndex(int vi){

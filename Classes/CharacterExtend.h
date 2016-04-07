@@ -24,6 +24,8 @@ public:
 	void setRuleUnit(const std::string& ruleUnit)		{ _ruleUnit = ruleUnit; }
 	std::string getRuleZi() const	{ return _ruleZi; }
 	void setRuleZi(const std::string& ruleZi)  { _ruleZi = ruleZi; }
+	std::string getMark() const { return _mark; }
+	void setMark(const std::string& m)	{ _mark = m; }
 
 private:
 	int _id;							// id
@@ -34,6 +36,7 @@ private:
 	std::string _strokeIDSeq;			//sequence
 	std::string _ruleUnit;				//character rule unit
 	std::string _ruleZi;				//character rule of whole character
+	std::string _mark;					// character mark data for segment
 };
 
 #endif

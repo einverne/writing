@@ -69,8 +69,8 @@ private:
 	string _hanzi;				//保存该层使用汉字
 	float _scale;				//缩放比率
 	bool _ijudge;				//是否评判 false不评判，true评判
-	string pointsOutput;		//输出字符串
-	string pointsOrigin;		//手写汉字Origin字符串 未作Points 的变形
+	string pointsOutput;		//输出给 Lua 评判的字符串
+	string pointsOrigin;		//手写汉字Origin字符串 未作 Points 的变形
 	int totalBihuaCount;		//该汉字总共有的笔画数
 	float score;				//当前汉字评分
 	int curBihuaWrong;			//当前笔画错误的次数

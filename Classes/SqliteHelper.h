@@ -5,6 +5,7 @@
 #include "sqlite3.h"
 #include "CharacterEntity.h"
 #include "CharacterExtend.h"
+#include "TCharacterMarkSet.h"
 using namespace std;
 USING_NS_CC;
 
@@ -143,6 +144,9 @@ public:
 	* @return
 	*/
 	static string getRadicalRule(string sql);
+
+	
+	static void getMarkData(string sql, TCharacterMarkSet mark);
 private:
 
 };
