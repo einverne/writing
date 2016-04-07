@@ -13,7 +13,7 @@ using namespace std;
 class Stroke
 {
 public:
-	friend class StrokeNode;
+	//friend class StrokeNode;
 
 	Stroke(void);
     

@@ -29,24 +29,24 @@ using namespace std;
 class TemplateCharacter
 {
 public:
-    list<Stroke> stroke_list;    //笔画列表。按照书写顺序存储该汉字的所有笔画。
-    list<Segment> segment_list;  //笔段列表。按照书写顺序存储该汉字的所有笔段。
+    list<Stroke> stroke_list_;    //笔画列表。按照书写顺序存储该汉字的所有笔画。
+    list<Segment> segment_list_;  //笔段列表。按照书写顺序存储该汉字的所有笔段。
     
-    list<int>  instable_segment_list;  //不稳定笔段索引的列表。不稳定笔段是指：书写角度随意性较大的笔段。
+    list<int>  instable_segment_list_;  //不稳定笔段索引的列表。不稳定笔段是指：书写角度随意性较大的笔段。
     
-    FlagMatrix segment_relation;  //笔段之间的关系标识(三种：I相交, A相离, C相接 )
+    FlagMatrix segment_relation_;  //笔段之间的关系标识(三种：I相交, A相离, C相接 )
     //相接时的细分(B首点，E尾点；N其他位置)
     
     //用于动画演示的属性
-    int draw_index; //当前演示笔段的索引；
-    int draw_point; //当前演示笔段的演示点索引;
+    int draw_index_; //当前演示笔段的索引；
+    int draw_point_; //当前演示笔段的演示点索引;
     
     //归一化后的尺寸
-    int normal_size;
+    int normal_size_;
     
     //部件信息，哪些笔段属于同一个部件
-    list<CComponent>  m_components;
-    string m_struct_name;
+    list<CComponent>  m_components_;
+    string m_struct_name_;
     
 public:
     TemplateCharacter();
@@ -58,7 +58,7 @@ public:
     void Add_one_component_setting(CComponent m);
     bool IsShareOnecomponent(int segment1, int segment2);
     
-    void normalize(int height=512,int width=512);  //尺寸的等比例缩放，路径的均匀插值。
+    void Normalize(int height=512,int width=512);  //尺寸的等比例缩放，路径的均匀插值。
 //    void draw(CDC* pDC);
     void AnimationProgress(bool ani);
     
@@ -67,11 +67,11 @@ public:
     
     //////////////////////////////
     void AppendStroke(string name, list<Segment> s);//添加一个笔画
-    void addinstablesegment(int ind);//标记一个不稳定笔段
+    void AddInstableSegment(int ind);//标记一个不稳定笔段
     
     void InitSegmentRelation();
-    void setRelation(int first,int second, string r);//标记关系
-    string  getRelation(int first,int second);
+    void SetRelation(int first,int second, string r);//标记关系
+    string GetRelation(int first,int second);
     
     //////////////////////////////
     Stroke getstroke(int num);
@@ -79,17 +79,19 @@ public:
     list<int> getinstablesegments();
     bool isinstablesegment(int num);
     
-//    void SetSegmentColor(int num, COLORREF color);
-//    void clearSegmentColor(COLORREF color);
+    void SetSegmentColor(int num, ccColor4F color);
+    void clearSegmentColor(ccColor4F color);
     
     /////////////////////////////////
     list<int> find_first_apart_second_notapart_relation_segment(int k1, int k2);
     int find_noturning_connecttion_segment(int segindex);
-    list<int>  find_intersect_relation_segment(int segindex);
+    list<int> find_intersect_relation_segment(int segindex);
     int find_common_connect_relation_segment(int k1, int k2);
+
+	void TransferCoordinate(int size);
     
 protected:
-    void Replacesegment(int ind, Segment seg);
+    void ReplaceSegment(int ind, Segment seg);
 };
 
 #endif /* TemplateCharacter_hpp */

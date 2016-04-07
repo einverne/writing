@@ -342,7 +342,7 @@ void ScriptCharacter::AnimationProgress(bool ani)
 		
 		list<Segment>::iterator it = this->segment_list.end();
 		it--;
-		int maxpt=(*it).plist.size();
+		int maxpt=(*it).point_list_.size();
 		
 		if (draw_index==maxs-1 && draw_point==maxpt-1)
 		{
@@ -353,11 +353,11 @@ void ScriptCharacter::AnimationProgress(bool ani)
 		
 		//进展
 		Segment temps=getsegment(draw_index);
-		if(draw_point < temps.plist.size()-1)
+		if(draw_point < temps.point_list_.size()-1)
 		{
 			draw_point++;
 		}
-		else if(draw_point == temps.plist.size()-1)
+		else if(draw_point == temps.point_list_.size()-1)
 		{
 			draw_index++;
 			draw_point=0;
@@ -495,9 +495,9 @@ void ScriptCharacter::removesegment(int ind)
 	it = this->segment_list.begin();	
 	while(it != this->segment_list.end())
 	{
-		if (it->seg_index>ind)
+		if (it->seg_index_>ind)
 		{
-			it->seg_index--;
+			it->seg_index_--;
 		}
 		it++;
 	}
@@ -659,7 +659,7 @@ void ScriptCharacter::normalize(int height,int width)  //尺寸的缩放，路�
 		float xmin, ymin, xmax,ymax;
 		
 		Segment temps=getsegment(0);
-		CCPoint tempp=temps.getpoint(0);
+		CCPoint tempp=temps.GetPoint(0);
 		
 		xmin=xmax=tempp.x;
 		ymin=ymax=tempp.y;
@@ -667,9 +667,9 @@ void ScriptCharacter::normalize(int height,int width)  //尺寸的缩放，路�
 		for (int i=0; i<this->segment_list.size();i++)
 		{
 			temps=getsegment(i);
-			for (int j=0;j<temps.plist.size();j++)
+			for (int j=0;j<temps.point_list_.size();j++)
 			{
-				tempp=temps.getpoint(j);
+				tempp=temps.GetPoint(j);
 				
 				if (xmin>tempp.x)
 					xmin=tempp.x;
@@ -695,14 +695,14 @@ void ScriptCharacter::normalize(int height,int width)  //尺寸的缩放，路�
 			for (int i=0; i<this->segment_list.size();i++)
 			{
 				temps=getsegment(i);
-				for (int j=0;j<temps.plist.size();j++)
+				for (int j=0;j<temps.point_list_.size();j++)
 				{
-					tempp=temps.getpoint(j);
+					tempp=temps.GetPoint(j);
 					
 					float tempx=(tempp.x-midx)*rescal2+width/2;
 					float tempy=(tempp.y-midy)*rescal2+height/2;
 					
-					temps.setpoint(j,CCPoint(tempx,tempy));
+					temps.SetPoint(j,CCPoint(tempx,tempy));
 				}
 				Replacesegment(i,temps);
 			}
@@ -713,14 +713,14 @@ void ScriptCharacter::normalize(int height,int width)  //尺寸的缩放，路�
 			for (int i=0; i<this->segment_list.size();i++)
 			{
 				temps=getsegment(i);
-				for (int j=0;j<temps.plist.size();j++)
+				for (int j=0;j<temps.point_list_.size();j++)
 				{
-					tempp=temps.getpoint(j);
+					tempp=temps.GetPoint(j);
 					
 					float tempx=(tempp.x-midx)*rescal1+width/2;
 					float tempy=(tempp.y-midy)*rescal1+height/2;
 					
-					temps.setpoint(j,CCPoint(tempx,tempy));
+					temps.SetPoint(j,CCPoint(tempx,tempy));
 				}
 				Replacesegment(i,temps);
 			}
@@ -902,9 +902,9 @@ int ScriptCharacter::find_noturning_connection_segment(int segindex)
 			Segment s2=getsegment(ind);
 
 			///////情况1:两个起点
-			CCPoint p1 = s1.getpoint(0);
-			CCPoint p2 = s2.getpoint(0);
-			float angdiff=max(s1.dirangle,s2.dirangle)-min(s1.dirangle,s2.dirangle);
+			CCPoint p1 = s1.GetPoint(0);
+			CCPoint p2 = s2.GetPoint(0);
+			float angdiff=max(s1.dirangle_,s2.dirangle_)-min(s1.dirangle_,s2.dirangle_);
 			angdiff=fabs(180-angdiff);
 			if (gt.pointDistance(p1,p2)<normal_size/19.0  && angdiff<30)
 			{
@@ -913,9 +913,9 @@ int ScriptCharacter::find_noturning_connection_segment(int segindex)
 			}
 
 			///////情况2：两个终点
-			p1=s1.getpoint(s1.getpointlist().size()-1);
-			p2=s2.getpoint(s2.getpointlist().size()-1);
-			angdiff=max(s1.dirangle,s2.dirangle)-min(s1.dirangle,s2.dirangle);
+			p1=s1.GetPoint(s1.GetPointList().size()-1);
+			p2=s2.GetPoint(s2.GetPointList().size()-1);
+			angdiff=max(s1.dirangle_,s2.dirangle_)-min(s1.dirangle_,s2.dirangle_);
 			angdiff=fabs(180-angdiff);
 			if (gt.pointDistance(p1,p2)<normal_size/19.0  && angdiff<30)
 			{
@@ -924,9 +924,9 @@ int ScriptCharacter::find_noturning_connection_segment(int segindex)
 			}
 
 			///////情况3
-			p1 = s1.getpoint(0);
-			p2 = s2.getpoint(s2.getpointlist().size()-1);
-			angdiff = max(s1.dirangle,s2.dirangle)-min(s1.dirangle,s2.dirangle);
+			p1 = s1.GetPoint(0);
+			p2 = s2.GetPoint(s2.GetPointList().size()-1);
+			angdiff = max(s1.dirangle_,s2.dirangle_)-min(s1.dirangle_,s2.dirangle_);
 			angdiff = min(angdiff, 360-angdiff);
 			if (gt.pointDistance(p1,p2)<normal_size/19.0  && angdiff<30)
 			{
@@ -935,9 +935,9 @@ int ScriptCharacter::find_noturning_connection_segment(int segindex)
 			}
 
 			///////情况4
-			p1 = s1.getpoint(s1.getpointlist().size()-1);
-			p2 = s2.getpoint(0);
-			angdiff = max(s1.dirangle,s2.dirangle)-min(s1.dirangle,s2.dirangle);
+			p1 = s1.GetPoint(s1.GetPointList().size()-1);
+			p2 = s2.GetPoint(0);
+			angdiff = max(s1.dirangle_,s2.dirangle_)-min(s1.dirangle_,s2.dirangle_);
 			angdiff = min(angdiff, 360-angdiff);
 			if (gt.pointDistance(p1,p2)<normal_size/19.0  && angdiff<30)
 			{
@@ -958,10 +958,10 @@ bool ScriptCharacter::is_apart_relation(int h1,int h2)
 	Segment s1=getsegment(h1);
 	Segment s2=getsegment(h2);
 
-	CCPoint p1=s1.getpoint(0);
-	CCPoint p2=s1.getpoint(s1.getpointlist().size()-1);
-	CCPoint p3=s2.getpoint(0);
-	CCPoint p4=s2.getpoint(s2.getpointlist().size()-1);
+	CCPoint p1=s1.GetPoint(0);
+	CCPoint p2=s1.GetPoint(s1.GetPointList().size()-1);
+	CCPoint p3=s2.GetPoint(0);
+	CCPoint p4=s2.GetPoint(s2.GetPointList().size()-1);
 	
 	//判断相交
 	if(gt.judge_intersection(p1,p2,p3,p4))
@@ -992,7 +992,7 @@ void ScriptCharacter::clearSegmentColor(ccColor4F color)
 	
 	while (it!=this->segment_list.end())
 	{
-		it->color=color;
+		it->color_=color;
 		it++;
 	}	
 }
@@ -1009,7 +1009,7 @@ void ScriptCharacter::SetSegmentColor(int num, ccColor4F color)
 		it++;
 	}
 
-	it->color=color;
+	it->color_=color;
 }
 
 void ScriptCharacter::Append_divide_Stroke(list<Segment> s)  //用于分割后的笔画
@@ -1067,7 +1067,7 @@ void ScriptCharacter::new_IdentifynoiseSegment()
 				itseg++;
 			}
 
-			if(gt.PathLength((*itseg).plist)<seg_len_threshold1)
+			if(gt.PathLength((*itseg).point_list_)<seg_len_threshold1)
 			{
 				noise_list.push_back(start);
 			}
@@ -1080,14 +1080,14 @@ void ScriptCharacter::new_IdentifynoiseSegment()
 			{
 				itseg++;
 			}
-			CCPoint myps=(*itseg).mid_point;
-			float len1=gt.PathLength((*itseg).plist);
-			float ang1=(*itseg).dirangle;
+			CCPoint myps=(*itseg).mid_point_;
+			float len1=gt.PathLength((*itseg).point_list_);
+			float ang1=(*itseg).dirangle_;
 			itseg++;
-			CCPoint mypm=(*itseg).getpoint(0);
-			CCPoint mype=(*itseg).mid_point;
-			float len2=gt.PathLength((*itseg).plist);
-			float ang2=(*itseg).dirangle;
+			CCPoint mypm=(*itseg).GetPoint(0);
+			CCPoint mype=(*itseg).mid_point_;
+			float len2=gt.PathLength((*itseg).point_list_);
+			float ang2=(*itseg).dirangle_;
 			
 			////////夹角计算
 			float angdiff=max(180,max(ang1,ang2)-min(ang1,ang2))-min(180,max(ang1,ang2)-min(ang1,ang2));
@@ -1147,33 +1147,33 @@ void ScriptCharacter::new_IdentifynoiseSegment()
 			{
 				itseg++;
 			}
-			float  len=gt.PathLength((*itseg).plist);
-			float len1=gt.PathLength((*itseg).plist);
+			float  len=gt.PathLength((*itseg).point_list_);
+			float len1=gt.PathLength((*itseg).point_list_);
 
 			/////补充角度
-			float a1=(*itseg).dirangle;
+			float a1=(*itseg).dirangle_;
 			itseg++;
-			float a2=(*itseg).dirangle;
-			float bending_a2 = gt.PathLength((*itseg).plist)/
-				               gt.pointDistance((*itseg).getpoint(0), (*itseg).getpoint((*itseg).plist.size()-1));
+			float a2=(*itseg).dirangle_;
+			float bending_a2 = gt.PathLength((*itseg).point_list_)/
+				               gt.pointDistance((*itseg).GetPoint(0), (*itseg).GetPoint((*itseg).point_list_.size()-1));
 			itseg--;
 
 			/////
 			for (int a=0;a<(*itstr).seg_count_;a++)
 			{
-				if(gt.PathLength((*itseg).plist)>len)
-					len=gt.PathLength((*itseg).plist);
+				if(gt.PathLength((*itseg).point_list_)>len)
+					len=gt.PathLength((*itseg).point_list_);
 				itseg++;
 			}
 			itseg--;
-			float len2=gt.PathLength((*itseg).plist);
+			float len2=gt.PathLength((*itseg).point_list_);
 			
 			//////补充角度
-			float b1=(*itseg).dirangle;
+			float b1=(*itseg).dirangle_;
 			itseg--;
-			float b2=(*itseg).dirangle;
-			float bending_b2 = gt.PathLength((*itseg).plist)/
-				               gt.pointDistance((*itseg).getpoint(0), (*itseg).getpoint((*itseg).plist.size()-1));
+			float b2=(*itseg).dirangle_;
+			float bending_b2 = gt.PathLength((*itseg).point_list_)/
+				               gt.pointDistance((*itseg).GetPoint(0), (*itseg).GetPoint((*itseg).point_list_.size()-1));
 
 			//////
 			float angdiff1=max(180,max(a1,a2)-min(a1,a2))-min(180,max(a1,a2)-min(a1,a2));
@@ -1235,7 +1235,7 @@ void ScriptCharacter::IdentifynoiseSegment()
 				itseg++;
 			}
 
-			if((*itseg).plist.size()<8)
+			if((*itseg).point_list_.size()<8)
 			{
 				noise_list.push_back(start);
 			}
@@ -1248,11 +1248,11 @@ void ScriptCharacter::IdentifynoiseSegment()
 			{
 				itseg++;
 			}
-			int len1=(*itseg).plist.size()-1;
-			float ang1=(*itseg).dirangle;
+			int len1=(*itseg).point_list_.size()-1;
+			float ang1=(*itseg).dirangle_;
 			itseg++;
-			int len2=(*itseg).plist.size()-1;
-			float ang2=(*itseg).dirangle;
+			int len2=(*itseg).point_list_.size()-1;
+			float ang2=(*itseg).dirangle_;
 			
 			////////补充：夹角计算
 			float angdiff=max(180,max(ang1,ang2)-min(ang1,ang2))-min(180,max(ang1,ang2)-min(ang1,ang2));
@@ -1299,29 +1299,29 @@ void ScriptCharacter::IdentifynoiseSegment()
 			{
 				itseg++;
 			}
-			int len=(*itseg).plist.size()-1;
-			int len1=(*itseg).plist.size()-1;
+			int len=(*itseg).point_list_.size()-1;
+			int len1=(*itseg).point_list_.size()-1;
 
 			/////补充角度
-			float a1=(*itseg).dirangle;
+			float a1=(*itseg).dirangle_;
 			itseg++;
-			float a2=(*itseg).dirangle;
+			float a2=(*itseg).dirangle_;
 			itseg--;
 			/////
 
 			for (int a=0;a<(*itstr).seg_count_;a++)
 			{
-				if((*itseg).plist.size()-1>len)
-					len=(*itseg).plist.size()-1;
+				if((*itseg).point_list_.size()-1>len)
+					len=(*itseg).point_list_.size()-1;
 				itseg++;
 			}
 			itseg--;
-			int len2=(*itseg).plist.size()-1;
+			int len2=(*itseg).point_list_.size()-1;
 			
 			//////补充角度
-			float b1=(*itseg).dirangle;
+			float b1=(*itseg).dirangle_;
 			itseg--;
-			float b2=(*itseg).dirangle;
+			float b2=(*itseg).dirangle_;
 			//////
 			float angdiff1=max(180,max(a1,a2)-min(a1,a2))-min(180,max(a1,a2)-min(a1,a2));
 			float angdiff2=max(180,max(b1,b2)-min(b1,b2))-min(180,max(b1,b2)-min(b1,b2));

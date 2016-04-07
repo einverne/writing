@@ -1441,11 +1441,11 @@ float GeometryTool::PathSimilarity(const Segment &spoint, const Segment &mpoint,
 {
     float similarity=0.0;
     
-    float slen=spoint.len;
-    float mlen=mpoint.len;
+    float slen=spoint.len_;
+    float mlen=mpoint.len_;
     
-    CCPoint pt1=spoint.mid_point;
-    CCPoint pt2=mpoint.mid_point;
+    CCPoint pt1=spoint.mid_point_;
+    CCPoint pt2=mpoint.mid_point_;
     
     /////////////////////////////////////////////////////////////////////////////
     /*
@@ -1540,8 +1540,8 @@ float GeometryTool::PathSimilarity(const Segment &spoint, const Segment &mpoint,
     }
     else//2.如果stable==true，根据角度、位置、长度进行计算
     {
-        float angle1=spoint.dirangle;
-        float angle2=mpoint.dirangle;
+        float angle1=spoint.dirangle_;
+        float angle2=mpoint.dirangle_;
         
         float c1;//角度分量
         float anglediff;
@@ -1598,10 +1598,10 @@ float GeometryTool::Evaluate_relation_similarity(const Segment &pi, const Segmen
         //如果直接相交，100%
         //如果端点靠近，90%——75%(区分疏密)
         //否则0%
-        CCPoint pt1s=m_pi.getpoint(0);
-        CCPoint pt1e=m_pi.getpoint(m_pi.getpointlist().size()-1);
-        CCPoint pt2s=m_ph.getpoint(0);
-        CCPoint pt2e=m_ph.getpoint(m_ph.getpointlist().size()-1);
+        CCPoint pt1s=m_pi.GetPoint(0);
+        CCPoint pt1e=m_pi.GetPoint(m_pi.GetPointList().size()-1);
+        CCPoint pt2s=m_ph.GetPoint(0);
+        CCPoint pt2e=m_ph.GetPoint(m_ph.GetPointList().size()-1);
         
         bool inter=judge_intersection(pt1s,pt1e,pt2s,pt2e);
         if (inter==true)//相交
@@ -1654,10 +1654,10 @@ float GeometryTool::Evaluate_relation_similarity(const Segment &pi, const Segmen
         //不相交，100%
         //交点距离二者中心较远90%
         //交点距离二者中心较近75%
-        CCPoint pt1s=m_pi.getpoint(0);
-        CCPoint pt1e=m_pi.getpoint(m_pi.getpointlist().size()-1);
-        CCPoint pt2s=m_ph.getpoint(0);
-        CCPoint pt2e=m_ph.getpoint(m_ph.getpointlist().size()-1);
+        CCPoint pt1s=m_pi.GetPoint(0);
+        CCPoint pt1e=m_pi.GetPoint(m_pi.GetPointList().size()-1);
+        CCPoint pt2s=m_ph.GetPoint(0);
+        CCPoint pt2e=m_ph.GetPoint(m_ph.GetPointList().size()-1);
         
         bool inter=judge_intersection(pt1s,pt1e,pt2s,pt2e);
         if (inter==false)//不相交，可能相离、共线、重叠、相接
@@ -1694,17 +1694,17 @@ float GeometryTool::Evaluate_relation_similarity(const Segment &pi, const Segmen
         {
             CCPoint pt1;
             CCPoint pt2;
-            float ang=max(m_pi.dirangle,m_pj.dirangle)-min(m_pi.dirangle,m_pj.dirangle);
+            float ang=max(m_pi.dirangle_,m_pj.dirangle_)-min(m_pi.dirangle_,m_pj.dirangle_);
             if(ang>=90 && ang<=270)
-                pt1=m_pi.getpoint(m_pi.getpointlist().size()-1);
+                pt1=m_pi.GetPoint(m_pi.GetPointList().size()-1);
             else
-                pt1=m_pi.getpoint(0);
+                pt1=m_pi.GetPoint(0);
             
-            ang=max(m_ph.dirangle,m_pk.dirangle)-min(m_ph.dirangle,m_pk.dirangle);
+            ang=max(m_ph.dirangle_,m_pk.dirangle_)-min(m_ph.dirangle_,m_pk.dirangle_);
             if(ang>=90 && ang<=270)
-                pt2=m_ph.getpoint(m_ph.getpointlist().size()-1);
+                pt2=m_ph.GetPoint(m_ph.GetPointList().size()-1);
             else
-                pt2=m_ph.getpoint(0);
+                pt2=m_ph.GetPoint(0);
             
             dis=pointDistance(pt1,pt2);
         }
@@ -1713,17 +1713,17 @@ float GeometryTool::Evaluate_relation_similarity(const Segment &pi, const Segmen
         {
             CCPoint pt1;
             CCPoint pt2;
-            float ang=max(m_pi.dirangle,m_pj.dirangle)-min(m_pi.dirangle,m_pj.dirangle);
+            float ang=max(m_pi.dirangle_,m_pj.dirangle_)-min(m_pi.dirangle_,m_pj.dirangle_);
             if(ang>=90 && ang<=270)
-                pt1=m_pi.getpoint(m_pi.getpointlist().size()-1);
+                pt1=m_pi.GetPoint(m_pi.GetPointList().size()-1);
             else
-                pt1=m_pi.getpoint(0);
+                pt1=m_pi.GetPoint(0);
             
-            ang=max(m_ph.dirangle,m_pk.dirangle)-min(m_ph.dirangle,m_pk.dirangle);
+            ang=max(m_ph.dirangle_,m_pk.dirangle_)-min(m_ph.dirangle_,m_pk.dirangle_);
             if(ang>=90 && ang<=270)
-                pt2=m_ph.getpoint(0);
+                pt2=m_ph.GetPoint(0);
             else
-                pt2=m_ph.getpoint(m_ph.getpointlist().size()-1);
+                pt2=m_ph.GetPoint(m_ph.GetPointList().size()-1);
             
             dis=pointDistance(pt1,pt2);
         }
@@ -1733,14 +1733,14 @@ float GeometryTool::Evaluate_relation_similarity(const Segment &pi, const Segmen
             CCPoint pt1;
             CCPoint pt2;
             CCPoint pt3;
-            float ang=max(m_pi.dirangle,m_pj.dirangle)-min(m_pi.dirangle,m_pj.dirangle);
+            float ang=max(m_pi.dirangle_,m_pj.dirangle_)-min(m_pi.dirangle_,m_pj.dirangle_);
             if(ang>=90 && ang<=270)
-                pt1=m_pi.getpoint(m_pi.getpointlist().size()-1);
+                pt1=m_pi.GetPoint(m_pi.GetPointList().size()-1);
             else
-                pt1=m_pi.getpoint(0);
+                pt1=m_pi.GetPoint(0);
             
-            pt2=m_ph.getpoint(0);
-            pt3=m_ph.getpoint(m_ph.getpointlist().size()-1);
+            pt2=m_ph.GetPoint(0);
+            pt3=m_ph.GetPoint(m_ph.GetPointList().size()-1);
             
             dis=pointToSegment(pt2,pt3,pt1);
         }
@@ -1748,17 +1748,17 @@ float GeometryTool::Evaluate_relation_similarity(const Segment &pi, const Segmen
         {
             CCPoint pt1;
             CCPoint pt2;
-            float ang=max(m_pi.dirangle,m_pj.dirangle)-min(m_pi.dirangle,m_pj.dirangle);
+            float ang=max(m_pi.dirangle_,m_pj.dirangle_)-min(m_pi.dirangle_,m_pj.dirangle_);
             if(ang>=90 && ang<=270)
-                pt1=m_pi.getpoint(0);
+                pt1=m_pi.GetPoint(0);
             else
-                pt1=m_pi.getpoint(m_pi.getpointlist().size()-1);
+                pt1=m_pi.GetPoint(m_pi.GetPointList().size()-1);
             
-            ang=max(m_ph.dirangle,m_pk.dirangle)-min(m_ph.dirangle,m_pk.dirangle);
+            ang=max(m_ph.dirangle_,m_pk.dirangle_)-min(m_ph.dirangle_,m_pk.dirangle_);
             if(ang>=90 && ang<=270)
-                pt2=m_ph.getpoint(m_ph.getpointlist().size()-1);
+                pt2=m_ph.GetPoint(m_ph.GetPointList().size()-1);
             else
-                pt2=m_ph.getpoint(0);
+                pt2=m_ph.GetPoint(0);
             
             dis=pointDistance(pt1,pt2);
             
@@ -1767,17 +1767,17 @@ float GeometryTool::Evaluate_relation_similarity(const Segment &pi, const Segmen
         {
             CCPoint pt1;
             CCPoint pt2;
-            float ang=max(m_pi.dirangle,m_pj.dirangle)-min(m_pi.dirangle,m_pj.dirangle);
+            float ang=max(m_pi.dirangle_,m_pj.dirangle_)-min(m_pi.dirangle_,m_pj.dirangle_);
             if(ang>=90 && ang<=270)
-                pt1=m_pi.getpoint(0);
+                pt1=m_pi.GetPoint(0);
             else
-                pt1=m_pi.getpoint(m_pi.getpointlist().size()-1);
+                pt1=m_pi.GetPoint(m_pi.GetPointList().size()-1);
             
-            ang=max(m_ph.dirangle,m_pk.dirangle)-min(m_ph.dirangle,m_pk.dirangle);
+            ang=max(m_ph.dirangle_,m_pk.dirangle_)-min(m_ph.dirangle_,m_pk.dirangle_);
             if(ang>=90 && ang<=270)
-                pt2=m_ph.getpoint(0);
+                pt2=m_ph.GetPoint(0);
             else
-                pt2=m_ph.getpoint(m_ph.getpointlist().size()-1);
+                pt2=m_ph.GetPoint(m_ph.GetPointList().size()-1);
             
             dis=pointDistance(pt1,pt2);
         }		
@@ -1786,14 +1786,14 @@ float GeometryTool::Evaluate_relation_similarity(const Segment &pi, const Segmen
             CCPoint pt1;
             CCPoint pt2;
             CCPoint pt3;
-            float ang=max(m_pi.dirangle,m_pj.dirangle)-min(m_pi.dirangle,m_pj.dirangle);
+            float ang=max(m_pi.dirangle_,m_pj.dirangle_)-min(m_pi.dirangle_,m_pj.dirangle_);
             if(ang>=90 && ang<=270)
-                pt1=m_pi.getpoint(0);
+                pt1=m_pi.GetPoint(0);
             else
-                pt1=m_pi.getpoint(m_pi.getpointlist().size()-1);
+                pt1=m_pi.GetPoint(m_pi.GetPointList().size()-1);
             
-            pt2=m_ph.getpoint(0);
-            pt3=m_ph.getpoint(m_ph.getpointlist().size()-1);
+            pt2=m_ph.GetPoint(0);
+            pt3=m_ph.GetPoint(m_ph.GetPointList().size()-1);
             
             dis=pointToSegment(pt2,pt3,pt1);
         }
@@ -1803,14 +1803,14 @@ float GeometryTool::Evaluate_relation_similarity(const Segment &pi, const Segmen
             CCPoint pt1;
             CCPoint pt2;
             CCPoint pt3;
-            pt1=m_pi.getpoint(0);
-            pt2=m_pi.getpoint(m_pi.getpointlist().size()-1);
+            pt1=m_pi.GetPoint(0);
+            pt2=m_pi.GetPoint(m_pi.GetPointList().size()-1);
             
-            float ang=max(m_ph.dirangle,m_pk.dirangle)-min(m_ph.dirangle,m_pk.dirangle);
+            float ang=max(m_ph.dirangle_,m_pk.dirangle_)-min(m_ph.dirangle_,m_pk.dirangle_);
             if(ang>=90 && ang<=270)
-                pt3=m_ph.getpoint(m_ph.getpointlist().size()-1);
+                pt3=m_ph.GetPoint(m_ph.GetPointList().size()-1);
             else
-                pt3=m_ph.getpoint(0);
+                pt3=m_ph.GetPoint(0);
             
             dis=pointToSegment(pt1,pt2,pt3);
         }		
@@ -1819,14 +1819,14 @@ float GeometryTool::Evaluate_relation_similarity(const Segment &pi, const Segmen
             CCPoint pt1;
             CCPoint pt2;
             CCPoint pt3;
-            pt1=m_pi.getpoint(0);
-            pt2=m_pi.getpoint(m_pi.getpointlist().size()-1);
+            pt1=m_pi.GetPoint(0);
+            pt2=m_pi.GetPoint(m_pi.GetPointList().size()-1);
             
-            float ang=max(m_ph.dirangle,m_pk.dirangle)-min(m_ph.dirangle,m_pk.dirangle);
+            float ang=max(m_ph.dirangle_,m_pk.dirangle_)-min(m_ph.dirangle_,m_pk.dirangle_);
             if(ang>=90 && ang<=270)
-                pt3=m_ph.getpoint(0);
+                pt3=m_ph.GetPoint(0);
             else
-                pt3=m_ph.getpoint(m_ph.getpointlist().size()-1);
+                pt3=m_ph.GetPoint(m_ph.GetPointList().size()-1);
             
             dis=pointToSegment(pt1,pt2,pt3);
         }
@@ -1900,12 +1900,12 @@ float GeometryTool::computecompatibility(const Segment &pi, const Segment &pj, c
     
     //1.计算距离
     float diff_dis;
-    CCPoint pt1=pi.mid_point;
-    CCPoint pt2=ph.mid_point;
+    CCPoint pt1=pi.mid_point_;
+    CCPoint pt2=ph.mid_point_;
     float dis1=pointDistance(pt1,pt2);
     
-    pt1=pj.mid_point;
-    pt2=pk.mid_point;
+    pt1=pj.mid_point_;
+    pt2=pk.mid_point_;
     float dis2=pointDistance(pt1,pt2);
     
     diff_dis=fabs(dis1-dis2);
@@ -1928,10 +1928,10 @@ float GeometryTool::computecompatibility(const Segment &pi, const Segment &pj, c
     float diff_scall=0.0;
     if (samecompnent==true)
     {
-        float len1=pi.len;
-        float len2=ph.len;
-        float len3=pj.len;
-        float len4=pk.len;
+        float len1=pi.len_;
+        float len2=ph.len_;
+        float len3=pj.len_;
+        float len4=pk.len_;
         
         if (len1>=len2)
             diff_scall=(len1/len2)/(len3/len4);
@@ -1976,10 +1976,10 @@ float GeometryTool::computecompatibility(const Segment &pi, const Segment &pj, c
     float diff_dir=0.0;
     if(relation != R_INTERSECT)
     {
-        CCPoint pti=pi.mid_point;
-        CCPoint pth=ph.mid_point;
-        CCPoint ptj=pj.mid_point;
-        CCPoint ptk=pk.mid_point;
+        CCPoint pti=pi.mid_point_;
+        CCPoint pth=ph.mid_point_;
+        CCPoint ptj=pj.mid_point_;
+        CCPoint ptk=pk.mid_point_;
         
         float angle1=AngleInDegrees(pti,pth,true);
         float angle2=AngleInDegrees(ptj,ptk,true);
@@ -2043,8 +2043,8 @@ float GeometryTool::computecompatibility(const Segment &pi, const Segment &pj, c
     if(!instable)
     {
         //1.判断j是否笔向有问题
-        float pi_dir=pi.dirangle;
-        float pj_dir=pj.dirangle;
+        float pi_dir=pi.dirangle_;
+        float pj_dir=pj.dirangle_;
         
         if(pi_dir>=315 && pj_dir<=45)
             pi_dir=pi_dir-360;
@@ -2062,8 +2062,8 @@ float GeometryTool::computecompatibility(const Segment &pi, const Segment &pj, c
         if(pj_dir>=315 && pi_dir<=45)
             pj_dir=pj_dir-360;
         //2.判断k是否笔向有问题
-        float ph_dir=ph.dirangle;
-        float pk_dir=pk.dirangle;
+        float ph_dir=ph.dirangle_;
+        float pk_dir=pk.dirangle_;
         
         if(ph_dir>=315 && pk_dir<=45)
             ph_dir=ph_dir-360;

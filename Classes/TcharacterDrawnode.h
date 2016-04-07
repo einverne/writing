@@ -7,6 +7,8 @@
 #include "CharacterEntity.h"
 #include "CharacterExtend.h"
 #include "TemplateCharacter.hpp"
+#include "Segment.hpp"
+#include "SegmentDrawnode.h"
 USING_NS_CC;
 
 // 继承CCNode,用于显示正确汉字                                                                     */
@@ -53,7 +55,7 @@ public:
 	* 返回当前正字Character
 	* @return
 	*/
-	Character getCharacter(){return m_right_character;}
+	Character getCharacter(){return m_right_character_;}
 
 	/**
 	 * get all strokes points count for animation
@@ -61,20 +63,24 @@ public:
 	 */
 	int getPointsCount();
 
-	void setVisibleIndex(int vi);
-	int getVisibleIndex()    { return visibleIndex; }
-
 	/**
-		产生整个汉字xml中标准汉字坐标点信息
+	* 产生整个汉字xml中标准汉字坐标点信息
+	* @return
 	*/
 	string getCharacterStandardInfo() const;
 
+	void setVisibleIndex(int vi);
+	int getVisibleIndex()    { return visibleIndex; }
+
+	TemplateCharacter template_character_;
+
 	CC_SYNTHESIZE_RETAIN(CCArray*,strokedrawList,strokedrawList);
+	CC_SYNTHESIZE_RETAIN(CCArray*,SegmentNodeList,SegmentNodeList);
 
 private:
-	CCSize showRect;						//根据传入的显示范围定义显示范围
-	Character m_right_character;			//根据汉字读取字符xml文件，构造Character
-    Character m_char;                       // 保存未作修改的 xml 中数据
+	CCSize showrect_;						//根据传入的显示范围定义显示范围
+	Character m_right_character_;			//根据汉字读取字符xml文件，构造Character
+    Character m_origin_character_;                       // 保存未作修改的 xml 中数据
 
 	int visibleIndex;
 	CCSprite* tiangzige;					// 田字格内容Sprite

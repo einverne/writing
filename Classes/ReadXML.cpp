@@ -67,7 +67,7 @@ void CReadXML::parseXML(TiXmlDocument* document){
 
 
 TemplateCharacter CReadXML::getTemplateCharacterFromBuffer(string xmlcontent, string mark_buffer){
-    TemplateCharacter tchar;
+    TemplateCharacter template_character;
     //////////////////////
     // 1. 字形信息
     TiXmlDocument* document = new TiXmlDocument();
@@ -76,23 +76,22 @@ TemplateCharacter CReadXML::getTemplateCharacterFromBuffer(string xmlcontent, st
     TiXmlElement* outlineElement = rootElement->FirstChildElement();
     TiXmlElement* strokeElement = outlineElement->FirstChildElement();
     // 读取笔画信息
-    string strokename;  // 笔画名
-    list<Segment> seglist;  // 一个笔画所包含的笔段列表
+    string stroke_name;  // 笔画名
+    list<Segment> seg_list;  // 一个笔画所包含的笔段列表
     int seg_ind=0;   // 笔段索引
     Segment seg;    // 笔段临时变量
-    list<CCPoint> plist;   // 一个笔段包含的点列表
+    list<CCPoint> biduan_list;   // 一个笔段包含的点列表
 	for (TiXmlElement* strokeElement = outlineElement->FirstChildElement(); strokeElement!=NULL; strokeElement = strokeElement->NextSiblingElement())
     {
-        strokename = strokeElement->Attribute("name");      // 笔画 name
+        stroke_name = strokeElement->Attribute("name");      // 笔画 name
         //TRACE(strokename.c_str());
-        CCLog("%s",strokename.c_str());
-        string Sname="";
-        Sname = strokename.c_str();
+        CCLog("%s",stroke_name.c_str());
+        string Sname = stroke_name.c_str();
         
         ////////////
-        seg.clear();
-        plist.clear();
-        seglist.clear();
+        seg.Clear();
+        biduan_list.clear();
+        seg_list.clear();
         int name_ind=0;
         
         for (TiXmlElement* trunpoint= strokeElement->FirstChildElement(); trunpoint!=NULL; trunpoint = trunpoint->NextSiblingElement())
@@ -100,36 +99,36 @@ TemplateCharacter CReadXML::getTemplateCharacterFromBuffer(string xmlcontent, st
             const char* x = trunpoint->Attribute("x");
             const char* y = trunpoint->Attribute("y");
             const char* status =  trunpoint->Attribute("status");
-            
+            // 没有特殊点
             if (status[0]=='0')
             {
-                plist.push_back(CCPoint(atof(x),atof(y)));
+                biduan_list.push_back(CCPoint(atof(x),atof(y)));
             }
-            else if(status[0]=='1')
+            else if(status[0]=='1')		//存在特殊点
             {
-                plist.push_back(CCPoint(atof(x),atof(y)));
+                biduan_list.push_back(CCPoint(atof(x),atof(y)));
                 //特殊处理“横折斜勾”
                 if(Sname=="横折斜勾" && name_ind==1)
                 {
-                    seg.Init(Sname.substr(name_ind*2,4),seg_ind,plist);
+                    seg.Init(Sname.substr(name_ind*2,4),seg_ind,biduan_list);
                     name_ind++;
                 }
                 else
-                    seg.Init(Sname.substr(name_ind*2,2),seg_ind,plist);
+                    seg.Init(Sname.substr(name_ind*2,2),seg_ind,biduan_list);
                 
                 name_ind++;
                 seg_ind++;
-                seglist.push_back(seg);
-                plist.clear();
-                plist.push_back(CCPoint(atof(x),atof(y)));
+                seg_list.push_back(seg);
+                biduan_list.clear();
+                biduan_list.push_back(CCPoint(atof(x),atof(y)));
             }
         }
-        seg.Init(Sname.substr(name_ind*2,2),seg_ind,plist);
+        seg.Init(Sname.substr(name_ind*2,2),seg_ind,biduan_list);		//保存笔段
         seg_ind++;
-        seglist.push_back(seg);
-        plist.clear();
+        seg_list.push_back(seg);
+        biduan_list.clear();
         ///
-        tchar.AppendStroke(Sname,seglist);
+        template_character.AppendStroke(Sname,seg_list);
     }
     
     //读取结构信息
@@ -138,43 +137,46 @@ TemplateCharacter CReadXML::getTemplateCharacterFromBuffer(string xmlcontent, st
     TiXmlAttribute * viewatt=viewElement->FirstAttribute();
     if(viewatt!=NULL)
     {
-        string structname = viewElement->Attribute("name");
-        tchar.m_struct_name=structname.c_str();
+        string struct_name = viewElement->Attribute("name");
+		CCLog("struct name: %s", struct_name.c_str());
+        template_character.m_struct_name_=struct_name.c_str();
     }
     else
-        tchar.m_struct_name="noname";
+        template_character.m_struct_name_="no_struct_name";
     
     //////////////
     delete document;
+
+	// 完成正字xml信息解析
     
-    //2.标注信息——不稳定笔段
+    //2.标注信息——不稳定笔段 读取 marked info 对应表中 mark 字段
     document = new TiXmlDocument();
-    document->Parse(mark_buffer.c_str(), 0,TIXML_ENCODING_UTF8);
+    document->Parse(mark_buffer.c_str(), 0, TIXML_ENCODING_UTF8);
     
-    TiXmlElement* instablesegments = document->RootElement();
-    string instablestr=instablesegments->Attribute("index");
+    TiXmlElement* instable_segments = document->RootElement();
+    string instablestr=instable_segments->Attribute("index");
     
     vector<string> strvec = DataTool::spliteStringBy(instablestr, "/");
 //    StringSplit::String_Split(instablestr,'/',strvec);
     for(int i=0;i<strvec.size();i++)
     {
-        tchar.addinstablesegment(atoi(strvec[i].c_str()));
+        template_character.AddInstableSegment(atoi(strvec[i].c_str()));
     }
     
     //2.标注信息——交搭关系
-    tchar.InitSegmentRelation();
-    TiXmlElement* segmentrelation = instablesegments->NextSiblingElement();
-    for (TiXmlElement* relation = segmentrelation->FirstChildElement(); relation!=NULL; relation = relation->NextSiblingElement())
+    template_character.InitSegmentRelation();
+    TiXmlElement* segment_relation = instable_segments->NextSiblingElement();
+    for (TiXmlElement* relation = segment_relation->FirstChildElement(); relation!=NULL; relation = relation->NextSiblingElement())
     {
-        string segmentind=relation->Attribute("segment");
-        string relationship=relation->Attribute("relationship");
+        string segment_index=relation->Attribute("segment");
+        string segment_relationship=relation->Attribute("relationship");
         
 //        StringSplit::String_Split(relationship,'/',strvec);
-        strvec = DataTool::spliteStringBy(relationship, "/");
+        strvec = DataTool::spliteStringBy(segment_relationship, "/");
         
-        for(int i=0;i<strvec.size();i++)
+        for(int i=0; i<strvec.size(); i++)
         {
-            tchar.setRelation(atoi(segmentind.c_str()), i, strvec[i]);
+            template_character.SetRelation(atoi(segment_index.c_str()), i, strvec[i]);
         }
     }
     
@@ -185,7 +187,7 @@ TemplateCharacter CReadXML::getTemplateCharacterFromBuffer(string xmlcontent, st
     list<int>  temp_leftlist;
     list<int>  temp_rightlist;
     
-    TiXmlElement* structbox = segmentrelation->NextSiblingElement();
+    TiXmlElement* structbox = segment_relation->NextSiblingElement();
     for (TiXmlElement* boundingboxelement= structbox->FirstChildElement(); boundingboxelement!=NULL; boundingboxelement = boundingboxelement->NextSiblingElement())
     {
         string m_struct =  boundingboxelement->Attribute("struct");
@@ -243,19 +245,19 @@ TemplateCharacter CReadXML::getTemplateCharacterFromBuffer(string xmlcontent, st
         
         CComponent m_com;
         m_com.setdata(temp_seglist,temp_toplist,temp_bottomlist,temp_leftlist,temp_rightlist);
-        tchar.Add_one_component_setting(m_com);
+        template_character.Add_one_component_setting(m_com);
     }
     
     delete document;
     
     //3.初始化信息
-    tchar.draw_point=-1;
-    tchar.draw_index=-1;
+    template_character.draw_point_=-1;
+    template_character.draw_index_=-1;
     
     ///////////////////////////////////////
     
     
-    return tchar;
+    return template_character;
 }
 
 ScriptCharacter CReadXML::getScriptCharacterFromBuffer(string xmlcontent,string mark_buffer){

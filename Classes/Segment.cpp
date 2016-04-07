@@ -9,18 +9,18 @@
 #include "Segment.hpp"
 
 Segment::Segment(){
-    name = "noname";
-    seg_index = 0;
+    name_ = "noname";
+    seg_index_ = 0;
     
-    plist.clear();
+    point_list_.clear();
     
-    mid_point = ccp(0.0, 0.0);
-    dirangle = 0;
-    len = 0;
+    mid_point_ = ccp(0.0, 0.0);
+    dirangle_ = 0;
+    len_ = 0;
 }
 
 Segment::~Segment(){
-    plist.clear();
+    point_list_.clear();
 }
 
 
@@ -28,40 +28,41 @@ Segment::~Segment(){
 Segment::Segment(const Segment& Right)
 {
     
-    this->name=Right.name;  //笔段名称。只用于模板字
-    this->seg_index=Right.seg_index; //笔段索引号。按照书写顺序编号，起始笔段编号为0。用于模板字和手写字
-//    this->color=Right.color;  //笔段的绘制颜色。默认为黑色，匹配后定义为某种彩色。
+    this->name_=Right.name_;  //笔段名称。只用于模板字
+    this->seg_index_=Right.seg_index_; //笔段索引号。按照书写顺序编号，起始笔段编号为0。用于模板字和手写字
+    this->color_=Right.color_;  //笔段的绘制颜色。默认为黑色，匹配后定义为某种彩色。
     
-    this->plist.assign(Right.plist.begin(),Right.plist.end());  //点列表;
-    
-    this->mid_point=Right.mid_point;
-    this->dirangle=Right.dirangle;
-    this->len=Right.len;
+    //this->point_list_.assign(Right.point_list_.begin(),Right.point_list_.end());  //点列表;
+    this->point_list_ = Right.point_list_;
+    this->mid_point_=Right.mid_point_;
+    this->dirangle_=Right.dirangle_;
+    this->len_=Right.len_;
 }
 
 Segment&  Segment::operator=(const Segment& Right)
 {
     
-    this->name=Right.name;  //笔段名称。只用于模板字
-    this->seg_index=Right.seg_index; //笔段索引号。按照书写顺序编号，起始笔段编号为0。用于模板字和手写字
-//    this->color=Right.color;  //笔段的绘制颜色。默认为黑色，匹配后定义为某种彩色。
+    this->name_=Right.name_;  //笔段名称。只用于模板字
+    this->seg_index_=Right.seg_index_; //笔段索引号。按照书写顺序编号，起始笔段编号为0。用于模板字和手写字
+    this->color_=Right.color_;  //笔段的绘制颜色。默认为黑色，匹配后定义为某种彩色。
     
-    this->plist.assign(Right.plist.begin(),Right.plist.end());  //点列表;
-    
-    this->mid_point=Right.mid_point;
-    this->dirangle=Right.dirangle;
-    this->len=Right.len;
+    //this->point_list_.assign(Right.point_list_.begin(),Right.point_list_.end());  //点列表;
+    this->point_list_ = Right.point_list_;
+    this->mid_point_=Right.mid_point_;
+    this->dirangle_=Right.dirangle_;
+    this->len_=Right.len_;
     
     return (*this);
 }
 
-void Segment::Init(string name, int ind, list<CCPoint> p)
+void Segment::Init(string name, int index, list<CCPoint> p)
 {
-    this->name=name;  //笔段名称。只用于模板字
-    this->seg_index=ind; //笔段索引号。按照书写顺序编号，起始笔段编号为0。用于模板字和手写字
-//    this->color=RGB(0,0,0);  //笔段的绘制颜色。默认为黑色，匹配后定义为某种彩色。
+    this->name_=name;  //笔段名称。只用于模板字
+	CCLog("name %s",name_.c_str());
+    this->seg_index_=index; //笔段索引号。按照书写顺序编号，起始笔段编号为0。用于模板字和手写字
+    this->color_=ccc4f(0,0,0,1);  //笔段的绘制颜色。默认为黑色，匹配后定义为某种彩色。
     
-    this->plist.assign(p.begin(),p.end());  //点列表;
+    this->point_list_.assign(p.begin(),p.end());  //点列表;
     
     UpdateAttribute();
 }
@@ -78,26 +79,26 @@ void Segment::UpdateAttribute()
 //    len=gt.PathLength(this->plist);
 }
 
-void Segment::clear()
+void Segment::Clear()
 {
-    name = "noname";
-    seg_index=0;
+    name_ = "noname";
+    seg_index_=0;
 //    color=RGB(0,0,0);
     
-    plist.clear();
+    point_list_.clear();
     
     ////
-    mid_point=CCPoint(0,0);   //笔段的中点坐标
-    dirangle=0;      //笔段的方向
-    len=0;           //笔段的长度
+    mid_point_=CCPoint(0,0);   //笔段的中点坐标
+    dirangle_=0;      //笔段的方向
+    len_=0;           //笔段的长度
 }
 
-CCPoint Segment::getpoint(int ind)
+CCPoint Segment::GetPoint(int ind)
 {
 //    ASSERT(ind>=0);
 //    ASSERT(ind<this->plist.size());
     
-    list<CCPoint>::iterator it = this->plist.begin();
+    list<CCPoint>::iterator it = this->point_list_.begin();
     
     for (int x=0;x<ind;x++)
     {
@@ -107,12 +108,12 @@ CCPoint Segment::getpoint(int ind)
     return *it;
 }
 
-void Segment::setpoint(int ind, CCPoint p)
+void Segment::SetPoint(int ind, CCPoint p)
 {
 //    ASSERT(ind>=0);
 //    ASSERT(ind<this->plist.size());
     
-    list<CCPoint>::iterator it = this->plist.begin();
+    list<CCPoint>::iterator it = this->point_list_.begin();
     
     for (int x=0;x<ind;x++)
     {
@@ -123,16 +124,16 @@ void Segment::setpoint(int ind, CCPoint p)
 }
 
 
-void Segment::setpointlist(list<CCPoint> ptlist)
+void Segment::SetPointList(list<CCPoint> ptlist)
 {
-    if(&ptlist != &(this->plist))
+    if(&ptlist != &(this->point_list_))
     {
-        this->plist.clear();
-        this->plist=ptlist;
+        this->point_list_.clear();
+        this->point_list_=ptlist;
     }	
 }
 
-list<CCPoint> Segment::getpointlist()
+list<CCPoint> Segment::GetPointList()
 {
-    return this->plist;
+    return this->point_list_;
 }

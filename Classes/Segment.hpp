@@ -19,15 +19,15 @@ USING_NS_CC;
 
 class Segment{
 public:
-    string name;
-    int seg_index;
+    string name_;
+    int seg_index_;
     
-    list<CCPoint> plist;
-    CCPoint mid_point;
-    float dirangle;
-    float len;
+    list<CCPoint> point_list_;
+    CCPoint mid_point_;
+    float dirangle_;
+    float len_;
     
-	ccColor4F color;
+	ccColor4F color_;
     
 public:
     Segment();
@@ -37,16 +37,20 @@ public:
     Segment& operator=(const Segment& Right);    //赋值
     Segment(const Segment& Right); //拷贝构造
     
+    
     /**
-     * 名字，笔段索引号，点列表
-     *
-     */
+    * 名字，笔段索引号，点列表
+    * @param name 笔段名字
+    * @param ind 笔段索引
+    * @param p 笔段点list
+    * @return
+    */
     void Init(string name, int ind, list<CCPoint> p);
-    void clear();
-    CCPoint getpoint(int ind);
-    void setpoint(int ind, CCPoint p);
-    void setpointlist(list<CCPoint> ptlist);
-    list<CCPoint> getpointlist();
+    void Clear();
+    CCPoint GetPoint(int ind);
+    void SetPoint(int ind, CCPoint p);
+    void SetPointList(list<CCPoint> ptlist);
+    list<CCPoint> GetPointList();
     
     ////
     void UpdateAttribute();

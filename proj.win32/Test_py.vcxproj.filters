@@ -285,6 +285,9 @@
     <ClCompile Include="..\Classes\TCharacterMarkSet.cpp">
       <Filter>Classes\Entity</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\SegmentDrawnode.cpp">
+      <Filter>Classes\Character</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -542,6 +545,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\TCharacterMarkSet.h">
       <Filter>Classes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SegmentDrawnode.h">
+      <Filter>Classes\Character</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
