@@ -64,11 +64,14 @@ public:
 
 	/**
 	* split string by splitSymbols into vector
+	* 例如   A/B/C/   按照 / 分割成 A B C
+	* 如果 A/B/C 得到结果 A B C
+	* 如果 A/B/CD 得到 A B CD
 	* @param str
 	* @param splitSymbols
 	* @return
 	*/
-	static vector<string> spliteStringBy(string str, string splitSymbols);
+	static vector<string> spliteStringBy(const string str, const string splitSymbols);
 
 	/**
 	* copy file into SD root

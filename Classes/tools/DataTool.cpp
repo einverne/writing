@@ -106,16 +106,21 @@ vector< vector<CCPoint> > DataTool::spliteString(string str){
 	return ret;
 }
 
-vector<string> DataTool::spliteStringBy(string str, string splitSymbols){
-	string::size_type pos1,pos2;
+vector<string> DataTool::spliteStringBy(const string str,const string splitSymbols){
+	string::size_type pos1,pos2,last;
 	vector<string> strvec;
 	pos2 = str.find(splitSymbols);
 	pos1 = 0;
+	last = str.length();
 	while (string::npos != pos2)
 	{
 		strvec.push_back(str.substr(pos1,pos2-pos1));
 		pos1 = pos2 +1;
 		pos2 = str.find(splitSymbols,pos1);
+	}
+	if (pos1 != last)
+	{
+		strvec.push_back(str.substr(pos1,last));
 	}
 	// 	strvec.push_back(seq.substr(pos1));
 	return strvec;
