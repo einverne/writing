@@ -3,7 +3,7 @@
 
 HcharacterDrawnode::HcharacterDrawnode():
 	strokeDrawlist(NULL),
-	tianziged(NULL)
+	tianzige_(NULL)
 {
 }
 
@@ -15,10 +15,10 @@ HcharacterDrawnode::~HcharacterDrawnode()
 
 
 bool HcharacterDrawnode::init(){
-	tianziged = CCSprite::create("tianzige.png");
-	addChild(tianziged,-1);
-	tianziged->setAnchorPoint(ccp(0,0));
-	setContentSize(tianziged->getContentSize());
+	tianzige_ = CCSprite::create("tianzige.png");
+	addChild(tianzige_,-1);
+	tianzige_->setAnchorPoint(ccp(0,0));
+	setContentSize(tianzige_->getContentSize());
 
 	this->setStrokeDrawnodeList(CCArray::create());
 	getStrokeDrawnodeList()->retain();
@@ -32,29 +32,29 @@ void HcharacterDrawnode::draw(){
 	}
 }
 
-void HcharacterDrawnode::addPoint(CCPoint point){
+void HcharacterDrawnode::AddPoint(CCPoint point){
 	StrokeDrawnode* t = (StrokeDrawnode*)(getStrokeDrawnodeList()->objectAtIndex(getStrokeDrawnodeList()->count()-1));
 	t->addPoint(point);
 }
 
-void HcharacterDrawnode::addStroke(Stroke s){
+void HcharacterDrawnode::AddStroke(Stroke s){
 	getStrokeDrawnodeList()->addObject(StrokeDrawnode::create(s));
 }
 
-void HcharacterDrawnode::removeLastStroke(){
+void HcharacterDrawnode::RemoveLastStroke(){
 	getStrokeDrawnodeList()->removeLastObject();
 }
 
-void HcharacterDrawnode::changeStroke(int index,Stroke s){
+void HcharacterDrawnode::ChangeStroke(int index,Stroke s){
 	StrokeDrawnode* temp = StrokeDrawnode::create(s);
 	getStrokeDrawnodeList()->replaceObjectAtIndex(index,temp);
 }
 
-Stroke HcharacterDrawnode::getStroke(int index){
+Stroke HcharacterDrawnode::GetStroke(int index){
 	return ((StrokeDrawnode*)getStrokeDrawnodeList()->objectAtIndex(index))->getStroke();
 }
 
-void HcharacterDrawnode::rewrite(){
+void HcharacterDrawnode::Rewrite(){
 	CCLog("rewrite:	");
 	while (getStrokeDrawnodeList()->lastObject() != NULL)
 	{
@@ -62,11 +62,11 @@ void HcharacterDrawnode::rewrite(){
 	}
 }
 
-int HcharacterDrawnode::getStrokeCount(){
+int HcharacterDrawnode::GetStrokeCount(){
 	return this->getStrokeDrawnodeList()->count();
 }
 
-string HcharacterDrawnode::getOriginOutput(){
+string HcharacterDrawnode::GetOriginOutput(){
 	string pointOriginOutput;
 	CCObject* originob;
 	CCARRAY_FOREACH(getStrokeDrawnodeList(),originob){
@@ -77,7 +77,7 @@ string HcharacterDrawnode::getOriginOutput(){
 	return pointOriginOutput;
 }
 
-string HcharacterDrawnode::getLuaOutput(CCSize size){
+string HcharacterDrawnode::GetLuaOutput(CCSize size){
 	string output;
 	CCObject* ob;
 	CCARRAY_FOREACH(getStrokeDrawnodeList(),ob){

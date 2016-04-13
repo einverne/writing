@@ -42,7 +42,7 @@ CCObject* MoveToRightPlace::copyWithZone(CCZone* pZone){
 
 void MoveToRightPlace::update(float time){
 	CC_UNUSED_PARAM(time);
-	((HcharacterDrawnode*)m_pTarget)->changeStroke(index,m_stroke);
+	((HcharacterDrawnode*)m_pTarget)->ChangeStroke(index,m_stroke);
 }
 
 bool MoveToRightPlace::initWithPoints(int index,Stroke s){

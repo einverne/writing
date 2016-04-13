@@ -20,9 +20,16 @@ public:
 private:
 	void menuNext(CCObject* pSender);
 	void menuPrevious(CCObject* pSender);
+
+	/**
+	* ±£¥Ê∞¥≈•œÏ”¶
+	* @param pSender
+	* @return
+	*/
 	void menuSave(CCObject* pSender);
+
 	void menuView(CCObject* pSender);
-	CCMenu* menu;
+	CCMenu* menu_;
 };
 
 

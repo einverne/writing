@@ -113,7 +113,7 @@ CCObject* ViewScene::gridViewDataSource(CCObject* pContentView, unsigned int idx
 		{
 			vector<CCPoint> oneStrokeVec = strokesvec[i];
 			Stroke stroke(oneStrokeVec);
-			handwritingHz->addStroke(stroke);
+			handwritingHz->AddStroke(stroke);
 		}
 		
 		handwritingHz->setContentSize(CCSize(320,320));
@@ -148,7 +148,7 @@ CCObject* ViewScene::gridViewDataSource(CCObject* pContentView, unsigned int idx
 		{
 			vector<CCPoint> oneStrokeVec = strokesvec[i];
 			Stroke stroke(oneStrokeVec);
-			handwritingHz->addStroke(stroke);
+			handwritingHz->AddStroke(stroke);
 		}
 
  		handwritingHz->setContentSize(CCSize(320,320));

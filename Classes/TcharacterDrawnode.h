@@ -70,9 +70,9 @@ public:
 	string getCharacterStandardInfo() const;
 
 	void setVisibleIndex(int vi);
-	int getVisibleIndex()    { return visibleIndex; }
+	int getVisibleIndex()    { return visible_index_; }
 
-	TemplateCharacter template_character_;
+	TemplateCharacter template_character_;			// 模板字类
 
 	CC_SYNTHESIZE_RETAIN(CCArray*,strokedrawList,strokedrawList);
 	CC_SYNTHESIZE_RETAIN(CCArray*,SegmentNodeList,SegmentNodeList);
@@ -82,8 +82,8 @@ private:
 	Character m_right_character_;			//根据汉字读取字符xml文件，构造Character
     Character m_origin_character_;                       // 保存未作修改的 xml 中数据
 
-	int visibleIndex;
-	CCSprite* tiangzige;					// 田字格内容Sprite
+	int visible_index_;
+	CCSprite* right_tiangzige_;					// 田字格内容Sprite
 };
 
 

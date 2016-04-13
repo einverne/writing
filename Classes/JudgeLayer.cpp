@@ -25,8 +25,8 @@ void JudgeLayer::onEnter(){
 	CCLayer::onEnter();
 
 	BackgroundLayer* backgroundLayer = (BackgroundLayer*)this->getParent()->getChildByTag(kBgLayerTag);
-	CCSprite* tianzige = backgroundLayer->tianzige;
-	CCSprite* title_bar = backgroundLayer->title_bar;
+	CCSprite* tianzige = backgroundLayer->tianzige_;
+	CCSprite* title_bar = backgroundLayer->title_bar_;
 
 	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
 	CCMenuItemImage* next = CCMenuItemImage::create("strangedesign/Writting_next_button.png",
@@ -43,10 +43,10 @@ void JudgeLayer::onEnter(){
 	CCPoint previousBtnPosition = ccp(previous->getContentSize().width/2+50 , tianzige->getPositionY()+ tianzige->getContentSize().height/2 + 20);
 	previous->setPosition(previousBtnPosition);
 
-	menu = CCMenu::create(next, previous, NULL);
+	menu_ = CCMenu::create(next, previous, NULL);
 
-	addChild(menu,10);
-	menu->setPosition(CCPointZero);
+	addChild(menu_,10);
+	menu_->setPosition(CCPointZero);
 
 	JudgeScene* scene = (JudgeScene*)this->getParent();
 	if (!scene->getIsJudge())
@@ -57,7 +57,7 @@ void JudgeLayer::onEnter(){
 			this,
 			menu_selector(JudgeLayer::menuSave));
 		saveButton->setPosition(ccp(winSize.width/5*4,saveButton->getContentSize().height+5));
-		menu->addChild(saveButton);
+		menu_->addChild(saveButton);
 
 		//view button
 		CCMenuItemImage* viewBtn = CCMenuItemImage::create("strangedesign/Free_writting_view_button_up.png",
@@ -65,7 +65,7 @@ void JudgeLayer::onEnter(){
 			this,
 			menu_selector(JudgeLayer::menuView));
 		viewBtn->setPosition(ccp(winSize.width-viewBtn->getContentSize().width/2, title_bar->getPositionY()));
-		menu->addChild(viewBtn);
+		menu_->addChild(viewBtn);
 	}
 }
 
@@ -89,7 +89,11 @@ void JudgeLayer::menuSave(CCObject* pSender){
 	{
 		string unit_id = scene->getUnitID();
 		string zi_id = scene->getZiID();
-		string note = scene->getHLayer()->getOriginPoints();			//获取未变形的笔记
+		string note = scene->getHLayer()->GetOriginPoints();			//获取未变形的笔迹
+
+		// TODO 这里添加将书写笔画保存成 手写字 Row xml的格式，兼容后期工作。
+		// scene->getHLayer-> GetRowXML()  etc.
+
 		string curChar = scene->getCurChar();
 
 		SQLiteData::insertNote(unit_id,zi_id,note);
@@ -98,9 +102,9 @@ void JudgeLayer::menuSave(CCObject* pSender){
 		//delete strokes
 		JudgeScene* scene = (JudgeScene*)CCDirector::sharedDirector()->getRunningScene();
 		HcharacterLayer* HLayer = scene->getHLayer();
-		HLayer->clearWriting();
+		HLayer->ClearWriting();
 
-		//update sqlite unit
+		//update sqlite unit 更新数据库中每个汉字练习次数
 		vector< vector <string> > groupUnit = SQLiteData::getUnit(unit_id);
 		
 		for (int i = 0; i < groupUnit.size(); i++)

@@ -18,12 +18,12 @@ public:
 	virtual void onEnter();
 	virtual void keyBackClicked();
 	CREATE_FUNC(BackgroundLayer);
-	CCSprite* tianzige;                 // standard character
-	CCSprite* tianzige_draw;            // handwrting character
-	CCSprite* title_bar;                // title bar
+	CCSprite* tianzige_;                 // standard character
+	CCSprite* tianzige_draw_;            // handwrting character
+	CCSprite* title_bar_;                // title bar
 private:
 	void menuBack(CCObject* pSender);			//menu Back callback
-	void onToggle(CCObject* pSender);			//Toggle onClick
+	void onToggle(CCObject* pSender);			//Toggle onClick easy or hard
 };
 
 

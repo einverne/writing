@@ -34,8 +34,8 @@ public:
 	CC_SYNTHESIZE_RETAIN(TouchLayer*,touchLayer,touchLayer);
 	CC_SYNTHESIZE_RETAIN(TcharacterLayer*,TLayer,TLayer);
 	CC_SYNTHESIZE_RETAIN(HcharacterLayer*,HLayer,HLayer);
-	CharacterExtend* getCharacterExt()	{ return ext_p; }
-	void setCharacterExt(CharacterExtend* exp)	{ ext_p = exp; }
+	CharacterExtend* getCharacterExt()	{ return ext_p_; }
+	void setCharacterExt(CharacterExtend* exp)	{ ext_p_ = exp; }
 
 	CC_SYNTHESIZE_RETAIN(JudgeLayer* , judgeLayer , JudgeLayer);
 
@@ -58,22 +58,22 @@ public:
 	* @return
 	*/
 	void setIsJudge(bool isjudge);
-	bool getIsJudge() const	{ return b_isJudge; }
+	bool getIsJudge() const	{ return is_judge; }
     
-	string getUnitID() const	{ return unit_id;}
-	string getZiID() const	{ return zi_id; }
-	string getCurChar() const		{ return curChar;}
+	string getUnitID() const	{ return unit_id_;}
+	string getZiID() const	{ return zi_id_; }
+	string getCurChar() const		{ return cur_char_;}
 
 private:
 
 	void lastCharacter(CCNode* pNode);	//单元最后一个汉字回调函数
-	string unit_id;						//保存单元id
-	string zi_id;                       //存储汉字id
-	vector<string> hanziList;			//保存汉字列表
-	string curChar;						//当前书写汉字
-	int index;							//保存当前汉字序号,序号从0-15
-	bool b_isJudge;						//当前Scene是否判断 false 为自由书写
-	CharacterExtend* ext_p;				//从XML中读取的汉字信息
+	string unit_id_;						//保存单元id
+	string zi_id_;                       //存储汉字id
+	vector<string> hanzi_list_;			//保存汉字列表
+	string cur_char_;						//当前书写汉字
+	int index_;							//保存当前汉字序号,序号从0-15
+	bool is_judge;						//当前Scene是否判断 false 为自由书写
+	CharacterExtend* ext_p_;				//从XML中读取的汉字信息
 };
 
 #endif

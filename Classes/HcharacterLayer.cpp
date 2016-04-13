@@ -20,13 +20,13 @@ HcharacterLayer::HcharacterLayer():m_sprite_draw(NULL),
 	bihuaCountAndTotal(NULL),
 	m_HDrawnode(NULL),
 	m_sprite_info(NULL),
-	_writeCount(0),
-	_wrongCount(0),
-	_ijudge(false),
-	totalBihuaCount(0),
+	write_count_(0),
+	wrong_count_(0),
+	is_judge_(false),
+	total_bihua_count_(0),
 	scoreLabel(NULL),
-	score(0.0),
-	curBihuaWrong(0)
+	score_(0.0),
+	cur_bihua_wrong_(0)
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)  
 #define RIGHT_EFFECT_FILE   "right_android.ogg"
@@ -39,7 +39,7 @@ HcharacterLayer::HcharacterLayer():m_sprite_draw(NULL),
 #define RIGHT_EFFECT_FILE   "right_android.ogg"
 #define WRONG_EFFECT_FILE	"wrong_android.ogg"
 #endif
-	_scale=1.6f;
+	scale_=1.6f;
 }
 
 HcharacterLayer::~HcharacterLayer()
@@ -55,15 +55,15 @@ HcharacterLayer::~HcharacterLayer()
 bool HcharacterLayer::init(string hanzi,CCSprite* tianzige_draw){
 	if (CCLayer::init())
 	{
-		this->_hanzi = hanzi;
+		this->hanzi_ = hanzi;
 		this->setSprite(tianzige_draw);
 		this->setm_HDrawnode(HcharacterDrawnode::create());
 		m_HDrawnode->setPosition(m_sprite_draw->getPosition());
-		getm_HDrawnode()->setScale(_scale);
+		getm_HDrawnode()->setScale(scale_);
 		getm_HDrawnode()->setAnchorPoint(ccp(0.5,0.5));
 		addChild(m_HDrawnode);
 
-		_manager.initLuaEngine();
+		manager_.initLuaEngine();
 		return true;
 	}
 	return false;
@@ -87,13 +87,13 @@ void HcharacterLayer::onEnter(){
 	CCLayer::onEnter();
 
 	TcharacterLayer* layer = (TcharacterLayer*)this->getParent()->getChildByTag(kTLayerTag);		//get TcharacterLayer
-	totalBihuaCount = layer->getm_TDrawnode()->getCharacter().getStrokeCount();
+	total_bihua_count_ = layer->getm_TDrawnode()->getCharacter().getStrokeCount();
 
 	CCSize visiableSize = CCDirector::sharedDirector()->getVisibleSize();
 
 	JudgeScene* scene = (JudgeScene*)this->getParent();
 	BackgroundLayer* backgroundLayer = scene->getbackgroundLayer();
-	CCSprite* tianzige = backgroundLayer->tianzige;
+	CCSprite* tianzige = backgroundLayer->tianzige_;
 
 	setInfoSprite(CCSprite::create("right.png"));
 	addChild(getInfoSprite(),2000);
@@ -105,23 +105,23 @@ void HcharacterLayer::onEnter(){
 
 	CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect(RIGHT_EFFECT_FILE);
 	CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect(WRONG_EFFECT_FILE);
-	CocosDenshion::SimpleAudioEngine::sharedEngine()->setEffectsVolume(0.5);
+	CocosDenshion::SimpleAudioEngine::sharedEngine()->setEffectsVolume(0.3);
 
 	//放大缩小按钮
 	CButton* zoomin = CButton::create("strangedesign/Judge_writting_zoomin_button.png",
 		"strangedesign/Judge_writting_zoomin_button_down.png");
 	zoomin->setPosition(ccp(visiableSize.width/4,zoomin->getContentSize().height+5));
-	zoomin->setOnClickListener(this,ccw_click_selector(HcharacterLayer::zoomin));
+	zoomin->setOnClickListener(this,ccw_click_selector(HcharacterLayer::ZoomIn));
 
 	CButton* zoomout = CButton::create("strangedesign/Judge_writting_zoomout_button.png",
 		"strangedesign/Judge_writting_zoomout_button_down.png");
 	zoomout->setPosition(ccp(visiableSize.width/4*2,zoomout->getContentSize().height+5));
-	zoomout->setOnClickListener(this,ccw_click_selector(HcharacterLayer::zoomout));
+	zoomout->setOnClickListener(this,ccw_click_selector(HcharacterLayer::ZoomOut));
 
 	CButton* rewriteBtn = CButton::create("strangedesign/Judge_writting_cancel_button.png",
 		"strangedesign/Judge_writting_cancel_button_down.png");
 	rewriteBtn->setPosition(ccp(visiableSize.width/4*3,rewriteBtn->getContentSize().height+5));
-	rewriteBtn->setOnClickListener(this,ccw_click_selector(HcharacterLayer::rewrite));
+	rewriteBtn->setOnClickListener(this,ccw_click_selector(HcharacterLayer::Rewrite));
 
 	if (scene->getIsJudge() == false)
 	{
@@ -130,7 +130,7 @@ void HcharacterLayer::onEnter(){
 		rewriteBtn->setPosition(ccp(visiableSize.width/5*3,rewriteBtn->getContentSize().height+5));
 
 	}else{
-		string countAndTotal = DataTool::getChinese("bihuashu")+"0/"+ DataTool::intTostring(totalBihuaCount);
+		string countAndTotal = DataTool::getChinese("bihuashu")+"0/"+ DataTool::intTostring(total_bihua_count_);
 		setbihuaCountAndTotal(CCLabelTTF::create(countAndTotal.c_str(),"Arial",40));
 		getbihuaCountAndTotal()->setColor(ccc3(0,0,0));
 		addChild(getbihuaCountAndTotal(),10);
@@ -169,17 +169,17 @@ void HcharacterLayer::onEnter(){
 }
 
 void HcharacterLayer::onExit(){
-	CCLayer::onEnter();
-	_manager.exitLuaEngine();
+	CCLayer::onExit();
+	manager_.exitLuaEngine();
 }
 
-void HcharacterLayer::judge(){
+void HcharacterLayer::Judge(){
 	CCArray* strokes = m_HDrawnode->getStrokeDrawnodeList();
 	string output = "";					// 手写汉字的点集信息
 
-	this->pointsOrigin = m_HDrawnode->getOriginOutput();
+	this->points_origin_ = m_HDrawnode->GetOriginOutput();
 	
-	this->pointsOutput = m_HDrawnode->getLuaOutput(this->m_sprite_draw->getContentSize());
+	this->points_output_ = m_HDrawnode->GetLuaOutput(this->m_sprite_draw->getContentSize());
 	
 
 // 	CharacterEntity* p =  ((LianxiScene*)this->getParent())->getCharacterP();
@@ -196,16 +196,16 @@ void HcharacterLayer::judge(){
 	// 松弛匹配
 	//schar.divide();
 
-	CCLog("output %s",pointsOutput.c_str());
+	CCLog("output %s",points_output_.c_str());
 
 
 	return;
 
     
-	string ret = _manager.getResult(_hanzi,output,points,m_exChar,funcs);
+	string ret = manager_.getResult(hanzi_,output,points,m_exchar_,funcs);
 	//CCLog("Hcharacterlay: retstring:%s length:%d",ret.c_str(),ret.length());
 	//如果不评判则跳过
-	if (!_ijudge || ret.length() <= 0)
+	if (!is_judge_ || ret.length() <= 0)
 	{
 		return;
 	}
@@ -310,18 +310,18 @@ void HcharacterLayer::judge(){
 
 void HcharacterLayer::Wrong(){
 
-	this->getm_HDrawnode()->removeLastStroke();
+	this->getm_HDrawnode()->RemoveLastStroke();
 	int t = getm_HDrawnode()->getStrokeDrawnodeList()->count();
-	string strToshow = DataTool::getChinese("bihuashu")+DataTool::intTostring(t)+"/"+DataTool::intTostring(totalBihuaCount);
+	string strToshow = DataTool::getChinese("bihuashu")+DataTool::intTostring(t)+"/"+DataTool::intTostring(total_bihua_count_);
 	bihuaCountAndTotal->setString(strToshow.c_str());
 	//getInfoSprite()->setVisible(true);
 	//getInfoSprite()->setTexture(CCTextureCache::sharedTextureCache()->addImage("wrong.png"));
 	CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect(WRONG_EFFECT_FILE);
-	_writeCount++;
-	_wrongCount++;
-	curBihuaWrong++;
+	write_count_++;
+	wrong_count_++;
+	cur_bihua_wrong_++;
 
-	string strLabel = DataTool::getChinese("defen")+DataTool::to_string_with_precision(score);
+	string strLabel = DataTool::getChinese("defen")+DataTool::to_string_with_precision(score_);
 	getscoreLabel()->setString(strLabel.c_str());
 
 }
@@ -329,7 +329,7 @@ void HcharacterLayer::Wrong(){
 void HcharacterLayer::Right(){
 	// set stroke count Label
 	int t = getm_HDrawnode()->getStrokeDrawnodeList()->count();
-	string strToshow = DataTool::getChinese("bihuashu")+DataTool::intTostring(t)+"/"+DataTool::intTostring(totalBihuaCount);
+	string strToshow = DataTool::getChinese("bihuashu")+DataTool::intTostring(t)+"/"+DataTool::intTostring(total_bihua_count_);
 	getbihuaCountAndTotal()->setString(strToshow.c_str());
 
 	// Actions
@@ -346,28 +346,28 @@ void HcharacterLayer::Right(){
 	}
 
 	// calculate score
-	switch (curBihuaWrong)
+	switch (cur_bihua_wrong_)
 	{
 	case 0:
-		score+=10.0/totalBihuaCount;
+		score_+=10.0/total_bihua_count_;
 		break;
 	case 1:
-		score+=0.75*10/totalBihuaCount;
+		score_+=0.75*10/total_bihua_count_;
 		break;
 	case 2:
-		score+=0.5*10/totalBihuaCount;
+		score_+=0.5*10/total_bihua_count_;
 		break;
 	case 3:
-		score+=0.25*10/totalBihuaCount;
+		score_+=0.25*10/total_bihua_count_;
 		break;
 	default:
-		score+=0*10/totalBihuaCount;
+		score_+=0*10/total_bihua_count_;
 		break;
 	}
-	string strLabel = DataTool::getChinese("defen")+DataTool::to_string_with_precision(score);
+	string strLabel = DataTool::getChinese("defen")+DataTool::to_string_with_precision(score_);
 	getscoreLabel()->setString(strLabel.c_str());
-	curBihuaWrong=0;
-	_writeCount++;
+	cur_bihua_wrong_=0;
+	write_count_++;
 
 	// update Character score into db
 	JudgeScene* scene = (JudgeScene*)this->getParent();
@@ -379,7 +379,7 @@ void HcharacterLayer::Right(){
 	{
 		if (curChar == groupUnit[i][0])
 		{
-			string scorestr = DataTool::to_string(score);
+			string scorestr = DataTool::to_string(score_);
 			groupUnit[i][2]=scorestr;
 			break;
 		}
@@ -390,17 +390,17 @@ void HcharacterLayer::Right(){
 
 
 
-void HcharacterLayer::rewrite(CCObject* pSender){
+void HcharacterLayer::Rewrite(CCObject* pSender){
 	CCLog("HcharacterLayer::rewrite");
 	if (this->getActionManager()->numberOfRunningActionsInTarget(getm_HDrawnode()) <= 0)
 	{
-		_manager.exitLuaEngine();
-		_manager.initLuaEngine();
-		this->getm_HDrawnode()->rewrite();
+		manager_.exitLuaEngine();
+		manager_.initLuaEngine();
+		this->getm_HDrawnode()->Rewrite();
 		JudgeScene* scene = (JudgeScene*)this->getParent();
 		if (scene->getIsJudge()==true)
 		{
-			string strToshow = DataTool::getChinese("bihuashu")+"0/"+ DataTool::intTostring(totalBihuaCount);
+			string strToshow = DataTool::getChinese("bihuashu")+"0/"+ DataTool::intTostring(total_bihua_count_);
 			this->getbihuaCountAndTotal()->setString(strToshow.c_str());
 			string unit_id = scene->getUnitID();
 			string curChar = scene->getCurChar();
@@ -417,55 +417,55 @@ void HcharacterLayer::rewrite(CCObject* pSender){
 			float scoretemp = DataTool::stringToFloat(scorestr);
 			string scorestring = DataTool::getChinese("defen")+DataTool::to_string_with_precision(scoretemp);
 			getscoreLabel()->setString(scorestring.c_str());
-			score=0;
-			curBihuaWrong=0;
+			score_=0;
+			cur_bihua_wrong_=0;
 		}
 		getInfoSprite()->setVisible(false);
 	}
 }
 
-void HcharacterLayer::clearWriting(){
-	rewrite(this);
+void HcharacterLayer::ClearWriting(){
+	Rewrite(this);
 }
 
-void HcharacterLayer::zoomin(CCObject* pSender){
-	if (_scale < 1.6)
+void HcharacterLayer::ZoomIn(CCObject* pSender){
+	if (scale_ < 1.6)
 	{
-		_scale += 0.1f;
-		getm_HDrawnode()->setScale(_scale);
+		scale_ += 0.1f;
+		getm_HDrawnode()->setScale(scale_);
 	}
 }
 
-void HcharacterLayer::zoomout(CCObject* pSender){
-	if (_scale > 0.5)
+void HcharacterLayer::ZoomOut(CCObject* pSender){
+	if (scale_ > 0.5)
 	{
-		_scale -= 0.1f;
-		getm_HDrawnode()->setScale(_scale);
+		scale_ -= 0.1f;
+		getm_HDrawnode()->setScale(scale_);
 	}
 }
 
-void HcharacterLayer::reloadChar(){
+void HcharacterLayer::ReloadChar(){
 	this->removeChild(getm_HDrawnode());
 	this->setm_HDrawnode(HcharacterDrawnode::create());
 	m_HDrawnode->setPosition(m_sprite_draw->getPosition());
 	m_HDrawnode->setAnchorPoint(ccp(0.5,0.5));
-	m_HDrawnode->setScale(_scale);
+	m_HDrawnode->setScale(scale_);
 	this->addChild(m_HDrawnode);
 	TcharacterLayer* layer = (TcharacterLayer*)this->getParent()->getChildByTag(kTLayerTag);		//get TcharacterLayer
-	this->totalBihuaCount = layer->getm_TDrawnode()->getCharacter().getStrokeCount();
-	curBihuaWrong=0;
-	score=0;
-	rewrite(this);
+	this->total_bihua_count_ = layer->getm_TDrawnode()->getCharacter().getStrokeCount();
+	cur_bihua_wrong_=0;
+	score_=0;
+	Rewrite(this);
 }
 
-float HcharacterLayer::getWrongPercent(){
-	if (_writeCount == 0)
+float HcharacterLayer::GetWrongPercent(){
+	if (write_count_ == 0)
 	{
 		return 0;
 	}
-	return (float)_wrongCount/_writeCount;
+	return (float)wrong_count_/write_count_;
 }
 
-void HcharacterLayer::isJudge(bool isjudge){
-	this->_ijudge = isjudge;
+void HcharacterLayer::IsJudge(bool isjudge){
+	this->is_judge_ = isjudge;
 }

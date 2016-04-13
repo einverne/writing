@@ -50,7 +50,7 @@ bool MoveToRightPlaceInterval::init(float duration,int index,Stroke s){
 void MoveToRightPlaceInterval::update(float time){
 // 	CCLog("MoveToRightPlaceInterval::update time = %f",time);
 // 	CCActionInterval::update(time);
-	Stroke stro = ((HcharacterDrawnode*)m_pTarget)->getStroke(index);
+	Stroke stro = ((HcharacterDrawnode*)m_pTarget)->GetStroke(index);
 	stro.Resample();
 	for (unsigned int i = 0; i < this->m_stroke.GetPointList().size() ; i++)
 	{
@@ -58,5 +58,5 @@ void MoveToRightPlaceInterval::update(float time){
 		CCPoint temp = stro.getpointListIndexAt(i) - p * time;
 		stro.SetPointInList(i,temp);		
 	}
-	((HcharacterDrawnode*)m_pTarget)->changeStroke(index,stro);
+	((HcharacterDrawnode*)m_pTarget)->ChangeStroke(index,stro);
 }

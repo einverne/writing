@@ -75,7 +75,7 @@ public:
 
 
 	/**
-	* 从数据库中查询index号Unit中前count个字，保存到数组桌哦你
+	* 从数据库中查询index号Unit中前count个字，保存到数组桌
 	* @param index Unit的编号
 	* @param count 该单元中前count个单词
 	* @return

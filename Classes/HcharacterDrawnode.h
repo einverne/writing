@@ -5,6 +5,7 @@
 #include "StrokeDrawnode.h"
 #include "Stroke.h"
 #include "RowStroke.hpp"
+#include "ScriptCharacter.hpp"
 #include <string>
 #include <list>
 USING_NS_CC;
@@ -29,66 +30,57 @@ public:
 	* @param point
 	* @return
 	*/
-	void addPoint(CCPoint point);
+	void AddPoint(CCPoint point);
 
 	/**
 	* addStroke 添加一笔
 	* @param s Stroke
 	* @return
 	*/
-	void addStroke(Stroke s);
+	void AddStroke(Stroke s);
 
-	//************************************
-	// Method:    removeLastStroke 删除最后一笔
-	// FullName:  HcharacterDrawnode::removeLastStroke
-	// Access:    public 
-	// Returns:   void
-	// Qualifier:
-	//************************************
-	void removeLastStroke();
+	/**
+	* removeLastStroke 删除最后一笔
+	* @return
+	*/
+	void RemoveLastStroke();
 
+	/**
+	* 改变序列为 index 的笔画为 s
+	* @param index 第几笔，从0开始
+	* @param s 笔画，传入的笔画
+	* @return
+	*/
+	void ChangeStroke(int index,Stroke s);
 
-	//************************************
-	// Method:    changeStroke 
-	// FullName:  HcharacterDrawnode::changeStroke
-	// Access:    public 
-	// Returns:   void
-	// Qualifier:
-	// Parameter: int index 第几笔，从0开始
-	// Parameter: Stroke s 将num笔替换成传入的stroke
-	//************************************
-	void changeStroke(int index,Stroke s);
-
-	//************************************
-	// Method:    getStroke 获取第几笔 从1开始
-	// FullName:  HcharacterDrawnode::getStroke
-	// Access:    public 
-	// Returns:   Stroke
-	// Qualifier:
-	// Parameter: int index
-	//************************************
-	Stroke getStroke(int index);
+	
+	/**
+	* getStroke 获取第几笔 从1开始
+	* @param index
+	* @return
+	*/
+	Stroke GetStroke(int index);
 
 	/**
 	* 重写，移除函数内容
 	* @return
 	*/
-	void rewrite();
+	void Rewrite();
 
-	int getStrokeCount();
+	int GetStrokeCount();
 
 	/**
 	* 产生屏幕上采集到的点信息
 	* @return
 	*/
-	string getOriginOutput();
+	string GetOriginOutput();
 
 	/**
 	* 由采集到的点信息，整理得到Lua评判的点信息
 	* @param size
 	* @return
 	*/
-	string getLuaOutput(CCSize size);
+	string GetLuaOutput(CCSize size);
 
 	/**
 	* 产生手写点点集列表
@@ -98,7 +90,8 @@ public:
 
 	CC_SYNTHESIZE_RETAIN(CCArray*,strokeDrawlist,StrokeDrawnodeList);	// 用来保存手写点
 private:
-	CCSprite* tianziged;
+	CCSprite* tianzige_;
+	ScriptCharacter script_char;			// 手写字
 };
 
 

@@ -55,18 +55,18 @@ bool LianxiScene::init(){
 		backgroundLayer->setTag(kBgLayerTag);
 		addChild(backgroundLayer);
 
-		setTLayer(TcharacterLayer::create(backgroundLayer->tianzige));
+		setTLayer(TcharacterLayer::create(backgroundLayer->tianzige_));
 		CC_BREAK_IF(!TLayer);
 		TLayer->setTag(kTLayerTag);
 		addChild(TLayer);
 		TLayer->setCharacter(CurrentCharacter);
 		TLayer->setCharacter(ext_p);
 
-		setHLayer(HcharacterLayer::create(CurrentCharacter,backgroundLayer->tianzige_draw));
+		setHLayer(HcharacterLayer::create(CurrentCharacter,backgroundLayer->tianzige_draw_));
 		CC_BREAK_IF(!HLayer);
 		HLayer->setTag(kHLayerTag);
 		addChild(HLayer);
-		HLayer->setExChar(ext_p);
+		HLayer->SetExChar(ext_p);
 		
 		settouchLayer(TouchLayer::create(TLayer,HLayer));
 		CC_BREAK_IF(!touchLayer);

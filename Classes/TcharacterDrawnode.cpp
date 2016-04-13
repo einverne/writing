@@ -6,7 +6,7 @@
 
 TcharacterDrawnode::TcharacterDrawnode():strokedrawList(NULL),
 	SegmentNodeList(NULL),
-	visibleIndex(-1),tiangzige(NULL)
+	visible_index_(-1),right_tiangzige_(NULL)
 {
 	
 }
@@ -26,10 +26,10 @@ TcharacterDrawnode::~TcharacterDrawnode()
 */
 bool TcharacterDrawnode::init(string hz,CCSize showrect,CharacterEntity* p){
 
-	tiangzige = CCSprite::create("tianzige.png");
-	addChild(tiangzige,10);
-	tiangzige->setAnchorPoint(ccp(0,0));
-	setContentSize(tiangzige->getContentSize());
+	right_tiangzige_ = CCSprite::create("tianzige.png");
+	addChild(right_tiangzige_,10);
+	right_tiangzige_->setAnchorPoint(ccp(0,0));
+	setContentSize(right_tiangzige_->getContentSize());
 
 	strokedrawList = CCArray::create();
 	strokedrawList->retain();
@@ -57,10 +57,10 @@ bool TcharacterDrawnode::init(string hz,CCSize showrect,CharacterEntity* p){
 }
 
 bool TcharacterDrawnode::init(string hz,CCSize showrect,CharacterExtend* p){
-	tiangzige = CCSprite::create("tianzige.png");
-	addChild(tiangzige,-1);
-	tiangzige->setAnchorPoint(ccp(0,0));
-	setContentSize(tiangzige->getContentSize());
+	right_tiangzige_ = CCSprite::create("tianzige.png");
+	addChild(right_tiangzige_,-1);
+	right_tiangzige_->setAnchorPoint(ccp(0,0));
+	setContentSize(right_tiangzige_->getContentSize());
 
 	strokedrawList = CCArray::create();
 	strokedrawList->retain();
@@ -187,9 +187,9 @@ int TcharacterDrawnode::getPointsCount(){
 void TcharacterDrawnode::setVisibleIndex(int vi){
 	if (vi >= getstrokedrawList()->count())
 	{
-		this->visibleIndex = getstrokedrawList()->count();
+		this->visible_index_ = getstrokedrawList()->count();
 	}else{
-		this->visibleIndex = vi;
+		this->visible_index_ = vi;
 	}
 }
 
