@@ -20,7 +20,7 @@ public:
 	~HcharacterDrawnode();
 	CREATE_FUNC(HcharacterDrawnode);
 	virtual bool init();
-	virtual void draw();
+	void draw();
 
 	/**
 	* addPoint 在 stroke 最后一笔最后添加点

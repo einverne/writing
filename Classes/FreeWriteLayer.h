@@ -29,6 +29,8 @@ private:
 	void menuSave(CCObject* pSender);
 
 	void menuView(CCObject* pSender);
+
+	void menuMatch(CCObject* pSender);
 	CCMenu* menu_;
 };
 

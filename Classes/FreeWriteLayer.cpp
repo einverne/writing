@@ -66,6 +66,15 @@ void FreeWriteLayer::onEnter(){
 			menu_selector(FreeWriteLayer::menuView));
 		viewBtn->setPosition(ccp(winSize.width-viewBtn->getContentSize().width/2, title_bar->getPositionY()));
 		menu_->addChild(viewBtn);
+
+		//match button 松弛匹配Btn
+		// TODO 更换松弛匹配素材
+		CCMenuItemImage* matchBtn = CCMenuItemImage::create("strangedesign/Free_writting_view_button_up.png",
+			"strangedesign/Free_writting_view_button_down.png",
+			this,
+			menu_selector(FreeWriteLayer::menuMatch));
+		matchBtn->setPosition(ccp(winSize.width-matchBtn->getContentSize().width/2*3, title_bar->getPositionY()));
+		menu_->addChild(matchBtn);
 	}
 }
 
@@ -133,6 +142,14 @@ void FreeWriteLayer::menuView(CCObject* pSender){
 	string curChar = scene->getCurChar();
 
 	CCDirector::sharedDirector()->pushScene(ViewScene::scene(unitid,ziid,curChar));
+}
+
+void FreeWriteLayer::menuMatch(CCObject* pSender){
+	// TODO 松弛匹配
+	CCLog("Match");
+	JudgeScene* scene = (JudgeScene*)this->getParent();
+	
+
 }
 
 void FreeWriteLayer::SaveProToFile(float pro){

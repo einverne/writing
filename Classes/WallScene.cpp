@@ -351,12 +351,14 @@ void WallScene::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
 }
 
 void WallScene::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
+	CCLog("WallScene::ccTouchesEnded");
 	CCTouch* pTouch = (CCTouch*)pTouches->anyObject();
 	long endTime = millisecondNow();
 	float length = ccpDistance(prePoint,pTouch->getLocation());
+	CCLog("length: %f", length);
 // 	CCLog("length:%f  %f",length,endTime-beginTime);
 
-	if (endTime-beginTime < 1000 && length <= 50)
+	if (endTime-beginTime < 1000 && length <= 80)
 	{
 		//single click
 		CCPoint touchpoint = pTouch->getLocation();
@@ -367,8 +369,8 @@ void WallScene::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 			//CCLog("hanziPos %f %f",hanziPos.x,hanziPos.y);
 			CCPoint realPos = ccp(hanziPos.x+changepoint.x,hanziPos.y+changepoint.y);
 			//CCLog("hanziPos %f %f",hanziPos.x,hanziPos.y);
-			CCRect rect = CCRectMake(realPos.x-100,realPos.y-100,200,200);
-			//在字周围200像素内，判断为点中
+			CCRect rect = CCRectMake(realPos.x-150,realPos.y-150,300,300);
+			//在字周围300像素内，判断为点中
 			if (rect.containsPoint(touchpoint))
 			{
 				CCLog(iter->character.c_str());
