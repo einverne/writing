@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "Segment.hpp"
+#include "tools\DataTool.h"
 USING_NS_CC;
 
 class SegmentDrawnode :
@@ -14,7 +15,6 @@ public:
 	static SegmentDrawnode* create(Segment segment);
 	void draw();
 
-	ccColor4F color_;
 public:
 	Segment segment_;
 };

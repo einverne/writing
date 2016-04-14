@@ -94,13 +94,13 @@ public:
 	* 产生送给Lua的字符串
 	* @return
 	*/
-	string sendOutput() const;
+	string SendOutputFormat() const;
 
 	/**
 	* 产生送给Lua的字符串, 携带拐点信息
 	* @return
 	*/
-	string sendOutputWithStatus();
+	string SendOutputWithStatus();
     
     /**
     * set first point

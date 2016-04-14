@@ -1,17 +1,17 @@
-#include "JudgeLayer.h"
+#include "FreeWriteLayer.h"
 #include "JudgeScene.h"
 #include "tinyxml.h"
 #include "tools/DataTool.h"
 
-JudgeLayer::JudgeLayer()
+FreeWriteLayer::FreeWriteLayer()
 {
 }
 
-JudgeLayer::~JudgeLayer()
+FreeWriteLayer::~FreeWriteLayer()
 {
 }
 
-bool JudgeLayer::init(){
+bool FreeWriteLayer::init(){
 	CCLog("JudgeLayer::init()");
 	if (CCLayer::init())
 	{
@@ -21,7 +21,7 @@ bool JudgeLayer::init(){
 	return false;
 }
 
-void JudgeLayer::onEnter(){
+void FreeWriteLayer::onEnter(){
 	CCLayer::onEnter();
 
 	BackgroundLayer* backgroundLayer = (BackgroundLayer*)this->getParent()->getChildByTag(kBgLayerTag);
@@ -32,14 +32,14 @@ void JudgeLayer::onEnter(){
 	CCMenuItemImage* next = CCMenuItemImage::create("strangedesign/Writting_next_button.png",
 		"strangedesign/Writting_next_button_down.png",
 		this,
-		menu_selector(JudgeLayer::menuNext));
+		menu_selector(FreeWriteLayer::menuNext));
 	CCPoint nextBtnPosition = ccp(winSize.width - next->getContentSize().width/2-50,tianzige->getPositionY()+tianzige->getContentSize().height/2+20);
 	next->setPosition(nextBtnPosition);
 
 	CCMenuItemImage* previous = CCMenuItemImage::create("strangedesign/Writting_pre_button.png",
 		"strangedesign/Writting_pre_button_down.png",
 		this,
-		menu_selector(JudgeLayer::menuPrevious));
+		menu_selector(FreeWriteLayer::menuPrevious));
 	CCPoint previousBtnPosition = ccp(previous->getContentSize().width/2+50 , tianzige->getPositionY()+ tianzige->getContentSize().height/2 + 20);
 	previous->setPosition(previousBtnPosition);
 
@@ -55,7 +55,7 @@ void JudgeLayer::onEnter(){
 		CCMenuItemImage* saveButton = CCMenuItemImage::create("strangedesign/Free_writting_save_button_up.png",
 			"strangedesign/Free_writting_save_button_down.png",
 			this,
-			menu_selector(JudgeLayer::menuSave));
+			menu_selector(FreeWriteLayer::menuSave));
 		saveButton->setPosition(ccp(winSize.width/5*4,saveButton->getContentSize().height+5));
 		menu_->addChild(saveButton);
 
@@ -63,25 +63,25 @@ void JudgeLayer::onEnter(){
 		CCMenuItemImage* viewBtn = CCMenuItemImage::create("strangedesign/Free_writting_view_button_up.png",
 			"strangedesign/Free_writting_view_button_down.png",
 			this,
-			menu_selector(JudgeLayer::menuView));
+			menu_selector(FreeWriteLayer::menuView));
 		viewBtn->setPosition(ccp(winSize.width-viewBtn->getContentSize().width/2, title_bar->getPositionY()));
 		menu_->addChild(viewBtn);
 	}
 }
 
-void JudgeLayer::menuNext(CCObject* pSender){
+void FreeWriteLayer::menuNext(CCObject* pSender){
 	CCLog("next");
 	JudgeScene* scene = (JudgeScene*)CCDirector::sharedDirector()->getRunningScene();
 	scene->next();
 }
 
-void JudgeLayer::menuPrevious(CCObject* pSender){
+void FreeWriteLayer::menuPrevious(CCObject* pSender){
 	//调用上一个
 	JudgeScene* scene = (JudgeScene*)CCDirector::sharedDirector()->getRunningScene();
 	scene->previous();
 }
 
-void JudgeLayer::menuSave(CCObject* pSender){
+void FreeWriteLayer::menuSave(CCObject* pSender){
 	JudgeScene* scene = (JudgeScene*)CCDirector::sharedDirector()->getRunningScene();
 
 	//判断是否写完
@@ -124,7 +124,7 @@ void JudgeLayer::menuSave(CCObject* pSender){
 	}
 }
 
-void JudgeLayer::menuView(CCObject* pSender){
+void FreeWriteLayer::menuView(CCObject* pSender){
 
 //	vector<vector <string> > ret = SQLiteData::getNote("1","32");
 	JudgeScene* scene = (JudgeScene*)this->getParent();
@@ -135,7 +135,7 @@ void JudgeLayer::menuView(CCObject* pSender){
 	CCDirector::sharedDirector()->pushScene(ViewScene::scene(unitid,ziid,curChar));
 }
 
-void JudgeLayer::SaveProToFile(float pro){
+void FreeWriteLayer::SaveProToFile(float pro){
 	//filename hanzi ceshiScene  profic 计算
 	JudgeScene* scene = (JudgeScene*)CCDirector::sharedDirector()->getRunningScene();
 // 	string wallXMLCurrent = scene->getWallFileName();

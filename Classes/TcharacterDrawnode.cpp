@@ -147,8 +147,9 @@ TcharacterDrawnode* TcharacterDrawnode::create(string hz,CCSize showrect,Charact
 
 void TcharacterDrawnode::draw(){
 
-	CCLog("TcharDrawnode draw~~~~~~~~~~~");
-	
+// 	if (templaw)
+// 	{
+// 	}
 	ccColor4F color = ccc4f(1,0,0,1);
 	glLineWidth(8);					//笔画粗细
 	ccDrawColor4F(color.r, color.g, color.b, color.a);                     //笔画颜色
@@ -168,6 +169,14 @@ void TcharacterDrawnode::draw(){
 	CCObject* segment_ob;
 	CCARRAY_FOREACH(SegmentNodeList, segment_ob){
 		SegmentDrawnode* node = (SegmentDrawnode*)segment_ob;
+		Segment segment = node->segment_;
+		int number_index = segment.seg_index_;
+		CCPoint head_point = segment.point_list_.front();
+		CCLabelTTF* number_ttf = CCLabelTTF::create(DataTool::intTostring(number_index).c_str(), "Arial", 50);
+		number_ttf->setPosition(head_point-ccp(20,10));		// 首点左偏20px，下10px
+		number_ttf->setColor(ccBLUE);						// 蓝色数字
+		this->addChild(number_ttf, 1);
+
 		node->draw();
 	}
 
@@ -179,7 +188,7 @@ int TcharacterDrawnode::getPointsCount(){
 	CCObject* ob;
 	int count = 0;
 	CCARRAY_FOREACH(strokedrawList,ob){
-		count += ((StrokeDrawnode*)(ob))->getStroke().getPointsCount();
+		count += ((StrokeDrawnode*)(ob))->GetStroke().getPointsCount();
 	}
 	return count;
 }

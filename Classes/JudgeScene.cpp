@@ -10,7 +10,7 @@ JudgeScene::JudgeScene():backgroundLayer(NULL),
 	touchLayer(NULL),
 	TLayer(NULL),
 	HLayer(NULL),
-	judgeLayer(NULL),
+	free_write_layer(NULL),
 	index_(0)
 {
 	ext_p_ = new CharacterExtend();
@@ -20,7 +20,7 @@ JudgeScene::JudgeScene(string unit_id,vector<string> hanzis, int start_index):ba
 	touchLayer(NULL),
 	TLayer(NULL),
 	HLayer(NULL),
-	judgeLayer(NULL)
+	free_write_layer(NULL)
 {
 	ext_p_ = new CharacterExtend();
 	this->unit_id_ = unit_id;
@@ -35,7 +35,7 @@ JudgeScene::~JudgeScene()
 	CC_SAFE_RELEASE(TLayer);
 	CC_SAFE_RELEASE(HLayer);
 	CC_SAFE_RELEASE(touchLayer);
-	CC_SAFE_RELEASE(judgeLayer);
+	CC_SAFE_RELEASE(free_write_layer);
 }
 
 JudgeScene* JudgeScene::create(string unit_id,vector<string> hanzis, int start_index){
@@ -90,10 +90,10 @@ bool JudgeScene::init(){
 		touchLayer->setTag(kTouchLayerTag);
 		this->addChild(touchLayer);
 
-		this->setJudgeLayer(JudgeLayer::create());
-		CC_BREAK_IF(!judgeLayer);
-		judgeLayer->setTag(kCeshiLayerTag);
-		this->addChild(judgeLayer);
+		this->setFreeWriteLayer(FreeWriteLayer::create());
+		CC_BREAK_IF(!free_write_layer);
+		free_write_layer->setTag(kCeshiLayerTag);
+		this->addChild(free_write_layer);
 
 		CC_BREAK_IF(!CCScene::init());
 

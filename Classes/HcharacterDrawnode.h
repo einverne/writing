@@ -6,6 +6,7 @@
 #include "Stroke.h"
 #include "RowStroke.hpp"
 #include "ScriptCharacter.hpp"
+#include "SegmentDrawnode.h"
 #include <string>
 #include <list>
 USING_NS_CC;
@@ -19,21 +20,17 @@ public:
 	~HcharacterDrawnode();
 	CREATE_FUNC(HcharacterDrawnode);
 	virtual bool init();
-	//节点开始进入触发  
-//	virtual void onEnter();
-	//节点退出触发  
-//	virtual void onExit();
 	virtual void draw();
 
 	/**
-	* addPoint 在最后一笔最后添加点
+	* addPoint 在 stroke 最后一笔最后添加点
 	* @param point
 	* @return
 	*/
 	void AddPoint(CCPoint point);
 
 	/**
-	* addStroke 添加一笔
+	* addStroke 添加新的笔画
 	* @param s Stroke
 	* @return
 	*/
@@ -52,7 +49,6 @@ public:
 	* @return
 	*/
 	void ChangeStroke(int index,Stroke s);
-
 	
 	/**
 	* getStroke 获取第几笔 从1开始
@@ -88,8 +84,11 @@ public:
 	*/
 	list<RowStroke> GetHandWritingPoints();
 
-	CC_SYNTHESIZE_RETAIN(CCArray*,strokeDrawlist,StrokeDrawnodeList);	// 用来保存手写点
-private:
+	ScriptCharacter GetScriptCharacter();
+
+	CC_SYNTHESIZE_RETAIN(CCArray*,strokeDrawlist,StrokeDrawnodeList);	// 用来保存手写点数组
+	CC_SYNTHESIZE_RETAIN(CCArray*,segmentdraw_list, SegmentDrawnodeList);			// Segment drawnode list
+
 	CCSprite* tianzige_;
 	ScriptCharacter script_char;			// 手写字
 };

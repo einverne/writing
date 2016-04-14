@@ -18,22 +18,22 @@
 
 USING_NS_CC;
 
-
+// 手写字 Character
 class ScriptCharacter{
 public:
-    list<RowStroke> row_stroke;
-    bool divide;
+    list<RowStroke> row_stroke_;
+    bool divide_;
     
-    list<Stroke> stroke_list;
-    list<Segment> segment_list;
+    list<Stroke> stroke_list_;
+    list<Segment> segment_list_;
     
-    list<int> noise_list;               //疑似抖笔笔段列表。怀疑是抖笔的笔段索引号。
+    list<int> noise_list_;               //疑似抖笔笔段列表。怀疑是抖笔的笔段索引号。
 
 	//用于动画演示的属性
 	int draw_index; //当前演示笔段的索引；
 	int draw_point; //当前演示笔段的演示点索引;
 
-	int normal_size;
+	int normal_size_;
     
     ScriptCharacter();
     ScriptCharacter(const ScriptCharacter& T);
@@ -42,9 +42,9 @@ public:
 
 	void clear_divide_data();
 	void clearalldata();
-	void init(list<RowStroke> slist);  //原始书写笔画初始化
+	void Init(list<RowStroke> slist);  //原始书写笔画初始化
 
-	void normalize(int height=512,int width=512);  //尺寸的缩放，路径的均匀插值。
+	void Normalize(int height=512,int width=512);  //尺寸的缩放，路径的均匀插值。
 	void divideSegment1();  //识别笔段。将每个笔画划分为一系列笔段。
 	void divideSegment2();  //识别笔段。将每个笔画划分为一系列笔段。
 

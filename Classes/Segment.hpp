@@ -14,20 +14,22 @@
 
 #include <list>
 #include "FlagMatrix.hpp"
+
 using namespace std;
 USING_NS_CC;
 
+// 笔段
 class Segment{
 public:
-    string name_;
-    int seg_index_;
+    string name_;					// 笔段的名字
+    int seg_index_;					// 笔段的序号
     
-    list<CCPoint> point_list_;
-    CCPoint mid_point_;
-    float dirangle_;
-    float len_;
+    list<CCPoint> point_list_;		// 点 list
+    CCPoint mid_point_;				// 中点
+    float dirangle_;				// 
+    float len_;						// 
     
-	ccColor4F color_;
+	ccColor4F color_;				// 笔段的颜色
     
 public:
     Segment();

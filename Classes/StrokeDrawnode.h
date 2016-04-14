@@ -11,7 +11,7 @@ class StrokeDrawnode : public CCNode
 {
 public:
 	/**
-	* 用Stroke构造一个Node
+	* 利用Stroke构造一个Node
 	* @param stro
 	* @return
 	*/
@@ -25,44 +25,32 @@ public:
 	* @return
 	*/
 	static StrokeDrawnode* create(Stroke stro);
-	//节点开始进入触发
-	//void onEnter();
-	//节点退出触发
-	//void onExit();
 	void draw();
-
-	/**
-	* add a point to stroke
-	* @param point
-	* @return
-	*/
-	void addPoint(CCPoint point);
     
 	/**
 	* return Stroke
 	* @return
 	*/
-	Stroke getStroke(){return stroke;}
+	Stroke GetStroke() const {return stroke_;}
 
 	/**
-	* 设置visibleIndex
+	* 设置visible_index_
 	* @param vi
 	* @return
 	*/
-	void setVisibleIndex(int vi);
+	void SetVisibleIndex(int vi);
 
 	/**
 	* 返回visibleIndex
 	* @return
 	*/
-	int getVisibleIndex()	{ return visibleIndex; }
+	int GetVisibleIndex()	{ return visible_index_; }
     
-    float line_width;               // line width
-    ccColor4F color;                // line color
-    
-private:
-	Stroke stroke;					//store points in a stroke
-	int visibleIndex;				//if visibleIndex == -1 then draw all points else draw visibleIndex points
+    float line_width_;               // line width
+    ccColor4F color_;                // line color
+
+	Stroke stroke_;					//store points in a stroke
+	int visible_index_;				//if visibleIndex == -1 then draw all points else draw visibleIndex points
 };
 
 

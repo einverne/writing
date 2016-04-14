@@ -8,12 +8,12 @@
 #include "ViewScene.h"
 USING_NS_CC;
 
-class JudgeLayer : public CCLayer
+class FreeWriteLayer : public CCLayer
 {
 public:
-	JudgeLayer();
-	~JudgeLayer();
-	CREATE_FUNC(JudgeLayer);
+	FreeWriteLayer();
+	~FreeWriteLayer();
+	CREATE_FUNC(FreeWriteLayer);
 	bool init();
 	virtual void onEnter();
 	void SaveProToFile(float pro);

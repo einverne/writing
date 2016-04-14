@@ -156,12 +156,12 @@ void Stroke::addEveryPoint(CCPoint point){
 }
 
 
-string Stroke::sendOutput() const{
+string Stroke::SendOutputFormat() const{
 	string ret;
 	for (vector<CCPoint>::const_iterator it = point_list_.begin(); it != point_list_.end() ; ++it)
 	{
-		CCPoint temp = (*it);
-        ret += DataTool::to_string(ceil(temp.x))+ "/" + DataTool::to_string(ceil(temp.y)) + "/";
+		CCPoint point = (*it);
+        ret += DataTool::to_string(ceil(point.x))+ "/" + DataTool::to_string(ceil(point.y)) + "/";
 	}
 	ret += "@";
 	return ret;
@@ -189,7 +189,7 @@ void Stroke::addStatus(const char* status){
 	status_list_.push_back(s);
 }
 
-string Stroke::sendOutputWithStatus(){
+string Stroke::SendOutputWithStatus(){
 	string ret;
 	vector<string>::const_iterator statusIter = status_list_.begin();
 	vector<CCPoint>::const_iterator pointIter;

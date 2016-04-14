@@ -237,12 +237,6 @@
     <ClCompile Include="..\Classes\StrokeDrawnode.cpp">
       <Filter>Classes\Character</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\HcharacterDrawnode.cpp">
-      <Filter>Classes\Character</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\TcharacterDrawnode.cpp">
-      <Filter>Classes\Character</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\MyToast.cpp">
       <Filter>Classes\tools</Filter>
     </ClCompile>
@@ -256,9 +250,6 @@
       <Filter>Classes\Layer</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\JudgeScene.cpp">
-      <Filter>Classes\Layer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\JudgeLayer.cpp">
       <Filter>Classes\Layer</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\MainScene.cpp">
@@ -287,6 +278,15 @@
     </ClCompile>
     <ClCompile Include="..\Classes\SegmentDrawnode.cpp">
       <Filter>Classes\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\TcharacterDrawnode.cpp">
+      <Filter>Classes\Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\HcharacterDrawnode.cpp">
+      <Filter>Classes\Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\FreeWriteLayer.cpp">
+      <Filter>Classes\Layer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -498,12 +498,6 @@
     <ClInclude Include="..\Classes\StrokeDrawnode.h">
       <Filter>Classes\Character</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\HcharacterDrawnode.h">
-      <Filter>Classes\Character</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\TcharacterDrawnode.h">
-      <Filter>Classes\Character</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\MyToast.h">
       <Filter>Classes\tools</Filter>
     </ClInclude>
@@ -517,9 +511,6 @@
       <Filter>Classes\Layer</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\JudgeScene.h">
-      <Filter>Classes\Layer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\JudgeLayer.h">
       <Filter>Classes\Layer</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\MainScene.h">
@@ -548,6 +539,15 @@
     </ClInclude>
     <ClInclude Include="..\Classes\SegmentDrawnode.h">
       <Filter>Classes\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\TcharacterDrawnode.h">
+      <Filter>Classes\Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\HcharacterDrawnode.h">
+      <Filter>Classes\Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\FreeWriteLayer.h">
+      <Filter>Classes\Layer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

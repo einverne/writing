@@ -34,7 +34,7 @@ void RightZiAnimationAction::startWithTarget(CCNode *pTarget){
 	CCObject* it = NULL;
 	CCARRAY_FOREACH(tnode->getstrokedrawList(),it){
 		StrokeDrawnode* snode = (StrokeDrawnode*)it;
-		snode->setVisibleIndex(0);
+		snode->SetVisibleIndex(0);
 	}
 }
 
@@ -51,12 +51,12 @@ void RightZiAnimationAction::update(float time){
 	int visible_stroke_index = 0;
 	int sumcount = 0;
 	StrokeDrawnode* snode = (StrokeDrawnode*)temp->objectAtIndex(visible_stroke_index);
-	while (sumcount + snode->getStroke().getPointsCount() < delta && visible_stroke_index < tnode->getstrokedrawList()->count()-1)
+	while (sumcount + snode->GetStroke().getPointsCount() < delta && visible_stroke_index < tnode->getstrokedrawList()->count()-1)
 	{
-		sumcount += snode->getStroke().getPointsCount();
+		sumcount += snode->GetStroke().getPointsCount();
 		visible_stroke_index++;
 		snode = (StrokeDrawnode*)temp->objectAtIndex(visible_stroke_index);
 	}
 	tnode->setVisibleIndex(visible_stroke_index);
-	snode->setVisibleIndex(delta-sumcount);
+	snode->SetVisibleIndex(delta-sumcount);
 }

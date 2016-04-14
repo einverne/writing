@@ -4,7 +4,6 @@
 SegmentDrawnode::SegmentDrawnode(Segment segment)
 {
 	this->segment_ = segment;
-	color_ = ccc4f(1,0,0,1);
 }
 
 
@@ -26,8 +25,8 @@ SegmentDrawnode* SegmentDrawnode::create(Segment segment){
 }
 
 void SegmentDrawnode::draw(){
-	CCLog("Enter here");
-	ccColor4F color = ccc4f(1,0,0,1);
+
+	ccColor4F color = segment_.color_;
 	glLineWidth(8);					//笔画粗细
 	ccDrawColor4F(color.r, color.g, color.b, color.a);                     //笔画颜色
 	glEnable(GL_BLEND);
@@ -37,6 +36,17 @@ void SegmentDrawnode::draw(){
 	list<CCPoint> point_list = this->segment_.point_list_;
 	list<CCPoint>::iterator iter = point_list.begin();
 	CCPoint head_point = *iter;
+
+	// 首点标红
+	glLineWidth(4);					//笔画粗细
+	ccDrawColor4F(1, 0, 0, 1);
+	// ccDrawCircle("中心点坐标","半径f","角度f","分段数","显示半径","X轴放大倍数f","Y轴放大倍数f");  
+	ccDrawCircle(head_point, 10, 360, 360, 0, 1, 1);
+
+
+	glLineWidth(6);
+	ccDrawColor4F(color.r, color.g, color.b, color.a);
+
 	iter++;
 	for (iter; iter != point_list.end(); iter++)
 	{

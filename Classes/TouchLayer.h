@@ -19,8 +19,7 @@ public:
 	* @return
 	*/
 	virtual bool init(TcharacterLayer* t,HcharacterLayer* h);
-	virtual void onEnter();
-	virtual void onExit();
+
 	/**
 	* 利用TcharacterLayer，HcharacterLayer创建TouchLayer
 	* @param t

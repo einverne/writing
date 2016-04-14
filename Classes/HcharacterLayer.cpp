@@ -196,7 +196,12 @@ void HcharacterLayer::Judge(){
 	// 松弛匹配
 	//schar.divide();
 
-	CCLog("output %s",points_output_.c_str());
+// 	TemplateCharacter template_char = tlayer->getm_TDrawnode()->template_character_;
+// 	template_char.clearSegmentColor(ccc4f(0.128, 0.128, 0.128, 1));
+
+// 	ScriptCharacter script_char = getm_HDrawnode()->script_char;
+// 	script_char.divideSegment2();
+// 	script_char.new_IdentifynoiseSegment();
 
 
 	return;

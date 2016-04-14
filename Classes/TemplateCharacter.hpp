@@ -88,7 +88,12 @@ public:
     list<int> find_intersect_relation_segment(int segindex);
     int find_common_connect_relation_segment(int k1, int k2);
 
-	void TransferCoordinate(int size);
+	/**
+	* 转换坐标系，适应 cocos2d-x 的坐标系
+	* @param size
+	* @return
+	*/
+	void TransferCoordinate(int size=512);
     
 protected:
     void ReplaceSegment(int ind, Segment seg);

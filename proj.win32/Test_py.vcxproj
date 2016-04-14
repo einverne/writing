@@ -134,7 +134,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\Component.cpp" />
     <ClCompile Include="..\Classes\FlagMatrix.cpp" />
     <ClCompile Include="..\Classes\GeometryTool.cpp" />
-    <ClCompile Include="..\Classes\JudgeLayer.cpp" />
+    <ClCompile Include="..\Classes\FreeWriteLayer.cpp" />
     <ClCompile Include="..\Classes\JudgeScene.cpp" />
     <ClCompile Include="..\Classes\Character.cpp" />
     <ClCompile Include="..\Classes\CharacterEntity.cpp" />
@@ -221,7 +221,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\Error.h" />
     <ClInclude Include="..\Classes\FlagMatrix.hpp" />
     <ClInclude Include="..\Classes\GeometryTool.hpp" />
-    <ClInclude Include="..\Classes\JudgeLayer.h" />
+    <ClInclude Include="..\Classes\FreeWriteLayer.h" />
     <ClInclude Include="..\Classes\JudgeScene.h" />
     <ClInclude Include="..\Classes\Character.h" />
     <ClInclude Include="..\Classes\CharacterEntity.h" />

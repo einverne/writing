@@ -41,14 +41,6 @@ TouchLayer* TouchLayer::create(TcharacterLayer* t,HcharacterLayer* h){
 	}
 }
 
-void TouchLayer::onEnter(){
-	CCLayer::onEnter();
-}
-
-void TouchLayer::onExit(){
-	CCLayer::onExit();
-}
-
 void TouchLayer::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent){
 	getHlayer()->getInfoSprite()->setVisible(false);
 	//判断写了几笔 超过笔数就不
@@ -88,7 +80,6 @@ void TouchLayer::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
 	}
 	CCPoint touchp = ((CCTouch*)pTouches->anyObject())->getLocationInView();
 	touchp = CCDirector::sharedDirector()->convertToUI(touchp);
-	//CCLog("x= %f, y= %f",touchp.x,touchp.y);
 
 // 	CCSprite* tianzige = Hlayer->getSprite();
 	HcharacterDrawnode* tianzige = Hlayer->getm_HDrawnode();
@@ -99,7 +90,9 @@ void TouchLayer::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent){
 	if (tianzige->boundingBox().containsPoint(touchp))
 	{
 		//在范围内，并且起笔在范围内
+		// 将坐标转成 在 田字格 内的坐标
 		touchp = tianzige->convertToNodeSpace(touchp);
+		CCLog("x= %f, y= %f",touchp.x,touchp.y);
 		touch_points_.push_back(touchp);
 		Hlayer->getm_HDrawnode()->AddPoint(touchp);
 	}else if(!tianzige->boundingBox().containsPoint(touchp))

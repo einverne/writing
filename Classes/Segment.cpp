@@ -7,6 +7,7 @@
 //
 
 #include "Segment.hpp"
+#include "GeometryTool.hpp"
 
 Segment::Segment(){
     name_ = "noname";
@@ -17,6 +18,8 @@ Segment::Segment(){
     mid_point_ = ccp(0.0, 0.0);
     dirangle_ = 0;
     len_ = 0;
+
+	color_ = ccc4f(0,0,0,1);
 }
 
 Segment::~Segment(){
@@ -73,10 +76,10 @@ void Segment::UpdateAttribute()
 //    ASSERT(this->plist.size()>=2);
     
     //////////////////////////////
-//    GeometryTools gt;
-//    mid_point=gt.Pathmid_point(this->plist);
-//    dirangle=gt.PathDirectionAngle(this->plist);
-//    len=gt.PathLength(this->plist);
+   GeometryTool gt;
+   mid_point_ =gt.PathMidpoint(this->point_list_);
+   dirangle_ =gt.PathDirectionAngle(this->point_list_);
+   len_ =gt.PathLength(this->point_list_);
 }
 
 void Segment::Clear()

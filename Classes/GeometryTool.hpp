@@ -13,6 +13,7 @@
 #include "cocos2d.h"
 #include <list>
 #include "Segment.hpp"
+
 USING_NS_CC;
 using namespace std;
 

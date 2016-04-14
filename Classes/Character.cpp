@@ -219,7 +219,7 @@ string Character::getCharacterStandardInfo() const{
     string ret = "";
     for (int i = 1; i <= getStrokeCount(); ++i) {
         Stroke stroke = getStroke(i);
-        ret += stroke.sendOutputWithStatus();
+        ret += stroke.SendOutputWithStatus();
     }
     return ret;
 }

@@ -10,261 +10,82 @@
 #include "GeometryTool.hpp"
 
 ScriptCharacter::ScriptCharacter(){
-    row_stroke.clear();
-    divide = false;
+    row_stroke_.clear();
+    divide_ = false;
     
-    stroke_list.clear();
-    segment_list.clear();
-    noise_list.clear();
+    stroke_list_.clear();
+    segment_list_.clear();
+    noise_list_.clear();
 }
 
 ScriptCharacter::ScriptCharacter(const ScriptCharacter& T){
-    this->row_stroke = T.row_stroke;
-    this->divide = T.divide;
-    this->stroke_list = T.stroke_list;
-    this->segment_list = T.segment_list;
-    this->noise_list = T.noise_list;
+    this->row_stroke_ = T.row_stroke_;
+    this->divide_ = T.divide_;
+    this->stroke_list_ = T.stroke_list_;
+    this->segment_list_ = T.segment_list_;
+    this->noise_list_ = T.noise_list_;
 }
 
 ScriptCharacter& ScriptCharacter::operator=(const ScriptCharacter& T){
-    this->row_stroke = T.row_stroke;
-    this->divide = T.divide;
-    this->stroke_list = T.stroke_list;
-    this->segment_list = T.segment_list;
-    this->noise_list = T.noise_list;
+    this->row_stroke_ = T.row_stroke_;
+    this->divide_ = T.divide_;
+    this->stroke_list_ = T.stroke_list_;
+    this->segment_list_ = T.segment_list_;
+    this->noise_list_ = T.noise_list_;
     
     return *this;
 }
 
 ScriptCharacter::~ScriptCharacter(){
-    row_stroke.clear();
-    stroke_list.clear();
-    segment_list.clear();
-    noise_list.clear();
+    row_stroke_.clear();
+    stroke_list_.clear();
+    segment_list_.clear();
+    noise_list_.clear();
 
 }
 
 
 void ScriptCharacter::clear_divide_data()
 {
-	stroke_list.clear();   
-	segment_list.clear(); 	
-	noise_list.clear(); 
+	stroke_list_.clear();   
+	segment_list_.clear(); 	
+	noise_list_.clear(); 
 	
 	//////////////////
 	this->draw_index=-1;  
 	this->draw_point=-1;
-	divide=false;
+	divide_=false;
 }
 
 void ScriptCharacter::clearalldata()
 {
-	row_stroke.clear();   
-	divide=false;
+	row_stroke_.clear();   
+	divide_=false;
 	
 	//下面的属性是分割后产生的
-	stroke_list.clear();   
-	segment_list.clear();	
-	noise_list.clear();  
+	stroke_list_.clear();   
+	segment_list_.clear();	
+	noise_list_.clear();  
 	
 	//下面的属性用于动画演示
 	draw_index=-1;  
 	draw_point=-1;
 	
-	normal_size=-1;
+	normal_size_=-1;
 }
 
-/*
-void ScriptCharacter::draw(CDC* pDC)
-{
-	CPen *pen, *pOldPen;	
-	CCPoint tempp(0,0);
-	
-	CBrush   Brush;   
-	Brush.CreateSolidBrush(RGB(255,0,0));
-	CBrush* oldbrush=pDC->SelectObject(&Brush);
 
 
-	////////////////////////////////
-	if (divide==false)  //未分割
-	{
-		RowStroke Rstroke;
-		if(this->row_stroke.size()==0)
-		{
-			pDC->SelectObject(oldbrush);
-			Brush.DeleteObject();
-			return;
-		}
-		//////////
-		if(draw_index<0   || draw_point<0) //无动画
-		{					
-			for (int i=0; i<this->row_stroke.size();i++)
-			{
-				Rstroke=getrowstroke(i);
-				tempp=Rstroke.getpoint(0);
-				pDC->BeginPath();   
-				pDC->Ellipse(tempp.x-6,tempp.y-6,tempp.x+6,tempp.y+6);
-				pDC->EndPath();	   
-				pDC->FillPath();			
-				
-				pen=new CPen(PS_SOLID, 4, RGB(0,0,0));
-				pOldPen=pDC->SelectObject(pen);				
 
-				//////			
-				pDC->MoveTo(tempp.x,tempp.y);
-				for (int j=1;j<Rstroke.Rowplist.size();j++)
-				{
-					tempp=Rstroke.getpoint(j);
-					pDC->LineTo(tempp.x,tempp.y);
-				}
-				pDC->SelectObject(pOldPen);
-				delete pen;
-			}			
-		}
-		else if(draw_index>=0 && draw_point>=0)  //有动画
-		{
-			//动画演示
-			for (int i=0; i<draw_index;i++)
-			{
-				Rstroke=getrowstroke(i);
-				tempp=Rstroke.getpoint(0);
-				
-				pen=new CPen(PS_SOLID, 4, RGB(0,0,0));
-				pOldPen=pDC->SelectObject(pen);
-				
-				//////			
-				pDC->MoveTo(tempp.x,tempp.y);
-				for (int j=1;j<Rstroke.Rowplist.size();j++)
-				{
-					tempp=Rstroke.getpoint(j);
-					pDC->LineTo(tempp.x,tempp.y);
-				}
-				pDC->SelectObject(pOldPen);
-				delete pen;
-			}
-			//最后一笔
-			Rstroke=getrowstroke(draw_index);
-			tempp=Rstroke.getpoint(0);
-			
-			pen=new CPen(PS_SOLID, 4, RGB(0,0,0));
-			pOldPen=pDC->SelectObject(pen);
-			
-			//////			
-			pDC->MoveTo(tempp.x,tempp.y);
-			for (int j=1;j<=draw_point;j++)
-			{
-				tempp=Rstroke.getpoint(j);
-				pDC->LineTo(tempp.x,tempp.y);
-			}
-			pDC->SelectObject(pOldPen);
-			delete pen;
-		}
-	}
-	else//已分割
-	{
-		Segment temps;
-		//////////
-		if (this->segment_list.size()==0)
-		{
-			pDC->SelectObject(oldbrush);
-			Brush.DeleteObject();
-			return;
-		}
-		
-		//////////
-		if(draw_index<0   || draw_point<0) //无动画
-		{		
-			for (int i=0; i<this->segment_list.size();i++)
-			{
-				temps=getsegment(i);
-				tempp=temps.getpoint(0);
-				pDC->BeginPath();   
-				pDC->Ellipse(tempp.x-6,tempp.y-6,tempp.x+6,tempp.y+6);
-				pDC->EndPath();	   
-				pDC->FillPath();			
-				
-				////
-				list<int>::iterator tempit;
-				tempit= find(noise_list.begin(), noise_list.end(), i);
-				if (tempit != noise_list.end())
-				{
-					pen=new CPen(PS_SOLID, 4, RGB(128,128,128));
-				} 
-				else
-				{
-					pen=new CPen(PS_SOLID, 4, temps.color);
-				}				
-				pOldPen=pDC->SelectObject(pen);
-				
-				///
-				CString numtag;
-				numtag.Format(_T("%d"),i);
-				pDC->TextOut(tempp.x-10,tempp.y-15,numtag);
-
-				//////			
-				pDC->MoveTo(tempp.x,tempp.y);
-				for (int j=1;j<temps.plist.size();j++)
-				{
-					tempp=temps.getpoint(j);
-					pDC->LineTo(tempp.x,tempp.y);
-				}
-				pDC->SelectObject(pOldPen);
-				delete pen;
-			}			
-		}
-		else if(draw_index>=0 && draw_point>=0)  //有动画
-		{
-			//动画演示
-			for (int i=0; i<draw_index;i++)
-			{
-				temps=getsegment(i);
-				tempp=temps.getpoint(0);
-				
-				pen=new CPen(PS_SOLID, 4, temps.color);
-				pOldPen=pDC->SelectObject(pen);
-				
-				//////			
-				pDC->MoveTo(tempp.x,tempp.y);
-				for (int j=1;j<temps.plist.size();j++)
-				{
-					tempp=temps.getpoint(j);
-					pDC->LineTo(tempp.x,tempp.y);
-				}
-				pDC->SelectObject(pOldPen);
-				delete pen;
-			}
-			//最后一笔
-			temps=getsegment(draw_index);
-			tempp=temps.getpoint(0);
-			
-			pen=new CPen(PS_SOLID, 4, temps.color);
-			pOldPen=pDC->SelectObject(pen);
-			
-			//////			
-			pDC->MoveTo(tempp.x,tempp.y);
-			for (int j=1;j<=draw_point;j++)
-			{
-				tempp=temps.getpoint(j);
-				pDC->LineTo(tempp.x,tempp.y);
-			}
-			pDC->SelectObject(pOldPen);
-			delete pen;
-		}
-	}
-
-	pDC->SelectObject(oldbrush);
-	Brush.DeleteObject();
-}
-*/
 
 void ScriptCharacter::remove_from_noistlist(int segindex)
 {
-	list<int>::iterator it=this->noise_list.begin();
-	for (;it!=this->noise_list.end();it++)
+	list<int>::iterator it=this->noise_list_.begin();
+	for (;it!=this->noise_list_.end();it++)
 	{
 		if(*it== segindex)
 		{
-			this->noise_list.erase(it);
+			this->noise_list_.erase(it);
 			break;
 		}
 	}
@@ -273,8 +94,8 @@ void ScriptCharacter::remove_from_noistlist(int segindex)
 bool ScriptCharacter::InsameStroke(int segindex1,int segindex2)
 {
 	bool yes=false;
-	list<Stroke>::iterator it=this->stroke_list.begin();
-	for (;it!=this->stroke_list.end();it++)
+	list<Stroke>::iterator it=this->stroke_list_.begin();
+	for (;it!=this->stroke_list_.end();it++)
 	{
 		if(segindex1>=it->start_index_ && segindex1<it->start_index_+it->seg_count_ &&
 		   segindex2>=it->start_index_ && segindex2<it->start_index_+it->seg_count_)
@@ -289,7 +110,7 @@ bool ScriptCharacter::InsameStroke(int segindex1,int segindex2)
 
 void ScriptCharacter::AnimationProgress(bool ani)
 {
-	if(this->row_stroke.size()==0)
+	if(this->row_stroke_.size()==0)
 		return;
 	////////////////////////////////
 	if(!ani)
@@ -307,12 +128,12 @@ void ScriptCharacter::AnimationProgress(bool ani)
 		return;
 	}
 	//进展和结束
-	if (divide==false)
+	if (divide_==false)
 	{
 		//结束
-		int maxs=row_stroke.size();
+		int maxs=row_stroke_.size();
 		
-		list<RowStroke>::iterator it = this->row_stroke.end();
+		list<RowStroke>::iterator it = this->row_stroke_.end();
 		it--;
 		int maxpt=(*it).GetPointList().size();
 		
@@ -338,9 +159,9 @@ void ScriptCharacter::AnimationProgress(bool ani)
 	else
 	{
 		//结束
-		int maxs=segment_list.size();
+		int maxs=segment_list_.size();
 		
-		list<Segment>::iterator it = this->segment_list.end();
+		list<Segment>::iterator it = this->segment_list_.end();
 		it--;
 		int maxpt=(*it).point_list_.size();
 		
@@ -370,7 +191,7 @@ Segment ScriptCharacter::getsegment(int num)
 	//ASSERT(num>=0);
 	//ASSERT(num<this->segment_list.size());
 
-	list<Segment>::iterator it = this->segment_list.begin();
+	list<Segment>::iterator it = this->segment_list_.begin();
 	
 	for (int x=0;x<num;x++)
 	{
@@ -386,8 +207,8 @@ bool ScriptCharacter::IsNoiseSegment(int num)
 	//ASSERT(num<this->segment_list.size());
 
 	bool yes=false;
-	list<int>::iterator it = this->noise_list.begin();
-	while (it!=this->noise_list.end())
+	list<int>::iterator it = this->noise_list_.begin();
+	while (it!=this->noise_list_.end())
 	{
 		if(*it==num)
 		{
@@ -409,7 +230,7 @@ Stroke ScriptCharacter::getstroke(int num)
 	//ASSERT(num<stroke_list.size());
 	
 	////////////
-	list<Stroke>::iterator it=this->stroke_list.begin();	
+	list<Stroke>::iterator it=this->stroke_list_.begin();	
 	for (int i=0;i<num;i++)
 	{
 		it++;
@@ -423,7 +244,7 @@ RowStroke ScriptCharacter::getrowstroke(int num)
 	//ASSERT(num>=0);
 	//ASSERT(num<this->row_stroke.size());
 	
-	list<RowStroke>::iterator it = this->row_stroke.begin();
+	list<RowStroke>::iterator it = this->row_stroke_.begin();
 	
 	for (int x=0;x<num;x++)
 	{
@@ -433,18 +254,18 @@ RowStroke ScriptCharacter::getrowstroke(int num)
 	return *it;
 }
 
-void ScriptCharacter::init(list<RowStroke> slist)  //原始书写笔画初始化
+void ScriptCharacter::Init(list<RowStroke> slist)  //原始书写笔画初始化
 {
 	this->draw_index=-1;  
 	this->draw_point=-1;
-	this->normal_size=-1;
+	this->normal_size_=-1;
 	//////
-	this->divide=false;
-	this->row_stroke=slist;
+	this->divide_=false;
+	this->row_stroke_=slist;
 	//////
-	this->stroke_list.clear();
-	this->segment_list.clear();
-	this->noise_list.clear();
+	this->stroke_list_.clear();
+	this->segment_list_.clear();
+	this->noise_list_.clear();
 }
 
 void ScriptCharacter::ReplaceRowstroke(int ind, RowStroke Row)
@@ -452,7 +273,7 @@ void ScriptCharacter::ReplaceRowstroke(int ind, RowStroke Row)
 	//ASSERT(ind>=0);
 	//ASSERT(ind<this->row_stroke.size());
 	
-	list<RowStroke>::iterator it = this->row_stroke.begin();
+	list<RowStroke>::iterator it = this->row_stroke_.begin();
 	
 	for (int x=0;x<ind;x++)
 	{
@@ -467,7 +288,7 @@ void ScriptCharacter::Replacesegment(int ind, Segment seg)
 	//ASSERT(ind>=0);
 	//ASSERT(ind<this->segment_list.size());
 	
-	list<Segment>::iterator it = this->segment_list.begin();
+	list<Segment>::iterator it = this->segment_list_.begin();
 	
 	for (int x=0;x<ind;x++)
 	{
@@ -484,16 +305,16 @@ void ScriptCharacter::removesegment(int ind)
 
 	//////////////////////////////////////
 	//处理笔段
-	list<Segment>::iterator it = this->segment_list.begin();	
+	list<Segment>::iterator it = this->segment_list_.begin();	
 	for(int x=0;x<ind;x++)
 	{
 		it++;
 	}
 
-	this->segment_list.erase(it);
+	this->segment_list_.erase(it);
 
-	it = this->segment_list.begin();	
-	while(it != this->segment_list.end())
+	it = this->segment_list_.begin();	
+	while(it != this->segment_list_.end())
 	{
 		if (it->seg_index_>ind)
 		{
@@ -504,12 +325,12 @@ void ScriptCharacter::removesegment(int ind)
 	
 	//////////////////////////////
 	//处理笔画
-	list<Stroke>::iterator its=this->stroke_list.begin();
-	while(its!=this->stroke_list.end())
+	list<Stroke>::iterator its=this->stroke_list_.begin();
+	while(its!=this->stroke_list_.end())
 	{
 		if(its->start_index_==ind && its->seg_count_==1)
 		{
-			its=this->stroke_list.erase(its);
+			its=this->stroke_list_.erase(its);
 			break;
 		}
 		else if(its->start_index_==ind && its->seg_count_>1)
@@ -525,8 +346,8 @@ void ScriptCharacter::removesegment(int ind)
 		its++;
 	}
 
-	its=this->stroke_list.begin();
-	while(its!=this->stroke_list.end())
+	its=this->stroke_list_.begin();
+	while(its!=this->stroke_list_.end())
 	{				
 		if(its->start_index_>ind)
 		{
@@ -536,19 +357,19 @@ void ScriptCharacter::removesegment(int ind)
 	}
 	/////////////////////////////
 	//处理抖笔
-	list<int>::iterator itn = this->noise_list.begin();
-	while(itn!=this->noise_list.end())
+	list<int>::iterator itn = this->noise_list_.begin();
+	while(itn!=this->noise_list_.end())
 	{
 		if(*itn==ind)
 		{
-			this->noise_list.erase(itn);
+			this->noise_list_.erase(itn);
 			break;
 		}		
 		itn++;
 	}
 
-	itn = this->noise_list.begin();
-	while(itn!=this->noise_list.end())
+	itn = this->noise_list_.begin();
+	while(itn!=this->noise_list_.end())
 	{
 		if(*itn>ind)
 		{
@@ -558,10 +379,10 @@ void ScriptCharacter::removesegment(int ind)
 	}
 }
 
-void ScriptCharacter::normalize(int height,int width)  //尺寸的缩放，路径的均匀插值。
+void ScriptCharacter::Normalize(int height,int width)  //尺寸的缩放，路径的均匀插值。
 {
 	//1.原始笔画的缩放
-	if (this->row_stroke.size()==0)
+	if (this->row_stroke_.size()==0)
 	{
 		return;
 	}
@@ -575,7 +396,7 @@ void ScriptCharacter::normalize(int height,int width)  //尺寸的缩放，路�
 	xmin=xmax=tempp.x;
 	ymin=ymax=tempp.y;
 	
-	for (int i=0; i<this->row_stroke.size();i++)
+	for (int i=0; i<this->row_stroke_.size();i++)
 	{
 		temps=getrowstroke(i);
 		for (int j=0;j<temps.GetPointList().size();j++)
@@ -602,8 +423,8 @@ void ScriptCharacter::normalize(int height,int width)  //尺寸的缩放，路�
 	////////////
 	if(rescal1>=rescal2)  //以竖直缩放为标准
 	{
-		normal_size=height;
-		for (int i=0; i<this->row_stroke.size();i++)
+		normal_size_=height;
+		for (int i=0; i<this->row_stroke_.size();i++)
 		{
 			temps=getrowstroke(i);
 			for (int j=0;j<temps.GetPointList().size();j++)
@@ -620,8 +441,8 @@ void ScriptCharacter::normalize(int height,int width)  //尺寸的缩放，路�
 	}
 	else  //以水平缩放为标准
 	{
-		normal_size=width;
-		for (int i=0; i<this->row_stroke.size();i++)
+		normal_size_=width;
+		for (int i=0; i<this->row_stroke_.size();i++)
 		{
 			temps=getrowstroke(i);
 			for (int j=0;j<temps.GetPointList().size();j++)
@@ -639,7 +460,7 @@ void ScriptCharacter::normalize(int height,int width)  //尺寸的缩放，路�
 	
 	/////路径的均匀插值//////
 	GeometryTool gt;	
-	for (int i=0; i<this->row_stroke.size();i++)
+	for (int i=0; i<this->row_stroke_.size();i++)
 	{
 		temps=getrowstroke(i);
 		list<CCPoint> templ=gt.UniformpathResample(temps.GetRowPoint());
@@ -648,9 +469,9 @@ void ScriptCharacter::normalize(int height,int width)  //尺寸的缩放，路�
 	}
 
 	//2.分割后笔画的均匀缩放
-	if(divide)
+	if(divide_)
 	{		
-		if (this->segment_list.size()==0)
+		if (this->segment_list_.size()==0)
 		{
 			return;
 		}
@@ -664,7 +485,7 @@ void ScriptCharacter::normalize(int height,int width)  //尺寸的缩放，路�
 		xmin=xmax=tempp.x;
 		ymin=ymax=tempp.y;
 		
-		for (int i=0; i<this->segment_list.size();i++)
+		for (int i=0; i<this->segment_list_.size();i++)
 		{
 			temps=getsegment(i);
 			for (int j=0;j<temps.point_list_.size();j++)
@@ -691,8 +512,8 @@ void ScriptCharacter::normalize(int height,int width)  //尺寸的缩放，路�
 		////////////
 		if(rescal1>=rescal2)  //以竖直缩放为标准
 		{
-			normal_size=height;
-			for (int i=0; i<this->segment_list.size();i++)
+			normal_size_=height;
+			for (int i=0; i<this->segment_list_.size();i++)
 			{
 				temps=getsegment(i);
 				for (int j=0;j<temps.point_list_.size();j++)
@@ -709,8 +530,8 @@ void ScriptCharacter::normalize(int height,int width)  //尺寸的缩放，路�
 		}
 		else  //以水平缩放为标准
 		{
-			normal_size=width;
-			for (int i=0; i<this->segment_list.size();i++)
+			normal_size_=width;
+			for (int i=0; i<this->segment_list_.size();i++)
 			{
 				temps=getsegment(i);
 				for (int j=0;j<temps.point_list_.size();j++)
@@ -728,8 +549,8 @@ void ScriptCharacter::normalize(int height,int width)  //尺寸的缩放，路�
 		
 		///////////
 		//更新笔段属性
-		list<Segment>::iterator it=this->segment_list.begin();
-		while(it!=this->segment_list.end())
+		list<Segment>::iterator it=this->segment_list_.begin();
+		while(it!=this->segment_list_.end())
 		{
 			(*it).UpdateAttribute();
 			it++;
@@ -743,17 +564,17 @@ void ScriptCharacter::normalize(int height,int width)  //尺寸的缩放，路�
 ///////////////////////////////////////
 void ScriptCharacter::divideSegment1()  //动射线方法
 {
-	if(row_stroke.size()==0)
+	if(row_stroke_.size()==0)
 		return;
 	/////////////////////
-	this->stroke_list.clear();
-	this->segment_list.clear();
+	this->stroke_list_.clear();
+	this->segment_list_.clear();
 	RowStroke temps;
 	GeometryTool gt;
 	
 	int ind=0;  //笔段计数
 	//路径拐点切分
-	for (int i=0; i<this->row_stroke.size();i++)
+	for (int i=0; i<this->row_stroke_.size();i++)
 	{
 		temps=getrowstroke(i);
 		list<int> turning_ind;
@@ -815,14 +636,14 @@ void ScriptCharacter::divideSegment1()  //动射线方法
 
 	/////////////////////
 	//更新笔段属性
-	list<Segment>::iterator it=this->segment_list.begin();
-	while(it!=this->segment_list.end())
+	list<Segment>::iterator it=this->segment_list_.begin();
+	while(it!=this->segment_list_.end())
 	{
 		(*it).UpdateAttribute();
 		it++;
 	}
 	/////////////////////
-	divide=true;
+	divide_=true;
 }
 
 ///////////////////////////////////////
@@ -830,7 +651,7 @@ void ScriptCharacter::divideSegment1()  //动射线方法
 ///////////////////////////////////////
 void ScriptCharacter::divideSegment2()   //点到直线距离，以及夹角方法
 {
-	if(row_stroke.size()==0 || normal_size<=0)
+	if(row_stroke_.size()==0 || normal_size_<=0)
 		return;
 	/////////////////////
 	clear_divide_data();
@@ -839,12 +660,12 @@ void ScriptCharacter::divideSegment2()   //点到直线距离，以及夹角方�
 	
 	int ind=0;  //笔段计数
 	//路径拐点切分
-	for (int i=0; i<this->row_stroke.size();i++)
+	for (int i=0; i<this->row_stroke_.size();i++)
 	{
 		temps=getrowstroke(i);
 		list<int> turning_ind;
 		turning_ind.clear();
-		gt.New_TurningDivide(temps.GetRowPoint(), turning_ind, normal_size); //将笔画切分为多个笔段（根据点到直线距离，各个分段长度，以及夹角）
+		gt.New_TurningDivide(temps.GetRowPoint(), turning_ind, normal_size_); //将笔画切分为多个笔段（根据点到直线距离，各个分段长度，以及夹角）
 		
 		//构造笔画、笔段
 		int start=0;		
@@ -877,14 +698,14 @@ void ScriptCharacter::divideSegment2()   //点到直线距离，以及夹角方�
 	
 	/////////////////////
 	//更新笔段属性
-	list<Segment>::iterator it=this->segment_list.begin();
-	while(it!=this->segment_list.end())
+	list<Segment>::iterator it=this->segment_list_.begin();
+	while(it!=this->segment_list_.end())
 	{
 		(*it).UpdateAttribute();
 		it++;
 	}
 	/////////////////////
-	divide=true;
+	divide_=true;
 }
 
 
@@ -895,7 +716,7 @@ int ScriptCharacter::find_noturning_connection_segment(int segindex)
 	Segment s1=getsegment(segindex);
 	////////////////////
 	//方向相同，端点接近
-	for (int ind=0;ind<this->segment_list.size();ind++)
+	for (int ind=0;ind<this->segment_list_.size();ind++)
 	{
 		if (ind!=segindex && !IsNoiseSegment(ind))
 		{
@@ -906,7 +727,7 @@ int ScriptCharacter::find_noturning_connection_segment(int segindex)
 			CCPoint p2 = s2.GetPoint(0);
 			float angdiff=max(s1.dirangle_,s2.dirangle_)-min(s1.dirangle_,s2.dirangle_);
 			angdiff=fabs(180-angdiff);
-			if (gt.pointDistance(p1,p2)<normal_size/19.0  && angdiff<30)
+			if (gt.pointDistance(p1,p2)<normal_size_/19.0  && angdiff<30)
 			{
 				m_res=ind;
 				break;
@@ -917,7 +738,7 @@ int ScriptCharacter::find_noturning_connection_segment(int segindex)
 			p2=s2.GetPoint(s2.GetPointList().size()-1);
 			angdiff=max(s1.dirangle_,s2.dirangle_)-min(s1.dirangle_,s2.dirangle_);
 			angdiff=fabs(180-angdiff);
-			if (gt.pointDistance(p1,p2)<normal_size/19.0  && angdiff<30)
+			if (gt.pointDistance(p1,p2)<normal_size_/19.0  && angdiff<30)
 			{
 				m_res=ind;
 				break;
@@ -928,7 +749,7 @@ int ScriptCharacter::find_noturning_connection_segment(int segindex)
 			p2 = s2.GetPoint(s2.GetPointList().size()-1);
 			angdiff = max(s1.dirangle_,s2.dirangle_)-min(s1.dirangle_,s2.dirangle_);
 			angdiff = min(angdiff, 360-angdiff);
-			if (gt.pointDistance(p1,p2)<normal_size/19.0  && angdiff<30)
+			if (gt.pointDistance(p1,p2)<normal_size_/19.0  && angdiff<30)
 			{
 				m_res=ind;
 				break;
@@ -939,7 +760,7 @@ int ScriptCharacter::find_noturning_connection_segment(int segindex)
 			p2 = s2.GetPoint(0);
 			angdiff = max(s1.dirangle_,s2.dirangle_)-min(s1.dirangle_,s2.dirangle_);
 			angdiff = min(angdiff, 360-angdiff);
-			if (gt.pointDistance(p1,p2)<normal_size/19.0  && angdiff<30)
+			if (gt.pointDistance(p1,p2)<normal_size_/19.0  && angdiff<30)
 			{
 				m_res=ind;
 				break;
@@ -976,7 +797,7 @@ bool ScriptCharacter::is_apart_relation(int h1,int h2)
 	float dis3=gt.pointToSegment(p3,p4,p1);
 	float dis4=gt.pointToSegment(p3,p4,p2);
 
-	if(dis1<normal_size/20.1 || dis2<normal_size/20.1 || dis3<normal_size/20.1 || dis4<normal_size/20.1)
+	if(dis1<normal_size_/20.1 || dis2<normal_size_/20.1 || dis3<normal_size_/20.1 || dis4<normal_size_/20.1)
 	{
 		yes=false;
 		return yes;
@@ -988,9 +809,9 @@ bool ScriptCharacter::is_apart_relation(int h1,int h2)
 
 void ScriptCharacter::clearSegmentColor(ccColor4F color)
 {
-	list<Segment>::iterator it=this->segment_list.begin();
+	list<Segment>::iterator it=this->segment_list_.begin();
 	
-	while (it!=this->segment_list.end())
+	while (it!=this->segment_list_.end())
 	{
 		it->color_=color;
 		it++;
@@ -1002,7 +823,7 @@ void ScriptCharacter::SetSegmentColor(int num, ccColor4F color)
 	//ASSERT(num<this->segment_list.size());
 	//ASSERT(num>=0);
 	///////////////////////////////////////
-	list<Segment>::iterator it=this->segment_list.begin();
+	list<Segment>::iterator it=this->segment_list_.begin();
 
 	for (int i=0;i<num;i++)
 	{
@@ -1017,10 +838,10 @@ void ScriptCharacter::Append_divide_Stroke(list<Segment> s)  //用于分割后�
 	Stroke temp;
 	temp.SetName("noname");
 	temp.SetSegCount(s.size());
-	if(this->stroke_list.size()>0)
+	if(this->stroke_list_.size()>0)
 	{
 		list<Stroke>::iterator it; 
-		it = this->stroke_list.end();
+		it = this->stroke_list_.end();
 		--it;
 		temp.setStartIndex((*it).start_index_+(*it).seg_count_);
 	}
@@ -1029,39 +850,39 @@ void ScriptCharacter::Append_divide_Stroke(list<Segment> s)  //用于分割后�
 		temp.setStartIndex(0);
 	}
 	
-	stroke_list.push_back(temp);
+	stroke_list_.push_back(temp);
 	
 	///////
 	list<Segment>::iterator it;
 	for (it=s.begin(); it != s.end();it++)
 	{
-		this->segment_list.push_back((*it));
+		this->segment_list_.push_back((*it));
 	}
 	////////
 }
 
 void ScriptCharacter::new_IdentifynoiseSegment()
 {
-	noise_list.clear();
+	noise_list_.clear();
 	//////////////////////////////////////////////////
-	list<Stroke>::iterator itstr=stroke_list.begin();
+	list<Stroke>::iterator itstr=stroke_list_.begin();
 	list<Segment>::iterator itseg;
 
-	float seg_len_threshold1=normal_size/24.38;
+	float seg_len_threshold1=normal_size_/24.38;
 	float angdiff_threshold2=17.0;
-	float seg_len_threshold2=normal_size/12.30;
-	float seg_piecewise_threshold2=normal_size/2.88;
+	float seg_len_threshold2=normal_size_/12.30;
+	float seg_piecewise_threshold2=normal_size_/2.88;
 	float angdiff_threshold3=17.0;
-	float seg_len_threshold3=normal_size/14.20;
-	float seg_piecewise_threshold3=normal_size/2.88;
+	float seg_len_threshold3=normal_size_/14.20;
+	float seg_piecewise_threshold3=normal_size_/2.88;
 
 	GeometryTool gt;
-	for ( ; itstr!=stroke_list.end(); itstr++)
+	for ( ; itstr!=stroke_list_.end(); itstr++)
 	{		
 		if((*itstr).seg_count_==1)//如果笔画中只有一段
 		{
 			int start=(*itstr).start_index_;
-			itseg=segment_list.begin();
+			itseg=segment_list_.begin();
 			for (int x=0;x<start;x++)
 			{
 				itseg++;
@@ -1069,13 +890,13 @@ void ScriptCharacter::new_IdentifynoiseSegment()
 
 			if(gt.PathLength((*itseg).point_list_)<seg_len_threshold1)
 			{
-				noise_list.push_back(start);
+				noise_list_.push_back(start);
 			}
 		}
 		else if((*itstr).seg_count_==2)//如果笔画有两段
 		{
 			int start=(*itstr).start_index_;
-			itseg=segment_list.begin();
+			itseg=segment_list_.begin();
 			for (int x=0;x<start;x++)
 			{
 				itseg++;
@@ -1098,43 +919,43 @@ void ScriptCharacter::new_IdentifynoiseSegment()
 
 			////////
 			float ma=max(len1,len2);
-			if((angdiff<=angdiff_threshold2 && mydiff2<angdiff_threshold2*1.8) && ( max(len1,len2)/min(len1,len2)>1.3 || min(len1,len2)/normal_size<0.32))
+			if((angdiff<=angdiff_threshold2 && mydiff2<angdiff_threshold2*1.8) && ( max(len1,len2)/min(len1,len2)>1.3 || min(len1,len2)/normal_size_<0.32))
 			{
 				if(len1<len2)
-					noise_list.push_back(start);
+					noise_list_.push_back(start);
 				else
-					noise_list.push_back(start+1);					
+					noise_list_.push_back(start+1);					
 			}
 			else if(ma>=seg_piecewise_threshold2)
 			{
 				if (len1*5.7<len2 || len1<=seg_len_threshold2)
 				{
-					noise_list.push_back(start);
+					noise_list_.push_back(start);
 				}
 				else if(len2*5.7<len1 || len2<=seg_len_threshold2)
 				{
-					noise_list.push_back(start+1);
+					noise_list_.push_back(start+1);
 				}
 				////////////////////
-				else if(len1>normal_size/2 && len1/len2>4.5 && angdiff<27)
+				else if(len1>normal_size_/2 && len1/len2>4.5 && angdiff<27)
 				{
-					noise_list.push_back(start+1);
+					noise_list_.push_back(start+1);
 				}
 			}
 			else
 			{
 				if (len1*3.1<=len2 || (len1<=seg_len_threshold2 && len1<=len2))
 				{
-					noise_list.push_back(start);
+					noise_list_.push_back(start);
 				}
 				else if(len2*3.1<=len1 || (len2<=seg_len_threshold2 && len2<=len1))
 				{
-					noise_list.push_back(start+1);
+					noise_list_.push_back(start+1);
 				}
 				////////////////////
-				else if(len1>normal_size/2 && len1/len2>4.5 && angdiff<27)
+				else if(len1>normal_size_/2 && len1/len2>4.5 && angdiff<27)
 				{
-					noise_list.push_back(start+1);
+					noise_list_.push_back(start+1);
 				}	
 			}
 			
@@ -1142,7 +963,7 @@ void ScriptCharacter::new_IdentifynoiseSegment()
 		else if((*itstr).seg_count_>2)//如果笔画有三段及以上
 		{			
 			int start=(*itstr).start_index_;	
-			itseg=segment_list.begin();
+			itseg=segment_list_.begin();
 			for (int x=0;x<start;x++)
 			{
 				itseg++;
@@ -1180,10 +1001,10 @@ void ScriptCharacter::new_IdentifynoiseSegment()
 			float angdiff2=max(180,max(b1,b2)-min(b1,b2))-min(180,max(b1,b2)-min(b1,b2));
 
 			///////////////////////////////////////////////////////////////////////////////////
-			if ((*itstr).seg_count_==3 && len1*1.2<len && len2*1.2<len && len<normal_size/8.53)
+			if ((*itstr).seg_count_==3 && len1*1.2<len && len2*1.2<len && len<normal_size_/8.53)
 			{
-				noise_list.push_back(start);
-				noise_list.push_back(start+(*itstr).seg_count_-1);
+				noise_list_.push_back(start);
+				noise_list_.push_back(start+(*itstr).seg_count_-1);
 				continue;
 			}
 			///////////////////////////////////////////////////////////////////////////////////
@@ -1191,22 +1012,22 @@ void ScriptCharacter::new_IdentifynoiseSegment()
 			{			
 				if(len1*6.0<len || len1<=seg_len_threshold3 || ( len1*3.0<len && angdiff1<=angdiff_threshold3 && bending_a2<1.39))
 				{
-					noise_list.push_back(start);
+					noise_list_.push_back(start);
 				}
 				if(len2*6.0<len || len2<=seg_len_threshold3 || ( len2*3.03<len && angdiff2<=angdiff_threshold3 && bending_b2<1.39) || (len2*2.5<len && angdiff2*1.8<=angdiff_threshold3 && bending_b2<1.09)  ||(len2*3.5<len && angdiff2<=22 && bending_b2<1.009))
 				{
-					noise_list.push_back(start+(*itstr).seg_count_-1);
+					noise_list_.push_back(start+(*itstr).seg_count_-1);
 				}
 			}
 			else
 			{
 				if(len1*4.0<len || len1<=seg_len_threshold3 || ( len1*2.0<=len && angdiff1<=angdiff_threshold3))
 				{
-					noise_list.push_back(start);
+					noise_list_.push_back(start);
 				}
 				if(len2*4.0<len || len2<=seg_len_threshold3 || ( len2*2.0<=len && angdiff2<=angdiff_threshold3) || (len2*3.68<=len && angdiff2<=27.0 && len<160))
 				{
-					noise_list.push_back(start+(*itstr).seg_count_-1);
+					noise_list_.push_back(start+(*itstr).seg_count_-1);
 				}
 			}
 		}
@@ -1219,17 +1040,17 @@ void ScriptCharacter::new_IdentifynoiseSegment()
 //////////////////////////////////////
 void ScriptCharacter::IdentifynoiseSegment() 
 {
-	noise_list.clear();
+	noise_list_.clear();
 	//////////////////////////////////////////////////
-	list<Stroke>::iterator itstr=stroke_list.begin();
+	list<Stroke>::iterator itstr=stroke_list_.begin();
 	list<Segment>::iterator itseg;
 
-	for ( ; itstr!=stroke_list.end(); itstr++)
+	for ( ; itstr!=stroke_list_.end(); itstr++)
 	{		
 		if((*itstr).seg_count_==1)//如果笔画中只有一段，那么该段小于8个点就是抖笔
 		{
 			int start=(*itstr).start_index_;
-			itseg=segment_list.begin();
+			itseg=segment_list_.begin();
 			for (int x=0;x<start;x++)
 			{
 				itseg++;
@@ -1237,13 +1058,13 @@ void ScriptCharacter::IdentifynoiseSegment()
 
 			if((*itseg).point_list_.size()<8)
 			{
-				noise_list.push_back(start);
+				noise_list_.push_back(start);
 			}
 		}
 		else if((*itstr).seg_count_==2)//如果笔画有两段，那么如果小段是大段的1/6至1/5.5以下：小段就是抖笔
 		{
 			int start=(*itstr).start_index_;
-			itseg=segment_list.begin();
+			itseg=segment_list_.begin();
 			for (int x=0;x<start;x++)
 			{
 				itseg++;
@@ -1262,30 +1083,30 @@ void ScriptCharacter::IdentifynoiseSegment()
 			if(angdiff<=17)
 			{
 				if(len1<len2)
-					noise_list.push_back(start);
+					noise_list_.push_back(start);
 				else
-					noise_list.push_back(start+1);					
+					noise_list_.push_back(start+1);					
 			}
 			else if(ma>=60)
 			{
 				if (len1*5.7<len2 || len1<=17)
 				{
-					noise_list.push_back(start);
+					noise_list_.push_back(start);
 				}
 				else if(len2*5.7<len1 || len2<=17)
 				{
-					noise_list.push_back(start+1);
+					noise_list_.push_back(start+1);
 				}
 			}
 			else
 			{
 				if (len1*3.0<=len2 || len1<=17)
 				{
-					noise_list.push_back(start);
+					noise_list_.push_back(start);
 				}
 				else if(len2*3.0<=len1 || len2<=17)
 				{
-					noise_list.push_back(start+1);
+					noise_list_.push_back(start+1);
 				}
 			}
 			
@@ -1294,7 +1115,7 @@ void ScriptCharacter::IdentifynoiseSegment()
 			                                                     //未段点数小于最长段1/7，则未段是抖笔
 		{
 			int start=(*itstr).start_index_;	
-			itseg=segment_list.begin();
+			itseg=segment_list_.begin();
 			for (int x=0;x<start;x++)
 			{
 				itseg++;
@@ -1331,22 +1152,22 @@ void ScriptCharacter::IdentifynoiseSegment()
 			{			
 				if(len1*6.0<len || len1<=12 || ( len1*3.0<len && angdiff1<=17))
 				{
-					noise_list.push_back(start);
+					noise_list_.push_back(start);
 				}
 				if(len2*6.0<len || len2<=12 || ( len2*3.0<len && angdiff2<=17))
 				{
-					noise_list.push_back(start+(*itstr).seg_count_-1);
+					noise_list_.push_back(start+(*itstr).seg_count_-1);
 				}
 			}
 			else
 			{
 				if(len1*4.0<len || len1<=12 || ( len1*2.0<=len && angdiff1<=17))
 				{
-					noise_list.push_back(start);
+					noise_list_.push_back(start);
 				}
 				if(len2*4.0<len || len2<=12 || ( len2*2.0<=len && angdiff2<=17))
 				{
-					noise_list.push_back(start+(*itstr).seg_count_-1);
+					noise_list_.push_back(start+(*itstr).seg_count_-1);
 				}
 			}
 		}

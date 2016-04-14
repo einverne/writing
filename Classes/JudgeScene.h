@@ -7,12 +7,13 @@
 #include "HcharacterLayer.h"	
 #include "TouchLayer.h"
 #include "CharacterExtend.h"
-#include "JudgeLayer.h"
+#include "FreeWriteLayer.h"
 USING_NS_CC;
 using namespace std;
 
 /**
- * 以16个字为单元进行练习
+ * 以16个字为单元进行练习 Judge Scene 处理一个单元自由练习与评分书写
+ * 期中 FreeWriteLayer 处理自由书写中 Button
  */
 class JudgeScene : public CCScene
 {
@@ -34,10 +35,8 @@ public:
 	CC_SYNTHESIZE_RETAIN(TouchLayer*,touchLayer,touchLayer);
 	CC_SYNTHESIZE_RETAIN(TcharacterLayer*,TLayer,TLayer);
 	CC_SYNTHESIZE_RETAIN(HcharacterLayer*,HLayer,HLayer);
-	CharacterExtend* getCharacterExt()	{ return ext_p_; }
-	void setCharacterExt(CharacterExtend* exp)	{ ext_p_ = exp; }
 
-	CC_SYNTHESIZE_RETAIN(JudgeLayer* , judgeLayer , JudgeLayer);
+	CC_SYNTHESIZE_RETAIN(FreeWriteLayer* , free_write_layer , FreeWriteLayer);
 
 	/**
 	* 上一个汉字
@@ -51,6 +50,8 @@ public:
 	*/
 	void next();
 
+	CharacterExtend* getCharacterExt()	{ return ext_p_; }
+	void setCharacterExt(CharacterExtend* exp)	{ ext_p_ = exp; }
 	
 	/**
 	* 设置是否评判书写 true为评判 false为不评判
