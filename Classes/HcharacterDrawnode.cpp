@@ -36,15 +36,35 @@ bool HcharacterDrawnode::init(){
 void HcharacterDrawnode::draw(){
 
 	// 未切割
-	if (script_char.divide_ == false)
+	if (script_char_.divide_ == false)
 	{
 		CCObject* ob;
 		CCARRAY_FOREACH(getStrokeDrawnodeList(),ob){
 			StrokeDrawnode* node = (StrokeDrawnode*)ob;
+			// 设置颜色
 			node->color_ = ccc4f(0.5, 0.128, 0.128, 1);
+			// 调用 StrokeDrawnode
 			node->draw();
 		}
 	}else{
+		// script_char 保存了手写点信息
+		CCObject* ob;
+		CCARRAY_FOREACH(getSegmentDrawnodeList(), ob){
+			SegmentDrawnode* node = (SegmentDrawnode*)ob;
+			Segment segment = node->segment_;
+			int number_index = segment.seg_index_;
+			CCPoint head_point = segment.point_list_.front();
+			CCLabelTTF* number_ttf = CCLabelTTF::create(DataTool::intTostring(number_index).c_str(), "Arial", 50);
+			number_ttf->setPosition(head_point-ccp(20,10));		// 首点左偏20px，下10px
+			number_ttf->setColor(ccBLUE);						// 蓝色数字
+			this->addChild(number_ttf, 1);
+
+
+			// 调用 Segment 的 draw 方法
+			node->draw();
+		}
+
+
 // 		Segment segment;
 // 		for (int i=0; i<this->script_char.segment_list_.size();i++)
 // 		{
@@ -270,13 +290,6 @@ void ScriptCharacter::draw(CDC* pDC)
 */
 
 
-
-
-
-
-
-
-
 void HcharacterDrawnode::AddPoint(CCPoint point){
 	CCLog("add point: x:%f y:%f", point.x, point.y);
 	StrokeDrawnode* t = (StrokeDrawnode*)(getStrokeDrawnodeList()->objectAtIndex(getStrokeDrawnodeList()->count()-1));
@@ -349,21 +362,19 @@ list<RowStroke> HcharacterDrawnode::GetHandWritingPoints()
 		row_stroke_list.push_back(row_stroke);
 	}
 
-	
-
 	return row_stroke_list;
 }
 
-ScriptCharacter HcharacterDrawnode::GetScriptCharacter(){
-	script_char.Init(GetHandWritingPoints());
+void HcharacterDrawnode::InitScriptCharacter(){
+	script_char_.Init(GetHandWritingPoints());
+}
+
+void HcharacterDrawnode::GetScriptCharacterSegmentDrawnodeReady(){
 	
-	list<Segment>::iterator iter = script_char.segment_list_.begin();
-	for (iter ; iter != script_char.segment_list_.end(); iter++)
+	list<Segment>::iterator iter = script_char_.segment_list_.begin();
+	for (iter ; iter != script_char_.segment_list_.end(); iter++)
 	{
 		Segment seg = *iter;
 		this->getSegmentDrawnodeList()->addObject(SegmentDrawnode::create(seg));
 	}
-
-	
-	return script_char;
 }

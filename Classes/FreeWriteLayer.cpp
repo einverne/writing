@@ -116,7 +116,7 @@ void FreeWriteLayer::menuSave(CCObject* pSender){
 		//update sqlite unit 更新数据库中每个汉字练习次数
 		vector< vector <string> > groupUnit = SQLiteData::getUnit(unit_id);
 		
-		for (int i = 0; i < groupUnit.size(); i++)
+		for (unsigned int i = 0; i < groupUnit.size(); i++)
 		{
 			if (curChar == groupUnit[i][0])
 			{
@@ -148,6 +148,28 @@ void FreeWriteLayer::menuMatch(CCObject* pSender){
 	// TODO 松弛匹配
 	CCLog("Match");
 	JudgeScene* scene = (JudgeScene*)this->getParent();
+	HcharacterLayer* hlayer = (HcharacterLayer*)scene->getHLayer();
+	ScriptCharacter scriptCharacter = hlayer->getm_HDrawnode()->script_char_;
+	hlayer->getm_HDrawnode()->InitScriptCharacter();
+	CCSprite* tianzige = hlayer->getm_HDrawnode()->tianzige_;
+	hlayer->getm_HDrawnode()->script_char_.Normalize(tianzige->getContentSize().height,
+		tianzige->getContentSize().width);			// 标准化 512
+	hlayer->getm_HDrawnode()->script_char_.divideSegment2();	// 切分笔段
+	hlayer->getm_HDrawnode()->script_char_.new_IdentifynoiseSegment();
+
+	hlayer->getm_HDrawnode()->GetScriptCharacterSegmentDrawnodeReady();
+
+	TcharacterLayer* tlayer = (TcharacterLayer*)scene->getTLayer();
+	TemplateCharacter templateChar = tlayer->getm_TDrawnode()->template_character_;
+
+
+	scriptCharacter.Normalize(512,512);
+	templateChar.Normalize(512,512);
+	if (scriptCharacter.normal_size_ == templateChar.normal_size_)
+	{
+		CCLog("normal_size should same");
+		//RelaxationMatch match;
+	}
 	
 
 }

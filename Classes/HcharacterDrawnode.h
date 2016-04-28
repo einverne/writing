@@ -83,14 +83,25 @@ public:
 	* @return
 	*/
 	list<RowStroke> GetHandWritingPoints();
+	
+	/**
+	* 初始化 ScriptCharacter
+	* @return
+	*/
+	void InitScriptCharacter();
 
-	ScriptCharacter GetScriptCharacter();
+	/**
+	* 将内部保存的手写点 信息，保存到 ScriptCharacter 中。
+	* 在匹配算法前调用，将手写点集信息初始化到对象中
+	* @return
+	*/
+	void GetScriptCharacterSegmentDrawnodeReady();
 
 	CC_SYNTHESIZE_RETAIN(CCArray*,strokeDrawlist,StrokeDrawnodeList);	// 用来保存手写点数组
 	CC_SYNTHESIZE_RETAIN(CCArray*,segmentdraw_list, SegmentDrawnodeList);			// Segment drawnode list
 
 	CCSprite* tianzige_;
-	ScriptCharacter script_char;			// 手写字
+	ScriptCharacter script_char_;			// 手写字
 };
 
 

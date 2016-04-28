@@ -655,17 +655,17 @@ void ScriptCharacter::divideSegment2()   //点到直线距离，以及夹角方�
 		return;
 	/////////////////////
 	clear_divide_data();
-	RowStroke temps;
+	RowStroke row_stroke;
 	GeometryTool gt;
 	
 	int ind=0;  //笔段计数
 	//路径拐点切分
 	for (int i=0; i<this->row_stroke_.size();i++)
 	{
-		temps=getrowstroke(i);
+		row_stroke=getrowstroke(i);
 		list<int> turning_ind;
 		turning_ind.clear();
-		gt.New_TurningDivide(temps.GetRowPoint(), turning_ind, normal_size_); //将笔画切分为多个笔段（根据点到直线距离，各个分段长度，以及夹角）
+		gt.New_TurningDivide(row_stroke.GetRowPoint(), turning_ind, normal_size_); //将笔画切分为多个笔段（根据点到直线距离，各个分段长度，以及夹角）
 		
 		//构造笔画、笔段
 		int start=0;		
@@ -679,10 +679,10 @@ void ScriptCharacter::divideSegment2()   //点到直线距离，以及夹角方�
 			plist.clear();
 			while(start!=*it)
 			{
-                plist.push_back(CCPoint(temps.GetPoint(start)));
+                plist.push_back(CCPoint(row_stroke.GetPoint(start)));
 				start++;
 			}
-			plist.push_back(CCPoint(temps.GetPoint(start)));
+			plist.push_back(CCPoint(row_stroke.GetPoint(start)));
 			
 			Segment seg;			
 			seg.Init("noname", ind, plist);
