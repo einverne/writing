@@ -288,6 +288,9 @@
     <ClCompile Include="..\Classes\FreeWriteLayer.cpp">
       <Filter>Classes\Layer</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\RelaxationMatch.cpp">
+      <Filter>Classes\tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -548,6 +551,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\FreeWriteLayer.h">
       <Filter>Classes\Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\RelaxationMatch.h">
+      <Filter>Classes\tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -79,8 +79,20 @@ public:
     list<int> getinstablesegments();
     bool isinstablesegment(int num);
     
+    /**
+    * 设置笔段颜色
+    * @param num	笔段序号
+    * @param color	颜色
+    * @return
+    */
     void SetSegmentColor(int num, ccColor4F color);
-    void clearSegmentColor(ccColor4F color);
+
+    /**
+    * 使用 color 清除笔段颜色
+    * @param color	颜色
+    * @return
+    */
+    void clearSegmentColor(ccColor4F color = ccc4f(0,0,0,1));
     
     /////////////////////////////////
     list<int> find_first_apart_second_notapart_relation_segment(int k1, int k2);
@@ -89,11 +101,17 @@ public:
     int find_common_connect_relation_segment(int k1, int k2);
 
 	/**
-	* 转换坐标系，适应 cocos2d-x 的坐标系
-	* @param size
+	* 转换坐标系，适应 cocos2d-x 绘图时的第一象限坐标系
+	* @param size 
 	* @return
 	*/
 	void TransferCoordinate(int size=512);
+
+	/**
+	* 转到第四想想
+	* @return
+	*/
+	void TransferCoordinateToFour(int size=512);
     
 protected:
     void ReplaceSegment(int ind, Segment seg);

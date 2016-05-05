@@ -74,6 +74,8 @@ public:
 
 	TemplateCharacter template_character_;			// 模板字类
 
+	void GetTemplateCharacterSegmentDrawnodeReady();
+
 	CC_SYNTHESIZE_RETAIN(CCArray*,strokedrawList,strokedrawList);
 	CC_SYNTHESIZE_RETAIN(CCArray*,SegmentNodeList,SegmentNodeList);
 

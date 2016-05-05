@@ -666,3 +666,22 @@ void TemplateCharacter::TransferCoordinate(int size){
 		temp_list_points.clear();
 	}
 }
+
+void TemplateCharacter::TransferCoordinateToFour(int size) {
+	for (list<Segment>::iterator itr = segment_list_.begin();
+		itr != segment_list_.end(); itr ++)
+	{
+		Segment seg = *itr;
+		list<CCPoint> temp_list_points;
+		for (list<CCPoint>::iterator point_iter = seg.point_list_.begin();
+			point_iter != seg.point_list_.end(); point_iter++)
+		{
+			CCPoint point = *point_iter;
+			float y = -(point.y - size);			// default 512
+			CCPoint temp_point = ccp(point.x , y);
+			temp_list_points.push_back(temp_point);
+		}
+		itr->point_list_.assign(temp_list_points.begin(),temp_list_points.end());
+		temp_list_points.clear();
+	}
+}

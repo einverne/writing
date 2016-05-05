@@ -88,14 +88,7 @@ bool TcharacterDrawnode::init(string hz,CCSize showrect,CharacterExtend* p){
 		this->getstrokedrawList()->addObject(StrokeDrawnode::create(stroke));
 	}
 
-	for (list<Segment>::iterator iter = template_character_.segment_list_.begin();
-		iter != template_character_.segment_list_.end(); iter++)
-	{
-		Segment segment = *iter;
-		CCLog("Segment name %s",segment.name_.c_str());
-		this->getSegmentNodeList()->addObject(SegmentDrawnode::create(segment));
-	}
-
+	this->GetTemplateCharacterSegmentDrawnodeReady();
 
 	
 	// ==================
@@ -115,6 +108,16 @@ bool TcharacterDrawnode::init(string hz,CCSize showrect,CharacterExtend* p){
 // 		}
 // 	}
 	return true;
+}
+
+void TcharacterDrawnode::GetTemplateCharacterSegmentDrawnodeReady() {
+	this->getSegmentNodeList()->removeAllObjects();
+	for (list<Segment>::iterator iter = template_character_.segment_list_.begin();
+		iter != template_character_.segment_list_.end(); iter++)
+	{
+		Segment segment = *iter;
+		this->getSegmentNodeList()->addObject(SegmentDrawnode::create(segment));
+	}
 }
 
 TcharacterDrawnode* TcharacterDrawnode::create(string hz,CCSize showrect,CharacterEntity* p){
@@ -167,9 +170,10 @@ void TcharacterDrawnode::draw(){
 
 
 	CCObject* segment_ob;
-	CCARRAY_FOREACH(SegmentNodeList, segment_ob){
+	CCARRAY_FOREACH(getSegmentNodeList(), segment_ob){
 		SegmentDrawnode* node = (SegmentDrawnode*)segment_ob;
 		Segment segment = node->segment_;
+		// 笔段标签
 		int number_index = segment.seg_index_;
 		CCPoint head_point = segment.point_list_.front();
 		CCLabelTTF* number_ttf = CCLabelTTF::create(DataTool::intTostring(number_index).c_str(), "Arial", 50);

@@ -92,10 +92,21 @@ public:
 
 	/**
 	* 将内部保存的手写点 信息，保存到 ScriptCharacter 中。
-	* 在匹配算法前调用，将手写点集信息初始化到对象中
+	* 在匹配算法前调用，将手写点集信息初始化到对象中.
+	* 将 ScriptCharacter 中的数据保存到 SegmentDrawnode 中，以便于绘图。
 	* @return
 	*/
 	void GetScriptCharacterSegmentDrawnodeReady();
+
+	
+	/**
+	* 获取 HcharacterDrawnode 中的 ScriptCharacter
+	* @return
+	*/
+	ScriptCharacter GetScriptCharacter() {
+		this->InitScriptCharacter();
+		return script_char_;
+	}
 
 	CC_SYNTHESIZE_RETAIN(CCArray*,strokeDrawlist,StrokeDrawnodeList);	// 用来保存手写点数组
 	CC_SYNTHESIZE_RETAIN(CCArray*,segmentdraw_list, SegmentDrawnodeList);			// Segment drawnode list

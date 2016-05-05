@@ -42,7 +42,7 @@ void HcharacterDrawnode::draw(){
 		CCARRAY_FOREACH(getStrokeDrawnodeList(),ob){
 			StrokeDrawnode* node = (StrokeDrawnode*)ob;
 			// 设置颜色
-			node->color_ = ccc4f(0.5, 0.128, 0.128, 1);
+			node->color_ = ccc4f(0.128, 0.128, 0.128, 1);
 			// 调用 StrokeDrawnode
 			node->draw();
 		}
@@ -370,7 +370,7 @@ void HcharacterDrawnode::InitScriptCharacter(){
 }
 
 void HcharacterDrawnode::GetScriptCharacterSegmentDrawnodeReady(){
-	
+	this->getSegmentDrawnodeList()->removeAllObjects();
 	list<Segment>::iterator iter = script_char_.segment_list_.begin();
 	for (iter ; iter != script_char_.segment_list_.end(); iter++)
 	{
