@@ -18,6 +18,12 @@ public:
 	virtual bool init(CCSprite* tianzige);
 	virtual void onEnter();
 	static TcharacterLayer* create(CCSprite* tianzige);
+
+	/**
+	* 初始化 TDDrawnode
+	* @return
+	*/
+	void initTDDrawnode();
 	
 	void refresh(CCObject* pSender);
 	void setCharacter(const string curChar);
@@ -29,7 +35,7 @@ public:
     CC_SYNTHESIZE_RETAIN(TcharacterDrawnode*, m_TDrawnode,m_TDrawnode);
     CC_SYNTHESIZE_RETAIN(CCSprite*,m_sprite,Sprite);
     
-private:
+public:
 	bool isPause;					//动画是否暂停
 	string m_curChar;               //当前字符
 	CharacterExtend* m_exChar;

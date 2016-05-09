@@ -166,13 +166,13 @@ void FreeWriteLayer::menuMatch(CCObject* pSender){
 	TemplateCharacter templateChar = tlayer->getm_TDrawnode()->template_character_;
 
 
-	scriptCharacter.Normalize(512,512);
-	templateChar.Normalize(512,512);
+	hlayer->getm_HDrawnode()->script_char_.Normalize(512,512);
+	tlayer->getm_TDrawnode()->template_character_.Normalize(512,512);
 
 //  	hlayer->getm_HDrawnode()->script_char_.TransferCoordinateToFour();
 //  	tlayer->getm_TDrawnode()->template_character_.TransferCoordinateToFour();
 
-	if (scriptCharacter.normal_size_ == templateChar.normal_size_)
+	if (hlayer->getm_HDrawnode()->script_char_.normal_size_ == tlayer->getm_TDrawnode()->template_character_.normal_size_)
 	{
 		CCLog("normal_size same");
 		// 
@@ -206,7 +206,6 @@ void FreeWriteLayer::menuMatch(CCObject* pSender){
 			hlayer->getm_HDrawnode()->GetScriptCharacterSegmentDrawnodeReady();
 			tlayer->getm_TDrawnode()->GetTemplateCharacterSegmentDrawnodeReady();
 
-			
 		}
 
 		updateSegmentColor();
@@ -218,7 +217,6 @@ void FreeWriteLayer::menuMatch(CCObject* pSender){
 		colorlist.push_back(ccc4f(255,128,255,1));
 		colorlist.push_back(ccc4f(128,128,255,1));
 		colorlist.push_back(ccc4f(0,0,225,1));
-		colorlist.push_back(ccc4f(128,128,0,1));
 		colorlist.push_back(ccc4f(255,128,0,1));
 		colorlist.push_back(ccc4f(255,255,0,1));
 		colorlist.push_back(ccc4f(255,255,128,1));
@@ -261,8 +259,19 @@ void FreeWriteLayer::menuMatch(CCObject* pSender){
 			itmulti++;
 			itcolor++;
 		}
+		CCSize tianzigesize = hlayer->getm_HDrawnode()->tianzige_->getContentSize();
+		hlayer->getm_HDrawnode()->script_char_.Normalize(tianzigesize.height,tianzigesize.width);
+		
+		CCSize tianzige_right_size = tlayer->getm_TDrawnode()->right_tiangzige_->getContentSize();
+		tlayer->getm_TDrawnode()->template_character_.Normalize(tianzige_right_size.height,tianzige_right_size.width);
+
+// 		hlayer->getm_HDrawnode()->script_char_.TransferCoordinate();
+// 		tlayer->getm_TDrawnode()->template_character_.TransferCoordinate();
+
 		hlayer->getm_HDrawnode()->GetScriptCharacterSegmentDrawnodeReady();
 		tlayer->getm_TDrawnode()->GetTemplateCharacterSegmentDrawnodeReady();
+
+
 
 	}
 	

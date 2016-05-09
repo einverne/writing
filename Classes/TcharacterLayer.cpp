@@ -19,11 +19,10 @@ bool TcharacterLayer::init(CCSprite* tianzige){
 	if (CCLayer::init())
 	{
 		CCLog("TcharacterLayer init");
-		setSprite(tianzige);	
+		setSprite(tianzige);
 
  		CCPoint tiangzige_position = this->getSprite()->getPosition();
  		CCSize tianzige_size = this->getSprite()->getContentSize();
-
 
  		CCMenuItemImage* refreshButton = CCMenuItemImage::create("strangedesign/Judge_writting_play_button.png",
  			"strangedesign/Judge_writting_play_button_down.png",
@@ -34,7 +33,7 @@ bool TcharacterLayer::init(CCSprite* tianzige){
 
  		CCMenu* menu = CCMenu::create(refreshButton,NULL);
  		menu->setPosition(0,0);
- 		this->addChild(menu,2000);
+ 		this->addChild(menu,1);
 		return true;
 	}
 	return false;
@@ -54,16 +53,21 @@ TcharacterLayer* TcharacterLayer::create(CCSprite* tianzige){
 	}
 }
 
-void TcharacterLayer::onEnter(){
-	CCLayer::onEnter();
-//	CharacterEntity* p = ((LianxiScene*)this->getParent())->getCharacterP();
-// 	CharacterExtend* p = ((LianxiScene*)this->getParent())->getCharacterExt();
+void TcharacterLayer::initTDDrawnode() {
 	this->setm_TDrawnode(TcharacterDrawnode::create(m_curChar, m_sprite->getContentSize(), m_exChar));
 	this->addChild(m_TDrawnode,1);
 	//不设置Anchorpoint了，直接做坐标变换
 	m_TDrawnode->setPosition(m_sprite->getPosition());
 	getm_TDrawnode()->setScale(0.75);
 	getm_TDrawnode()->setAnchorPoint(ccp(0.5,0.5));
+
+}
+
+void TcharacterLayer::onEnter(){
+	CCLayer::onEnter();
+//	CharacterEntity* p = ((LianxiScene*)this->getParent())->getCharacterP();
+// 	CharacterExtend* p = ((LianxiScene*)this->getParent())->getCharacterExt();
+	initTDDrawnode();
 }
 
 void TcharacterLayer::refresh(CCObject* pSender){
@@ -88,10 +92,5 @@ void TcharacterLayer::setCharacter(const string curChar){
 
 void TcharacterLayer::reloadChar(){
 	this->removeChild(getm_TDrawnode());
-	this->setm_TDrawnode(TcharacterDrawnode::create(m_curChar, m_sprite->getContentSize(), m_exChar));
-	this->addChild(m_TDrawnode,2000);
-	//不设置Anchorpoint了，直接做坐标变换
-	m_TDrawnode->setPosition(m_sprite->getPosition());
-	getm_TDrawnode()->setScale(0.75);
-	getm_TDrawnode()->setAnchorPoint(ccp(0.5,0.5));
+	initTDDrawnode();
 }

@@ -79,10 +79,10 @@ public:
 	CC_SYNTHESIZE_RETAIN(CCArray*,strokedrawList,strokedrawList);
 	CC_SYNTHESIZE_RETAIN(CCArray*,SegmentNodeList,SegmentNodeList);
 
-private:
+public:
 	CCSize showrect_;						//根据传入的显示范围定义显示范围
 	Character m_right_character_;			//根据汉字读取字符xml文件，构造Character
-    Character m_origin_character_;                       // 保存未作修改的 xml 中数据
+    Character m_origin_character_;          // 保存未作修改的 xml 中数据
 
 	int visible_index_;
 	CCSprite* right_tiangzige_;					// 田字格内容Sprite
