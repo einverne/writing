@@ -119,6 +119,13 @@ public:
 	*/
 	void convert512(CCSize size);
 
+	/**
+	* 获取该笔画 百分之 f 的点
+	* @param f 百分数， 0 < f < 1
+	* @return
+	*/
+	CCPoint GetPercentPoint(float f);
+
 private:
     CCPoint prePoint;                           //保存每一笔首点
 

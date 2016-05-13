@@ -173,51 +173,8 @@ void HcharacterLayer::onExit(){
 	_manager.exitLuaEngine();
 }
 
-void HcharacterLayer::judge(){
-	CCArray* strokes = m_HDrawnode->getStrokeDrawnodeList();
-	string output = "";					// 手写汉字的点集信息
 
-	CCObject* originob;
-	CCARRAY_FOREACH(strokes,originob){
-		StrokeDrawnode* node = (StrokeDrawnode*)originob;
-		Stroke stro = node->getStroke();
-		this->pointsOrigin += stro.sendOutput();
-	}
-
-	CCObject* ob;
-	CCARRAY_FOREACH(strokes,ob){
-		StrokeDrawnode* node = (StrokeDrawnode*)ob;
-		Stroke stro = node->getStroke();
-		vector<CCPoint> points = stro.getpointList();
-		stro.convert512(this->m_sprite_draw->getContentSize());
-		stro.resample(100);
-		output += stro.sendOutput();
-	}
-	this->pointsOutput=output;
-
-// 	CharacterEntity* p =  ((LianxiScene*)this->getParent())->getCharacterP();
-// 	CharacterExtend* p = ((LianxiScene*)this->getParent())->getCharacterExt();
-// 	string funcs = ((LianxiScene*)this->getParent())->funcs;
-//	string ret = JudgeManager::getResult(hanzi,output,p,funcs);
-// 	string funcs = ((LianxiScene*)this->getParent())->funcs;
-	string funcs = "";
-	TcharacterLayer* tlayer = (TcharacterLayer*)CCDirector::sharedDirector()->getRunningScene()->getChildByTag(kTLayerTag);
-	string points = tlayer->getm_TDrawnode()->getCharacterStandardInfo();		//获取正字信息
-    CCLog("output %s",output.c_str());
-    CCLog("right Character info %s",points.c_str());
-    
-	string ret = _manager.getResult(_hanzi,output,points,m_exChar,funcs);
-	//CCLog("Hcharacterlay: retstring:%s length:%d",ret.c_str(),ret.length());
-	//如果不评判则跳过
-	if (!_ijudge || ret.length() <= 0)
-	{
-		return;
-	}
-	CCLog("%s\n", ret.c_str());
-
-	//ret = "{\"ret\":\"111\",\"error\": [] }";
-	//ret = "{\"error\":[{\"errortype\":\"B0001\",\"errorstroke\":{}}],\"ret\":\"011\"}";
-	//ret = "{\"ret\":\"101\",\"error\":[{\"errortype\":\"A0001\",\"errorstroke\":{\"0\":\"0.2\",\"1\":\"0.3\"}},{\"errortype\":\"A0021\",\"errorstroke\":{\"0\":\"0.2\",\"1\":\"0.3\"}}]}";
+void HcharacterLayer::ParseResult(const string ret) {
 	rapidjson::Document doc;
 	doc.Parse<kParseDefaultFlags>(ret.c_str());
 	vector<Error> errors;
@@ -268,14 +225,72 @@ void HcharacterLayer::judge(){
 			}else
 			{
 				//MyToast::showToast(this,"radical wrong",TOAST_LONG);
+				// 当部件错误的时候，显示动画。
 				if (errors.size()>0)
 				{
 					string type = errors.at(0).errortype;
 					MyToast::showToast(this,DataTool::getChinese(type),TOAST_LONG);
 				}
+				map<int, float> errorstroke = errors.at(0).errorstroke;
+				getm_HDrawnode()->SetErrorStroke(errorstroke);
+			}
+			if (retjson.at(2) == '1')
+			{
+				// 整字是否正确
+
 			}
 		}
 	}
+}
+
+void HcharacterLayer::judge(){
+	CCArray* strokes = m_HDrawnode->getStrokeDrawnodeList();
+	string output = "";					// 手写汉字的点集信息
+
+	CCObject* originob;
+	CCARRAY_FOREACH(strokes,originob){
+		StrokeDrawnode* node = (StrokeDrawnode*)originob;
+		Stroke stro = node->getStroke();
+		this->pointsOrigin += stro.sendOutput();
+	}
+
+	CCObject* ob;
+	CCARRAY_FOREACH(strokes,ob){
+		StrokeDrawnode* node = (StrokeDrawnode*)ob;
+		Stroke stro = node->getStroke();
+		vector<CCPoint> points = stro.getpointList();
+		stro.convert512(this->m_sprite_draw->getContentSize());
+		stro.resample(100);
+		output += stro.sendOutput();
+	}
+	this->pointsOutput=output;
+
+// 	CharacterEntity* p =  ((LianxiScene*)this->getParent())->getCharacterP();
+// 	CharacterExtend* p = ((LianxiScene*)this->getParent())->getCharacterExt();
+// 	string funcs = ((LianxiScene*)this->getParent())->funcs;
+//	string ret = JudgeManager::getResult(hanzi,output,p,funcs);
+// 	string funcs = ((LianxiScene*)this->getParent())->funcs;
+	string funcs = "";
+	TcharacterLayer* tlayer = (TcharacterLayer*)CCDirector::sharedDirector()->getRunningScene()->getChildByTag(kTLayerTag);
+	string points = tlayer->getm_TDrawnode()->getCharacterStandardInfo();		//获取正字信息
+    CCLog("output %s",output.c_str());
+    CCLog("right Character info %s",points.c_str());
+    
+	string ret = _manager.getResult(_hanzi,output,points,m_exChar,funcs);
+	//CCLog("Hcharacterlay: retstring:%s length:%d",ret.c_str(),ret.length());
+	//如果不评判则跳过
+	if (!_ijudge || ret.length() <= 0)
+	{
+		return;
+	}
+	CCLog("%s\n", ret.c_str());
+
+	//ret = "{\"ret\":\"111\",\"error\": [] }";
+	//ret = "{\"error\":[{\"errortype\":\"B0001\",\"errorstroke\":{}}],\"ret\":\"011\"}";
+	//ret = "{\"ret\":\"101\",\"error\":[{\"errortype\":\"A0001\",\"errorstroke\":{\"0\":\"0.2\",\"1\":\"0.3\"}},{\"errortype\":\"A0021\",\"errorstroke\":{\"0\":\"0.2\",\"1\":\"0.3\"}}]}";
+
+	ParseResult(ret);
+
 
 	//if (ret.length() == 3)
 	//{
@@ -340,6 +355,7 @@ void HcharacterLayer::Right(){
 	//MoveToRightPlaceInterval* place = MoveToRightPlaceInterval::create(1,t-1,temp);
 	//m_HDrawnode->runAction(place);
 
+	// 书写笔画数大于等于正确汉字笔画，设置正确图标，并有声效
 	if ( t >= layer->getm_TDrawnode()->getCharacter().getStrokeCount())
 	{
 		getInfoSprite()->setVisible(true);
@@ -347,7 +363,7 @@ void HcharacterLayer::Right(){
 		CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect(RIGHT_EFFECT_FILE);
 	}
 
-	// calculate score
+	// calculate score 计算得分
 	switch (curBihuaWrong)
 	{
 	case 0:

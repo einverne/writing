@@ -73,9 +73,19 @@ public:
 
 	int getStrokeCount();
 
+	/**
+	* 设置评判结果笔画及笔画错误位置信息，用来画图
+	* @param 
+	* @param estroke
+	* @return
+	*/
+	void SetErrorStroke(map<int, float> estroke);
+
 	CC_SYNTHESIZE_RETAIN(CCArray*,strokeDrawlist,StrokeDrawnodeList);
 private:
 	CCSprite* tianziged;
+	map<int, float> error_stroke;
+	vector<CCPoint> error_points;
 };
 
 

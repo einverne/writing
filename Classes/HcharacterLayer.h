@@ -20,8 +20,17 @@ public:
 	virtual void onEnter();
 	virtual void onExit();
 
-
 	void judge();
+
+	/**
+	* 根据lua返回结果，解析返回值
+	* WeeklyMeeting/部件级别错误类型.md
+	* 
+	* @param ret 返回值 string json格式
+	* @return
+	*/
+	void ParseResult(const string ret);
+
 	void reloadChar();				//重新加载汉字信息
 	float getWrongPercent();
 	void isJudge(bool isjudge);

@@ -38,6 +38,14 @@ void HcharacterDrawnode::draw(){
 	CCARRAY_FOREACH(getStrokeDrawnodeList(),ob){
 		((StrokeDrawnode*)(ob))->draw();
 	}
+	glLineWidth(4.0f);					//±Ê»­´ÖÏ¸
+	ccDrawColor4F(1,0,0,1);				//±Ê»­ÑÕÉ«
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	if ( !error_points.empty() )
+	{
+		ccDrawLine(error_points.at(0), error_points.at(1));
+	}
 }
 
 void HcharacterDrawnode::addPoint(CCPoint point){
@@ -68,8 +76,24 @@ void HcharacterDrawnode::rewrite(){
 	{
 		getStrokeDrawnodeList()->removeLastObject(true);
 	}
+	error_stroke.clear();
 }
 
 int HcharacterDrawnode::getStrokeCount(){
 	return this->getStrokeDrawnodeList()->count();
+}
+
+void HcharacterDrawnode::SetErrorStroke(map<int, float> estroke){
+	error_stroke = estroke;
+	CCObject* ob;
+	int i = 0;
+
+	CCARRAY_FOREACH(getStrokeDrawnodeList(),ob){
+		if (error_stroke.count(i) == 1){
+			StrokeDrawnode* sd = (StrokeDrawnode*)ob;
+			CCPoint p = sd->stroke.GetPercentPoint(error_stroke[i]);
+			error_points.push_back(p);
+		}
+		i++;
+	}
 }

@@ -200,3 +200,12 @@ void Stroke::convert512(CCSize size){
 		*it = ccp(fx,-(fy-512));			// 将第一象限坐标系转换成第四象限坐标
 	}
 }
+
+CCPoint Stroke::GetPercentPoint(float f){
+	if (f < 0.0 || f > 1.0)
+	{
+		return ccp(0,0);
+	}
+	resample(100);
+	return this->pointList.at(f*100-1);
+}

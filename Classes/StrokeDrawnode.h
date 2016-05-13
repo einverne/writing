@@ -56,7 +56,8 @@ public:
 	* @return
 	*/
 	int getVisibleIndex()	{ return visibleIndex; }
-private:
+
+public:
 	Stroke stroke;					//store points in a stroke
 	ccColor4B mcolor;				//color if this stroke:have not used yet
 	int visibleIndex;				//if visibleIndex == -1 then draw all points else draw visibleIndex points
