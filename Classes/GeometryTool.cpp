@@ -263,27 +263,26 @@ void GeometryTool::New_TurningDivide(list<CCPoint> ptlist, list<int>& turning_in
 {
     //ASSERT(ptlist.size()>=2);
     ///////////////////////
-    list<int> turning_can;
+    list<int> turning_can;			// 可能拐点list
     turning_can.clear();
     
-    float point_seg_dis_threshold=boundinglength/75.0;
-    float angle_merge_threshold=128.0;
-    float not_end_seg_len_threshold=boundinglength/12.0;
+    float point_seg_dis_threshold = boundinglength/75.0;
+    float angle_merge_threshold = 128.0;
+    float not_end_seg_len_threshold = boundinglength/12.0;
     
-    float end_seg_len_threshold=boundinglength/8.8;
-    float end_seg_ang_threshold=140.0;
+    float end_seg_len_threshold = boundinglength/8.8;
+    float end_seg_ang_threshold = 140.0;
     
     //1.根据点到直线距离进行切分。
     turning_can.push_back(0);
     turning_can.push_back(ptlist.size()-1);
     
-    
-    list<int>::iterator it_can=turning_can.begin();
+    list<int>::iterator it_can = turning_can.begin();
     for (; it_can!=(--turning_can.end()); )
     {
-        int m_b=*it_can;
+        int m_b=*it_can;		// begin index
         it_can++;
-        int m_e=*it_can;
+        int m_e=*it_can;		// end index
         it_can--;
         
         int can=m_b;
@@ -303,7 +302,7 @@ void GeometryTool::New_TurningDivide(list<CCPoint> ptlist, list<int>& turning_in
                 temp_ind++;
                 it_pp++;
             }
-            pts=*it_pp;
+            pts=*it_pp;				// start point
             
             it_pp=ptlist.begin();
             temp_ind=0;
@@ -312,7 +311,7 @@ void GeometryTool::New_TurningDivide(list<CCPoint> ptlist, list<int>& turning_in
                 temp_ind++;
                 it_pp++;
             }
-            pte=*it_pp;
+            pte=*it_pp;				// end point
             
             it_pp=ptlist.begin();
             temp_ind=0;
@@ -323,7 +322,7 @@ void GeometryTool::New_TurningDivide(list<CCPoint> ptlist, list<int>& turning_in
             }
             pt=*it_pp;
             /////////////////////
-            float dis=pointToSegment(pts,pte,pt);
+            float dis=pointToSegment(pts,pte,pt);	// 点到笔段距离
             if (dis>can_dis)
             {
                 can=x;
