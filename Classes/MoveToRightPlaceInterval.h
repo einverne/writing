@@ -10,6 +10,14 @@ class MoveToRightPlaceInterval : public CCActionInterval
 public:
 	MoveToRightPlaceInterval();
 	~MoveToRightPlaceInterval();
+
+	/**
+	* 构造MoveToRightPlaceInterval方法
+	* @param duration 动画时间
+	* @param index
+	* @param s
+	* @return
+	*/
 	static MoveToRightPlaceInterval* create(float duration,int index,Stroke s);
 // 	CCObject* copyWithZone(CCZone* pZone);
 	virtual void update(float time);
