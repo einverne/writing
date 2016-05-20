@@ -29,38 +29,61 @@ public:
     
     list<int> noise_list_;               //疑似抖笔笔段列表。怀疑是抖笔的笔段索引号。
 
-	//用于动画演示的属性
+	//用于动画演示的属性 弃用
 	int draw_index; //当前演示笔段的索引；
 	int draw_point; //当前演示笔段的演示点索引;
 
 	int normal_size_;
+
+	// 保存原始笔迹包围盒以及中心点
+	float width_;
+	float height_;
+	CCPoint center_point_;
+
     
     ScriptCharacter();
     ScriptCharacter(const ScriptCharacter& T);
     ScriptCharacter& operator=(const ScriptCharacter& T);    //赋值
     ~ScriptCharacter();
 
-	void clear_divide_data();
-	void clearalldata();
+	void ClearDivideData();
+	void ClearAllData();
 	void Init(list<RowStroke> slist);  //原始书写笔画初始化
 
 	void Normalize(int height=512,int width=512);  //尺寸的缩放，路径的均匀插值。
+
+	/**
+	* 计算手写字的包围盒，获得原始笔迹 width, height, center_point
+	* 在 Normalize 之前调用，保存原始手写信息
+	* 调用函数之后，将手写字的包围盒 宽度，高度和中心点保存到成员变量中
+	* @return
+	*/
+	void CalculateBox();
+
+	/**
+	* 在匹配算法完成之后，调用此方法，将Normalize 之后的点，移动到原来的位置
+	* 相当于在每个点上加上一个位移量
+	* 目的为使手写汉字在 变形 匹配之后恢复到原先的位置
+	* @return
+	*/
+	void MoveToDefaultPlace();
+
 	void divideSegment1();  //识别笔段。将每个笔画划分为一系列笔段。
 	void divideSegment2();  //识别笔段。将每个笔画划分为一系列笔段。
 
 	void IdentifynoiseSegment();//识别抖笔笔段 
-	void new_IdentifynoiseSegment();//识别抖笔笔段 
+	void NewIdentifynoiseSegment();//识别抖笔笔段 
 
 	//void draw(CDC* pDC);
 	void AnimationProgress(bool ani);
 
 	bool InsameStroke(int segindex1,int segindex2);
-	void remove_from_noistlist(int segindex);
+	void RemoveFromNoistlist(int segindex);
 
 	//////////////////////////////
-	RowStroke getrowstroke(int num);
-	Stroke getstroke(int num);
-	Segment getsegment(int num);
+	RowStroke GetRowStroke(int num);
+	Stroke GetStroke(int num);
+	Segment GetSegment(int num);
 	bool IsNoiseSegment(int num);
 
 	void SetSegmentColor(int num, ccColor4F color);

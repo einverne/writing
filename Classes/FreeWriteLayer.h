@@ -30,6 +30,11 @@ private:
 
 	void menuView(CCObject* pSender);
 
+	/**
+	* 松弛匹配算法按钮响应
+	* @param pSender 发送响应按钮
+	* @return
+	*/
 	void menuMatch(CCObject* pSender);
 	CCMenu* menu_;
 };

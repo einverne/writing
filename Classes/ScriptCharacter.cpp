@@ -12,6 +12,10 @@
 ScriptCharacter::ScriptCharacter(){
     row_stroke_.clear();
     divide_ = false;
+
+	width_ = 0;
+	height_ = 0;
+	center_point_ = ccp(0,0);
     
     stroke_list_.clear();
     segment_list_.clear();
@@ -21,6 +25,11 @@ ScriptCharacter::ScriptCharacter(){
 ScriptCharacter::ScriptCharacter(const ScriptCharacter& T){
     this->row_stroke_ = T.row_stroke_;
     this->divide_ = T.divide_;
+
+	this->width_ = T.width_;
+	this->height_ = T.height_;
+	this->center_point_ = T.center_point_;
+
     this->stroke_list_ = T.stroke_list_;
     this->segment_list_ = T.segment_list_;
     this->noise_list_ = T.noise_list_;
@@ -29,6 +38,11 @@ ScriptCharacter::ScriptCharacter(const ScriptCharacter& T){
 ScriptCharacter& ScriptCharacter::operator=(const ScriptCharacter& T){
     this->row_stroke_ = T.row_stroke_;
     this->divide_ = T.divide_;
+
+	this->width_ = T.width_;
+	this->height_ = T.height_;
+	this->center_point_ = T.center_point_;
+
     this->stroke_list_ = T.stroke_list_;
     this->segment_list_ = T.segment_list_;
     this->noise_list_ = T.noise_list_;
@@ -45,7 +59,7 @@ ScriptCharacter::~ScriptCharacter(){
 }
 
 
-void ScriptCharacter::clear_divide_data()
+void ScriptCharacter::ClearDivideData()
 {
 	stroke_list_.clear();   
 	segment_list_.clear(); 	
@@ -57,10 +71,14 @@ void ScriptCharacter::clear_divide_data()
 	divide_=false;
 }
 
-void ScriptCharacter::clearalldata()
+void ScriptCharacter::ClearAllData()
 {
 	row_stroke_.clear();   
 	divide_=false;
+
+	width_ = 0;
+	height_ = 0;
+	center_point_ = ccp(0,0);
 	
 	//下面的属性是分割后产生的
 	stroke_list_.clear();   
@@ -74,11 +92,7 @@ void ScriptCharacter::clearalldata()
 	normal_size_=-1;
 }
 
-
-
-
-
-void ScriptCharacter::remove_from_noistlist(int segindex)
+void ScriptCharacter::RemoveFromNoistlist(int segindex)
 {
 	list<int>::iterator it=this->noise_list_.begin();
 	for (;it!=this->noise_list_.end();it++)
@@ -145,7 +159,7 @@ void ScriptCharacter::AnimationProgress(bool ani)
 		}
 		
 		//进展
-		RowStroke tempr=getrowstroke(draw_index);
+		RowStroke tempr=GetRowStroke(draw_index);
 		if(draw_point < tempr.GetPointList().size()-1)
 		{
 			draw_point++;
@@ -173,7 +187,7 @@ void ScriptCharacter::AnimationProgress(bool ani)
 		}
 		
 		//进展
-		Segment temps=getsegment(draw_index);
+		Segment temps=GetSegment(draw_index);
 		if(draw_point < temps.point_list_.size()-1)
 		{
 			draw_point++;
@@ -186,7 +200,7 @@ void ScriptCharacter::AnimationProgress(bool ani)
 	}
 }
 
-Segment ScriptCharacter::getsegment(int num)
+Segment ScriptCharacter::GetSegment(int num)
 {
 	//ASSERT(num>=0);
 	//ASSERT(num<this->segment_list.size());
@@ -224,7 +238,7 @@ bool ScriptCharacter::IsNoiseSegment(int num)
 	return yes;
 }
 
-Stroke ScriptCharacter::getstroke(int num)
+Stroke ScriptCharacter::GetStroke(int num)
 {
 	//ASSERT(num>=0);
 	//ASSERT(num<stroke_list.size());
@@ -239,7 +253,7 @@ Stroke ScriptCharacter::getstroke(int num)
 	return *it;
 }
 
-RowStroke ScriptCharacter::getrowstroke(int num)
+RowStroke ScriptCharacter::GetRowStroke(int num)
 {
 	//ASSERT(num>=0);
 	//ASSERT(num<this->row_stroke.size());
@@ -379,6 +393,68 @@ void ScriptCharacter::removesegment(int ind)
 	}
 }
 
+void ScriptCharacter::CalculateBox(){
+	if (row_stroke_.size() <= 0)
+	{
+		return;
+	}
+	width_ = height_ = 0;
+	center_point_ = ccp(0,0);
+	float xmin, ymin, xmax, ymax;
+
+	RowStroke temp_row_stroke = GetRowStroke(0);
+	CCPoint temp_point = temp_row_stroke.GetPoint(0);
+
+	xmin=xmax=temp_point.x;
+	ymin=ymax=temp_point.y;
+
+	for (int i=0; i< row_stroke_.size();i++)
+	{
+		temp_row_stroke=GetRowStroke(i);
+		for (int j=0;j < temp_row_stroke.GetPointList().size();j++)
+		{
+			temp_point=temp_row_stroke.GetPoint(j);
+
+			if (xmin>temp_point.x)
+				xmin=temp_point.x;
+			if (xmax<temp_point.x)
+				xmax=temp_point.x;
+			if (ymin>temp_point.y)
+				ymin=temp_point.y;
+			if (ymax<temp_point.y)
+				ymax=temp_point.y;
+		}
+	}
+
+	width_ = xmax-xmin>0 ? (xmax - xmin):(xmin-xmax);		// 保证 width_ 大于0
+	height_ = ymax-ymin>0 ? (ymax - ymin):(ymin-ymax);		// 保证 height_ 大于0
+	center_point_ = ccp((xmax+xmin)/2, (ymax+ymin)/2);
+}
+
+void ScriptCharacter::MoveToDefaultPlace() {
+	// 用 list<segment> 中的点
+	CCPoint origin_point = center_point_;
+	CalculateBox();
+	CCPoint now_point = center_point_;
+	CCPoint delta_point = now_point - origin_point;
+	Segment temps;
+	CCPoint tempp;
+	for (int i=0; i<this->segment_list_.size();i++)
+	{
+		temps=GetSegment(i);
+		for (int j=0;j<temps.point_list_.size();j++)
+		{
+			tempp=temps.GetPoint(j);
+
+			tempp = tempp - delta_point;
+			
+			temps.SetPoint(j,tempp);
+		}
+		Replacesegment(i,temps);
+	}
+
+}
+
 void ScriptCharacter::Normalize(int height,int width)  //尺寸的缩放，路径的均匀插值。
 {
 	//1.原始笔画的缩放
@@ -390,27 +466,27 @@ void ScriptCharacter::Normalize(int height,int width)  //尺寸的缩放，路�
 	/////////////
 	float xmin, ymin, xmax,ymax;
 	
-	RowStroke temps=getrowstroke(0);
-	CCPoint tempp=temps.GetPoint(0);
+	RowStroke temp_row_stroke = GetRowStroke(0);
+	CCPoint temp_point = temp_row_stroke.GetPoint(0);
 	
-	xmin=xmax=tempp.x;
-	ymin=ymax=tempp.y;
+	xmin=xmax=temp_point.x;
+	ymin=ymax=temp_point.y;
 	
 	for (int i=0; i<this->row_stroke_.size();i++)
 	{
-		temps=getrowstroke(i);
-		for (int j=0;j<temps.GetPointList().size();j++)
+		temp_row_stroke=GetRowStroke(i);
+		for (int j=0;j<temp_row_stroke.GetPointList().size();j++)
 		{
-			tempp=temps.GetPoint(j);
+			temp_point=temp_row_stroke.GetPoint(j);
 			
-			if (xmin>tempp.x)
-				xmin=tempp.x;
-			if (xmax<tempp.x)
-				xmax=tempp.x;
-			if (ymin>tempp.y)
-				ymin=tempp.y;
-			if (ymax<tempp.y)
-				ymax=tempp.y;
+			if (xmin>temp_point.x)
+				xmin=temp_point.x;
+			if (xmax<temp_point.x)
+				xmax=temp_point.x;
+			if (ymin>temp_point.y)
+				ymin=temp_point.y;
+			if (ymax<temp_point.y)
+				ymax=temp_point.y;
 		}
 	}
 	
@@ -426,17 +502,17 @@ void ScriptCharacter::Normalize(int height,int width)  //尺寸的缩放，路�
 		normal_size_=height;
 		for (int i=0; i<this->row_stroke_.size();i++)
 		{
-			temps=getrowstroke(i);
-			for (int j=0;j<temps.GetPointList().size();j++)
+			temp_row_stroke=GetRowStroke(i);
+			for (int j=0;j<temp_row_stroke.GetPointList().size();j++)
 			{
-				tempp=temps.GetPoint(j);
+				temp_point=temp_row_stroke.GetPoint(j);
 				
-				float tempx=(tempp.x-midx)*rescal2+width/2.0;
-				float tempy=(tempp.y-midy)*rescal2+height/2.0;
+				float tempx=(temp_point.x-midx)*rescal2+width/2.0;
+				float tempy=(temp_point.y-midy)*rescal2+height/2.0;
 				
-				temps.SetPoint(j,ccp(tempx,tempy));
+				temp_row_stroke.SetPoint(j,ccp(tempx,tempy));
 			}
-			ReplaceRowstroke(i,temps);
+			ReplaceRowstroke(i,temp_row_stroke);
 		}
 	}
 	else  //以水平缩放为标准
@@ -444,17 +520,17 @@ void ScriptCharacter::Normalize(int height,int width)  //尺寸的缩放，路�
 		normal_size_=width;
 		for (int i=0; i<this->row_stroke_.size();i++)
 		{
-			temps=getrowstroke(i);
-			for (int j=0;j<temps.GetPointList().size();j++)
+			temp_row_stroke=GetRowStroke(i);
+			for (int j=0;j<temp_row_stroke.GetPointList().size();j++)
 			{
-				tempp=temps.GetPoint(j);
+				temp_point=temp_row_stroke.GetPoint(j);
 				
-				float tempx=(tempp.x-midx)*rescal1+width/2.;
-				float tempy=(tempp.y-midy)*rescal1+height/2.;
+				float tempx=(temp_point.x-midx)*rescal1+width/2.;
+				float tempy=(temp_point.y-midy)*rescal1+height/2.;
 				
-				temps.SetPoint(j,CCPoint(tempx,tempy));
+				temp_row_stroke.SetPoint(j,CCPoint(tempx,tempy));
 			}
-			ReplaceRowstroke(i,temps);
+			ReplaceRowstroke(i,temp_row_stroke);
 		}
 	}
 	
@@ -462,10 +538,10 @@ void ScriptCharacter::Normalize(int height,int width)  //尺寸的缩放，路�
 	GeometryTool gt;	
 	for (int i=0; i<this->row_stroke_.size();i++)
 	{
-		temps=getrowstroke(i);
-		list<CCPoint> templ=gt.UniformpathResample(temps.GetRowPoint());
-		temps.SetPointList(templ);
-		ReplaceRowstroke(i,temps);
+		temp_row_stroke=GetRowStroke(i);
+		list<CCPoint> templ=gt.UniformpathResample(temp_row_stroke.GetRowPoint());
+		temp_row_stroke.SetPointList(templ);
+		ReplaceRowstroke(i,temp_row_stroke);
 	}
 
 	//2.分割后笔画的均匀缩放
@@ -479,7 +555,7 @@ void ScriptCharacter::Normalize(int height,int width)  //尺寸的缩放，路�
 		/////////////
 		float xmin, ymin, xmax,ymax;
 		
-		Segment temps=getsegment(0);
+		Segment temps=GetSegment(0);
 		CCPoint tempp=temps.GetPoint(0);
 		
 		xmin=xmax=tempp.x;
@@ -487,7 +563,7 @@ void ScriptCharacter::Normalize(int height,int width)  //尺寸的缩放，路�
 		
 		for (int i=0; i<this->segment_list_.size();i++)
 		{
-			temps=getsegment(i);
+			temps=GetSegment(i);
 			for (int j=0;j<temps.point_list_.size();j++)
 			{
 				tempp=temps.GetPoint(j);
@@ -515,7 +591,7 @@ void ScriptCharacter::Normalize(int height,int width)  //尺寸的缩放，路�
 			normal_size_=height;
 			for (int i=0; i<this->segment_list_.size();i++)
 			{
-				temps=getsegment(i);
+				temps=GetSegment(i);
 				for (int j=0;j<temps.point_list_.size();j++)
 				{
 					tempp=temps.GetPoint(j);
@@ -533,7 +609,7 @@ void ScriptCharacter::Normalize(int height,int width)  //尺寸的缩放，路�
 			normal_size_=width;
 			for (int i=0; i<this->segment_list_.size();i++)
 			{
-				temps=getsegment(i);
+				temps=GetSegment(i);
 				for (int j=0;j<temps.point_list_.size();j++)
 				{
 					tempp=temps.GetPoint(j);
@@ -576,7 +652,7 @@ void ScriptCharacter::divideSegment1()  //动射线方法
 	//路径拐点切分
 	for (int i=0; i<this->row_stroke_.size();i++)
 	{
-		temps=getrowstroke(i);
+		temps=GetRowStroke(i);
 		list<int> turning_ind;
 		turning_ind.clear();
 		gt.TurningDivide(temps.GetRowPoint(), turning_ind); //动射线算法切分笔画
@@ -654,7 +730,7 @@ void ScriptCharacter::divideSegment2()   //点到直线距离，以及夹角方�
 	if(row_stroke_.size()==0 || normal_size_<=0)
 		return;
 	/////////////////////
-	clear_divide_data();
+	ClearDivideData();
 	RowStroke row_stroke;
 	GeometryTool gt;
 	
@@ -662,7 +738,7 @@ void ScriptCharacter::divideSegment2()   //点到直线距离，以及夹角方�
 	//路径拐点切分
 	for (int i=0; i<this->row_stroke_.size();i++)
 	{
-		row_stroke=getrowstroke(i);
+		row_stroke=GetRowStroke(i);
 		list<int> turning_ind;
 		turning_ind.clear();
 		gt.New_TurningDivide(row_stroke.GetRowPoint(), turning_ind, normal_size_); //将笔画切分为多个笔段（根据点到直线距离，各个分段长度，以及夹角）
@@ -713,14 +789,14 @@ int ScriptCharacter::find_noturning_connection_segment(int segindex)
 {
 	int m_res=-1;
 	GeometryTool gt;
-	Segment s1=getsegment(segindex);
+	Segment s1=GetSegment(segindex);
 	////////////////////
 	//方向相同，端点接近
 	for (int ind=0;ind<this->segment_list_.size();ind++)
 	{
 		if (ind!=segindex && !IsNoiseSegment(ind))
 		{
-			Segment s2=getsegment(ind);
+			Segment s2=GetSegment(ind);
 
 			///////情况1:两个起点
 			CCPoint p1 = s1.GetPoint(0);
@@ -776,8 +852,8 @@ bool ScriptCharacter::is_apart_relation(int h1,int h2)
 	bool yes=true;
 	GeometryTool gt;
 	//////////
-	Segment s1=getsegment(h1);
-	Segment s2=getsegment(h2);
+	Segment s1=GetSegment(h1);
+	Segment s2=GetSegment(h2);
 
 	CCPoint p1=s1.GetPoint(0);
 	CCPoint p2=s1.GetPoint(s1.GetPointList().size()-1);
@@ -861,7 +937,7 @@ void ScriptCharacter::Append_divide_Stroke(list<Segment> s)  //用于分割后�
 	////////
 }
 
-void ScriptCharacter::new_IdentifynoiseSegment()
+void ScriptCharacter::NewIdentifynoiseSegment()
 {
 	noise_list_.clear();
 	//////////////////////////////////////////////////

@@ -30,7 +30,20 @@ public:
 	void Init(vector<CCPoint> Right);
 
 	void Clear();
+
+	/**
+	* 获取笔画中的 index 点
+	* @param ind 点序号， 从0开始
+	* @return CCPoint 点信息
+	*/
 	CCPoint GetPoint(int ind);
+
+	/**
+	* 设置第index位置，点为p
+	* @param ind 点序号
+	* @param p 点信息
+	* @return
+	*/
 	void SetPoint(int ind, CCPoint p);
 	
 	/**

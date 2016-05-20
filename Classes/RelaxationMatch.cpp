@@ -139,7 +139,7 @@ void RelaxationMatch::Initmatchprobability()
 			}
 
 			//2.如果si没被估计为抖笔，那么计算匹配概率。
-			Segment s=this->script.getsegment(si);
+			Segment s=this->script.GetSegment(si);
 			Segment m=this->model.getsegment(mj);
 			
 			//根据mj是否为稳定笔段，进行不同的概率计算
@@ -221,9 +221,9 @@ void RelaxationMatch::Initmatchcompatibility()
 					bool instable=model.isinstablesegment(j) || model.isinstablesegment(k);
 					string relation=model.GetRelation(j,k);
 							
-					pi=this->script.getsegment(i);
+					pi=this->script.GetSegment(i);
 					pj=this->model.getsegment(j);
-					ph=this->script.getsegment(h);
+					ph=this->script.GetSegment(h);
 					pk=this->model.getsegment(k);
 
 					compatibility[i][j][h][k]=gt.computecompatibility(pi,pj,ph,pk,Insamecompnent,instable,relation,
@@ -750,7 +750,7 @@ void RelaxationMatch::processing_tiny_segments()
 				script.InsameStroke(temph1,temph2)==true && temph2-temph1==2)
 			{
 				int temph=temph1+1;
-				float len=script.getsegment(temph).len_;
+				float len=script.GetSegment(temph).len_;
 				
 				////////////////////////////////////////
 				bool m_yes=false;
@@ -771,9 +771,9 @@ void RelaxationMatch::processing_tiny_segments()
 				if (len<script.normal_size_/8.53) //归到一边
 				{
 					//处理手写字
-					Segment h1=script.getsegment(temph1);
-					Segment h2=script.getsegment(temph2);
-					Segment h=script.getsegment(temph);
+					Segment h1=script.GetSegment(temph1);
+					Segment h2=script.GetSegment(temph2);
+					Segment h=script.GetSegment(temph);
 					int count= h.GetPointList().size();
 					//////////////////////////////////////					
 					float dis11=h.dirangle_ - (h1.dirangle_ + 180);
@@ -842,9 +842,9 @@ void RelaxationMatch::processing_tiny_segments()
 				else   if (len<script.normal_size_/6.8)//均分
 				{
 					//处理手写字
-					Segment h1=script.getsegment(temph1);
-					Segment h2=script.getsegment(temph2);
-					Segment h=script.getsegment(temph);
+					Segment h1=script.GetSegment(temph1);
+					Segment h2=script.GetSegment(temph2);
+					Segment h=script.GetSegment(temph);
 					int count= h.GetPointList().size();
 
 					GeometryTool gt;
@@ -930,8 +930,8 @@ void RelaxationMatch::processing_tiny_segments()
 		if(script.InsameStroke(temph1,temph)==true && script.IsNoiseSegment(temph)==false)
 		{
 			//夹角是否很小  
-			Segment h1=script.getsegment(temph1);
-			Segment h=script.getsegment(temph);
+			Segment h1=script.GetSegment(temph1);
+			Segment h=script.GetSegment(temph);
 			Segment k1=model.getsegment(tempk1);
 
 			GeometryTool gt;
@@ -1004,8 +1004,8 @@ void RelaxationMatch::processing_tiny_segments()
 		if(script.InsameStroke(temph1,temph)==true && script.IsNoiseSegment(temph)==false)
 		{
 			//夹角是否很小  
-			Segment h1=script.getsegment(temph1);
-			Segment h=script.getsegment(temph);
+			Segment h1=script.GetSegment(temph1);
+			Segment h=script.GetSegment(temph);
 			Segment k1=model.getsegment(tempk1);
 			
 			GeometryTool gt;
@@ -1148,8 +1148,8 @@ void RelaxationMatch::Noturning_Connection_Extension()
 		int common_connect_h=Find_Match_for_Model_segment_in_single_result(common_connect_k);
 		if(common_connect_h!=-1)
 		{
-			Segment h1=script.getsegment(temph);
-			Segment h2=script.getsegment(common_connect_h);
+			Segment h1=script.GetSegment(temph);
+			Segment h2=script.GetSegment(common_connect_h);
 			CCPoint pt1s=h1.GetPoint(0);
 			CCPoint pt1e=h1.GetPoint(h1.point_list_.size()-1);
 			CCPoint pt2s=h2.GetPoint(0);
@@ -1309,7 +1309,7 @@ void RelaxationMatch::NoiseExtension_forsingle()
 		int sh=Find_Match_for_Model_segment_in_single_result(*it-1);
 		if(sh!=-1 )			                                                                     
 		{		
-			float sh_dir=script.getsegment(sh).dirangle_;
+			float sh_dir=script.GetSegment(sh).dirangle_;
 			float mk_dir=model.getsegment(*it-1).dirangle_;
 
 			float dis=max(sh_dir,mk_dir)-min(sh_dir,mk_dir);
@@ -1331,7 +1331,7 @@ void RelaxationMatch::NoiseExtension_forsingle()
 				temp.k=*it;
 				matchresult.push_back(temp);
 				
-				script.remove_from_noistlist(sh+1);
+				script.RemoveFromNoistlist(sh+1);
 				continue;
 			}
 			else if(dis>90 && script.InsameStroke(sh,sh-1) && script.IsNoiseSegment(sh-1))
@@ -1342,7 +1342,7 @@ void RelaxationMatch::NoiseExtension_forsingle()
 				temp.k=*it;
 				matchresult.push_back(temp);
 				
-				script.remove_from_noistlist(sh-1);
+				script.RemoveFromNoistlist(sh-1);
 				continue;
 			}			
 		}		
@@ -1379,8 +1379,8 @@ void RelaxationMatch::NoiseExtension_formulti()
 
 		float dir1=model.getsegment(*it-1).dirangle_;
 		GeometryTool gt;
-		float dir2=gt.AngleInDegrees(script.getsegment(sh_beg).GetPoint(0),
-			                         script.getsegment(sh_end).GetPoint(script.getsegment(sh_end).point_list_.size()-1),true);
+		float dir2=gt.AngleInDegrees(script.GetSegment(sh_beg).GetPoint(0),
+			                         script.GetSegment(sh_end).GetPoint(script.GetSegment(sh_end).point_list_.size()-1),true);
 		float dis=max(dir1,dir2)-min(dir1,dir2);
 		if (dis>180)
 			dis=360-dis;		
@@ -1401,7 +1401,7 @@ void RelaxationMatch::NoiseExtension_formulti()
 			temp.k=*it;
 			matchresult.push_back(temp);
 			
-			script.remove_from_noistlist(sh_end+1);
+			script.RemoveFromNoistlist(sh_end+1);
 			continue;
 		}		
 		else if(dis>90 && script.InsameStroke(sh_beg,sh_beg-1) && script.IsNoiseSegment(sh_beg-1))
@@ -1412,7 +1412,7 @@ void RelaxationMatch::NoiseExtension_formulti()
 			temp.k=*it;
 			matchresult.push_back(temp);
 			
-			script.remove_from_noistlist(sh_beg-1);
+			script.RemoveFromNoistlist(sh_beg-1);
 			continue;
 		}
 	}
@@ -1440,7 +1440,7 @@ void RelaxationMatch::wan_gou_match(int mk_wan,int sh_wan,int mk_gou,int sh_gou,
 	tempm.klist.push_back(mk_wan);
 	tempm.hlist.push_back(sh_wan);
 	
-	float sh_wan_dir=script.getsegment(sh_wan).dirangle_;	
+	float sh_wan_dir=script.GetSegment(sh_wan).dirangle_;	
 	///////////////向模板字笔画的起点扩展
 
 	int cur_h=sh_wan;
@@ -1461,8 +1461,8 @@ void RelaxationMatch::wan_gou_match(int mk_wan,int sh_wan,int mk_gou,int sh_gou,
 			////
 			if(same && cur_mk==-1)
 			{
-				float cur_dir=script.getsegment(cur_h).dirangle_;
-				float cur_len=script.getsegment(cur_h).len_;
+				float cur_dir=script.GetSegment(cur_h).dirangle_;
+				float cur_len=script.GetSegment(cur_h).len_;
 				if ((cur_dir<90 && cur_dir>20) || ((cur_dir<15 || cur_dir>350) && cur_len<50))
 				{
 					tempm.hlist.push_front(cur_h);
@@ -1483,7 +1483,7 @@ void RelaxationMatch::wan_gou_match(int mk_wan,int sh_wan,int mk_gou,int sh_gou,
 			////
 			if(same && cur_mk==-1)
 			{
-				float cur_dir=script.getsegment(cur_h).dirangle_;
+				float cur_dir=script.GetSegment(cur_h).dirangle_;
 				if (cur_dir<270 && cur_dir>200)
 				{
 					tempm.hlist.push_back(cur_h);
@@ -1512,7 +1512,7 @@ void RelaxationMatch::wan_gou_match(int mk_wan,int sh_wan,int mk_gou,int sh_gou,
 			////
 			if(same && cur_mk==-1)
 			{
-				float cur_dir=script.getsegment(cur_h).dirangle_;
+				float cur_dir=script.GetSegment(cur_h).dirangle_;
 				if (cur_dir<160 && cur_dir>90)
 				{
 					tempm.hlist.push_back(cur_h);	
@@ -1540,7 +1540,7 @@ void RelaxationMatch::wan_gou_match(int mk_wan,int sh_wan,int mk_gou,int sh_gou,
 					{
 						next_same=script.InsameStroke(sh_wan,next_cur_h) & !(script.IsNoiseSegment(next_cur_h));				
 					    next_cur_mk=Find_Match_for_script_segment_in_single_result(next_cur_h);
-						next_dir=script.getsegment(next_cur_h).dirangle_;
+						next_dir=script.GetSegment(next_cur_h).dirangle_;
 					}
 
 					if(next_same && next_cur_mk==-1 && next_dir>180)
@@ -1575,7 +1575,7 @@ void RelaxationMatch::wan_gou_match(int mk_wan,int sh_wan,int mk_gou,int sh_gou,
 			////
 			if(same && cur_mk==-1)
 			{
-				float cur_dir=script.getsegment(cur_h).dirangle_;
+				float cur_dir=script.GetSegment(cur_h).dirangle_;
 
 				if(cur_dir>250 && cur_dir<340)
 				{
@@ -1639,7 +1639,7 @@ void RelaxationMatch::wo_gou_match(int mk_wo,int sh_wo, int mk_gou, int sh_gou, 
 	tempm.klist.push_back(mk_wo);
 	tempm.hlist.push_back(sh_wo);
 	
-	float sh_wo_dir=script.getsegment(sh_wo).dirangle_;
+	float sh_wo_dir=script.GetSegment(sh_wo).dirangle_;
 	///////////////向模板字的起点扩展
 	int cur_h=sh_wo;
 	bool m_yes=true;
@@ -1658,11 +1658,11 @@ void RelaxationMatch::wo_gou_match(int mk_wo,int sh_wo, int mk_gou, int sh_gou, 
 			if(same)
 			{
 				//转角是否满足要求
-				float cur_ang=script.getsegment(cur_h).dirangle_;				
+				float cur_ang=script.GetSegment(cur_h).dirangle_;				
 				
 				//合并后方向是否满足要求
-				CCPoint p1=script.getsegment(cur_h).GetPoint(0);
-				CCPoint p2=script.getsegment(sh_wo).GetPoint(script.getsegment(sh_wo).GetPointList().size()-1);
+				CCPoint p1=script.GetSegment(cur_h).GetPoint(0);
+				CCPoint p2=script.GetSegment(sh_wo).GetPoint(script.GetSegment(sh_wo).GetPointList().size()-1);
 				GeometryTool gt;
 				float sumdir1=gt.AngleInDegrees(p1,p2,true);
 								
@@ -1698,11 +1698,11 @@ void RelaxationMatch::wo_gou_match(int mk_wo,int sh_wo, int mk_gou, int sh_gou, 
 			if(same)
 			{
 				//转角是否满足要求
-				float cur_ang=script.getsegment(cur_h).dirangle_;				
+				float cur_ang=script.GetSegment(cur_h).dirangle_;				
 				
 				//合并后方向是否满足要求
-				CCPoint p2=script.getsegment(sh_wo).GetPoint(0);
-				CCPoint p1=script.getsegment(cur_h).GetPoint(script.getsegment(cur_h).GetPointList().size()-1);
+				CCPoint p2=script.GetSegment(sh_wo).GetPoint(0);
+				CCPoint p1=script.GetSegment(cur_h).GetPoint(script.GetSegment(cur_h).GetPointList().size()-1);
 				GeometryTool gt;
 				float sumdir1=gt.AngleInDegrees(p1,p2,true);
 
@@ -1745,7 +1745,7 @@ void RelaxationMatch::wo_gou_match(int mk_wo,int sh_wo, int mk_gou, int sh_gou, 
 			////
 			if(same)
 			{
-				float cur_ang=script.getsegment(cur_h).dirangle_;
+				float cur_ang=script.GetSegment(cur_h).dirangle_;
 				if (cur_ang>180 && cur_ang<270)
 				{
 					int cur_mk=Find_Match_for_script_segment_in_single_result(cur_h);
@@ -1795,7 +1795,7 @@ void RelaxationMatch::wo_gou_match(int mk_wo,int sh_wo, int mk_gou, int sh_gou, 
 					else
 					{
 						next_same=script.InsameStroke(sh_wo,next_cur_h) & !(script.IsNoiseSegment(next_cur_h));
-						next_dir=script.getsegment(next_cur_h).dirangle_;
+						next_dir=script.GetSegment(next_cur_h).dirangle_;
 					}
 
 					if (next_same && (next_dir>180 && next_dir<=cur_ang))
@@ -1868,7 +1868,7 @@ void RelaxationMatch::wo_gou_match(int mk_wo,int sh_wo, int mk_gou, int sh_gou, 
 			////
 			if(same)
 			{
-				float cur_ang=script.getsegment(cur_h).dirangle_;
+				float cur_ang=script.GetSegment(cur_h).dirangle_;
 				if (cur_ang>0 && cur_ang<90)
 				{
 					int cur_mk=Find_Match_for_script_segment_in_single_result(cur_h);
@@ -1918,7 +1918,7 @@ void RelaxationMatch::wo_gou_match(int mk_wo,int sh_wo, int mk_gou, int sh_gou, 
 					else
 					{
 						next_same=script.InsameStroke(sh_wo,next_cur_h) & !(script.IsNoiseSegment(next_cur_h));
-						next_dir=script.getsegment(next_cur_h).dirangle_;
+						next_dir=script.GetSegment(next_cur_h).dirangle_;
 					}
 
 					if (next_same && (next_dir>0 && next_dir<=cur_ang))
@@ -2026,7 +2026,7 @@ void RelaxationMatch::xie_gou_match(int mk_xie, int sh_xie, int mk_gou, int sh_g
 	tempm.klist.push_back(mk_xie);
 	tempm.hlist.push_back(sh_xie);
 	
-	float sh_xie_dir=script.getsegment(sh_xie).dirangle_;
+	float sh_xie_dir=script.GetSegment(sh_xie).dirangle_;
 
 	///////////////向模板字笔画的起点扩展
 	int cur_h=sh_xie;
@@ -2047,11 +2047,11 @@ void RelaxationMatch::xie_gou_match(int mk_xie, int sh_xie, int mk_gou, int sh_g
 			if(same)
 			{
 				//转角是否满足要求
-				float cur_ang=script.getsegment(cur_h).dirangle_;				
+				float cur_ang=script.GetSegment(cur_h).dirangle_;				
 				
 				//合并后方向是否满足要求
-				CCPoint p1=script.getsegment(cur_h).GetPoint(0);
-				CCPoint p2=script.getsegment(sh_xie).GetPoint(script.getsegment(sh_xie).GetPointList().size()-1);
+				CCPoint p1=script.GetSegment(cur_h).GetPoint(0);
+				CCPoint p2=script.GetSegment(sh_xie).GetPoint(script.GetSegment(sh_xie).GetPointList().size()-1);
 				GeometryTool gt;
 				float sumdir1=gt.AngleInDegrees(p1,p2,true);
 				
@@ -2076,11 +2076,11 @@ void RelaxationMatch::xie_gou_match(int mk_xie, int sh_xie, int mk_gou, int sh_g
 			if(same)
 			{
 			    //转角是否满足要求
-			    float cur_ang=script.getsegment(cur_h).dirangle_;				
+			    float cur_ang=script.GetSegment(cur_h).dirangle_;				
 			  
 			    //合并后方向是否满足要求
-				CCPoint p2=script.getsegment(sh_xie).GetPoint(0);
-				CCPoint p1=script.getsegment(cur_h).GetPoint(script.getsegment(cur_h).GetPointList().size()-1);
+				CCPoint p2=script.GetSegment(sh_xie).GetPoint(0);
+				CCPoint p1=script.GetSegment(cur_h).GetPoint(script.GetSegment(cur_h).GetPointList().size()-1);
 				GeometryTool gt;
 				float sumdir1=gt.AngleInDegrees(p1,p2,true);
 				
@@ -2110,7 +2110,7 @@ void RelaxationMatch::xie_gou_match(int mk_xie, int sh_xie, int mk_gou, int sh_g
 			////
 			if(same)
 			{
-				float cur_ang=script.getsegment(cur_h).dirangle_;
+				float cur_ang=script.GetSegment(cur_h).dirangle_;
 				if (cur_ang>180 && cur_ang<300)
 				{
 					int cur_mk=Find_Match_for_script_segment_in_single_result(cur_h);
@@ -2160,7 +2160,7 @@ void RelaxationMatch::xie_gou_match(int mk_xie, int sh_xie, int mk_gou, int sh_g
 					else
 					{
 						next_same=script.InsameStroke(sh_xie,next_cur_h) & !(script.IsNoiseSegment(next_cur_h));
-						next_dir=script.getsegment(next_cur_h).dirangle_;
+						next_dir=script.GetSegment(next_cur_h).dirangle_;
 					}
 
 					if (next_same && (next_dir>180 && next_dir<=330))
@@ -2234,7 +2234,7 @@ void RelaxationMatch::xie_gou_match(int mk_xie, int sh_xie, int mk_gou, int sh_g
 			////
 			if(same)
 			{
-				float cur_ang=script.getsegment(cur_h).dirangle_;
+				float cur_ang=script.GetSegment(cur_h).dirangle_;
 				if (cur_ang>0 && cur_ang<120)
 				{
 					int cur_mk=Find_Match_for_script_segment_in_single_result(cur_h);
@@ -2284,7 +2284,7 @@ void RelaxationMatch::xie_gou_match(int mk_xie, int sh_xie, int mk_gou, int sh_g
 					else
 					{
 						next_same=script.InsameStroke(sh_xie,next_cur_h) & !(script.IsNoiseSegment(next_cur_h));
-						next_dir=script.getsegment(next_cur_h).dirangle_;
+						next_dir=script.GetSegment(next_cur_h).dirangle_;
 					}
 
 					if (next_same && (next_dir>0 && next_dir<=cur_ang))
@@ -2958,8 +2958,8 @@ list<candidate> RelaxationMatch::merge_script_seg_for_multimatch(list<multicandi
 			}
 			//ASSERT(max_h-min_h==1);
 			
-			Segment temph1=script.getsegment(min_h);
-			Segment temph2=script.getsegment(max_h);
+			Segment temph1=script.GetSegment(min_h);
+			Segment temph2=script.GetSegment(max_h);
 
 
 			for (int i=1;i<temph2.point_list_.size();i++)
@@ -3061,8 +3061,8 @@ void RelaxationMatch::heng_pei_wan_gou_match_2(int k1,int h1,int k2,int h2,int k
 				//如果还没匹配,查看夹角
 				if(mat==-1 && it==tempsave.end())
 				{					
-					float cur_dir=script.getsegment(cur_h).dirangle_;
-					float mdir=script.getsegment(h1).dirangle_;
+					float cur_dir=script.GetSegment(cur_h).dirangle_;
+					float mdir=script.GetSegment(h1).dirangle_;
 
 					float dis=fabs(cur_dir-mdir);
 					if(dis>180)
@@ -3101,8 +3101,8 @@ void RelaxationMatch::heng_pei_wan_gou_match_2(int k1,int h1,int k2,int h2,int k
 				//如果还没匹配,查看夹角
 				if(mat==-1 && it==tempsave.end())
 				{					
-					float cur_dir=script.getsegment(cur_h).dirangle_;
-					float mdir=script.getsegment(h1).dirangle_;
+					float cur_dir=script.GetSegment(cur_h).dirangle_;
+					float mdir=script.GetSegment(h1).dirangle_;
 					
 					float dis=fabs(cur_dir-mdir);
 					if(dis>180)
@@ -3135,7 +3135,7 @@ void RelaxationMatch::heng_pei_wan_gou_match_2(int k1,int h1,int k2,int h2,int k
 		{
 			yes1=false;
 			cur_h++;
-			float h2_dir=script.getsegment(h2).dirangle_;
+			float h2_dir=script.GetSegment(h2).dirangle_;
 
 			//是否属于同一笔画
 			bool same=script.InsameStroke(h2,cur_h);
@@ -3155,7 +3155,7 @@ void RelaxationMatch::heng_pei_wan_gou_match_2(int k1,int h1,int k2,int h2,int k
 				//如果还没匹配,查看角度
 				if(mat==-1 && it==tempsave.end())
 				{
-					float cur_dir=script.getsegment(cur_h).dirangle_;
+					float cur_dir=script.GetSegment(cur_h).dirangle_;
 					if(h2_dir<210 && h2_dir>50 && cur_dir>120 && cur_dir<270)
 					{
 						tempm.hlist.push_back(cur_h);
@@ -3177,7 +3177,7 @@ void RelaxationMatch::heng_pei_wan_gou_match_2(int k1,int h1,int k2,int h2,int k
 		{
 			yes2=false;
 			cur_h--;
-			float h2_dir=script.getsegment(h2).dirangle_;
+			float h2_dir=script.GetSegment(h2).dirangle_;
 			
 			//是否属于同一笔画
 			bool same=script.InsameStroke(h2,cur_h);
@@ -3197,7 +3197,7 @@ void RelaxationMatch::heng_pei_wan_gou_match_2(int k1,int h1,int k2,int h2,int k
 				//如果还没匹配,查看角度
 				if(mat==-1 && it==tempsave.end())
 				{
-					float cur_dir=script.getsegment(cur_h).dirangle_;
+					float cur_dir=script.GetSegment(cur_h).dirangle_;
 					if(h2_dir<210 && h2_dir>50 && cur_dir<130 && cur_dir>30)
 					{
 						tempm.hlist.push_front(cur_h);
@@ -3230,7 +3230,7 @@ void RelaxationMatch::heng_pei_wan_gou_match_2(int k1,int h1,int k2,int h2,int k
 		{
 			yes1=false;
 			cur_h++;
-			float h3_dir=script.getsegment(h3).dirangle_;
+			float h3_dir=script.GetSegment(h3).dirangle_;
 			
 			//是否属于同一笔画
 			bool same=script.InsameStroke(h3,cur_h);
@@ -3250,7 +3250,7 @@ void RelaxationMatch::heng_pei_wan_gou_match_2(int k1,int h1,int k2,int h2,int k
 				//如果还没匹配,查看角度
 				if(mat==-1 && it==tempsave.end())
 				{
-					float cur_dir=script.getsegment(cur_h).dirangle_;
+					float cur_dir=script.GetSegment(cur_h).dirangle_;
 					if(h3_dir<180 && (cur_dir<160  && cur_dir> h3_dir ))
 					{
 						tempm.hlist.push_back(cur_h);
@@ -3272,7 +3272,7 @@ void RelaxationMatch::heng_pei_wan_gou_match_2(int k1,int h1,int k2,int h2,int k
 		{
 			yes2=false;
 			cur_h--;
-			float h3_dir=script.getsegment(h3).dirangle_;
+			float h3_dir=script.GetSegment(h3).dirangle_;
 			
 			//是否属于同一笔画
 			bool same=script.InsameStroke(h3,cur_h);
@@ -3292,7 +3292,7 @@ void RelaxationMatch::heng_pei_wan_gou_match_2(int k1,int h1,int k2,int h2,int k
 				//如果还没匹配,查看角度
 				if(mat==-1 && it==tempsave.end())
 				{
-					float cur_dir=script.getsegment(cur_h).dirangle_;
+					float cur_dir=script.GetSegment(cur_h).dirangle_;
 					if(h3_dir<180 && (cur_dir>270  || cur_dir< h3_dir ))
 					{
 						tempm.hlist.push_front(cur_h);
@@ -3325,7 +3325,7 @@ void RelaxationMatch::heng_pei_wan_gou_match_2(int k1,int h1,int k2,int h2,int k
 		{
 			yes1=false;
 			cur_h++;
-			float h4_dir=script.getsegment(h4).dirangle_;
+			float h4_dir=script.GetSegment(h4).dirangle_;
 			
 			//是否属于同一笔画
 			bool same=script.InsameStroke(h4,cur_h);
@@ -3345,7 +3345,7 @@ void RelaxationMatch::heng_pei_wan_gou_match_2(int k1,int h1,int k2,int h2,int k
 				//如果还没匹配,查看角度
 				if(mat==-1 && it==tempsave.end())
 				{
-					float cur_dir=script.getsegment(cur_h).dirangle_;
+					float cur_dir=script.GetSegment(cur_h).dirangle_;
 					if(h4_dir>180 && cur_dir>h4_dir)
 					{
 						tempm.hlist.push_back(cur_h);
@@ -3367,7 +3367,7 @@ void RelaxationMatch::heng_pei_wan_gou_match_2(int k1,int h1,int k2,int h2,int k
 		{
 			yes2=false;
 			cur_h--;
-			float h4_dir=script.getsegment(h4).dirangle_;
+			float h4_dir=script.GetSegment(h4).dirangle_;
 
 			//是否属于同一笔画
 			bool same=script.InsameStroke(h4,cur_h);
@@ -3387,7 +3387,7 @@ void RelaxationMatch::heng_pei_wan_gou_match_2(int k1,int h1,int k2,int h2,int k
 				//如果还没匹配,查看角度
 				if(mat==-1 && it==tempsave.end())
 				{
-					float cur_dir=script.getsegment(cur_h).dirangle_;
+					float cur_dir=script.GetSegment(cur_h).dirangle_;
 					if(h4_dir>180 && cur_dir>180)
 					{
 						tempm.hlist.push_front(cur_h);
@@ -3412,7 +3412,7 @@ void RelaxationMatch::heng_zhe_wan_pie_match_1(int start_sh, int start_mk, int s
 	/////////////////////////////////////
 	while(sh<sh_count)  //横
 	{		
-		Segment t=script.getsegment(start_sh+sh);
+		Segment t=script.GetSegment(start_sh+sh);
 		
 		if(!script.IsNoiseSegment(start_sh+sh) && (t.dirangle_>290 || t.dirangle_<60))
 			sh++;
@@ -3443,7 +3443,7 @@ void RelaxationMatch::heng_zhe_wan_pie_match_1(int start_sh, int start_mk, int s
 		return;
 
 	////////////////////////
-	float standard=script.getsegment(start_sh+sh).dirangle_;
+	float standard=script.GetSegment(start_sh+sh).dirangle_;
 	if (standard>=180 || standard<=60)
 	{
 		standard=130.0;
@@ -3451,7 +3451,7 @@ void RelaxationMatch::heng_zhe_wan_pie_match_1(int start_sh, int start_mk, int s
 	
 	while(sh<sh_count)  //折
 	{
-		Segment t=script.getsegment(start_sh+sh);
+		Segment t=script.GetSegment(start_sh+sh);
 		float deta=fabs(t.dirangle_-standard);
 		if (deta>=180.0)
 			deta=360-deta;
@@ -3492,7 +3492,7 @@ void RelaxationMatch::heng_zhe_wan_pie_match_1(int start_sh, int start_mk, int s
 	bool ti=true;
 	while(sh<sh_count)  //弯
 	{
-		Segment t=script.getsegment(start_sh+sh);
+		Segment t=script.GetSegment(start_sh+sh);
 		
 		if(!script.IsNoiseSegment(start_sh+sh) && t.dirangle_>290 && ti)
 			sh++;
@@ -3528,7 +3528,7 @@ void RelaxationMatch::heng_zhe_wan_pie_match_1(int start_sh, int start_mk, int s
 	//////////////////////////////////////////
 	while(sh<sh_count)  //撇
 	{
-		Segment t=script.getsegment(start_sh+sh);
+		Segment t=script.GetSegment(start_sh+sh);
 		
 		if(!script.IsNoiseSegment(start_sh+sh) && t.dirangle_>=45 && t.dirangle_<160)
 			sh++;
@@ -3568,7 +3568,7 @@ void RelaxationMatch::heng_pei_wan_gou_match_1(int start_sh, int start_mk, int s
 	/////////////////////////////////////
 	while(sh<sh_count)  //横
 	{		
-		Segment t=script.getsegment(start_sh+sh);
+		Segment t=script.GetSegment(start_sh+sh);
 
 		if(!script.IsNoiseSegment(start_sh+sh) && (t.dirangle_>290 || t.dirangle_<60))
 			sh++;
@@ -3599,7 +3599,7 @@ void RelaxationMatch::heng_pei_wan_gou_match_1(int start_sh, int start_mk, int s
 		return;
 
 	////////////////////////
-	float standard=script.getsegment(start_sh+sh).dirangle_;
+	float standard=script.GetSegment(start_sh+sh).dirangle_;
 	if (standard>=180 || standard<=60)
 	{
 		standard=130.0;
@@ -3607,7 +3607,7 @@ void RelaxationMatch::heng_pei_wan_gou_match_1(int start_sh, int start_mk, int s
 
 	while(sh<sh_count)  //撇
 	{
-		Segment t=script.getsegment(start_sh+sh);
+		Segment t=script.GetSegment(start_sh+sh);
 		float deta=fabs(t.dirangle_-standard);
 		if (deta>=180.0)
 			deta=360-deta;
@@ -3648,7 +3648,7 @@ void RelaxationMatch::heng_pei_wan_gou_match_1(int start_sh, int start_mk, int s
 	bool ti=true;
 	while(sh<sh_count)  //弯
 	{
-		Segment t=script.getsegment(start_sh+sh);
+		Segment t=script.GetSegment(start_sh+sh);
 		
 		if(!script.IsNoiseSegment(start_sh+sh) && t.dirangle_>290 && ti)
 			sh++;
@@ -3686,7 +3686,7 @@ void RelaxationMatch::heng_pei_wan_gou_match_1(int start_sh, int start_mk, int s
 	////////////////////////
 	while(sh<sh_count)  //勾
 	{
-		Segment t=script.getsegment(start_sh+sh);
+		Segment t=script.GetSegment(start_sh+sh);
 		
 		if(!script.IsNoiseSegment(start_sh+sh) && t.dirangle_>=160)
 			sh++;
@@ -4159,8 +4159,8 @@ list<conflictforgreedy> RelaxationMatch::conflicttestforgreedy(list<candidatefor
 						string rel=model.GetRelation(mka,mkb);
 						if(rel!=R_INTERSECT)
 						{
-							CCPoint pti=script.getsegment(sha).mid_point_;
-							CCPoint pth=script.getsegment(shb).mid_point_;
+							CCPoint pti=script.GetSegment(sha).mid_point_;
+							CCPoint pth=script.GetSegment(shb).mid_point_;
 							CCPoint ptj=model.getsegment(mka).mid_point_;
 							CCPoint ptk=model.getsegment(mkb).mid_point_;
 							
@@ -4327,7 +4327,7 @@ void RelaxationMatch::Evalute_boundingbox(ComponentMatch m_ComponentMatch,boundi
 		list<int>::iterator it=s_left_key.begin();
 		for(;it!=s_left_key.end();it++)
 		{
-			Segment sseg=script.getsegment(*it);
+			Segment sseg=script.GetSegment(*it);
 			CCPoint p1=sseg.GetPoint(0);
 			if(p1.x < s_left)
 				s_left=p1.x;
@@ -4339,7 +4339,7 @@ void RelaxationMatch::Evalute_boundingbox(ComponentMatch m_ComponentMatch,boundi
 		it=s_right_key.begin();
 		for(;it!=s_right_key.end();it++)
 		{
-			Segment sseg=script.getsegment(*it);
+			Segment sseg=script.GetSegment(*it);
 			CCPoint p1=sseg.GetPoint(0);
 			if(p1.x > s_right)
 				s_right=p1.x;
@@ -4351,7 +4351,7 @@ void RelaxationMatch::Evalute_boundingbox(ComponentMatch m_ComponentMatch,boundi
 		it=s_top_key.begin();
 		for(;it!=s_top_key.end();it++)
 		{
-			Segment sseg=script.getsegment(*it);
+			Segment sseg=script.GetSegment(*it);
 			CCPoint p1=sseg.GetPoint(0);
 			if(p1.y < s_top)
 				s_top=p1.y;
@@ -4363,7 +4363,7 @@ void RelaxationMatch::Evalute_boundingbox(ComponentMatch m_ComponentMatch,boundi
 		it=s_bottom_key.begin();
 		for(;it!=s_bottom_key.end();it++)
 		{
-			Segment sseg=script.getsegment(*it);
+			Segment sseg=script.GetSegment(*it);
 			CCPoint p1=sseg.GetPoint(0);
 			if(p1.y > s_bottom)
 				s_bottom=p1.y;
@@ -4378,7 +4378,7 @@ void RelaxationMatch::Evalute_boundingbox(ComponentMatch m_ComponentMatch,boundi
 		list<int>::iterator it=s_left_key.begin();
 		for(;it!=s_left_key.end();it++)
 		{
-			Segment sseg=script.getsegment(*it);
+			Segment sseg=script.GetSegment(*it);
 			CCPoint p1=sseg.GetPoint(0);
 			if(p1.x < s_left)
 				s_left=p1.x;
@@ -4396,7 +4396,7 @@ void RelaxationMatch::Evalute_boundingbox(ComponentMatch m_ComponentMatch,boundi
 		list<int>::iterator it=s_right_key.begin();
 		for(;it!=s_right_key.end();it++)
 		{
-			Segment sseg=script.getsegment(*it);
+			Segment sseg=script.GetSegment(*it);
 			CCPoint p1=sseg.GetPoint(0);
 			if(p1.x > s_right)
 				s_right=p1.x;
@@ -4413,7 +4413,7 @@ void RelaxationMatch::Evalute_boundingbox(ComponentMatch m_ComponentMatch,boundi
 		list<int>::iterator it=s_top_key.begin();
 		for(;it!=s_top_key.end();it++)
 		{
-			Segment sseg=script.getsegment(*it);
+			Segment sseg=script.GetSegment(*it);
 			CCPoint p1=sseg.GetPoint(0);
 			if(p1.y < s_top)
 				s_top=p1.y;
@@ -4431,7 +4431,7 @@ void RelaxationMatch::Evalute_boundingbox(ComponentMatch m_ComponentMatch,boundi
 		it=s_bottom_key.begin();
 		for(;it!=s_bottom_key.end();it++)
 		{
-			Segment sseg=script.getsegment(*it);
+			Segment sseg=script.GetSegment(*it);
 			CCPoint p1=sseg.GetPoint(0);
 			if(p1.y > s_bottom)
 				s_bottom=p1.y;
@@ -4449,7 +4449,7 @@ void RelaxationMatch::Evalute_boundingbox(ComponentMatch m_ComponentMatch,boundi
 		list<int>::iterator it=s_left_key.begin();
 		for(;it!=s_left_key.end();it++)
 		{
-			Segment sseg=script.getsegment(*it);
+			Segment sseg=script.GetSegment(*it);
 			CCPoint p1=sseg.GetPoint(0);
 			if(p1.x < s_left)
 				s_left=p1.x;
@@ -4461,7 +4461,7 @@ void RelaxationMatch::Evalute_boundingbox(ComponentMatch m_ComponentMatch,boundi
 		it=s_right_key.begin();
 		for(;it!=s_right_key.end();it++)
 		{
-			Segment sseg=script.getsegment(*it);
+			Segment sseg=script.GetSegment(*it);
 			CCPoint p1=sseg.GetPoint(0);
 			if(p1.x > s_right)
 				s_right=p1.x;
@@ -4473,7 +4473,7 @@ void RelaxationMatch::Evalute_boundingbox(ComponentMatch m_ComponentMatch,boundi
 		it=s_top_key.begin();
 		for(;it!=s_top_key.end();it++)
 		{
-			Segment sseg=script.getsegment(*it);
+			Segment sseg=script.GetSegment(*it);
 			CCPoint p1=sseg.GetPoint(0);
 			if(p1.y < s_top)
 				s_top=p1.y;
@@ -4490,7 +4490,7 @@ void RelaxationMatch::Evalute_boundingbox(ComponentMatch m_ComponentMatch,boundi
 		list<int>::iterator it=s_left_key.begin();
 		for(;it!=s_left_key.end();it++)
 		{
-			Segment sseg=script.getsegment(*it);
+			Segment sseg=script.GetSegment(*it);
 			CCPoint p1=sseg.GetPoint(0);
 			if(p1.x < s_left)
 				s_left=p1.x;
@@ -4502,7 +4502,7 @@ void RelaxationMatch::Evalute_boundingbox(ComponentMatch m_ComponentMatch,boundi
 		it=s_right_key.begin();
 		for(;it!=s_right_key.end();it++)
 		{
-			Segment sseg=script.getsegment(*it);
+			Segment sseg=script.GetSegment(*it);
 			CCPoint p1=sseg.GetPoint(0);
 			if(p1.x > s_right)
 				s_right=p1.x;
@@ -4514,7 +4514,7 @@ void RelaxationMatch::Evalute_boundingbox(ComponentMatch m_ComponentMatch,boundi
 		it=s_bottom_key.begin();
 		for(;it!=s_bottom_key.end();it++)
 		{
-			Segment sseg=script.getsegment(*it);
+			Segment sseg=script.GetSegment(*it);
 			CCPoint p1=sseg.GetPoint(0);
 			if(p1.y > s_bottom)
 				s_bottom=p1.y;
@@ -4530,7 +4530,7 @@ void RelaxationMatch::Evalute_boundingbox(ComponentMatch m_ComponentMatch,boundi
 		list<int>::iterator it=s_left_key.begin();
 		for(;it!=s_left_key.end();it++)
 		{
-			Segment sseg=script.getsegment(*it);
+			Segment sseg=script.GetSegment(*it);
 			CCPoint p1=sseg.GetPoint(0);
 			if(p1.x < s_left)
 				s_left=p1.x;
@@ -4542,7 +4542,7 @@ void RelaxationMatch::Evalute_boundingbox(ComponentMatch m_ComponentMatch,boundi
 		it=s_top_key.begin();
 		for(;it!=s_top_key.end();it++)
 		{
-			Segment sseg=script.getsegment(*it);
+			Segment sseg=script.GetSegment(*it);
 			CCPoint p1=sseg.GetPoint(0);
 			if(p1.y < s_top)
 				s_top=p1.y;
@@ -4554,7 +4554,7 @@ void RelaxationMatch::Evalute_boundingbox(ComponentMatch m_ComponentMatch,boundi
 		it=s_bottom_key.begin();
 		for(;it!=s_bottom_key.end();it++)
 		{
-			Segment sseg=script.getsegment(*it);
+			Segment sseg=script.GetSegment(*it);
 			CCPoint p1=sseg.GetPoint(0);
 			if(p1.y > s_bottom)
 				s_bottom=p1.y;
@@ -4570,7 +4570,7 @@ void RelaxationMatch::Evalute_boundingbox(ComponentMatch m_ComponentMatch,boundi
 		it=s_right_key.begin();
 		for(;it!=s_right_key.end();it++)
 		{
-			Segment sseg=script.getsegment(*it);
+			Segment sseg=script.GetSegment(*it);
 			CCPoint p1=sseg.GetPoint(0);
 			if(p1.x > s_right)
 				s_right=p1.x;
@@ -4582,7 +4582,7 @@ void RelaxationMatch::Evalute_boundingbox(ComponentMatch m_ComponentMatch,boundi
 		it=s_top_key.begin();
 		for(;it!=s_top_key.end();it++)
 		{
-			Segment sseg=script.getsegment(*it);
+			Segment sseg=script.GetSegment(*it);
 			CCPoint p1=sseg.GetPoint(0);
 			if(p1.y < s_top)
 				s_top=p1.y;
@@ -4594,7 +4594,7 @@ void RelaxationMatch::Evalute_boundingbox(ComponentMatch m_ComponentMatch,boundi
 		it=s_bottom_key.begin();
 		for(;it!=s_bottom_key.end();it++)
 		{
-			Segment sseg=script.getsegment(*it);
+			Segment sseg=script.GetSegment(*it);
 			CCPoint p1=sseg.GetPoint(0);
 			if(p1.y > s_bottom)
 				s_bottom=p1.y;
@@ -4610,7 +4610,7 @@ void RelaxationMatch::Evalute_boundingbox(ComponentMatch m_ComponentMatch,boundi
 		it=s_top_key.begin();
 		for(;it!=s_top_key.end();it++)
 		{
-			Segment sseg=script.getsegment(*it);
+			Segment sseg=script.GetSegment(*it);
 			CCPoint p1=sseg.GetPoint(0);
 			if(p1.y < s_top)
 				s_top=p1.y;
@@ -4622,7 +4622,7 @@ void RelaxationMatch::Evalute_boundingbox(ComponentMatch m_ComponentMatch,boundi
 		it=s_bottom_key.begin();
 		for(;it!=s_bottom_key.end();it++)
 		{
-			Segment sseg=script.getsegment(*it);
+			Segment sseg=script.GetSegment(*it);
 			CCPoint p1=sseg.GetPoint(0);
 			if(p1.y > s_bottom)
 				s_bottom=p1.y;
@@ -4639,7 +4639,7 @@ void RelaxationMatch::Evalute_boundingbox(ComponentMatch m_ComponentMatch,boundi
 		it=s_right_key.begin();
 		for(;it!=s_right_key.end();it++)
 		{
-			Segment sseg=script.getsegment(*it);
+			Segment sseg=script.GetSegment(*it);
 			CCPoint p1=sseg.GetPoint(0);
 			if(p1.x > s_right)
 				s_right=p1.x;
@@ -4651,7 +4651,7 @@ void RelaxationMatch::Evalute_boundingbox(ComponentMatch m_ComponentMatch,boundi
 		it=s_bottom_key.begin();
 		for(;it!=s_bottom_key.end();it++)
 		{
-			Segment sseg=script.getsegment(*it);
+			Segment sseg=script.GetSegment(*it);
 			CCPoint p1=sseg.GetPoint(0);
 			if(p1.y > s_bottom)
 				s_bottom=p1.y;
@@ -4668,7 +4668,7 @@ void RelaxationMatch::Evalute_boundingbox(ComponentMatch m_ComponentMatch,boundi
 		it=s_right_key.begin();
 		for(;it!=s_right_key.end();it++)
 		{
-			Segment sseg=script.getsegment(*it);
+			Segment sseg=script.GetSegment(*it);
 			CCPoint p1=sseg.GetPoint(0);
 			if(p1.x > s_right)
 				s_right=p1.x;
@@ -4680,7 +4680,7 @@ void RelaxationMatch::Evalute_boundingbox(ComponentMatch m_ComponentMatch,boundi
 		it=s_top_key.begin();
 		for(;it!=s_top_key.end();it++)
 		{
-			Segment sseg=script.getsegment(*it);
+			Segment sseg=script.GetSegment(*it);
 			CCPoint p1=sseg.GetPoint(0);
 			if(p1.y < s_top)
 				s_top=p1.y;
@@ -4697,7 +4697,7 @@ void RelaxationMatch::Evalute_boundingbox(ComponentMatch m_ComponentMatch,boundi
 		list<int>::iterator it=s_left_key.begin();
 		for(;it!=s_left_key.end();it++)
 		{
-			Segment sseg=script.getsegment(*it);
+			Segment sseg=script.GetSegment(*it);
 			CCPoint p1=sseg.GetPoint(0);
 			if(p1.x < s_left)
 				s_left=p1.x;
@@ -4709,7 +4709,7 @@ void RelaxationMatch::Evalute_boundingbox(ComponentMatch m_ComponentMatch,boundi
 		it=s_bottom_key.begin();
 		for(;it!=s_bottom_key.end();it++)
 		{
-			Segment sseg=script.getsegment(*it);
+			Segment sseg=script.GetSegment(*it);
 			CCPoint p1=sseg.GetPoint(0);
 			if(p1.y > s_bottom)
 				s_bottom=p1.y;
@@ -4726,7 +4726,7 @@ void RelaxationMatch::Evalute_boundingbox(ComponentMatch m_ComponentMatch,boundi
 		list<int>::iterator it=s_left_key.begin();
 		for(;it!=s_left_key.end();it++)
 		{
-			Segment sseg=script.getsegment(*it);
+			Segment sseg=script.GetSegment(*it);
 			CCPoint p1=sseg.GetPoint(0);
 			if(p1.x < s_left)
 				s_left=p1.x;
@@ -4738,7 +4738,7 @@ void RelaxationMatch::Evalute_boundingbox(ComponentMatch m_ComponentMatch,boundi
 		it=s_top_key.begin();
 		for(;it!=s_top_key.end();it++)
 		{
-			Segment sseg=script.getsegment(*it);
+			Segment sseg=script.GetSegment(*it);
 			CCPoint p1=sseg.GetPoint(0);
 			if(p1.y < s_top)
 				s_top=p1.y;
@@ -4755,7 +4755,7 @@ void RelaxationMatch::Evalute_boundingbox(ComponentMatch m_ComponentMatch,boundi
 		list<int>::iterator it=s_left_key.begin();
 		for(;it!=s_left_key.end();it++)
 		{
-			Segment sseg=script.getsegment(*it);
+			Segment sseg=script.GetSegment(*it);
 			CCPoint p1=sseg.GetPoint(0);
 			if(p1.x < s_left)
 				s_left=p1.x;
@@ -4767,7 +4767,7 @@ void RelaxationMatch::Evalute_boundingbox(ComponentMatch m_ComponentMatch,boundi
 		it=s_right_key.begin();
 		for(;it!=s_right_key.end();it++)
 		{
-			Segment sseg=script.getsegment(*it);
+			Segment sseg=script.GetSegment(*it);
 			CCPoint p1=sseg.GetPoint(0);
 			if(p1.x > s_right)
 				s_right=p1.x;
@@ -4859,7 +4859,7 @@ CCPoint RelaxationMatch::Evalute_position_forgreedy(int mk, ComponentMatch m_Com
 		int Ref_h=itc->h;
 		
 		CCPoint ref_kp=model.getsegment(Ref_k).mid_point_;
-		CCPoint ref_hp=script.getsegment(Ref_h).mid_point_;
+		CCPoint ref_hp=script.GetSegment(Ref_h).mid_point_;
 
 		if (ref_kp.x<mseg_need.x)
 			x_p+=(mseg_need.x-ref_kp.x)/(modelbox.m_right-ref_kp.x)*(sriptbox.m_right-ref_hp.x)+ref_hp.x;
@@ -4961,7 +4961,7 @@ list<scriptpro> RelaxationMatch::Evalute_prob_forfree(int model_seg, CCPoint cen
 	list<int>::iterator it=nomatchscript.begin();
 	for (;it!=nomatchscript.end();it++)
 	{
-		Segment sseg=script.getsegment(*it);
+		Segment sseg=script.GetSegment(*it);
 		CCPoint segmid=sseg.mid_point_;
 
 		//1距离——不用区分笔画稳定性
@@ -5054,7 +5054,7 @@ list<scriptpro> RelaxationMatch::Evalute_prob_forgreedy(int model_seg, CCPoint c
 	list<int>::iterator it=nomatchscript.begin();
 	for (;it!=nomatchscript.end();it++)
 	{
-		Segment sseg=script.getsegment(*it);
+		Segment sseg=script.GetSegment(*it);
 		CCPoint segmid=sseg.mid_point_;
 
 		//1距离——不用区分笔画稳定性
@@ -5134,7 +5134,7 @@ list<scriptpro> RelaxationMatch::Evalute_prob_forgreedy(int model_seg, CCPoint c
 			list<candidate>::iterator it=m_ComponentMatch.havemath.begin();
 			for (; it!=m_ComponentMatch.havemath.end();it++)
 			{
-				Segment temph=script.getsegment(it->h);
+				Segment temph=script.GetSegment(it->h);
 				Segment tempk=model.getsegment(it->k);
 
 				float tempf=gt.Evaluate_relation_similarity(sseg,mseg,temph,tempk,model.GetRelation(model_seg,it->k), model.normal_size_, model_count>10);

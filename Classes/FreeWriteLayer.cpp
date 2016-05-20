@@ -150,15 +150,17 @@ void updateSegmentColor(){
 }
 
 void FreeWriteLayer::menuMatch(CCObject* pSender){
-	// TODO 松弛匹配
+	// 松弛匹配
 	JudgeScene* scene = (JudgeScene*)this->getParent();
 	HcharacterLayer* hlayer = (HcharacterLayer*)scene->getHLayer();
 	ScriptCharacter scriptCharacter = hlayer->getm_HDrawnode()->GetScriptCharacter();
 	CCSprite* tianzige = hlayer->getm_HDrawnode()->tianzige_;
+	hlayer->getm_HDrawnode()->script_char_.CalculateBox();
+
 	hlayer->getm_HDrawnode()->script_char_.Normalize(tianzige->getContentSize().height,
 		tianzige->getContentSize().width);			// 标准化 512
 	hlayer->getm_HDrawnode()->script_char_.divideSegment2();	// 切分笔段
-	hlayer->getm_HDrawnode()->script_char_.new_IdentifynoiseSegment();
+	hlayer->getm_HDrawnode()->script_char_.NewIdentifynoiseSegment();
 
 	hlayer->getm_HDrawnode()->GetScriptCharacterSegmentDrawnodeReady();
 
@@ -259,10 +261,13 @@ void FreeWriteLayer::menuMatch(CCObject* pSender){
 			itmulti++;
 			itcolor++;
 		}
-		CCSize tianzigesize = hlayer->getm_HDrawnode()->tianzige_->getContentSize();
-		hlayer->getm_HDrawnode()->script_char_.Normalize(tianzigesize.height,tianzigesize.width);
-		
 		CCSize tianzige_right_size = tlayer->getm_TDrawnode()->right_tiangzige_->getContentSize();
+		float width = hlayer->getm_HDrawnode()->script_char_.width_;
+		float height = hlayer->getm_HDrawnode()->script_char_.height_;
+		hlayer->getm_HDrawnode()->script_char_.Normalize(height, width);
+ 		hlayer->getm_HDrawnode()->script_char_.MoveToDefaultPlace();
+
+
 		tlayer->getm_TDrawnode()->template_character_.Normalize(tianzige_right_size.height,tianzige_right_size.width);
 
 // 		hlayer->getm_HDrawnode()->script_char_.TransferCoordinate();
