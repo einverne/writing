@@ -9,7 +9,7 @@ end
 //##:110003:----
 local bh1 = GetBH(1)
 if(IsShu(bh1,bl) == false) then
-	bflag = 0
+	bflag = 0kkk
 end
 if(BH2BHXiangJie(bh0,bh1,2,0) == false) then
 	pflag = 0
