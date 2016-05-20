@@ -77,15 +77,14 @@ public:
 	* 设置评判结果笔画及笔画错误位置信息，用来画图
 	* @param 
 	* @param estroke
-	* @return
+	* @return 返回错误点vector
 	*/
-	void SetErrorStroke(map<int, float> estroke);
+	vector<CCPoint> GetErrorPoints(map<int, float> estroke);
 
 	CC_SYNTHESIZE_RETAIN(CCArray*,strokeDrawlist,StrokeDrawnodeList);
 private:
 	CCSprite* tianziged;
 	map<int, float> error_stroke;
-	vector<CCPoint> error_points;
 };
 
 

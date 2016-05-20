@@ -153,6 +153,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\PopLayer.cpp" />
     <ClCompile Include="..\Classes\ReadXML.cpp" />
     <ClCompile Include="..\Classes\RightZiAnimationAction.cpp" />
+    <ClCompile Include="..\Classes\ShuipingErrorNode.cpp" />
     <ClCompile Include="..\Classes\Splash.cpp" />
     <ClCompile Include="..\Classes\SQLiteData.cpp" />
     <ClCompile Include="..\Classes\SqliteHelper.cpp" />
@@ -233,6 +234,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\PopLayer.h" />
     <ClInclude Include="..\Classes\ReadXML.h" />
     <ClInclude Include="..\Classes\RightZiAnimationAction.h" />
+    <ClInclude Include="..\Classes\ShuipingErrorNode.h" />
     <ClInclude Include="..\Classes\Splash.h" />
     <ClInclude Include="..\Classes\SQLiteData.h" />
     <ClInclude Include="..\Classes\SqliteHelper.h" />

@@ -28,6 +28,9 @@
     <Filter Include="cocoswidget">
       <UniqueIdentifier>{22365bfe-6d03-4e58-bb50-297f873294b8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\Node">
+      <UniqueIdentifier>{6d2cdcdd-2d42-4e21-b7b8-82e16251a98f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -257,6 +260,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\ViewScene.cpp">
       <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ShuipingErrorNode.cpp">
+      <Filter>Classes\Node</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -494,6 +500,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Error.h">
       <Filter>Classes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ShuipingErrorNode.h">
+      <Filter>Classes\Node</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

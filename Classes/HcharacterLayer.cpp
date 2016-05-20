@@ -20,12 +20,12 @@ HcharacterLayer::HcharacterLayer():m_sprite_draw(NULL),
 	bihuaCountAndTotal(NULL),
 	m_HDrawnode(NULL),
 	m_sprite_info(NULL),
-	_writeCount(0),
-	_wrongCount(0),
-	_ijudge(false),
+	writeCount_(0),
+	wrongCount_(0),
+	ijudge_(false),
 	totalBihuaCount(0),
 	scoreLabel(NULL),
-	score(0.0),
+	score_(0.0),
 	curBihuaWrong(0)
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)  
@@ -39,7 +39,7 @@ HcharacterLayer::HcharacterLayer():m_sprite_draw(NULL),
 #define RIGHT_EFFECT_FILE   "right_android.ogg"
 #define WRONG_EFFECT_FILE	"wrong_android.ogg"
 #endif
-	_scale=1.6f;
+	scale_=1.6f;
 }
 
 HcharacterLayer::~HcharacterLayer()
@@ -55,11 +55,11 @@ HcharacterLayer::~HcharacterLayer()
 bool HcharacterLayer::init(string hanzi,CCSprite* tianzige_draw){
 	if (CCLayer::init())
 	{
-		this->_hanzi = hanzi;
+		this->hanzi_ = hanzi;
 		this->setSprite(tianzige_draw);
 		this->setm_HDrawnode(HcharacterDrawnode::create());
-		m_HDrawnode->setPosition(m_sprite_draw->getPosition());
-		getm_HDrawnode()->setScale(_scale);
+		getm_HDrawnode()->setPosition(m_sprite_draw->getPosition());
+		getm_HDrawnode()->setScale(scale_);
 		getm_HDrawnode()->setAnchorPoint(ccp(0.5,0.5));
 		addChild(m_HDrawnode);
 
@@ -209,9 +209,9 @@ void HcharacterLayer::ParseResult(const string ret) {
 			if (retjson.at(0) == '1')
 			{
 				// whether a stroke is right
-				Right();
+				writeRight();
 			}else{
-				Wrong();
+				writeWrong();
 				if (errors.size()>0)
 				{
 					string type = errors.at(0).errortype;
@@ -224,15 +224,39 @@ void HcharacterLayer::ParseResult(const string ret) {
 				//MyToast::showToast(this,"radical right",TOAST_LONG);
 			}else
 			{
-				//MyToast::showToast(this,"radical wrong",TOAST_LONG);
 				// 当部件错误的时候，显示动画。
-				if (errors.size()>0)
+				// 水平平齐错误
+				
+				for (int i=0; i<errors.size(); i++)
 				{
-					string type = errors.at(0).errortype;
-					MyToast::showToast(this,DataTool::getChinese(type),TOAST_LONG);
+					Error oneError = errors.at(i);
+					if( oneError.errortype == "A0001"){
+						//A0001();
+						MyToast::showToast(this,DataTool::getChinese(oneError.errortype),TOAST_LONG);
+
+						map<int, float> errorstroke = errors.at(0).errorstroke;
+						vector<CCPoint> error_points = getm_HDrawnode()->GetErrorPoints(errorstroke);
+
+						if (error_points.size() >= 2)
+						{
+							CCPoint start_point = error_points.at(0);
+							CCPoint end_point = error_points.at(1);
+
+							ShuipingErrorNode* errorNode = ShuipingErrorNode::create();
+							errorNode->setPoint(start_point, end_point);
+							CCSize content_size = m_sprite_draw->getContentSize();
+							errorNode->setPosition(m_sprite_draw->getPosition()- 
+								ccp(content_size.width*scale_/2, content_size.height*scale_/2));
+							// 					errorNode->setPosition(m_sprite_draw->getPosition());
+							errorNode->setScale(scale_);
+							errorNode->setAnchorPoint(ccp(0, 0));
+							addChild(errorNode);
+
+							CCBlink* blink = CCBlink::create(2,4);
+							errorNode->runAction(blink);
+						}
+					}
 				}
-				map<int, float> errorstroke = errors.at(0).errorstroke;
-				getm_HDrawnode()->SetErrorStroke(errorstroke);
 			}
 			if (retjson.at(2) == '1')
 			{
@@ -276,10 +300,10 @@ void HcharacterLayer::judge(){
     CCLog("output %s",output.c_str());
     CCLog("right Character info %s",points.c_str());
     
-	string ret = _manager.getResult(_hanzi,output,points,m_exChar,funcs);
+	string ret = _manager.getResult(hanzi_,output,points,m_exChar,funcs);
 	//CCLog("Hcharacterlay: retstring:%s length:%d",ret.c_str(),ret.length());
 	//如果不评判则跳过
-	if (!_ijudge || ret.length() <= 0)
+	if (!ijudge_ || ret.length() <= 0)
 	{
 		return;
 	}
@@ -290,7 +314,6 @@ void HcharacterLayer::judge(){
 	//ret = "{\"ret\":\"101\",\"error\":[{\"errortype\":\"A0001\",\"errorstroke\":{\"0\":\"0.2\",\"1\":\"0.3\"}},{\"errortype\":\"A0021\",\"errorstroke\":{\"0\":\"0.2\",\"1\":\"0.3\"}}]}";
 
 	ParseResult(ret);
-
 
 	//if (ret.length() == 3)
 	//{
@@ -325,7 +348,7 @@ void HcharacterLayer::judge(){
 	//}
 }
 
-void HcharacterLayer::Wrong(){
+void HcharacterLayer::writeWrong(){
 
 	this->getm_HDrawnode()->removeLastStroke();
 	int t = getm_HDrawnode()->getStrokeDrawnodeList()->count();
@@ -334,16 +357,16 @@ void HcharacterLayer::Wrong(){
 	//getInfoSprite()->setVisible(true);
 	//getInfoSprite()->setTexture(CCTextureCache::sharedTextureCache()->addImage("wrong.png"));
 	CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect(WRONG_EFFECT_FILE);
-	_writeCount++;
-	_wrongCount++;
+	writeCount_++;
+	wrongCount_++;
 	curBihuaWrong++;
 
-	string strLabel = DataTool::getChinese("defen")+DataTool::to_string_with_precision(score);
+	string strLabel = DataTool::getChinese("defen")+DataTool::to_string_with_precision(score_);
 	getscoreLabel()->setString(strLabel.c_str());
 
 }
 
-void HcharacterLayer::Right(){
+void HcharacterLayer::writeRight(){
 	// set stroke count Label
 	int t = getm_HDrawnode()->getStrokeDrawnodeList()->count();
 	string strToshow = DataTool::getChinese("bihuashu")+DataTool::intTostring(t)+"/"+DataTool::intTostring(totalBihuaCount);
@@ -367,25 +390,25 @@ void HcharacterLayer::Right(){
 	switch (curBihuaWrong)
 	{
 	case 0:
-		score+=10.0/totalBihuaCount;
+		score_+=10.0/totalBihuaCount;
 		break;
 	case 1:
-		score+=0.75*10/totalBihuaCount;
+		score_+=0.75*10/totalBihuaCount;
 		break;
 	case 2:
-		score+=0.5*10/totalBihuaCount;
+		score_+=0.5*10/totalBihuaCount;
 		break;
 	case 3:
-		score+=0.25*10/totalBihuaCount;
+		score_+=0.25*10/totalBihuaCount;
 		break;
 	default:
-		score+=0*10/totalBihuaCount;
+		score_+=0*10/totalBihuaCount;
 		break;
 	}
-	string strLabel = DataTool::getChinese("defen")+DataTool::to_string_with_precision(score);
+	string strLabel = DataTool::getChinese("defen")+DataTool::to_string_with_precision(score_);
 	getscoreLabel()->setString(strLabel.c_str());
 	curBihuaWrong=0;
-	_writeCount++;
+	writeCount_++;
 
 	// update Character score into db
 	JudgeScene* scene = (JudgeScene*)this->getParent();
@@ -397,7 +420,7 @@ void HcharacterLayer::Right(){
 	{
 		if (curChar == groupUnit[i][0])
 		{
-			string scorestr = DataTool::to_string(score);
+			string scorestr = DataTool::to_string(score_);
 			groupUnit[i][2]=scorestr;
 			break;
 		}
@@ -435,7 +458,7 @@ void HcharacterLayer::rewrite(CCObject* pSender){
 			float scoretemp = DataTool::stringToFloat(scorestr);
 			string scorestring = DataTool::getChinese("defen")+DataTool::to_string_with_precision(scoretemp);
 			getscoreLabel()->setString(scorestring.c_str());
-			score=0;
+			score_=0;
 			curBihuaWrong=0;
 		}
 		getInfoSprite()->setVisible(false);
@@ -447,18 +470,18 @@ void HcharacterLayer::clearWriting(){
 }
 
 void HcharacterLayer::zoomin(CCObject* pSender){
-	if (_scale < 1.6)
+	if (scale_ < 1.6)
 	{
-		_scale += 0.1f;
-		getm_HDrawnode()->setScale(_scale);
+		scale_ += 0.1f;
+		getm_HDrawnode()->setScale(scale_);
 	}
 }
 
 void HcharacterLayer::zoomout(CCObject* pSender){
-	if (_scale > 0.5)
+	if (scale_ > 0.5)
 	{
-		_scale -= 0.1f;
-		getm_HDrawnode()->setScale(_scale);
+		scale_ -= 0.1f;
+		getm_HDrawnode()->setScale(scale_);
 	}
 }
 
@@ -467,23 +490,23 @@ void HcharacterLayer::reloadChar(){
 	this->setm_HDrawnode(HcharacterDrawnode::create());
 	m_HDrawnode->setPosition(m_sprite_draw->getPosition());
 	m_HDrawnode->setAnchorPoint(ccp(0.5,0.5));
-	m_HDrawnode->setScale(_scale);
+	m_HDrawnode->setScale(scale_);
 	this->addChild(m_HDrawnode);
 	TcharacterLayer* layer = (TcharacterLayer*)this->getParent()->getChildByTag(kTLayerTag);		//get TcharacterLayer
 	this->totalBihuaCount = layer->getm_TDrawnode()->getCharacter().getStrokeCount();
 	curBihuaWrong=0;
-	score=0;
+	score_=0;
 	rewrite(this);
 }
 
 float HcharacterLayer::getWrongPercent(){
-	if (_writeCount == 0)
+	if (writeCount_ == 0)
 	{
 		return 0;
 	}
-	return (float)_wrongCount/_writeCount;
+	return (float)wrongCount_/writeCount_;
 }
 
 void HcharacterLayer::isJudge(bool isjudge){
-	this->_ijudge = isjudge;
+	this->ijudge_ = isjudge;
 }

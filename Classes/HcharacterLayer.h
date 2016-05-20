@@ -6,6 +6,7 @@
 #include "HcharacterDrawnode.h"
 #include "CharacterExtend.h"
 #include "JudgeManager.h"
+#include "ShuipingErrorNode.h"
 USING_NS_CC;
 using namespace cocos2d::cocoswidget;
 
@@ -71,17 +72,17 @@ private:
 	* @return
 	*/
 	void zoomout(CCObject* pSender);
-	void Wrong();
-	void Right();
-	int _writeCount;				//书写次数
-	int _wrongCount;				//错误次数
-	string _hanzi;				//保存该层使用汉字
-	float _scale;				//缩放比率
-	bool _ijudge;				//是否评判 false不评判，true评判
+	void writeWrong();
+	void writeRight();
+	int writeCount_;				//书写次数
+	int wrongCount_;				//错误次数
+	string hanzi_;				//保存该层使用汉字
+	float scale_;				//缩放比率
+	bool ijudge_;				//是否评判 false不评判，true评判
 	string pointsOutput;		//输出字符串
 	string pointsOrigin;		//手写汉字Origin字符串 未作Points 的变形
 	int totalBihuaCount;				//该汉字总共有的笔画数
-	float score;				//当前汉字评分
+	float score_;				//当前汉字评分
 	int curBihuaWrong;			//当前笔画错误的次数
 	CharacterExtend* m_exChar;	// characterExtend
 	JudgeManager _manager;		// judge manager
