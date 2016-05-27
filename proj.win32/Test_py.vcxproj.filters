@@ -264,6 +264,9 @@
     <ClCompile Include="..\Classes\ShuipingErrorNode.cpp">
       <Filter>Classes\Node</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\OnePointNode.cpp">
+      <Filter>Classes\Node</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -502,6 +505,9 @@
       <Filter>Classes\Entity</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\ShuipingErrorNode.h">
+      <Filter>Classes\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\OnePointNode.h">
       <Filter>Classes\Node</Filter>
     </ClInclude>
   </ItemGroup>

@@ -7,6 +7,7 @@
 #include "CharacterExtend.h"
 #include "JudgeManager.h"
 #include "ShuipingErrorNode.h"
+#include "OnePointNode.h"
 #include <map>
 USING_NS_CC;
 using namespace cocos2d::cocoswidget;
@@ -50,6 +51,18 @@ public:
 	* @return
 	*/
 	void doA0001(multimap<int, float>& points);
+
+	/**
+	* 中点切分
+	* @return
+	*/
+	void doA0002(multimap<int, float>& points);
+
+	/**
+	* 黄金分割
+	* @return
+	*/
+	void doA0003(multimap<int, float>& points);
 
 	CC_SYNTHESIZE_RETAIN(HcharacterDrawnode*,m_HDrawnode,m_HDrawnode);
 	CC_SYNTHESIZE_RETAIN(CCLabelTTF*, bihuaCountAndTotal,bihuaCountAndTotal);

@@ -149,6 +149,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\MoveToRightPlaceInterval.cpp" />
     <ClCompile Include="..\Classes\MyToast.cpp" />
     <ClCompile Include="..\Classes\NewUnit.cpp" />
+    <ClCompile Include="..\Classes\OnePointNode.cpp" />
     <ClCompile Include="..\Classes\PopCancelLayer.cpp" />
     <ClCompile Include="..\Classes\PopLayer.cpp" />
     <ClCompile Include="..\Classes\ReadXML.cpp" />
@@ -230,6 +231,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\MoveToRightPlaceInterval.h" />
     <ClInclude Include="..\Classes\MyToast.h" />
     <ClInclude Include="..\Classes\NewUnit.h" />
+    <ClInclude Include="..\Classes\OnePointNode.h" />
     <ClInclude Include="..\Classes\PopCancelLayer.h" />
     <ClInclude Include="..\Classes\PopLayer.h" />
     <ClInclude Include="..\Classes\ReadXML.h" />

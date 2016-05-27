@@ -269,6 +269,47 @@ void HcharacterLayer::doA0001(multimap<int, float>& points) {
 	}
 }
 
+void HcharacterLayer::doA0002(multimap<int, float>& points){
+	string errorType = "A0002";
+	MyToast::showToast(this, DataTool::getChinese(errorType), TOAST_LONG);
+	vector<CCPoint> errorPoints = getm_HDrawnode()->GetErrorPoints(points);
+	if (errorPoints.size() >= 1)
+	{
+		CCPoint centerPoint = errorPoints.at(0);
+		OnePointNode* errorNode = OnePointNode::create();
+		errorNode->setPoint(centerPoint);
+		CCSize content_size = m_sprite_draw->getContentSize();
+		errorNode->setPosition(m_sprite_draw->getPosition()-
+			ccp(content_size.width*scale_/2, content_size.height*scale_/2));
+		errorNode->setScale(scale_);
+		errorNode->setAnchorPoint(ccp(0,0));
+		addChild(errorNode);
+		CCBlink* blink = CCBlink::create(2,4);
+		errorNode->runAction(blink);
+	}
+
+}
+
+void HcharacterLayer::doA0003(multimap<int, float>& points){
+	string errorType = "A0003";
+	MyToast::showToast(this, DataTool::getChinese(errorType), TOAST_LONG);
+	vector<CCPoint> errorPoints = getm_HDrawnode()->GetErrorPoints(points);
+	if (errorPoints.size() >= 1)
+	{
+		CCPoint centerPoint = errorPoints.at(0);
+		OnePointNode* errorNode = OnePointNode::create();
+		errorNode->setPoint(centerPoint);
+		CCSize content_size = m_sprite_draw->getContentSize();
+		errorNode->setPosition(m_sprite_draw->getPosition()-
+			ccp(content_size.width*scale_/2, content_size.height*scale_/2));
+		errorNode->setScale(scale_);
+		errorNode->setAnchorPoint(ccp(0,0));
+		addChild(errorNode);
+		CCBlink* blink = CCBlink::create(2,4);
+		errorNode->runAction(blink);
+	}
+}
+
 void HcharacterLayer::ParseResult(const string ret) {
 	rapidjson::Document doc;
 	doc.Parse<kParseDefaultFlags>(ret.c_str());
@@ -307,9 +348,12 @@ void HcharacterLayer::ParseResult(const string ret) {
 				}
 				if (errorType == "A0002")
 				{
-
+					doA0002(points);
 				}
-
+				if (errorType == "A0003")
+				{
+					doA0003(points);
+				}
 			}
 			if (retjson.at(2) == '1')
 			{
