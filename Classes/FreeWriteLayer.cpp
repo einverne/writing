@@ -214,14 +214,14 @@ void FreeWriteLayer::menuMatch(CCObject* pSender){
 		list<ccColor4F> colorlist;
 		colorlist.push_back(ccc4f(0,0,255,1));
 		colorlist.push_back(ccc4f(0,255,0,1));
-		colorlist.push_back(ccc4f(128,128,128,1));
-		colorlist.push_back(ccc4f(0,0,128,1));
-		colorlist.push_back(ccc4f(255,128,255,1));
-		colorlist.push_back(ccc4f(128,128,255,1));
-		colorlist.push_back(ccc4f(0,0,225,1));
-		colorlist.push_back(ccc4f(255,128,0,1));
+		//colorlist.push_back(ccc4f(128,128,128,1));
+		//colorlist.push_back(ccc4f(0,0,128,1));
+		//colorlist.push_back(ccc4f(255,128,255,1));
+		//colorlist.push_back(ccc4f(128,128,255,1));
+		//colorlist.push_back(ccc4f(0,0,225,1));
+		//colorlist.push_back(ccc4f(255,128,0,1));
 		colorlist.push_back(ccc4f(255,255,0,1));
-		colorlist.push_back(ccc4f(255,255,128,1));
+		colorlist.push_back(ccc4f(0,255,255,1));
 		colorlist.push_back(ccc4f(255,0,255,1));
 
 		// 一对一匹配
