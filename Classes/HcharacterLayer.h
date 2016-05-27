@@ -7,6 +7,7 @@
 #include "CharacterExtend.h"
 #include "JudgeManager.h"
 #include "ShuipingErrorNode.h"
+#include <map>
 USING_NS_CC;
 using namespace cocos2d::cocoswidget;
 
@@ -44,6 +45,12 @@ public:
 	*/
 	void clearWriting();
 
+	/**
+	* 处理 A0001 水平平齐错误
+	* @return
+	*/
+	void doA0001(multimap<int, float>& points);
+
 	CC_SYNTHESIZE_RETAIN(HcharacterDrawnode*,m_HDrawnode,m_HDrawnode);
 	CC_SYNTHESIZE_RETAIN(CCLabelTTF*, bihuaCountAndTotal,bihuaCountAndTotal);
 	CC_SYNTHESIZE_RETAIN(CCLabelTTF*, scoreLabel, scoreLabel);
@@ -72,8 +79,8 @@ private:
 	* @return
 	*/
 	void zoomout(CCObject* pSender);
-	void writeWrong();
-	void writeRight();
+	void writeBihuaWrong();
+	void writeBihuaRight();
 	int writeCount_;				//书写次数
 	int wrongCount_;				//错误次数
 	string hanzi_;				//保存该层使用汉字

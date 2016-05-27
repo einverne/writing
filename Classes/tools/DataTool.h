@@ -71,6 +71,14 @@ public:
 	static vector<string> spliteStringBy(string str, string splitSymbols);
 
 	/**
+	* 检查第一个字符串中是否存在第二个字符串
+	* @param phrase
+	* @param sym
+	* @return
+	*/
+	static bool isExist(string phrase, string sym);
+
+	/**
 	* copy file into SD root
 	* @param filename
 	* @return

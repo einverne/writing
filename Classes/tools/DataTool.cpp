@@ -121,6 +121,20 @@ vector<string> DataTool::spliteStringBy(string str, string splitSymbols){
 	return strvec;
 }
 
+bool DataTool::isExist(string phrase, string sym){
+	if (phrase.length() <= 0 || sym.length() <=0)
+	{
+		return false;
+	}
+	if (phrase.find(sym) != string::npos)
+	{
+		return true;
+	} else
+	{
+		return false;
+	}
+}
+
 void DataTool::copyFileToSD(string filename){
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	unsigned long size = 0;

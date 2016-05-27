@@ -75,16 +75,24 @@ int HcharacterDrawnode::getStrokeCount(){
 	return this->getStrokeDrawnodeList()->count();
 }
 
-vector<CCPoint> HcharacterDrawnode::GetErrorPoints(map<int, float> estroke){
+typedef multimap<int, float> IntFloatMap;
+typedef IntFloatMap::iterator MapIter;
+
+vector<CCPoint> HcharacterDrawnode::GetErrorPoints(multimap<int, float>& estroke){
 	error_stroke = estroke;
 	CCObject* ob;
 	int i = 0;
 	vector<CCPoint> error_points;
 
 	CCARRAY_FOREACH(getStrokeDrawnodeList(),ob){
-		if (error_stroke.count(i) == 1){
+		// 一个 key 可能对应多个 value
+		MapIter itStart, itEnd;
+		pair<MapIter, MapIter> range = error_stroke.equal_range(i);
+		for (itStart = range.first; itStart != range.second; itStart++)
+		{
+			float value = (*itStart).second;
 			StrokeDrawnode* sd = (StrokeDrawnode*)ob;
-			CCPoint p = sd->stroke.GetPercentPoint(error_stroke[i]);
+			CCPoint p = sd->stroke.GetPercentPoint(value);
 			error_points.push_back(p);
 		}
 		i++;

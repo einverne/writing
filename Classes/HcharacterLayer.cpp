@@ -173,11 +173,161 @@ void HcharacterLayer::onExit(){
 	_manager.exitLuaEngine();
 }
 
+/**
+* 根据 doc 返回 errorType
+* @param doc
+* @return
+*/
+string getErrorType(rapidjson::Document& doc) {
+	string errorType = "";
+	if (doc.HasMember("error"))
+	{
+		const Value& errorjson = doc["error"];
+		if (errorjson.Size()>0)
+		{
+			SizeType index = 0;
+			if (errorjson[index].HasMember("errortype"))
+			{
+				errorType = errorjson[index]["errortype"].GetString();
+			}
+		}
+	}
+	return errorType;
+}
+
+multimap<int, float> getErrorStroke(rapidjson::Document& doc) {
+	multimap<int, float> errorPoints;
+	if (doc.HasMember("error"))
+	{
+		const Value& errorjson = doc["error"];
+		if (errorjson.Size() > 0)
+		{
+			SizeType index = 0;
+			if (errorjson.Size()>0)
+			{
+				if(errorjson[index].HasMember("errorstroke")){
+					const Value& v = errorjson[index]["errorstroke"];
+					for (Value::ConstMemberIterator iter = v.MemberonBegin(); iter != v.MemberonEnd(); ++iter)
+					{
+						string key = iter->name.GetString();
+						string value = iter->value.GetString();
+						int n_key = DataTool::stringToInt(key);
+
+						// 判断 value string 中是否存在 /
+						if (DataTool::isExist(value, "/"))
+						{
+							vector<string> points = DataTool::spliteStringBy(value, "/");	
+							for (int i = 0; i < points.size(); i++)
+							{
+								float f_value = DataTool::stringToFloat(points[i]);
+								errorPoints.insert(make_pair(n_key, f_value));
+							
+							}
+						}else{
+							float f_value = DataTool::stringToFloat(value);
+							errorPoints.insert(make_pair(n_key, f_value));
+						}
+
+						//oneError.errorstroke.insert(make_pair(n_key,f_value));
+					}
+				}
+
+			}
+		}
+	}
+	return errorPoints;
+}
+
+void HcharacterLayer::doA0001(multimap<int, float>& points) {
+	//A0001();
+	if (points.size() < 2)
+	{
+		return;
+	}
+	string errortype = "A0001";
+	MyToast::showToast(this, DataTool::getChinese(errortype), TOAST_LONG);
+
+	vector<CCPoint> error_points = getm_HDrawnode()->GetErrorPoints(points);
+
+	if (error_points.size() >= 2)
+	{
+		CCPoint start_point = error_points.at(0);
+		CCPoint end_point = error_points.at(1);
+
+		ShuipingErrorNode* errorNode = ShuipingErrorNode::create();
+		errorNode->setPoint(start_point, end_point);
+		CCSize content_size = m_sprite_draw->getContentSize();
+		errorNode->setPosition(m_sprite_draw->getPosition()- 
+			ccp(content_size.width*scale_/2, content_size.height*scale_/2));
+		// 					errorNode->setPosition(m_sprite_draw->getPosition());
+		errorNode->setScale(scale_);
+		errorNode->setAnchorPoint(ccp(0, 0));
+		addChild(errorNode);
+
+		CCBlink* blink = CCBlink::create(2,4);
+		errorNode->runAction(blink);
+	}
+}
 
 void HcharacterLayer::ParseResult(const string ret) {
 	rapidjson::Document doc;
 	doc.Parse<kParseDefaultFlags>(ret.c_str());
 	vector<Error> errors;
+
+	// 根据 ret 的结果，笔画，部件，整字进行不同的判定
+	if(doc.HasMember("ret")){
+		string retjson = doc["ret"].GetString();
+		string errorType = getErrorType(doc);
+		if (retjson.length() == 3)
+		{
+			if (retjson.at(0) == '1')
+			{
+				// whether a stroke is right
+				writeBihuaRight();
+			}else{
+				writeBihuaWrong();
+				// 写错时的 Toast 根据返回值判断
+				MyToast::showToast(this,DataTool::getChinese(errorType),TOAST_LONG);
+
+
+			}
+			if (retjson.at(1) == '1')
+			{
+				// whether a radical is right
+				//MyToast::showToast(this,"radical right",TOAST_LONG);
+			}else
+			{
+				// 当部件错误的时候，显示动画。
+				
+				multimap<int, float> points = getErrorStroke(doc);
+				// 水平平齐错误
+				if (errorType == "A0001")
+				{
+					doA0001(points);
+				}
+				if (errorType == "A0002")
+				{
+
+				}
+
+			}
+			if (retjson.at(2) == '1')
+			{
+				// 整字是否正确
+				//MyToast::showToast(this, "Character right", TOAST_LONG);
+			} else {
+				MyToast::showToast(this, "Character error", TOAST_LONG);
+			}
+		} else {
+			// 如果 ret 返回长度不等于3 报错
+			CCLog("ret length is not 3");
+		}
+	}
+
+	// 判断错误类型，根据不同错误类型进行不同操作
+
+
+
 	if (doc.HasMember("error"))
 	{
 		Error oneError;
@@ -202,69 +352,7 @@ void HcharacterLayer::ParseResult(const string ret) {
 			errors.push_back(oneError);
 		}
 	}
-	if(doc.HasMember("ret")){
-		string retjson = doc["ret"].GetString();
-		if (retjson.length() == 3)
-		{
-			if (retjson.at(0) == '1')
-			{
-				// whether a stroke is right
-				writeRight();
-			}else{
-				writeWrong();
-				if (errors.size()>0)
-				{
-					string type = errors.at(0).errortype;
-					MyToast::showToast(this,DataTool::getChinese(type),TOAST_LONG);
-				}
-			}
-			if (retjson.at(1) == '1')
-			{
-				// whether a radical is right
-				//MyToast::showToast(this,"radical right",TOAST_LONG);
-			}else
-			{
-				// 当部件错误的时候，显示动画。
-				// 水平平齐错误
-				
-				for (int i=0; i<errors.size(); i++)
-				{
-					Error oneError = errors.at(i);
-					if( oneError.errortype == "A0001"){
-						//A0001();
-						MyToast::showToast(this,DataTool::getChinese(oneError.errortype),TOAST_LONG);
 
-						map<int, float> errorstroke = errors.at(0).errorstroke;
-						vector<CCPoint> error_points = getm_HDrawnode()->GetErrorPoints(errorstroke);
-
-						if (error_points.size() >= 2)
-						{
-							CCPoint start_point = error_points.at(0);
-							CCPoint end_point = error_points.at(1);
-
-							ShuipingErrorNode* errorNode = ShuipingErrorNode::create();
-							errorNode->setPoint(start_point, end_point);
-							CCSize content_size = m_sprite_draw->getContentSize();
-							errorNode->setPosition(m_sprite_draw->getPosition()- 
-								ccp(content_size.width*scale_/2, content_size.height*scale_/2));
-							// 					errorNode->setPosition(m_sprite_draw->getPosition());
-							errorNode->setScale(scale_);
-							errorNode->setAnchorPoint(ccp(0, 0));
-							addChild(errorNode);
-
-							CCBlink* blink = CCBlink::create(2,4);
-							errorNode->runAction(blink);
-						}
-					}
-				}
-			}
-			if (retjson.at(2) == '1')
-			{
-				// 整字是否正确
-
-			}
-		}
-	}
 }
 
 void HcharacterLayer::judge(){
@@ -348,7 +436,7 @@ void HcharacterLayer::judge(){
 	//}
 }
 
-void HcharacterLayer::writeWrong(){
+void HcharacterLayer::writeBihuaWrong(){
 
 	this->getm_HDrawnode()->removeLastStroke();
 	int t = getm_HDrawnode()->getStrokeDrawnodeList()->count();
@@ -366,7 +454,7 @@ void HcharacterLayer::writeWrong(){
 
 }
 
-void HcharacterLayer::writeRight(){
+void HcharacterLayer::writeBihuaRight(){
 	// set stroke count Label
 	int t = getm_HDrawnode()->getStrokeDrawnodeList()->count();
 	string strToshow = DataTool::getChinese("bihuashu")+DataTool::intTostring(t)+"/"+DataTool::intTostring(totalBihuaCount);

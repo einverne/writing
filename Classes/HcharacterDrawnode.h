@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include "StrokeDrawnode.h"
 #include "Stroke.h"
+#include <map>
 USING_NS_CC;
 
 // 手写汉字 Node
@@ -75,16 +76,17 @@ public:
 
 	/**
 	* 设置评判结果笔画及笔画错误位置信息，用来画图
+	* 根据 lua 返回结果 1:0.5 类似的结构，找到对应的点，并返回点集列表
 	* @param 
 	* @param estroke
 	* @return 返回错误点vector
 	*/
-	vector<CCPoint> GetErrorPoints(map<int, float> estroke);
+	vector<CCPoint> GetErrorPoints(multimap<int, float>& estroke);
 
 	CC_SYNTHESIZE_RETAIN(CCArray*,strokeDrawlist,StrokeDrawnodeList);
 private:
 	CCSprite* tianziged;
-	map<int, float> error_stroke;
+	multimap<int, float> error_stroke;
 };
 
 
