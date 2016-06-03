@@ -14,8 +14,10 @@ public:
 	virtual void draw();
 
 	void setPoint(CCPoint start_point);
+	void setRightPoint(CCPoint right_point);
 
 	CCPoint centerPoint_;
+	CCPoint rightPoint_;			// 正确的位置
 };
 
 

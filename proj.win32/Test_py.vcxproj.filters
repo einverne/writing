@@ -270,6 +270,9 @@
     <ClCompile Include="..\Classes\ActionA0001.cpp">
       <Filter>Classes\action</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\ActionA0003.cpp">
+      <Filter>Classes\action</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -514,6 +517,9 @@
       <Filter>Classes\Node</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\ActionA0001.h">
+      <Filter>Classes\action</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ActionA0003.h">
       <Filter>Classes\action</Filter>
     </ClInclude>
   </ItemGroup>

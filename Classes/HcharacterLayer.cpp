@@ -11,7 +11,7 @@
 #include "JudgeScene.h"
 #include "Error.h"
 #include "ActionA0001.h"
-#include "ActionA0002.h"
+#include "ActionA0003.h"
 #include <iomanip>
 
 #include "../rapidjson/document.h"
@@ -43,6 +43,8 @@ HcharacterLayer::HcharacterLayer():m_sprite_draw(NULL),
 #endif
 	scale_=1.6f;
 }
+
+#define ACTION_TAG 2016
 
 HcharacterLayer::~HcharacterLayer()
 {
@@ -270,7 +272,7 @@ void HcharacterLayer::doA0001(multimap<int, float>& points) {
 		// 					errorNode->setPosition(m_sprite_draw->getPosition());
 		errorNode->setScale(scale_);
 		errorNode->setAnchorPoint(ccp(0, 0));
-		addChild(errorNode);
+		addChild(errorNode, 1, ACTION_TAG);
 
 		CCBlink* blink = CCBlink::create(2,4);
 		errorNode->runAction(blink);
@@ -280,24 +282,34 @@ void HcharacterLayer::doA0001(multimap<int, float>& points) {
 }
 
 void HcharacterLayer::doA0002(multimap<int, float>& points){
+	if (points.size() <= 0)
+	{
+		return;
+	}
 	string errorType = "A0002";
 	MyToast::showToast(this, DataTool::getChinese(errorType), TOAST_LONG);
 	vector<CCPoint> errorPoints = getm_HDrawnode()->GetErrorPoints(points);
+	multimap<int, float>::iterator pointsBeginIterator = points.begin();
+	multimap<int, float> mid;
+	mid.insert(make_pair(pointsBeginIterator->first, 0.5));
+	CCPoint midPoint = getm_HDrawnode()->GetErrorPoints(mid).at(0);
+
 	if (errorPoints.size() >= 1)
 	{
-		CCPoint centerPoint = errorPoints.at(0);
+		CCPoint errorPoint = errorPoints.at(0);
 		OnePointNode* errorNode = OnePointNode::create();
-		errorNode->setPoint(centerPoint);
+		errorNode->setPoint(errorPoint);
+		errorNode->setRightPoint(midPoint);
 		CCSize content_size = m_sprite_draw->getContentSize();
 		errorNode->setPosition(m_sprite_draw->getPosition()-
 			ccp(content_size.width*scale_/2, content_size.height*scale_/2));
 		errorNode->setScale(scale_);
 		errorNode->setAnchorPoint(ccp(0,0));
-		addChild(errorNode);
+		addChild(errorNode, 1, ACTION_TAG);
 		CCBlink* blink = CCBlink::create(2,4);
 		errorNode->runAction(blink);
-		ActionA0002* actionA0002 = ActionA0002::create(2.0);
-		errorNode->runAction(actionA0002);
+		ActionA0003* action = ActionA0003::create(2.0);
+		errorNode->runAction(action);
 	}
 
 }
@@ -306,19 +318,30 @@ void HcharacterLayer::doA0003(multimap<int, float>& points){
 	string errorType = "A0003";
 	MyToast::showToast(this, DataTool::getChinese(errorType), TOAST_LONG);
 	vector<CCPoint> errorPoints = getm_HDrawnode()->GetErrorPoints(points);
+
+	multimap<int, float>::iterator pointsBeginIterator = points.begin();
+	multimap<int, float> mid;
+	mid.insert(make_pair(pointsBeginIterator->first, 0.5));
+	CCPoint midPoint = getm_HDrawnode()->GetErrorPoints(mid).at(0);
+
+
 	if (errorPoints.size() >= 1)
 	{
 		CCPoint centerPoint = errorPoints.at(0);
 		OnePointNode* errorNode = OnePointNode::create();
 		errorNode->setPoint(centerPoint);
+		errorNode->setRightPoint(midPoint);
+
 		CCSize content_size = m_sprite_draw->getContentSize();
 		errorNode->setPosition(m_sprite_draw->getPosition()-
 			ccp(content_size.width*scale_/2, content_size.height*scale_/2));
 		errorNode->setScale(scale_);
 		errorNode->setAnchorPoint(ccp(0,0));
-		addChild(errorNode);
+		addChild(errorNode, 1, ACTION_TAG);
 		CCBlink* blink = CCBlink::create(2,4);
 		errorNode->runAction(blink);
+		ActionA0003* actionA0003 = ActionA0003::create(2.0);
+		errorNode->runAction(actionA0003);
 	}
 }
 
@@ -577,6 +600,7 @@ void HcharacterLayer::writeBihuaRight(){
 
 void HcharacterLayer::rewrite(CCObject* pSender){
 	CCLog("HcharacterLayer::rewrite");
+	removeChildByTag(ACTION_TAG, true);			// 清空Action
 	if (this->getActionManager()->numberOfRunningActionsInTarget(getm_HDrawnode()) <= 0)
 	{
 		_manager.exitLuaEngine();
