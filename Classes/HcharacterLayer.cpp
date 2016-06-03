@@ -10,6 +10,7 @@
 #include "constants.h"
 #include "JudgeScene.h"
 #include "Error.h"
+#include "ActionA0001.h"
 #include <iomanip>
 
 #include "../rapidjson/document.h"
@@ -195,6 +196,12 @@ string getErrorType(rapidjson::Document& doc) {
 	return errorType;
 }
 
+
+/**
+* 从json返回中，获取错误笔画
+* @param doc json doc
+* @return 返回错误类型的笔画
+*/
 multimap<int, float> getErrorStroke(rapidjson::Document& doc) {
 	multimap<int, float> errorPoints;
 	if (doc.HasMember("error"))
@@ -266,6 +273,8 @@ void HcharacterLayer::doA0001(multimap<int, float>& points) {
 
 		CCBlink* blink = CCBlink::create(2,4);
 		errorNode->runAction(blink);
+		ActionA0001* actionA0001 = ActionA0001::create(2.0);
+		errorNode->runAction(actionA0001);
 	}
 }
 
