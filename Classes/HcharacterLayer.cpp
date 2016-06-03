@@ -11,6 +11,7 @@
 #include "JudgeScene.h"
 #include "Error.h"
 #include "ActionA0001.h"
+#include "ActionA0002.h"
 #include <iomanip>
 
 #include "../rapidjson/document.h"
@@ -295,6 +296,8 @@ void HcharacterLayer::doA0002(multimap<int, float>& points){
 		addChild(errorNode);
 		CCBlink* blink = CCBlink::create(2,4);
 		errorNode->runAction(blink);
+		ActionA0002* actionA0002 = ActionA0002::create(2.0);
+		errorNode->runAction(actionA0002);
 	}
 
 }
