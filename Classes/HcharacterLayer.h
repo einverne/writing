@@ -50,19 +50,19 @@ public:
 	* 处理 A0001 水平平齐错误
 	* @return
 	*/
-	void doA0001(multimap<int, float>& points);
+	void doA0001(multimap<int, float>& points, multimap<int, float>& rightpoints);
 
 	/**
 	* 中点切分
 	* @return
 	*/
-	void doA0002(multimap<int, float>& points);
+	void doA0002(multimap<int, float>& points, multimap<int, float>& rightpoints);
 
 	/**
 	* 黄金分割
 	* @return
 	*/
-	void doA0003(multimap<int, float>& points);
+	void doA0003(multimap<int, float>& points, multimap<int, float>& rightpoints);
 
 	CC_SYNTHESIZE_RETAIN(HcharacterDrawnode*,m_HDrawnode,m_HDrawnode);
 	CC_SYNTHESIZE_RETAIN(CCLabelTTF*, bihuaCountAndTotal,bihuaCountAndTotal);

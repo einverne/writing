@@ -248,7 +248,51 @@ multimap<int, float> getErrorStroke(rapidjson::Document& doc) {
 	return errorPoints;
 }
 
-void HcharacterLayer::doA0001(multimap<int, float>& points) {
+multimap<int, float> getRightPoints(rapidjson::Document& doc) {
+	multimap<int, float> errorPoints;
+	if (doc.HasMember("error"))
+	{
+		const Value& errorjson = doc["error"];
+		if (errorjson.Size() > 0)
+		{
+			SizeType index = 0;
+			if (errorjson.Size()>0)
+			{
+				if(errorjson[index].HasMember("rightposition")){
+					const Value& v = errorjson[index]["rightposition"];
+					for (Value::ConstMemberIterator iter = v.MemberonBegin(); iter != v.MemberonEnd(); ++iter)
+					{
+						string key = iter->name.GetString();
+						string value = iter->value.GetString();
+						int n_key = DataTool::stringToInt(key);
+
+						// 判断 value string 中是否存在 /
+						if (DataTool::isExist(value, "/"))
+						{
+							vector<string> points = DataTool::spliteStringBy(value, "/");	
+							for (int i = 0; i < points.size(); i++)
+							{
+								float f_value = DataTool::stringToFloat(points[i]);
+								errorPoints.insert(make_pair(n_key, f_value));
+
+							}
+						}else{
+							float f_value = DataTool::stringToFloat(value);
+							errorPoints.insert(make_pair(n_key, f_value));
+						}
+
+						//oneError.errorstroke.insert(make_pair(n_key,f_value));
+					}
+				}
+
+			}
+		}
+	}
+	return errorPoints;
+}
+
+void HcharacterLayer::doA0001(multimap<int, float>& points,
+							  multimap<int, float>& rightpoints) {
 	if (points.size() < 2)
 	{
 		return;
@@ -280,7 +324,7 @@ void HcharacterLayer::doA0001(multimap<int, float>& points) {
 	}
 }
 
-void HcharacterLayer::doA0002(multimap<int, float>& points){
+void HcharacterLayer::doA0002(multimap<int, float>& points, multimap<int, float>& rightpoints){
 	if (points.size() <= 0)
 	{
 		return;
@@ -313,7 +357,7 @@ void HcharacterLayer::doA0002(multimap<int, float>& points){
 
 }
 
-void HcharacterLayer::doA0003(multimap<int, float>& points){
+void HcharacterLayer::doA0003(multimap<int, float>& points, multimap<int, float>& rightpoints){
 	string errorType = "A0003";
 	MyToast::showToast(this, DataTool::getChinese(errorType), TOAST_LONG);
 	vector<CCPoint> errorPoints = getm_HDrawnode()->GetErrorPoints(points);
@@ -375,18 +419,41 @@ void HcharacterLayer::ParseResult(const string ret) {
 				// 当部件错误的时候，显示动画。
 				
 				multimap<int, float> points = getErrorStroke(doc);
+				multimap<int, float> rightpoints = getRightPoints(doc);
 				// 水平平齐错误
 				if (errorType == "A0001")
 				{
-					doA0001(points);
+					doA0001(points, rightpoints);
 				}
 				if (errorType == "A0002")
 				{
-					doA0002(points);
+					doA0002(points, rightpoints);
 				}
 				if (errorType == "A0003")
 				{
-					doA0003(points);
+					doA0003(points, rightpoints);
+				}
+				if (errorType == "A0004")
+				{
+
+				}
+				if (errorType == "A0005")
+				{
+				}
+				if (errorType == "A0006")
+				{
+				}
+				if (errorType == "A0007")
+				{
+				}
+				if (errorType == "A0008")
+				{
+				}
+				if (errorType == "A0009")
+				{
+				}
+				if (errorType == "A0010")
+				{
 				}
 			}
 			if (retjson.at(2) == '1')
@@ -399,6 +466,7 @@ void HcharacterLayer::ParseResult(const string ret) {
 		} else {
 			// 如果 ret 返回长度不等于3 报错
 			CCLog("ret length is not 3");
+			MyToast::showToast(this, "ret error ret length is not 3", TOAST_LONG);
 		}
 	}
 
@@ -470,7 +538,7 @@ void HcharacterLayer::judge(){
 	if (hanzi_ == DataTool::getChinese("ren") && totalBihuaCount - 1 == writeCount_)
 	{
 		// 人 水平平齐 调试 最后一笔判断
-		ret = "{\"error\":[{\"errorstroke\":{\"0\":\"1\",\"1\":\"1\"},\"errortype\":\"A0001\"}],\"ret\":\"101\"}";
+		ret = "{\"error\":[{\"errorstroke\":{\"0\":\"1\",\"1\":\"1\"},\"errortype\":\"A0001\",\"rightposition\":{}}],\"ret\":\"101\"}";
 	}
 
 	if (hanzi_ == DataTool::getChinese("da") && totalBihuaCount - 1 == writeCount_)
@@ -481,7 +549,14 @@ void HcharacterLayer::judge(){
 
 	if (hanzi_ == DataTool::getChinese("xia") && totalBihuaCount - 1 == writeCount_)
 	{
-		ret = "{\"error\":[{\"errorstroke\":{\"0\":\"0.01\"},\"errortype\":\"A0002\"}],\"ret\":\"101\"}";
+		// 下 字 A0002 调试
+		ret = "{\"error\":[{\"errorstroke\":{\"0\":\"0.11\"},\"errortype\":\"A0002\",\"rightposition\":{\"0\":\"0.5\"}}],\"ret\":\"101\"}";
+	}
+
+	if (hanzi_ == DataTool::getChinese("shi") && totalBihuaCount - 1 == writeCount_)
+	{
+		// 十 A0002 调试
+		ret = "";
 	}
 
 	//CCLog("Hcharacterlay: retstring:%s length:%d",ret.c_str(),ret.length());
