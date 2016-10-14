@@ -479,6 +479,11 @@ void HcharacterLayer::judge(){
 		ret = "{\"error\":[{\"errorstroke\":{\"1\":\"1\",\"2\":\"1\"},\"errortype\":\"A0001\"}],\"ret\":\"101\"}";
 	}
 
+	if (hanzi_ == DataTool::getChinese("xia") && totalBihuaCount - 1 == writeCount_)
+	{
+		ret = "{\"error\":[{\"errorstroke\":{\"0\":\"0.01\"},\"errortype\":\"A0002\"}],\"ret\":\"101\"}";
+	}
+
 	//CCLog("Hcharacterlay: retstring:%s length:%d",ret.c_str(),ret.length());
 	//如果不评判则跳过
 	if (!ijudge_ || ret.length() <= 0)
