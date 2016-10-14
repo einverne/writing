@@ -83,6 +83,12 @@ public:
 	*/
 	vector<CCPoint> GetErrorPoints(multimap<int, float>& estroke);
 
+	/**
+	* 改变笔画的颜色
+	* @return
+	*/
+	void markErrorStroke(int markStroke);
+
 	CC_SYNTHESIZE_RETAIN(CCArray*,strokeDrawlist,StrokeDrawnodeList);
 private:
 	CCSprite* tianziged;

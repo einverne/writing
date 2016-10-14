@@ -57,6 +57,12 @@ public:
 	*/
 	int getVisibleIndex()	{ return visibleIndex; }
 
+	/**
+	* 标记错误笔画
+	* @return
+	*/
+	void markError();
+
 public:
 	Stroke stroke;					//store points in a stroke
 	ccColor4B mcolor;				//color if this stroke:have not used yet

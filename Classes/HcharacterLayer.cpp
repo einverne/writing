@@ -12,6 +12,7 @@
 #include "Error.h"
 #include "ActionA0001.h"
 #include "ActionA0003.h"
+#include "DotLineNode.h"
 #include <iomanip>
 
 #include "../rapidjson/document.h"
@@ -388,6 +389,42 @@ void HcharacterLayer::doA0003(multimap<int, float>& points, multimap<int, float>
 	}
 }
 
+void HcharacterLayer::doA0004(multimap<int, float>& points, multimap<int, float>& rightpoints){
+	string errorType = "A0004";
+	MyToast::showToast(this, DataTool::getChinese(errorType), TOAST_LONG);
+	vector<CCPoint> errorPoints = getm_HDrawnode()->GetErrorPoints(points);
+	int markStroke;
+	for (multimap<int, float>::iterator it = points.begin();
+		it != points.end(); it++)
+	{
+		markStroke = it->first;
+	}
+	
+	if (errorPoints.size() >= 1)
+	{
+		// 给错误笔画着色
+		getm_HDrawnode()->markErrorStroke(markStroke);
+	}
+	// 画虚线
+	vector<CCPoint> rightPoints = getm_HDrawnode()->GetErrorPoints(rightpoints);
+	if (!rightPoints.empty())
+	{
+		DotLineNode* dotlineNode = DotLineNode::create();
+		dotlineNode->setCenterPoint(rightPoints[0]);
+		dotlineNode->setLength(100);
+		CCSize content_size = m_sprite_draw->getContentSize();
+		dotlineNode->setPosition(m_sprite_draw->getPosition()-
+			ccp(content_size.width*scale_/2, content_size.height*scale_/2));
+		dotlineNode->setScale(scale_);
+		dotlineNode->setAnchorPoint(ccp(0,0));
+		addChild(dotlineNode, 1, ACTION_TAG);
+
+		CCBlink* blink = CCBlink::create(2,4);
+		CCSequence* sequence = CCSequence::create(blink, CCRemoveSelf::create(true), NULL);
+		dotlineNode->runAction(sequence);
+	}
+}
+
 void HcharacterLayer::ParseResult(const string ret) {
 	rapidjson::Document doc;
 	doc.Parse<kParseDefaultFlags>(ret.c_str());
@@ -435,7 +472,7 @@ void HcharacterLayer::ParseResult(const string ret) {
 				}
 				if (errorType == "A0004")
 				{
-
+					doA0004(points, rightpoints);
 				}
 				if (errorType == "A0005")
 				{
@@ -502,6 +539,7 @@ void HcharacterLayer::ParseResult(const string ret) {
 }
 
 void HcharacterLayer::judge(){
+	writeCount_ ++;
 	CCArray* strokes = m_HDrawnode->getStrokeDrawnodeList();
 	string output = "";					// 手写汉字的点集信息
 
@@ -535,27 +573,35 @@ void HcharacterLayer::judge(){
     CCLog("right Character info %s",points.c_str());
     
 	string ret = _manager.getResult(hanzi_,output,points,m_exChar,funcs);
-	if (hanzi_ == DataTool::getChinese("ren") && totalBihuaCount - 1 == writeCount_)
+	if (hanzi_ == DataTool::getChinese("ren") && totalBihuaCount == writeCount_)
 	{
 		// 人 水平平齐 调试 最后一笔判断
 		ret = "{\"error\":[{\"errorstroke\":{\"0\":\"1\",\"1\":\"1\"},\"errortype\":\"A0001\",\"rightposition\":{}}],\"ret\":\"101\"}";
 	}
 
-	if (hanzi_ == DataTool::getChinese("da") && totalBihuaCount - 1 == writeCount_)
+	if (hanzi_ == DataTool::getChinese("da") && totalBihuaCount == writeCount_)
 	{
 		// 大 中点切分调试 最后一笔
 		ret = "{\"error\":[{\"errorstroke\":{\"1\":\"1\",\"2\":\"1\"},\"errortype\":\"A0001\"}],\"ret\":\"101\"}";
 	}
 
-	if (hanzi_ == DataTool::getChinese("xia") && totalBihuaCount - 1 == writeCount_)
+	if (hanzi_ == DataTool::getChinese("xia") && totalBihuaCount == writeCount_)
 	{
 		// 下 字 A0002 调试
 		ret = "{\"error\":[{\"errorstroke\":{\"0\":\"0.11\"},\"errortype\":\"A0002\",\"rightposition\":{\"0\":\"0.5\"}}],\"ret\":\"101\"}";
 	}
 
-	if (hanzi_ == DataTool::getChinese("shi") && totalBihuaCount - 1 == writeCount_)
+	if (hanzi_ == DataTool::getChinese("shi") && totalBihuaCount == writeCount_)
 	{
 		// 十 A0002 调试
+		ret = "";
+	}
+
+	if (hanzi_ == DataTool::getChinese("wen") && totalBihuaCount == writeCount_)
+	{
+		ret = "{\"error\":[{\"errorstroke\":{\"0\":\"0.2\"},\"errortype\":\"A0004\",\"rightposition\":{\"1\":\"0.5\"}}],\"ret\":\"101\"}";
+	} else if (hanzi_ == DataTool::getChinese("wen"))
+	{
 		ret = "";
 	}
 
@@ -615,7 +661,6 @@ void HcharacterLayer::writeBihuaWrong(){
 	//getInfoSprite()->setVisible(true);
 	//getInfoSprite()->setTexture(CCTextureCache::sharedTextureCache()->addImage("wrong.png"));
 	CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect(WRONG_EFFECT_FILE);
-	writeCount_++;
 	wrongCount_++;
 	curBihuaWrong++;
 
@@ -666,7 +711,6 @@ void HcharacterLayer::writeBihuaRight(){
 	string strLabel = DataTool::getChinese("defen")+DataTool::to_string_with_precision(score_);
 	getscoreLabel()->setString(strLabel.c_str());
 	curBihuaWrong=0;
-	writeCount_++;
 
 	// update Character score into db
 	JudgeScene* scene = (JudgeScene*)this->getParent();

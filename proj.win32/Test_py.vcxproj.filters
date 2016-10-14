@@ -273,6 +273,9 @@
     <ClCompile Include="..\Classes\ActionA0003.cpp">
       <Filter>Classes\action</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\DotLineNode.cpp">
+      <Filter>Classes\Node</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -521,6 +524,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\ActionA0003.h">
       <Filter>Classes\action</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\DotLineNode.h">
+      <Filter>Classes\Node</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

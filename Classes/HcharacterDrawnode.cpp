@@ -99,3 +99,19 @@ vector<CCPoint> HcharacterDrawnode::GetErrorPoints(multimap<int, float>& estroke
 	}
 	return error_points;
 }
+
+void HcharacterDrawnode::markErrorStroke(int markStroke) {
+	if (markStroke < 0)
+	{
+		return;
+	}
+	CCObject* ob;
+	CCARRAY_FOREACH(getStrokeDrawnodeList(), ob) {
+		if (markStroke == 0)
+		{
+			((StrokeDrawnode*)ob)->markError();
+			break;
+		}
+		markStroke--;
+	}
+}
