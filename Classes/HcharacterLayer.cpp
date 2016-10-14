@@ -473,7 +473,11 @@ void HcharacterLayer::judge(){
 		ret = "{\"error\":[{\"errorstroke\":{\"0\":\"1\",\"1\":\"1\"},\"errortype\":\"A0001\"}],\"ret\":\"101\"}";
 	}
 
-
+	if (hanzi_ == DataTool::getChinese("da") && totalBihuaCount - 1 == writeCount_)
+	{
+		// 大 中点切分调试 最后一笔
+		ret = "{\"error\":[{\"errorstroke\":{\"1\":\"1\",\"2\":\"1\"},\"errortype\":\"A0001\"}],\"ret\":\"101\"}";
+	}
 
 	//CCLog("Hcharacterlay: retstring:%s length:%d",ret.c_str(),ret.length());
 	//如果不评判则跳过
