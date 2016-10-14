@@ -35,6 +35,8 @@
 	<string>得分:</string>
 	<key>only_chinese</key>
 	<string>只能输入中文</string>
+	<key>ren</key>
+	<string>人</string>
 	<key>A0001</key>
 	<string>水平平齐</string>
 	<key>A0002</key>

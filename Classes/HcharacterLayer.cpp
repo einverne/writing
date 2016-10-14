@@ -249,7 +249,6 @@ multimap<int, float> getErrorStroke(rapidjson::Document& doc) {
 }
 
 void HcharacterLayer::doA0001(multimap<int, float>& points) {
-	//A0001();
 	if (points.size() < 2)
 	{
 		return;
@@ -468,6 +467,14 @@ void HcharacterLayer::judge(){
     CCLog("right Character info %s",points.c_str());
     
 	string ret = _manager.getResult(hanzi_,output,points,m_exChar,funcs);
+	if (hanzi_ == DataTool::getChinese("ren") && totalBihuaCount - 1 == writeCount_)
+	{
+		// 人 水平平齐 调试 最后一笔判断
+		ret = "{\"error\":[{\"errorstroke\":{\"0\":\"1\",\"1\":\"1\"},\"errortype\":\"A0001\"}],\"ret\":\"101\"}";
+	}
+
+
+
 	//CCLog("Hcharacterlay: retstring:%s length:%d",ret.c_str(),ret.length());
 	//如果不评判则跳过
 	if (!ijudge_ || ret.length() <= 0)
@@ -600,6 +607,7 @@ void HcharacterLayer::writeBihuaRight(){
 
 void HcharacterLayer::rewrite(CCObject* pSender){
 	CCLog("HcharacterLayer::rewrite");
+	writeCount_ = 0;
 	removeChildByTag(ACTION_TAG, true);			// 清空Action
 	if (this->getActionManager()->numberOfRunningActionsInTarget(getm_HDrawnode()) <= 0)
 	{
