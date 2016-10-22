@@ -70,6 +70,13 @@ public:
 	*/
 	void doA0004(multimap<int, float>& points, multimap<int, float>& rightpoints);
 
+	/**
+	* 横笔等距
+	* @param points
+	* @param rightpoints
+	* @return
+	*/
+	void doA0005(multimap<int, float>& points, multimap<int, float>& rightpoints);
 
 	CC_SYNTHESIZE_RETAIN(HcharacterDrawnode*,m_HDrawnode,m_HDrawnode);
 	CC_SYNTHESIZE_RETAIN(CCLabelTTF*, bihuaCountAndTotal,bihuaCountAndTotal);

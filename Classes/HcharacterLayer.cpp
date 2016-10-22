@@ -425,6 +425,32 @@ void HcharacterLayer::doA0004(multimap<int, float>& points, multimap<int, float>
 	}
 }
 
+void HcharacterLayer::doA0005(multimap<int, float>& points, multimap<int, float>& rightpoints){
+	string errotType = "A0005";
+	MyToast::showToast(this, DataTool::getChinese(errotType), TOAST_LONG);
+	vector<CCPoint> errorPoints = getm_HDrawnode()->GetErrorPoints(points);
+	if (errorPoints.size() >= 3)
+	{
+		for (int i = 0; i < errorPoints.size(); i++)
+		{
+			DotLineNode* dotlineNode1 = DotLineNode::create();
+			dotlineNode1->setCenterPoint(errorPoints.at(i));
+			dotlineNode1->setLength(100);
+			dotlineNode1->setOrientation(1);
+			CCSize size = m_sprite_draw->getContentSize();
+			dotlineNode1->setPosition(m_sprite_draw->getPosition()-
+				ccp(size.width*scale_/2, size.height*scale_/2));
+			dotlineNode1->setScale(scale_);
+			dotlineNode1->setAnchorPoint(ccp(0,0));
+			addChild(dotlineNode1, 1, ACTION_TAG);
+
+			CCBlink* blink = CCBlink::create(2,4);
+			CCSequence* sequence = CCSequence::create(blink, CCRemoveSelf::create(true), NULL);
+			dotlineNode1->runAction(sequence);
+		}
+	}
+}
+
 void HcharacterLayer::ParseResult(const string ret) {
 	rapidjson::Document doc;
 	doc.Parse<kParseDefaultFlags>(ret.c_str());
@@ -476,6 +502,7 @@ void HcharacterLayer::ParseResult(const string ret) {
 				}
 				if (errorType == "A0005")
 				{
+					doA0005(points, rightpoints);
 				}
 				if (errorType == "A0006")
 				{
@@ -601,6 +628,13 @@ void HcharacterLayer::judge(){
 	{
 		ret = "{\"error\":[{\"errorstroke\":{\"0\":\"0.2\"},\"errortype\":\"A0004\",\"rightposition\":{\"1\":\"0.5\"}}],\"ret\":\"101\"}";
 	} else if (hanzi_ == DataTool::getChinese("wen"))
+	{
+		ret = "";
+	}
+	if (hanzi_ == DataTool::getChinese("san") && totalBihuaCount == writeCount_)
+	{
+		ret = "{\"ret\":\"101\",\"error\":[{\"errortype\":\"A0005\",\"errorstroke\":{\"0\":\"0.5\",\"1\":\"0.5\",\"2\":\"0.5\"},\"rightposition\":{}}]}";
+	} else if (hanzi_ == DataTool::getChinese("san"))
 	{
 		ret = "";
 	}

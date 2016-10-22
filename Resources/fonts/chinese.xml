@@ -55,8 +55,10 @@
 	<string>文</string>
 	<key>A0004</key>
 	<string>首点居正</string>
+	<key>san</key>
+	<string>三</string>
 	<key>A0005</key>
-	<string>竖直等分</string>
+	<string>横笔等距</string>
 	<key>A0006</key>
 	<string>水平等分</string>
 	<key>A0007</key>
