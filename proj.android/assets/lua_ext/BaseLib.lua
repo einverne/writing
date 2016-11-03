@@ -1,7 +1,7 @@
------------------------------------------
---鍏冨嚱鏁板簱
---TODO杩斿洖瀛楃涓诧細鏈€缁堣繑鍥炰竴涓瓧绗︿覆锛岀粰鐣岄潰灞備娇鐢?
---TODO 鍘熷嚱鏁板紓甯稿鐞嗭紝鍖呮嫭绫诲瀷鍒ゆ柇锛岃竟鐣屽垽鏂瓑绛?
+﻿-----------------------------------------
+--元函数库
+--TODO返回字符串：最终返回一个字符串，给界面层使�?
+--TODO 原函数异常处理，包括类型判断，边界判断等�?
 -----------------------------------------
 
 local print = print
@@ -18,11 +18,12 @@ local RunRule = nil
 local WZEnv = nil
 local StdHZ = nil
 
---浠ｇ爜杩愯缁撴灉杩斿洖淇℃伅
+
+--代码运行结果返回信息
 allInfoStr = ""
 retInfoStr = ""
 
---#####杩愯鐜璁剧疆鍑芥暟#####--
+--#####运行环境设置函数#####--
 function clearRetInfoStr()
 	retInfoStr = ""
 end
@@ -47,21 +48,21 @@ end
 function setStdHZ(SZ)
 	StdHZ = SZ
 end
---#####鍏冨嚱鏁板疄鐜?####--
---鎵€鏈夋搷浣滅储寮曚粠0寮€濮?
+--#####元函数实�?####--
+--所有操作索引从0开�?
 function GetBH( idx )
 	local bh = WriteHZ.strokes[idx + 1]
 	return bh
 end
 
---娉ㄦ剰涓嶨etBH鐨勫尯鍒紝杩欓噷鍙栧緱鐨勬槸鏍囧噯瀛楃殑绗旂敾
-function GetPreBH(idx)--改动！
+--注意与GetBH的区别，这里取得的是标准字的笔画
+function GetPreBH(idx)--�Ķ���
 	--local bh = StdHZ.strokes[idx + 1]
 	local bh = WriteHZ.strokes[idx + 1]
 	return bh
 end
 
---鍙傛暟涓篵d鎴朾h閮藉彲
+--参数为bd或bh都可
 function GetStartPoint(bh)
 	local point = WZEnv.POINT:new()
 	point.x = bh.ptSet[1].x
@@ -76,7 +77,7 @@ function GetEndPoint(bh)
 	return point ,#bh.ptSet
 end
 
---鑾峰緱涓偣
+--获得中点
 function GetMidPoint ( bh )
  	local point = WZEnv.POINT:new()
 	local len= #bh.ptSet
@@ -96,7 +97,7 @@ end
 
 
 
---鑾峰緱鐐圭殑妯旱鍧愭爣
+--获得点的横纵坐标
 function GetPointX ( pt )
 	return pt.x
 end
@@ -112,7 +113,7 @@ function GetBDByBH(bh,bdIdx)
 	print(bdIdx)
 	print(postIdx)
 	print(bdIdx)
-	print(bh.InflectionPoint[bdIdx]) 
+	print(bh.InflectionPoint[bdIdx])
 	if (bdIdx ~= 0) then
 		preIdx = bh.InflectionPoint[bdIdx] + 1
 	end
@@ -140,7 +141,7 @@ function GetBDLen(bd)
 end
 
 
---璁＄畻curIdx瀵瑰簲鐨勮搴?
+--计算curIdx对应的角�?
 function Cal_Angle(prePt,curPt,postPt)
 	local vecX = {}
 	local vecY = {}
@@ -185,7 +186,7 @@ function GetAngel(spt,ept)
 	return degree
 end
 
---鑾峰緱鎷愮偣锛屾殏鏈敤鍒?
+--获得拐点，暂未用�?
 function GetTurningPtNum(bh,BDNum)
 	local height = 512
 	local threshold_len = height / 28
@@ -298,57 +299,57 @@ function GetTurningPtNum(bh,BDNum)
 end
 
 
----------------------------------鍘婚櫎鎶栧姩-----------------------------------------------
---濡傛灉閫夊嚭鐨勬嫄鐐规暟鐩负0锛岀洿鎺ヨ繑鍥烇紝姝ゆ椂CInflectionPts鏄┖鐨?
+---------------------------------去除抖动-----------------------------------------------
+--如果选出的拐点数目为0，直接返回，此时CInflectionPts是空�?
 	if(#turning_ind <= 0) then
 		return 0
 	end
-	--濡傛灉鎷愮偣鏁扮洰姣旀爣鍑嗗皯锛屽皢鎷愮偣鏁扮粍璧嬪€硷紝杩斿洖
+	--如果拐点数目比标准少，将拐点数组赋值，返回
 	if (#turning_ind < BDNum - 1) then
 		bh.InflectionPoint = turning_ind
 		return #turning_ind;
 	end
 
 
-	--濡傛灉鎷愮偣鏁扮洰澶т簬鎴栬€呯瓑浜庢爣鍑嗗€?
+	--如果拐点数目大于或者等于标准�?
 	if (#turning_ind >= BDNum-1) then
-		--濡傛灉澶氬嚭涓€涓嫄鐐癸紝浼嫄鐐逛竴瀹氭槸鍦ㄧ涓€涓垨鑰呮渶鍚庝竴涓紝鍒嗗埆璁＄畻鍏惰窛绂婚浣嶇偣鐨勮窛绂?
+		--如果多出一个拐点，伪拐点一定是在第一个或者最后一个，分别计算其距离首位点的距�?
 		local pos1 = turning_ind[1]
 		local pos2 = turning_ind[#turning_ind]
 		local spt = bh.ptSet[1]
 		local ept = bh.ptSet[#bh.ptSet]
 		local dis1 = math.sqrt( math.pow(bh.ptSet[pos1].x - spt.x,2) + math.pow(bh.ptSet[pos1].y - spt.y,2))
 		local dis2 = math.sqrt( math.pow(bh.ptSet[pos2].x - ept.x,2) + math.pow(bh.ptSet[pos2].y - ept.y,2))
-		--1.濡傛灉绗竴涓嫄鐐规槸鎶栧姩鐐?
+		--1.如果第一个拐点是抖动�?
 		if( dis1 < 30 ) then
 			n_prePos = turning_ind[1]
 			n_postPos = #bh.ptSet
-			--鎶婃姈绗旀浠庣瑪鐢讳腑鍒犻櫎
+			--把抖笔段从笔画中删除
 			for i = 1, n_prePos-1 do
 				table.remove(bh.ptSet,1)
 			end
-			--浠庢嫄鐐规暟缁勪腑鍒犻櫎璇ユ嫄鐐?
+			--从拐点数组中删除该拐�?
 			table.remove(turning_ind,1)
-			--绉诲姩鎷愮偣绱㈠紩鏁扮粍涓储寮曠殑浣嶇疆
+			--移动拐点索引数组中索引的位置
 			if ( #turning_ind > 0 ) then
 				for i = 1,#turning_ind do
 					 turning_ind[i] = turning_ind[i] - n_prePos + 1
 				end
 			end
 		end
-		--2.濡傛灉鏈€鍚庝竴涓嫄鐐规槸鎶栧姩鐐?
+		--2.如果最后一个拐点是抖动�?
 		if (dis2 < 30) then
 			n_prePos = 1
 			n_postPos = turning_ind[#turning_ind]
-			--浠庢嫄鐐硅〃鏍间腑鍒犻櫎璇ユ嫄鐐?
+			--从拐点表格中删除该拐�?
 			table.remove(turning_ind,#turning_ind)
-			--鍒犻櫎鎶栫瑪娈?
+			--删除抖笔�?
 			for i = #bh.ptSet,n_postPos+1,-1 do
 				table.remove(bh.ptSet,i)
 			end
 		end
 
-	--璁＄畻鎷愮偣涔嬮棿鐨勮窛绂?
+	--计算拐点之间的距�?
 	if (#turning_ind > 1) then
 		for i = 1, #turning_ind - 1  do
 			print (turning_ind[i])
@@ -362,7 +363,7 @@ end
 		end
 	end
 		bh.InflectionPoint = turning_ind
-		print ("鎷愮偣涓暟涓?..")
+		print ("拐点个数�?..")
 		print (#turning_ind)
 		print ("test over")
 		return #turning_ind
@@ -373,9 +374,9 @@ end
 
 
 --[[
---鑾峰緱绗旂敾鎷愮偣鐨勪釜鏁?
+--获得笔画拐点的个�?
 function GetTurningPtNum(bh,BDNum)
-	local n_step = 5			--lua绱㈠紩浠?寮€濮?
+	local n_step = 5			--lua索引�?开�?
 	if( #bh.ptSet <2*n_step+1) then
 		return nil
 	end
@@ -383,7 +384,7 @@ function GetTurningPtNum(bh,BDNum)
 	local n_preIdx = 1
 	local n_postIdx = 2*n_step+1
 	local angleArr = {}
-	--璁＄畻鐐瑰搴旂殑瑙掑害
+	--计算点对应的角度
 	for i = n_curIdx,(#bh.ptSet)-n_step do
 		local ele = {}
 		local angle = Cal_Angle(bh.ptSet[n_preIdx],bh.ptSet[i],bh.ptSet[n_postIdx])
@@ -393,12 +394,12 @@ function GetTurningPtNum(bh,BDNum)
 		n_preIdx = n_preIdx + 1
 		n_postIdx = n_postIdx + 1
 	end
-	--鎶婅搴︽寜鐓т粠灏忓埌澶ф帓搴?
+	--把角度按照从小到大排�?
 	table.sort(angleArr,sortingFun)
 	local nCandidateNum = #angleArr
 
-	local CInflectionPts = {}		--瀛樺偍鍊欓€夋嫄鐐圭殑绱㈠紩
-	--閫夊嚭浜嗘渶澶欱DNum+1涓嫄鐐癸紝瀛樺偍鍦–InflectionPts涓?
+	local CInflectionPts = {}		--存储候选拐点的索引
+	--选出了最多BDNum+1个拐点，存储在CInflectionPts�?
 	local f_angleThres = 12/18*3.14;
 	for p = 1,nCandidateNum do
 		local cFlag = false
@@ -415,57 +416,57 @@ function GetTurningPtNum(bh,BDNum)
 		end
 	end
 
-	--浠嶤InflectionPts涓户缁€夊嚭鏈€缁堟嫄鐐癸紝
-	--杩欐牱涓昏鏄负浜嗗睆钄界瑪鐢诲皷绔殑鎶栧姩锛屽噺灏忔嫄鐐规娴嬬殑璇樊
+	--从CInflectionPts中继续选出最终拐点，
+	--这样主要是为了屏蔽笔画尖端的抖动，减小拐点检测的误差
 	local n_prePos
 	local n_postPos
 	table.sort(CInflectionPts)
 
---濡傛灉閫夊嚭鐨勬嫄鐐规暟鐩负0锛岀洿鎺ヨ繑鍥烇紝姝ゆ椂CInflectionPts鏄┖鐨?
+--如果选出的拐点数目为0，直接返回，此时CInflectionPts是空�?
 	if(#CInflectionPts <= 0) then
 		return 0
 	end
-	--濡傛灉鎷愮偣鏁扮洰姣旀爣鍑嗗皯锛屽皢鎷愮偣鏁扮粍璧嬪€硷紝杩斿洖
+	--如果拐点数目比标准少，将拐点数组赋值，返回
 	if (#CInflectionPts < BDNum - 1) then
 		bh.InflectionPoint = CInflectionPts
 		return #CInflectionPts
 	end
 
-   --濡傛灉鎷愮偣鏁扮洰澶т簬鎴栬€呯瓑浜庢爣鍑嗗€?
+   --如果拐点数目大于或者等于标准�?
 	if (#CInflectionPts >= BDNum-1) then
-		--濡傛灉澶氬嚭涓€涓嫄鐐癸紝浼嫄鐐逛竴瀹氭槸鍦ㄧ涓€涓垨鑰呮渶鍚庝竴涓紝鍒嗗埆璁＄畻鍏惰窛绂婚浣嶇偣鐨勮窛绂?
+		--如果多出一个拐点，伪拐点一定是在第一个或者最后一个，分别计算其距离首位点的距�?
 		local pos1 = CInflectionPts[1]
 		local pos2 = CInflectionPts[#CInflectionPts]
 		local spt = bh.ptSet[1]
 		local ept = bh.ptSet[#bh.ptSet]
 		local dis1 = math.sqrt( math.pow(bh.ptSet[pos1].x - spt.x,2) + math.pow(bh.ptSet[pos1].y - spt.y,2))
 		local dis2 = math.sqrt( math.pow(bh.ptSet[pos2].x - ept.x,2) + math.pow(bh.ptSet[pos2].y - ept.y,2))
-		--1.濡傛灉绗竴涓嫄鐐规槸鎶栧姩鐐?
+		--1.如果第一个拐点是抖动�?
 		if( dis1 < 5 ) then
 			n_prePos = CInflectionPts[1]
 			n_postPos = #bh.ptSet
-			--鎶婃姈绗旀浠庣瑪鐢讳腑鍒犻櫎
+			--把抖笔段从笔画中删除
 			for i = 1, n_prePos-1 do
 				table.remove(bh.ptSet,1)
 			end
 
-			--浠庢嫄鐐规暟缁勪腑鍒犻櫎璇ユ嫄鐐?
+			--从拐点数组中删除该拐�?
 			table.remove(CInflectionPts,1)
 
-			--绉诲姩鎷愮偣绱㈠紩鏁扮粍涓储寮曠殑浣嶇疆
+			--移动拐点索引数组中索引的位置
 			if ( #CInflectionPts > 0 ) then
 				for i = 1,#CInflectionPts do
 					 CInflectionPts[i] = CInflectionPts[i] - n_prePos + 1
 				end
 			end
 		end
-		--2.濡傛灉鏈€鍚庝竴涓嫄鐐规槸鎶栧姩鐐?
+		--2.如果最后一个拐点是抖动�?
 		if (dis2 < 5) then
 			n_prePos = 1
 			n_postPos = CInflectionPts[#CInflectionPts]
-			--浠庢嫄鐐硅〃鏍间腑鍒犻櫎璇ユ嫄鐐?
+			--从拐点表格中删除该拐�?
 			table.remove(CInflectionPts,#CInflectionPts)
-			--鍒犻櫎鎶栫瑪娈?
+			--删除抖笔�?
 			for i = #bh.ptSet,n_postPos+1,-1 do
 				table.remove(bh.ptSet,i)
 			end
@@ -477,13 +478,13 @@ end
 ]]--
 
 
---鑾峰緱绗旂敾鐨勬嫄鐐?绱㈠紩浠?寮€濮?
+--获得笔画的拐�?索引�?开�?
 function GetTurningPt(bh,index)
 	local ptIdx = bh.InflectionPoint[index + 1]
 	return bh.ptSet[ptIdx]
 end
 
- --鑾峰緱涓ょ偣闂磋窛绂?
+ --获得两点间距�?
  function GetDistance(pt1,pt2)
 	local dis = math.sqrt( math.pow(pt1.x - pt2.x,2) + math.pow(pt1.y - pt2.y,2))
 	return dis
@@ -520,7 +521,7 @@ end
 
 
 
---鑾峰緱缁忚繃鐐筽t1 pt2鐨勭洿绾挎柟绋媋x+by+c = 0 杩斿洖鏁扮粍linevar涓緷娆℃槸绯绘暟a b c
+--获得经过点pt1 pt2的直线方程ax+by+c = 0 返回数组linevar中依次是系数a b c
 function GetLine(pt1,pt2)
 	local linevar = {}
 	linevar[1] = pt2.y - pt1.y
@@ -534,7 +535,7 @@ function GetLine(pt1,pt2)
 	return linevar
 end
 
---鍒ゆ柇鐐规槸鍚﹀湪鐩寸嚎涓嬭竟
+--判断点是否在直线下边
 function Point2LineDown(pt,line)
 	local a,b,c = line[1],line[2],line[3]
 	local result = a*pt.x + b*pt.y + c
@@ -544,7 +545,7 @@ function Point2LineDown(pt,line)
 	return false
 end
 
---鍒ゆ柇鐐规槸鍚﹀湪鐩寸嚎鐨勪笂杈?
+--判断点是否在直线的上�?
 function Point2LineUp(pt,line)
 	local a,b,c = line[1],line[2],line[3]
 	local result = a*pt.x + b*pt.y + c
@@ -555,13 +556,13 @@ function Point2LineUp(pt,line)
 end
 
 
---判断点是否在直线的右边
+--�жϵ��Ƿ���ֱ�ߵ��ұ�
 function Point2LineRight(pt,line)
 	local a,b,c = line[1],line[2],line[3]
 	--line: ax + by + c = 0
 	local x = pt.x
 	local y = pt.y
-	--如果直线是平行于X轴的，那么判断点在直线的左边还是右边
+	--���ֱ����ƽ����X��ģ���ô�жϵ���ֱ�ߵ���߻����ұ�
 	if (a == 0) then
 			return false
 	end
@@ -575,7 +576,7 @@ function Point2LineRight(pt,line)
 end
 
 
---鑾峰緱鏈€宸﹂潰鐨勭偣 bh/bd
+--获得最左面的点 bh/bd
 function GetLeftMostPoint ( bh )
 	if ( bh == nil ) then
 		return nil
@@ -598,7 +599,7 @@ function GetLeftMostPoint ( bh )
 	return pt,index
 end
 
---鑾峰緱鏈€鍙抽潰鐨勭偣 bh/bd
+--获得最右面的点 bh/bd
 function GetRightMostPoint ( bh )
 	local pt = WZEnv.POINT:new()
 	local index = 1
@@ -617,7 +618,7 @@ function GetRightMostPoint ( bh )
 	return pt,index
 end
 
---鑾峰緱鏈€涓婃柟鐨勭偣
+--获得最上方的点
 function GetTopMostPoint ( bh )
 	local pt = WZEnv.POINT:new()
 	local index = 1
@@ -637,7 +638,7 @@ function GetTopMostPoint ( bh )
 	return pt,index
 end
 
---鑾峰緱鏈€涓嬫柟鐨勭偣 bd/bd
+--获得最下方的点 bd/bd
 function GetBottomMostPoint ( bh )
 	local pt = WZEnv.POINT:new()
 	local index = 1
@@ -656,7 +657,7 @@ function GetBottomMostPoint ( bh )
 	return pt,index
 end
 
---鑾峰緱bh涓婄pt鏈€杩戠殑鐐?
+--获得bh上离pt最近的�?
 function GetVPoint(bh,pt)
 	local minPtIndex = 0
 	local minDis = GetDistance(pt,bh.ptSet[1])
@@ -671,8 +672,8 @@ function GetVPoint(bh,pt)
 end
 
 
---鑾峰緱涓や釜绗旂敾鐨勪氦鐐? 濡傛灉鏈変氦鐐?杩斿洖璇ヤ氦鐐?
---							  濡傛灉娌℃湁浜ょ偣  杩斿洖nil
+--获得两个笔画的交�? 如果有交�?返回该交�?
+--							  如果没有交点  返回nil
 function GetJoint(bh1, bh2)
 	local disThreshold = 3
 	local minDis = 256
@@ -703,7 +704,7 @@ end
 
 
 
---pt 鍒癮x + by + c = 0鐨勮窛绂?
+--pt 到ax + by + c = 0的距�?
 function Cal_Point2LineDis( pt, a, b, c)
 	local x = pt.x
 	local y = pt.y
@@ -714,7 +715,7 @@ function Cal_Point2LineDis( pt, a, b, c)
 	return dis
 end
 
---鍒ゆ柇pt鍦ㄧ洿绾縜x+by+c=0鐨勬柟浣?
+--判断pt在直线ax+by+c=0的方�?
 function Cal_Direction(pt, a, b,c)
 	local x = pt.x
 	local y = pt.y
@@ -723,7 +724,7 @@ function Cal_Direction(pt, a, b,c)
 end
 
 
---鑾峰緱绗旂敾鍒扮洿绾?line ax + by + c = 0璺濈鏈€杩滅殑鐐?
+--获得笔画到直�?line ax + by + c = 0距离最远的�?
 function GetFarthestPt2Line(bh,line)
 
 	local a,b,c = line[1],line[2],line[3]
@@ -775,13 +776,13 @@ function GetFarDis2Line(bh,line)
 end
 
 
---鑾峰緱绗旂敾鍒扮洿绾縧ine  ax + by + c = 0鐨?
+--获得笔画到直线line  ax + by + c = 0�?
 function GetBHTrend(bh,line)
 	local a,b,c = line[1],line[2],line[3]
 	local trendArray = {}
-	trendArray[#trendArray + 1 ] = 0   --绗竴涓猼ag鍒濆鍖栦负0
+	trendArray[#trendArray + 1 ] = 0   --第一个tag初始化为0
 	local preDis = 0
-	--1 琛ㄧず鍚庨潰鐨?
+	--1 表示后面�?
 	for i = 2,#bh.ptSet do
 		local curPt = bh.ptSet[i]
 		local curDis = Cal_Point2LineDis(curPt,a,b,c)
@@ -801,7 +802,7 @@ function GetBHTrend(bh,line)
 end
 
 
---杩斿洖bh鐨刾tSet涓紝绱㈠紩涓簆reIdx鍜宲ostIdx涔嬮棿鐨勭偣闆嗙粍鎴愮殑绗旀
+--返回bh的ptSet中，索引为preIdx和postIdx之间的点集组成的笔段
 function GetTempBD(bh,preIdx,postIdx)
 	local bd = WZEnv.BD:new()
 	for i = preIdx, postIdx do
@@ -811,7 +812,7 @@ function GetTempBD(bh,preIdx,postIdx)
 end
 
 
---浼犲叆鐨勫弬鏁颁负褰撳墠绗旂敾鐨勭储寮?绗旂敾绱㈠紩鍧囨槸浠?寮€濮?
+--传入的参数为当前笔画的索�?笔画索引均是�?开�?
 function IsPosRight(idx)
 	local wbh = WriteHZ.strokes[idx + 1]
 	local sbh = StdHZ.strokes[idx + 1]
@@ -871,7 +872,7 @@ function SmallXiangJiao(pt11,pt12,pt21,pt22)
 			c2 = pt21.y - pt21.x*k2
 			print("k2 = 0 as calculated")
 		end
-		if (k1 == k2) then		--濡傛灉涓ょ嚎骞宠
+		if (k1 == k2) then		--如果两线平行
 			print(pt11.x,pt11.y,pt12.x,pt12.y)
 			print(pt21.x,pt21.y,pt22.x,pt22.y)
 			print("para and k value is "..k1)
@@ -923,7 +924,7 @@ end
 ]]--
 
 
---四个角度的计算
+--�ĸ��Ƕȵļ���
 function GetXAngel(spt,ept)
 	local angel = 0
 	if (math.abs(spt.x - ept.x)>0.0001 ) then
@@ -973,24 +974,24 @@ function SmallXiangJiao(pt11,pt12,pt21,pt22)
 		end
 		--print("falg")
 		--print(flag1,flag2)
-		local vp = {}  --vp鏄袱涓洿绾挎鐨勪氦鐐?
+		local vp = {}  --vp是两个直线段的交�?
 		local k1,c1
 		local k2,c2
-		if (flag1 == 1 and flag2 == 1)  then --濡傛灉涓や釜鐩寸嚎娈甸兘骞宠浜巠杞?
+		if (flag1 == 1 and flag2 == 1)  then --如果两个直线段都平行于y�?
 			return false
-		elseif(flag1 == 1 ) then --濡傛灉鐩寸嚎娈?骞宠浜巠杞?
+		elseif(flag1 == 1 ) then --如果直线�?平行于y�?
 			vp.x = pt11.x
 			k2 = (pt22.y - pt21.y) /(pt22.x - pt21.x)
 			c2 = pt21.y - pt21.x*k2
 			vp.y = k2*(vp.x) + c2
-		elseif(flag2 == 1) then --濡傛灉鐩寸嚎娈?骞宠浜巠杞?
+		elseif(flag2 == 1) then --如果直线�?平行于y�?
 			vp.x = pt21.x
 			k1 = (pt12.y - pt11.y) /(pt12.x - pt11.x)
 			c1 = pt11.y - pt11.x*k1
 			vp.y = k1*(vp.x) + c1
-			--print("如果2垂直，那么2上的点，相交于1的x，Y")
+			--print("���2��ֱ����ô2�ϵĵ㣬�ཻ��1��x��Y")
 			--print(vp.x,vp.y)
-		else  --濡傛灉涓や釜鐩寸嚎娈靛潎涓嶅钩琛屼簬y杞?
+		else  --如果两个直线段均不平行于y�?
 			k1 = (pt12.y - pt11.y)/(pt12.x - pt11.x)
 			c1 = pt11.y - pt11.x*k1
 			k2 = (pt22.y - pt21.y) /(pt22.x - pt21.x)
@@ -998,7 +999,7 @@ function SmallXiangJiao(pt11,pt12,pt21,pt22)
 			vp.x = (c1 - c2) /(k2 - k1)
 			vp.y = (vp.x*k1) + c1
 		end
-		
+
 			local maxX1 = pt11.x
 			local minX1 = pt12.x
 			--print(pt11.x,pt11.y)
@@ -1048,14 +1049,14 @@ function BH2BHXiangJiao(bh1,bh2)
 	local flag = false
 	for i = 1, #bh2.ptSet - 1 do
 		for j = 1, #bh1.ptSet - 1 do
-			flag = SmallXiangJiao(bh1.ptSet[j],bh1.ptSet[j+1],bh2.ptSet[i],bh2.ptSet[i+1])		
+			flag = SmallXiangJiao(bh1.ptSet[j],bh1.ptSet[j+1],bh2.ptSet[i],bh2.ptSet[i+1])
 			if (flag == true) then
 			break
 			end
 		end
 		if (flag == true) then
 			break
-		end		
+		end
 	end
 	--print("xiaojiaoing")
 	--print(flag)
@@ -1075,7 +1076,7 @@ function BH2BHUp(bh1,bh2)
 			flag = true
 		end
 	end
-	if(BH2BHXiangJiao(bh1,bh2)== true) then	
+	if(BH2BHXiangJiao(bh1,bh2)== true) then
 		flag = false
 	end
 	return flag
@@ -1184,7 +1185,7 @@ function JudgeDotLine(pt,bd)
 end
 
 ]]--
---瀵逛簬鍗曠瑪娈垫潵璇达紝鍙渶瑕佷紶鍏ョ瑪鐢诲嵆鍙?
+--对于单笔段来说，只需要传入笔画即�?
 --	0 startpoint 1 endpoint 2 line
 function BH2BHXiangJie(bd1,bd2,type1,type2)
 	local flag = 0
@@ -1326,8 +1327,10 @@ function IsHengZhe(bh,bl)
 	local len_bd1 = GetBDLen(bd1)
 	local dis_bd0 = GetDistance(startpt,turning_pt_0)
 	local dis_bd1 = GetDistance(turning_pt_0,endpt)
-	
-	
+
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
+
+
 	if (len_bd0 == 0 or len_bd1 == 0 ) then
 		return false
 	end
@@ -1339,11 +1342,11 @@ function IsHengZhe(bh,bl)
 	if (startpt.x >= endpt.x or startpt.y >= endpt.y ) then
 		return false
 	end
-	
+
 	local Dindex=endindex - bottom_index
 	print("here")
 	print(endindex,bottom_index,Dindex)
-	if( Dindex > 4 )then	
+	if( Dindex > 4 )then
 		return false
 	end
 
@@ -1370,7 +1373,7 @@ function IsHengZhe(bh,bl)
 	elseif(angel0 <= 9.95 and angel1 >=30 and wanqu1 > 1.3)then
 		return false
 	end
-	
+
 
 	if(bl == 1)then
 		if(angel0 > 9.95 and angel0 <= 21.6 and wanqu1 <= 1.3)then
@@ -1391,7 +1394,7 @@ function IsHengZhe(bh,bl)
 		end
 	end
 end
-function IsHengZhe2(bh,bl)--横折折比较弯
+function IsHengZhe2(bh,bl)--�����۱Ƚ���
 	local startpt,startindex = GetStartPoint(bh)
 	local endpt,endindex = GetEndPoint(bh)
 	local bottom_pt,bottom_index = GetBottomMostPoint(bh)
@@ -1404,6 +1407,8 @@ function IsHengZhe2(bh,bl)--横折折比较弯
 	local len_bd1 = GetBDLen(bd1)
 	local dis_bd0 = GetDistance(startpt,turning_pt_0)
 	local dis_bd1 = GetDistance(turning_pt_0,endpt)
+
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
 
 	if (len_bd0 == 0 or len_bd1 == 0 ) then
 		return false
@@ -1420,7 +1425,7 @@ function IsHengZhe2(bh,bl)--横折折比较弯
 	local Dindex=endindex - bottom_index
 	print("here")
 	print(endindex,bottom_index,Dindex)
-	if( Dindex > 4 )then	
+	if( Dindex > 4 )then
 		return false
 	end
 
@@ -1522,12 +1527,12 @@ function IsHengZheXieGou(bh,bl)
 	local fpt,findex = GetFarthestPt2Line(bd1,line1)
 	findex = findex + turning_index_0
 	fpt = bh.ptSet[findex]
-	
+
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
-	
-	
-	
+
+
+
 	if (len_bd0 == 0 or len_bd1 == 0 or len_bd2 == 0) then
 		return false
 	end
@@ -1599,7 +1604,7 @@ function IsHengZheXieGou(bh,bl)
 		end
 	end
 
-	if(bl == 2)then 
+	if(bl == 2)then
 		if(angel1 > 3.89 and angel0 > 4.55 and angel0 <= 9.74 and wanqu1 > 1.01)then
 			--print("ok1")
 			return true
@@ -1633,14 +1638,14 @@ function IsHengZheZhePie(bh,bl)
 	if (findex == 1 or findex == endindex) then
 		return false
 	end
-	--判断该点是第一个拐点还是最后一个拐点
+	--�жϸõ��ǵ�һ���յ㻹�����һ���յ�
 	local tmpBD1 = GetTempBD(bh,1,findex)
 	local BD1_len = GetBDLen(tmpBD1)
 	local BD1_dis = GetDistance(startpt,fpt)
 	local BD1_curve = BD1_len / BD1_dis
 
 
-	--下面来计算出来最重要的拐点turning_pt_1
+	--�����������������Ҫ�Ĺյ�turning_pt_1
 	local turning_pt_0 = {}
 	local turning_pt0_index = 1
 
@@ -1655,7 +1660,7 @@ function IsHengZheZhePie(bh,bl)
 	local tag = 1
 
 	if (BD1_curve > 1.2) then
-	-- 说明该拐点是最后一个拐点
+	-- ˵���ùյ������һ���յ�
 		loop_start_index = 1
 		loop_end_index = findex
 		if(loop_end_index < 1) then
@@ -1766,7 +1771,7 @@ function IsHengZheZhePie(bh,bl)
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_pt0_index
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_pt1_index
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_pt2_index
-	
+
 	local angel0 = 90
 	local wanqu23 = 1
 	local angel2 = 90
@@ -1785,8 +1790,8 @@ function IsHengZheZhePie(bh,bl)
 		local bd2 = GetTempBD(bh,turning_pt1_index,turning_pt2_index)
 		local bd3 = GetTempBD(bh,turning_pt2_index,endindex)
 
-		--bd0 的参数计算 偏离水平方向的角度 len/dis
-		
+		--bd0 �Ĳ������� ƫ��ˮƽ����ĽǶ� len/dis
+
 		if (turning_pt_0.x ~= startpt.x) then
 			local slope0 = (turning_pt_0.y -  startpt.y)/(turning_pt_0.x - startpt.x)
 			angel0 = math.deg(math.atan(slope0))
@@ -1796,7 +1801,7 @@ function IsHengZheZhePie(bh,bl)
 		bd0_len = GetBDLen(bd0)
 		wanqu1 = bd0_len / bd0_dis
 
-		-- --bd1的参数计算
+		-- --bd1�Ĳ�������
 		-- local angel1 = 90
 		-- if (turning_pt_1.y ~= turning_pt_0.y) then
 			-- local slope1 = (turning_pt_1.x - turning_pt_0.x) / (turning_pt_1.y - turning_pt_0.y)
@@ -1811,8 +1816,8 @@ function IsHengZheZhePie(bh,bl)
 		wanqu23= bd1_len / bd1_dis + bd2_len / bd2_dis
 
 
-		-- bd3的参数计算
-		
+		-- bd3�Ĳ�������
+
 		if (turning_pt_2.x ~= turning_pt_1.x) then
 			local slope2 = (turning_pt_2.y -  turning_pt_1.y)/(turning_pt_2.x - turning_pt_1.x)
 			angel2 = math.deg(math.atan(slope2))
@@ -1866,7 +1871,7 @@ function  IsPie(bh,bl)
 	if (startpt.y >= endpt.y or startpt.x <= endpt.x) then
 		return false
 	end
-	--在连线的右边
+	--�����ߵ��ұ�
 	if (Point2LineUp(fpt,line) == false) then
 		return false
 	end
@@ -1910,7 +1915,7 @@ function  IsNa(bh,bl)
 	if (startpt.y >= endpt.y or startpt.x >= endpt.x) then
 		return false
 	end
-	--在连线的左边
+	--�����ߵ����
 	if (Point2LineDown(fpt,line) == false) then
 		return false
 	end
@@ -1942,7 +1947,7 @@ function  IsNa(bh,bl)
 		end
 	end
 end
-function IsHengGou(bh,bl)--去掉夹角和钩的斜率
+function IsHengGou(bh,bl)--ȥ���нǺ͹���б��
 	local startpt,startindex = GetStartPoint(bh)
 	local endpt,endindex = GetEndPoint(bh)
 	local turning_pt_0,turning_index_0 = GetRightMostPoint(bh)
@@ -1959,6 +1964,8 @@ function IsHengGou(bh,bl)--去掉夹角和钩的斜率
 	local scale = 1
 	scale = len_bd1/len_bd0
 	--local jiajiao = Cal_Angle(startpt,turning_pt_0,endpt)
+
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
 
 	if (len_bd0 == 0 or len_bd1 == 0 ) then
 		return false
@@ -2032,7 +2039,7 @@ function IsWanGou(bh,bl)
 		if (turning_pt.y <= endpt.y) then
 			return false
 		end
-		--在连线的左边
+		--�����ߵ����
 		if (Point2LineDown(endpt,line) == false) then
 			return false
 		end
@@ -2115,22 +2122,22 @@ function IsHengZheGou(bh,bl)
 	local dis_bd0 = GetDistance(startpt,turning_pt_0)
 	local dis_bd1 = GetDistance(turning_pt_0,turning_pt_1)
 	local dis_line = GetDistance(startpt,turning_pt_1)
-	
+
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
-	
+
 	if (len_bd0 == 0 or len_bd1 == 0 or len_bd2 == 0) then
 		return false
 	end
-	--拐点0在s点右边，在拐点1上
+	--�յ�0��s���ұߣ��ڹյ�1��
 	if (startpt.x >= turning_pt_0.x or turning_pt_0.y >= turning_pt_1.y) then
 		return false
 	end
-	--拐点1在s点的右下
+	--�յ�1��s�������
 	if (startpt.x >= turning_pt_1.x or startpt.y >= turning_pt_1.y) then
 		return false
 	end
-	--尾点在拐点1的左上
+	--β���ڹյ�1������
 	if (endpt.x >= turning_pt_1.x or endpt.y >= turning_pt_1.y) then
 		return false
 	end
@@ -2142,7 +2149,7 @@ function IsHengZheGou(bh,bl)
 	local wanqu1 = len_bd1/dis_bd1
 	local angel0 = 90
 	local angel1 = 90
-	
+
 	if (turning_pt_0.x ~= startpt.x) then
 		angel0 = GetXAngel2(startpt,turning_pt_0);
 	end
@@ -2173,7 +2180,7 @@ function IsHengZheGou(bh,bl)
 		end
 	end
 end
-function IsHengZheWanGou1(bh,bl)--横折弯钩（折比较直）
+function IsHengZheWanGou1(bh,bl)--�����乳���۱Ƚ�ֱ��
 	local startpt,startindex = GetStartPoint(bh)
 	local endpt,endindex = GetEndPoint(bh)
 
@@ -2195,7 +2202,7 @@ function IsHengZheWanGou1(bh,bl)--横折弯钩（折比较直）
 			n_maxDown = bh.ptSet[i].y
 		end
 	end
-	--找出拐点2，离右下角最近的点
+	--�ҳ��յ�2�������½�����ĵ�
 	local cmpPt1 = {}
 	cmpPt1.x = n_maxRight
 	cmpPt1.y = n_maxDown
@@ -2212,7 +2219,7 @@ function IsHengZheWanGou1(bh,bl)--横折弯钩（折比较直）
 			turning_pt_2 = bh.ptSet[i]
 		end
 	end
-	--找出拐点0，夹角
+	--�ҳ��յ�0���н�
 	local vpt = {}
 	vpt.x = turning_pt_2.x
 	vpt.y = startpt.y
@@ -2234,7 +2241,7 @@ function IsHengZheWanGou1(bh,bl)--横折弯钩（折比较直）
 		  turning_pt_0  = bh.ptSet[i]
 		end
 	end
-	--找拐点1
+	--�ҹյ�1
 	local bd0 = GetTempBD(bh,startindex,turning_index_0)
 	local bdmiddle = GetTempBD(bh,turning_index_0,turning_index_2)
 	local line0 = GetLine(turning_pt_0,turning_pt_2)
@@ -2258,6 +2265,10 @@ function IsHengZheWanGou1(bh,bl)--横折弯钩（折比较直）
 	local dis_bd0 = GetDistance(startpt,turning_pt_0)
 	local dis_bd2 = GetDistance(turning_pt_1,turning_pt_2)
 
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_2
+
 	if (len_bd0 == 0 or len_bd1 == 0 or len_bd2 == 0 or len_bd3 == 0 ) then
 		return false
 	end
@@ -2280,13 +2291,13 @@ function IsHengZheWanGou1(bh,bl)--横折弯钩（折比较直）
 	end
 
 	local wanqu0 = len_bd0/dis_bd0
-	local wanqu1 = len_bd2/dis_bd2--第三个笔段的弯曲度
+	local wanqu1 = len_bd2/dis_bd2--�������ʶε�������
 	local angel0 = 0
 	local angel1 = 0
 	if (turning_pt_0.y ~= startpt.y) then
 		 angel0 = GetXAngel2(startpt,turning_pt_0);
 	end
---第二个笔段的角度
+--�ڶ����ʶεĽǶ�
 	if (turning_pt_0.y ~= turning_pt_1.y) then
 		 angel1 = GetYAngel2(turning_pt_0,turning_pt_1);
 	end
@@ -2338,25 +2349,25 @@ function IsXieWanGou(bh,bl)
 	print("111111111111")
 	print(turning_index_0)
 	print(turning_index_1)
-	
+
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
-	
+
 	print("inflectionPoint:")
 	print(bh.InflectionPoint[1])
 
 	if (len_bd0 == 0 or len_bd1 == 0 or len_bd2 == 0) then
 		return false
 	end
-	--拐点0在s点右边，在拐点1上。
+	--�յ�0��s���ұߣ��ڹյ�1�ϡ�
 	if (startpt.x >= turning_pt_0.x or turning_pt_0.y >= turning_pt_1.y) then
 		return false
 	end
-	--尾点在拐点0的下,在初始点的右边
+	--β���ڹյ�0����,�ڳ�ʼ����ұ�
 	--if (endpt.y <= turning_pt_0.y or startpt.x >= endpt.x) then
 		--return false
 	--end
-	--尾点在拐点1的左上
+	--β���ڹյ�1������
 	if (endpt.x >= turning_pt_1.x or endpt.y >= turning_pt_1.y) then
 		return false
 	end
@@ -2415,7 +2426,7 @@ function IsShuWanGou(bh,bl)
 			n_maxDown = bh.ptSet[i].y
 		end
 	end
-	--找出拐点0，离左下角最近的点
+	--�ҳ��յ�0�������½�����ĵ�
 	local cmpPt0 = {}
 	cmpPt0.x = n_minLeft
 	cmpPt0.y = n_maxDown
@@ -2432,7 +2443,7 @@ function IsShuWanGou(bh,bl)
 			turning_pt_0 = bh.ptSet[i]
 		end
 	end
-	--找出拐点1，离右下角最近的点
+	--�ҳ��յ�1�������½�����ĵ�
 	local cmpPt1 = {}
 	cmpPt1.x = n_maxRight
 	cmpPt1.y = n_maxDown
@@ -2642,7 +2653,7 @@ function IsShuZheZheGou(bh,bl)
 	local turning_pt_2,turning_index_2 = GetBottomMostPoint(bh)
 
 	local leftpt,leftindex = GetLeftMostPoint(bh)
-	if (leftindex <= startindex+5) then--如果最左点是初始点附近的点，那么通过右上角先找拐点1，再找拐点0
+	if (leftindex <= startindex+5) then--���������ǳ�ʼ�㸽���ĵ㣬��ôͨ�����Ͻ����ҹյ�1�����ҹյ�0
 		n_minLeft,n_maxRight,n_minUp,n_maxDown = 512,0,512,0
 		for i = 1,#bh.ptSet do
 			if (n_minLeft > bh.ptSet[i].x) then
@@ -2661,7 +2672,7 @@ function IsShuZheZheGou(bh,bl)
 				n_maxDown = bh.ptSet[i].y
 			end
 		end
-		--找出拐点1，右上
+		--�ҳ��յ�1������
 		local cmpPt0 = {}
 		cmpPt0.x = n_maxRight
 		cmpPt0.y = n_minUp
@@ -2680,7 +2691,7 @@ function IsShuZheZheGou(bh,bl)
 		local bds0 = GetTempBD(bh,startindex,turning_index_1)
 		local lines0 = GetLine(startpt,turning_pt_1)
 		turning_pt_0,turning_index_0 = GetFarthestPt2Line(bds0,lines0)
-	else--如果最左点不是初始点附近的点，那么直接通过 角度找拐点0，再找拐点1
+	else--�������㲻�ǳ�ʼ�㸽���ĵ㣬��ôֱ��ͨ�� �Ƕ��ҹյ�0�����ҹյ�1
 		local vpt = {}
 		vpt.x = leftpt.x
 		vpt.y = turning_pt_2.y
@@ -2777,15 +2788,15 @@ function IsShuZheZheGou(bh,bl)
 	if (turning_pt_1.y ~= turning_pt_2.y) then
 		 angel1 = GetYAngel2(turning_pt_1,turning_pt_2);
 	end
-	
-	
+
+
 
 	if(wanqu1 <= 0.09 and angel0 > -16.6)then
 		return false
 	end
 
 	if(bl == 1)then
-		if(wanqu1 > 0.09)then	
+		if(wanqu1 > 0.09)then
 			return true
 		elseif(wanqu1 <= 0.09 and angel0 <= -16.6)then
 			return true
@@ -2830,7 +2841,7 @@ function IsShuZhe(bh,bl)
 	if (len_bd0 == 0 or len_bd1 == 0 ) then
 			print("111111111")
 		return false
-	
+
 	end
 
 	if (startpt.y >= turning_pt_0.y or turning_pt_0.x >= endpt.x ) then
@@ -2902,7 +2913,7 @@ function IsHengZheWan(bh,bl)
 	local turning_index_0 = 1
 	local turning_pt_1 = {}
 	local turning_index_1 = 1
-	--在直线上方,那么是turning_pt_0
+	--��ֱ���Ϸ�,��ô��turning_pt_0
 	if(Point2LineDown(fpt,line0) == true)then
 		turning_pt_1 = fpt
 		turning_index_1 = fpt_index
@@ -2930,6 +2941,9 @@ function IsHengZheWan(bh,bl)
 	local len_bd2 = GetBDLen(bd2)
 	local dis_bd0 = GetDistance(startpt,turning_pt_0)
 	local dis_bd2 = GetDistance(turning_pt_1,endpt)
+
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
 
 	if (len_bd0 == 0) then
 	print(1)
@@ -2965,7 +2979,7 @@ function IsHengZheWan(bh,bl)
 	if (turning_pt_0.x ~= startpt.x) then
 		 angel0 = GetXAngel2(startpt,turning_pt_0);
 	end
---第三个笔段的角度
+--�������ʶεĽǶ�
 	if (endpt.x ~= turning_pt_0.x) then
 		 angel1 = GetXAngel2(turning_pt_1,endpt);
 	end
@@ -3013,20 +3027,23 @@ function IsHengZheTi(bh,bl)
 	local dis_bd0 = GetDistance(startpt,turning_pt_0)
 	local dis_bd1 = GetDistance(turning_pt_0,turning_pt_1)
 
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
+
 	if (len_bd0 == 0 or len_bd1 == 0 or len_bd2 == 0) then
 		return false
 	end
-	--拐点0在s点右边，在拐点1上
+	--�յ�0��s���ұߣ��ڹյ�1��
 	if (startpt.x >= turning_pt_0.x or turning_pt_0.y >= turning_pt_1.y) then
 		return false
 	end
-	
-	--拐点1在拐点0下方
+
+	--�յ�1�ڹյ�0�·�
 	if (turning_pt_0.y >= turning_pt_1.y) then
 		return false
 	end
-	
-	--尾点在拐点1的右上
+
+	--β���ڹյ�1������
 	if (endpt.x <= turning_pt_1.x or endpt.y >= turning_pt_1.y) then
 		return false
 	end
@@ -3042,9 +3059,9 @@ function IsHengZheTi(bh,bl)
 	if (turning_pt_1.y ~= turning_pt_0.y) then
 		angel1 = GetYAngel(turning_pt_0,turning_pt_1);
 	end
-	
+
 	if(angel0 > 37.6 and angel1 > 13.3)then
-		
+
 		return false
 	end
 
@@ -3071,14 +3088,14 @@ function IsHengZheTi(bh,bl)
 		end
 	end
 end
-function IsHengPieWanGou(bh,bl)--耳朵旁
+function IsHengPieWanGou(bh,bl)--������
 	local startpt,startindex = GetStartPoint(bh)
 	local endpt,endindex = GetEndPoint(bh)
 	local turning_pt_2,turning_index_2 = GetBottomMostPoint(bh)
 	local turning_pt_0 = {}
 	local turning_index_0 = 1
-	--local turning_pt_0，turning_index_0 = GetRightMostPoint(bh)
-	--找出离右上最近的点
+	--local turning_pt_0��turning_index_0 = GetRightMostPoint(bh)
+	--�ҳ�����������ĵ�
 	local n_minLeft,n_maxRight,n_minUp,n_maxDown = 512,0,512,0
 	for i = 1,#bh.ptSet do
 		if (n_minLeft > bh.ptSet[i].x) then
@@ -3146,6 +3163,10 @@ function IsHengPieWanGou(bh,bl)--耳朵旁
 	local dis_bd0 = GetDistance(startpt,turning_pt_0)
 	local dis_bd2 = GetDistance(turning_pt_1,turning_pt_2)
 	local line = GetLine(turning_pt_1,turning_pt_2)
+
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_2
 
 	--[[local line1 = GetLine(turning_pt_1,turning_pt_2)
 	local fpt,findex = GetFarthestPt2Line(bd2,line1)
@@ -3254,7 +3275,7 @@ function IsShuZheZhe(bh,bl)
 	local turning_index_0 = 1
 	local turning_pt_1 = {}
 	local turning_index_1 = 1
-	--在直线上方,那么是turning_pt_1
+	--��ֱ���Ϸ�,��ô��turning_pt_1
 	if(Point2LineDown(fpt,line0) == false)then
 		turning_pt_1 = fpt
 		turning_index_1 = fpt_index
@@ -3283,6 +3304,9 @@ function IsShuZheZhe(bh,bl)
 
 	local dis_bd0 = GetDistance(startpt,turning_pt_0)
 	local dis_bd2 = GetDistance(turning_pt_1,endpt)
+
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
 
 	if (len_bd0 == 0) then
 	print(1)
@@ -3408,6 +3432,8 @@ function IsXieShuZhe(bh,bl)
 	local dis_bd0 = GetDistance(startpt,turning_pt_0)
 	local dis_bd1 = GetDistance(turning_pt_0,endpt)
 
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
+
 	if (len_bd0 == 0 or len_bd1 == 0 ) then
 		return false
 	end
@@ -3471,7 +3497,7 @@ function IsPieZhe(bh,bl)
 	local endpt,endindex = GetEndPoint(bh)
 	local line0 = GetLine(startpt,endpt)
 	local turning_pt_0,turning_index_0 = GetFarthestPt2Line(bh,line0)
-	
+
 	local bd0 = GetTempBD(bh,startindex,turning_index_0)
 	local bd1 = GetTempBD(bh,turning_index_0,endindex)
 	local len_bd0 = GetBDLen(bd0)
@@ -3484,12 +3510,12 @@ function IsPieZhe(bh,bl)
 		return false
 	end
 	if (Point2LineDown(turning_pt_0,line0) == false ) then
-		
+
 		return false
 	end
---拐点在首点下面，在末点左边
+--�յ����׵����棬��ĩ�����
 	if (turning_pt_0.x >= endpt.x or turning_pt_0.y <= startpt.y) then
-	
+
 		return false
 	end
 	local wanqu0 = len_bd0/dis_bd0
@@ -3499,7 +3525,7 @@ function IsPieZhe(bh,bl)
 		angel0 = GetYAngel(startpt,turning_pt_0);
 	end
 	if(wanqu1 > 1.23)then
-	
+
 		return false
 	end
 
@@ -3519,12 +3545,12 @@ function IsPieZhe(bh,bl)
 		end
 	end
 end
-function IsHengZhePieWan(bh,bl)--走字底
+function IsHengZhePieWan(bh,bl)--���ֵ�
 	local startpt,startindex = GetStartPoint(bh)
 	local endpt,endindex = GetEndPoint(bh)
 	local rightest_pt,rightest_index = GetRightMostPoint(bh)
 
-		--找出离右上最近的点
+		--�ҳ�����������ĵ�
 	local n_minLeft,n_maxRight,n_minUp,n_maxDown = 512,0,512,0
 	for i = 1,#bh.ptSet do
 		if (n_minLeft > bh.ptSet[i].x) then
@@ -3578,7 +3604,7 @@ function IsHengZhePieWan(bh,bl)--走字底
 	local turning_pt_2 = bh.ptSet[1]
 	local turning_index_2 = 1
 
-	if (bili < 1/10) then--如果小于十分之一，那么说明是拐点0,通过夹角找拐点2
+	if (bili < 1/10) then--���С��ʮ��֮һ����ô˵���ǹյ�0,ͨ���н��ҹյ�2
 		turning_pt_0 = rightUp_pt
 		turning_index_0 = rightUp_index
 		--local bdlast = GetTempBD(bh,rightest_index,endindex)
@@ -3600,7 +3626,7 @@ function IsHengZhePieWan(bh,bl)--走字底
 			  turning_pt_2  = bh.ptSet[i]
 			end
 		end
-	else--如果大于十分之一，说明是拐点2，通过夹角找拐点0
+	else--�������ʮ��֮һ��˵���ǹյ�2��ͨ���н��ҹյ�0
 		turning_pt_2 = rightest_pt
 		turning_index_2 = rightest_index
 		--local bdlast = GetTempBD(bh,startindex,rightest_index)
@@ -3624,7 +3650,7 @@ function IsHengZhePieWan(bh,bl)--走字底
 		turning_index_0  = rightUp_index
 		turning_pt_0  = rightUp_pt
 	end
---通过拐点0和2，找到拐点1
+--ͨ���յ�0��2���ҵ��յ�1
 	local bdTurning02 = GetTempBD(bh,turning_index_0,turning_index_2)
 	local lineTurning02 = GetLine(turning_pt_0,turning_pt_2)
 	local turning_pt_1,turning_index_1 = GetFarthestPt2Line(bdTurning02,lineTurning02)
@@ -3642,6 +3668,10 @@ function IsHengZhePieWan(bh,bl)--走字底
 	local len_bd2 = GetBDLen(bd2)
 	local dis_bd0 = GetDistance(startpt,turning_pt_0)
 	local dis_bd2 = GetDistance(turning_pt_1,endpt)
+
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_2
 
 	if (len_bd0 == 0) then
 	print(1)
@@ -3726,6 +3756,8 @@ function IsPieTi(bh,bl)
 	local dis_bd0 = GetDistance(startpt,turning_pt_0)
 	local dis_bd1 = GetDistance(turning_pt_0,endpt)
 
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
+
 	if (len_bd0 == 0 or len_bd1 == 0 ) then
 		return false
 	end
@@ -3733,7 +3765,7 @@ function IsPieTi(bh,bl)
 	if (Point2LineDown(turning_pt_0,line0) == false ) then
 		return false
 	end
---拐点在首点下面，在初始点、末点左边
+--�յ����׵����棬�ڳ�ʼ�㡢ĩ�����
 	if (turning_pt_0.x >= endpt.x or turning_pt_0.x >= startpt.x or turning_pt_0.y <= startpt.y) then
 		return false
 	end
@@ -3749,9 +3781,9 @@ function IsPieTi(bh,bl)
 	if(turning_pt_0.x ~= endpt.x) then
 		angel1 =GetXAngel2(turning_pt_0,endpt)
 	end
-		
 
-	if (bl == 1 )then	
+
+	if (bl == 1 )then
 		return true
 	end
 	print(angel0,angel1,wanqu0,wanqu1)
@@ -3791,7 +3823,7 @@ end
 function IsWoGou(bh,bl)
 	local startpt,startindex = GetStartPoint(bh)
 	local endpt,endindex = GetEndPoint(bh)
---找出离右下角最近的点
+--�ҳ������½�����ĵ�
 	local n_minLeft,n_maxRight,n_minUp,n_maxDown = 512,0,512,0
 	for i = 1,#bh.ptSet do
 		if (n_minLeft > bh.ptSet[i].x) then
@@ -3840,6 +3872,8 @@ function IsWoGou(bh,bl)
 	local scale = 1
 	scale = len_bd1/len_bd0
 
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
+
 	if (len_bd0 == 0 or len_bd1 == 0 ) then
 		print (1)
 		return false
@@ -3859,14 +3893,19 @@ function IsWoGou(bh,bl)
 	local wanqu1 = len_bd1/dis_bd1
 	local angel0 = 90
 	local angel1 = 90
-	angel1 =GetYAngel2(turning_pt_0,endpt);
-	if (angel1 < -10) then
+	if (turning_pt_0.y ~= endpt.y) then
+	angel1 =GetYAngel2(turning_pt_0,endpt)
+	end
+		if (turning_pt_0.x ~= startpt.x) then
+		 angel0 = GetXAngel2(startpt,turning_pt_0);
+	end
+	print("=========")
+	print(angel0,angel1,wanqu0,wanqu1)
+	if (angel1 < -10 or angel0 >55 or angel0 < -10) then
 		print ("6")
 		return false
 	end
-	if (turning_pt_0.y ~= startpt.y) then
-		 angel0 = GetXAngel2(startpt,turning_pt_0);
-	end
+
 	if(scale <= 0.383 and wanqu0 > 1.312)then
 		return false
 	end
@@ -3876,7 +3915,7 @@ function IsWoGou(bh,bl)
 	end
 
 	if (bl == 2 )then
-		if(scale <= 0.383 and wanqu0 > 1.02)then
+		if(angel0 <=45 and scale <= 0.383 and wanqu0 > 1.02)then
 			return true
 		else
 			return false
@@ -3893,7 +3932,7 @@ function IsHengZheZhe(bh,bl)
 	local turning_index_0 = 1
 	local turning_pt_1 = {}
 	local turning_index_1 = 1
-	--在直线上方,那么是turning_pt_0
+	--��ֱ���Ϸ�,��ô��turning_pt_0
 	if(Point2LineDown(fpt,line0) == true)then
 		turning_pt_1 = fpt
 		turning_index_1 = fpt_index
@@ -3922,6 +3961,9 @@ function IsHengZheZhe(bh,bl)
 
 	local dis_bd0 = GetDistance(startpt,turning_pt_0)
 	local dis_bd2 = GetDistance(turning_pt_1,endpt)
+
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
 
 	if (len_bd0 == 0) then
 	print(1)
@@ -4001,6 +4043,8 @@ function IsShuTi(bh,bl)
 	local line = GetLine(startpt,turning_pt_0)
 	local scale = 1
 	scale = len_bd1/len_bd0
+
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
 
 	if (len_bd0 == 0 or len_bd1 == 0 ) then
 		return false
@@ -4106,6 +4150,10 @@ function IsHengZheZheZhe(bh,bl)
 	local dis_bd0 = GetDistance(startpt,turning_pt_0)
 	local dis_bd2 = GetDistance(turning_pt_1,turning_pt_2)
 
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_2
+
 	if (len_bd0 == 0) then
 	print(1)
 	return false
@@ -4142,7 +4190,7 @@ function IsHengZheZheZhe(bh,bl)
 	local wanqu1 = len_bd2/dis_bd2
 	local angel0 = 90
 	local angel1 = 90
-	
+
 
 	if (turning_pt_0.x ~= startpt.x) then
 		 angel0 = GetXAngel2(startpt,turning_pt_0);
@@ -4177,7 +4225,7 @@ function IsHengZheZheZhe(bh,bl)
 		--return false
 	end
 end
-function IsHengZheWanGou2(bh,bl)--横折弯钩（折比较弯）
+function IsHengZheWanGou2(bh,bl)--�����乳���۱Ƚ��䣩
 	local startpt,startindex = GetStartPoint(bh)
 	local endpt,endindex = GetEndPoint(bh)
 
@@ -4199,7 +4247,7 @@ function IsHengZheWanGou2(bh,bl)--横折弯钩（折比较弯）
 			n_maxDown = bh.ptSet[i].y
 		end
 	end
-	--找出拐点2，离右下角最近的点
+	--�ҳ��յ�2�������½�����ĵ�
 	local cmpPt1 = {}
 	cmpPt1.x = n_maxRight
 	cmpPt1.y = n_maxDown
@@ -4216,7 +4264,7 @@ function IsHengZheWanGou2(bh,bl)--横折弯钩（折比较弯）
 			turning_pt_2 = bh.ptSet[i]
 		end
 	end
-	--找出拐点0，夹角
+	--�ҳ��յ�0���н�
 	local vpt = {}
 	vpt.x = turning_pt_2.x
 	vpt.y = startpt.y
@@ -4238,7 +4286,7 @@ function IsHengZheWanGou2(bh,bl)--横折弯钩（折比较弯）
 		  turning_pt_0  = bh.ptSet[i]
 		end
 	end
-	--找拐点1
+	--�ҹյ�1
 	local bd0 = GetTempBD(bh,startindex,turning_index_0)
 	local bdmiddle = GetTempBD(bh,turning_index_0,turning_index_2)
 	local line0 = GetLine(turning_pt_0,turning_pt_2)
@@ -4255,6 +4303,10 @@ function IsHengZheWanGou2(bh,bl)--横折弯钩（折比较弯）
 	local len_bd3 = GetBDLen(bd3)
 	local dis_bd0 = GetDistance(startpt,turning_pt_0)
 	local dis_bd2 = GetDistance(turning_pt_1,turning_pt_2)
+
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_2
 
 	if (len_bd0 == 0 or len_bd1 == 0 or len_bd2 == 0 or len_bd3 == 0 ) then
 		return false
@@ -4280,13 +4332,13 @@ function IsHengZheWanGou2(bh,bl)--横折弯钩（折比较弯）
 	end
 
 	local wanqu0 = len_bd0/dis_bd0
-	local wanqu1 = len_bd2/dis_bd2--第三个笔段的弯曲度
+	local wanqu1 = len_bd2/dis_bd2--�������ʶε�������
 	local angel0 = 90
 	local angel1 = 90
 	if (turning_pt_0.x ~= startpt.x) then
 		 angel0 = GetXAngel(startpt,turning_pt_0);
 	end
---第二个笔段的角度
+--�ڶ����ʶεĽǶ�
 	if (turning_pt_0.y ~= turning_pt_1.y) then
 		 angel1 = GetYAngel2(turning_pt_0,turning_pt_1);
 	end
@@ -4358,6 +4410,9 @@ function IsShuZhePie(bh,bl)
 	local len_bd2 = GetBDLen(bd2)
 	local dis_bd0 = GetDistance(startpt,turning_pt_0)
 	local dis_bd1 = GetDistance(turning_pt_0,turning_pt_1)
+
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
 
 	local line1 = GetLine(startpt,endpt)
 
@@ -4439,7 +4494,7 @@ function IsShuZhePie(bh,bl)
 		end
 	end
 end
-function IsXieGou(bh,bl)--删掉钩的斜率
+function IsXieGou(bh,bl)--ɾ������б��
 	local startpt,startindex = GetStartPoint(bh)
 	local endpt,endindex = GetEndPoint(bh)
 	local turning_pt_0,turning_index_0 = GetBottomMostPoint(bh)
@@ -4453,6 +4508,8 @@ function IsXieGou(bh,bl)--删掉钩的斜率
 	local dis_bd1 = GetDistance(turning_pt_0,endpt)
 	local scale = 1
 	scale = len_bd1/len_bd0
+
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
 
 	if (len_bd0 == 0 or len_bd1 == 0 ) then
 		return false
@@ -4523,19 +4580,21 @@ function IsShuWan(bh,bl)
 	local dis_bd0 = GetDistance(startpt,turning_pt_0)
 	local dis_bd1 = GetDistance(turning_pt_0,endpt)
 
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
+
 	if (len_bd0 == 0 or len_bd1 == 0 ) then
 		return false
 	end
 
-	--拐点0在s点下面
+	--�յ�0��s������
 	if (startpt.y >= turning_pt_0.y) then
 		return false
 	end
-	--e在s点的右下
+	--e��s�������
 	if (startpt.x >= endpt.x or startpt.y >= endpt.y) then
 		return false
 	end
-	--尾点在拐点0的右边
+	--β���ڹյ�0���ұ�
 	if (turning_pt_0.x >= endpt.x) then
 		return false
 	end
@@ -4593,6 +4652,8 @@ function IsPieDian(bh,bl)
 	local dis_bd1 = GetDistance(turning_pt_0,endpt)
 	print(startindex)
 	print(turning_index_0)
+
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
 
 
 	if (len_bd0 == 0 or len_bd1 == 0 ) then
@@ -4699,7 +4760,7 @@ local startpt,startindex = GetStartPoint(bh)
 			return false
 		end
 	end
-	
+
 	if(bl == 2)then
 		if(angel0 <= 25.4 and angel1 > 26.8 and wanqu0 <= 1.1)then
 			return true
@@ -4715,7 +4776,7 @@ function	IsHengZheZheZheGou(bh,bl)
 	local endpt,endindex = GetEndPoint(bh)
 	local rightest_pt,rightest_index = GetRightMostPoint(bh)
 	local turning_pt_3,turning_index_3 = GetBottomMostPoint(bh)
-		--找出离右上最近的点
+		--�ҳ�����������ĵ�
 	local n_minLeft,n_maxRight,n_minUp,n_maxDown = 512,0,512,0
 	for i = 1,#bh.ptSet do
 		if (n_minLeft > bh.ptSet[i].x) then
@@ -4771,7 +4832,7 @@ function	IsHengZheZheZheGou(bh,bl)
 	 turning_pt_2 = bh.ptSet[1]
 	 turning_index_2 = 1
 
-	if (bili > 1/10) then--如果大于十分之一，那么说明是右上点找到了拐点0,通过夹角找拐点0
+	if (bili > 1/10) then--�������ʮ��֮һ����ô˵�������ϵ��ҵ��˹յ�0,ͨ���н��ҹյ�0
 		turning_pt_0 = rightUp_pt
 		turning_index_0 = rightUp_index
 		--local bdlast = GetTempBD(bh,rightest_index,endindex)
@@ -4798,7 +4859,7 @@ function	IsHengZheZheZheGou(bh,bl)
 		end
 		--turning_pt_2 = rightest_pt
 		--turning_index_2 = rightest_index
-	else--如果小iaoyu十分之一，说明是youshang拐点2，通过夹角找拐点0
+	else--���Сiaoyuʮ��֮һ��˵����youshang�յ�2��ͨ���н��ҹյ�0
 		turning_pt_2 = rightUp_pt
 		turning_index_2 = rightUp_index
 		--local bdlast = GetTempBD(bh,startindex,turning_index_2)
@@ -4827,7 +4888,7 @@ function	IsHengZheZheZheGou(bh,bl)
 	turning_index_1 = turning_index_0 + turning_index_1-1
 	turning_pt_1 = bh.ptSet[turning_index_1]
 	end
---通过拐点0和2，找到拐点1
+--ͨ���յ�0��2���ҵ��յ�1
 
 	print(turning_index_0)
 	print(turning_index_1)
@@ -4849,6 +4910,11 @@ function	IsHengZheZheZheGou(bh,bl)
 	local dis_bd3 = GetDistance(turning_pt_2,turning_pt_3)
 	local dis_bd1 = GetDistance(turning_pt_0,turning_pt_1)
 	local dis_bd2 = GetDistance(turning_pt_1,turning_pt_2)
+
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_2
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_3
 
 	if (len_bd0 == 0) then
 	print(1)
@@ -4912,7 +4978,7 @@ function	IsHengZheZheZheGou(bh,bl)
 			return false
 		end
 	end
-	
+
 	if(bl == 2)then
 		if(angel1 <= 22.6 and angel0 > -17.9 and wanqu0 <= 1.06 and wanqu1 <= 1.08 and wanqu23 <= 2.5)then
 			return true
@@ -4921,3 +4987,88 @@ function	IsHengZheZheZheGou(bh,bl)
 		end
 	end
 end
+function DirectionLR(PBD,SorE,CBD)--判断当前笔段在之前笔段左右哪个半区  3左 4右 BorE PBD的首点还是末点 1首点2末点
+	local flag = 0
+	local p1,p1Idx = GetStartPoint(CBD)
+
+	local p3,p3Idx = GetStartPoint(PBD)
+	local p4,p4Idx = GetEndPoint(PBD)
+	local vector = {}
+	vector[1] = p1.x - p3.x
+	vector[2] = p1.x - p4.x
+	vector[3] = p1.y - p3.y
+	vector[4] = p1.y - p4.y
+	if (SorE == 1)then
+		if ( vector[1] > 0 )then
+			flag = 4
+			print"右半区"
+			return flag
+		end
+		if ( vector[1] < 0 )then
+			flag = 3
+			print"左半区"
+			return flag
+		end
+	end
+
+	if (SorE == 2)then
+		if ( vector[2] > 0 )then
+			flag = 4
+			print"右半区"
+			return flag
+		end
+		if ( vector[2] < 0 )then
+			flag = 3
+			print"左半区"
+			return flag
+		end
+	end
+
+
+
+	return flag
+	end
+
+
+
+
+	function DirectionUD(PBD,SorE,CBD)--判断当前笔段在之前笔段上下哪个半区  1上 2下
+	local flag = 0
+	local p1,p1Idx = GetStartPoint(CBD)
+
+	local p3,p3Idx = GetStartPoint(PBD)
+	local p4,p4Idx = GetEndPoint(PBD)
+	local vector = {}
+	vector[1] = p1.x - p3.x
+	vector[2] = p1.x - p4.x
+	vector[3] = p1.y - p3.y
+	vector[4] = p1.y - p4.y
+	if (SorE == 1)then
+		if ( vector[3] > 0 )then
+			flag = 2
+			print"下半区"
+			return flag
+		end
+		if ( vector[3] < 0 )then
+			flag = 1
+			print"上半区"
+			return flag
+		end
+	end
+
+	if (SorE == 2)then
+		if ( vector[4] > 0 )then
+			flag = 2
+			print"下半区"
+			return flag
+		end
+		if ( vector[4] < 0 )then
+			flag = 1
+			print"上半区"
+			return flag
+		end
+	end
+
+
+	return flag
+	end

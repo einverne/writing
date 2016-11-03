@@ -1,4 +1,4 @@
-#对原有api的改进.使得其可以适用于紧评判.
+--#对原有api的改进.使得其可以适用于紧评判.
 local math = math
 strokeRuleNode = {index = 0, codes = ""}
 unitRuleNode = {index = 0, zistrokeRules = {}}
@@ -127,9 +127,8 @@ function RunZiRule(bhNum)
 end
 
 local bhNum = writeHZ.strokeNum
-RunZiRule(bhNum)
+ret = RunZiRule(bhNum)
 Pass2CStr = baseFuncs.allInfoStr
+
 --print(Pass2CStr)
 return Pass2CStr
-
-
