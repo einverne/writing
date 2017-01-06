@@ -318,8 +318,8 @@ void HcharacterLayer::doA0001(multimap<int, float>& points,
 		errorNode->setAnchorPoint(ccp(0, 0));
 		addChild(errorNode, 1, ACTION_TAG);
 
-		CCBlink* blink = CCBlink::create(2,4);
-		errorNode->runAction(blink);
+// 		CCBlink* blink = CCBlink::create(2,4);
+// 		errorNode->runAction(blink);
 		ActionA0001* actionA0001 = ActionA0001::create(2.0);
 		errorNode->runAction(actionA0001);
 	}
@@ -350,8 +350,8 @@ void HcharacterLayer::doA0002(multimap<int, float>& points, multimap<int, float>
 		errorNode->setScale(scale_);
 		errorNode->setAnchorPoint(ccp(0,0));
 		addChild(errorNode, 1, ACTION_TAG);
-		CCBlink* blink = CCBlink::create(2,4);
-		errorNode->runAction(blink);
+// 		CCBlink* blink = CCBlink::create(2,4);
+// 		errorNode->runAction(blink);
 		ActionA0003* action = ActionA0003::create(2.0);
 		errorNode->runAction(action);
 	}
@@ -382,8 +382,8 @@ void HcharacterLayer::doA0003(multimap<int, float>& points, multimap<int, float>
 		errorNode->setScale(scale_);
 		errorNode->setAnchorPoint(ccp(0,0));
 		addChild(errorNode, 1, ACTION_TAG);
-		CCBlink* blink = CCBlink::create(2,4);
-		errorNode->runAction(blink);
+// 		CCBlink* blink = CCBlink::create(2,4);
+// 		errorNode->runAction(blink);
 		ActionA0003* actionA0003 = ActionA0003::create(2.0);
 		errorNode->runAction(actionA0003);
 	}
@@ -631,13 +631,13 @@ void HcharacterLayer::judge(){
 	{
 		ret = "";
 	}
-	if (hanzi_ == DataTool::getChinese("san") && totalBihuaCount == writeCount_)
-	{
-		ret = "{\"ret\":\"101\",\"error\":[{\"errortype\":\"A0005\",\"errorstroke\":{\"0\":\"0.5\",\"1\":\"0.5\",\"2\":\"0.5\"},\"rightposition\":{}}]}";
-	} else if (hanzi_ == DataTool::getChinese("san"))
-	{
-		ret = "";
-	}
+// 	if (hanzi_ == DataTool::getChinese("san") && totalBihuaCount == writeCount_)
+// 	{
+// 		ret = "{\"ret\":\"101\",\"error\":[{\"errortype\":\"A0005\",\"errorstroke\":{\"0\":\"0.5\",\"1\":\"0.5\",\"2\":\"0.5\"},\"rightposition\":{}}]}";
+// 	} else if (hanzi_ == DataTool::getChinese("san"))
+// 	{
+// 		ret = "";
+// 	}
 
 	//CCLog("Hcharacterlay: retstring:%s length:%d",ret.c_str(),ret.length());
 	//如果不评判则跳过
