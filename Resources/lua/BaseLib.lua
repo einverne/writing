@@ -5899,8 +5899,8 @@ function IsShuZhiDengFen(HengBHtable,PTtable)--竖直等分 字例：三
 				print(Dvalue,aver,Dvalue-aver)
 			local StrokeAndPoint = {}
 			local LastNum = 0
-			for j = 1,#ShuBHtable,1 do
-				local bh = ShuBHtable[j]
+			for j = 1,#HengBHtable,1 do
+				local bh = HengBHtable[j]
 				local strokeNum = GetBHByPoint(bh)
 				if(LastNum == 0 or LastNum ~= strokeNum)then
 					local index = PTtable[j]
@@ -5914,7 +5914,7 @@ function IsShuZhiDengFen(HengBHtable,PTtable)--竖直等分 字例：三
 				end
 			end
 			temp={}
-			temp["errortype"]="A0006"
+			temp["errortype"]="A0005"
 			temp["errorstroke"]=StrokeAndPoint
 			typeInfo[#typeInfo+1]=temp
 			return false
