@@ -78,6 +78,11 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
    ../../Classes/tools/DataTool.cpp \
    ../../Classes/NewUnit.cpp \
    ../../Classes/ViewScene.cpp \
+   ../../Classes/ShuipingErrorNode.cpp \
+   ../../Classes/OnePointNode.cpp \
+   ../../Classes/DotLineNode.cpp \
+   ../../Classes/ActionA0001.cpp \
+   ../../Classes/ActionA0003.cpp \
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 
