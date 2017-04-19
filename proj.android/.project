@@ -21,16 +21,6 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-			<name>org.eclipse.ui.externaltools.ExternalToolBuilder</name>
-			<triggers>full,incremental,</triggers>
-			<arguments>
-				<dictionary>
-					<key>LaunchConfigHandle</key>
-					<value>&lt;project&gt;/.externalToolBuilders/org.eclipse.cdt.managedbuilder.core.genmakebuilder (2).launch</value>
-				</dictionary>
-			</arguments>
-		</buildCommand>
-		<buildCommand>
 			<name>com.android.ide.eclipse.adt.ApkBuilder</name>
 			<arguments>
 			</arguments>
@@ -47,7 +37,7 @@
 			<arguments>
 				<dictionary>
 					<key>LaunchConfigHandle</key>
-					<value>&lt;project&gt;/.externalToolBuilders/New_Builder.launch</value>
+					<value>&lt;project&gt;/.externalToolBuilders/CDT.launch</value>
 				</dictionary>
 			</arguments>
 		</buildCommand>
@@ -70,6 +60,11 @@
 			<name>cocos2dx</name>
 			<type>2</type>
 			<locationURI>COCOS2DX/cocos2dx</locationURI>
+		</link>
+		<link>
+			<name>cocos2dx-src</name>
+			<type>2</type>
+			<location>F:/online-android/cocos2d-x-2.2/cocos2dx/platform/android/java/src</location>
 		</link>
 		<link>
 			<name>extensions</name>

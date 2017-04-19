@@ -1,4 +1,4 @@
-Ôªø-----------------------------------------
+-----------------------------------------
 --ÂÖÉÂáΩÊï∞Â∫ì
 --TODOËøîÂõûÂ≠óÁ¨¶‰∏≤ÔºöÊúÄÁªàËøîÂõû‰∏Ä‰∏™Â≠óÁ¨¶‰∏≤ÔºåÁªôÁïåÈù¢Â±Ç‰ΩøÁî?
 --TODO ÂéüÂáΩÊï∞ÂºÇÂ∏∏Â§ÑÁêÜÔºåÂåÖÊã¨Á±ªÂûãÂà§Êñ≠ÔºåËæπÁïåÂà§Êñ≠Á≠âÁ≠?
@@ -1083,11 +1083,12 @@ function BH2BHUp(bh1,bh2)
 end
 
 function Judge2Dots(pt1,pt2)
-	local disThreshold =  50
+	local disThreshold =  70
 	print("Judge2Dots")
 	local distance = GetDistance(pt1,pt2)
 	if (distance < disThreshold) then
 		return true
+
 	else
 		return false
 	end
@@ -1224,6 +1225,7 @@ print("shu is ok")
 	local endpt,endindex = GetEndPoint(bh)
 	local curve = 0
 	local angel = 90
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
 	if (startpt.y >= endpt.y) then
 		return false
 		else
@@ -1269,6 +1271,7 @@ function  IsHeng(bh,bl)
 	local endpt,endindex = GetEndPoint(bh)
 	local curve_var = 0
 	local angel_var = 0
+	bh.InflectionPoint[#bh.InflectionPoint + 1] =  endindex
 	if(startpt.x >= endpt.x) then
 			return false
 	else
@@ -1329,6 +1332,7 @@ function IsHengZhe(bh,bl)
 	local dis_bd1 = GetDistance(turning_pt_0,endpt)
 
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
+	bh.InflectionPoint[#bh.InflectionPoint + 1] =  endindex
 
 
 	if (len_bd0 == 0 or len_bd1 == 0 ) then
@@ -1409,6 +1413,7 @@ function IsHengZhe2(bh,bl)--∫·’€’€±»ΩœÕ‰
 	local dis_bd1 = GetDistance(turning_pt_0,endpt)
 
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
 
 	if (len_bd0 == 0 or len_bd1 == 0 ) then
 		return false
@@ -1530,6 +1535,7 @@ function IsHengZheXieGou(bh,bl)
 
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
 
 
 
@@ -1771,6 +1777,7 @@ function IsHengZheZhePie(bh,bl)
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_pt0_index
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_pt1_index
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_pt2_index
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
 
 	local angel0 = 90
 	local wanqu23 = 1
@@ -1866,7 +1873,7 @@ function  IsPie(bh,bl)
 	local curve = len1 / dis
 	local angel = 90
 	angel = GetYAngel(startpt,endpt);
-	bh.InflectionPoint[#bh.InflectionPoint + 1] =  endindex
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
 
 	if (startpt.y >= endpt.y or startpt.x <= endpt.x) then
 		return false
@@ -1884,7 +1891,7 @@ function  IsPie(bh,bl)
 
 
 	if (bl == 1 )then
-		if(curve <= 1.46 and curve > 1.01 )then
+		if(curve <= 1.46 and curve > 1.001 )then--Âåñ
 			return true
 		else
 			return false
@@ -1911,6 +1918,7 @@ function  IsNa(bh,bl)
 	local dis = GetDistance(startpt,endpt)
 	local curve = len / dis
 	local angel = 90
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
 
 	if (startpt.y >= endpt.y or startpt.x >= endpt.x) then
 		return false
@@ -1966,6 +1974,7 @@ function IsHengGou(bh,bl)--»•µÙº–Ω«∫Õπ≥µƒ–±¬ 
 	--local jiajiao = Cal_Angle(startpt,turning_pt_0,endpt)
 
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
 
 	if (len_bd0 == 0 or len_bd1 == 0 ) then
 		return false
@@ -2027,6 +2036,7 @@ function IsWanGou(bh,bl)
 		local turning_pt,turning_index = GetBottomMostPoint(bh)
 		local line = GetLine(startpt,turning_pt)
 		bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index
+		bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
 
 		if (endindex <= startindex) then
 			return false
@@ -2125,6 +2135,7 @@ function IsHengZheGou(bh,bl)
 
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
 
 	if (len_bd0 == 0 or len_bd1 == 0 or len_bd2 == 0) then
 		return false
@@ -2180,7 +2191,7 @@ function IsHengZheGou(bh,bl)
 		end
 	end
 end
-function IsHengZheWanGou1(bh,bl)--∫·’€Õ‰π≥£®’€±»Ωœ÷±£©
+function IsHengZheWanGou(bh,bl)--∫·’€Õ‰π≥£®’€±»Ωœ÷±£©
 	local startpt,startindex = GetStartPoint(bh)
 	local endpt,endindex = GetEndPoint(bh)
 
@@ -2230,8 +2241,8 @@ function IsHengZheWanGou1(bh,bl)--∫·’€Õ‰π≥£®’€±»Ωœ÷±£©
 	for i = 1, index do
 		local cpt = bh.ptSet[i]
 		local angel = 0
-		if (cpt.y == endpt.y) then
-			angel = 90
+		if (cpt.y == turning_pt_2.y) then
+			break
 		else
 			angel = Cal_Angle (cpt,turning_pt_2,vpt)
 		end
@@ -2268,10 +2279,12 @@ function IsHengZheWanGou1(bh,bl)--∫·’€Õ‰π≥£®’€±»Ωœ÷±£©
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_2
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
 
 	if (len_bd0 == 0 or len_bd1 == 0 or len_bd2 == 0 or len_bd3 == 0 ) then
 		return false
 	end
+
 	if (startpt.x >= turning_pt_0.x) then
 	print(2)
 	return false
@@ -2286,6 +2299,7 @@ function IsHengZheWanGou1(bh,bl)--∫·’€Õ‰π≥£®’€±»Ωœ÷±£©
 	print(4)
 	return false
 	end
+
 	if (turning_pt_2.y <= endpt.y ) then
 	return false
 	end
@@ -2301,22 +2315,32 @@ function IsHengZheWanGou1(bh,bl)--∫·’€Õ‰π≥£®’€±»Ωœ÷±£©
 	if (turning_pt_0.y ~= turning_pt_1.y) then
 		 angel1 = GetYAngel2(turning_pt_0,turning_pt_1);
 	end
+	print("len_bd")
+	print(wanqu1)
+	print(angel1)
+	print(angel0)
 	if(wanqu1 <= 1.1 and angel1 <= -7.5 and angel0 <= -16.7)then
+
 		return false
 	elseif(wanqu1 > 1.3)then
+
 		return false
-	elseif(wanqu1 > 1.1 and wanqu1 <= 1.3 and angel0 > -0.65)then
-		return false
+	--elseif(wanqu1 > 1.1 and wanqu1 <= 1.3 and angel0 > -0.65)then
+
+	--	return false
 	end
 
 	if(bl == 1)then
 		if(wanqu1 <= 1.1 and angel1 <= -7.5 and angel0 >= -16.7)then
+
 			return true
-		elseif(wanqu1 > 1.1 and wanqu1 <= 1.3 and angel0 <= 0.65)then
+		elseif(wanqu1 > 1.0 and wanqu1 <= 1.3 and angel0 <= 0.65)then
+		print("1")
 			return true
 		elseif(wanqu1 <= 1.1 and angel1 > -7.5)then
 			return true
 		else
+		print("cuole")
 			return false
 		end
 	end
@@ -2352,6 +2376,7 @@ function IsXieWanGou(bh,bl)
 
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
 
 	print("inflectionPoint:")
 	print(bh.InflectionPoint[1])
@@ -2463,6 +2488,7 @@ function IsShuWanGou(bh,bl)
 
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
 	local line0 = GetLine(startpt,turning_pt_1)
 
 	local bd0 = GetTempBD(bh,startindex,turning_index_0)
@@ -2546,7 +2572,7 @@ function IsZuoDian(bh,bl)
 	local len1 = GetBDLen(bh)
 	local dis = GetDistance(startpt,endpt)
 	local curve = len1 / dis
-
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
 	if (startpt.y >= endpt.y or startpt.x <= endpt.x ) then
 		return false
 	end
@@ -2568,7 +2594,7 @@ function IsDian(bh,bl)
 	local len1 = GetBDLen(bh)
 	local dis = GetDistance(startpt,endpt)
 	local curve = len1 / dis
-
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
 	if (startpt.y >= endpt.y or startpt.x >= endpt.x ) then
 		return false
 	end
@@ -2598,6 +2624,7 @@ function IsShuGou(bh,bl)
 	scale = len_bd1/len_bd0
 	--local jiajiao = Cal_Angle(startpt,turning_pt_0,endpt)
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
 	if (len_bd0 == 0 or len_bd1 == 0 ) then
 		return false
 	end
@@ -2701,8 +2728,8 @@ function IsShuZheZheGou(bh,bl)
 		for i = 1, turning_index_2 do
 			local cpt = bh.ptSet[i]
 			local angel = 0
-			if (cpt.x == endpt.x) then
-				angel = 90
+			if (cpt.x == turning_pt_2.x) then
+				break
 			else
 				angel = Cal_Angle (cpt,turning_pt_2,vpt)
 				--print(angel)
@@ -2729,6 +2756,7 @@ function IsShuZheZheGou(bh,bl)
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_2
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
 
 	local bd0 = GetTempBD(bh,startindex,turning_index_0)
 	local bd1 = GetTempBD(bh,turning_index_0,turning_index_1)
@@ -2836,6 +2864,7 @@ function IsShuZhe(bh,bl)
 	local dis_bd0 = GetDistance(startpt,turning_pt_0)
 	local dis_bd1 = GetDistance(turning_pt_0,endpt)
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
 	print("shuzhe is ok")
 
 	if (len_bd0 == 0 or len_bd1 == 0 ) then
@@ -2944,6 +2973,7 @@ function IsHengZheWan(bh,bl)
 
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
 
 	if (len_bd0 == 0) then
 	print(1)
@@ -3029,6 +3059,7 @@ function IsHengZheTi(bh,bl)
 
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
 
 	if (len_bd0 == 0 or len_bd1 == 0 or len_bd2 == 0) then
 		return false
@@ -3167,6 +3198,7 @@ function IsHengPieWanGou(bh,bl)--∂˙∂‰≈‘
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_2
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
 
 	--[[local line1 = GetLine(turning_pt_1,turning_pt_2)
 	local fpt,findex = GetFarthestPt2Line(bd2,line1)
@@ -3307,6 +3339,7 @@ function IsShuZheZhe(bh,bl)
 
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
 
 	if (len_bd0 == 0) then
 	print(1)
@@ -3381,6 +3414,7 @@ end
 function IsXieShu(bh,bl)
 	local startpt,startindex = GetStartPoint(bh)
 	local endpt,endindex = GetEndPoint(bh)
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
 
 	if (startpt.y >= endpt.y) then
 		return false
@@ -3433,6 +3467,7 @@ function IsXieShuZhe(bh,bl)
 	local dis_bd1 = GetDistance(turning_pt_0,endpt)
 
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
 
 	if (len_bd0 == 0 or len_bd1 == 0 ) then
 		return false
@@ -3505,6 +3540,7 @@ function IsPieZhe(bh,bl)
 	local dis_bd0 = GetDistance(startpt,turning_pt_0)
 	local dis_bd1 = GetDistance(turning_pt_0,endpt)
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
 	if (len_bd0 == 0 or len_bd1 == 0 ) then
 
 		return false
@@ -3672,6 +3708,7 @@ function IsHengZhePieWan(bh,bl)--◊ﬂ◊÷µ◊
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_2
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
 
 	if (len_bd0 == 0) then
 	print(1)
@@ -3757,6 +3794,7 @@ function IsPieTi(bh,bl)
 	local dis_bd1 = GetDistance(turning_pt_0,endpt)
 
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
 
 	if (len_bd0 == 0 or len_bd1 == 0 ) then
 		return false
@@ -3800,6 +3838,7 @@ end
 function IsTi(bh,bl)
 	local startpt,startindex = GetStartPoint(bh)
 	local endpt,endindex = GetEndPoint(bh)
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
 	if (startpt.y <= endpt.y or startpt.x >= endpt.x) then
 		return false
 	end
@@ -3873,6 +3912,7 @@ function IsWoGou(bh,bl)
 	scale = len_bd1/len_bd0
 
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
 
 	if (len_bd0 == 0 or len_bd1 == 0 ) then
 		print (1)
@@ -3964,7 +4004,7 @@ function IsHengZheZhe(bh,bl)
 
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
-
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
 	if (len_bd0 == 0) then
 	print(1)
 	return false
@@ -4045,6 +4085,7 @@ function IsShuTi(bh,bl)
 	scale = len_bd1/len_bd0
 
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
 
 	if (len_bd0 == 0 or len_bd1 == 0 ) then
 		return false
@@ -4153,6 +4194,7 @@ function IsHengZheZheZhe(bh,bl)
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_2
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
 
 	if (len_bd0 == 0) then
 	print(1)
@@ -4275,8 +4317,8 @@ function IsHengZheWanGou2(bh,bl)--∫·’€Õ‰π≥£®’€±»ΩœÕ‰£©
 	for i = 1, index do
 		local cpt = bh.ptSet[i]
 		local angel = 0
-		if (cpt.y == endpt.y) then
-			angel = 90
+		if (cpt.y == turning_pt_2.y) then
+			break
 		else
 			angel = Cal_Angle (cpt,turning_pt_2,vpt)
 		end
@@ -4307,6 +4349,7 @@ function IsHengZheWanGou2(bh,bl)--∫·’€Õ‰π≥£®’€±»ΩœÕ‰£©
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_2
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
 
 	if (len_bd0 == 0 or len_bd1 == 0 or len_bd2 == 0 or len_bd3 == 0 ) then
 		return false
@@ -4413,6 +4456,7 @@ function IsShuZhePie(bh,bl)
 
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
 
 	local line1 = GetLine(startpt,endpt)
 
@@ -4510,6 +4554,7 @@ function IsXieGou(bh,bl)--…æµÙπ≥µƒ–±¬ 
 	scale = len_bd1/len_bd0
 
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
 
 	if (len_bd0 == 0 or len_bd1 == 0 ) then
 		return false
@@ -4581,6 +4626,7 @@ function IsShuWan(bh,bl)
 	local dis_bd1 = GetDistance(turning_pt_0,endpt)
 
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
 
 	if (len_bd0 == 0 or len_bd1 == 0 ) then
 		return false
@@ -4654,6 +4700,7 @@ function IsPieDian(bh,bl)
 	print(turning_index_0)
 
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
 
 
 	if (len_bd0 == 0 or len_bd1 == 0 ) then
@@ -4716,6 +4763,7 @@ local startpt,startindex = GetStartPoint(bh)
 	local dis_bd0 = GetDistance(startpt,turning_pt_0)
 	local dis_bd1 = GetDistance(turning_pt_0,endpt)
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
 
 	if (len_bd0 == 0 or len_bd1 == 0 ) then
 		return false
@@ -4890,6 +4938,7 @@ function	IsHengZheZheZheGou(bh,bl)
 	end
 --Õ®π˝π’µ„0∫Õ2£¨’“µΩπ’µ„1
 
+print("guaidian")
 	print(turning_index_0)
 	print(turning_index_1)
 	print(turning_index_2)
@@ -4915,7 +4964,10 @@ function	IsHengZheZheZheGou(bh,bl)
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_1
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_2
 	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_3
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = endindex
 
+	print("len_bd0")
+	print(len_bd0)
 	if (len_bd0 == 0) then
 	print(1)
 	return false
