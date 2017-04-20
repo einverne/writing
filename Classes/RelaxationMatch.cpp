@@ -6,6 +6,7 @@
 #include "GeometryTool.hpp"
 #include <math.h>
 #include <algorithm>
+#include <iterator>
 
 /*#ifdef _DEBUG
 #undef THIS_FILE

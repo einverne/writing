@@ -215,7 +215,7 @@ void HcharacterLayer::Judge(){
 	{
 		Error oneError;
 		const Value& errorjson = doc["error"];
-		for (SizeType i = 0 ; i < errorjson.Size(); ++i)
+		for (rapidjson::SizeType i = 0 ; i < errorjson.Size(); ++i)
 		{
 			if(errorjson[i].HasMember("errortype")){
 				string errortype = errorjson[i]["errortype"].GetString();
@@ -223,7 +223,7 @@ void HcharacterLayer::Judge(){
 			}
 			if(errorjson[i].HasMember("errorstroke")){
 				const Value& v = errorjson[i]["errorstroke"];
-				for (Value::ConstMemberIterator iter = v.MemberonBegin(); iter != v.MemberonEnd(); ++iter)
+				for (Value::ConstMemberIterator iter = v.MemberBegin(); iter != v.MemberEnd(); ++iter)
 				{
 					string key = iter->name.GetString();
 					string value = iter->value.GetString();

@@ -9,6 +9,7 @@
 #include "TemplateCharacter.hpp"
 #include <string>
 #include <list>
+#include <algorithm>
 
 TemplateCharacter::TemplateCharacter()
 {
