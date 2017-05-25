@@ -1,11 +1,11 @@
 汉字练习及评价应用
 =======
 
-##项目简介
+## 项目简介
 
 本项目使用 `Cocos2d-x-2.2.6` 开发，目前已经完成 Win32，及Android部分的开发，正迁移至iOS。本应用以辅助练习汉字，及给汉字评价为重点。
 
-##项目环境
+## 项目环境
 
 Cocos2d-x-2.2.6 [link](http://cocos2d-x.org/download)  
 建议使用 Python 2.7.x 新建项目
@@ -25,15 +25,15 @@ iOS开发(待更新)
 
 1. xcode
 
-##项目配置
+## 项目配置
 
-###win32项目
+### win32项目
 
 项目中可能遇到找不到Resources目录，也就是寻找不到资源的错误，此时在项目属性中做如下修改：
 
 > 项目属性 - 配置属性 - 调试 - 工作目录 $(ProjectDir)..\Resources
 
-###Android
+### Android
 
 安装Android开发环境，配置NDK环境变量（设置NDK\_ROOT的环境变量,指向文件目录中Android NDK解压的目录类似“D:\\Android\\android-ndk-r9\\”）。
 
@@ -50,7 +50,7 @@ iOS开发(待更新)
 ## 项目分支说明
 
 - master
-	
+
 	master 分支为最新稳定版应用
 
 - new_writing_app
@@ -61,7 +61,7 @@ iOS开发(待更新)
 
 	历史遗留, 用于统计
 
-- yibihua 
+- yibihua
 
 	易笔画 分支，易笔画 Android 版 分支，暂未更新至最新版
 
