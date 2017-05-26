@@ -49,12 +49,13 @@ string JudgeManager::getResult(string hanzi,string points_output,CharacterEntity
 }
 
 void JudgeManager::initLuaEngine(){
+	gReader.ExitLuaScriptReader();
 	gReader.InitLuaScriptReader();
-	string filepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/WriteZiInfo.lua");
-	string basepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/BaseLib.lua");
-	string apipath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/RunAPI_1208.lua");
-	string standardpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/StandardZiInfo.lua");
-	string JSONpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/JSON.lua");
+	string filepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua\\WriteZiInfo.lua");
+	string basepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua\\BaseLib.lua");
+	string apipath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua\\RunAPI_1208.lua");
+	string standardpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua\\StandardZiInfo.lua");
+	string JSONpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua\\JSON.lua");
 	gReader.RunScriptFile(JSONpath.c_str(),"JSON.lua");
  	gReader.RunScriptFile(filepath.c_str(),"WriteZiInfo.lua");
  	gReader.RunScriptFile(standardpath.c_str(),"StandardZiInfo.lua");
@@ -73,6 +74,7 @@ string JudgeManager::getResult(string hanzi , string points_output, string all_p
 	retStr[0] = '\0';
  	gReader.setZiName(hanzi);
 
+	//对于结构布势评判来讲，不用执行下面的代码了！
 	// get easy or hard setting from setting.xml config file
     const char* settingname = "setting.xml";
 	string r = DataTool::readFromFile(settingname);
@@ -85,6 +87,7 @@ string JudgeManager::getResult(string hanzi , string points_output, string all_p
         string tightlua = p->getRuleTight();
  		gReader.setRulesFunc(tightlua);
  	}
+	///////////////////////////////////////////////
 
 	//set Unit rule
 	string unitrule = p->getRuleUnit();

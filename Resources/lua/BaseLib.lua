@@ -1,5 +1,5 @@
 --友情提示 使用前请先将编码改为UTF-8
----------------------------------------------数据类----------------------------------------------
+---------------------------------------------数据类-----------------------------------------------------------------------------------------------------------
 _G.InflectionPoint = _G.InflectionPoint or {}
 _G.allBHTable = _G.allBHTable or {}
 local print = print
@@ -32,7 +32,7 @@ retInfoStr = ""
 infostr= {}
 BasePointTableStrings={}
 resultTable={}
---------------------------------------------数据访问---------------------------------------------
+--------------------------------------------数据访问---------------------------------------------------------------------------------------------------------------------------------------------
 function setWriteZiInfo(WZ)
 	WriteHZ = WZ
 end
@@ -194,7 +194,7 @@ function GetBDByBH(bh,bdIdx)--通过笔画和笔段索引取笔段
 		preIdx = bh.InflectionPoint[bdIdx] + 1
 	end
 	if (bdIdx < #bh.InflectionPoint) then
-	  postIdx = bh.InflectionPoint[bdIdx + 1] + 1
+	  postIdx = bh.InflectionPoint[bdIdx + 1]
 	end
 	print(preIdx,postIdx)
 	local bdPtSet = {}
@@ -611,6 +611,7 @@ function splitPoints(ptStr)
 	end
 	return ptSet
 end
+
 function GetBHByPoint(bh)--确定当前笔画为字的第几笔
 	local index=0
 	local points ={}
@@ -803,7 +804,8 @@ resultTable[2]=bhpoint
 print"......................"
 print(#resultTable[2])
 end
---------------------------------------------几何计算函数--------------------------------------------
+
+--------------------------------------------几何计算函数------------------------------------------------------------------------------------------------------------------------------------
 function Cal_Angle(prePt,curPt,postPt)--计算三点组成的角的角度
 	local vecX = {}
 	local vecY = {}
@@ -959,7 +961,7 @@ end
 function GetNearestPt2Line(line,bh)--计算笔画上距离某直线距离最近的点
 	local a,b,c = line[1],line[2],line[3]
 	--print(a,b,c)
-	local maxDis = 0
+	local maxDis = 512
 	local index = 1
 	for i = 1,#bh.ptSet do
 		local pt = bh.ptSet[i]
@@ -1219,7 +1221,7 @@ function SmallXiangJiao(pt11,pt12,pt21,pt22)--相交点
 end
 
 function Judge2Dots(pt1,pt2)--判断两点距离是否小于一定阈值
-	local disThreshold =  50
+	local disThreshold =  70
 	print("Judge2Dots")
 	local distance = GetDistance(pt1,pt2)
 	if (distance < disThreshold) then
@@ -1232,7 +1234,7 @@ end
 function JudgeDotLine(pt,bd)--判断点到笔段的最小距离是否小于一定阈值
 	--local newbh = resample(bd)
 	local tempDis =  512
-	local disThreshold = 20
+	local disThreshold = 30
 	for i =  1, #bd.ptSet do
 		local curDis = GetDistance(pt,bd.ptSet[i])
 		if (curDis < tempDis ) then
@@ -1246,7 +1248,8 @@ function JudgeDotLine(pt,bd)--判断点到笔段的最小距离是否小于一�
 	end
 end
 
-----------------------------------------------------位置关系-----------------------------------------------
+
+----------------------------------------------------位置关系----------------------------------------------------------------------------------------------------------------------------------
 function IsPosRight(idx)--与标准字位置进行比较（以后可能会弃用）
 	local wbh = WriteHZ.strokes[idx + 1]
 	local sbh = StdHZ.strokes[idx + 1]
@@ -1270,11 +1273,11 @@ function IsPosRight(idx)--与标准字位置进行比较（以后可能会弃用
 	end
 end
 
-function BH2BHXiangJiaoDIAN(bh1,bh2)--取两笔相交点
+function BH2BHXiangJiaoDIAN(bh1,bh2)--取两笔相交点，返回的是bh1上面的点索引
 	local flag = false
 	local index=0
 	local pt = WZEnv.POINT:new()
-		for i = 1, #bh2.ptSet - 1 do
+	for i = 1, #bh2.ptSet - 1 do
 		for j = 1, #bh1.ptSet - 1 do
 			flag = SmallXiangJiao(bh1.ptSet[j],bh1.ptSet[j+1],bh2.ptSet[i],bh2.ptSet[i+1])
 			pt = SmallXiangJiaoDian(bh1.ptSet[j],bh1.ptSet[j+1],bh2.ptSet[i],bh2.ptSet[i+1])
@@ -1368,46 +1371,96 @@ function BH2BHXiangJie(bd1,bd2,type1,type2)--判断两个笔段是否相接 相�
 	return flag
 end
 
-function DirectionLR(bd1,bd2)--判断两笔中点组成的向量在左右哪个半区  3左 4右
+------参数：PBD是笔画或笔段，CBD是笔画或笔段，SorE是标识。
+------功能：判断CBD的起点，在PBD某个点的左边还是右边。
+------返回值：3表示左半区，4表示右半区
+function DirectionLR(PBD,SorE,CBD)--SorE表示PBD的首点还是末点 1首点2末点
 	local flag = 0
-	local mid1,mid1Idx = GetMidPoint(bd1)
-	local mid2,mid2Idx = GetMidPoint(bd2)
-	local vector = {}
-	vector[1] = mid2.x - mid1.x
-	vector[2] = mid2.y - mid1.y
+	local p1,p1Idx = GetStartPoint(CBD)
 
-	if ( vector[1] > 0 )then
-		flag = 4
-		print"右半区"
-		return flag
+	local p3,p3Idx = GetStartPoint(PBD)
+	local p4,p4Idx = GetEndPoint(PBD)
+	local vector = {}
+	vector[1] = p1.x - p3.x
+	vector[2] = p1.x - p4.x
+	vector[3] = p1.y - p3.y
+	vector[4] = p1.y - p4.y
+	if (SorE == 1)then
+		if ( vector[1] > 0 )then
+			flag = 4
+			print"右半区"
+			return flag
+		end
+		if ( vector[1] < 0 )then
+			flag = 3
+			print"左半区"
+			return flag
+		end
 	end
-	if ( vector[1] < 0 )then
-		flag = 3
-		print"左半区"
-		return flag
+
+	if (SorE == 2)then
+		if ( vector[2] > 0 )then
+			flag = 4
+			print"右半区"
+			return flag
+		end
+		if ( vector[2] < 0 )then
+			flag = 3
+			print"左半区"
+			return flag
+		end
 	end
+
+
+
+	return flag
 end
 
-function DirectionUD(bd1,bd2)--判断两笔中点组成的向量在上下哪个半区 1上 2下
+------参数：PBD是笔画或笔段，CBD是笔画或笔段，SorE是标识。
+------功能：判断CBD的起点，在PBD某个点的上边还是下边。
+------返回值：1表示上半区，2表示下半区
+function DirectionUD(PBD,SorE,CBD)--SorE表示PBD的首点还是末点 1首点 2末点
 	local flag = 0
-	local mid1,mid1Idx = GetMidPoint(bd1)
-	local mid2,mid2Idx = GetMidPoint(bd2)
+	local p1,p1Idx = GetStartPoint(CBD)
+
+	local p3,p3Idx = GetStartPoint(PBD)
+	local p4,p4Idx = GetEndPoint(PBD)
 	local vector = {}
-	vector[1] = mid2.x - mid1.x
-	vector[2] = mid2.y - mid1.y
-	if ( vector[2] > 0 )then
-		flag = 2
-		print"下半区"
-		return flag
-	end
-	if ( vector[2] < 0 )then
-		flag = 1
-		print"上半区"
-		return flag
+	vector[1] = p1.x - p3.x
+	vector[2] = p1.x - p4.x
+	vector[3] = p1.y - p3.y
+	vector[4] = p1.y - p4.y
+	if (SorE == 1)then
+		if ( vector[3] > 0.0 )then
+			flag = 2
+			print"下半区"
+			return flag
+		end
+		if ( vector[3] <= 0.0 )then
+			flag = 1
+			print"上半区"
+			return flag
+		end
 	end
 
+	if (SorE == 2)then
+		if ( vector[4] > 0 )then
+			flag = 2
+			print"下半区"
+			return flag
+		end
+		if ( vector[4] < 0 )then
+			flag = 1
+			print"上半区"
+			return flag
+		end
+	end
+
+
+	return flag
 end
-----------------------------------------------笔画评判----------------------------------------------
+
+----------------------------------------------笔画评判--------------------------------------------------------------------------------------------------------------------------------------------
 function  IsShu(bh,bl)--竖
 print("shu is ok")
 	local startpt,startindex = GetStartPoint(bh)
@@ -1643,6 +1696,8 @@ function IsHengZhe2(bh,bl)--横折2
 	local len_bd1 = GetBDLen(bd1)
 	local dis_bd0 = GetDistance(startpt,turning_pt_0)
 	local dis_bd1 = GetDistance(turning_pt_0,endpt)
+
+	bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
 
 	local currentBH = {}
 
@@ -2191,6 +2246,8 @@ function  IsNa(bh,bl)--捺
 	if (startpt.y >= endpt.y or startpt.x >= endpt.x) then
 		return false
 	end
+
+
 
 	if (Point2LineDown(fpt,line) == false) then
 		return false
@@ -5382,6 +5439,7 @@ function IsPieDian(bh,bl)--撇点
 	print(startindex)
 	print(turning_index_0)
 
+    bh.InflectionPoint[#bh.InflectionPoint + 1] = turning_index_0
 
 	local currentBH = {}
 
@@ -5767,14 +5825,32 @@ function	IsHengZheZheZheGou(bh,bl)--横折折折钩
 	end
 end
 
------------------------------------------------------主观侧面评判---------------------------------------------------
 
---function IsShuiPingPingQi(bh1,index1,bh2,index2)
-function IsShuiPingPingQi(BHtable,PTtable)--水平平齐 字例：大
-	print(#BHtable,#PTtable)
-	if(#BHtable ~= #PTtable)then
+-----------------------------------------------------部件的主观侧面评判-----------------------------------------------------------------------------------------------------------------------------
+
+--部件侧面1：水平平齐（已经确认）
+--水平平齐的评判思路：判断各个点是否在一条水平线上
+--BHtable表示所有笔画，turingtable表示各个笔画的拐点序号，起点为0，第一个拐点为1......
+function IsShuiPingPingQi(BHtable,turingtable)--水平平齐 字例：大
+	print(#BHtable,#turingtable)
+	if(#BHtable ~= #turingtable)then
 		return false
 	end
+
+	------------计算各个点的索引
+	local PTtable={}
+
+	for i=1, #BHtable do
+		if(turingtable[i]==0) then
+			PTtable[i]=1
+		elseif(turingtable[i]<=#BHtable[i].InflectionPoint) then
+			PTtable[i]=BHtable[i].InflectionPoint[turingtable[i]]
+		else
+			PTtable[i]=#BHtable[i].ptSet
+		end
+	end
+
+	------------阈值评判
 	for i = #BHtable,2,-1 do
 		local bh2 = BHtable[i]--bh2
 		local bh1 = BHtable[i-1]--bh1
@@ -5787,33 +5863,18 @@ function IsShuiPingPingQi(BHtable,PTtable)--水平平齐 字例：大
 		print"水平平齐的差值%%%%%%%%%%%%"
 		print(Dvalue)
 
-		if(Dvalue <= 10)then--参数待修改
-		print"IsShuiPingPingQiOKOK"
+		if(Dvalue <= 35)then--参数待修改
+			print"IsShuiPingPingQiOKOK"
 		else
-		--插入类型
-			--table.insert(errorType,"A0001")
-		--插入比例
-			table.insert(errorPoint,index1/#bh1.ptSet)
-			table.insert(errorPoint,index2/#bh2.ptSet)
-		--插入笔画
-			--print"A0001A0001A0001A0001A0001A0001A0001A0001A0001A0001"
 			local strokeNum1 =GetBHByPoint(bh1)
 			local strokeNum2 =GetBHByPoint(bh2)
-			--local StrokeAndPoint1 = strokeNum1..":"..index1/#bh1.ptSet
-			--local StrokeAndPoint2 =strokeNum2..":"..index2/#bh2.ptSet
-
 			local StrokeAndPoint = {}
-			--StrokeAndPoint1[strokeNum1]=index1/#bh1.ptSet
 			StrokeAndPoint[""..strokeNum1]=""..index1/#bh1.ptSet
-			--local StrokeAndPoint2 = {}
 			StrokeAndPoint[""..strokeNum2]=""..index2/#bh2.ptSet
-
-			--table.insert(typeInfo,errorBHAndPoint)
-			--typeInfo.errortype[#typeInfo.errortype+1] = "A0001"
-			--typeInfo.errorstroke[#typeInfo.errorstroke+1] = StrokeAndPoint
 			temp={}
 			temp["errortype"]="A0001"
 			temp["errorstroke"]=StrokeAndPoint
+			temp["errordiff"]=math.pow(Dvalue/220.0, 1.2)
 			typeInfo[#typeInfo+1]=temp
 			return false
 		end
@@ -5821,11 +5882,27 @@ function IsShuiPingPingQi(BHtable,PTtable)--水平平齐 字例：大
 	return true
 end
 
-function IsShuZhiPingQi(BHtable,PTtable)--竖直平齐  字例：片 气 友
-	print(#BHtable,#PTtable)
-	if(#BHtable ~= #PTtable)then
+--部件侧面2：竖直平齐（已经确认）
+--竖直平齐的评判思路：判断各个点是否在一条竖直线上
+--BHtable表示所有笔画，turingtable表示各个笔画的拐点序号，起点为0，第一个拐点为1......
+function IsShuZhiPingQi(BHtable,turingtable)--竖直平齐  字例：片 气 友
+	print(#BHtable,#turingtable)
+	if(#BHtable ~= #turingtable)then
 		return false
 	end
+	------------计算各个点的索引
+	local PTtable={}
+	for i=1, #BHtable do
+		if(turingtable[i]==0) then
+			PTtable[i]=1
+		elseif(turingtable[i]<=#BHtable[i].InflectionPoint) then
+			PTtable[i]=BHtable[i].InflectionPoint[turingtable[i]]
+		else
+			PTtable[i]=#BHtable[i].ptSet
+		end
+	end
+
+	------------阈值评判
 	for i = #BHtable,2,-1 do
 		local bh2 = BHtable[i]--bh2
 		local bh1 = BHtable[i-1]--bh1
@@ -5837,26 +5914,18 @@ function IsShuZhiPingQi(BHtable,PTtable)--竖直平齐  字例：片 气 友
 		local Dvalue= math.abs(secpt.x-firpt.x)
 		print"竖直平齐的差值%%%%%%%%%%%%"
 		print(Dvalue)
-		if(Dvalue <= 30)then--参数待修改
+		if(Dvalue <= 35)then--参数待修改
+			print"IsShuZhiPingQiOKOK"
 		else
-		--插入笔画
-			--print"A0001A0001A0001A0001A0001A0001A0001A0001A0001A0001"
 			local strokeNum1 =GetBHByPoint(bh1)
 			local strokeNum2 =GetBHByPoint(bh2)
-			--local StrokeAndPoint1 = strokeNum1..":"..index1/#bh1.ptSet
-			--local StrokeAndPoint2 =strokeNum2..":"..index2/#bh2.ptSet
 			local StrokeAndPoint = {}
-			--StrokeAndPoint1[strokeNum1]=index1/#bh1.ptSet
 			StrokeAndPoint[""..strokeNum1]=""..index1/#bh1.ptSet
-			--local StrokeAndPoint2 = {}
 			StrokeAndPoint[""..strokeNum2]=""..index2/#bh2.ptSet
-
-			--table.insert(typeInfo,errorBHAndPoint)
-			--typeInfo.errortype[#typeInfo.errortype+1] = "A0001"
-			--typeInfo.errorstroke[#typeInfo.errorstroke+1] = StrokeAndPoint
 			temp={}
 			temp["errortype"]="A0008"
 			temp["errorstroke"]=StrokeAndPoint
+			temp["errordiff"]=math.pow(Dvalue/220.0, 1.2)
 			typeInfo[#typeInfo+1]=temp
 			return false
 		end
@@ -5864,7 +5933,31 @@ function IsShuZhiPingQi(BHtable,PTtable)--竖直平齐  字例：片 气 友
 	return true
 end
 
-function IsShuZhiDengFen(HengBHtable,PTtable)--竖直等分 字例：三
+----部件侧面3：竖直等分（已经确认）
+----竖直等分的评判思路：HengBHtable存储了各个笔画，bdtable存储了各个笔画上的笔段索引
+--要求：各个笔段的中点在竖直方向上是等间隔的。
+function IsShuZhiDengFen(HengBHtable, bdtable)--竖直等分 字例：三
+    if(#HengBHtable ~= #bdtable)then
+		return false
+	end
+
+	------计算各个点的索引
+	local PTtable={}
+    for i=1,#bdtable do
+		local bh_bd=GetBDByBH(HengBHtable[i],bdtable[i])
+		local mid,midIdx = GetMidPoint(bh_bd)
+
+		local tempindex=0
+		if(bdtable[i] == 0) then
+			tempindex=0
+		else
+			tempindex=HengBHtable[i].InflectionPoint[bdtable[i]]
+		end
+
+		PTtable[i]=tempindex+midIdx
+	end
+
+	------计算标准的等分间隔
 	local firstbh = HengBHtable[1]
 	local firstIndex = PTtable[1]
 	local lastbh = HengBHtable[#HengBHtable]
@@ -5875,47 +5968,52 @@ function IsShuZhiDengFen(HengBHtable,PTtable)--竖直等分 字例：三
 	local aver =  math.abs((first.y-last.y)/(#HengBHtable-1))
 	print"等距的平均值%%%%%%%%%%%%"
 	print(aver)
-	--print(#HengBHtable,#PTtable)
-	if(#HengBHtable ~= #PTtable)then
-		return false
-	end
+
+	--------阈值评判
 	for i = #HengBHtable,2,-1 do
 		local bh2 = HengBHtable[i]--bh2
 		local bh1 = HengBHtable[i-1]--bh1
 		local index2 = PTtable[i]
 		local index1 = PTtable[i-1]
-		--print(i,index1,index2)
 		local secpt = bh2.ptSet[index2]
 		local firpt = bh1.ptSet[index1]
 		local Dvalue= math.abs(secpt.y-firpt.y)
 		print"实际的差值"
 		print (Dvalue)
-		if(math.abs(Dvalue-aver)<= 10)then--参数待修改
+		if((math.max(Dvalue,aver)-math.min(Dvalue,aver))/aver<= 0.19)then--参数待修改
 			print(Dvalue-aver)
 			print"NNNNNNNNNNNNNNNNNNNNNNNNNNNN"
 			print(Dvalue,aver,Dvalue-aver)
 		else
 			print"MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM"
-				print(Dvalue,aver,Dvalue-aver)
+			print(Dvalue,aver,Dvalue-aver)
 			local StrokeAndPoint = {}
 			local LastNum = 0
+
 			for j = 1,#HengBHtable,1 do
 				local bh = HengBHtable[j]
 				local strokeNum = GetBHByPoint(bh)
-				if(LastNum == 0 or LastNum ~= strokeNum)then
-					local index = PTtable[j]
-					StrokeAndPoint[""..strokeNum]=""..index/#bh.ptSet
-					curpoint = ""..index/#bh.ptSet
-					LastNum = strokeNum
-				elseif(LastNum == strokeNum)then
-					local index = PTtable[j]
-					StrokeAndPoint[""..strokeNum]=curpoint.."/"..""..index/#bh.ptSet
-					curpoint = curpoint.."/"..""..index/#bh.ptSet
+				local index = PTtable[j]
+				------------------------------------------------------
+				local Isrepeat=false
+				for kk, vv in pairs(StrokeAndPoint) do
+					if kk == ""..strokeNum then
+						Isrepeat=true
+					end
 				end
+				------------------------------------------------------
+
+				if(Isrepeat) then
+				    StrokeAndPoint[""..strokeNum]=StrokeAndPoint[""..strokeNum]..index/#bh.ptSet.."/"
+				else
+				    StrokeAndPoint[""..strokeNum]=""..index/#bh.ptSet.."/"
+				end
+				print ("StrokeAndPoint".." "..#StrokeAndPoint)
 			end
 			temp={}
 			temp["errortype"]="A0005"
 			temp["errorstroke"]=StrokeAndPoint
+			temp["errordiff"]=(math.max(Dvalue,aver)-math.min(Dvalue,aver))/aver*1.5
 			typeInfo[#typeInfo+1]=temp
 			return false
 		end
@@ -5923,15 +6021,32 @@ function IsShuZhiDengFen(HengBHtable,PTtable)--竖直等分 字例：三
 	return true
 end
 
-function IsShuiPingDengFen(ShuBHtable,PTtable)--水平等分 字例：山
+--部件侧面4：水平等分（已经确认）
+--水平等分的评判思路：ShuBHtable存储了各个笔画，bdtable存储了各个笔画上的笔段索引
+--要求：各个笔段的中点在水平方向上是等间隔的。
+function IsShuiPingDengFen(ShuBHtable,bdtable)--水平等分 字例：山
+	print(#ShuBHtable,#bdtable)
+	if(#ShuBHtable ~= #bdtable)then
+		return false
+	end
 
-	--local pointtemp = WZEnv.POINT:new()
-	--pointtemp = BoxCenter(ShuBHtable)
-	--print"中心点中心点！！！！！！！！"
-	--print (pointtemp.x)
-	--print (pointtemp.y)
+	------计算各个点的索引
+	local PTtable={}
+	for i=1,#bdtable do
+		local bh_bd=GetBDByBH(ShuBHtable[i],bdtable[i])
+		local mid,midIdx = GetMidPoint(bh_bd)
 
+		local tempindex=0
+		if(bdtable[i] == 0) then
+			tempindex=0
+		else
+			tempindex=ShuBHtable[i].InflectionPoint[bdtable[i]]
+		end
 
+		PTtable[i]=tempindex+midIdx
+	end
+
+	------计算标准的等分间隔
 	local firstbh = ShuBHtable[1]
 	local firstIndex = PTtable[1]
 	local lastbh = ShuBHtable[#ShuBHtable]
@@ -5939,16 +6054,13 @@ function IsShuiPingDengFen(ShuBHtable,PTtable)--水平等分 字例：山
 	local first = firstbh.ptSet[firstIndex]
 	local last = lastbh.ptSet[lastIndex]
 	local aver =  math.abs(first.x-last.x)/(#ShuBHtable-1)
+
 	print (math.abs(first.x-last.x))
 	print (#ShuBHtable-1)
-
-
 	print"等分的差值%%%%%%%%%%%%"
 	print(aver)
-	print(#ShuBHtable,#PTtable)
-	if(#ShuBHtable ~= #PTtable)then
-		return false
-	end
+
+	--------阈值评判
 	for i = #ShuBHtable,2,-1 do
 		local bh2 = ShuBHtable[i]--bh2
 		local bh1 = ShuBHtable[i-1]--bh1
@@ -5961,7 +6073,7 @@ function IsShuiPingDengFen(ShuBHtable,PTtable)--水平等分 字例：山
 		print"实际的差值"
 		print (Dvalue)
 		print(secpt.x,firpt.x)
-		if(math.abs(Dvalue-aver)<= 10)then--参数待修改
+		if((math.max(Dvalue,aver)-math.min(Dvalue,aver))/aver<= 0.19)then--参数待修改
 			print(Dvalue-aver)
 			print"NNNNNNNNNNNNNNNNNNNNNNNNNNNN"
 			print(Dvalue,aver,Dvalue-aver)
@@ -5973,73 +6085,177 @@ function IsShuiPingDengFen(ShuBHtable,PTtable)--水平等分 字例：山
 			for j = 1,#ShuBHtable,1 do
 				local bh = ShuBHtable[j]
 				local strokeNum = GetBHByPoint(bh)
-				if(LastNum == 0 or LastNum ~= strokeNum)then
-					local index = PTtable[j]
-					StrokeAndPoint[""..strokeNum]=""..index/#bh.ptSet
-					curpoint = ""..index/#bh.ptSet
-					LastNum = strokeNum
-				elseif(LastNum == strokeNum)then
-					local index = PTtable[j]
-					StrokeAndPoint[""..strokeNum]=curpoint.."/"..""..index/#bh.ptSet
-					curpoint = curpoint.."/"..""..index/#bh.ptSet
-				end
+				local index = PTtable[j]
+				StrokeAndPoint[""..strokeNum]=""..index/#bh.ptSet
 			end
 			temp={}
 			temp["errortype"]="A0006"
 			temp["errorstroke"]=StrokeAndPoint
+			temp["errordiff"]=(math.max(Dvalue,aver)-math.min(Dvalue,aver))/aver*1.5
 			typeInfo[#typeInfo+1]=temp
 			return false
 		end
 	end
+
 	return true
 end
 
---bh1被bh2切分
 
-function IsZhongDianQieFen(bh1,bh2)--中点切分 字例：主 bh1被bh2切分
-local midNode,midNodeIndex = BH2BHXiangJiaoDIAN(bh1,bh2)
-if(midNode == nil)then
-	local startpt,startindex = GetStartPoint(bh1)
-	local endpt,endindex = GetEndPoint(bh1)
-	local line0 = GetLine(startpt,endpt)
-	midNode,midNodeIndex = GetNearestPt2Line(line0,bh2)
+--部件侧面4的另一个版本：水平等分（已经确认）
+--水平等分的评判思路：BHtable存储了各个笔画，keypointtable存储了各个笔画上的关键点索引
+--要求：各个笔画上的关键点在水平方向上是等间隔的。
+function IsShuiPingDengFen2(BHtable,keypointtable)--水平等分 字例：开
+	if(#BHtable ~= #keypointtable)then
+		return false
+	end
+
+	------计算各个点的索引
+	local PTtable={}
+	for i=1,#keypointtable do
+		PTtable[i]=keypointtable[i]
+	end
+
+	------计算标准的等分间隔
+	local firstbh = BHtable[1]
+	local firstIndex = PTtable[1]
+	local lastbh = BHtable[#BHtable]
+	local lastIndex = PTtable[#PTtable]
+	local first = firstbh.ptSet[firstIndex]
+	local last = lastbh.ptSet[lastIndex]
+	local aver =  math.abs(first.x-last.x)/(#BHtable-1)
+
+	print (#BHtable-1)
+	print"等分的差值%%%%%%%%%%%%"
+	print(aver)
+
+	--------阈值评判
+	for i = #BHtable,2,-1 do
+		local bh2 = BHtable[i]--bh2
+		local bh1 = BHtable[i-1]--bh1
+		local index2 = PTtable[i]
+		local index1 = PTtable[i-1]
+
+		local secpt = bh2.ptSet[index2]
+		local firpt = bh1.ptSet[index1]
+		local Dvalue= math.abs(secpt.x-firpt.x)
+		print"实际的差值"
+		print (Dvalue)
+		print(secpt.x,firpt.x)
+		if((math.max(Dvalue,aver)-math.min(Dvalue,aver))/aver<= 0.19)then--参数待修改
+			print(Dvalue-aver)
+			print"NNNNNNNNNNNNNNNNNNNNNNNNNNNN"
+			print(Dvalue,aver,Dvalue-aver)
+		else
+			print"MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM"
+			print(Dvalue,aver,Dvalue-aver)
+			local StrokeAndPoint = {}
+			local LastNum = 0
+
+			for j = 1,#BHtable,1 do
+				local bh = BHtable[j]
+				local strokeNum = GetBHByPoint(bh)
+				local index = PTtable[j]
+				------------------------------------------------------
+				local Isrepeat=false
+				for kk, vv in pairs(StrokeAndPoint) do
+					if kk == ""..strokeNum then
+						Isrepeat=true
+					end
+				end
+				------------------------------------------------------
+				if(Isrepeat) then
+					StrokeAndPoint[""..strokeNum]=StrokeAndPoint[""..strokeNum]..index/#bh.ptSet.."/"
+				else
+					StrokeAndPoint[""..strokeNum]=""..index/#bh.ptSet.."/"
+				end
+			end
+
+			temp={}
+			temp["errortype"]="A0006"
+			temp["errorstroke"]=StrokeAndPoint
+			temp["errordiff"]=(math.max(Dvalue,aver)-math.min(Dvalue,aver))/aver*1.5
+			typeInfo[#typeInfo+1]=temp
+			return false
+		end
+	end
+
+	return true
 end
-print(bh1.ptSet[1].x,midNode.x,bh1.ptSet[#bh1.ptSet].x)
-local lefthalf=math.abs(bh1.ptSet[1].x-midNode.x)
-local righthalf=math.abs(bh1.ptSet[#bh1.ptSet].x-midNode.x)
-print"是否中点切分&&&&&&&&&&&&&"
-print(lefthalf,righthalf)
 
-if(lefthalf == 0 or righthalf == 0)then
-	--table.insert(errorType,"A0002")
-	local strokeNum =GetBHByPoint(bh1)
-	local StrokeAndPoint= {}
-	StrokeAndPoint[""..strokeNum]=""..midNodeIndex/#bh1.ptSet
-	temp={}
-	temp["errortype"]="A0002"
-	temp["errorstroke"]=StrokeAndPoint
-	typeInfo[#typeInfo+1]=temp
 
-	--typeInfo.errortype[#typeInfo.errortype+1] = "A0002"
-	--typeInfo.errorstroke[#typeInfo.errorstroke+1] = StrokeAndPoint
-	return false
+--部件侧面5：中点切分（已确认）
+--中点切分的评判思路：
+--笔画bh1的第bd1idx笔段，被笔画bh2的第bd2idx笔段切分为相等的两段。笔段索引号从0开始。
+--切分形式可以是，相交或相接。
+function IsZhongDianQieFen(bh1, bd1idx, bh2, bd2idx)--中点切分 字例：主
+    --------计算好误差
+	local bh1_bd=GetBDByBH(bh1,bd1idx)
+	local bh2_bd=GetBDByBH(bh2,bd2idx)
+
+    local midNode,midNodeIndex = BH2BHXiangJiaoDIAN(bh1_bd,bh2_bd)
+
+    if(midNode == nil)then
+	    local startpt,startindex = GetStartPoint(bh2_bd)
+	    local endpt,endindex = GetEndPoint(bh2_bd)
+	    local line0 = GetLine(startpt,endpt)
+		midNode,midNodeIndex = GetNearestPt2Line(line0,bh1_bd)
+    end
+
+	local lefthalf=math.sqrt((bh1_bd.ptSet[1].x-midNode.x)*(bh1_bd.ptSet[1].x-midNode.x)+(bh1_bd.ptSet[1].y-midNode.y)*(bh1_bd.ptSet[1].y-midNode.y))
+    local righthalf=math.sqrt((bh1_bd.ptSet[#bh1_bd.ptSet].x-midNode.x)*(bh1_bd.ptSet[#bh1_bd.ptSet].x-midNode.x)+(bh1_bd.ptSet[#bh1_bd.ptSet].y-midNode.y)*(bh1_bd.ptSet[#bh1_bd.ptSet].y-midNode.y))
+    print"是否中点切分&&&&&&&&&&&&&"
+    print(lefthalf,righthalf)
+
+    -------准备好索引
+    local startindexforreturn=0
+	if(bd1idx == 0) then
+	    startindexforreturn=0
+	else
+	    startindexforreturn=bh1.InflectionPoint[bd1idx]
+	end
+	local return_index=midNodeIndex+startindexforreturn
+	local right_index=(1+#bh1_bd.ptSet)/2+startindexforreturn
+
+	-------阈值评判
+    if(lefthalf == 0 or righthalf == 0)then
+	    local strokeNum =GetBHByPoint(bh1)
+	    local StrokeAndPoint= {}
+	    StrokeAndPoint[""..strokeNum]=""..return_index/#bh1.ptSet
+
+		local location= {}
+		location[""..strokeNum]=""..right_index/#bh1.ptSet
+
+	    temp={}
+	    temp["errortype"]="A0002"
+	    temp["errorstroke"]=StrokeAndPoint
+		temp["rightposition"]=location
+	    temp["errordiff"]=100.0
+	    typeInfo[#typeInfo+1]=temp
+	    return false
 	elseif(lefthalf/righthalf > 1.5 or righthalf/lefthalf > 1.5)then-- 1.5
-		table.insert(errorType,"A0002")
 		local strokeNum =GetBHByPoint(bh1)
 		local StrokeAndPoint= {}
-		StrokeAndPoint[""..strokeNum]=""..midNodeIndex/#bh1.ptSet
+		StrokeAndPoint[""..strokeNum]=""..return_index/#bh1.ptSet
+
+		local location= {}
+		location[""..strokeNum]=""..right_index/#bh1.ptSet
+
 		temp={}
 		temp["errortype"]="A0002"
 		temp["errorstroke"]=StrokeAndPoint
+		temp["rightposition"]=location
+		temp["errordiff"]=math.pow(math.abs((lefthalf-righthalf)/2.0) / ((lefthalf+righthalf)/2.0) , 0.65)
 		typeInfo[#typeInfo+1]=temp
 		return false
-		else
-			return true
+	else
+		return true
 	end
 end
 
---用于点和线之间（被切割，切割点,0代表首点，1代表末点）
-function IsGoldenSection(bd1,bd2,type1)--黄金分割 字例：女
+--部件侧面6：黄金分割（已经确认）
+--黄金分割用于点和线之间，参数bd1和bd2必须是笔画，不能是笔段（bd1是被切割为两段的；bd2是用于提供切割点的；type1为0代表首点，为1代表末点, 为2代表交点）
+--type2用于说明谁占0.618，0表示起端部分占0.618，1表示末端部分占0.618
+function IsGoldenSection(bd1,bd2,type1,type2)--黄金分割 字例：下-------------------------需要对app动画做修改
 	local flag = 0
 	local index = 0
 	local mindis = 512
@@ -6049,8 +6265,6 @@ function IsGoldenSection(bd1,bd2,type1)--黄金分割 字例：女
 	local startPoint,startindex=GetStartPoint(bd1)
 	local endPoint,endindex=GetEndPoint(bd1)
 	if(type1 == 0) then
-		--flag = JudgeDotLinePoint(bd2.ptSet[1],bd1)
-		--index = bd2.ptSet[1]
 		for i=1,#bd1.ptSet do
 			local pt1 = bd1.ptSet[i]
 			local pt2 = bd2.ptSet[1]
@@ -6060,9 +6274,8 @@ function IsGoldenSection(bd1,bd2,type1)--黄金分割 字例：女
 				index = i
 			end
 		end
-	elseif(type2 == 1) then
-		--flag = JudgeDotLinePoint(bd2.ptSet[#bd2.ptSet],bd1)
-			for i=1,#bd1.ptSet do
+	elseif(type1 == 1) then
+		for i=1,#bd1.ptSet do
 			local pt1 = bd1.ptSet[i]
 			local pt2 = bd2.ptSet[#bd2.ptSet]
 			local tempdis = math.sqrt( math.pow(pt1.x - pt2.x,2) + math.pow(pt1.y - pt2.y,2))
@@ -6071,60 +6284,115 @@ function IsGoldenSection(bd1,bd2,type1)--黄金分割 字例：女
 				index = i
 			end
 		end
+	elseif(type1 == 2) then
+		local midNode,midindex = BH2BHXiangJiaoDIAN(bd1,bd2)
+		if(midNode == nil)then
+			return true
+		else
+			index=midindex
+		end
 	else
-		print"请输入type类型："
+		print"请输入type1类型："
 	end
-		local nearestPoint =bd1.ptSet[index]
-		yValue1=math.abs(startPoint.y-nearestPoint.y)
-		yValue2=math.abs(endPoint.y-nearestPoint.y)
 
-		if(yValue1/yValue2 >= 0.5 and yValue1/yValue2 <= 0.7)then
-		return true
-	elseif(yValue2/yValue1 >= 0.5 and yValue2/yValue1 <= 0.7)then
-		return true
-	else
-		table.insert(errorType,"A0003")
+	local nearestPoint =bd1.ptSet[index]
+	yValue1=math.sqrt(math.pow(startPoint.y-nearestPoint.y,2)+math.pow(startPoint.x-nearestPoint.x,2))
+	yValue2=math.sqrt(math.pow(endPoint.y-nearestPoint.y,2)+math.pow(endPoint.x-nearestPoint.x,2))
 
-		local strokeNum =GetBHByPoint(bd1)
-		local StrokeAndPoint= {}
-		StrokeAndPoint[""..strokeNum]=""..index/#bd1.ptSet
-
-		local temp={}
-		temp["errortype"]="A0003"
-		temp["errorstroke"]=StrokeAndPoint
-		typeInfo[#typeInfo+1]=temp
-		--typeInfo.errortype[#typeInfo.errortype+1] = "A0003"
-		--typeInfo.errorstroke[#typeInfo.errorstroke+1] = StrokeAndPoint
-		return false
+	--------------------------------------------------------------------------------
+	if(type2 == 0) then
+		if(index/#bd1.ptSet >=0.41 and index/#bd1.ptSet <=0.75) then
+			return true
+		end
+	elseif(type2 == 1) then
+		if((#bd1.ptSet-index)/#bd1.ptSet >=0.41 and (#bd1.ptSet-index)/#bd1.ptSet <=0.75) then
+			return true
+		end
 	end
-	return flag
+	--------------------------------------------------------------------------------
+
+	table.insert(errorType,"A0003")
+
+	local strokeNum =GetBHByPoint(bd1)
+	local StrokeAndPoint= {}
+	StrokeAndPoint[""..strokeNum]=""..index/#bd1.ptSet
+
+	local temp={}
+	temp["errortype"]="A0003"
+	temp["errorstroke"]=StrokeAndPoint
+
+	if(type2 == 0) then
+	    local location={}
+		location[""..strokeNum]=""..(0.618)
+	    temp["rightposition"]=location
+		temp["errordiff"]=math.pow(math.abs(yValue1-(yValue1+yValue2)*0.618) / math.min(yValue1, yValue2),1.2)
+	elseif(type2 == 1) then
+	    local location={}
+		location[""..strokeNum]=""..(0.382)
+	    temp["rightposition"]=location
+		temp["errordiff"]=math.pow(math.abs(yValue2-(yValue1+yValue2)*0.618) / math.min(yValue1, yValue2),1.2)
+	end
+	typeInfo[#typeInfo+1]=temp
+	return false
 end
 
-function	IsShouDianJuZheng(bh1,bh2)--首点居正 字例：文 市
-	local mid1,mid1Idx = GetMidPoint(bh1)
-	local mid2,mid2Idx = GetMidPoint(bh2)
-	local Dvalue = math.abs(mid1.x - mid2.x)
+------部件侧面7：首点居正（已经确认）
+------首点居正的评判思路：bh1的尾点和bh2中笔段bh2bdidx的中点是竖直对齐的，即x坐标相等。
+------要求：变量bh1和bh2是笔画；bh1是“点“；bh2bhidx是bh2上面的笔段索引。
+function	IsShouDianJuZheng(bh1,bh2,bh2bdidx)--首点居正 字例：文 市
+    -------计算端点的索引：
+	local startindex2=-1
+	local endindex2=-1
+	if(bh2bdidx == 0) then
+	    startindex2=1
+	else
+	    startindex2=bh2.InflectionPoint[bh2bdidx]+1
+	end
+
+	if(bh2bdidx == #bh2.InflectionPoint) then
+	    endindex2 = #bh2.ptSet
+	else
+		endindex2 = bh2.InflectionPoint[bh2bdidx + 1]
+	end
+	local return_idx=(startindex2+endindex2)/2
+
+    -------计算坐标点
+    local bh2_bd=GetBDByBH(bh2,bh2bdidx)
+
+	local end1,end1Idx = GetEndPoint(bh1)
+	local mid2,mid2Idx = GetMidPoint(bh2_bd)
+	local Dvalue = math.abs(end1.x - mid2.x)
 	print"首点和第二笔中点的x坐标差值是%%%%%%%%%%"
 	print(Dvalue)
-	if(Dvalue <= 5)then--参数待修改
+
+	local start2, start2Idx = GetStartPoint(bh2_bd)
+	local end2, end2Idx = GetEndPoint(bh2_bd)
+	local len2=math.abs(end2.x-start2.x)
+
+	--------阈值评判
+	if(Dvalue/len2 <= 0.18)then--参数待修改
 		return true
 	else
 		local strokeNum1 =GetBHByPoint(bh1)
 		local strokeNum2 =GetBHByPoint(bh2)
 
 		local StrokeAndPoint = {}
+		StrokeAndPoint[""..strokeNum1]=""..end1Idx/#bh1.ptSet
+		StrokeAndPoint[""..strokeNum2]=""..return_idx/#bh2.ptSet
 
-		StrokeAndPoint[""..strokeNum1]=""..mid1Idx/#bh1.ptSet
-
-		StrokeAndPoint[""..strokeNum2]=""..mid2Idx/#bh2.ptSet
 		local temp={}
 		temp["errortype"]="A0004"
 		temp["errorstroke"]=StrokeAndPoint
+		temp["errordiff"]=Dvalue/len2-0.05
+
 		typeInfo[#typeInfo+1]=temp
 		return false
 	end
 end
 
+-----部件侧面8：突出主笔（已经确认）
+-----突出主笔评判思路：主笔应该是一个部件中最长的横笔或竖笔。
+-----参数heng，shu是笔画，不是笔段。它们的取值可以为nil
 function	IsTuChuZhuBi(heng,shu)--突出主笔 字例：下 士
 	if(heng ~= nil) then
 		print"横可以传进来"
@@ -6157,6 +6425,7 @@ function	IsTuChuZhuBi(heng,shu)--突出主笔 字例：下 士
 			local temp={}
 			temp["errortype"]="A0009"
 			temp["errorstroke"]=StrokeAndPoint
+			temp["errordiff"]=0.08
 			typeInfo[#typeInfo+1]=temp
 			return false
 	   end
@@ -6196,103 +6465,116 @@ function	IsTuChuZhuBi(heng,shu)--突出主笔 字例：下 士
 			local temp={}
 			temp["errortype"]="A0009"
 			temp["errorstroke"]=StrokeAndPoint
+			temp["errordiff"]=0.08
 			typeInfo[#typeInfo+1]=temp
 			return false
 		end
 	end
 end
 
+-----部件侧面9：重心平稳（已经确认）
+-----重心平稳评判思路：bh1和bh2是两个笔画(不是笔段)，它们应该相交或相接。将它们的交点或接点作为重心。
+-----如果相接的话，bh1应该被bh2的首点分为两段.
 function IsZhongXinPingWen(bh1,bh2)--重心平稳 字例：火
 	local keyDotIndex=0
 	local keyDot= WZEnv.POINT:new()
 	if(BH2BHXiangJiao(bh1,bh2)== true) then
-		keyDot,keyDotIndex = BH2BHXiangJiaoDIAN(bh1,bh2)
-		else--计算第二笔首点第一笔上哪个点最近
+	    keyDot,keyDotIndex = BH2BHXiangJiaoDIAN(bh1,bh2)----注意：这里返回的是bh1上面的索引点
+	else--计算第二笔首点与第一笔上哪个点最近
 		local firstPoint = bh2.ptSet[1]
 		local Dis = 1000
 		for i = 1, #bh1.ptSet - 1 do
 			local tempDis = GetDistance(bh1.ptSet[i],firstPoint)
 			if (tempDis < Dis)then
-			Dis = tempDis
-			keyDot = bh1.ptSet[i]
-			keyDotIndex = i
+				Dis = tempDis
+				keyDot = bh1.ptSet[i]
+				keyDotIndex = i
+			end
 		end
 	end
-		--[[--包围盒计算ing...
-		local strokeStrs  = {}
-		local tempYmin =512
-		local tempYmax =0
-		local tempXmin =512
-		local tempXmax =0
-		--print"0000000"
-		--print(pointstr)
-		local ptSets = {}
-		for strx,stry in string.gmatch(pointstr,"(%d+)/(%d+)") do
-			local pt = {}
-			pt.x = tonumber(strx)
-			pt.y = tonumber(stry)
-			ptSets[#ptSets+1] = pt
-		end
-		for i= 1,#ptSets do
-			--print(ptSets[i].x,ptSets[i].y)
-			if (ptSets[i].y > tempYmax) then
-			tempYmax=ptSets[i].y
-			end
-			if (ptSets[i].y < tempYmin) then
-			tempYmin=ptSets[i].y
-			end
-			if (ptSets[i].x> tempXmax) then
-			tempXmax=ptSets[i].x
-			end
-			if (ptSets[i].x < tempXmin) then
-			tempXmin=ptSets[i].x
-			end
-		end
-		print"PPPPPPPPPPPPPPPPP"
-		print"x小 x大 y小 y大"
-		print(tempXmin,tempXmax,tempYmin,tempYmax)
-		local Xdiff=tempXmax-tempXmin
-		local Ydiff=tempYmax-tempYmin
-		local trueX = tempXmin + Xdiff/2--]]
 
+	--------------------------------------------------
+    --阈值评判
+	local tempXmin,tempXmax,tempYmin,tempYmax=Box()
+	print(tempXmin,tempXmax,tempYmin,tempYmax)
+	local Xdiff=tempXmax-tempXmin
+	local Ydiff=tempYmax-tempYmin
+	local trueX = tempXmin + Xdiff/2
 
-
-		local tempXmin,tempXmax,tempYmin,tempYmax=Box()
-		print(tempXmin,tempXmax,tempYmin,tempYmax)
-		local Xdiff=tempXmax-tempXmin
-		local Ydiff=tempYmax-tempYmin
-		local trueX = tempXmin + Xdiff/2
-
-		local Dvalue = math.abs(trueX - keyDot.x)
-		print"包围盒中点x坐标是*****"
-		print(trueX)
-		print"关键点x的坐标是*****"
-		print(keyDot.x)
-		print"包围盒中点和关键点中点的x坐标差值是%%%%%%%%%%"
-		print(Dvalue)
-		if(Dvalue <= 15)then--参数待修改
-			return true
-		else
-			local strokeNum1 =GetBHByPoint(bh2)
-			local StrokeAndPoint = {}
-			StrokeAndPoint[""..strokeNum1]=""..keyDotIndex/#bh1.ptSet--是第二笔写错导致第一笔上的关键点不对
-			local temp={}
-			temp["errortype"]="A0007"
-			temp["errorstroke"]=StrokeAndPoint
-			typeInfo[#typeInfo+1]=temp
-			return false
-		end
+	local Dvalue = math.abs(trueX - keyDot.x)
+	print"包围盒中点x坐标是*****"
+	print(trueX)
+	print"关键点x的坐标是*****"
+	print(keyDot.x)
+	print"包围盒中点和关键点中点的x坐标差值是%%%%%%%%%%"
+	print(Dvalue)
+	if(Dvalue/Xdiff <= 0.13)then--参数待修改
+		return true
+	else
+		----------------------------------------------------------
+		local strokeNum1 =GetBHByPoint(bh1)
+		local StrokeAndPoint = {}
+		StrokeAndPoint[""..strokeNum1]=""..keyDotIndex/#bh1.ptSet--是第二笔写错导致第一笔上的关键点不对
+		local temp={}
+		temp["errortype"]="A0007"
+		temp["errorstroke"]=StrokeAndPoint
+		temp["errordiff"]=Dvalue/Xdiff
+		typeInfo[#typeInfo+1]=temp
+		return false
+		-----------------------------------------------------------
 	end
 end
 
-function IsChangDuBiLi(bh1,bh2,ratio)--长度比例
-	local l1 = GetBDLen(bh1)
-	local startPoint1,startindex1 = GetStartPoint(bh1)
-	local endPoint1,endindex1 = GetEndPoint(bh1)
-	local l2 = GetBDLen(bh2)
-	local startPoint2,startindex2 = GetStartPoint(bh2)
-	local endPoint2,endindex2 = GetEndPoint(bh2)
+
+
+--部件侧面10：长度比例（已经确认）
+--长度比例评判思路：bh1的指定笔段/bh2的指定笔段>=ratio。  注意：笔段索引号从0开始。
+function IsChangDuBiLi(bh1,bh1_bdindex,bh2,bh2_bdindex,ratio)--长度比例
+    local bh1_bd=GetBDByBH(bh1,bh1_bdindex)
+	local bh2_bd=GetBDByBH(bh2,bh2_bdindex)
+	---------------------------------------
+	local startindex1=-1
+	local endindex1=-1
+	local startindex2=-1
+	local endindex2=-1
+	--计算端点的索引：
+	if(bh1_bdindex == 0) then
+	    startindex1=1
+	else
+	    startindex1=bh1.InflectionPoint[bh1_bdindex]+1
+	end
+
+	if(bh1_bdindex == #bh1.InflectionPoint) then
+	    endindex1 = #bh1.ptSet
+	else
+		endindex1 = bh1.InflectionPoint[bh1_bdindex + 1]
+	end
+
+	if(bh2_bdindex == 0) then
+	    startindex2=1
+	else
+	    startindex2=bh2.InflectionPoint[bh2_bdindex]+1
+	end
+
+	if(bh2_bdindex == #bh2.InflectionPoint) then
+	    endindex2 = #bh2.ptSet
+	else
+		endindex2 = bh2.InflectionPoint[bh2_bdindex + 1]
+	end
+
+	---------------------------------------
+	--阈值评判
+	local l1 = GetBDLen(bh1_bd)
+	local l2 = GetBDLen(bh2_bd)
 	local temp_ratio = math.abs(l1/l2)
+
+	print("-----------------------------------changdubili--------------------------------")
+	print("startindex1".." "..startindex1, "endindex1".." "..endindex1,"all".." "..#bh1.ptSet)
+	print("startindex2".." "..startindex2, "endindex2".." "..endindex2,"all".." "..#bh2.ptSet)
+	print("l1".." "..l1,"l2".." "..l2,"temp_ratio".." "..temp_ratio)
+	print(#bh1.InflectionPoint,#bh1.InflectionPoint)
+	print("-----------------------------------changdubili--------------------------------")
+
 	if(temp_ratio >= ratio)then
 		return true
 	else
@@ -6304,9 +6586,121 @@ function IsChangDuBiLi(bh1,bh2,ratio)--长度比例
 		local temp={}
 		temp["errortype"]="A0010"
 		temp["errorstroke"]=StrokeAndPoint
+		temp["errordiff"]=(ratio-temp_ratio)*0.9
 		typeInfo[#typeInfo+1]=temp
 		return false
 	end
+end
+
+-------部件侧面11：中点竖直对齐，返回值与竖直平齐相同
+-------HengBHtable表示所有笔画，bdtable表示各个笔画的笔段索引。起始笔段索引为0
+function IsZhongDianShuZhiDuiQi(HengBHtable,bdtable)
+    --------计算索引
+    if(#HengBHtable ~= #bdtable)then
+		return false
+	end
+
+	------计算各个点的索引
+	local PTtable={}
+    for i=1,#bdtable do
+		local bh_bd=GetBDByBH(HengBHtable[i],bdtable[i])
+		local mid,midIdx = GetMidPoint(bh_bd)
+
+		local tempindex=0
+		if(bdtable[i] == 0) then
+			tempindex=0
+		else
+			tempindex=HengBHtable[i].InflectionPoint[bdtable[i]]
+		end
+
+		PTtable[i]=tempindex+midIdx
+	end
+
+	--------计算阈值
+    for i = #HengBHtable,2,-1 do
+		local bh2 = HengBHtable[i]--bh2
+		local bh1 = HengBHtable[i-1]--bh1
+		local index2 = PTtable[i]
+		local index1 = PTtable[i-1]
+		print(i,index1,index2)
+		local secpt = bh2.ptSet[index2]
+		local firpt = bh1.ptSet[index1]
+		local Dvalue= math.abs(secpt.x-firpt.x)
+		print"竖直平齐的差值%%%%%%%%%%%%"
+		print(Dvalue)
+		if(Dvalue <= 35)then--参数待修改
+			print"IsShuZhiPingQiOKOK"
+		else
+			local strokeNum1 =GetBHByPoint(bh1)
+			local strokeNum2 =GetBHByPoint(bh2)
+			local StrokeAndPoint = {}
+			StrokeAndPoint[""..strokeNum1]=""..index1/#bh1.ptSet
+			StrokeAndPoint[""..strokeNum2]=""..index2/#bh2.ptSet
+			temp={}
+			temp["errortype"]="A0008"
+			temp["errorstroke"]=StrokeAndPoint
+			temp["errordiff"]=math.pow(Dvalue/220.0, 1.2)
+			typeInfo[#typeInfo+1]=temp
+			return false
+		end
+	end
+	return true
+end
+
+-------部件侧面12：中点水平对齐，返回值与水平平齐相同
+-------ShuBHtable表示所有笔画，bdtable表示各个笔画的笔段索引。起始笔段索引为0
+function IsZhongDianShuiPingDuiQi(ShuBHtable,bdtable)
+    --------计算索引
+    if(#ShuBHtable ~= #bdtable)then
+		return false
+	end
+
+	------计算各个点的索引
+	local PTtable={}
+    for i=1,#bdtable do
+		local bh_bd=GetBDByBH(ShuBHtable[i],bdtable[i])
+		local mid,midIdx = GetMidPoint(bh_bd)
+
+		local tempindex=0
+		if(bdtable[i] == 0) then
+			tempindex=0
+		else
+			tempindex=ShuBHtable[i].InflectionPoint[bdtable[i]]
+		end
+
+		PTtable[i]=tempindex+midIdx
+	end
+
+	--------计算阈值
+	for i = #ShuBHtable,2,-1 do
+		local bh2 = ShuBHtable[i]--bh2
+		local bh1 = ShuBHtable[i-1]--bh1
+		local index2 = PTtable[i]
+		local index1 = PTtable[i-1]
+		print(i,index1,index2)
+		local secpt = bh2.ptSet[index2]
+		local firpt = bh1.ptSet[index1]
+		local Dvalue= math.abs(secpt.y-firpt.y)
+		print"水平平齐的差值%%%%%%%%%%%%"
+		print(Dvalue)
+
+		if(Dvalue <= 35)then--参数待修改
+			print"IsShuiPingPingQiOKOK"
+		else
+			local strokeNum1 =GetBHByPoint(bh1)
+			local strokeNum2 =GetBHByPoint(bh2)
+			local StrokeAndPoint = {}
+			StrokeAndPoint[""..strokeNum1]=""..index1/#bh1.ptSet
+			StrokeAndPoint[""..strokeNum2]=""..index2/#bh2.ptSet
+			temp={}
+			temp["errortype"]="A0001"
+			temp["errorstroke"]=StrokeAndPoint
+			temp["errordiff"]=math.pow(Dvalue/220.0, 1.2)
+			typeInfo[#typeInfo+1]=temp
+			return false
+		end
+	end
+	return true
 end
 
 --[[function JudgeDotLinePoint(pt,bd)
@@ -6331,8 +6725,9 @@ end
 	end
 end--]]
 
---遍历点集的最上最下最左最右，形成字包围盒，算出宽高比
+--------------------------------------------------------------------------------------------------整字的主观侧面评判规则------------------------------------------------------------------
 
+--遍历点集的最上最下最左最右，形成字包围盒，算出宽高比
 function IsAspectRatio(type)--字宽高比 1瘦高型 2矮胖型
 	local strokeStrs  = {}
 	local tempYmin =512

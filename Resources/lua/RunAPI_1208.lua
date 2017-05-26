@@ -1,4 +1,5 @@
---对原有api的改进.使得其可以可以调用stroke规则、unit规则和character规则，并进行相关返回.
+--[[对原有api的改进.使得其可以调用stroke规则、unit规则和character规则，并进行相关返回   ]]--
+
 local math = math
 local string = string
 local tonumber = tonumber
@@ -7,7 +8,7 @@ local table = table
 local JSON = require("JSON")
 
 Pass2CStr = ""
---########################			辅助函数				#############################
+----########################			辅助函数				#############################
 function string:split(sep,sign)
 	local sep, fields = sep or "\t", {}
 	local pattern = string.format("([^"..sign.."]+)", sep)
@@ -176,17 +177,18 @@ function RunAPI:contractRule(ZiRuleList,CharacterRule)
 			end
 			local newBH = ""
 			--得到当前笔画之前的所有笔画点集
-			if ( k > 0 ) then
-			local tempBH= ""
-				for j = k-1,0,-1 do
-					if(i > 1) then
-						tempBH = "local bh"..tostring (j) .. " = GetBH(" ..tostring(last + j) .. ") "
-					else
-						tempBH = "local bh"..tostring (j) .. " = GetBH(" ..tostring(j) .. ") "
-					end
-					newBH = newBH.."\n"..tempBH
-				end
-			end
+			--if ( k > 0 ) then
+			--local tempBH= ""
+			--	for j = k-1,0,-1 do
+			--		if(i > 1) then
+			--			tempBH = "local bh"..tostring (j) .. " = GetBH(" ..tostring(last + j) .. ") "
+			--		else
+			--			tempBH = "local bh"..tostring (j) .. " = GetBH(" ..tostring(j) .. ") "
+			--		end
+			--		newBH = newBH.."\n"..tempBH
+			--	end
+			--end
+			--------------------------------
 			newRule  = newRule  .. newBH .. tempZirule[k].codes.."\n"
 			local retInfo1 = "local retInfo = tostring(bflag) ..tostring(pflag) .. tostring(uflag).. tostring(cflag)".."\n"
 			local endline = "GerResult(retInfo,errorBHPoint)".."\n"
@@ -221,15 +223,16 @@ function RunAPI:RunZiRule(bhNum,NewZiRuleArr)
 	local Pass2CStrList={}
 	Pass2CStrList = baseFuncs.resultTable
 
-	--[[for i=1,#Pass2CStrList do
+	for i=1,#Pass2CStrList do
 	local temp=Pass2CStrList[i]
 	print"========================================"
+	print (tonumber(temp))
 		for j=1,#temp do
 			print(temp[j])
 			print"+++++++++++++++++++++++++++++++++++++"
 		end
 	print(#temp)
-	end--]]
+	end
 
 	local ret = Pass2CStrList[1]
 	ret = tonumber(ret)
@@ -239,9 +242,11 @@ function RunAPI:RunZiRule(bhNum,NewZiRuleArr)
 	local wzrightinfo = math.floor((ret-bhrightinfo*1000)/100)
 	local unitrightinfo =math.floor((ret-bhrightinfo*1000-wzrightinfo*100)/10)
 	local zirightinfo =math.floor(ret-bhrightinfo*1000-wzrightinfo*100-unitrightinfo*10)
+
 	print"//////////////////////"
 	print (bhrightinfo,wzrightinfo,unitrightinfo,zirightinfo,ret)
-	--local errortype = Pass2CStrList[2]
+	------------------------------------------------------------------------------------
+
 	local errorStrokePoint= Pass2CStrList[2]
 
 	if(errorStrokePoint == nil)then
@@ -256,6 +261,7 @@ function RunAPI:RunZiRule(bhNum,NewZiRuleArr)
 	--elseif(errorStrokePoint == nil and #errortype == 0)then
 	--errorStrokePoint = nil
 	--end
+
 	if(bhrightinfo == 0 )then
 		table.remove(InflectionPoint,#InflectionPoint)
 		table.remove(baseFuncs.typeInfo,#baseFuncs.typeInfo)
@@ -283,21 +289,28 @@ function RunAPI:RunZiRule(bhNum,NewZiRuleArr)
 	elseif(bhrightinfo == 1 and wzrightinfo == 1 )then
 		ret = bhrightinfo*100 + unitrightinfo*10 + zirightinfo
 		print"笔画正确"
-	else
-		print"笔画正确"
 	end
 
 	ret=tostring(ret)
+	print (ret)
+	--print (errorStrokePoint)
 	--ret lua table for JSON encode
 	function error_json_string(errors,ret)
 		local allerror={}
 		if(errors == nil)then
 			allerror = {}
 		else
-			--for i = 1,#errorStrokePoint do
-				--print(#errorStrokePoint)
-				allerror[#allerror+1] = errorStrokePoint[1]--只返回一种错误类型
-			--end
+			local re_index=1
+			local re_diff=0.0
+			if #errorStrokePoint>1 then
+				for i = 1,#errorStrokePoint do
+					if(errorStrokePoint[i]["errordiff"]>re_diff) then
+						re_index=i
+						re_diff=errorStrokePoint[i]["errordiff"]
+					end
+				end
+			end
+			allerror[#allerror+1] = errorStrokePoint[re_index]--只返回一种错误类型
 			return { error = allerror, ["ret"] = ret }
 		end
 	end
