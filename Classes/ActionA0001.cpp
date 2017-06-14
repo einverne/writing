@@ -3,10 +3,14 @@
 
 ActionA0001::ActionA0001()
 {
+	length.clear();
+	originY.clear();
 }
 
 ActionA0001::~ActionA0001()
 {
+	length.clear();
+	originY.clear();
 }
 
 ActionA0001* ActionA0001::create(float duration){
@@ -22,10 +26,19 @@ ActionA0001* ActionA0001::create(float duration){
 
 void ActionA0001::startWithTarget(CCNode *pTarget){
 	CCActionInterval::startWithTarget(pTarget);
-	CCPoint start_point = ((ShuipingErrorNode*)m_pTarget)->start_point_;
-	CCPoint end_point = ((ShuipingErrorNode*)m_pTarget)->end_point_;
-	length = start_point.y - end_point.y < 0 ? (end_point.y-start_point.y) : (start_point.y-end_point.y);
-	bigY = start_point.y - end_point.y > 0 ? start_point.y : end_point.y;
+
+	/////////////////////////////////////////////////////////////////
+	vector<CCPoint>::iterator it;
+	it=((ShuipingErrorNode*)m_pTarget)->move_point_.begin();
+	float beginY=(*it).y;
+
+	it++;
+	for(;it!=((ShuipingErrorNode*)m_pTarget)->move_point_.end();it++)
+	{
+		float endY=(*it).y;
+		length.push_back(endY-beginY);
+		originY.push_back(endY);
+	}
 }
 
 bool ActionA0001::init(float duration){
@@ -35,15 +48,16 @@ bool ActionA0001::init(float duration){
 
 void ActionA0001::update(float time){
 	CCLog("ActionA0001::update time = %f",time);
-	CCPoint start_point = ((ShuipingErrorNode*)m_pTarget)->start_point_;
-	CCPoint end_point = ((ShuipingErrorNode*)m_pTarget)->end_point_;
-	// 将 坐标移动到 小的一边
-	if (start_point.y - end_point.y > 0)
+
+	////////////////////////////////////////////////////////////////
+	vector<CCPoint>::iterator it = ((ShuipingErrorNode*)m_pTarget)->move_point_.begin();
+	it++;
+	vector<float>::iterator ita = length.begin();
+	vector<float>::iterator itb = originY.begin();
+
+	for(;it!=((ShuipingErrorNode*)m_pTarget)->move_point_.end();it++, ita++,itb++)
 	{
-		start_point.y = bigY - length * time;
-	} else {
-		end_point.y = bigY - length * time;
+		(*it).y = (*itb)-(*ita)*time;
 	}
-	((ShuipingErrorNode*)m_pTarget)->start_point_ = start_point;
-	((ShuipingErrorNode*)m_pTarget)->end_point_ = end_point;
+
 }

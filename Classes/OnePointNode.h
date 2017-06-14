@@ -16,7 +16,8 @@ public:
 	void setPoint(CCPoint start_point);
 	void setRightPoint(CCPoint right_point);
 
-	CCPoint centerPoint_;
+	CCPoint centerPoint_;           // 初始的位置
+	CCPoint originPoint_; 
 	CCPoint rightPoint_;			// 正确的位置
 };
 

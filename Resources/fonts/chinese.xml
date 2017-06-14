@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>  
+﻿<?xml version="1.0" encoding="UTF-8"?>  
 <plist version="1.0">  
 <dict>  
     <key>chinese</key>  
@@ -73,5 +73,11 @@
 	<string>笔画错误</string>
 	<key>B0002</key>
 	<string>笔画位置错误</string>
+	<key>C0001</key>
+	<string>整字宽高比错误</string>
+	<key>C0002</key>
+	<string>字太小</string>
+	<key>C0003</key>
+	<string>字太偏</string>
 </dict>  
 </plist>  

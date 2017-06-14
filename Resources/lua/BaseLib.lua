@@ -5851,6 +5851,9 @@ function IsShuiPingPingQi(BHtable,turingtable)--水平平齐 字例：大
 	end
 
 	------------阈值评判
+	local pingqi_result = true
+	local Dvalue = 0
+
 	for i = #BHtable,2,-1 do
 		local bh2 = BHtable[i]--bh2
 		local bh1 = BHtable[i-1]--bh1
@@ -5859,27 +5862,52 @@ function IsShuiPingPingQi(BHtable,turingtable)--水平平齐 字例：大
 		print(i,index1,index2)
 		local secpt = bh2.ptSet[index2]
 		local firpt = bh1.ptSet[index1]
-		local Dvalue= math.abs(secpt.y-firpt.y)
+		local tempDvalue= math.abs(secpt.y-firpt.y)
 		print"水平平齐的差值%%%%%%%%%%%%"
-		print(Dvalue)
+		print(tempDvalue)
 
-		if(Dvalue <= 35)then--参数待修改
+		if(tempDvalue <= 35)then--参数待修改
 			print"IsShuiPingPingQiOKOK"
 		else
-			local strokeNum1 =GetBHByPoint(bh1)
-			local strokeNum2 =GetBHByPoint(bh2)
-			local StrokeAndPoint = {}
-			StrokeAndPoint[""..strokeNum1]=""..index1/#bh1.ptSet
-			StrokeAndPoint[""..strokeNum2]=""..index2/#bh2.ptSet
-			temp={}
-			temp["errortype"]="A0001"
-			temp["errorstroke"]=StrokeAndPoint
-			temp["errordiff"]=math.pow(Dvalue/220.0, 1.2)
-			typeInfo[#typeInfo+1]=temp
-			return false
+		    pingqi_result = false
+			if(tempDvalue > Dvalue) then
+				Dvalue = tempDvalue
+			end
 		end
 	end
-	return true
+
+	-------------返回结果
+	if(pingqi_result == false) then
+	    local StrokeAndPoint = {}
+        for i = 1, #BHtable do
+			local m_bh = BHtable[i]
+			local m_index = PTtable[i]
+			local strokeNum =GetBHByPoint(m_bh)
+			------------------------------------------------------
+			local Isrepeat=false
+			for kk, vv in pairs(StrokeAndPoint) do
+				if kk == ""..strokeNum then
+					Isrepeat=true
+				end
+			end
+			------------------------------------------------------
+
+			if(Isrepeat) then
+				StrokeAndPoint[""..strokeNum]=StrokeAndPoint[""..strokeNum]..m_index/#m_bh.ptSet.."/"
+			else
+			    StrokeAndPoint[""..strokeNum]=""..m_index/#m_bh.ptSet.."/"
+			end
+
+		end
+		temp={}
+		temp["errortype"]="A0001"
+		temp["errorstroke"]=StrokeAndPoint
+		temp["errordiff"]=math.pow(Dvalue/220.0, 1.2)
+		typeInfo[#typeInfo+1]=temp
+		return false
+	else
+		return true
+	end
 end
 
 --部件侧面2：竖直平齐（已经确认）
@@ -6141,7 +6169,7 @@ function IsShuiPingDengFen2(BHtable,keypointtable)--水平等分 字例：开
 		print"实际的差值"
 		print (Dvalue)
 		print(secpt.x,firpt.x)
-		if((math.max(Dvalue,aver)-math.min(Dvalue,aver))/aver<= 0.19)then--参数待修改
+		if((math.max(Dvalue,aver)-math.min(Dvalue,aver))/aver<= 0.25)then--参数待修改
 			print(Dvalue-aver)
 			print"NNNNNNNNNNNNNNNNNNNNNNNNNNNN"
 			print(Dvalue,aver,Dvalue-aver)
@@ -6378,12 +6406,15 @@ function	IsShouDianJuZheng(bh1,bh2,bh2bdidx)--首点居正 字例：文 市
 
 		local StrokeAndPoint = {}
 		StrokeAndPoint[""..strokeNum1]=""..end1Idx/#bh1.ptSet
-		StrokeAndPoint[""..strokeNum2]=""..return_idx/#bh2.ptSet
+
+		local location={}
+		location[""..strokeNum2]=""..return_idx/#bh2.ptSet
 
 		local temp={}
 		temp["errortype"]="A0004"
 		temp["errorstroke"]=StrokeAndPoint
 		temp["errordiff"]=Dvalue/len2-0.05
+	    temp["rightposition"]=location
 
 		typeInfo[#typeInfo+1]=temp
 		return false
@@ -6454,7 +6485,7 @@ function	IsTuChuZhuBi(heng,shu)--突出主笔 字例：下 士
 		angel = math.abs(angel)
 		print"竖的斜率角度是%%%%%%%%%%"
 		print(angel)
-		if(angel <= 12.7 and curve <= 1.12)then
+		if(angel <= 14.7 and curve <= 1.12)then
 			print"你这个竖写得很好啊"
 			return true
 
@@ -6508,7 +6539,7 @@ function IsZhongXinPingWen(bh1,bh2)--重心平稳 字例：火
 	print(keyDot.x)
 	print"包围盒中点和关键点中点的x坐标差值是%%%%%%%%%%"
 	print(Dvalue)
-	if(Dvalue/Xdiff <= 0.13)then--参数待修改
+	if(Dvalue/Xdiff <= 0.20)then--参数待修改
 		return true
 	else
 		----------------------------------------------------------
@@ -6672,6 +6703,9 @@ function IsZhongDianShuiPingDuiQi(ShuBHtable,bdtable)
 	end
 
 	--------计算阈值
+	local pingqi_result = true
+	local Dvalue = 0
+
 	for i = #ShuBHtable,2,-1 do
 		local bh2 = ShuBHtable[i]--bh2
 		local bh1 = ShuBHtable[i-1]--bh1
@@ -6680,27 +6714,52 @@ function IsZhongDianShuiPingDuiQi(ShuBHtable,bdtable)
 		print(i,index1,index2)
 		local secpt = bh2.ptSet[index2]
 		local firpt = bh1.ptSet[index1]
-		local Dvalue= math.abs(secpt.y-firpt.y)
+		local tempDvalue= math.abs(secpt.y-firpt.y)
 		print"水平平齐的差值%%%%%%%%%%%%"
-		print(Dvalue)
+		print(tempDvalue)
 
-		if(Dvalue <= 35)then--参数待修改
+		if(tempDvalue <= 35)then--参数待修改
 			print"IsShuiPingPingQiOKOK"
 		else
-			local strokeNum1 =GetBHByPoint(bh1)
-			local strokeNum2 =GetBHByPoint(bh2)
-			local StrokeAndPoint = {}
-			StrokeAndPoint[""..strokeNum1]=""..index1/#bh1.ptSet
-			StrokeAndPoint[""..strokeNum2]=""..index2/#bh2.ptSet
-			temp={}
-			temp["errortype"]="A0001"
-			temp["errorstroke"]=StrokeAndPoint
-			temp["errordiff"]=math.pow(Dvalue/220.0, 1.2)
-			typeInfo[#typeInfo+1]=temp
-			return false
+		    pingqi_result = false
+			if(tempDvalue > Dvalue) then
+				Dvalue = tempDvalue
+			end
 		end
 	end
-	return true
+
+	-------------返回结果
+	if(pingqi_result == false) then
+	    local StrokeAndPoint = {}
+        for i = 1, #ShuBHtable do
+			local m_bh = ShuBHtable[i]
+			local m_index = PTtable[i]
+			local strokeNum =GetBHByPoint(m_bh)
+			------------------------------------------------------
+			local Isrepeat=false
+			for kk, vv in pairs(StrokeAndPoint) do
+				if kk == ""..strokeNum then
+					Isrepeat=true
+				end
+			end
+			------------------------------------------------------
+
+			if(Isrepeat) then
+				StrokeAndPoint[""..strokeNum]=StrokeAndPoint[""..strokeNum]..m_index/#m_bh.ptSet.."/"
+			else
+			    StrokeAndPoint[""..strokeNum]=""..m_index/#m_bh.ptSet.."/"
+			end
+
+		end
+		temp={}
+		temp["errortype"]="A0001"
+		temp["errorstroke"]=StrokeAndPoint
+		temp["errordiff"]=math.pow(Dvalue/220.0, 1.2)
+		typeInfo[#typeInfo+1]=temp
+		return false
+	else
+		return true
+	end
 end
 
 --[[function JudgeDotLinePoint(pt,bd)
@@ -6727,15 +6786,15 @@ end--]]
 
 --------------------------------------------------------------------------------------------------整字的主观侧面评判规则------------------------------------------------------------------
 
---遍历点集的最上最下最左最右，形成字包围盒，算出宽高比
-function IsAspectRatio(type)--字宽高比 1瘦高型 2矮胖型
-	local strokeStrs  = {}
+--遍历点集的最上最下最左最右点，形成字包围盒，算出宽高比
+--宽高比不能大于2，小于1/2
+function IsAspectRatioRight()
 	local tempYmin =512
 	local tempYmax =0
 	local tempXmin =512
 	local tempXmax =0
-	--print"0000000"
-	--print(pointstr)
+	-------------------
+	--计算包围盒
 	local ptSets = {}
 	for strx,stry in string.gmatch(pointstr,"(%d+)/(%d+)") do
 		local pt = {}
@@ -6744,7 +6803,6 @@ function IsAspectRatio(type)--字宽高比 1瘦高型 2矮胖型
 		ptSets[#ptSets+1] = pt
 	end
 	for i= 1,#ptSets do
-		--print(ptSets[i].x,ptSets[i].y)
 		if (ptSets[i].y > tempYmax) then
 		tempYmax=ptSets[i].y
 		end
@@ -6759,56 +6817,24 @@ function IsAspectRatio(type)--字宽高比 1瘦高型 2矮胖型
 		end
 	end
 
-
-	--print(tempXmin,tempXmax,tempYmin,tempYmax)
+	--计算宽高比，并判断
 	local Xdiff=tempXmax-tempXmin
 	local Ydiff=tempYmax-tempYmin
-	if(tonumber(type) == 1)then
-		print"PPPPPPPPPPPPPPPPP"
-		print(Xdiff,Ydiff)
-		if(Xdiff>Ydiff)then
+
+	print("Xkuangaobi00000000000000000000----------------------------------------------------------------------")
+	print(Xdiff/Ydiff)
+
+	if(Xdiff/Ydiff>=1.7 or Xdiff/Ydiff<=0.59) then
 			local StrokeAndPoint={ }
 			StrokeAndPoint["null"]="null"
-			--typeInfo.errortype[#typeInfo.errortype+1] = "A0000"
-			--typeInfo.errorstroke[#typeInfo.errorstroke+1] = StrokeAndPoint
 			local temp={}
 			temp["errortype"]="C0001"
 			temp["errorstroke"]=StrokeAndPoint
-			print"kuangaobi00000000000000000000"
+			temp["errordiff"]=(math.max(Xdiff,Ydiff)-math.min(Xdiff,Ydiff))/math.min(Xdiff,Ydiff)
 			typeInfo[#typeInfo+1]=temp
-			return false
-		else
-			return true
-		end
-	elseif(tonumber(type) == 2)then
-		if(Xdiff<Ydiff)then
-			local StrokeAndPoint={ }
-			StrokeAndPoint["null"]="null"
-			--typeInfo.errortype[#typeInfo.errortype+1] = "A0000"
-			--typeInfo.errorstroke[#typeInfo.errorstroke+1] = StrokeAndPoint
-			local temp={}
-			temp["errortype"]="C0001"
-			temp["errorstroke"]=StrokeAndPoint
-			print"kuangaobi00000000000000000000"
-			typeInfo[#typeInfo+1]=temp
-			return false
-		else
-			return true
-		end
-	elseif(tonumber(type) == 3)then
-		if((Xdiff/Ydiff) > 1.3 or (Ydiff/Xdiff) > 1.3 )then
-			local StrokeAndPoint={ }
-			StrokeAndPoint["null"]="null"
-			--typeInfo.errortype[#typeInfo.errortype+1] = "A0000"
-			--typeInfo.errorstroke[#typeInfo.errorstroke+1] = StrokeAndPoint
-			local temp={}
-			temp["errortype"]="C0001"
-			temp["errorstroke"]=StrokeAndPoint
-			print"kuangaobi00000000000000000000"
-			typeInfo[#typeInfo+1]=temp
-			return false
-		else
-			return true
-		end
+		return false
+	else
+		return true
 	end
+
 end

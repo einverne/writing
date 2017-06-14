@@ -29,7 +29,7 @@ void ActionA0003::startWithTarget(CCNode *pTarget){
 
 bool ActionA0003::init(float duration){
 	CCActionInterval::initWithDuration(duration);
-	this->endPoint = endPoint;
+	//this->endPoint = endPoint;
 	return true;
 }
 
