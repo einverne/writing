@@ -18,4 +18,4 @@ doA0010 长度比例------TwoLineNode(画两条线)-------------------------DynamicDrawi
 
 doA0007 重心平稳------BarycentreNode------------------------------------MoveBarycentre
 
-doC0001_2_3纵横比、太小、太偏------RectangleNode----------------MoveRectangleNode
+doC0001_2_3纵横比、太小、太偏------RectangleNode----------------MoveRectangleNode 
