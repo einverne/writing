@@ -51,8 +51,12 @@ iOS开发(待更新)
 
 - master
 
-        已经很久没更新了。
+        已经很久没更新了。不想再管了。
 
+- backupmaster
+
+        历史遗留。
+	
 - new_writing_app
 
 	历史遗留
