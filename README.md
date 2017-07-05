@@ -51,7 +51,7 @@ iOS开发(待更新)
 
 - master
 
-	master 分支为最新稳定版应用
+        已经很久没更新了。
 
 - new_writing_app
 
