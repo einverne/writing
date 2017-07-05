@@ -49,26 +49,37 @@ iOS开发(待更新)
 
 ## 项目分支说明
 
-- master
-	
-	master 分支为最新稳定版应用
+    master
 
-- new_writing_app
+      已经很久没更新了。不想再管了。
 
-	历史遗留
+    backupmaster
 
-- tongji
+      历史遗留。早期基于砖墙的交互版本。
 
-	历史遗留
+    new_writing_app
 
-- yibihua 
+      历史遗留
 
-	易笔画 分支，易笔画 Android 版 分支，暂未更新至最新版
+    tongji
 
-- yihanzi
+      历史遗留, 用于统计.
 
-	易汉字 分支，易汉字 Android app，更新至最新稳定版，待更新数据库
+    radical
 
-- radical
+      好像是用于松弛匹配算法的。调用lua引擎时存在空指针问题。不想跟进更新了。
 
-	部件，侧面分支，用来测试部件级别的汉字，开发中
+    yibihua
+
+      易笔画 分支，易笔画 Android 版 分支，暂未更新至最新版.
+
+    yihanzi
+
+      易汉字 分支，易汉字 Android app，已更新至最新版本.最新版本的笔画笔顺评判（重点关注）
+
+    bujian
+
+      最新版本的结构布势评判。(重点关注)
+      目前的结构布势评判只支持独体字，后续需要考虑合体字的情况。
+
+
