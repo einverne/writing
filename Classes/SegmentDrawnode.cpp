@@ -3,7 +3,7 @@
 
 SegmentDrawnode::SegmentDrawnode(Segment segment)
 {
-	this->segment_ = segment;
+	this->segment_ = segment; 
 }
 
 
