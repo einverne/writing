@@ -72,3 +72,7 @@ iOS开发(待更新)
 - yihanzi
 
 	易汉字 分支，易汉字 Android app，未更新至最新
+
+- bujian
+
+        最新版本的结构布势评判。
