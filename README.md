@@ -55,7 +55,7 @@ iOS开发(待更新)
 
 - backupmaster
 
-        历史遗留。
+        历史遗留。早期基于砖墙的交互版本。
 	
 - new_writing_app
 
