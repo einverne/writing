@@ -5039,7 +5039,11 @@ print("guaidian")
 		end
 	end
 end
-function DirectionLR(PBD,SorE,CBD)--判断当前笔段在之前笔段左右哪个半区  3左 4右 BorE PBD的首点还是末点 1首点2末点
+
+------参数：PBD是笔画或笔段，CBD是笔画或笔段，SorE是标识。
+------功能：判断CBD的起点，在PBD某个点的左边还是右边。
+------返回值：3表示左半区，4表示右半区
+function DirectionLR(PBD,SorE,CBD)--SorE表示PBD的首点还是末点 1首点2末点
 	local flag = 0
 	local p1,p1Idx = GetStartPoint(CBD)
 
@@ -5079,12 +5083,13 @@ function DirectionLR(PBD,SorE,CBD)--判断当前笔段在之前笔段左右哪�
 
 
 	return flag
-	end
+end
 
 
-
-
-	function DirectionUD(PBD,SorE,CBD)--判断当前笔段在之前笔段上下哪个半区  1上 2下
+------参数：PBD是笔画或笔段，CBD是笔画或笔段，SorE是标识。
+------功能：判断CBD的起点，在PBD某个点的上边还是下边。
+------返回值：1表示上半区，2表示下半区
+function DirectionUD(PBD,SorE,CBD)--SorE表示PBD的首点还是末点 1首点 2末点
 	local flag = 0
 	local p1,p1Idx = GetStartPoint(CBD)
 
@@ -5123,4 +5128,4 @@ function DirectionLR(PBD,SorE,CBD)--判断当前笔段在之前笔段左右哪�
 
 
 	return flag
-	end
+end
