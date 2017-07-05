@@ -59,11 +59,11 @@ iOS开发(待更新)
 	
 - new_writing_app
 
-	历史遗留
+        历史遗留
 
 - tongji
 
-	历史遗留, 用于统计
+        历史遗留, 用于统计.
 
 - radical
 
@@ -71,11 +71,11 @@ iOS开发(待更新)
 
 - yibihua
 
-	易笔画 分支，易笔画 Android 版 分支，暂未更新至最新版
+        易笔画 分支，易笔画 Android 版 分支，暂未更新至最新版.
 
 - yihanzi
 
-	易汉字 分支，易汉字 Android app，未更新至最新
+        易汉字 分支，易汉字 Android app，已更新至最新版本.
 
 - bujian
 
