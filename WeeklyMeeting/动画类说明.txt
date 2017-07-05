@@ -1,0 +1,21 @@
+doA0001 水平平齐 ------multipointNode(两组同样的点，动画时一组点不动画点，另一组点移动画线)------movetohorizontal
+
+doA0008 竖直平齐------multipointNode(两组同样的点，动画时一组点不动画点，另一组点移动画线)------movetovertical
+
+doA0009 突出主笔------multipointNode(两组同样的点，动画时一组点不动画点，另一组点移动画线)------movetohorizontal或者movetovertical
+
+doA0002 黄金分割------onepointNode(一个点，包含原始位置和目标位置)------movetorightplace
+
+doA0003 中点切分------onepointNode(一个点，包含原始位置和目标位置)------movetorightplace
+
+doA0004 首点居正------DotLineNode(一个点，带有方向和长度)------闪烁
+
+doA0005 竖直等分------UniformSpaceNode(多条线，之间画圆)------movetoUniformSpace
+
+doA0006 水平等分------UniformSpaceNode(多条线，之间画圆)-------movetoUniformSpace
+
+doA0010 长度比例------TwoLineNode(画两条线)-------------------------DynamicDrawing
+
+doA0007 重心平稳------BarycentreNode------------------------------------MoveBarycentre
+
+doC0001_2_3纵横比、太小、太偏------RectangleNode----------------MoveRectangleNode
