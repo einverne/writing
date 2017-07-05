@@ -1,20 +1,20 @@
-#include "ActionA0001.h"
+#include "MoveToHorizontal.h"
 #include "HcharacterDrawnode.h"
 
-ActionA0001::ActionA0001()
+MoveToHorizontal::MoveToHorizontal()
 {
 	length.clear();
 	originY.clear();
 }
 
-ActionA0001::~ActionA0001()
+MoveToHorizontal::~MoveToHorizontal()
 {
 	length.clear();
 	originY.clear();
 }
 
-ActionA0001* ActionA0001::create(float duration){
-	ActionA0001* pRet = new ActionA0001();
+MoveToHorizontal* MoveToHorizontal::create(float duration){
+	MoveToHorizontal* pRet = new MoveToHorizontal();
 	if (pRet && pRet->init(duration))
 	{
 		pRet->autorelease();
@@ -24,16 +24,16 @@ ActionA0001* ActionA0001::create(float duration){
 	return NULL;
 }
 
-void ActionA0001::startWithTarget(CCNode *pTarget){
+void MoveToHorizontal::startWithTarget(CCNode *pTarget){
 	CCActionInterval::startWithTarget(pTarget);
 
 	/////////////////////////////////////////////////////////////////
 	vector<CCPoint>::iterator it;
-	it=((ShuipingErrorNode*)m_pTarget)->move_point_.begin();
+	it=((MultiPointNode*)m_pTarget)->move_point_.begin();
 	float beginY=(*it).y;
 
 	it++;
-	for(;it!=((ShuipingErrorNode*)m_pTarget)->move_point_.end();it++)
+	for(;it!=((MultiPointNode*)m_pTarget)->move_point_.end();it++)
 	{
 		float endY=(*it).y;
 		length.push_back(endY-beginY);
@@ -41,21 +41,21 @@ void ActionA0001::startWithTarget(CCNode *pTarget){
 	}
 }
 
-bool ActionA0001::init(float duration){
+bool MoveToHorizontal::init(float duration){
 	CCActionInterval::initWithDuration(duration);
 	return true;
 }
 
-void ActionA0001::update(float time){
+void MoveToHorizontal::update(float time){
 	CCLog("ActionA0001::update time = %f",time);
 
 	////////////////////////////////////////////////////////////////
-	vector<CCPoint>::iterator it = ((ShuipingErrorNode*)m_pTarget)->move_point_.begin();
+	vector<CCPoint>::iterator it = ((MultiPointNode*)m_pTarget)->move_point_.begin();
 	it++;
 	vector<float>::iterator ita = length.begin();
 	vector<float>::iterator itb = originY.begin();
 
-	for(;it!=((ShuipingErrorNode*)m_pTarget)->move_point_.end();it++, ita++,itb++)
+	for(;it!=((MultiPointNode*)m_pTarget)->move_point_.end();it++, ita++,itb++)
 	{
 		(*it).y = (*itb)-(*ita)*time;
 	}

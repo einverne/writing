@@ -126,14 +126,8 @@
     <ClCompile Include="..\Classes\CharacterEntity.cpp">
       <Filter>Classes\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\MoveToRightPlace.cpp">
-      <Filter>Classes\action</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\TagData.cpp">
       <Filter>Classes\Entity</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\MoveToRightPlaceInterval.cpp">
-      <Filter>Classes\action</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\tinyxml2.cpp">
       <Filter>Classes\xml</Filter>
@@ -261,20 +255,47 @@
     <ClCompile Include="..\Classes\ViewScene.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\ShuipingErrorNode.cpp">
-      <Filter>Classes\Node</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\OnePointNode.cpp">
       <Filter>Classes\Node</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\ActionA0001.cpp">
-      <Filter>Classes\action</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\ActionA0003.cpp">
-      <Filter>Classes\action</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\DotLineNode.cpp">
       <Filter>Classes\Node</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\MultiPointNode.cpp">
+      <Filter>Classes\Node</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\MoveToHorizontal.cpp">
+      <Filter>Classes\action</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\MoveToVertical.cpp">
+      <Filter>Classes\action</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\MoveToRightPlace.cpp">
+      <Filter>Classes\action</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\UniformSpaceNode.cpp">
+      <Filter>Classes\Node</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\MoveToUniformSpace.cpp">
+      <Filter>Classes\action</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\TwoLineNode.cpp">
+      <Filter>Classes\Node</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\DynamicDrawing.cpp">
+      <Filter>Classes\action</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\BarycentreNode.cpp">
+      <Filter>Classes\Node</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\MoveBarycentre.cpp">
+      <Filter>Classes\action</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\RectangleNode.cpp">
+      <Filter>Classes\Node</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\MoveRectangleNode.cpp">
+      <Filter>Classes\action</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -366,14 +387,8 @@
     <ClInclude Include="..\Classes\CharacterEntity.h">
       <Filter>Classes\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\MoveToRightPlace.h">
-      <Filter>Classes\action</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\TagData.h">
       <Filter>Classes\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\MoveToRightPlaceInterval.h">
-      <Filter>Classes\action</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\tinyxml2.h">
       <Filter>Classes\xml</Filter>
@@ -513,20 +528,47 @@
     <ClInclude Include="..\Classes\Error.h">
       <Filter>Classes\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\ShuipingErrorNode.h">
-      <Filter>Classes\Node</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\OnePointNode.h">
       <Filter>Classes\Node</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\ActionA0001.h">
-      <Filter>Classes\action</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ActionA0003.h">
-      <Filter>Classes\action</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\DotLineNode.h">
       <Filter>Classes\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MultiPointNode.h">
+      <Filter>Classes\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MoveToHorizontal.h">
+      <Filter>Classes\action</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MoveTovertical.h">
+      <Filter>Classes\action</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MoveToRightPlace.h">
+      <Filter>Classes\action</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\UniformSpaceNode.h">
+      <Filter>Classes\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MoveToUniformSpace.h">
+      <Filter>Classes\action</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\TwoLineNode.h">
+      <Filter>Classes\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\DynamicDrawing.h">
+      <Filter>Classes\action</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\BarycentreNode.h">
+      <Filter>Classes\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MoveBarycentre.h">
+      <Filter>Classes\action</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\RectangleNode.h">
+      <Filter>Classes\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MoveRectangleNode.h">
+      <Filter>Classes\action</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

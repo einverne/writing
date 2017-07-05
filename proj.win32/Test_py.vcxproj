@@ -128,8 +128,12 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Classes\ActionA0001.cpp" />
-    <ClCompile Include="..\Classes\ActionA0003.cpp" />
+    <ClCompile Include="..\Classes\BarycentreNode.cpp" />
+    <ClCompile Include="..\Classes\DynamicDrawing.cpp" />
+    <ClCompile Include="..\Classes\MoveBarycentre.cpp" />
+    <ClCompile Include="..\Classes\MoveRectangleNode.cpp" />
+    <ClCompile Include="..\Classes\MoveToHorizontal.cpp" />
+    <ClCompile Include="..\Classes\MoveToRightPlace.cpp" />
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\BackgroundLayer.cpp" />
     <ClCompile Include="..\Classes\Bujian.cpp" />
@@ -148,16 +152,17 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\LianxiScene.cpp" />
     <ClCompile Include="..\Classes\LuaScriptReader.cpp" />
     <ClCompile Include="..\Classes\MainScene.cpp" />
-    <ClCompile Include="..\Classes\MoveToRightPlace.cpp" />
-    <ClCompile Include="..\Classes\MoveToRightPlaceInterval.cpp" />
+    <ClCompile Include="..\Classes\MoveToUniformSpace.cpp" />
+    <ClCompile Include="..\Classes\MoveToVertical.cpp" />
     <ClCompile Include="..\Classes\MyToast.cpp" />
     <ClCompile Include="..\Classes\NewUnit.cpp" />
     <ClCompile Include="..\Classes\OnePointNode.cpp" />
     <ClCompile Include="..\Classes\PopCancelLayer.cpp" />
     <ClCompile Include="..\Classes\PopLayer.cpp" />
     <ClCompile Include="..\Classes\ReadXML.cpp" />
+    <ClCompile Include="..\Classes\RectangleNode.cpp" />
     <ClCompile Include="..\Classes\RightZiAnimationAction.cpp" />
-    <ClCompile Include="..\Classes\ShuipingErrorNode.cpp" />
+    <ClCompile Include="..\Classes\MultiPointNode.cpp" />
     <ClCompile Include="..\Classes\Splash.cpp" />
     <ClCompile Include="..\Classes\SQLiteData.cpp" />
     <ClCompile Include="..\Classes\SqliteHelper.cpp" />
@@ -175,6 +180,8 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\tinyxmlparser.cpp" />
     <ClCompile Include="..\Classes\tools\DataTool.cpp" />
     <ClCompile Include="..\Classes\TouchLayer.cpp" />
+    <ClCompile Include="..\Classes\TwoLineNode.cpp" />
+    <ClCompile Include="..\Classes\UniformSpaceNode.cpp" />
     <ClCompile Include="..\Classes\UTF8ToGBK.cpp" />
     <ClCompile Include="..\Classes\ViewScene.cpp" />
     <ClCompile Include="..\Classes\WallScene.cpp" />
@@ -211,8 +218,12 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Classes\ActionA0001.h" />
-    <ClInclude Include="..\Classes\ActionA0003.h" />
+    <ClInclude Include="..\Classes\BarycentreNode.h" />
+    <ClInclude Include="..\Classes\DynamicDrawing.h" />
+    <ClInclude Include="..\Classes\MoveBarycentre.h" />
+    <ClInclude Include="..\Classes\MoveRectangleNode.h" />
+    <ClInclude Include="..\Classes\MoveToHorizontal.h" />
+    <ClInclude Include="..\Classes\MoveToRightPlace.h" />
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\BackgroundLayer.h" />
     <ClInclude Include="..\Classes\Bujian.h" />
@@ -233,16 +244,17 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\LianxiScene.h" />
     <ClInclude Include="..\Classes\LuaScriptReader.h" />
     <ClInclude Include="..\Classes\MainScene.h" />
-    <ClInclude Include="..\Classes\MoveToRightPlace.h" />
-    <ClInclude Include="..\Classes\MoveToRightPlaceInterval.h" />
+    <ClInclude Include="..\Classes\MoveToUniformSpace.h" />
+    <ClInclude Include="..\Classes\MoveTovertical.h" />
     <ClInclude Include="..\Classes\MyToast.h" />
     <ClInclude Include="..\Classes\NewUnit.h" />
     <ClInclude Include="..\Classes\OnePointNode.h" />
     <ClInclude Include="..\Classes\PopCancelLayer.h" />
     <ClInclude Include="..\Classes\PopLayer.h" />
     <ClInclude Include="..\Classes\ReadXML.h" />
+    <ClInclude Include="..\Classes\RectangleNode.h" />
     <ClInclude Include="..\Classes\RightZiAnimationAction.h" />
-    <ClInclude Include="..\Classes\ShuipingErrorNode.h" />
+    <ClInclude Include="..\Classes\MultiPointNode.h" />
     <ClInclude Include="..\Classes\Splash.h" />
     <ClInclude Include="..\Classes\SQLiteData.h" />
     <ClInclude Include="..\Classes\SqliteHelper.h" />
@@ -258,6 +270,8 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\tinyxml2.h" />
     <ClInclude Include="..\Classes\tools\DataTool.h" />
     <ClInclude Include="..\Classes\TouchLayer.h" />
+    <ClInclude Include="..\Classes\TwoLineNode.h" />
+    <ClInclude Include="..\Classes\UniformSpaceNode.h" />
     <ClInclude Include="..\Classes\UTF8ToGBK.h" />
     <ClInclude Include="..\Classes\ViewScene.h" />
     <ClInclude Include="..\Classes\WallScene.h" />

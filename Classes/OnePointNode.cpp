@@ -23,7 +23,7 @@ void OnePointNode::setRightPoint(CCPoint right_point){
 
 void OnePointNode::draw() {
 	glLineWidth(10.0f);					//±Ê»­´ÖÏ¸
-	ccDrawColor4F(1,0,0,1);				//±Ê»­ÑÕÉ«
+	ccDrawColor4F(0,1,0,1);				//±Ê»­ÑÕÉ«
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	ccPointSize(15);

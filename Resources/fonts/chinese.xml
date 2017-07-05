@@ -74,7 +74,7 @@
 	<key>B0002</key>
 	<string>笔画位置错误</string>
 	<key>C0001</key>
-	<string>整字宽高比错误</string>
+	<string>宽高比错误</string>
 	<key>C0002</key>
 	<string>字太小</string>
 	<key>C0003</key>

@@ -1,21 +1,17 @@
-
 #include "MoveToRightPlace.h"
 #include "HcharacterDrawnode.h"
-#include "StrokeDrawnode.h"
 
-MoveToRightPlace::MoveToRightPlace():m_points(NULL)
+MoveToRightPlace::MoveToRightPlace()
 {
 }
 
 MoveToRightPlace::~MoveToRightPlace()
 {
-	CC_SAFE_RELEASE(m_points);
 }
 
-
-MoveToRightPlace* MoveToRightPlace::create(int index,Stroke s){
+MoveToRightPlace* MoveToRightPlace::create(float duration){
 	MoveToRightPlace* pRet = new MoveToRightPlace();
-	if (pRet && pRet->initWithPoints(index,s))
+	if (pRet && pRet->init(duration))
 	{
 		pRet->autorelease();
 		return pRet;
@@ -24,29 +20,23 @@ MoveToRightPlace* MoveToRightPlace::create(int index,Stroke s){
 	return NULL;
 }
 
-CCObject* MoveToRightPlace::copyWithZone(CCZone* pZone){
-	CCZone* pNewZone = NULL;
-	MoveToRightPlace* pRet = NULL;
-	if (pRet && pZone->m_pCopyObject)
-	{
-		pRet = (MoveToRightPlace*)(pZone->m_pCopyObject);
-	}else{
-		pRet = new MoveToRightPlace();
-		pZone = pNewZone = new CCZone(pRet);
-	}
-	CCActionInstant::copyWithZone(pZone);
-	pRet->initWithPoints(index,m_stroke);
-	CC_SAFE_DELETE(pNewZone);
-	return pRet;
+void MoveToRightPlace::startWithTarget(CCNode *pTarget){
+	CCActionInterval::startWithTarget(pTarget);
+	startPoint = ((OnePointNode*)pTarget)->centerPoint_;
+	endPoint = ((OnePointNode*)pTarget)->rightPoint_;
+	deltaPoint = endPoint - startPoint;
+}
+
+bool MoveToRightPlace::init(float duration){
+	CCActionInterval::initWithDuration(duration);
+	//this->endPoint = endPoint;
+	return true;
 }
 
 void MoveToRightPlace::update(float time){
-	CC_UNUSED_PARAM(time);
-	((HcharacterDrawnode*)m_pTarget)->changeStroke(index,m_stroke);
-}
+	CCLog("MoveToRightPlace::update time = %f",time);
+	CCPoint cPoint = ((OnePointNode*)getTarget())->centerPoint_;
+	cPoint = startPoint + deltaPoint * time;
 
-bool MoveToRightPlace::initWithPoints(int index,Stroke s){
-	this->index = index;
-	this->m_stroke = s;
-	return true;
+	((OnePointNode*)getTarget())->centerPoint_ = cPoint;
 }

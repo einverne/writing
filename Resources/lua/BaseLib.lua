@@ -5918,6 +5918,7 @@ function IsShuZhiPingQi(BHtable,turingtable)--竖直平齐  字例：片 气 友
 	if(#BHtable ~= #turingtable)then
 		return false
 	end
+
 	------------计算各个点的索引
 	local PTtable={}
 	for i=1, #BHtable do
@@ -5931,6 +5932,9 @@ function IsShuZhiPingQi(BHtable,turingtable)--竖直平齐  字例：片 气 友
 	end
 
 	------------阈值评判
+	local pingqi_result = true
+	local Dvalue = 0
+
 	for i = #BHtable,2,-1 do
 		local bh2 = BHtable[i]--bh2
 		local bh1 = BHtable[i-1]--bh1
@@ -5939,26 +5943,51 @@ function IsShuZhiPingQi(BHtable,turingtable)--竖直平齐  字例：片 气 友
 		print(i,index1,index2)
 		local secpt = bh2.ptSet[index2]
 		local firpt = bh1.ptSet[index1]
-		local Dvalue= math.abs(secpt.x-firpt.x)
+		local tempDvalue= math.abs(secpt.x-firpt.x)
 		print"竖直平齐的差值%%%%%%%%%%%%"
-		print(Dvalue)
-		if(Dvalue <= 35)then--参数待修改
+		print(tempDvalue)
+		if(tempDvalue <= 35)then--参数待修改
 			print"IsShuZhiPingQiOKOK"
-		else
-			local strokeNum1 =GetBHByPoint(bh1)
-			local strokeNum2 =GetBHByPoint(bh2)
-			local StrokeAndPoint = {}
-			StrokeAndPoint[""..strokeNum1]=""..index1/#bh1.ptSet
-			StrokeAndPoint[""..strokeNum2]=""..index2/#bh2.ptSet
-			temp={}
-			temp["errortype"]="A0008"
-			temp["errorstroke"]=StrokeAndPoint
-			temp["errordiff"]=math.pow(Dvalue/220.0, 1.2)
-			typeInfo[#typeInfo+1]=temp
-			return false
+	    else
+		    pingqi_result = false
+			if(tempDvalue > Dvalue) then
+				Dvalue = tempDvalue
+			end
 		end
 	end
-	return true
+
+	-------------返回结果
+	if(pingqi_result == false) then
+		local StrokeAndPoint = {}
+		for i = 1, #BHtable do
+			local m_bh = BHtable[i]
+			local m_index = PTtable[i]
+			local strokeNum =GetBHByPoint(m_bh)
+			------------------------------------------------------
+			local Isrepeat=false
+			for kk, vv in pairs(StrokeAndPoint) do
+				if kk == ""..strokeNum then
+					Isrepeat=true
+				end
+			end
+			------------------------------------------------------
+
+			if(Isrepeat) then
+				StrokeAndPoint[""..strokeNum]=StrokeAndPoint[""..strokeNum]..m_index/#m_bh.ptSet.."/"
+			else
+			    StrokeAndPoint[""..strokeNum]=""..m_index/#m_bh.ptSet.."/"
+			end
+
+		end
+		temp={}
+		temp["errortype"]="A0008"
+		temp["errorstroke"]=StrokeAndPoint
+		temp["errordiff"]=math.pow(Dvalue/220.0, 1.2)
+		typeInfo[#typeInfo+1]=temp
+		return false
+	else
+		return true
+	end
 end
 
 ----部件侧面3：竖直等分（已经确认）
@@ -6452,7 +6481,7 @@ function	IsTuChuZhuBi(heng,shu)--突出主笔 字例：下 士
 		else
 			local strokeNum1 =GetBHByPoint(heng)
 			local StrokeAndPoint = {}
-			StrokeAndPoint[""..strokeNum1]="null"
+			StrokeAndPoint[""..strokeNum1]="0.0/1.0/"
 			local temp={}
 			temp["errortype"]="A0009"
 			temp["errorstroke"]=StrokeAndPoint
@@ -6492,7 +6521,7 @@ function	IsTuChuZhuBi(heng,shu)--突出主笔 字例：下 士
 		else
 			local strokeNum2 =GetBHByPoint(shu)
 			local StrokeAndPoint = {}
-			StrokeAndPoint[""..strokeNum2]="null"
+			StrokeAndPoint[""..strokeNum2]="0.0/1.0/"
 			local temp={}
 			temp["errortype"]="A0009"
 			temp["errorstroke"]=StrokeAndPoint
@@ -6539,7 +6568,7 @@ function IsZhongXinPingWen(bh1,bh2)--重心平稳 字例：火
 	print(keyDot.x)
 	print"包围盒中点和关键点中点的x坐标差值是%%%%%%%%%%"
 	print(Dvalue)
-	if(Dvalue/Xdiff <= 0.20)then--参数待修改
+	if(Dvalue/Xdiff <= 0.19)then--参数待修改
 		return true
 	else
 		----------------------------------------------------------
@@ -6612,8 +6641,8 @@ function IsChangDuBiLi(bh1,bh1_bdindex,bh2,bh2_bdindex,ratio)--长度比例
 		local strokeNum1 =GetBHByPoint(bh1)
 		local strokeNum2 =GetBHByPoint(bh2)
 		local StrokeAndPoint = {}
-		StrokeAndPoint[""..strokeNum1]=""..startindex1/#bh1.ptSet.."/"..endindex1/#bh1.ptSet
-		StrokeAndPoint[""..strokeNum2]=""..startindex2/#bh2.ptSet.."/"..endindex2/#bh2.ptSet
+		StrokeAndPoint[""..strokeNum1]=""..startindex1/#bh1.ptSet.."/"..endindex1/#bh1.ptSet.."/"
+		StrokeAndPoint[""..strokeNum2]=""..startindex2/#bh2.ptSet.."/"..endindex2/#bh2.ptSet.."/"
 		local temp={}
 		temp["errortype"]="A0010"
 		temp["errorstroke"]=StrokeAndPoint
@@ -6648,6 +6677,9 @@ function IsZhongDianShuZhiDuiQi(HengBHtable,bdtable)
 	end
 
 	--------计算阈值
+	local pingqi_result = true
+	local Dvalue = 0
+
     for i = #HengBHtable,2,-1 do
 		local bh2 = HengBHtable[i]--bh2
 		local bh1 = HengBHtable[i-1]--bh1
@@ -6656,26 +6688,52 @@ function IsZhongDianShuZhiDuiQi(HengBHtable,bdtable)
 		print(i,index1,index2)
 		local secpt = bh2.ptSet[index2]
 		local firpt = bh1.ptSet[index1]
-		local Dvalue= math.abs(secpt.x-firpt.x)
+		local tempDvalue= math.abs(secpt.x-firpt.x)
 		print"竖直平齐的差值%%%%%%%%%%%%"
-		print(Dvalue)
-		if(Dvalue <= 35)then--参数待修改
-			print"IsShuZhiPingQiOKOK"
+		print(tempDvalue)
+
+		if(tempDvalue <= 35)then--参数待修改
+			print"IsshuzhiPingQiOKOK"
 		else
-			local strokeNum1 =GetBHByPoint(bh1)
-			local strokeNum2 =GetBHByPoint(bh2)
-			local StrokeAndPoint = {}
-			StrokeAndPoint[""..strokeNum1]=""..index1/#bh1.ptSet
-			StrokeAndPoint[""..strokeNum2]=""..index2/#bh2.ptSet
-			temp={}
-			temp["errortype"]="A0008"
-			temp["errorstroke"]=StrokeAndPoint
-			temp["errordiff"]=math.pow(Dvalue/220.0, 1.2)
-			typeInfo[#typeInfo+1]=temp
-			return false
+		    pingqi_result = false
+			if(tempDvalue > Dvalue) then
+				Dvalue = tempDvalue
+			end
 		end
 	end
-	return true
+
+	-------------返回结果
+	if(pingqi_result == false) then
+	    local StrokeAndPoint = {}
+	    for i = 1, #HengBHtable do
+			local m_bh = HengBHtable[i]
+			local m_index = PTtable[i]
+			local strokeNum =GetBHByPoint(m_bh)
+			------------------------------------------------------
+			local Isrepeat=false
+			for kk, vv in pairs(StrokeAndPoint) do
+				if kk == ""..strokeNum then
+					Isrepeat=true
+				end
+			end
+			------------------------------------------------------
+
+			if(Isrepeat) then
+				StrokeAndPoint[""..strokeNum]=StrokeAndPoint[""..strokeNum]..m_index/#m_bh.ptSet.."/"
+			else
+			    StrokeAndPoint[""..strokeNum]=""..m_index/#m_bh.ptSet.."/"
+			end
+
+		end
+		temp={}
+		temp["errortype"]="A0008"
+		temp["errorstroke"]=StrokeAndPoint
+		temp["errordiff"]=math.pow(Dvalue/220.0, 1.2)
+		typeInfo[#typeInfo+1]=temp
+		return false
+	else
+		return true
+	end
 end
 
 -------部件侧面12：中点水平对齐，返回值与水平平齐相同
@@ -6762,27 +6820,6 @@ function IsZhongDianShuiPingDuiQi(ShuBHtable,bdtable)
 	end
 end
 
---[[function JudgeDotLinePoint(pt,bd)
-	--local newbh = resample(bd)
-	local tempDis =  512
-	local disThreshold = 50
-	local startPoint,startindex=GetStartPoint(bd)
-	local endPoint,endindex=GetEndPoint(bd)
-	--local line1 = GetLine(startindex,endindex)
-	--local near,nearIndex=GetNearestPt2Line(line1,pt)
-	local yValue1=math.abs(startPoint.y-pt.y)
-	local yValue2=math.abs(endPoint.y-pt.y)
-	--print(startPoint.y,endPoint.y,pt.y)
-
-	if(yValue1/yValue2 >= 0.5 and yValue1/yValue2 <= 0.7)then
-		return true
-	elseif(yValue2/yValue1 >= 0.5 and yValue2/yValue1 <= 0.7)then
-		return true
-	else
-		table.insert(errorType,"A0003")
-		return false
-	end
-end--]]
 
 --------------------------------------------------------------------------------------------------整字的主观侧面评判规则------------------------------------------------------------------
 

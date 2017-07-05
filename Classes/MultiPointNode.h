@@ -6,13 +6,13 @@ USING_NS_CC;
 
 using namespace std;
 
-class ShuipingErrorNode :
+class MultiPointNode :
 	public CCNode
 {
 public:
-	ShuipingErrorNode(void);
-	CREATE_FUNC(ShuipingErrorNode);
-	~ShuipingErrorNode(void);
+	MultiPointNode(void);
+	CREATE_FUNC(MultiPointNode);
+	~MultiPointNode(void);
 	virtual void draw();
 
 	//void setPoint(CCPoint start_point, CCPoint end_point);
