@@ -84,7 +84,7 @@ bool LianxiScene::init(){
 // 	CCLog("seq %s",temp->getCString());
 // 	string str(temp->getCString());
 // 	vector<string> strvec = SQLiteData::splitStrokeSeq(str);
-// 	//å»é‡
+// 	//È¥ÖØ
 // 	std::sort(strvec.begin(),strvec.end());
 // 	strvec.erase(std::unique(strvec.begin(),strvec.end()),strvec.end());
 // 	vector<string>::iterator iter = strvec.begin(),iter2 = strvec.end();

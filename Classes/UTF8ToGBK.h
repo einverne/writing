@@ -4,11 +4,11 @@
 #include <iostream>  
 #include <stdio.h>  
 
-//string鏄痗++ 鐨勫ご鏂囦欢锛屽叾鍐呭寘鍚簡涓�涓猻tring绫伙紝string s1灏辨槸寤虹珛涓�涓猻tring绫荤殑瀵硅薄   
+//string是c++ 的头文件，其内包含了一个string类，string s1就是建立一个string类的对象   
 
 #include <string>  
 
-//cstring.h 鏄搴斾簬鏃 澶存枃浠剁殑std 鐗堟湰  
+//cstring.h 是对应于旧C 头文件的std 版本  
 #include <cstringt.h>  
 
 #include <locale>  
@@ -22,10 +22,10 @@ public:
 	~UTF8ToGBK(void);  
 
 
-	//灏唘nicode缂栫爜鐨剆tring杞崲鎴恮string  
+	//将unicode编码的string转换成wstring  
 	static wstring stringToWstring(const string text);  
 
-	//灏唘tf8鏍煎紡缂栫爜杞寲鎴恎bk锛寁s2010鐨勯粯璁ょ殑缂栫爜鏍煎紡  
+	//将utf8格式编码转化成gbk，vs2010的默认的编码格式  
 	static string UTF8TOGBK(const string text);  
 
 }; 

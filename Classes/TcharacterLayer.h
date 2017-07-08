@@ -28,8 +28,8 @@ public:
 	CharacterExtend* getExChar() const { return m_exChar; }
 	void setExChar(CharacterExtend* exchar) { m_exChar = exchar; }
 private:
-	bool isPause;					//鍔ㄧ敾鏄惁鏆傚仠
-	string m_curChar;			//褰撳墠瀛楃
+	bool isPause;					//动画是否暂停
+	string m_curChar;			//当前字符
 	CharacterExtend* m_exChar;
 };
 

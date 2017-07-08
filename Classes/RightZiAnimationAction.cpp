@@ -28,7 +28,7 @@ bool RightZiAnimationAction::init(float duration){
 
 void RightZiAnimationAction::startWithTarget(CCNode *pTarget){
 	CCActionInterval::startWithTarget(pTarget);
-	//鍙湁鍒濆鍖栦簡pTarget鎵嶈兘浣跨敤
+	//只有初始化了pTarget才能使用
 	TcharacterDrawnode* tnode = (TcharacterDrawnode*)m_pTarget;
 	tnode->setVisibleIndex(0);
 	CCObject* it = NULL;

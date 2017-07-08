@@ -5,7 +5,7 @@
 #include "tinyxml.h"
 using namespace std;
 
-// 璇诲彇骞惰В鏋愭瘡涓�涓眽瀛楋紝绗旂敾xml
+// 读取并解析每一个汉字，笔画xml
 class CReadXML
 {
 public:

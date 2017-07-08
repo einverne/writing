@@ -199,7 +199,7 @@ CCObject* MainScene::gridviewDataSource(CCObject* pConvertView, unsigned int idx
 void MainScene::buttonClick(CCObject* pSender){
 	CButton* pButton = (CButton*)pSender;
 	int idx = pButton->getUserTag();
-	string id = unit_ids.at(idx);		// 灏嗛『搴忔暟瀛楄浆鍖栨垚鏁版嵁搴撲腑鐨刬d
+	string id = unit_ids.at(idx);		// 将顺序数字转化成数据库中的id
 	CCDirector::sharedDirector()->replaceScene(WallSingleScene::scene(id));
 }
 
