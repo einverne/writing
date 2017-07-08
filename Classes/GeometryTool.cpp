@@ -267,8 +267,8 @@ void GeometryTool::New_TurningDivide(list<CCPoint> ptlist, list<int>& turning_in
     list<int> turning_can;			// 可能拐点list
     turning_can.clear();
     
-    float point_seg_dis_threshold = boundinglength/75.0;
-    float angle_merge_threshold = 128.0;
+    float point_seg_dis_threshold = boundinglength/75.0;		// 分割距离阈值
+    float angle_merge_threshold = 128.0;						// 夹角合并阈值
     float not_end_seg_len_threshold = boundinglength/12.0;
     
     float end_seg_len_threshold = boundinglength/8.8;
@@ -276,14 +276,14 @@ void GeometryTool::New_TurningDivide(list<CCPoint> ptlist, list<int>& turning_in
     
     //1.根据点到直线距离进行切分。
     turning_can.push_back(0);
-    turning_can.push_back(ptlist.size()-1);
+    turning_can.push_back(ptlist.size()-1);		// 将首尾点index放入
     
     list<int>::iterator it_can = turning_can.begin();
-    for (; it_can!=(--turning_can.end()); )
+    for (; it_can!=(--turning_can.end()); )			//遍历可能拐点
     {
-        int m_b=*it_can;		// begin index
+        int m_b=*it_can;		// begin index 首点
         it_can++;
-        int m_e=*it_can;		// end index
+        int m_e=*it_can;		// end index 尾点
         it_can--;
         
         int can=m_b;
@@ -293,10 +293,10 @@ void GeometryTool::New_TurningDivide(list<CCPoint> ptlist, list<int>& turning_in
         CCPoint pt;
         list<CCPoint>::iterator it_pp;
         int temp_ind;
-        for (int x=m_b; x<=m_e;x++)
+        for (int x=m_b; x<=m_e;x++)		// 首尾点index之间遍历
         {
             ///////////////////
-            it_pp=ptlist.begin();
+            it_pp=ptlist.begin();		//笔画起始点
             temp_ind=0;
             while(temp_ind<m_b)
             {
@@ -323,7 +323,7 @@ void GeometryTool::New_TurningDivide(list<CCPoint> ptlist, list<int>& turning_in
             }
             pt=*it_pp;
             /////////////////////
-            float dis=pointToSegment(pts,pte,pt);	// 点到笔段距离
+            float dis=pointToSegment(pts,pte,pt);	// 点到笔段距离， pt 为线段 pts,pte 外一点，计算 pt 点到笔段距离
             if (dis>can_dis)
             {
                 can=x;
