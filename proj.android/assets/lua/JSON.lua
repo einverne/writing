@@ -14,6 +14,7 @@
 -- the web-page links above, and the 'AUTHOR_NOTE' string below are
 -- maintained. Enjoy.
 --
+
 local VERSION = 20141223.14 -- version history at end of file
 local AUTHOR_NOTE = "-[ JSON.lua package by Jeffrey Friedl (http://regex.info/blog/lua/json) version 20141223.14 ]-"
 
@@ -285,6 +286,7 @@ local OBJDEF = {
 --  you can reload JSON.lua or use the :new() method.
 --
 ---------------------------------------------------------------------------
+
 
 local default_pretty_indent  = "  "
 local default_pretty_options = { pretty = true, align_keys = false, indent = default_pretty_indent }

@@ -36,6 +36,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 	../../Classes/CocosWidget/WidgetProtocol.cpp \
 	../../Classes/CocosWidget/WidgetWindow.cpp \
 	../../Classes/CocosWidget/WitlsMacros.cpp \
+	../../Classes/tools/DataTool.cpp \
    ../../Classes/sqlite3.c \
    ../../Classes/AppDelegate.cpp \
    ../../Classes/BackgroundLayer.cpp \
@@ -70,20 +71,28 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
    ../../Classes/tinyxml.cpp \
    ../../Classes/tinyxmlerror.cpp \
    ../../Classes/tinyxmlparser.cpp \
-   ../../Classes/MoveToRightPlaceInterval.cpp \
    ../../Classes/SqliteHelper.cpp \
    ../../Classes/CharacterEntity.cpp \
    ../../Classes/CharacterExtend.cpp \
    ../../Classes/RightZiAnimationAction.cpp \
-   ../../Classes/tools/DataTool.cpp \
    ../../Classes/NewUnit.cpp \
    ../../Classes/ViewScene.cpp \
-   ../../Classes/ShuipingErrorNode.cpp \
+   ../../Classes/TagData.cpp \
+   ../../Classes/MultiPointNode.cpp \
+   ../../Classes/MoveToHorizontal.cpp \
+   ../../Classes/MoveToVertical.cpp \
    ../../Classes/OnePointNode.cpp \
+   ../../Classes/MoveToRightPlace.cpp \
    ../../Classes/DotLineNode.cpp \
-   ../../Classes/ActionA0001.cpp \
-   ../../Classes/ActionA0003.cpp \
-
+   ../../Classes/UniformSpaceNode.cpp \
+   ../../Classes/MoveToUniformSpace.cpp \
+   ../../Classes/TwoLineNode.cpp \
+   ../../Classes/DynamicDrawing.cpp \
+   ../../Classes/BarycentreNode.cpp \
+   ../../Classes/MoveBarycentre.cpp \
+   ../../Classes/RectangleNode.cpp \
+   ../../Classes/MoveRectangleNode.cpp \
+   
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 
 LOCAL_WHOLE_STATIC_LIBRARIES += cocos2dx_static
