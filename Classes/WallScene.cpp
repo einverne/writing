@@ -371,7 +371,7 @@ void WallScene::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent){
 			//在字周围200像素内，判断为点中
 			if (rect.containsPoint(touchpoint))
 			{
-				CCLog(iter->character.c_str());
+				//CCLog(iter->character.c_str());
 				this->singleClick(iter->character);
 				return;
 			}

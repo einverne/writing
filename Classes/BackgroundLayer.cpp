@@ -59,23 +59,23 @@ void BackgroundLayer::onEnter(){
 	bool isjudge = parentScene->getIsJudge();
 	if (isjudge == true)
 	{
-		CWidgetWindow* m_pWindow = CWidgetWindow::create();
-		m_pWindow->setMultiTouchEnabled(true);
-		addChild(m_pWindow,10);
+		//CWidgetWindow* m_pWindow = CWidgetWindow::create();
+		//m_pWindow->setMultiTouchEnabled(true);
+		//addChild(m_pWindow,10);
 
-		CToggleView* pToggle = CToggleView::create("strangedesign/Judge_writting_easy_button.png","strangedesign/Judge_writting_difficult_button.png");
-		pToggle->setOnClickListener(this,ccw_click_selector(BackgroundLayer::onToggle));
-		pToggle->setPosition(title_bar->getPosition());
-		m_pWindow->addChild(pToggle);
+		//CToggleView* pToggle = CToggleView::create("strangedesign/Judge_writting_easy_button.png","strangedesign/Judge_writting_difficult_button.png");
+		//pToggle->setOnClickListener(this,ccw_click_selector(BackgroundLayer::onToggle));
+		//pToggle->setPosition(title_bar->getPosition());
+		//m_pWindow->addChild(pToggle);
 
-		string str = DataTool::readFromFile("setting.xml");
-		if (str == "1")
-		{
-			pToggle->setChecked(false);
-		}else if (str == "2")
-		{
-			pToggle->setChecked(true);
-		}
+		//string str = DataTool::readFromFile("setting.xml");
+		//if (str == "1")
+		//{
+		//	pToggle->setChecked(false);
+		//}else if (str == "2")
+		//{
+		//	pToggle->setChecked(true);
+		//}
 	}
 }
 
@@ -91,15 +91,15 @@ void BackgroundLayer::keyBackClicked(){
 }
 
 void BackgroundLayer::onToggle(CCObject* pSender){
-	CToggleView* pToggle = (CToggleView*) pSender;
-	if( pToggle->isChecked() )
-	{
+	//CToggleView* pToggle = (CToggleView*) pSender;
+	//if( pToggle->isChecked() )
+	//{
 		// 将设置写入配置文件 write the setting to config setting.xml
-		CCLog("checked");
-		DataTool::storeToFile("2","setting.xml");
-	}
-	else
-	{
-		DataTool::storeToFile("1","setting.xml");
-	}
+	//	CCLog("checked");
+	//	DataTool::storeToFile("2","setting.xml");
+	//}
+	//else
+	//{
+	//	DataTool::storeToFile("1","setting.xml");
+	//}
 }

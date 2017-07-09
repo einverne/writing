@@ -41,6 +41,7 @@
 #include "../rapidjson/document.h"
 
 using namespace rapidjson;
+using namespace std;
 
 HcharacterLayer::HcharacterLayer():m_sprite_draw(NULL),
 	bihuaCountAndTotal(NULL),
@@ -113,7 +114,7 @@ HcharacterLayer* HcharacterLayer::create(string hanzi,CCSprite* tianzige_draw){
 
 void HcharacterLayer::onEnter(){
 	CCLayer::onEnter();
-
+	
 	TcharacterLayer* layer = (TcharacterLayer*)this->getParent()->getChildByTag(kTLayerTag);		//get TcharacterLayer
 	totalBihuaCount = layer->getm_TDrawnode()->getCharacter().getStrokeCount();
 
@@ -206,7 +207,8 @@ void HcharacterLayer::onExit(){
 * @param doc
 * @return
 */
-string getErrorType(rapidjson::Document& doc) {
+
+string HcharacterLayer::getErrorType(rapidjson::Document& doc) {
 	string errorType = "";
 	if (doc.HasMember("error"))
 	{
@@ -229,7 +231,8 @@ string getErrorType(rapidjson::Document& doc) {
 * @param doc json doc
 * @return 返回错误类型的笔画
 */
-multimap<int, float> getErrorStroke(rapidjson::Document& doc) {
+
+multimap<int, float> HcharacterLayer::getErrorStroke(rapidjson::Document& doc) {
 	multimap<int, float> errorPoints;
 	if (doc.HasMember("error"))
 	{
@@ -272,7 +275,8 @@ multimap<int, float> getErrorStroke(rapidjson::Document& doc) {
 	return errorPoints;
 }
 
-multimap<int, float> getRightPoints(rapidjson::Document& doc) {
+
+multimap<int, float> HcharacterLayer::getRightPoints(rapidjson::Document& doc) {
 	multimap<int, float> errorPoints;
 	if (doc.HasMember("error"))
 	{
@@ -1038,48 +1042,6 @@ void HcharacterLayer::judge(){
     CCLog("right Character info %s",points.c_str());
     
 	string ret = _manager.getResult(hanzi_,output,points,m_exChar,funcs);
-	/*下面是辅助调试的代码，没什么用！
-	if (hanzi_ == DataTool::getChinese("ren") && totalBihuaCount == writeCount_)
-	{
-		// 人 水平平齐 调试 最后一笔判断
-		ret = "{\"error\":[{\"errorstroke\":{\"0\":\"1\",\"1\":\"1\"},\"errortype\":\"A0001\",\"rightposition\":{}}],\"ret\":\"101\"}";
-	}
-
-	if (hanzi_ == DataTool::getChinese("da") && totalBihuaCount == writeCount_)
-	{
-		// 大 中点切分调试 最后一笔
-		ret = "{\"error\":[{\"errorstroke\":{\"1\":\"1\",\"2\":\"1\"},\"errortype\":\"A0001\"}],\"ret\":\"101\"}";
-	}
-
-	if (hanzi_ == DataTool::getChinese("xia") && totalBihuaCount == writeCount_)
-	{
-		// 下 字 A0002 调试
-		ret = "{\"error\":[{\"errorstroke\":{\"0\":\"0.11\"},\"errortype\":\"A0002\",\"rightposition\":{\"0\":\"0.5\"}}],\"ret\":\"101\"}";
-	}
-
-	if (hanzi_ == DataTool::getChinese("shi") && totalBihuaCount == writeCount_)
-	{
-		// 十 A0002 调试
-		ret = "";
-	}
-
-	if (hanzi_ == DataTool::getChinese("wen") && totalBihuaCount == writeCount_)
-	{
-		ret = "{\"error\":[{\"errorstroke\":{\"0\":\"0.2\"},\"errortype\":\"A0004\",\"rightposition\":{\"1\":\"0.5\"}}],\"ret\":\"101\"}";
-	} else if (hanzi_ == DataTool::getChinese("wen"))
-	{
-		ret = "";
-	}
-
- 	if (hanzi_ == DataTool::getChinese("san") && totalBihuaCount == writeCount_)
- 	{
- 		ret = "{\"ret\":\"101\",\"error\":[{\"errortype\":\"A0005\",\"errorstroke\":{\"0\":\"0.5\",\"1\":\"0.5\",\"2\":\"0.5\"},\"rightposition\":{}}]}";
- 	} else if (hanzi_ == DataTool::getChinese("san"))
- 	{
- 		ret = "";
- 	}
-
-	//CCLog("Hcharacterlay: retstring:%s length:%d",ret.c_str(),ret.length());*/
 	/////////////////////////////////////////////////////////////////////////////////////////
 
 	//如果不评判则跳过

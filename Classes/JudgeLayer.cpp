@@ -127,6 +127,7 @@ void JudgeLayer::menuView(CCObject* pSender){
 	string unitid = scene->getUnitID();
 	string ziid = scene->getZiID();
 	string curChar = scene->getCurChar();
+	
 
 	CCDirector::sharedDirector()->pushScene(ViewScene::scene(unitid,ziid,curChar));
 }

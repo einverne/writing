@@ -51,11 +51,11 @@ string JudgeManager::getResult(string hanzi,string points_output,CharacterEntity
 void JudgeManager::initLuaEngine(){
 	gReader.ExitLuaScriptReader();
 	gReader.InitLuaScriptReader();
-	string filepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua\\WriteZiInfo.lua");
-	string basepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua\\BaseLib.lua");
-	string apipath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua\\RunAPI_1208.lua");
-	string standardpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua\\StandardZiInfo.lua");
-	string JSONpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua\\JSON.lua");
+	string filepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/WriteZiInfo.lua");
+	string basepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/BaseLib.lua");
+	string apipath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/RunAPI_1208.lua");
+	string standardpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/StandardZiInfo.lua");
+	string JSONpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/JSON.lua");
 	gReader.RunScriptFile(JSONpath.c_str(),"JSON.lua");
  	gReader.RunScriptFile(filepath.c_str(),"WriteZiInfo.lua");
  	gReader.RunScriptFile(standardpath.c_str(),"StandardZiInfo.lua");

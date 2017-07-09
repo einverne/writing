@@ -57,11 +57,7 @@ void WallSingleScene::onEnter(){
 	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
 	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
 
-	//add Menu Item
-	CCMenuItemImage* ceshi_button = CCMenuItemImage::create("ceshi_1.png",
-		"ceshi_2.png",
-		this,
-		menu_selector(WallSingleScene::pingpanwriting));
+
 	CCMenuItemImage* back_button = CCMenuItemImage::create("strangedesign/back_button.png",
 		"strangedesign/back_button_down.png",
 		this,
@@ -83,8 +79,7 @@ void WallSingleScene::onEnter(){
 	free_button->setPosition(ccp(free_button->getContentSize().width/2,free_button->getContentSize().height/2));
 
 	CCMenu* menu = CCMenu::create(judge_button,free_button,back_button,NULL);
-	this->addChild(menu,20);
-	ceshi_button->setPosition(ccp(visibleSize.width - ceshi_button->getContentSize().width/2 ,ceshi_button->getContentSize().height/2));
+	this->addChild(menu,20);	
 	menu->setPosition(CCPointZero);
 
 	CCSprite* titlebar = CCSprite::create("strangedesign/title bar_background.png");
@@ -102,12 +97,12 @@ void WallSingleScene::onEnter(){
 	wall_tail->setScaleX(visibleSize.width/wall_tail->getContentSize().width);
 
 	//Screenshot function 截屏功能待后续加入
-	CCMenuItemImage* screenshot = CCMenuItemImage::create("strangedesign/Page_Screenshot_button.png",
+	/*CCMenuItemImage* screenshot = CCMenuItemImage::create("strangedesign/Page_Screenshot_button.png",
 		"strangedesign/Page_Screenshot_button_down.png",
 		this,
 		menu_selector(WallSingleScene::screenshot));
 	menu->addChild(screenshot,12);
-	screenshot->setPosition(wall_tail->getPosition());
+	screenshot->setPosition(wall_tail->getPosition());*/
 
 	groupChar = SQLiteData::getUnit(unitID);
 
@@ -549,7 +544,7 @@ void WallSingleScene::freewriting(CCObject* pSender){
 }
 
 void WallSingleScene::screenshot(CCObject* pSender){
-	CCLog("screenshot");
+/*	CCLog("screenshot");
 	CCSize size = CCDirector::sharedDirector()->getWinSize();
 	CCRenderTexture* texture = CCRenderTexture::create(size.width,size.height);
 	texture->setPosition(ccp(size.width/2, size.height/2));
@@ -563,7 +558,7 @@ void WallSingleScene::screenshot(CCObject* pSender){
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	string path = CCFileUtils::sharedFileUtils()->getWritablePath();
 	
-#endif
+#endif*/
 }
 
 void WallSingleScene::back(CCObject* pSender){

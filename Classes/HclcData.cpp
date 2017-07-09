@@ -159,7 +159,7 @@ void  LuaData::callCppFunction(const char* luaFileName){
 int LuaData::cppFunction(lua_State* ls){
     int luaNum = (int)lua_tonumber(ls, 1);
     int luaStr = (int)lua_tostring(ls, 2);
-    CCLOG("Lua调用cpp函数时传来的两个参数： %i  %s",luaNum,luaStr);
+    //CCLOG("Lua调用cpp函数时传来的两个参数： %i  %s",luaNum,luaStr);
  
     /*
      返给Lua的值

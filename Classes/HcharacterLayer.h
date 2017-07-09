@@ -7,8 +7,14 @@
 #include "CharacterExtend.h"
 #include "JudgeManager.h"
 #include <map>
+
 USING_NS_CC;
 using namespace cocos2d::cocoswidget;
+
+#include "../rapidjson/document.h"
+using namespace rapidjson;
+
+using namespace std;
 
 // writing character Layer to deal with writing action
 class HcharacterLayer : public CCLayer
@@ -113,6 +119,11 @@ public:
 	* @return
 	*/
 	void doC0001_2_3();
+
+	multimap<int, float> getRightPoints(rapidjson::Document& doc);
+	string getErrorType(rapidjson::Document& doc) ;
+	multimap<int, float> getErrorStroke(rapidjson::Document& doc); 
+
 
 	CC_SYNTHESIZE_RETAIN(HcharacterDrawnode*,m_HDrawnode,m_HDrawnode);
 	CC_SYNTHESIZE_RETAIN(CCLabelTTF*, bihuaCountAndTotal,bihuaCountAndTotal);

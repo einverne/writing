@@ -71,30 +71,30 @@ bool JudgeScene::init(){
 		CC_BREAK_IF(!backgroundLayer);
 		backgroundLayer->setTag(kBgLayerTag);
 		this->addChild(backgroundLayer);
-
+		
 		this->setTLayer(TcharacterLayer::create(backgroundLayer->tianzige));
 		CC_BREAK_IF(!TLayer);
 		TLayer->setTag(kTLayerTag);
 		this->addChild(TLayer);
 		TLayer->setCharacter(curChar);
 		TLayer->setExChar(ext_p);
-
+		
 		this->setHLayer(HcharacterLayer::create(curChar,backgroundLayer->tianzige_draw));
 		CC_BREAK_IF(!HLayer);
 		HLayer->setTag(kHLayerTag);
 		this->addChild(HLayer);
 		HLayer->setExChar(ext_p);
-
+		
 		this->settouchLayer(TouchLayer::create(TLayer,HLayer));
 		CC_BREAK_IF(!touchLayer);
 		touchLayer->setTag(kTouchLayerTag);
 		this->addChild(touchLayer);
-
+		
 		this->setJudgeLayer(JudgeLayer::create());
 		CC_BREAK_IF(!judgeLayer);
 		judgeLayer->setTag(kCeshiLayerTag);
 		this->addChild(judgeLayer);
-
+		
 		CC_BREAK_IF(!CCScene::init());
 
 		bRet = true;
