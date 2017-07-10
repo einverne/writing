@@ -128,7 +128,7 @@ void JudgeLayer::menuView(CCObject* pSender){
 	string ziid = scene->getZiID();
 	string curChar = scene->getCurChar();
 	
-
+	CCDirector::sharedDirector()->getTouchDispatcher()->removeAllDelegates();
 	CCDirector::sharedDirector()->pushScene(ViewScene::scene(unitid,ziid,curChar));
 }
 

@@ -50,7 +50,8 @@ bool ViewScene::init(string unitid, string ziid, string curChar){
 	titlebar->setPosition(ccp(visiableSize.width/2,visiableSize.height-titlebar->getContentSize().height/2));
 
 	CWidgetWindow* m_pWindow = CWidgetWindow::create();
-	m_pWindow->setMultiTouchEnabled(true);
+	//m_pWindow->setMultiTouchEnabled(true);
+	m_pWindow->setMultiTouchEnabled(false);
 	addChild(m_pWindow);
 
 	CButton* backBtn = CButton::create("strangedesign/back_button.png", "strangedesign/back_button_down.png");
@@ -187,7 +188,7 @@ void ViewScene::buttonClick(CCObject* pSender){
 }
 
 void ViewScene::back(CCObject* pSender){
-	
+	CCDirector::sharedDirector()->getTouchDispatcher()->removeAllDelegates();
 	CCDirector::sharedDirector()->popScene();
 }
 

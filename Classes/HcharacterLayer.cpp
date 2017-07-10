@@ -1129,6 +1129,7 @@ void HcharacterLayer::rewrite(CCObject* pSender){
 		_manager.exitLuaEngine();
 		_manager.initLuaEngine();
 		this->getm_HDrawnode()->rewrite();
+		pointsOrigin.clear();
 		JudgeScene* scene = (JudgeScene*)this->getParent();
 		if (scene->getIsJudge()==true)
 		{

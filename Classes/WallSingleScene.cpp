@@ -516,6 +516,7 @@ void WallSingleScene::pingpanwriting(CCObject* pSender){
 	{
 		JudgeScene* scene = JudgeScene::create(unitID,hanzis);
 		scene->setIsJudge(true);
+		CCDirector::sharedDirector()->getTouchDispatcher()->removeAllDelegates();
 		CCDirector::sharedDirector()->pushScene(scene);
 	}else{
 		MyToast::showToast(this,DataTool::getChinese("not_all_exist_in_unit"),TOAST_LONG);
@@ -537,6 +538,7 @@ void WallSingleScene::freewriting(CCObject* pSender){
 	{
 		JudgeScene* scene = JudgeScene::create(unitID,hanzis);
 		scene->setIsJudge(false);
+		CCDirector::sharedDirector()->getTouchDispatcher()->removeAllDelegates();
 		CCDirector::sharedDirector()->pushScene(scene);
 	}else{
 		MyToast::showToast(this,DataTool::getChinese("not_all_exist_in_unit"),TOAST_LONG);
