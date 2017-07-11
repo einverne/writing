@@ -3,6 +3,8 @@
 #include "CharacterEntity.h"
 #include "SQLiteData.h"
 #include "tools/DataTool.h"
+#include "MyToast.h"
+#include "JudgeScene.h"
 
 #include <algorithm>
 using namespace std;
@@ -57,9 +59,9 @@ void JudgeManager::initLuaEngine(){
 	string standardpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/StandardZiInfo.lua");
 	string JSONpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/JSON.lua");
 	gReader.RunScriptFile(JSONpath.c_str(),"JSON.lua");
- 	gReader.RunScriptFile(filepath.c_str(),"WriteZiInfo.lua");
- 	gReader.RunScriptFile(standardpath.c_str(),"StandardZiInfo.lua");
- 	gReader.RunScriptFile(basepath.c_str(),"BaseLib.lua");
+	gReader.RunScriptFile(filepath.c_str(),"WriteZiInfo.lua");
+	gReader.RunScriptFile(standardpath.c_str(),"StandardZiInfo.lua");
+	gReader.RunScriptFile(basepath.c_str(),"BaseLib.lua");
 	gReader.RunScriptFile(apipath.c_str(),"RunAPI_1208.lua");
 
 }
@@ -76,7 +78,7 @@ string JudgeManager::getResult(string hanzi , string points_output, string all_p
 
 	//对于结构布势评判来讲，不用执行下面的代码了！
 	// get easy or hard setting from setting.xml config file
-    const char* settingname = "setting.xml";
+    /*const char* settingname = "setting.xml";
 	string r = DataTool::readFromFile(settingname);
  	gReader.setLevel(r);
  	if (r.compare("1") == 0)
@@ -86,7 +88,7 @@ string JudgeManager::getResult(string hanzi , string points_output, string all_p
  	}else if(r.compare("2") == 0){
         string tightlua = p->getRuleTight();
  		gReader.setRulesFunc(tightlua);
- 	}
+ 	}*/
 	///////////////////////////////////////////////
 
 	//set Unit rule
