@@ -72,7 +72,7 @@ string JudgeManager::getResult(string hanzi , string points_output, string all_p
 
 	gReader.setWriteZiInfo(points_output.c_str());
 	gReader.setStandardZiInfo(all_points);
-	char retStr[200];
+	char retStr[500];
 	retStr[0] = '\0';
  	gReader.setZiName(hanzi);
 
