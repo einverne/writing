@@ -26,12 +26,13 @@ void TwoLineNode::setPoint(vector<CCPoint> points){
 	it++;	
 	it++;
 	startpoint2=*it;	
-	endpoint2=*it;
+	//endpoint2=*it;
+	endpoint2=startpoint2;
 }
 
 
 void TwoLineNode::draw() {
-	glLineWidth(4.0f);					//±Ê»­´ÖÏ¸
+	glLineWidth(13.0f);					//±Ê»­´ÖÏ¸
 	ccDrawColor4F(0,1,0,1);				//±Ê»­ÑÕÉ«
 	//glEnable(GL_BLEND);
 	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -45,8 +46,13 @@ void TwoLineNode::draw() {
 	float dy = destination.y - origin.y;  
 	float dist = sqrtf(dx * dx + dy * dy);  
 
-	float x = dx / dist * dashLength;  
-	float y = dy / dist * dashLength;  
+	float x = 0;
+	float y = 0;
+	if(dist>0.0)
+	{
+		x = dx / dist * dashLength;  
+		y = dy / dist * dashLength;
+	}
 
 	CCPoint p2;
 
@@ -62,7 +68,7 @@ void TwoLineNode::draw() {
 	}  
 
 	//////////////////////////////////////////////////////////////
-	glLineWidth(4.0f);					//±Ê»­´ÖÏ¸
+	glLineWidth(13.0f);					//±Ê»­´ÖÏ¸
 	ccDrawColor4F(1,0,1,1);				//±Ê»­ÑÕÉ«
 	//µÚ¶þÌõÏß
 	origin = startpoint2;
@@ -71,9 +77,16 @@ void TwoLineNode::draw() {
 	dy = destination.y - origin.y;  
 	dist = sqrtf(dx * dx + dy * dy);  
 
-	x = dx / dist * dashLength;  
-	y = dy / dist * dashLength;  
-
+	if(dist>0.0)
+	{
+		x = dx / dist * dashLength;  
+		y = dy / dist * dashLength;  
+	}
+	else
+	{
+		x=0.0;
+		y=0.0;
+	}
 	for (float i = 0.0f; i <= dist / dashLength * .5; i++) 
 	{  
 		p2.x = origin.x + x;  
@@ -87,7 +100,7 @@ void TwoLineNode::draw() {
 
 	/////////////////////////////////////
 	//ËÄ¸öµã
-	ccPointSize(10);
+	ccPointSize(17);
 	ccDrawColor4F(1,0,0,1);				//±Ê»­ÑÕÉ«
 	vector<CCPoint>::iterator it;
 	for(it=OrigionPoints.begin(); it!=OrigionPoints.end(); it++)

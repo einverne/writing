@@ -31,8 +31,8 @@ void RectangleNode::setSize(CCSize MattSize)
 }
 
 void RectangleNode::draw() {
-	ccPointSize(10);
-	glLineWidth(3.0f);					//±Ê»­´ÖÏ¸	
+	ccPointSize(17);
+	glLineWidth(13.0f);					//±Ê»­´ÖÏ¸	
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -53,8 +53,14 @@ void RectangleNode::draw() {
 	float dy = end_point_.y - start_point_.y;  
 	float dist = sqrtf(dx * dx + dy * dy);  
 
-	float x = dx / dist * dashLength;  
-	float y = dy / dist * dashLength;  
+	float x = 0;
+	float y = 0; 
+
+	if(dist>0.0)
+	{
+		x=dx / dist * dashLength;  
+		y=dy / dist * dashLength; 
+	} 
 
 	CCPoint p2;
 
@@ -78,8 +84,16 @@ void RectangleNode::draw() {
 	dy = end_point_.y - start_point_.y;  
 	dist = sqrtf(dx * dx + dy * dy);  
 
-	x = dx / dist * dashLength;  
-	y = dy / dist * dashLength;  
+	if(dist>0.0)
+	{
+		x = dx / dist * dashLength;  
+		y = dy / dist * dashLength;  
+	}
+	else
+	{
+		x=0.0;
+		y=0.0;
+	} 
 
 	for (float i = 0.0f; i <= dist / dashLength * .5; i++) 
 	{  
@@ -101,8 +115,16 @@ void RectangleNode::draw() {
 	dy = end_point_.y - start_point_.y;  
 	dist = sqrtf(dx * dx + dy * dy);  
 
-	x = dx / dist * dashLength;  
-	y = dy / dist * dashLength;  
+	if(dist>0.0)
+	{
+		x = dx / dist * dashLength;  
+		y = dy / dist * dashLength;  
+	}
+	else
+	{
+		x=0.0;
+		y=0.0;
+	}  
 
 	for (float i = 0.0f; i <= dist / dashLength * .5; i++) 
 	{  
@@ -124,8 +146,16 @@ void RectangleNode::draw() {
 	dy = end_point_.y - start_point_.y;  
 	dist = sqrtf(dx * dx + dy * dy);  
 
-	x = dx / dist * dashLength;  
-	y = dy / dist * dashLength;  
+	if(dist>0.0)
+	{
+		x = dx / dist * dashLength;  
+		y = dy / dist * dashLength;  
+	}
+	else
+	{
+		x=0.0;
+		y=0.0;
+	} 
 
 	for (float i = 0.0f; i <= dist / dashLength * .5; i++) 
 	{  

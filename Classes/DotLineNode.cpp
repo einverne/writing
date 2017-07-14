@@ -25,7 +25,7 @@ void DotLineNode::setOrientation(int orientation) {
 }
 
 void DotLineNode::draw() {
-	glLineWidth(5.0f);					//±Ê»­´ÖÏ¸
+	glLineWidth(13.0f);					//±Ê»­´ÖÏ¸
 	ccDrawColor4F(1,0,1,1);				//±Ê»­ÑÕÉ«
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -39,8 +39,14 @@ void DotLineNode::draw() {
 		float dy = destination.y - origin.y;  
 		float dist = sqrtf(dx * dx + dy * dy);  
 
-		float x = dx / dist * dashLength;  
-		float y = dy / dist * dashLength;  
+		float x = 0;
+		float y = 0; 
+
+		if(dist>0.0)
+		{
+			x=dx / dist * dashLength;  
+			y=dy / dist * dashLength; 
+		}  
 
 		CCPoint p2;
 
@@ -65,8 +71,14 @@ void DotLineNode::draw() {
 		float dy = destination.y - origin.y;  
 		float dist = sqrtf(dx * dx + dy * dy);  
 
-		float x = dx / dist * dashLength;  
-		float y = dy / dist * dashLength;  
+		float x = 0;
+		float y = 0; 
+
+		if(dist>0.0)
+		{
+			x=dx / dist * dashLength;  
+			y=dy / dist * dashLength; 
+		} 
 
 		CCPoint p2;
 

@@ -34,16 +34,16 @@ void BarycentreNode::draw() {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	////»­ÖØÐÄ
-	ccPointSize(10);
+	ccPointSize(19);
 	ccDrawColor4F(0,1,0,1);				//±Ê»­ÑÕÉ«
 	ccDrawPoint(MovePoint);
 
-	ccPointSize(7);
+	ccPointSize(16);
 	ccDrawColor4F(1,0,0,1);				//±Ê»­ÑÕÉ«
 	ccDrawPoint(OrigionPoint);	
 	
 	////»­±ß½ç
-	glLineWidth(4.0f);					//±Ê»­´ÖÏ¸
+	glLineWidth(13.0f);					//±Ê»­´ÖÏ¸
 	ccDrawColor4F(0,1,0,1);				//±Ê»­ÑÕÉ«
 
 	//µÚÒ»ÌõÏß
@@ -54,9 +54,14 @@ void BarycentreNode::draw() {
 	float dy = destination.y - origin.y;  
 	float dist = sqrtf(dx * dx + dy * dy);  
 
-	float x = dx / dist * dashLength;  
-	float y = dy / dist * dashLength;  
+	float x = 0;
+	float y = 0; 
 
+	if(dist>0.0)
+	{
+		x=dx / dist * dashLength;  
+		y=dy / dist * dashLength; 
+	}
 	CCPoint p2;
 
 	for (float i = 0.0f; i <= dist / dashLength * .5; i++) 
@@ -77,8 +82,16 @@ void BarycentreNode::draw() {
 	dy = destination.y - origin.y;  
 	dist = sqrtf(dx * dx + dy * dy);  
 
-	x = dx / dist * dashLength;  
-	y = dy / dist * dashLength;  
+	if(dist>0.0)
+	{
+		x=dx / dist * dashLength;  
+		y=dy / dist * dashLength; 
+	}
+	else
+	{
+		x = 0;  
+		y = 0;  
+	}
 
 	for (float i = 0.0f; i <= dist / dashLength * .5; i++) 
 	{  

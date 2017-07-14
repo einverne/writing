@@ -22,14 +22,14 @@ void OnePointNode::setRightPoint(CCPoint right_point){
 }
 
 void OnePointNode::draw() {
-	glLineWidth(10.0f);					//± ª≠¥÷œ∏
+	glLineWidth(13.0f);					//± ª≠¥÷œ∏
 	ccDrawColor4F(0,1,0,1);				//± ª≠—’…´
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	ccPointSize(15);
+	ccPointSize(17);
 	ccDrawPoint(centerPoint_);
 
 	ccDrawColor4F(1,0,0,1);	
-	ccPointSize(10);
+	ccPointSize(17);
 	ccDrawPoint(originPoint_);
 }

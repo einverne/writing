@@ -1234,7 +1234,7 @@ end
 function JudgeDotLine(pt,bd)--判断点到笔段的最小距离是否小于一定阈值
 	--local newbh = resample(bd)
 	local tempDis =  512
-	local disThreshold = 30
+	local disThreshold = 60
 	for i =  1, #bd.ptSet do
 		local curDis = GetDistance(pt,bd.ptSet[i])
 		if (curDis < tempDis ) then
@@ -6130,7 +6130,7 @@ function IsShuiPingDengFen(ShuBHtable,bdtable)--水平等分 字例：山
 		print"实际的差值"
 		print (Dvalue)
 		print(secpt.x,firpt.x)
-		if((math.max(Dvalue,aver)-math.min(Dvalue,aver))/aver<= 0.19)then--参数待修改
+		if((math.max(Dvalue,aver)-math.min(Dvalue,aver))/aver<= 0.22)then--参数待修改
 			print(Dvalue-aver)
 			print"NNNNNNNNNNNNNNNNNNNNNNNNNNNN"
 			print(Dvalue,aver,Dvalue-aver)
@@ -6198,7 +6198,7 @@ function IsShuiPingDengFen2(BHtable,keypointtable)--水平等分 字例：开
 		print"实际的差值"
 		print (Dvalue)
 		print(secpt.x,firpt.x)
-		if((math.max(Dvalue,aver)-math.min(Dvalue,aver))/aver<= 0.25)then--参数待修改
+		if((math.max(Dvalue,aver)-math.min(Dvalue,aver))/aver<= 0.58)then--参数待修改
 			print(Dvalue-aver)
 			print"NNNNNNNNNNNNNNNNNNNNNNNNNNNN"
 			print(Dvalue,aver,Dvalue-aver)
@@ -6427,7 +6427,7 @@ function	IsShouDianJuZheng(bh1,bh2,bh2bdidx)--首点居正 字例：文 市
 	local len2=math.abs(end2.x-start2.x)
 
 	--------阈值评判
-	if(Dvalue/len2 <= 0.18)then--参数待修改
+	if(Dvalue/len2 <= 0.14)then--参数待修改
 		return true
 	else
 		local strokeNum1 =GetBHByPoint(bh1)
@@ -6568,7 +6568,7 @@ function IsZhongXinPingWen(bh1,bh2)--重心平稳 字例：火
 	print(keyDot.x)
 	print"包围盒中点和关键点中点的x坐标差值是%%%%%%%%%%"
 	print(Dvalue)
-	if(Dvalue/Xdiff <= 0.19)then--参数待修改
+	if(Dvalue/Xdiff <= 0.16)then--参数待修改
 		return true
 	else
 		----------------------------------------------------------

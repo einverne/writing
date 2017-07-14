@@ -16,7 +16,7 @@ class JudgeManager
 public:
 	JudgeManager();
 	~JudgeManager();
-	string getResult(string hanzi , string points_output,CharacterEntity* p, string funcs);
+	static string getResult(string hanzi , string points_output,CharacterEntity* p, string funcs);
 	void initLuaEngine();
 
 	/**
@@ -28,10 +28,10 @@ public:
 	* @param funcs not used now
 	* @return
 	*/
-	string getResult(string hanzi , string points_output, string all_points, CharacterExtend* p , string funcs);
+	static string getResult(string hanzi , string points_output, string all_points, CharacterExtend* p , string funcs);
 	void exitLuaEngine();
 private:
-	CLuaScriptReader gReader;
+	//CLuaScriptReader gReader;
 };
 
 

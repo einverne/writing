@@ -1029,7 +1029,7 @@ void HcharacterLayer::judge(){
 		Stroke stro = node->getStroke();
 		vector<CCPoint> points = stro.getpointList();
 		stro.convert512(this->m_sprite_draw->getContentSize());
-		stro.resample(100);
+		stro.resample(50);
 		output += stro.sendOutput();
 	}
 	this->pointsOutput=output;
@@ -1041,7 +1041,8 @@ void HcharacterLayer::judge(){
     CCLog("output %s",output.c_str());
     CCLog("right Character info %s",points.c_str());
     
-	string ret = _manager.getResult(hanzi_,output,points,m_exChar,funcs);
+	//string ret = _manager.getResult(hanzi_,output,points,m_exChar,funcs);
+	string ret = JudgeManager::getResult(hanzi_,output,points,m_exChar,funcs);
 	/////////////////////////////////////////////////////////////////////////////////////////
 
 	//如果不评判则跳过

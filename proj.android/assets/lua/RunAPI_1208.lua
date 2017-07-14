@@ -1,14 +1,14 @@
---[[å¯¹åŽŸæœ‰apiçš„æ”¹è¿›.ä½¿å¾—å…¶å¯ä»¥è°ƒç”¨strokeè§„åˆ™ã€unitè§„åˆ™å’Œcharacterè§„åˆ™ï¼Œå¹¶è¿›è¡Œç›¸å…³è¿”å›ž   ]]--
+--[[¶ÔÔ­ÓÐapiµÄ¸Ä½ø.Ê¹µÃÆä¿ÉÒÔµ÷ÓÃstroke¹æÔò¡¢unit¹æÔòºÍcharacter¹æÔò£¬²¢½øÐÐÏà¹Ø·µ»Ø   ]]--
 
 local math = math
 local string = string
 local tonumber = tonumber
 local tostring = tostring
 local table = table
-local JSON = require("JSON")
+
 
 Pass2CStr = ""
-----########################			è¾…åŠ©å‡½æ•°				#############################
+----########################			¸¨Öúº¯Êý				#############################
 function string:split(sep,sign)
 	local sep, fields = sep or "\t", {}
 	local pattern = string.format("([^"..sign.."]+)", sep)
@@ -41,9 +41,104 @@ function trim2(s)
 	return (string.gsub(s,"@",""))
 end
 
---#########################			è¾…åŠ©å‡½æ•°			#######################################
 
---######################### PassParametersToAPI ########################################
+
+-----------------------------------------------------------------------------------------
+function ToStringEx(value)
+    if type(value)=='table' then
+       return TableToStr(value)
+    elseif type(value)=='string' then
+        return "\""..value.."\""
+    else
+       return tostring(value)
+    end
+end
+
+function TableToStr(t)
+    if t == nil then
+		return " "
+	end
+
+    local retstr= "{"
+
+    local i = 1
+    for key,value in pairs(t) do
+        local signal = ","
+        if i==1 then
+          signal = ""
+        end
+
+        if key == i then
+            retstr = retstr..signal..ToStringEx(value)
+        else
+            if type(key)=='number' or type(key) == 'string' then
+				if  ToStringEx(key)=="\"".."error".."\""  then
+					retstr = retstr..signal..ToStringEx(key)..":"..ToStringEx2(value)
+				else
+					retstr = retstr..signal..ToStringEx(key)..":"..ToStringEx(value)
+				end
+            else
+                if type(key)=='userdata' then
+                    retstr = retstr..signal.."*s"..TableToStr(getmetatable(key)).."*e"..":"..ToStringEx(value)
+                else
+                    retstr = retstr..signal..key..":"..ToStringEx(value)
+                end
+            end
+        end
+
+        i = i+1
+    end
+
+     retstr = retstr.."}"
+     return retstr
+end
+
+
+function ToStringEx2(value)
+    if type(value)=='table' then
+       return TableToStr2(value)
+    elseif type(value)=='string' then
+        return "\""..value.."\""
+    else
+       return tostring(value)
+    end
+end
+
+function TableToStr2(t)
+    if t == nil then
+		return " "
+	end
+
+    local retstr= "["
+
+    local i = 1
+    for key,value in pairs(t) do
+        local signal = ","
+        if i==1 then
+          signal = ""
+        end
+
+        if key == i then
+            retstr = retstr..signal..ToStringEx(value)
+        else
+            if type(key)=='number' or type(key) == 'string' then
+					retstr = retstr..signal..ToStringEx(key)..":"..ToStringEx(value)
+            else
+                if type(key)=='userdata' then
+                    retstr = retstr..signal.."*s"..TableToStr(getmetatable(key)).."*e"..":"..ToStringEx(value)
+                else
+                    retstr = retstr..signal..key..":"..ToStringEx(value)
+                end
+            end
+        end
+
+        i = i+1
+    end
+
+     retstr = retstr.."]"
+     return retstr
+end
+--#########################			¸¨Öúº¯Êý			#######################################
 local strokeLevel = nil
 local writeHZ = nil
 local PointTableStrings={}
@@ -51,14 +146,17 @@ local strUnitRule = nil
 local strCharacterRule = nil
 local RunAPI = {}
 
+
+-------------------------------------------------------------------------------------------------
+--######################### PassParametersToAPI ########################################
 function RunAPI:PassParametersToAPI(WriteZi,Level,UnitRule,CharacterRule)
-	--åˆå§‹åŒ–æ‰‹å†™å­—
+	--³õÊ¼»¯ÊÖÐ´×Ö
 	local WZ = require("WriteZiInfo")
 	writeHZ = WZ.WriteHZ:new()
 	writeHZ:initialize(WriteZi)
 	local bhNum = writeHZ.strokeNum
 
-	--å°†æ‰€æœ‰æ‰‹å†™ç‚¹é›†å­˜æŒ‰ç¬”ç”»å­˜åœ¨è¡¨ä¸­
+	--½«ËùÓÐÊÖÐ´µã¼¯´æ°´±Ê»­´æÔÚ±íÖÐ
 	PointTableStrings={}
 	for i=1,bhNum do
 	PointTableStrings[#PointTableStrings+1]=writeHZ.strokeStrings[i]
@@ -71,12 +169,13 @@ function RunAPI:PassParametersToAPI(WriteZi,Level,UnitRule,CharacterRule)
 	baseFuncs.GetPoints(str)
 	baseFuncs.initStrokeStrs(PointTableStrings)
 
+
 	strokeLevel = Level
-	--éƒ¨ä»¶
+	--²¿¼þ
 	local ZiRuleList = self:parseUnitRule(UnitRule)
-	--æ•´å­—
+	--Õû×Ö
 	local CharacterRule = self:parseZiRule(CharacterRule)
-	--å°†éƒ¨ä»¶å’Œæ•´å­—ç»„è£…
+	--½«²¿¼þºÍÕû×Ö×é×°
 	local NewZiRuleArr = self:contractRule(ZiRuleList,CharacterRule)
 
 	baseFuncs.setbhNum(bhNum)
@@ -88,12 +187,7 @@ function RunAPI:PassParametersToAPI(WriteZi,Level,UnitRule,CharacterRule)
 	return result3
 end
 
-
-
---######################### PassParametersToAPI ########################################
-
-
---#########################	å¯¹éƒ¨ä»¶è§„åˆ™è¿›è¡Œæ•´ç†ï¼ŒåŠ åˆ°ZiRuleListè¡¨ ########################################
+--#########################	¶Ô²¿¼þ¹æÔò½øÐÐÕûÀí£¬¼Óµ½ZiRuleList±í ########################################
 
 function RunAPI:parseUnitRule(strUnitRule)
 	local ZiRuleList = {}
@@ -110,7 +204,7 @@ function RunAPI:parseUnitRule(strUnitRule)
 			oneUnitRule  = string.gsub(oneUnitRule , "//&&", "--//&&--")
 			oneUnitRule  = trim(oneUnitRule)
 			local ZiRuleList = {}
-			--åˆ‡å‰²å‡ºéƒ¨ä»¶ä¸­çš„è§„åˆ™
+			--ÇÐ¸î³ö²¿¼þÖÐµÄ¹æÔò
 			local tmpZiRuleList = {}
 			tmpZiRuleList = superSplit(oneUnitRule ,"//##")
 			table.remove(tmpZiRuleList,1)
@@ -125,15 +219,15 @@ function RunAPI:parseUnitRule(strUnitRule)
 	return allZiRuleList
 end
 
---#########################	å¯¹éƒ¨ä»¶è§„åˆ™è¿›è¡Œæ•´ç†ï¼ŒåŠ åˆ°ZiRuleListè¡¨ ########################################
+--#########################	¶Ô²¿¼þ¹æÔò½øÐÐÕûÀí£¬¼Óµ½ZiRuleList±í ########################################
 
---#########################	å¯¹æ•´å­—è§„åˆ™è¿›è¡Œæ•´ç†ï¼ŒåŠ åˆ°CharacterRuleè¡¨ ########################################
+--#########################	¶ÔÕû×Ö¹æÔò½øÐÐÕûÀí£¬¼Óµ½CharacterRule±í ########################################
 
---å°†æ•´å­—è§„åˆ™å­˜åˆ°CharacterRuleé‡Œ
+--½«Õû×Ö¹æÔò´æµ½CharacterRuleÀï
 function RunAPI:parseZiRule(strCharacterRule)
 
 	local CharacterRule =  {}
-	--å¯¹æ•´å­—è§„åˆ™åšåŸºæœ¬å¤„ç†
+	--¶ÔÕû×Ö¹æÔò×ö»ù±¾´¦Àí
 	strCharacterRule  = string.gsub(strCharacterRule , "//##begin", "" )
 	strCharacterRule  = string.gsub(strCharacterRule , "//##end", "" )
 	strCharacterRule  = string.gsub(strCharacterRule , "//^^", "//^^--")
@@ -151,13 +245,13 @@ function RunAPI:parseZiRule(strCharacterRule)
 	end
 	return CharacterRule
 end
---#########################	å¯¹æ•´å­—è§„åˆ™è¿›è¡Œæ•´ç†ï¼ŒåŠ åˆ°CharacterRuleè¡¨ ########################################
+--#########################	¶ÔÕû×Ö¹æÔò½øÐÐÕûÀí£¬¼Óµ½CharacterRule±í ########################################
 
 
---#########################	å°†æ•´å­—è§„åˆ™å’Œéƒ¨ä»¶è§„åˆ™æ•´åˆåˆ°ä¸€èµ· ########################################
+--#########################	½«Õû×Ö¹æÔòºÍ²¿¼þ¹æÔòÕûºÏµ½Ò»Æð ########################################
 
 function RunAPI:contractRule(ZiRuleList,CharacterRule)
---ç»™å„ä¸ªç¬”ç”»å¢žåŠ ç¬”ç”»æ•°ç›®åˆ¤æ–­è¯­å¥
+--¸ø¸÷¸ö±Ê»­Ôö¼Ó±Ê»­ÊýÄ¿ÅÐ¶ÏÓï¾ä
 	local NewZiRuleArr = {}
 	local str1 = "if(bhNum == "
 	local str2 = ") then ".."\n"
@@ -176,7 +270,7 @@ function RunAPI:contractRule(ZiRuleList,CharacterRule)
 				newRule = str1.. tostring (last + k) ..str2
 			end
 			local newBH = ""
-			--å¾—åˆ°å½“å‰ç¬”ç”»ä¹‹å‰çš„æ‰€æœ‰ç¬”ç”»ç‚¹é›†
+			--µÃµ½µ±Ç°±Ê»­Ö®Ç°µÄËùÓÐ±Ê»­µã¼¯
 			--if ( k > 0 ) then
 			--local tempBH= ""
 			--	for j = k-1,0,-1 do
@@ -192,7 +286,7 @@ function RunAPI:contractRule(ZiRuleList,CharacterRule)
 			newRule  = newRule  .. newBH .. tempZirule[k].codes.."\n"
 			local retInfo1 = "local retInfo = tostring(bflag) ..tostring(pflag) .. tostring(uflag).. tostring(cflag)".."\n"
 			local endline = "GerResult(retInfo,errorBHPoint)".."\n"
-			if (i == #ZiRuleList and k == #tempZirule) then--æœ€åŽä¸€ç¬”åŠ è½½æ•´å­—ä¾§é¢
+			if (i == #ZiRuleList and k == #tempZirule) then--×îºóÒ»±Ê¼ÓÔØÕû×Ö²àÃæ
 				for n = 1,#CharacterRule do
 					newRule =newRule ..CharacterRule[n].codes.."\n"
 				end
@@ -206,9 +300,10 @@ function RunAPI:contractRule(ZiRuleList,CharacterRule)
 	return NewZiRuleArr
 end
 
---#########################	å°†æ•´å­—è§„åˆ™å’Œéƒ¨ä»¶è§„åˆ™æ•´åˆåˆ°ä¸€èµ· ########################################
+--#########################	½«Õû×Ö¹æÔòºÍ²¿¼þ¹æÔòÕûºÏµ½Ò»Æð ########################################
 
---#########################	å°†baseFuncsåŠ å…¥åˆ°æ‰§è¡Œçš„å­—ç¬¦ä¸²ä¸­ æ‰§è¡Œè§„åˆ™ å¾—åˆ°ç»“æžœè½¬æ¢æˆJSON ########################################
+
+--#########################	½«baseFuncs¼ÓÈëµ½Ö´ÐÐµÄ×Ö·û´®ÖÐ Ö´ÐÐ¹æÔò µÃµ½½á¹û×ª»»³ÉJSON ########################################
 function RunAPI:RunZiRule(bhNum,NewZiRuleArr)
 	local header = [[setmetatable(baseFuncs,{__index= _G})
 	setfenv(1,baseFuncs)]] .."\n"
@@ -255,7 +350,7 @@ function RunAPI:RunZiRule(bhNum,NewZiRuleArr)
 
 	--print(errorStrokePoint,#errortype)
 
-	--ä¸ºäº†ä¿æŒæœ‰äº›ä¾§é¢ï¼Œæ²¡æœ‰ç¬”ç”»ä¿¡æ¯æ—¶ï¼Œè¿˜èƒ½è¿”å›ž"errorstroke":[]
+	--ÎªÁË±£³ÖÓÐÐ©²àÃæ£¬Ã»ÓÐ±Ê»­ÐÅÏ¢Ê±£¬»¹ÄÜ·µ»Ø"errorstroke":[]
 	--if(errorStrokePoint == nil and #errortype ~= 0)then
 	--errorStrokePoint = {}
 	--elseif(errorStrokePoint == nil and #errortype == 0)then
@@ -288,36 +383,61 @@ function RunAPI:RunZiRule(bhNum,NewZiRuleArr)
 		errorStrokePoint[#errorStrokePoint+1]=temp
 	elseif(bhrightinfo == 1 and wzrightinfo == 1 )then
 		ret = bhrightinfo*100 + unitrightinfo*10 + zirightinfo
-		print"ç¬”ç”»æ­£ç¡®"
+		print"±Ê»­ÕýÈ·"
 	end
 
 	ret=tostring(ret)
 	print (ret)
+
+
 	--print (errorStrokePoint)
 	--ret lua table for JSON encode
-	function error_json_string(errors,ret)
+	function error_json_string(ret)
 		local allerror={}
-		if(errors == nil)then
-			allerror = {}
-		else
-			local re_index=1
-			local re_diff=0.0
-			if #errorStrokePoint>1 then
-				for i = 1,#errorStrokePoint do
-					if(errorStrokePoint[i]["errordiff"]>re_diff) then
-						re_index=i
-						re_diff=errorStrokePoint[i]["errordiff"]
-					end
+
+		local re_index=1
+		local re_diff=0.0
+
+		if #errorStrokePoint>1 then
+			for i = 1,#errorStrokePoint do
+				if(errorStrokePoint[i]["errordiff"]>re_diff) then
+					re_index=i
+					re_diff=errorStrokePoint[i]["errordiff"]
 				end
 			end
-			allerror[#allerror+1] = errorStrokePoint[re_index]--åªè¿”å›žä¸€ç§é”™è¯¯ç±»åž‹
-			return { error = allerror, ["ret"] = ret }
+			allerror[#allerror+1] = errorStrokePoint[re_index]--Ö»·µ»ØÒ»ÖÖ´íÎóÀàÐÍ
+		elseif #errorStrokePoint==1 then
+			allerror[#allerror+1] = errorStrokePoint[1]--Ö»·µ»ØÒ»ÖÖ´íÎóÀàÐÍ
 		end
+		return { error = allerror, ["ret"] = ret }
 	end
 
+
+	local temptable = error_json_string(ret)
+
 	local result2 = {}
-	result2 = JSON:encode(error_json_string(errorStrokePoint, ret))
+	result2 = TableToStr(temptable)
 	return result2
+
+
+	--[[local myreturn="123"
+	if #errorStrokePoint>=1 then
+		myreturn = "ok"..errorStrokePoint[1]["errortype"]
+	else
+		myreturn = "abc"
+	end
+	return myreturn]]
 end
 
-return RunAPI
+
+-------------------------------------------------------------------------------------------------
+local WriteZi = GetWriteInfoFromC()
+local StandardZiInfo = GetStandardZiInfoFromC()
+local Level = 3
+local UnitRule = GetUnitRulesFromC()
+local CharacterRule = GetZiRulesFromC()
+
+local result = RunAPI:PassParametersToAPI(WriteZi,Level,UnitRule,CharacterRule)
+return result
+
+

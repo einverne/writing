@@ -28,7 +28,7 @@ void UniformSpaceNode::setOrientation(int orientation) {
 }
 
 void UniformSpaceNode::draw() {
-	glLineWidth(5.0f);					//± ª≠¥÷œ∏
+	glLineWidth(13.0f);					//± ª≠¥÷œ∏
 	ccDrawColor4F(1,0,1,1);				//± ª≠—’…´
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -46,8 +46,14 @@ void UniformSpaceNode::draw() {
 			float dy = destination.y - origin.y;  
 			float dist = sqrtf(dx * dx + dy * dy);  
 
-			float x = dx / dist * dashLength;  
-			float y = dy / dist * dashLength;  
+			float x = 0;
+			float y = 0; 
+
+			if(dist>0.0)
+			{
+				x=dx / dist * dashLength;  
+				y=dy / dist * dashLength; 
+			}   
 
 			CCPoint p2;
 
@@ -63,7 +69,7 @@ void UniformSpaceNode::draw() {
 			}  
 		}
 		/////////////////////////////////////
-		glLineWidth(4.0f);					//± ª≠¥÷œ∏
+		glLineWidth(13.0f);					//± ª≠¥÷œ∏
 		ccDrawColor4F(0,0,1,1);				//± ª≠—’…´
 		/////////////////////////////////
 		int average_y=0;
@@ -100,8 +106,14 @@ void UniformSpaceNode::draw() {
 			float dy = destination.y - origin.y;  
 			float dist = sqrtf(dx * dx + dy * dy);  
 
-			float x = dx / dist * dashLength;  
-			float y = dy / dist * dashLength;  
+			float x = 0;
+			float y = 0; 
+
+			if(dist>0.0)
+			{
+				x=dx / dist * dashLength;  
+				y=dy / dist * dashLength; 
+			}    
 
 			CCPoint p2;
 
@@ -117,7 +129,7 @@ void UniformSpaceNode::draw() {
 			} 
 		}
 		/////////////////////////////////	
-		glLineWidth(4.0f);					//± ª≠¥÷œ∏
+		glLineWidth(12.0f);					//± ª≠¥÷œ∏
 		ccDrawColor4F(0,0,1,1);				//± ª≠—’…´
 		/////////////////////////////////
 		int average_x=0;

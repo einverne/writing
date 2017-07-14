@@ -74,8 +74,8 @@ void DynamicDrawing::update(float time){
 		cPoint = cPoint + deltaPoint2 * ((time-0.45)/0.45);
 		((TwoLineNode*)getTarget())->endpoint2 = cPoint;
 	}
-	else
-	{	/*
+	/*else
+	{	
 		vector<CCPoint>::iterator it=((TwoLineNode*)getTarget())->OrigionPoints.begin();
 		CCPoint startPoint1 = *it;
 		it++;
@@ -85,6 +85,6 @@ void DynamicDrawing::update(float time){
 		((TwoLineNode*)getTarget())->startpoint1 = startPoint1;
 
 		endPoint1 = endPoint1 + deltaPoint4 * ((time-0.70)/0.3);
-		((TwoLineNode*)getTarget())->endpoint1 = endPoint1;*/
-	}
+		((TwoLineNode*)getTarget())->endpoint1 = endPoint1;
+	}*/
 }

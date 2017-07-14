@@ -51,7 +51,7 @@ string JudgeManager::getResult(string hanzi,string points_output,CharacterEntity
 }
 
 void JudgeManager::initLuaEngine(){
-	gReader.ExitLuaScriptReader();
+	/*gReader.ExitLuaScriptReader();
 	gReader.InitLuaScriptReader();
 	string filepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/WriteZiInfo.lua");
 	string basepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/BaseLib.lua");
@@ -62,35 +62,29 @@ void JudgeManager::initLuaEngine(){
 	gReader.RunScriptFile(filepath.c_str(),"WriteZiInfo.lua");
 	gReader.RunScriptFile(standardpath.c_str(),"StandardZiInfo.lua");
 	gReader.RunScriptFile(basepath.c_str(),"BaseLib.lua");
-	gReader.RunScriptFile(apipath.c_str(),"RunAPI_1208.lua");
+	gReader.RunScriptFile(apipath.c_str(),"RunAPI_1208.lua");*/
 
 }
 
 string JudgeManager::getResult(string hanzi , string points_output, string all_points, CharacterExtend* p , string funcs){
 	CCLog("JudgeManager %s",funcs.c_str());
-	string Mainpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/Main.lua");
+	string filepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/WriteZiInfo.lua");
+	string basepath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/BaseLib.lua");
+	string apipath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/RunAPI_1208.lua");
+	string standardpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/StandardZiInfo.lua");
+	//string JSONpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/JSON.lua");
+	//string Mainpath = CCFileUtils::sharedFileUtils()->fullPathForFilename("lua/Main.lua");
 
+	CLuaScriptReader gReader;
+	gReader.InitLuaScriptReader();
+	////////////////////////////////////////////////////////////////////////////////////////
 	gReader.setWriteZiInfo(points_output.c_str());
 	gReader.setStandardZiInfo(all_points);
 	char retStr[500];
 	retStr[0] = '\0';
  	gReader.setZiName(hanzi);
 
-	//对于结构布势评判来讲，不用执行下面的代码了！
-	// get easy or hard setting from setting.xml config file
-    /*const char* settingname = "setting.xml";
-	string r = DataTool::readFromFile(settingname);
- 	gReader.setLevel(r);
- 	if (r.compare("1") == 0)
- 	{
-        string looselua = p->getRuleLoose();
- 		gReader.setRulesFunc(looselua);
- 	}else if(r.compare("2") == 0){
-        string tightlua = p->getRuleTight();
- 		gReader.setRulesFunc(tightlua);
- 	}*/
-	///////////////////////////////////////////////
-
+	
 	//set Unit rule
 	string unitrule = p->getRuleUnit();
 	gReader.setUnitRule(unitrule);
@@ -99,13 +93,24 @@ string JudgeManager::getResult(string hanzi , string points_output, string all_p
 	string zirule = p->getRuleZi();
 	gReader.setZiRule(zirule);
 
-	gReader.RunScriptFile(Mainpath.c_str(),retStr,"Main.lua");
+	///////////////////////////////////////////////////////////////////////////////////////
+	//gReader.RunScriptFile(JSONpath.c_str(),"JSON.lua");
+	gReader.RunScriptFile(filepath.c_str(),"WriteZiInfo.lua");
+	//gReader.RunScriptFile(standardpath.c_str(),"StandardZiInfo.lua");
+	gReader.RunScriptFile(basepath.c_str(),"BaseLib.lua");
+	//gReader.RunScriptFile(apipath.c_str(),"RunAPI_1208.lua");
+	gReader.RunScriptFile(apipath.c_str(),retStr,"RunAPI_1208.lua");
+	gReader.ExitLuaScriptReader();
 
+	//////////////////////////////////////////////////////////////////////////////////////
+	//JudgeScene* scene = (JudgeScene*)CCDirector::sharedDirector()->getRunningScene();
+	//MyToast::showToast(scene, retStr, TOAST_LONG);
+	//////////////////////////////////////////////////////////////////////////////////////
 	CCLog("retStr after judge %s",retStr);
 	string ret = retStr;
 	return ret;
 }
 
 void JudgeManager::exitLuaEngine(){
-	gReader.ExitLuaScriptReader();
+	//gReader.ExitLuaScriptReader();
 }
