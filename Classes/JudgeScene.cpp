@@ -154,7 +154,18 @@ void JudgeScene::previous(){
 	{
 		curChar = hanziList.at(index);
 		SQLiteData::getHanziDataExtend(curChar,ext_p);
+		///////////////////////////////////////////////////////////////////////
+		CReadXML xml = CReadXML(ext_p->getXML().c_str());
+		Character char_for_radical = xml.getCharacter();
+		vector<string> radicalrules = SQLiteData::getRadicalRules(char_for_radical.getRadicalSeq());
+		string unit_rules;
+		for (vector<string>::const_iterator iter = radicalrules.begin(); iter != radicalrules.end(); iter++)
+		{
+			unit_rules+="\n"+(*iter);
+		}
+		ext_p->setRuleUnit(unit_rules);
 		zi_id = DataTool::intTostring(ext_p->getID());
+		///////////////////////////////////////////////////////////////////////
 		getTLayer()->setCharacter(curChar);
 		getTLayer()->setExChar(ext_p);
 		getTLayer()->reloadChar();

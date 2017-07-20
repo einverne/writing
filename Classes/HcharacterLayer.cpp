@@ -1029,7 +1029,7 @@ void HcharacterLayer::judge(){
 		Stroke stro = node->getStroke();
 		vector<CCPoint> points = stro.getpointList();
 		stro.convert512(this->m_sprite_draw->getContentSize());
-		stro.resample(50);
+		stro.resample(60);
 		output += stro.sendOutput();
 	}
 	this->pointsOutput=output;
